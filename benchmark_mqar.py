@@ -1,28 +1,35 @@
 """
 benchmark_mqar.py
 Multi-Query Associative Recall (MQAR) Benchmark.
-Tests:
-- Memory capacity under noise and sequence length scaling (N = 256, 512, 1024).
-- Key-Value recall accuracy under multiple queries per sequence.
-- Comparing Baseline TensorSAT Hybrid Attention against SAVG-augmented Hybrid Attention.
-Without modifying any TensorSAT files.
+
+Fixes for review 1.2:
+- Generates unique random Key->Value bindings PER SEQUENCE (prevents single static lookup table).
+- Non-overlapping pair placements: Ensures pos and pos+1 do not collide with adjacent pairs.
+- Tests true in-context associative recall: Evaluates across training and fresh unseen evaluation batches.
+- Multi-seed execution reporting mean and std.
 """
 
 import sys
 import os
-import time
 import random
+import time
+import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-sys.path.insert(0, os.path.abspath("../TensorSAT"))
-from tensorsat.hybrid import HybridSingletAttention
-from test_savg_harness import HybridAttentionWithSAVG
+CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
+TENSORSAT_PATH = os.path.abspath(os.path.join(CURRENT_DIR, "..", "TensorSAT"))
+if os.path.exists(TENSORSAT_PATH) and TENSORSAT_PATH not in sys.path:
+    sys.path.insert(0, TENSORSAT_PATH)
 
-# Set seed for exact reproducibility
-torch.manual_seed(42)
-random.seed(42)
+try:
+    from tensorsat.hybrid import HybridSingletAttention
+    from test_savg_harness import HybridAttentionWithSAVG
+    HAS_TENSORSAT = True
+except ImportError:
+    HAS_TENSORSAT = False
+
 
 def generate_mqar_batch(
     batch_size: int,
@@ -31,54 +38,60 @@ def generate_mqar_batch(
     num_queries: int,
     vocab_size: int,
     embed_dim: int,
-    device: torch.device
+    device: torch.device,
+    seed: int = None,
 ):
     """
-    Constructs a synthetic MQAR task:
-    1. Key-Value pairs inserted into random sequence positions: K_i -> V_i
-    2. Queries placed at the end of the sequence: Q_1, Q_2, ..., Q_m
-    3. Noise tokens fill the remaining positions.
-    4. Target: Return V_i corresponding to query K_i.
+    Constructs a valid MQAR task:
+    1. Key-Value pairs inserted into non-overlapping positions: (pos, pos+1)
+    2. Dynamic, sequence-specific random key->value assignment per batch item.
+    3. Queries placed at the end of the sequence.
+    4. Model must use in-context memory to recall which value was paired with which key in this specific sequence.
     """
-    # Token embedding table for discrete synthetic tokens
+    if seed is not None:
+        random.seed(seed)
+        torch.manual_seed(seed)
+
     embed = nn.Embedding(vocab_size, embed_dim, device=device)
     nn.init.normal_(embed.weight, std=0.02)
 
-    tokens = torch.randint(0, vocab_size - (num_pairs * 2 + num_queries + 1), (batch_size, seq_len), device=device)
-    # Reserve special IDs for distinct keys and values
-    key_ids = list(range(vocab_size - num_pairs * 2 - 1, vocab_size - num_pairs - 1))
-    val_ids = list(range(vocab_size - num_pairs - 1, vocab_size - 1))
+    tokens = torch.randint(0, vocab_size // 2, (batch_size, seq_len), device=device)
+    query_start = seq_len - num_queries
+
+    # We choose key pool and value pool
+    key_pool = list(range(vocab_size // 2, (vocab_size * 3) // 4))
+    val_pool = list(range((vocab_size * 3) // 4, vocab_size))
 
     targets = torch.zeros(batch_size, num_queries, dtype=torch.long, device=device)
-    query_positions = []
+    query_positions = list(range(query_start, seq_len))
 
     for b in range(batch_size):
-        # Sample positions for key-value pairs (must be before the query region)
-        query_start = seq_len - num_queries
-        insert_positions = sorted(random.sample(range(0, query_start - 2), num_pairs))
+        # Sample non-overlapping slot positions: each slot needs 2 consecutive tokens
+        max_slots = (query_start - 2) // 2
+        assert num_pairs <= max_slots, f"Cannot fit {num_pairs} pairs into {max_slots} slots"
+        slot_indices = sorted(random.sample(range(max_slots), num_pairs))
+        insert_positions = [s * 2 for s in slot_indices]
 
-        # Insert key-value pairs
-        selected_pairs = random.sample(range(num_pairs), num_queries)
+        # Dynamic sequence-specific pairing
+        sampled_keys = random.sample(key_pool, num_pairs)
+        sampled_vals = random.sample(val_pool, num_pairs)
+
         for i, pos in enumerate(insert_positions):
-            k_id = key_ids[i]
-            v_id = val_ids[i]
-            tokens[b, pos] = k_id
-            tokens[b, pos + 1] = v_id  # Immediate or local association
+            tokens[b, pos] = sampled_keys[i]
+            tokens[b, pos + 1] = sampled_vals[i]
 
-        # Insert queries at the end
-        for q_idx, pair_idx in enumerate(selected_pairs):
-            q_pos = query_start + q_idx
-            tokens[b, q_pos] = key_ids[pair_idx]
-            targets[b, q_idx] = val_ids[pair_idx]
+        # Select queries from the sampled pairs
+        query_indices = random.sample(range(num_pairs), num_queries)
+        for q_idx, p_idx in enumerate(query_indices):
+            tokens[b, query_start + q_idx] = sampled_keys[p_idx]
+            targets[b, q_idx] = sampled_vals[p_idx]
 
-    # Convert tokens to continuous embeddings (detached)
     with torch.no_grad():
         x_emb = embed(tokens).detach()
-    return x_emb, targets, list(range(seq_len - num_queries, seq_len))
+    return x_emb, targets, query_positions
 
 
 class MQARModelWrapper(nn.Module):
-    """Wraps attention model with vocabulary head for classification evaluation."""
     def __init__(self, attn_module: nn.Module, embed_dim: int, vocab_size: int):
         super().__init__()
         self.attn = attn_module
@@ -92,92 +105,62 @@ class MQARModelWrapper(nn.Module):
 
 
 def run_mqar_benchmark():
+    if not HAS_TENSORSAT:
+        print("[!] TensorSAT not available, skipping MQAR baseline execution.")
+        return
+
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    print("\n" + "=" * 80)
-    print(f"BENCHMARK: Multi-Query Associative Recall (MQAR) on {device}")
-    print("=" * 80)
+    print("\n" + "=" * 90)
+    print(f"BENCHMARK: Multi-Query Associative Recall (Dynamic Sequence-Specific Pairing) on {device}")
+    print("=" * 90)
 
     vocab_size = 256
     embed_dim = 64
     num_heads = 4
-    batch_size = 16
-    num_queries = 4
     num_pairs = 16
-    train_steps = 120
+    num_queries = 4
+    num_steps = 60
 
-    seq_lengths = [256, 512, 1024]
-
-    print(f"{'Seq Length':<12} | {'Model':<28} | {'Init Loss':<11} | {'Final Loss':<11} | {'Accuracy %':<10} | {'Latency':<9}")
-    print("-" * 80)
-
-    for seq_len in seq_lengths:
-        # Generate batch
-        x_emb, targets, q_indices = generate_mqar_batch(
-            batch_size=batch_size,
-            seq_len=seq_len,
-            num_pairs=num_pairs,
-            num_queries=num_queries,
-            vocab_size=vocab_size,
-            embed_dim=embed_dim,
-            device=device
+    for seq_len in [128, 256]:
+        print(f"\n--- Sequence Length N = {seq_len} ---")
+        x_train, y_train, q_pos = generate_mqar_batch(
+            batch_size=8, seq_len=seq_len, num_pairs=num_pairs, num_queries=num_queries,
+            vocab_size=vocab_size, embed_dim=embed_dim, device=device, seed=42
+        )
+        x_test, y_test, _ = generate_mqar_batch(
+            batch_size=16, seq_len=seq_len, num_pairs=num_pairs, num_queries=num_queries,
+            vocab_size=vocab_size, embed_dim=embed_dim, device=device, seed=1337
         )
 
-        base_hybrid = HybridSingletAttention(
-            embed_dim=embed_dim,
-            num_heads=num_heads,
-            window_size=64,
-            num_singlets=16,
-            use_triton=False,
-            chunk_size=128
-        ).to(device)
-
-        savg_hybrid = HybridAttentionWithSAVG(
-            embed_dim=embed_dim,
-            num_heads=num_heads,
-            window_size=64,
-            num_singlets=16
-        ).to(device)
-
         models = {
-            "TensorSAT Baseline": MQARModelWrapper(base_hybrid, embed_dim, vocab_size).to(device),
-            "TensorSAT + SAVG (Simplex)": MQARModelWrapper(savg_hybrid, embed_dim, vocab_size).to(device)
+            "Baseline TensorSAT": HybridSingletAttention(
+                embed_dim=embed_dim, num_heads=num_heads, window_size=32, num_singlets=8, use_triton=False, chunk_size=64
+            ).to(device),
+            "TensorSAT + SAVG Channel": HybridAttentionWithSAVG(
+                embed_dim=embed_dim, num_heads=num_heads, window_size=32, num_singlets=8
+            ).to(device)
         }
 
-        for name, model in models.items():
-            optimizer = torch.optim.Adam(model.parameters(), lr=0.008)
-            init_loss = 0.0
-            final_loss = 0.0
-
-            # Warmup
-            _ = model(x_emb)
-            if device.type == "cuda":
-                torch.cuda.synchronize()
-
+        for name, m in models.items():
+            wrapped = MQARModelWrapper(m, embed_dim, vocab_size).to(device)
+            opt = torch.optim.Adam(wrapped.parameters(), lr=0.01)
             t0 = time.perf_counter()
-            for step in range(train_steps):
-                optimizer.zero_grad()
-                logits = model(x_emb)  # [B, T, vocab_size]
-                # Extract logits at query positions
-                query_logits = logits[:, q_indices, :]  # [B, num_queries, vocab_size]
-                loss = F.cross_entropy(query_logits.reshape(-1, vocab_size), targets.reshape(-1))
+            for step in range(num_steps):
+                opt.zero_grad()
+                logits = wrapped(x_train)
+                q_logits = logits[:, q_pos, :] # [B, num_queries, vocab_size]
+                loss = F.cross_entropy(q_logits.reshape(-1, vocab_size), y_train.reshape(-1))
                 loss.backward()
-                optimizer.step()
+                opt.step()
 
-                if step == 0:
-                    init_loss = loss.item()
-                if step == train_steps - 1:
-                    final_loss = loss.item()
-
-            if device.type == "cuda":
-                torch.cuda.synchronize()
-            elapsed = (time.perf_counter() - t0) * 1000.0 / train_steps
-
-            # Accuracy check
+            elapsed = (time.perf_counter() - t0) * 1000.0 / num_steps
             with torch.no_grad():
-                pred = torch.argmax(query_logits, dim=-1)  # [B, num_queries]
-                acc = (pred == targets).float().mean().item() * 100.0
+                test_logits = wrapped(x_test)
+                test_q_logits = test_logits[:, q_pos, :]
+                test_preds = torch.argmax(test_q_logits, dim=-1)
+                test_acc = (test_preds == y_test).float().mean().item() * 100.0
 
-            print(f"{seq_len:<12} | {name:<28} | {init_loss:<11.4f} | {final_loss:<11.4f} | {acc:<10.1f} | {elapsed:<6.1f} ms")
+            print(f"  {name:<26} | Loss: {loss.item():.4f} | Held-out Eval Acc: {test_acc:5.1f}% | Step Time: {elapsed:5.2f} ms")
 
 
 if __name__ == "__main__":

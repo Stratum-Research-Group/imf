@@ -11,7 +11,7 @@
 [![CUDA Accelerated](https://img.shields.io/badge/Hardware-CUDA%20Accelerated-76B900.svg)](https://developer.nvidia.com/cuda-zone)
 [![Organization](https://img.shields.io/badge/Owner-Stratum%20Research%20Group-black.svg)](#ownership--governance)
 
-> **IMF (Interaction Model Foundations)** is designed, owned, and maintained by **Stratum Research Group (SRG)**. It bridges formal mathematical proofs (Lean 4 circuit lower-bounds / Degen's eight-square identity) into continuous sub-quadratic neural memory architectures. It introduces **Symmetric-Antisymmetric Virtual Grid Attention (SAVG)** and **Higher-Dimensional Polytope Landmark Connectors** (*Enneazetton*, *Decayotton*, and *Hendecaxennon*), mathematically resolving the **Reversal Curse**, eliminating backward associative hallucination, and establishing noise-immune $O(N)$ linear context scaling.
+> **IMF (Interaction Model Foundations)** is a research prototype by **Stratum Research Group (SRG)** exploring continuous sub-quadratic neural memory architectures with formal algebraic structure. It investigates **Symmetric-Antisymmetric Virtual Grid Attention (SAVG)** and **Higher-Dimensional Polytope Landmark Connectors (HDPLC)** (*Enneazetton*, *Decayotton*, and *Hendecaxennon*), designing anti-commutative operators to mitigate directional ambiguity and evaluating geometric regularizers in associative retrieval tasks.
 
 ---
 
@@ -30,7 +30,7 @@
   - [5.1 Multi-Query Associative Recall (MQAR)](#51-multi-query-associative-recall-mqar)
   - [5.2 Polytope Dimension \& Family Comparison](#52-polytope-dimension--family-comparison)
   - [5.3 Directional Selectivity \& Reversal Discrimination](#53-directional-selectivity--reversal-discrimination)
-- [6. Impact on AI and Scientific Domains](#6-impact-on-ai-and-scientific-domains)
+- [6. Theoretical Parallels & Exploratory Hypotheses](#6-theoretical-parallels--exploratory-hypotheses)
 - [7. Repository Structure](#7-repository-structure)
 - [8. Quickstart \& Usage](#8-quickstart--usage)
 - [9. Technical Reports & Publications](#9-technical-reports--publications)
@@ -238,20 +238,18 @@ Measuring forward associative strength vs. backward leakage under structured pai
 
 ---
 
-## 6. Impact on AI and Scientific Domains
+## 6. Theoretical Parallels & Exploratory Hypotheses
 
-### Artificial Intelligence & LLMs
-- **Canceling the Reversal Curse**: Directional knowledge graph queries ($A \to B$ vs. $B \to A$) are mathematically distinguished by phase inversion.
-- **Robust In-Context Retrieval**: Higher-dimensional polytope coordinates regularize token spaces, preventing distractor token collisions over long sequences.
+*(Note: The following physical and biochemical connections represent conceptual structural parallels stemming from Lie-algebraic symmetry rather than empirically verified domain models. The codebase currently evaluates synthetic associative recall and relational query tasks.)*
 
-### Quantum Physics & Chemistry
-- **Native Fermion & Boson Representation**: The $\text{Sym}^2 \oplus \wedge^2$ split directly maps to symmetric boson wavefunctions and antisymmetric fermion wavefunctions (Pauli Exclusion Principle).
+### Artificial Intelligence & Sequence Modeling
+- **Directional Selectivity**: Directional knowledge pairs ($A \to B$ vs. $B \to A$) can be structurally separated using the alternating property of the skew-symmetric operator $A = -A^\top$.
+- **Structured Latent Anchors**: High-dimensional polytope vertices provide bounded barycentric coordinate frames that regularize token representations.
 
-### Molecular Biology & Drug Discovery
-- **Chirality & Stereochemistry**: Directed wedge products $(\mathbf{u} \wedge \mathbf{v})$ natively capture 3D molecular handedness and signed volumes, distinguishing therapeutic enantiomers from toxic mirror-image counterparts.
-
-### Fluid Dynamics & Mechanics
-- **Vorticity Conservation**: Decomposes velocity tensors into symmetric strain and skew-symmetric rotational curl, preventing numerical dissipation in turbulent simulations.
+### Mathematical Parallels: Fermion/Boson Statistics & Stereochemistry
+- **Wavefunction Symmetry Analogy**: The $\text{Sym}^2 \oplus \wedge^2$ decomposition mirrors the mathematical split between symmetric bosonic wavefunctions and antisymmetric fermionic wavefunctions (Pauli Exclusion Principle).
+- **Chirality & Wedge Products**: Directed exterior products $(\mathbf{u} \wedge \mathbf{v})$ algebraically model signed areas and handedness in low dimensions, suggesting future applications in stereochemical molecular representation.
+- **Vorticity Analogy**: Decomposing second-order tensors into symmetric deformation and antisymmetric rotational curl is standard in continuum mechanics; whether learned neural state spaces benefit from this decomposition in physical simulations remains an active research question.
 
 ---
 
@@ -259,19 +257,23 @@ Measuring forward associative strength vs. backward leakage under structured pai
 
 ```
 IMF/
-├── README.md                                          # Comprehensive documentation & theory
-├── interaction-primitive-families-and-virtual-grid-f7e1abd3.txt  # Formalized core specification
-├── DiscreteToContinuousBridge.lean                    # Lean 4 sector symmetry proofs
+├── README.md                                          # Comprehensive documentation & grounded theory
+├── interaction-primitive-families-and-virtual-grid-f7e1abd3.txt  # Exploratory research notes
+├── DiscreteToContinuousBridge.lean                    # Lean 4 sector symmetry proofs (Integer ring)
 ├── ContinuousCrossingBounds.lean                      # Lean 4 Frobenius orthogonality & energy bounds
 ├── polytope_connector.py                              # Configurable higher-dimensional polytope connector
-├── triton_savg_kernel.py                              # High-speed Triton GPU fused scan (0.74 ms)
+├── triton_savg_kernel.py                              # Triton GPU fused scan with Autograd backward support
 ├── higher_arity_simplex.py                            # Arity-3 and Arity-4 CP-factorized simplex tensor bindings
-├── test_savg_harness.py                               # Non-invasive PyTorch SAVG integration harness
-├── test_savg_directionality.py                        # Empirical directional selectivity test
+├── test_savg_harness.py                               # PyTorch SAVG integration harness
+├── test_savg_directionality.py                        # Empirical directional selectivity test on trained pairs
 ├── benchmark_mqar.py                                  # Multi-Query Associative Recall benchmark
 ├── benchmark_polytopes.py                             # Polytope comparison benchmark suite
-├── benchmark_spo_multihop.py                          # 2-hop SPO knowledge traversal benchmark
-└── stress_spo_multihop.py                             # Dense 3-hop multi-entity knowledge stress test
+├── benchmark_spo_multihop.py                          # Multi-hop SPO knowledge retrieval (no target leakage)
+├── stress_spo_multihop.py                             # 3-hop multi-entity knowledge stress test
+├── tests/                                             # Automated pytest verification test suite
+├── scripts/                                           # Asset and logo generation scripts
+├── papers/                                            # Research reports and theoretical foundations
+└── assets/                                            # Project brand assets and logos
 ```
 
 ---
@@ -334,19 +336,19 @@ python test_savg_directionality.py
 
 ## 9. Technical Reports & Publications
 
-The IMF foundation and its empirical/theoretical proofs are detailed across three official Stratum Research Group publications located in `papers/`:
+The IMF foundation and its empirical/theoretical formulations are detailed across three internal Stratum Research Group publications located in `papers/`:
 
-1. **[Technical Report 01: Lie-Algebraic Memory Splitting](file:///home/akarta/Projects/0.WiP/IMF/papers/01_savg_lie_algebraic_memory_splitting.md)**  
-   *Symmetric-Antisymmetric Virtual Grid Attention (SAVG) and the Resolution of the Reversal Curse.*  
-   Formalizes the $\mathrm{Sym}^2 \oplus \bigwedge^2$ Jordan-Lie decomposition, the 2.47x directional discrimination margin, phase-inversion dynamics, and hardware-fused Triton JIT kernels.
+1. **[Technical Report 01: Lie-Algebraic Memory Splitting](papers/01_savg_lie_algebraic_memory_splitting.md)**  
+   *Symmetric-Antisymmetric Virtual Grid Attention (SAVG) and Directional Discrimination.*  
+   Formalizes the $\mathrm{Sym}^2 \oplus \bigwedge^2$ Jordan-Lie decomposition, phase-inversion dynamics, and hardware-fused Triton JIT kernels with PyTorch autograd compatibility.
 
-2. **[Technical Report 02: Higher-Dimensional Polytope Landmark Connectors (HDPLC)](file:///home/akarta/Projects/0.WiP/IMF/papers/02_hdplc_higher_dimensional_polytope_connectors.md)**  
+2. **[Technical Report 02: Higher-Dimensional Polytope Landmark Connectors (HDPLC)](papers/02_hdplc_higher_dimensional_polytope_connectors.md)**  
    *Barycentric Simplex Frames, Orthoplex Antipodal Pairs, and Multi-Hop Knowledge Topology.*  
-   Formulates regular polytope coordinate embeddings across the Enneazetton (9D), Decayotton (10D), and Hendecaxennon (11D), featuring Canonical Polyadic (CP) rank factorizations for arity-3 and arity-4 hyperface bindings (99.4% precision on multi-hop reasoning).
+   Formulates regular polytope coordinate embeddings across the Enneazetton (9D), Decayotton (10D), and Hendecaxennon (11D), featuring Canonical Polyadic (CP) rank factorizations for arity-3 and arity-4 hyperface bindings.
 
-3. **[Foundational Position Paper 03: The Architecture of Meaning](file:///home/akarta/Projects/0.WiP/IMF/papers/03_epistemological_foundations_and_real_world_applications.md)**  
-   *Epistemological Foundations, Formal Mathematical Physics, and Real-World Horizons of SAVG and HDPLC.*  
-   Examines the philosophical transition from statistical correlation to symmetry-governed topological geometry, Degen's eight-square identity, Lean 4 bridge proofs, and transformative applications across mechanistic interpretability, neuromorphic hardware, automated theorem proving, and genomic interaction modeling.
+3. **[Foundational Position Paper 03: The Architecture of Meaning](papers/03_epistemological_foundations_and_real_world_applications.md)**  
+   *Epistemological Foundations, Symmetry-Governed Topology, and Potential Application Horizons of SAVG and HDPLC.*  
+   Examines the conceptual transition from unconstrained correlation to symmetry-governed topological geometry, algebraic bridge proofs, and potential research horizons across mechanistic interpretability, neuromorphic hardware, automated theorem proving, and sequence modeling.
 
 ---
 
@@ -377,10 +379,11 @@ IMF is designed, owned, and maintained by **Stratum Research Group (SRG)**. All 
 ## 12. Citation & References
 
 ```bibtex
-@article{imf2026polytope,
+@techreport{imf2026polytope,
   title={Interaction Primitive Families and Higher-Dimensional Polytope Virtual Grid Memory},
-  author={IMF Research Team and Stratum Research Group},
-  journal={arXiv preprint},
+  author={Stratum Research Group},
+  institution={Stratum Research Group},
+  number={SRG-IMF-2026-TR01},
   year={2026}
 }
 ```

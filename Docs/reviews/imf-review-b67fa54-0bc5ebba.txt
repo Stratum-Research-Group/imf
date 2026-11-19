@@ -1,0 +1,204 @@
+IMF REVIEW - github.com/Stratum-Research-Group/imf @ b67fa54
+Remote HEAD re-fetched 2026-11-19 16:43 SAST: origin/main = b67fa54541935d107477b25705c1776d66d9e071 ("docs(papers): publish complete 3-paper suite ..."), a second commit pushed 16:40 SAST on top of ea0a2a0. That commit changes only README.md and adds three files under papers/. All .py and .lean files are byte-identical between ea0a2a0 and b67fa54 (git diff on them is empty), so every code finding and every run below applies to b67fa54. Nothing in the repo was modified by this review.
+Line numbers are per file (grep -n / sed -n on the clone).
+
+======================================================================
+HEADLINE VERDICT
+======================================================================
+The repo is a small research prototype with a correct algebra core (the Lean identities and the S/A decomposition are fine as stated). The headline results in the README and in the new papers/ (2.47x directional margin, 0.74 ms / 6.59x speedup, "noise immune", 96.8% at N=4096, 99.4% multi-hop, 0% collisions, "resolves the Reversal Curse", "formally verified") are not supported by anything in the repo, and several of the committed benchmarks cannot support them by design:
+ - the SPO benchmarks feed the answer in as an input;
+ - the MQAR task can be solved from the query token alone (a linear head with no context reaches 100%);
+ - the directionality test uses random input and untrained models;
+ - the Triton layer has no backward, so its input maps would not train;
+ - the papers' Lean excerpts end in `sorry` and name theorems that do not exist in the repo's Lean files.
+The identities that are in the repo (sym/antisym split, orthogonality, energy partition over Int) are correct as stated. The issue is what is claimed on top of them and the evidence offered. Nothing here shows the ideas are wrong; it shows the headline claims are not established by the committed evidence and have not yet been tested by a design that could fail.
+
+======================================================================
+0. WHAT WAS RUN, AND HOW TO REPEAT IT
+======================================================================
+Environment: Linux, Python 3.10.12, 1 CPU thread, about 1 GB RAM, no GPU/CUDA, no Triton, no Lean. In a throwaway directory /tmp/pkgs: torch 2.14.1+cpu, numpy 2.2.6, pytest 9.2.0 (pip install --target /tmp/pkgs ...). TensorSAT cloned from the org (Stratum-Research-Group/TensorSAT @ b2e2ea3) to /tmp/TensorSAT; the clone of imf is /tmp/imf and scripts are run from inside it, so "../TensorSAT" resolves.
+Tags: [RAN] executed on CPU. [READ] code reading only. [INFERENCE] reasoning, not demonstrated.
+
+PYTEST (conditional pass). Command, from /tmp/imf:
+    PYTHONPATH=/tmp/stub:/tmp/pkgs python3 -m pytest -q -p no:cacheprovider tests
+  Result: 11 passed, 1 skipped (12 cases: connector init x7, grid modulation x2, higher-arity x2, Triton layer x1, skipped because CUDA is unavailable).
+  The stub: tests/test_imf_components.py imports triton_savg_kernel, which does `import triton` and `import triton.language as tl` at module level (triton_savg_kernel.py L16-17) and uses @triton.jit, triton.next_power_of_2 and tl.constexpr. With no Triton available I created /tmp/stub/triton/__init__.py containing
+        def jit(f=None, **k): return (lambda g: g) if f is None else f
+        def next_power_of_2(n): return 1 << (n-1).bit_length()
+  and /tmp/stub/triton/language.py containing `constexpr = int`. So the pass covers the PyTorch parts only; the Triton kernel body never ran. All other scripts below were run WITHOUT the stub (PYTHONPATH=/tmp/pkgs, plus /tmp/TensorSAT where tensorsat is imported), because the stub breaks torch's own optional-triton detection.
+
+[RAN-A] python test_savg_directionality.py (as committed, CPU): baseline fwd -0.0026 / bwd -0.0021 / ratio 1.25; SAVG fwd -0.0045 / bwd -0.0007 / ratio 6.34 (README L236 reports 0.36 vs 0.89). I do not treat the difference from the README's numbers as evidence by itself (different device and RNG state). The evidence is [RAN-B] and [RAN-C].
+[RAN-B] Gate check, smallest code:
+        import sys,torch; sys.path.insert(0,"../TensorSAT")
+        from test_savg_harness import HybridAttentionWithSAVG
+        torch.manual_seed(1); m=HybridAttentionWithSAVG(64,4,32,8); x=torch.randn(8,128,64)
+        with torch.no_grad(): a,_=m.base_hybrid(x); b=m(x)
+        print((a-b).abs().max().item())          # 0.0
+[RAN-C] Seed-controlled initialisation effect, same metric as the directionality test:
+        import sys,torch,torch.nn.functional as F; sys.path.insert(0,"../TensorSAT")
+        from tensorsat.hybrid import HybridSingletAttention
+        for s in range(5):
+            torch.manual_seed(s); x=torch.randn(8,128,64); r=[]
+            for k in range(2):   # two separately initialised copies of the SAME architecture, same x
+                b=HybridSingletAttention(embed_dim=64,num_heads=4,window_size=32,num_singlets=8,use_triton=False,chunk_size=64)
+                with torch.no_grad(): o,_=b(x)
+                f=F.cosine_similarity(o[:,:-1],x[:,1:],dim=-1).mean().item()
+                bk=F.cosine_similarity(o[:,1:],x[:,:-1],dim=-1).mean().item()
+                r.append(abs(f)/(abs(bk)+1e-6))
+            print(s,[round(v,2) for v in r])
+    Result: seed 0 [0.73, 0.71]; 1 [0.56, 0.16]; 2 [0.49, 0.14]; 3 [2.35, 0.08]; 4 [1.9, 0.08]. Two identical architectures differ on this metric by more than the reported baseline-vs-SAVG gap, and the two copies share the seed and input, so only initialisation differs.
+[RAN-D] python benchmark_spo_multihop.py: both models 100.0%, final loss 0.0000. python stress_spo_multihop.py: both 100.0%; step-10 loss 1.5418 (pairwise) vs 4.8953 (arity-3); final 0.0001 vs 0.0041.
+[RAN-E] SPO held-out check. Smallest definition (uses the repo's own model classes):
+        import sys,random,torch,torch.nn.functional as F; sys.path.insert(0,"/tmp/imf")
+        import benchmark_spo_multihop as b
+        torch.manual_seed(42); random.seed(42); d=64;NE=128;NR=16
+        ent=F.normalize(torch.randn(NE,d),dim=-1); rel=F.normalize(torch.randn(NR,d),dim=-1)
+        def chains(n):   # same chain rule as benchmark_spo_multihop.py L86-91
+            o=[]
+            for _ in range(n):
+                e1=random.randrange(NE);e2=(e1+random.randint(1,10))%NE;e3=(e2+random.randint(1,10))%NE
+                o.append((e1,random.randrange(NR),e2,random.randrange(NR),e3))
+            return o
+        def tens(ch):
+            S=torch.stack([ent[c[0]] for c in ch]).unsqueeze(1)
+            P=torch.stack([rel[c[1]]+rel[c[3]] for c in ch]).unsqueeze(1)
+            O=torch.stack([ent[c[4]] for c in ch]).unsqueeze(1)
+            return S,P,O,torch.tensor([c[4] for c in ch])
+        tr=tens(chains(32)); te=tens(chains(256))
+        def run(mk,leak):
+            torch.manual_seed(0); m=mk(); opt=torch.optim.Adam(m.parameters(),lr=0.008)
+            S,P,O,t=tr; Oin=O if leak else torch.zeros_like(O)
+            for _ in range(150):
+                opt.zero_grad(); F.cross_entropy(m(S,P,Oin).squeeze(1)@ent.T,t).backward(); opt.step()
+            with torch.no_grad():
+                a=((m(S,P,Oin).squeeze(1)@ent.T).argmax(-1)==t).float().mean().item()
+                S2,P2,O2,t2=te; O2i=O2 if leak else torch.zeros_like(O2)
+                h=((m(S2,P2,O2i).squeeze(1)@ent.T).argmax(-1)==t2).float().mean().item()
+            return round(a*100,1),round(h*100,1)
+        for n,mk in [("pairwise",lambda:b.PairwiseChainedBaseline(d)),("arity3",lambda:b.Arity3SimplexModel(d,32))]:
+            print(n,run(mk,True),run(mk,False))
+    Result (train%, unseen%): pairwise with answer input (100.0, 23.8), answer input zeroed (6.2, 1.2); arity-3 with answer input (100.0, 4.3), zeroed (6.2, 1.2).
+[RAN-F] MQAR generator replay (value token overwritten by the next pair's key). Smallest definition, mirrors benchmark_mqar.py L57-66 and the call order in run_mqar_benchmark (seed 42 once, N=256 then 512 then 1024, batch 16, 16 pairs, 4 queries):
+        import random; random.seed(42)
+        for N in (256,512,1024):
+            bad=hit=0
+            for b in range(16):
+                pos=sorted(random.sample(range(0,N-4-2),16)); sel=random.sample(range(16),4)
+                ov=[i<15 and pos[i]+1==pos[i+1] for i in range(16)]
+                bad+=any(ov); hit+=sum(ov[p] for p in sel)
+            print(N,bad,"/16 sequences,",hit,"/64 queried targets")
+    Result: N=256: 11/16 and 4/64; N=512: 8/16 and 4/64; N=1024: 1/16 and 0/64. (Assumes nothing else consumes Python's `random` between calls, true of benchmark_mqar.py; the generator's torch calls do not affect it.)
+[RAN-G] Context-free solvability of the MQAR generator (benchmark_mqar.py generate_mqar_batch, CPU):
+        import random,torch,sys,torch.nn as nn,torch.nn.functional as F; sys.path.insert(0,"/tmp/imf")
+        import benchmark_mqar as m
+        def batch(rs): torch.manual_seed(7); random.seed(rs); return m.generate_mqar_batch(16,256,16,4,256,64,torch.device("cpu"))
+        x1,t1,q=batch(1); x2,t2,_=batch(2)      # same embedding table (same torch seed), different positions/queries
+        torch.manual_seed(0); head=nn.Linear(64,256); opt=torch.optim.Adam(head.parameters(),lr=0.008)
+        for _ in range(120):
+            opt.zero_grad(); F.cross_entropy(head(x1[:,q,:]).reshape(-1,256),t1.reshape(-1)).backward(); opt.step()
+        acc=lambda x,t:(head(x[:,q,:]).argmax(-1)==t).float().mean().item()*100
+        print(acc(x1,t1),acc(x2,t2))
+    Result: 100.0 on the training batch, 100.0 on a fresh batch. The head reads only the 4 query-position token embeddings: no context, no attention.
+[RAN-H] S/A algebra:
+        import torch; torch.manual_seed(0); u=torch.randn(8); v=torch.randn(8)
+        S=.5*(torch.outer(u,v)+torch.outer(v,u)); A=.5*(torch.outer(u,v)-torch.outer(v,u)); cs=torch.cosine_similarity
+        print((S+A-torch.outer(u,v)).abs().max().item(), cs((S+A)@v,u,dim=0).item(), cs((S+A)@u,v,dim=0).item(), cs((S-A)@u,v,dim=0).item(), cs((S-A)@v,u,dim=0).item())
+    Result: 1.2e-7; 1.000; 0.076; 1.000; 0.076.
+[RAN-I] torch.empty_like(U) where U requires grad: requires_grad False, grad_fn None (relevant to 1.4).
+
+NOT RUN: benchmark_mqar.py, benchmark_polytopes.py and test_savg_harness.py training (they build [B,N,d,d] tensors, e.g. 16x256x64x64 fp32 = 67 MB each and 268 MB at N=1024, several copies plus autograd; memory feasibility depends on batch size and the number of live tensors, not on N or d alone, and 1 GB was not a safe margin, so I did not try); the Triton kernel and FusedSAVGLayer (no CUDA/Triton); any Lean build (no Lean installed); the logo script. Not reproducing the README MQAR/polytope tables is therefore NOT a finding; they were not attempted.
+Lean: lean-toolchain pins leanprover/lean4:v4.33.1 and that tag exists upstream (checked). The two Lean files were read, not compiled; no `sorry` in them.
+
+======================================================================
+1. HIGH IMPACT
+======================================================================
+1.1 SPO benchmarks: the answer is an input and the chain is not traversed. [READ + RAN-D/E]
+    benchmark_spo_multihop.py: L97 O_target = embedding of e3 (the answer); L124 O_in = O_target.unsqueeze(1); L140 and L147 model(S_in, P_in, O_in); L150 scores = out @ candidates[0].T; targets are the same e3 ids. stress_spo_multihop.py: L53 O_target = e4 embedding (the answer); L71 and L78 model(S_batch, P_batch, O_target); L79 scores.
+    Roles: S = e1 embedding; P = r1 + r2 (L96, sum of two relation embeddings; e2 is never given); O = the answer. No fact store or sequence is given, so this is not graph traversal; it learns a function (S, P, O) -> O over 32 fixed rows.
+    PairwiseChainedBaseline (L55) calls self.attn(sp, objects, objects) with sequence length 1 (inputs are unsqueezed to length 1), so softmax over one key has weight 1 and the output depends on O only, not on S or P. In Arity3SimplexModel the module is a Hadamard of three bias-free projections (higher_arity_simplex.py L69-71), so zeroing O zeroes the output. So the "O zeroed" runs in RAN-E are degenerate (constant prediction) and say nothing about binding.
+    Demonstrated: both models receive the answer as input; both reach 100% on the training rows; on 256 unseen chains neither generalises (23.8% / 4.3%). So the 100% figures show fitting of the training rows. Not demonstrated: that arity-3 binding is useless. A valid test needs a design where the answer is not an input.
+1.2 MQAR does not test in-context recall, and it trains and evaluates on one batch. [READ + RAN-F/G]
+    benchmark_mqar.py L49-50 and L63-66: key i is always paired with value i in every sequence, so the key->value map is the same everywhere and the target is determined by the query token alone. RAN-G: a linear head on the 4 query-position embeddings gets 100% on the training batch and on a fresh batch. So 100% on this task is not evidence of memory, SAVG or "noise immunity".
+    Also: one batch per sequence length (L115-123), 120 steps (L106, L157), accuracy read from the last training-step logits (L161, L175-178), one seed (seeded once at L23-24). benchmark_polytopes.py: one batch (L69-77), 100 steps (L67), loss at the last step (L119), accuracy on the training batch (L125-127).
+    Generator collision [RAN-F]: pair positions are sampled independently (L58) and each pair writes pos and pos+1 (L63-66), so a neighbouring pair's key overwrites a value. For the batches the benchmark uses: 4/64 queried targets affected at N=256, 4/64 at N=512, 0/64 at N=1024. It matters for a task meant to need context, and it is consistent with RAN-G (a context-free head still reaches 100%).
+    README consequences, all unsupported by this evidence but not shown to be false: "Noise Immune" at N=512, 100% vs 95.3% (README L208-209: 95.3% is 61 of 64 queries on one seed, on a task solvable without context). "Key Discovery" (README L227): all 7 polytope configs 100% on one training batch; the loss ordering 0.0001 ... 0.0323 is one seed at the last step and does not show 10D orthoplex is better or worse.
+1.3 Directionality test does not measure direction. [READ + RAN-A/B/C]
+    test_savg_directionality.py L29: x = torch.randn(...) although the comment at L28 says "structured pairs"; both models are untrained; the metric (L44-49, L59-60) is cosine between the output at t and the raw input at t+1 or t-1, values around 0.002-0.005. The SAVG module equals its own base at init (RAN-B), so the baseline-vs-SAVG difference comes from the two separate initialisations (models built at L31 and L35). RAN-C: with seed and input fixed, two copies of the identical architecture span 0.08 to 2.35 on this ratio.
+    Not shown: that SAVG has no directional effect. Testing it needs real A->B pairs, training, and held-out B->A queries.
+1.4 The Triton layer cannot train as written, and the speed claims have no source. [READ + RAN-I]
+    triton_savg_kernel.py: triton_fused_savg_scan allocates Out = torch.empty_like(U) (L111), launches the raw kernel (L113-125) and returns it (L126). The 152-line file has no torch.autograd.Function and no backward kernel. Out has no grad_fn (RAN-I), so in FusedSAVGLayer.forward (L142-152) out_scan (L151) is cut from the graph; only out_proj (L152) after it gets gradients, while W_u, W_v, W_q and the connector parameters get none. [INFERENCE from standard PyTorch behaviour; the real kernel was not run.] tests/test_imf_components.py L61-70 only checks shape and NaN, so it would not catch this.
+    Speed claims: "0.74 ms" (README L266, L303; papers/01 L152) and "6.59x" (README L315; papers/01 L154). triton_savg_kernel.py has no `__main__` and no timing code, so `python triton_savg_kernel.py` (README L315) prints nothing, and no script defines the unfused reference a speedup needs.
+    Performance note [READ]: grid = (B,) (L113), one program per batch item looping over T (L58) with two BLOCK_D x BLOCK_D fp32 states (L54-55): 32 KB of registers per program at D=64, 128 KB at D=128, likely to spill.
+1.5 New papers/ (commit b67fa54): claims and Lean excerpts that the repo does not back. [READ]
+    papers/01_savg_lie_algebraic_memory_splitting.md:
+      - L100-112: two "Verified Lean 4 Invariant" excerpts, `degen_eight_square_norm_preservation` and `continuous_crossing_bound`, both ending in `sorry` (L105, L112), and using types (EightSpace, SimplexCoords, GridMatrix) that do not exist in DiscreteToContinuousBridge.lean or ContinuousCrossingBounds.lean. Neither theorem name appears anywhere in the repo. A `sorry` proof is not a verification, and the text around it (abstract L11 and L115 "The formal proof verifies two vital properties") says it is.
+      - L116-117 states g(x) > 0 for ||G||_2 < 1. As algebra that is plausible (|w^T G w| <= ||G||_2 ||w||^2 <= ||G||_2 for w in the simplex), but nothing in polytope_connector.py constrains G (see 2.3), and the repo's tests only check one random sample.
+      - L126: kernel described with tile sizes B_M = 32, B_N = 32 and acc_sym/acc_skew; the committed kernel (triton_savg_kernel.py L40-86) has a single BLOCK_D tile and S_state/A_state, and the Triton excerpt at L129-139 uses names (acc_sym, acc_skew, alpha, beta) that do not appear in it.
+      - L145-154: a latency/VRAM table on an RTX 4090 / Blackwell, CUDA 13.2, PyTorch 2.15, including rows for Linear Attention, FlashAttn-2 and TensorSAT; no script in the repo produces them. L165-174: MQAR accuracy curve with "96.8% at N=4096" and a Mamba/Transformer comparison; the only MQAR script in the repo (see 1.2) does not run those models or N=4096. L181: "89.2%" false reverse recall and logits -0.412 / +1.018: no script in the repo produces them.
+      - Abstract: "maintains bounded associative recall accuracy across sequences exceeding N=16,384" has no corresponding experiment in the repo.
+    papers/02_hdplc_higher_dimensional_polytope_connectors.md: L126-127 multi-hop accuracy table (99.4% at 3 hops, 97.8% at 4 hops, plus Llama-style/Mamba rows) and L130 "0.0% false-positive collision rate across 10,000 queries": the two SPO scripts in the repo (see 1.1) run neither chain lengths 1-4 over 256 chains nor these baselines nor a 10,000-query collision test. The README also cites "99.4% precision on multi-hop reasoning" (new section 9).
+    papers/03 and README section 9: restate 2.47x, 0.74 ms, 78% memory reduction, "formally verified in Lean 4" and applications (theorem proving, genomics, threat analysis) without code or tests.
+    README section 9 links to papers use file:///home/akarta/Projects/... URLs, which only resolve on one machine.
+    If these papers are meant to describe intended or aspirational results, the repo currently presents them as measured.
+
+======================================================================
+2. MATH / DESIGN QUESTIONS (flagged as questions, not prescriptions)
+======================================================================
+2.1 Which readout is intended, and what does S+A add? [RAN-H + READ]
+    S + A = u v^T exactly (RAN-H). The Triton kernel reads out[i] = sum_j net_state[i,j] q[j] = (net_state @ q) (triton_savg_kernel.py L83, axis=1) with net_state = S_state + A_state (L82). With equal decay that is (u v^T) q = u (v . q): v is the key and u the value. A read with q=v returns u (cosine 1.000); q=u returns u scaled by (v . u), so for random non-orthogonal u, v the cosine with v is only 0.076 (RAN-H). So a plain outer-product memory is already directional in this convention (key to value); README L49 ("treat keys symmetrically") and the papers' "directional conflation" description do not match M = sum v k^T for this read (RAN-H used random, non-orthogonal u, v: cosines 1.000 and 0.076 for the two reads). README L103-107 states A u ∝ -v and A v ∝ +u. With A = (u v^T - v u^T)/2 acting on column vectors, the exact expressions are A u = (u (v.u) - v |u|^2)/2 and A v = (u |v|^2 - v (u.v))/2. So A u ∝ -v and A v ∝ u hold only when u and v are orthogonal (v.u = 0, then A u = -|u|^2 v / 2 and A v = |v|^2 u / 2), or in degenerate cases; for non-orthogonal u, v each result also contains a component along the probe itself. The README states the relations without that assumption (README L103-109). README L109 then says "By combining (S - A)" cancels reverse recall, but the kernel reads S + A (L82); with S - A the roles of the two reads swap (RAN-H).
+    papers/01 Theorem 1 (from L66) scores probes as u^T M v with M = S + lambda A for one stored pair. Exact values: u^T A v = (|u|^2 |v|^2 - (u.v)^2)/2, which is >= 0 by Cauchy-Schwarz and zero only when u, v are parallel, and v^T A u = -u^T A v; u^T S v = v^T S u = (|u|^2 |v|^2 + (u.v)^2)/2. So S_fwd - S_rev = 2 lambda S_A is exact. But "reverse score becomes negative, completely extinguishing backward recall" requires lambda S_A > S_S, i.e. lambda (|u|^2 |v|^2 - (u.v)^2) > |u|^2 |v|^2 + (u.v)^2. Since S_S - S_A = (u.v)^2 >= 0, S_A <= S_S, so lambda > 1 is necessary; for lambda = 1 and orthogonal u, v the reverse score is exactly 0 (cancellation); for other probes and lambda <= 1 the reverse score is suppressed, not cancelled. Multi-pair accumulation with decay, gating and noise changes this further and is not covered by the single-pair statement. The code also differs from the theorem: it returns a vector (S+A) q with no lambda, while the theorem scores a scalar bilinear form. Question: which is the intended SAVG readout, in which key/value roles are the forward and reverse reads meant, and under what assumption on the probes (orthogonality, lambda) is exact cancellation claimed rather than suppression? With equal decay and S+A the split carries no information beyond the plain outer product; the only difference in the kernel is gamma_s = 0.999 vs gamma_a = 0.990 (L94-95; L77-78).
+
+2.2 The benchmarked "SAVG" is a different module from the README/papers and the Triton file. [READ]
+    test_savg_harness.py L66-74 and benchmark_polytopes.py L43-51: antisymmetric sector only (A_inc: harness L71, polytopes L47), no symmetric state, no decay, cumsum over time (L72 / L48), read with U (harness L74): readout_A = A_state @ U, where U = q_proj(x) (L66) is also the write-side U of the outer product (L70). It is added to the base output scaled by tanh(out_gate) with out_gate initialised at 0 (harness L52, polytopes L35). So the benchmark compares base attention with base + a small learned A channel. Table labels: README L209 "IMF + SAVG (Simplex)" vs benchmark_mqar.py L143 "TensorSAT + SAVG (Simplex)".
+    Memory: A_state is [B, N, d, d] (L72), O(N d^2), relevant to "O(N) linear context scaling" (README L14).
+2.3 Polytope connector. [READ]
+    polytope_connector.py: simplex corners (L69), orthoplex axes (L78) and the K x K grid_weight (L71, L79) are plain nn.Parameter initialised from randn; nothing enforces or measures regular-simplex or orthonormal-axes geometry, at init or during training. Learned anchors with a polytope-sized count can still be useful; what is absent is a constraint or a measurement of the polytope structure the names (Enneazetton, Decayotton, Hendecaxennon) and papers/02 (L22 and L28: "regular polytope" geometry, "rigorous geometric bounds") describe. "Dimension" 9/10/11 only sets K (K = D+1, or 2D via antipodal logits [proj, -proj], L104-106) while d_model stays 64.
+    Grid: README L119-121 defines G(x,y) = w(x) w(y)^T (a relation between two tokens). The code computes w(x)^T G w(x) for one token (L124, L128) and returns the scalar 1 + that (L125). Which is intended: a token-pair grid, or a per-token scalar gate?
+    Positivity: tests/test_imf_components.py L46 asserts grid_mod > 0 ("bounded and strictly positive"). The tested sample passes, but no parameter constraint guarantees 1 + w^T G w > 0, at init (unbounded Gaussian entries, scaled 0.02) or after training (G is learnable, L71/L79). Not observed to fail.
+    hypercube_factorized (L81-86, L109-111, L127-129): README section 3.1 mentions "factorized XOR-coset projections"; the code is tanh(Linear(d_model, D)) with a D x D weight, with no XOR-coset logic; not in POLYTOPE_PRESETS (L27), not tested.
+2.4 higher_arity_simplex.py. [READ]
+    Arity 4 couples all four inputs through the Hadamard product (L69-71). The face-modulation term (L86-87) uses only tokens[0] through anchor_coords (L75) and face_factor (L52), whereas arity 3 contracts all three tokens' coordinates with a K^3 tensor (L78-83). Design question: is the asymmetric dependence of the arity-4 face term on the first token intended? anchor_coords (L75) is unused when arity is 3. The module acts position-wise (tokens at the same t are bound; no state across time), so "linear O(N)" holds trivially but it is not a memory mechanism by itself.
+2.5 Lean (read only). [READ]
+    Both files state results over Int: `def MatrixSector (d : Nat) := Fin d -> Fin d -> Int` (DiscreteToContinuousBridge.lean L14, ContinuousCrossingBounds.lean L12), using the "doubled" sectors 2S = M + M^T, 2A = M - M^T, which avoid division by 2. The README's 1/2 factors (S, A) and README section 4 (L153-155, "continuous relaxation") live in a ring where 2 is invertible (Q or R). The current integer-arithmetic proofs do not directly establish the division/real-valued version; restating it over R or Q is routine algebra but it is a different statement to be written and proved.
+    bilinear_energy_partition (ContinuousCrossingBounds.lean L72) reads (2S_ij)^2 + (2A_ij)^2 = 2 (M_ij^2 + M_ji^2). Neither file references the eight-square sign rule or the LeanProofs ETH development, nor `degen_eight_square_norm_preservation` of papers/01. Question: what discrete statement is being relaxed, and which theorem is the source? README L14 and papers/01 state the bridge to Degen's identity; the Lean files themselves do not contain it.
+    Duplication: MatrixSector/transpose/add/sub/symSector2/antiSector2 are defined separately in IMF.Bridge (Bridge L8-45) and IMF.Proof (CrossingBounds L7-26); CrossingBounds does not import Bridge.
+2.6 Reversal Curse wording. README L14, L243, L342 and papers/01, papers/03 say SAVG resolves it. No file trains a language model or tests reversal generalisation; the only reversal measurement in the repo is the one in 1.3.
+
+======================================================================
+3. SMALLER ITEMS
+======================================================================
+3.1 TensorSAT dependency. Four files import tensorsat: benchmark_mqar.py (L19-20), benchmark_polytopes.py (L18-19), test_savg_harness.py (L18, L24), test_savg_directionality.py (L13-14, plus it imports test_savg_harness). benchmark_spo_multihop.py (L31) and stress_spo_multihop.py add the same sys.path entry but do not import tensorsat. The path is "../TensorSAT" relative to the current directory, not the file. README Quickstart (L283-285) installs only torch, triton and numpy and does not mention TensorSAT or its commit.
+3.2 README "Production-grade" / "Production Triton JIT Fused SAVG Layer" (L303) vs pyproject "Development Status :: 4 - Beta" (L25) vs 1.4.
+3.3 README section 6 (fermions/bosons, chirality and drug discovery, vorticity and turbulence) and papers/03 applications: no code or tests in the repo; Sym^2 and wedge^2 are standard algebra, but whether a learned layer with no physical constraint represents these is untested.
+3.4 scripts/build_imf_logos.py hardcodes /home/akarta/Projects/... (L509, L511, L546-547), so it runs only on one machine.
+3.5 interaction-primitive-families-and-virtual-grid-f7e1abd3.txt is a set of exploratory notes (sections labelled [SOURCE]/[DERIVED]/[IDEA]/[OPEN]); README L262 lists it as the "Formalized core specification". The two descriptions differ.
+3.6 README repository-structure tree (section 7) omits tests/, scripts/, assets/ and the new papers/.
+
+======================================================================
+4. TEST GATES STILL OPEN
+======================================================================
+G1  Lean: `lake build` (toolchain v4.33.1 exists upstream); not run here.
+G2  pytest: 11 passed + 1 skipped on CPU with the Triton import stub described in section 0. The real kernel and the Triton test remain unexecuted. Missing: a gradient test (loss.backward(); every parameter has a non-None .grad) and a kernel-vs-PyTorch-reference numerical test.
+G3  MQAR, polytope and SAVG-harness training scripts: not run. They need a task that cannot be solved from the query token before their numbers mean anything (1.2).
+G4  No test covers hypercube_factorized, modulation positivity after training, or direction handling after training.
+
+======================================================================
+5. SUGGESTED PROMPT FOR YOUR CODING AI
+======================================================================
+Review notes for repo at commit b67fa54. Keep the intended maths. Where an item says "decide", ask me or leave a TODO; do not change the maths on your own. Choose batch sizes and model sizes so tensor and autograd memory fit your GPU/RAM before running anything.
+
+A. Invalid benchmark designs
+ 1. benchmark_spo_multihop.py (L97, L124, L140, L147) and stress_spo_multihop.py (L53, L71, L78): the answer O_target is a model input. Redesign so the answer is not an input (score candidates from S and P, or give a fact store or sequence). Evaluate on chains not used in training; 3 seeds.
+ 2. benchmark_mqar.py generate_mqar_batch (L49-66): key i always pairs with value i, so the query token alone determines the target (a linear head on the query embedding gets 100%). Make the key->value map random per sequence. Avoid pos/pos+1 collisions (L58, L63-66). Fresh batch per step, held-out eval of at least 1000 queries, 3 seeds, mean and std. Same for benchmark_polytopes.py (L69-77, L112-127).
+ 3. test_savg_directionality.py L29: use real A->B pairs, train baseline and SAVG model from the same base weights, compare held-out reversed queries. Drop the cosine-on-noise ratio.
+B. Triton layer
+ 4. Add a torch.autograd.Function with a backward (or train with a PyTorch reference scan); add a test that every parameter of FusedSAVGLayer gets a gradient; add a kernel-vs-reference test; add a __main__ timing script that defines its reference.
+C. Questions to answer
+ 5. Which readout is intended: S+A (triton_savg_kernel.py L82) or S-A (README L109)? Which of u/v is key and which is value for forward and reverse reads? If S and A are separate channels, how do their decays or readouts differ?
+ 6. Should the benchmarked SAVG (test_savg_harness.py L66-74, A sector only, gate starting at 0) be the S/A module of the Triton file? Rename table rows to what is actually run.
+ 7. Polytope connector: enforce or measure regular-simplex/orthonormal-axes geometry, or describe the parameters as learned landmark anchors. Is the grid the token-pair matrix of README L119-121 or the per-token scalar of polytope_connector.py L124-125? If positivity is required, constrain G or the modulation; tests L46 passes a sample only.
+ 8. higher_arity_simplex.py arity 4 (L75, L86-87): is the face term meant to depend only on tokens[0]?
+ 9. Lean: Int (doubled sectors) or Q/R? If Q/R, restate and prove the division version. Which discrete theorem does bilinear_energy_partition (ContinuousCrossingBounds.lean L72) relax? Either add the eight-square/crossing-bound theorems the papers describe, or change the papers; remove `sorry` excerpts that read as verified.
+D. Claims
+ 10. papers/01-03 and README: for each number (2.47x, 0.74 ms, 6.59x, 96.8%, 99.4%, 0% collisions, 78% memory) either add the script and logs that produce it, or mark it as target/hypothesis. Fix the file:///home/akarta links in README section 9.
+ 11. TensorSAT: document the sibling dependency and commit; make the sys.path entry relative to __file__ (benchmark_mqar.py L19, benchmark_polytopes.py L18, test_savg_harness.py L18, test_savg_directionality.py L13). Guard the triton import so the CPU tests collect without it, or document the requirement. Replace /home/akarta paths in scripts/build_imf_logos.py (L509, L511, L546-547).

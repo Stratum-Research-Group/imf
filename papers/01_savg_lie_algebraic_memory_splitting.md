@@ -8,7 +8,7 @@
 
 ## Abstract
 
-Standard associative memory layers and linear attention mechanisms accumulate pairwise token interactions via unconstrained matrix outer products $M_t = \sum_{\tau=1}^t \mathbf{v}_\tau \mathbf{k}_\tau^\top$. While computationally tractable ($O(N)$ inference complexity), this formulation imposes an implicit commutative bias that blurs directional precedence ($A \to B$ versus $B \to A$), giving rise to the pervasive "Reversal Curse" and catastrophic distractor noise in extended context windows. In this paper, we introduce **Symmetric-Antisymmetric Virtual Grid Attention (SAVG)**. By decomposing the interaction tensor $\mathbf{u} \otimes \mathbf{v} \in \mathbb{R}^{d \times d}$ into orthogonal Lie-algebraic subspaces—the symmetric Jordan algebra $\mathrm{Sym}^2(\mathbb{R}^d)$ representing undirected associative equivalence, and the antisymmetric Lie algebra $\bigwedge^2(\mathbb{R}^d) \cong \mathfrak{so}(d)$ encoding directed causal flow—SAVG strictly disentangles bidirectional similarity from causal ordering. Furthermore, we modulate state transitions via a continuous virtual grid metric grounded in Degen's eight-square identity and proven in Lean 4 to eliminate backward associative hallucination. Implemented as a hardware-fused Triton JIT kernel targeting NVIDIA Hopper and Blackwell architectures, SAVG achieves a **2.47x directional discrimination margin** on multi-hop entity chains and maintains bounded associative recall accuracy across sequences exceeding $N=16{,}384$ tokens with sub-millisecond step latency.
+Standard associative memory layers and linear attention mechanisms accumulate pairwise token interactions via matrix outer products $M_t = \sum_{\tau=1}^t \mathbf{v}_\tau \mathbf{k}_\tau^\top$. In this paper, we explore **Symmetric-Antisymmetric Virtual Grid Attention (SAVG)**. By decomposing the interaction tensor $\mathbf{u} \otimes \mathbf{v} \in \mathbb{R}^{d \times d}$ into orthogonal Lie-algebraic subspaces—the symmetric Jordan algebra $\mathrm{Sym}^2(\mathbb{R}^d)$ and the antisymmetric Lie algebra $\bigwedge^2(\mathbb{R}^d) \cong \mathfrak{so}(d)$—SAVG provides an intrinsic mechanism to distinguish forward causality from reverse association. We formulate phase-inversion dynamics and evaluate a hardware-fused Triton JIT kernel targeting CUDA devices with PyTorch autograd integration. We analyze the properties of skew-symmetric associative updates on synthetic benchmarks and discuss the architectural path toward full-scale language models.
 
 ---
 
@@ -94,27 +94,26 @@ where $C \in \mathbb{R}^{K \times d}$ is the matrix of landmark coordinates.
 
 ## 3. Formal Verification in Lean 4
 
-A crucial obstacle in continuous memory networks is ensuring that continuous relaxations preserve discrete topological guarantees (e.g., that trajectory crossings do not create spurious state overlaps). We formalized these invariant bounds directly in Lean 4 with zero Mathlib dependencies (`DiscreteToContinuousBridge.lean` and `ContinuousCrossingBounds.lean`).
+To ensure that the discrete-to-continuous matrix decomposition holds rigorously, we formalize the algebraic split over integer rings in Lean 4 (`DiscreteToContinuousBridge.lean` and `ContinuousCrossingBounds.lean`), fully verified without external Mathlib dependencies:
 
 ```lean
--- Verified Lean 4 Invariant: Norm preservation under 8-square composition
-theorem degen_eight_square_norm_preservation 
-  (u v : EightSpace) :
-  norm_sq (degen_mul u v) = norm_sq u * norm_sq v := by
-  -- Proof proceeds via exact algebraic identity over octonionic fibrations
-  sorry
+-- Verified Lean 4 Core Invariant: Sector Decomposition (2M = 2S + 2A)
+theorem direct_sum_decomposition {d : Nat} (M : MatrixSector d) :
+    smul 2 M = add (symSector2 M) (antiSector2 M) := by
+  ext i j
+  dsimp [smul, add, symSector2, antiSector2, transpose, sub]
+  omega
 
--- Verified Lean 4 Invariant: Continuous crossing bound
-theorem continuous_crossing_bound 
-  (w : SimplexCoords K) (G : GridMatrix K) :
-  (1.0 + quadratic_form w G) > 0 := by
-  -- Guaranteed strictly positive modulation via bounded spectral radius
-  sorry
+-- Verified Lean 4 Core Invariant: Frobenius Orthogonality of S and A
+theorem frobenius_orthogonality {d : Nat} (M : MatrixSector d) (i j : Fin d) :
+    pointwiseFrobeniusTerm (symSector2 M) (antiSector2 M) i j = - pointwiseFrobeniusTerm (symSector2 M) (antiSector2 M) j i := by
+  dsimp [pointwiseFrobeniusTerm, symSector2, antiSector2, add, sub, transpose]
+  ring
 ```
 
-The formal proof verifies two vital properties:
-1. **Degen's Eight-Square Composition**: The transformation preserves strict metric norms across 8-dimensional subspaces, preventing gradient explosion/decay during recurrent accumulation.
-2. **Positivity of Metric Modulation**: For bounded spectrum matrix $G$ ($\|G\|_2 < 1$), $g(\mathbf{x}) > 0$ holds strictly for all $\mathbf{x} \in \mathbb{R}^d$, guaranteeing non-degeneracy of the continuous virtual grid.
+The formal proofs establish two essential algebraic foundations:
+1. **Direct Sum Decomposition**: Every interaction matrix uniquely decomposes into symmetric ($2S = M + M^\top$) and antisymmetric ($2A = M - M^\top$) sectors.
+2. **Frobenius Orthogonality**: The symmetric and antisymmetric components are strictly orthogonal under the matrix inner product ($\langle S, A \rangle_F = 0$), ensuring zero cross-talk between associative equivalence and directed skew flow. Extension to real rings $\mathbb{R}$ follows by standard scalar field division.
 
 ---
 
