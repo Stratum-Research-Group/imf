@@ -49,6 +49,19 @@ branding = [
     "pytesseract>=0.3.10",
 ]
 
+[tool.setuptools]
+py-modules = [
+    "benchmark_mqar",
+    "benchmark_polytopes",
+    "benchmark_spo_multihop",
+    "higher_arity_simplex",
+    "polytope_connector",
+    "stress_spo_multihop",
+    "test_savg_directionality",
+    "test_savg_harness",
+    "triton_savg_kernel",
+]
+
 [tool.ruff]
 line-length = 100
 target-version = "py310"

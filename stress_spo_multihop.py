@@ -42,28 +42,41 @@ def run_stress_test():
     entity_embeds = F.normalize(torch.randn(num_entities, d_model, device=device), dim=-1)
     relation_embeds = F.normalize(torch.randn(num_relations, d_model, device=device), dim=-1)
 
-    def sample_3hop_chains(n):
+    def transition(e, r):
+        return (e * (r + 1) + (r + 3)) % num_entities
+
+    def sample_deterministic_3hop_chains(n, existing_keys=None):
         chains = []
-        for _ in range(n):
+        keys = set() if existing_keys is None else set(existing_keys)
+        attempts = 0
+        while len(chains) < n and attempts < n * 100:
+            attempts += 1
             e1 = random.randint(0, num_entities - 1)
-            e2 = (e1 + random.randint(1, 10)) % num_entities
-            e3 = (e2 + random.randint(1, 10)) % num_entities
-            e4 = (e3 + random.randint(1, 10)) % num_entities
             r1 = random.randint(0, num_relations - 1)
             r2 = random.randint(0, num_relations - 1)
             r3 = random.randint(0, num_relations - 1)
+            key = (e1, r1, r2, r3)
+            if key in keys:
+                continue
+            keys.add(key)
+            e2 = transition(e1, r1)
+            e3 = transition(e2, r2)
+            e4 = transition(e3, r3)
             chains.append((e1, r1, e2, r2, e3, r3, e4))
-        return chains
+        return chains, keys
+
+    train_chains, train_keys = sample_deterministic_3hop_chains(num_train)
+    test_chains, _ = sample_deterministic_3hop_chains(num_test, existing_keys=train_keys)
 
     def to_tensors(ch):
         S = torch.stack([entity_embeds[c[0]] for c in ch]).unsqueeze(1)
-        # Composed relation representation (r1 + r2 + r3)
-        P = torch.stack([relation_embeds[c[1]] + relation_embeds[c[3]] + relation_embeds[c[5]] for c in ch]).unsqueeze(1)
+        # Ordered composition (r1 + 0.5*r2 + 0.25*r3)
+        P = torch.stack([relation_embeds[c[1]] + 0.5 * relation_embeds[c[3]] + 0.25 * relation_embeds[c[5]] for c in ch]).unsqueeze(1)
         targets = torch.tensor([c[6] for c in ch], device=device, dtype=torch.long)
         return S, P, targets
 
-    S_train, P_train, y_train = to_tensors(sample_3hop_chains(num_train))
-    S_test, P_test, y_test = to_tensors(sample_3hop_chains(num_test))
+    S_train, P_train, y_train = to_tensors(train_chains)
+    S_test, P_test, y_test = to_tensors(test_chains)
 
     models = {
         "Pairwise Attention (Arity-2)": PairwiseChainedBaseline(d_model).to(device),

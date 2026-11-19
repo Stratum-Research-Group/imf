@@ -34,7 +34,7 @@ def evaluate_reversal_discrimination():
         return
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    print(f"=== Directed Association & Reversal Discrimination Test on {device} ===")
+    print(f"=== Directed Association & In-Context Reversal Discrimination Test on {device} ===")
 
     embed_dim = 64
     num_heads = 4
@@ -46,49 +46,80 @@ def evaluate_reversal_discrimination():
     entity_A = F.normalize(torch.randn(num_pairs, embed_dim, device=device), dim=-1)
     entity_B = F.normalize(torch.randn(num_pairs, embed_dim, device=device), dim=-1)
 
-    # Forward sequences: A_i at pos 0, B_i at pos 1
-    x_fwd = torch.zeros(batch_size, seq_len, embed_dim, device=device)
-    target_fwd = torch.zeros(batch_size, dtype=torch.long, device=device)
+    # In-context sequence format:
+    # Fact placed at pos 0 (A) and pos 1 (B)
+    # Query placed at pos 2:
+    #   Forward query: pos 2 = A_idx, target = B_idx (readout at pos 2)
+    #   Reverse probe: pos 2 = B_idx, target should reject (not retrieve A_idx as if B->A)
+    def make_sequences(pairs_idx):
+        N = len(pairs_idx)
+        x_f = torch.zeros(N, seq_len, embed_dim, device=device)
+        x_r = torch.zeros(N, seq_len, embed_dim, device=device)
+        tgt = torch.zeros(N, dtype=torch.long, device=device)
 
-    # Reverse probe sequences: B_i at pos 0
-    x_rev = torch.zeros(batch_size, seq_len, embed_dim, device=device)
+        for b, idx in enumerate(pairs_idx):
+            # Context
+            x_f[b, 0] = entity_A[idx]
+            x_f[b, 1] = entity_B[idx]
+            # Forward query at pos 2
+            x_f[b, 2] = entity_A[idx]
+            tgt[b] = idx
 
-    for b in range(batch_size):
-        idx = b % num_pairs
-        x_fwd[b, 0] = entity_A[idx]
-        x_fwd[b, 1] = entity_B[idx]
-        target_fwd[b] = idx
+            # Reverse probe sequence: same context A->B, probe with B at pos 2
+            x_r[b, 0] = entity_A[idx]
+            x_r[b, 1] = entity_B[idx]
+            x_r[b, 2] = entity_B[idx]
 
-        x_rev[b, 0] = entity_B[idx]
+        return x_f, x_r, tgt
 
-    savg = HybridAttentionWithSAVG(
-        embed_dim=embed_dim, num_heads=num_heads, window_size=32, num_singlets=8
-    ).to(device)
+    train_indices = list(range(batch_size))
+    x_fwd, x_rev, target_fwd = make_sequences(train_indices)
 
-    opt = torch.optim.Adam(savg.parameters(), lr=0.01)
-    # Train on forward association
-    for step in range(50):
-        opt.zero_grad()
-        out = savg(x_fwd)
-        pred_B = out[:, 0, :] # readout from position 0
-        scores = torch.matmul(pred_B, entity_B.T)
-        loss = F.cross_entropy(scores, target_fwd)
-        loss.backward()
-        opt.step()
+    models = {
+        "Baseline TensorSAT": HybridSingletAttention(
+            embed_dim=embed_dim, num_heads=num_heads, window_size=32, num_singlets=8, use_triton=False, chunk_size=32
+        ).to(device),
+        "TensorSAT + SAVG": HybridAttentionWithSAVG(
+            embed_dim=embed_dim, num_heads=num_heads, window_size=32, num_singlets=8
+        ).to(device)
+    }
 
-    with torch.no_grad():
-        # Evaluate forward correlation
-        out_fwd = savg(x_fwd)
-        fwd_corr = F.cosine_similarity(out_fwd[:, 0, :], entity_B[:batch_size], dim=-1).mean().item()
+    for name, model in models.items():
+        opt = torch.optim.Adam(model.parameters(), lr=0.01)
+        # Train on forward association query at pos 2
+        for step in range(50):
+            opt.zero_grad()
+            out = model(x_fwd)
+            if isinstance(out, tuple):
+                out = out[0]
+            pred_B = out[:, 2, :] # readout from position 2
+            scores = torch.matmul(pred_B, entity_B.T)
+            loss = F.cross_entropy(scores, target_fwd)
+            loss.backward()
+            opt.step()
 
-        # Evaluate reverse probe: When probed with B, does it falsely predict A?
-        out_rev = savg(x_rev)
-        bwd_leak = F.cosine_similarity(out_rev[:, 0, :], entity_A[:batch_size], dim=-1).mean().item()
+        with torch.no_grad():
+            out_fwd = model(x_fwd)
+            if isinstance(out_fwd, tuple):
+                out_fwd = out_fwd[0]
+            pred_fwd = out_fwd[:, 2, :]
+            fwd_scores = torch.matmul(pred_fwd, entity_B.T)
+            fwd_acc = (torch.argmax(fwd_scores, dim=-1) == target_fwd).float().mean().item() * 100.0
+            fwd_corr = F.cosine_similarity(pred_fwd, entity_B[target_fwd], dim=-1).mean().item()
 
-        print(f"Trained SAVG Model (Forward A -> B):")
-        print(f"  Forward Cosine (A -> B): {fwd_corr:+.4f}")
-        print(f"  Reverse Leakage (B -> A): {bwd_leak:+.4f}")
-        print(f"  Directional Separation:  {abs(fwd_corr) - abs(bwd_leak):+.4f}")
+            # Reverse probe: Probe at pos 2 with B, measure if it predicts A
+            out_rev = model(x_rev)
+            if isinstance(out_rev, tuple):
+                out_rev = out_rev[0]
+            pred_rev = out_rev[:, 2, :]
+            rev_scores = torch.matmul(pred_rev, entity_A.T)
+            rev_false_recall = (torch.argmax(rev_scores, dim=-1) == target_fwd).float().mean().item() * 100.0
+            bwd_leak = F.cosine_similarity(pred_rev, entity_A[target_fwd], dim=-1).mean().item()
+
+            print(f"\n{name}:")
+            print(f"  Forward Acc (A -> B):    {fwd_acc:5.1f}% (Cosine: {fwd_corr:+.4f})")
+            print(f"  Reverse Leak (B -> A):   {rev_false_recall:5.1f}% (Cosine: {bwd_leak:+.4f})")
+            print(f"  Directional Separation:  {fwd_corr - bwd_leak:+.4f}")
 
 
 if __name__ == "__main__":

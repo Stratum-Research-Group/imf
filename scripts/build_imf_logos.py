@@ -48,9 +48,24 @@ SUB_Y3 = 504  # "Group"
 EMBLEM_CX = 390
 EMBLEM_CY = 384
 
-FONT_PATH = "/usr/share/fonts/liberation/LiberationSans-Bold.ttf"
-if not os.path.exists(FONT_PATH):
-    FONT_PATH = "/usr/share/fonts/noto/NotoSans-Bold.ttf"
+FONT_CANDIDATES = [
+    os.environ.get("IMF_FONT_PATH", ""),
+    "/usr/share/fonts/liberation/LiberationSans-Bold.ttf",
+    "/usr/share/fonts/noto/NotoSans-Bold.ttf",
+    "/usr/share/fonts/TTF/DejaVuSans-Bold.ttf",
+    "/usr/share/fonts/dejavu/DejaVuSans-Bold.ttf",
+    "/usr/share/fonts/Adwaita/AdwaitaSans-Regular.ttf",
+]
+FONT_PATH = next((p for p in FONT_CANDIDATES if p and os.path.exists(p)), None)
+
+
+def _get_font(size: int):
+    if FONT_PATH and os.path.exists(FONT_PATH):
+        try:
+            return ImageFont.truetype(FONT_PATH, size)
+        except Exception:
+            pass
+    return ImageFont.load_default()
 
 
 def create_studio_background(w, h, seed=42):
@@ -80,8 +95,8 @@ def render_base_template(draw, scale=SCALE):
     draw.rounded_rectangle([div_x - div_w // 2, y0, div_x + div_w // 2, y1], radius=scale, fill=(0, 0, 0, 255))
 
     # Fonts
-    font_title = ImageFont.truetype(FONT_PATH, int(178 * scale))
-    font_sub = ImageFont.truetype(FONT_PATH, int(76 * scale))
+    font_title = _get_font(int(178 * scale))
+    font_sub = _get_font(int(76 * scale))
 
     # Text
     draw.text((int(TEXT_X * scale), int(TITLE_Y * scale)), "IMF", font=font_title, fill=(0, 0, 0, 255))

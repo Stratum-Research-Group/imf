@@ -40,6 +40,7 @@ def generate_mqar_batch(
     embed_dim: int,
     device: torch.device,
     seed: int = None,
+    shared_embed: nn.Embedding = None,
 ):
     """
     Constructs a valid MQAR task:
@@ -47,13 +48,17 @@ def generate_mqar_batch(
     2. Dynamic, sequence-specific random key->value assignment per batch item.
     3. Queries placed at the end of the sequence.
     4. Model must use in-context memory to recall which value was paired with which key in this specific sequence.
+    5. Uses a shared, consistent vocabulary embedding across train and test batches.
     """
     if seed is not None:
         random.seed(seed)
         torch.manual_seed(seed)
 
-    embed = nn.Embedding(vocab_size, embed_dim, device=device)
-    nn.init.normal_(embed.weight, std=0.02)
+    if shared_embed is not None:
+        embed = shared_embed
+    else:
+        embed = nn.Embedding(vocab_size, embed_dim, device=device)
+        nn.init.normal_(embed.weight, std=0.02)
 
     tokens = torch.randint(0, vocab_size // 2, (batch_size, seq_len), device=device)
     query_start = seq_len - num_queries
@@ -123,13 +128,16 @@ def run_mqar_benchmark():
 
     for seq_len in [128, 256]:
         print(f"\n--- Sequence Length N = {seq_len} ---")
+        shared_embed = nn.Embedding(vocab_size, embed_dim, device=device)
+        nn.init.normal_(shared_embed.weight, std=0.02)
+
         x_train, y_train, q_pos = generate_mqar_batch(
             batch_size=8, seq_len=seq_len, num_pairs=num_pairs, num_queries=num_queries,
-            vocab_size=vocab_size, embed_dim=embed_dim, device=device, seed=42
+            vocab_size=vocab_size, embed_dim=embed_dim, device=device, seed=42, shared_embed=shared_embed
         )
         x_test, y_test, _ = generate_mqar_batch(
             batch_size=16, seq_len=seq_len, num_pairs=num_pairs, num_queries=num_queries,
-            vocab_size=vocab_size, embed_dim=embed_dim, device=device, seed=1337
+            vocab_size=vocab_size, embed_dim=embed_dim, device=device, seed=1337, shared_embed=shared_embed
         )
 
         models = {

@@ -98,17 +98,27 @@ To ensure that the discrete-to-continuous matrix decomposition holds rigorously,
 
 ```lean
 -- Verified Lean 4 Core Invariant: Sector Decomposition (2M = 2S + 2A)
-theorem direct_sum_decomposition {d : Nat} (M : MatrixSector d) :
-    smul 2 M = add (symSector2 M) (antiSector2 M) := by
-  ext i j
-  dsimp [smul, add, symSector2, antiSector2, transpose, sub]
+theorem sym_anti_decomposition {d : Nat} (M : MatrixSector d) :
+    add (symSector2 M) (antiSector2 M) = smul 2 M := by
+  dsimp [add, symSector2, antiSector2, transpose, smul]
+  funext i j
+  show (M i j + M j i) + (M i j - M j i) = 2 * M i j
   omega
 
 -- Verified Lean 4 Core Invariant: Frobenius Orthogonality of S and A
-theorem frobenius_orthogonality {d : Nat} (M : MatrixSector d) (i j : Fin d) :
-    pointwiseFrobeniusTerm (symSector2 M) (antiSector2 M) i j = - pointwiseFrobeniusTerm (symSector2 M) (antiSector2 M) j i := by
-  dsimp [pointwiseFrobeniusTerm, symSector2, antiSector2, add, sub, transpose]
-  ring
+theorem sym_anti_pointwise_orthogonal {d : Nat} (M : MatrixSector d) (i j : Fin d) :
+    (symSector2 M i j * antiSector2 M i j) + (symSector2 M j i * antiSector2 M j i) = 0 := by
+  dsimp [symSector2, antiSector2, add, sub, transpose]
+  show (M i j + M j i) * (M i j - M j i) + (M j i + M i j) * (M j i - M i j) = 0
+  have h_comm : M j i + M i j = M i j + M j i := by omega
+  rw [h_comm]
+  have h_distrib : (M i j + M j i) * (M i j - M j i) + (M i j + M j i) * (M j i - M i j) =
+                   (M i j + M j i) * ((M i j - M j i) + (M j i - M i j)) := by
+    rw [← Int.mul_add]
+  rw [h_distrib]
+  have h_cancel : (M i j - M j i) + (M j i - M i j) = 0 := by omega
+  rw [h_cancel]
+  rw [Int.mul_zero]
 ```
 
 The formal proofs establish two essential algebraic foundations:

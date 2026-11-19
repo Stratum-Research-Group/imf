@@ -73,9 +73,10 @@ def pytorch_reference_savg_scan(U, V, Q, grid_mod, gamma_s=0.999, gamma_a=0.990)
     """Numerically identical PyTorch reference implementation for testing and autograd."""
     B, T, D = U.shape
     device = U.device
+    dtype = U.dtype
     Out = torch.zeros_like(U)
-    S_state = torch.zeros(B, D, D, device=device)
-    A_state = torch.zeros(B, D, D, device=device)
+    S_state = torch.zeros(B, D, D, device=device, dtype=dtype)
+    A_state = torch.zeros(B, D, D, device=device, dtype=dtype)
 
     for t in range(T):
         u_t = U[:, t, :] # [B, D]

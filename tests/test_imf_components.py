@@ -71,3 +71,22 @@ def test_fused_savg_layer_autograd_and_shapes():
     assert x.grad is not None
     for name, p in layer.named_parameters():
         assert p.grad is not None, f"Parameter {name} has no gradient!"
+
+
+@pytest.mark.parametrize("dtype", [torch.float16, torch.bfloat16, torch.float32])
+def test_fused_savg_layer_dtypes(dtype):
+    device = torch.device("cpu")
+    d_model = 16
+    layer = FusedSAVGLayer(d_model=d_model, preset="tetrahedron").to(device=device, dtype=dtype)
+    x = torch.randn(2, 4, d_model, device=device, dtype=dtype, requires_grad=True)
+
+    out = layer(x, use_triton=False)
+    assert out.shape == (2, 4, d_model)
+    assert out.dtype == dtype
+    assert not torch.isnan(out).any()
+
+    loss = out.sum()
+    loss.backward()
+    assert x.grad is not None
+    assert x.grad.dtype == dtype
+

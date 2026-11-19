@@ -24,6 +24,7 @@ try:
     HAS_TENSORSAT = True
 except ImportError:
     HAS_TENSORSAT = False
+    HybridSingletAttention = None
 
 
 class VirtualGridConnector(nn.Module):
@@ -45,6 +46,8 @@ class HybridAttentionWithSAVG(nn.Module):
     """
     def __init__(self, embed_dim: int, num_heads: int, window_size: int = 64, num_singlets: int = 16):
         super().__init__()
+        if not HAS_TENSORSAT:
+            raise RuntimeError("HybridAttentionWithSAVG requires TensorSAT (HybridSingletAttention).")
         self.base_hybrid = HybridSingletAttention(
             embed_dim=embed_dim,
             num_heads=num_heads,
@@ -83,6 +86,10 @@ class HybridAttentionWithSAVG(nn.Module):
 
 
 def evaluate_synthetic_reasoning():
+    if not HAS_TENSORSAT:
+        print("[!] TensorSAT not available, skipping synthetic reasoning evaluation.")
+        return
+
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"=== Synthetic Evaluation Harness on {device} ===")
 

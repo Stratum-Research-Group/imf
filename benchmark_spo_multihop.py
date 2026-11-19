@@ -69,32 +69,48 @@ class Arity3SimplexQueryModel(nn.Module):
         return self.head(triplet_state)
 
 
-def generate_multihop_graph_dataset(num_train=64, num_test=256, num_entities=128, num_relations=16, d_model=64, device="cpu"):
+def generate_multihop_graph_dataset(num_train=64, num_test=256, num_entities=128, num_relations=16, d_model=64, device="cpu", seed=42):
     """
-    Generates distinct training and held-out test multi-hop chains:
-    e1 -> r1 -> e2 -> r2 -> e3 (Target: e3)
+    Generates deterministic knowledge graph chains over a fixed relation transition rule:
+    e_{next} = T(e, r) = (e * (r + 1) + (r + 3)) % num_entities
+    
+    Chains: e1 -> r1 -> e2 -> r2 -> e3 (Target: e3 = T(T(e1, r1), r2))
+    The model receives the subject e1 and relation embeddings (r1, r2) and must predict e3.
     """
+    torch.manual_seed(seed)
+    random.seed(seed)
+
     entity_embeds = F.normalize(torch.randn(num_entities, d_model, device=device), dim=-1)
     relation_embeds = F.normalize(torch.randn(num_relations, d_model, device=device), dim=-1)
 
-    def sample_chains(n):
+    def transition(e, r):
+        return (e * (r + 1) + (r + 3)) % num_entities
+
+    def sample_deterministic_chains(n, existing_keys=None):
         chains = []
-        for _ in range(n):
+        keys = set() if existing_keys is None else set(existing_keys)
+        attempts = 0
+        while len(chains) < n and attempts < n * 100:
+            attempts += 1
             e1 = random.randint(0, num_entities - 1)
-            e2 = (e1 + random.randint(1, 10)) % num_entities
-            e3 = (e2 + random.randint(1, 10)) % num_entities
             r1 = random.randint(0, num_relations - 1)
             r2 = random.randint(0, num_relations - 1)
+            key = (e1, r1, r2)
+            if key in keys:
+                continue
+            keys.add(key)
+            e2 = transition(e1, r1)
+            e3 = transition(e2, r2)
             chains.append((e1, r1, e2, r2, e3))
-        return chains
+        return chains, keys
 
-    train_chains = sample_chains(num_train)
-    test_chains = sample_chains(num_test)
+    train_chains, train_keys = sample_deterministic_chains(num_train)
+    test_chains, _ = sample_deterministic_chains(num_test, existing_keys=train_keys)
 
     def to_tensors(ch):
         S = torch.stack([entity_embeds[c[0]] for c in ch]).unsqueeze(1)
-        # Composed relation representation (r1 + r2)
-        P = torch.stack([relation_embeds[c[1]] + relation_embeds[c[3]] for c in ch]).unsqueeze(1)
+        # Ordered relation projection / composition
+        P = torch.stack([relation_embeds[c[1]] + 0.5 * relation_embeds[c[3]] for c in ch]).unsqueeze(1)
         targets = torch.tensor([c[4] for c in ch], device=device, dtype=torch.long)
         return S, P, targets
 

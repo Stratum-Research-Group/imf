@@ -25,6 +25,7 @@ try:
     HAS_TENSORSAT = True
 except ImportError:
     HAS_TENSORSAT = False
+    HybridSingletAttention = None
 
 from polytope_connector import ConfigurablePolytopeConnector
 from benchmark_mqar import generate_mqar_batch, MQARModelWrapper
@@ -32,6 +33,8 @@ from benchmark_mqar import generate_mqar_batch, MQARModelWrapper
 class PolytopeAugmentedHybrid(nn.Module):
     def __init__(self, embed_dim: int, num_heads: int, preset: str):
         super().__init__()
+        if not HAS_TENSORSAT:
+            raise RuntimeError("PolytopeAugmentedHybrid requires TensorSAT (HybridSingletAttention).")
         self.base_hybrid = HybridSingletAttention(
             embed_dim=embed_dim,
             num_heads=num_heads,
@@ -61,6 +64,10 @@ class PolytopeAugmentedHybrid(nn.Module):
 
 
 def run_polytope_comparison():
+    if not HAS_TENSORSAT:
+        print("[!] TensorSAT not available, skipping polytope comparison benchmark.")
+        return
+
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print("\n" + "=" * 90)
     print(f"HIGHER-DIMENSIONAL POLYTOPE CONNECTOR BENCHMARK on {device}")
@@ -75,14 +82,31 @@ def run_polytope_comparison():
     num_pairs = 16
     train_steps = 100
 
-    x_emb, targets, q_indices = generate_mqar_batch(
+    shared_embed = nn.Embedding(vocab_size, embed_dim, device=device)
+    nn.init.normal_(shared_embed.weight, std=0.02)
+
+    x_train, targets_train, q_indices = generate_mqar_batch(
         batch_size=batch_size,
         seq_len=seq_len,
         num_pairs=num_pairs,
         num_queries=num_queries,
         vocab_size=vocab_size,
         embed_dim=embed_dim,
-        device=device
+        device=device,
+        seed=42,
+        shared_embed=shared_embed,
+    )
+
+    x_test, targets_test, _ = generate_mqar_batch(
+        batch_size=batch_size * 2,
+        seq_len=seq_len,
+        num_pairs=num_pairs,
+        num_queries=num_queries,
+        vocab_size=vocab_size,
+        embed_dim=embed_dim,
+        device=device,
+        seed=1337,
+        shared_embed=shared_embed,
     )
 
     presets_to_test = [
@@ -95,7 +119,7 @@ def run_polytope_comparison():
         ("Hendecaxennon Orthoplex (11D)", "hendecaxennon_orthoplex"),
     ]
 
-    print(f"{'Polytope Configuration':<32} | {'Vertices':<9} | {'Grid Slots':<11} | {'Final Loss':<11} | {'Accuracy %':<10} | {'Latency':<9}")
+    print(f"{'Polytope Configuration':<32} | {'Vertices':<9} | {'Grid Slots':<11} | {'Final Loss':<11} | {'Held-Out %':<10} | {'Latency':<9}")
     print("-" * 90)
 
     for label, preset in presets_to_test:
@@ -112,7 +136,7 @@ def run_polytope_comparison():
         optimizer = torch.optim.Adam(model.parameters(), lr=0.008)
 
         # Warmup
-        _ = model(x_emb)
+        _ = model(x_train)
         if device.type == "cuda":
             torch.cuda.synchronize()
 
@@ -120,9 +144,9 @@ def run_polytope_comparison():
         final_loss = 0.0
         for step in range(train_steps):
             optimizer.zero_grad()
-            logits = model(x_emb)
+            logits = model(x_train)
             query_logits = logits[:, q_indices, :]
-            loss = F.cross_entropy(query_logits.reshape(-1, vocab_size), targets.reshape(-1))
+            loss = F.cross_entropy(query_logits.reshape(-1, vocab_size), targets_train.reshape(-1))
             loss.backward()
             optimizer.step()
             final_loss = loss.item()
@@ -132,8 +156,10 @@ def run_polytope_comparison():
         elapsed = (time.perf_counter() - t0) * 1000.0 / train_steps
 
         with torch.no_grad():
-            pred = torch.argmax(query_logits, dim=-1)
-            acc = (pred == targets).float().mean().item() * 100.0
+            test_logits = model(x_test)
+            test_q_logits = test_logits[:, q_indices, :]
+            pred = torch.argmax(test_q_logits, dim=-1)
+            acc = (pred == targets_test).float().mean().item() * 100.0
 
         print(f"{label:<32} | {verts:<9} | {grid_slots:<11} | {final_loss:<11.4f} | {acc:<10.1f} | {elapsed:<6.1f} ms")
 

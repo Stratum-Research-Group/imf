@@ -1,0 +1,250 @@
+IMF REREVIEW, 40628e9
+2026-11-19, Africa/Johannesburg
+Repository: https://github.com/Stratum-Research-Group/imf
+Reviewed commit: 40628e9555d3b998689ae8a7db31f68ab4b9173d
+Previous review: b67fa54541935d107477b25705c1776d66d9e071
+
+VERDICT
+The implementation has improved materially. Answer-input leakage is gone from both SPO scripts. MQAR now randomizes bindings per sequence and prevents overlapping pairs. The scan now has a working CPU backward path. All 12 committed tests pass on CPU without a Triton stub, and a tiny double-precision numerical gradcheck also passes.
+
+It is still a research prototype, not a validated production memory layer. The new SPO task does not define a learnable relation graph, MQAR changes its embedding codebook between train and evaluation, and the directionality test does not compare a baseline or test held-out associations. Several old headline claims and tables remain despite changes to the benchmark designs. Packaging and lower-precision fallback have reproducible failures.
+
+These are implementation, experiment and documentation findings. They do not refute the symmetric/skew-symmetric decomposition or the owner's wider mathematics. Preserve the intended mathematics; settle the design questions explicitly rather than silently changing it.
+
+SCOPE AND EVIDENCE
+- Fresh clone, all tracked Python modules, both Lean modules, Lake configuration, project configuration, README and all three papers read. Reviewed the logo generator's code, not its visual outputs. Read previous findings and compared the three new commits: 58f8c58, 0e6ee21, 40628e9.
+- TensorSAT was read at b2e2ea328636a4dd229c2dd5b679015affae6686 to check the causal-attention assumptions used by the IMF wrapper. It was not changed or audited as a separate project.
+- Environment: Python 3.10.12, torch 2.14.1+cpu, pytest 9.2.0, setuptools 78.1.0, Linux, CPU, one compute thread for numerical checks. No CUDA, Triton or Lean executable. No model training, stress training or large-context runs.
+- RAN means reproduced in this review; READ means source inspection; DERIVED means mathematical or data-flow reasoning. Per-file line numbers below apply to 40628e9.
+- Source files were not edited. Final remote fetch and clean tracked working-tree check are recorded at the end.
+
+PREVIOUS FINDINGS: FIXED / PARTIAL / OPEN
+Prior 1.1 SPO answer leakage: FIXED. Both forward signatures now accept only subject and predicate. Held-out evaluation added. The new data semantics remain invalid for graph traversal, item 1.
+Prior 1.2 MQAR: PARTIAL. Dynamic pairings and disjoint placements fixed; new codebook mismatch introduced; same fixed training batch and single train/eval seed remain, item 2. Polytope comparison still evaluates its training batch, item 3.
+Prior 1.3 directionality: PARTIAL. Real A/B entities and training replaced noise-only untrained comparison. Baseline, held-out associations and rejection measurement still absent, item 4.
+Prior 1.4 backward: FIXED FOR CPU FIRST-ORDER PATH. New autograd Function recomputes the PyTorch scan in backward. CPU unit test and numerical gradcheck pass. Real GPU forward and gradients unverified. No actual timing implementation yet, item 8.
+Prior 1.5 papers: PARTIAL. Paper 01 removes the two sorry excerpts and softens its abstract. Replacement excerpts still do not match committed Lean declarations, item 6. Most old empirical claims remain, item 5. README paper links now use relative paths, FIXED.
+Prior 2.1 readout / probe assumptions: OPEN, item 7.
+Prior 2.2 different SAVG implementations: OPEN, item 9. MQAR row label is more accurate now.
+Prior 2.3 connector geometry, gate positivity, pair-grid definition and hypercube naming: OPEN design/documentation questions, item 10.
+Prior 2.4 arity-4 face dependence: OPEN design question, item 11.
+Prior 2.5 Lean scope: integer doubled-sector proofs unchanged, now under lean/. Real-field extension not compiled here. This is a scope distinction, not an architectural obstacle, item 6.
+Prior 2.6 Reversal Curse claim: PARTIAL. README introduction softened, stronger claims remain elsewhere, items 5 and 7.
+Prior 3.1 TensorSAT paths: relative-to-file resolution FIXED in all six scripts. Dependency instructions and two missing-sibling guards remain open, item 14.
+Prior 3.2 production wording: OPEN, especially given items 8, 12 and 13.
+Prior 3.3 applications: PARTIAL. README section 6 now labels physical analogies exploratory. Paper 03 still asserts stronger guarantees, item 5.
+Prior 3.4 author-specific logo output paths: FIXED. Output paths are relative to the script/repo, with optional branding copy. Font selection is still machine-specific, item 16.
+Prior 3.5 exploratory notes called formal specification: FIXED in the README tree. Notes moved to docs/reviews/.
+Prior 3.6 tree omissions: FIXED. New tree includes tests, scripts, papers, assets and Lean directory. Two inline proof links did not follow the move, item 15.
+
+NUMBERED FINDINGS AND ACCEPTANCE CONDITIONS
+
+1. HIGH, BENCHMARK VALIDITY: SPO labels are random relative to the relations, not graph traversal. [READ + DERIVED + RAN sampling replay]
+Locations:
+  benchmark_spo_multihop.py:72-103, especially 83-88 and 95-98.
+  stress_spo_multihop.py:45-66, especially 49-55 and 59-62.
+The intermediate and tail entities are chosen by random offsets. Relation IDs are sampled independently after those entities. No relation transition function, fact store, graph edges or traversable memory is supplied to either model. The query contains only the starting entity and a sum of relation embeddings. Removing the answer leak was necessary, but it leaves the randomly chosen target unknowable from that query.
+
+The relation sum also loses order: r1+r2 equals r2+r1. That cannot represent general ordered path composition. In the stress script, the same problem affects all three relations. Neither issue says that higher-arity binding is useless.
+
+Pure-Python replay of the two-hop generator with its committed seed and train/test sizes produces two conflicting observable queries across the combined samples. Examples, using subject and sorted relation IDs: (4,7,11) has targets 12 and 14; (113,1,11) has targets 123 and 127. There were zero identical full train/test chains in this replay, so do not claim literal chain overlap was observed. Independent sampling does not, however, enforce disjointness as the docstring implies.
+
+Even without sample collisions, the population target depends on independent random offsets, not the relations. For the two-hop generator, the most likely offset sum has probability 10/100. Perfect held-out retrieval is not available from the stated inputs.
+
+Acceptance: define a fixed relation-labeled graph or transition rule; preserve relation order where order matters; provide the required facts/memory or enough training coverage of its rule. Deduplicate held-out queries deliberately and verify that each observable query has a defined target. Include a trivial subject-only baseline. Do not simply enlarge or train longer on the current random-label task.
+
+2. HIGH, BENCHMARK VALIDITY: MQAR train/test use different random token codebooks. [READ + RAN codebook replay]
+Locations: benchmark_mqar.py:51-56, 89-91, 124-154.
+Each call constructs a new nn.Embedding, initializes it, then discards it after returning detached embeddings. Training calls the generator with seed 42; evaluation calls it with seed 1337. Thus token ID 200, for example, is represented by unrelated vectors in the two sets, but the classifier head still predicts fixed vocabulary IDs. The model receives no stable value-vector-to-ID decoder for the new test codebook.
+
+This is not the same issue as the old static key/value map. That map is now correctly randomized per sequence, and key/value pair placements are now disjoint. Keep those fixes.
+
+The function header promises multi-seed execution, but the actual runner has one fixed training batch, one test batch of 64 queries, no seed loop and no mean/std. Lines 148-154 repeatedly train on x_train rather than fresh batches. No new training result was run or inferred here.
+
+Acceptance: create one persistent vocabulary embedding outside the batch generator, or return token IDs and keep the embedding inside the trained model. Use the same vocabulary encoding for train/test while randomizing per-sequence pairings. Generate fresh batches during training, separate evaluation randomness, and report multiple seeds with enough held-out queries. Add a context-free control that must fail on the sequence-specific mapping. If changing codebooks is intentional, use a compatible retrieval decoder and state that different task explicitly.
+
+3. HIGH, BENCHMARK VALIDITY: polytope comparison remains a training-fit comparison. [READ]
+Locations: benchmark_polytopes.py:78-86, 101-138.
+One batch is generated before the preset loop. Each model fits that same batch for 100 steps; the displayed accuracy uses query_logits from the final training forward, before the final optimizer update. There is no held-out batch or seed loop. This cannot select a geometry for generalization or validate noise immunity.
+
+Acceptance: adopt the corrected stable-codebook generator from item 2, fresh train batches, a shared held-out set for every preset, matched training budgets, controlled initialization where practical, multiple seeds and mean/std. Recompute final training metrics after the update if reported. Keep training fit clearly separate from retrieval generalization.
+
+4. HIGH, BENCHMARK VALIDITY: new directionality test is memorization of A-to-B labels, not a SAVG effect test. [READ + RAN causal perturbation]
+Locations: test_savg_directionality.py:45-91; test_savg_harness.py:63-82.
+Only the SAVG wrapper is instantiated. The baseline named in the file's description is never trained or evaluated. The same 16 pairs are used for training and forward evaluation. Reverse leakage is mean cosine with A, not a candidate retrieval accuracy or a defined rejection/Nil decision.
+
+B is placed at position 1, but predictions are read from position 0. TensorSAT's default hybrid layer is causal, and the added A_state is a prefix cumsum. Therefore position 0 cannot use the B at position 1. It can still learn the fixed mapping from each A vector to its B label across the 50 training steps, so this is not an impossible training task. It is not evidence of reading the association from context.
+
+A tiny untrained wrapper check changed all tokens after position 0 and found maximum change at output position 0 equal to 0.0. No directionality training was run.
+
+Acceptance: specify whether the goal is learned fixed associations or in-context directed memory. For the latter, put the query after a fact context and vary associations across examples. Train/evaluate a matched baseline from the same base weights and budget, use held-out task instances, and define forward accuracy, reverse false-positive rate and rejection threshold separately. Remove the implication that a low cosine alone proves rejection or a Reversal Curse solution.
+
+5. HIGH, EVIDENCE / CLAIMS: old headline tables and domain guarantees still lack committed reproductions. [READ]
+Locations:
+  README.md:45-53, 197-237, 310, 328, 334.
+  papers/01_savg_lie_algebraic_memory_splitting.md:26-34, 123-153, 157-187.
+  papers/02_hdplc_higher_dimensional_polytope_connectors.md:11, 112-130.
+  papers/03_epistemological_foundations_and_real_world_applications.md:11, 28, 67-83, 108-124.
+The softened README opener and paper 01 abstract are welcome, but the body still contains noise immunity, 2.47x cleaner directionality, 0.74 ms, 6.59x speedup, 78% memory reduction, 96.8% at N=4096, 99.4% graph traversal and 0% collisions. Papers 02 and 03 are unchanged since the previous review. There is no committed experiment for the cross-model tables, the 10,000-query collision claim or the reported reversal logits.
+
+README MQAR tables cover N=256/512/1024, but the new runner uses 128/256 and a different task. The directionality runner no longer produces a baseline table or the old ratio. Kernel verification now exists, but no timing measurements are implemented. This is a provenance mismatch, not a claim that unseen private experiments did not occur.
+
+Paper 03:28 still says Lean proves modulation positivity, which neither committed Lean module states. Its exact human-readable reconstruction of x from named semantic vertices at lines 67-69 also is not implied by softmax landmark weights: the connector does not enforce x = sum_i w_i c_i or assign semantic names to vertices.
+
+Acceptance: mark old tables as historical/invalid for the revised task or remove them. For retained measured results, include exact script, commit, hardware, dtype, dimensions, seeds, evaluation protocol and logs. Label physical/domain extensions as hypotheses consistently in every paper. Distinguish an algebraic sign identity from guarantees about causal understanding, hallucination prevention or deployment safety.
+
+6. MEDIUM, FORMAL SCOPE / DOCUMENTATION: replacement Lean excerpts still are not the committed declarations. [READ, NOT COMPILED]
+Locations:
+  papers/01_savg_lie_algebraic_memory_splitting.md:97-116.
+  lean/DiscreteToContinuousBridge.lean:14, 39-57, 62-88.
+  lean/ContinuousCrossingBounds.lean:12-27, 54-91.
+  README.md:156-194.
+The sorry excerpts are gone. However the replacement names direct_sum_decomposition and frobenius_orthogonality do not occur in the Lean modules; pointwiseFrobeniusTerm is undefined anywhere in the committed Lean sources. The actual declarations are sym_anti_decomposition and sym_anti_pointwise_orthogonal, with different statements and proof text. Copy the real declarations or label the excerpt as illustrative pseudocode, not compiled source.
+
+The actual modules define integer matrices and doubled sectors, with proof terms present and no sorry in those modules. Their decomposition, symmetry, skew-symmetry and pairwise orthogonality/energy statements are mathematically sound as written on inspection. Lean compilation remains an open gate in this review. The real-field division-by-two version follows by standard algebra when 2 is invertible, but is not the statement compiled by these integer files. No Degen eight-square composition, neural recall guarantee, modulation-positivity theorem or discrete crossing theorem is contained here. Both files repeat matrix definitions in separate namespaces; sharing these definitions would reduce drift, but is not a correctness blocker.
+
+Acceptance: align documentation with actual theorem names, assumptions and scope. Run lake build with the pinned toolchain. If the paper needs a real-valued or positivity statement, add precisely that statement and its assumptions, rather than treating the integer identities as its proof. Do not change the intended mathematics to satisfy documentation.
+
+7. MEDIUM, MATH / READOUT QUESTION: probe convention and cancellation claims remain unresolved. [DERIVED]
+Locations: README.md:101-109; papers/01:66-82; triton_savg_kernel.py:59-66, 86-95, 160.
+For A=(uv^T-vu^T)/2 acting on columns:
+  A u = [u(v.u)-v||u||^2]/2
+  A v = [u||v||^2-v(u.v)]/2.
+The proportionalities to -v and +u require orthogonality or appropriate degenerate cases. The README includes the full formulas but still appends unconditional proportionality signs and unconditional reverse cancellation.
+
+S+A=uv^T and S-A=vu^T. With equal decays and gates, neither split adds information to the corresponding outer product. The code reads S+A, whereas the README's verbal forward convention describes u->v and S-A. With unequal decays (the code uses 0.999 and 0.990), separate sectors can implement different dynamics. That is a legitimate design choice to evaluate, not an algebra defect.
+
+Paper 01's conditional scalar score difference, 2*lambda*S_A, follows from symmetry/skew-symmetry. It is not a guarantee that all reverse scores are negative. For a single pair, S_A=(||u||^2||v||^2-(u.v)^2)/2 and S_S=(||u||^2||v||^2+(u.v)^2)/2. Negative reverse score requires lambda*S_A>S_S. In particular lambda=1 only gives exact zero for orthogonal nonzero probes; general probes give suppression rather than cancellation. The code's vector readout is not by itself a specified scalar rejection rule.
+
+Acceptance: decide and document key/value roles, S+A versus S-A convention, probe assumptions, sector decays and rejection/readout. Test against an ordinary directional outer-product baseline. Keep the conditional theorem; remove unconditional operational conclusions that do not follow from it.
+
+8. MEDIUM, PERFORMANCE / TEST GATE: backward works on CPU, but is a recomputation fallback and no timer exists. [READ + RAN CPU]
+Locations: triton_savg_kernel.py:100-139, 164-200; tests/test_imf_components.py:58-73.
+The custom autograd Function is a real improvement. First-order gradients flow through every layer parameter and the input. A tiny numerical gradcheck passes. This closes the old no-backward defect for the tested path.
+
+Backward rebuilds the entire PyTorch recurrence graph at lines 132-138. It is not a fused backward kernel and does not inherit the forward kernel's constant recurrent-state memory profile. It can retain O(B*T*D^2) intermediates during recomputation. That tradeoff is acceptable if documented and measured. No large memory run was attempted.
+
+run_timing_and_verification imports time but never measures elapsed time. It verifies output equivalence only when Triton/CUDA are available, and checks gradient presence, not gradient equivalence. One GPU program per batch element still loops over the whole sequence, with two BLOCK_D-square states. Performance and resource use require measurement, not assumptions from the word fused.
+
+Acceptance: retain CPU fallback tests; add GPU forward and gradient comparisons against a dtype-consistent reference across sequence lengths, non-power-of-two D, strides and supported dtypes. Measure warmed-up, synchronized forward and forward+backward separately, including peak memory. Use tolerances justified for dtype and sequence length. Do not report 0.74 ms or production readiness from the CPU tests.
+
+9. MEDIUM, DESIGN / LABELING: benchmark wrapper still is not the S/A scan. [READ]
+Locations: test_savg_harness.py:66-82; benchmark_polytopes.py:50-60; triton_savg_kernel.py:59-66.
+The wrappers add only a prefix-summed antisymmetric channel, with no symmetric sector or sector decay, and read it with the write-side U. The fused layer uses decayed S and A plus an independent Q projection. A result for one is not validation of the other. The new MQAR label 'SAVG Channel' is an improvement; the harness docstring still describes both sectors.
+
+Acceptance: name these variants separately, state what each experiment runs, and add an explicit cross-implementation test only if they are intended to be equivalent. Do not force them to match without a design decision.
+
+10. MEDIUM, GEOMETRY / GATE DESIGN QUESTIONS: bounded coordinates are not constrained regular geometry or positive modulation. [READ + RAN small checks]
+Locations: polytope_connector.py:65-86, 98-129; README.md:114-138; papers/02:28-51.
+Simplex anchors and orthoplex axes are learned Gaussian parameters, with no equal-distance or orthonormality constraint. Exact antipodal logits are implemented and should be credited; regular orthoplex geometry is not enforced. 'dimension' controls anchor count/projection count, not a restriction of the whole embedding space to that dimension.
+
+The README defines a token-pair grid w(x)w(y)^T; the code uses a learned quadratic scalar w(x)^T G w(x). Resolve which object is intended. Softmax weights are normalized coordinates in a probability simplex, but do not establish exact barycentric reconstruction of arbitrary x.
+
+No constraint ensures 1+w^T G w>0. The committed positivity unit test checks one random initialization only. A tiny deliberate allowed parameter setting, every entry of G=-2, yields modulation -1.0 at x=0. This shows the missing guarantee, not that ordinary initialization was observed failing. If positivity is required by the paper, constrain it or state the relevant assumption. The Gaussian initialization has no absolute positivity guarantee either.
+
+Hypercube_factorized computes D tanh coordinates and a D-by-D quadratic form. It does not explicitly implement an XOR-coset construction, and its get_coordinates return shape is D rather than the num_vertices=2^D shape promised by the generic docstring. Tiny hypercube forward/backward passes, but no committed test covers it.
+
+Acceptance: decide whether these are learned landmarks or constrained regular polytopes; describe or test the chosen contract. Specify scalar versus pairwise grid and positivity requirements. Clarify the factorized hypercube interface and avoid attributing a specific discrete factorization not implemented in the module. Do not change mathematical intent by guesswork.
+
+11. LOW, DESIGN QUESTION: arity-4 face term still depends only on the first token. [READ]
+Location: higher_arity_simplex.py:69-87.
+All four inputs participate through the Hadamard product. The extra arity-4 face factor uses only tokens[0], unlike the three-coordinate contraction in arity 3. This is not evidence that arity 4 lacks four-input coupling. Decide whether that additional asymmetry is intentional. For arity 3 the anchor_coords computation at line 75 is unused and can be skipped without changing the formula.
+
+12. MEDIUM, CODE DEFECT: half/bfloat16 reference path fails with a dtype mismatch. [RAN]
+Location: triton_savg_kernel.py:76-95, 132-138.
+S_state and A_state are created in default float32. For float16 or bfloat16 U/V/Q, net_state is float32 but q_t remains lower precision; the bmm at line 95 fails. Tiny direct-reference and FusedSAVGLayer(...).to(dtype=...) CPU calls reproduce:
+  float16: RuntimeError, expected scalar type Float but found Half
+  bfloat16: RuntimeError, expected scalar type Float but found BFloat16.
+Float32 and float64 tiny direct-reference calls succeed. GPU behavior was not run. Because GPU backward recomputes this same reference, manually lower-precision CUDA training also needs explicit testing; do not claim AMP/CUDA autocast outcomes from this CPU test.
+
+Acceptance: define supported input/state/accumulation/output dtypes, cast the read and write consistently, and test both fallback and backward under each supported mode. If only float32 is supported, reject other dtypes clearly and document that limit.
+
+13. MEDIUM, PACKAGING DEFECT: setuptools cannot build the project. [RAN]
+Location: pyproject.toml:1-3 and project configuration; no explicit module/package discovery.
+With setuptools 78.1.0, satisfying the declared >=61 requirement:
+  python -m pip wheel --no-deps --no-build-isolation . -w /tmp/imfwheel
+fails during metadata generation because automatic flat-layout discovery finds multiple top-level packages: lean, assets and papers. This is a real packaging failure, unlike the previous review's old-setuptools UNKNOWN-package observation. The README's direct-from-clone import workflow can still work; this finding concerns installing/building IMF as the declared project.
+
+Acceptance: configure the intended Python modules/package layout explicitly and exclude non-package asset/proof directories from accidental discovery. Build a wheel and install it into a clean environment, then import all intended public modules outside the source directory. Treat setuptools license deprecation warnings separately from the blocking discovery error.
+
+14. MEDIUM, DEPENDENCY HANDLING: two scripts still crash without TensorSAT. [READ + RAN isolated import-failure checks]
+Locations:
+  benchmark_polytopes.py:23-27, 35-42, 63-106.
+  test_savg_harness.py:22-26, 48, 85-108.
+  README.md:287-293.
+The sibling paths now correctly resolve relative to __file__. MQAR and directionality guard their entry functions when TensorSAT is missing. Polytope comparison and the harness catch ImportError but then use undefined HybridSingletAttention. Isolated diagnostic imports blocking only tensorsat reproduce NameError in both entry functions before training starts. The guard does not make their model classes usable without the sibling.
+
+Quickstart still installs only torch/triton/numpy and does not explain the sibling dependency or pin its commit. Broad ImportError catches can also label a broken installed TensorSAT as merely unavailable.
+
+Acceptance: document installation and the expected TensorSAT version/commit. Guard both entry points or raise a clear dependency error. Preserve the original import failure detail. Pure IMF modules and CPU tests should remain usable without TensorSAT or Triton.
+
+15. MEDIUM/LOW, QUICKSTART DEFECTS: device mismatch and moved proof links. [READ]
+Locations: README.md:158, 178, 303-308.
+The connector is constructed on CPU at line 303, while x is on CUDA at line 304. get_coordinates then multiplies tensors on different devices. The fused layer below is moved to CUDA, but the preceding standalone connector is not. This is a source-level device mismatch; no CUDA execution was possible here.
+
+The proof-module links at lines 158 and 178 still target files in the root although they moved into lean/. The new repository tree and lake build command are otherwise updated.
+
+Acceptance: move connector and input to the same device in the example; test the whole snippet on the stated device. Update both inline paths to lean/. Keep paper links, which are now fixed.
+
+16. LOW, ASSET SCRIPT PORTABILITY: font fallback assumes a second fixed path exists. [READ]
+Location: scripts/build_imf_logos.py:52-54, 85-86.
+The author-specific output directory issue is fixed. Font lookup still tries one Linux path and then unconditionally uses another. Neither exists in this review environment, so the first ImageFont.truetype call would fail despite other installed fonts. The full logo generator was not run; existing assets were not modified or visually assessed.
+
+Acceptance: allow a font argument or use a checked portable fallback, and give a clear error if none is found. No model/mathematical change is involved.
+
+REPRODUCTION AND TEST GATES
+Committed CPU suite, from the repo with the listed dependencies available:
+  OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 python -m pytest -q -p no:cacheprovider
+Result: 12 passed in 1.01 seconds. No Triton stub and no skips. All 12 used CPU; zero were real Triton executions.
+
+Committed scan harness:
+  OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 python triton_savg_kernel.py
+Result: CPU reference selected; full backward gradient presence check passed. It did not measure latency and did not run a GPU equivalence check.
+
+Additional tiny numerical check, no training:
+  import torch
+  from triton_savg_kernel import SAVGScanFunction
+  torch.manual_seed(1)
+  a = [torch.randn(1,3,2,dtype=torch.double,requires_grad=True) for _ in range(3)]
+  a.append(torch.randn(1,3,dtype=torch.double,requires_grad=True))
+  assert torch.autograd.gradcheck(
+      lambda *v: SAVGScanFunction.apply(*v,0.9,0.8,False),
+      tuple(a), eps=1e-6, atol=1e-4)
+Result: True. This checks one small first-order CPU case, not a GPU kernel or full training stability.
+
+Lower-precision failure replay:
+  from triton_savg_kernel import FusedSAVGLayer
+  for dtype in (torch.float16, torch.bfloat16):
+      layer = FusedSAVGLayer(4).to(dtype=dtype)
+      layer(torch.randn(1,2,4,dtype=dtype), use_triton=False)
+Each call raises the dtype error in item 12. Run each separately if both tracebacks are wanted.
+
+Causality replay, using TensorSAT at the commit above:
+  from test_savg_harness import HybridAttentionWithSAVG
+  torch.manual_seed(7)
+  m = HybridAttentionWithSAVG(8,2,4,2)
+  x = torch.randn(2,4,8)
+  z = x.clone(); z[:,1:] = torch.randn_like(z[:,1:])
+  with torch.no_grad():
+      print((m(x)[:,0] - m(z)[:,0]).abs().max().item())
+Result: 0.0. Only future tokens changed, not the position-zero query.
+
+Also RAN: Python compileall, tiny hypercube forward/backward, deliberate unconstrained-gate counterexample, codebook-seed replay, pure-Python SPO sampling replay, packaging metadata/wheel attempt, and isolated missing-sibling entry-point checks. No new accuracy figures are reported.
+
+Open gates:
+- lake build with lean-toolchain v4.33.1. Both files inspected, neither compiled here.
+- Real Triton compilation, GPU forward equivalence, backward equivalence and supported CUDA dtype/AMP behavior.
+- GPU latency and peak-memory measurements, forward and training separately.
+- Corrected benchmark training/generalization after items 1-4. No training ran in this rereview.
+- Clean wheel installation after item 13.
+- Logo regeneration and visual verification if that workflow is changed.
+
+PASTE-READY WORK ORDER
+Work against reviewed commit 40628e9 or rebase these findings onto the latest HEAD first. Do not change the intended S/A, CP-binding or polytope mathematics just to make an experiment pass. Do not edit TensorSAT as part of this task. Keep implementation defects separate from mathematical questions. Do not run large jobs until batch size, sequence length, dimensions, retained states and autograd memory have been budgeted.
+
+Address numbered items 1-4 before interpreting model accuracy. Address items 12-15 for a reliable install and executable examples. Align all claims and proof excerpts with actual evidence under items 5-7. Then validate GPU behavior under item 8 and decide the variant/geometry contracts under items 9-11. Item 16 is an independent portability cleanup.
+
+For every completed item, report the changed file, test or experiment, exact command, commit, environment and result. Keep unresolved design decisions explicit rather than choosing silently. Do not reuse the old accuracy, latency or directionality tables as results for the revised task.
+
+FRESHNESS
+Remote origin/main was re-fetched immediately before handoff at approximately 17:11:50 SAST and still resolved to 40628e9555d3b998689ae8a7db31f68ab4b9173d. Tracked working tree was clean after all review commands. This report is tied to that commit, not to any later push.

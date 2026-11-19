@@ -155,7 +155,7 @@ IMF supports high-dimensional configurations named via Jonathan Bowers' dimensio
 
 The continuous relaxation of the discrete crossing bounds is formally verified with zero external dependencies (pure Lean 4 core, tested with Lean `v4.33.1`) across two formal proof modules:
 
-### 4.1 Sector Symmetries ([`DiscreteToContinuousBridge.lean`](DiscreteToContinuousBridge.lean))
+### 4.1 Sector Symmetries ([`lean/DiscreteToContinuousBridge.lean`](lean/DiscreteToContinuousBridge.lean))
 
 ```lean
 /-- Theorem: Direct sum decomposition of continuous bilinear operators (2M = 2S + 2A) -/
@@ -175,7 +175,7 @@ theorem anti_sector_diag_zero {d : Nat} (M : MatrixSector d) (i : Fin d) :
     antiSector2 M i i = 0
 ```
 
-### 4.2 Orthogonality & Energy Conservation ([`ContinuousCrossingBounds.lean`](ContinuousCrossingBounds.lean))
+### 4.2 Orthogonality & Energy Conservation ([`lean/ContinuousCrossingBounds.lean`](lean/ContinuousCrossingBounds.lean))
 
 ```lean
 /-- Theorem: Pointwise Frobenius inner product of Symmetric and Antisymmetric sectors cancels to zero -/
@@ -196,45 +196,43 @@ theorem self_energy_purely_symmetric {d : Nat} (M : MatrixSector d) (i : Fin d) 
 
 ## 5. Empirical Benchmark Results (CUDA)
 
-All benchmarks were evaluated on CUDA using un-fused PyTorch modules and compared against `TensorSAT.hybrid.HybridSingletAttention` as an external baseline without modifying any baseline source code.
+All benchmark scripts are fully automated and evaluate both baseline and IMF-augmented architectures on CUDA (`NVIDIA GeForce RTX 5060 Ti`).
 
 ### 5.1 Multi-Query Associative Recall (MQAR)
 
-Evaluated under dense distractor noise across sequence lengths $N \in \{256, 512, 1024\}$:
+Evaluated under dynamic sequence-specific key-value pairs with a shared, persistent vocabulary codebook across training and held-out evaluation batches (`benchmark_mqar.py`):
 
-| Context Length ($N$) | Architecture | Initial Loss | Final Loss | Accuracy % | Step Latency |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| **256 tokens** | TensorSAT Baseline | 5.5682 | 0.0000 | **100.0%** | 8.3 ms |
-| | **IMF + SAVG (Simplex)** | 5.5214 | 0.0000 | **100.0%** | 17.3 ms |
-| **512 tokens** | TensorSAT Baseline | 5.5732 | 0.1276 | **95.3%** | 7.2 ms |
-| | **IMF + SAVG (Simplex)** | 5.5354 | 0.0004 | **100.0%** *(Noise Immune)* | 19.5 ms |
-| **1024 tokens** | TensorSAT Baseline | 5.5264 | 0.0005 | **100.0%** | 18.8 ms |
-| | **IMF + SAVG (Simplex)** | 5.5403 | 0.0005 | **100.0%** | 38.9 ms |
+| Context Length ($N$) | Architecture | Train Loss (60 steps) | Held-Out Eval Acc % | Step Latency |
+| :--- | :--- | :--- | :--- | :--- |
+| **128 tokens** | TensorSAT Baseline | 0.6989 | **1.6%** | 20.8 ms |
+| | **IMF + SAVG Channel** | **0.1364** | **1.6%** | **6.2 ms** |
+| **256 tokens** | TensorSAT Baseline | 0.8993 | **1.6%** | 9.5 ms |
+| | **IMF + SAVG Channel** | **0.0599** | **0.0%** | **9.0 ms** |
+
+> *Note on Generalization*: The toy training regime (60 steps on a small batch) demonstrates rapid training-set loss minimization and fast step times. True out-of-distribution associative recall on held-out sequences requires larger-scale pretraining across diverse sequence distributions.
 
 ### 5.2 Polytope Dimension & Family Comparison
 
-Evaluated on MQAR at $N = 512$ across higher-dimensional configurations:
+Evaluated on MQAR at $N = 512$ with a shared held-out evaluation batch across higher-dimensional configurations (`benchmark_polytopes.py`):
 
-| Configuration | Dim | Vertices ($K$) | Grid Slots | Final Loss | Accuracy % | Latency |
+| Configuration | Dim | Vertices ($K$) | Grid Slots | Final Train Loss | Held-Out Eval Acc % | Latency |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Tetrahedron** | 3D | 4 | $4 \times 4$ | 0.0145 | **100.0%** | 20.3 ms |
-| **Enneazetton Simplex** | 9D | 10 | $10 \times 10$ | 0.0323 | **100.0%** | 19.5 ms |
-| **Enneazetton Orthoplex**| 9D | 18 | $18 \times 18$ | 0.0024 | **100.0%** | 19.5 ms |
-| **Decayotton Simplex** | 10D | 11 | $11 \times 11$ | 0.0049 | **100.0%** | 18.5 ms |
-| **Decayotton Orthoplex** | 10D | 20 | $20 \times 20$ | **0.0001** ⭐ | **100.0%** | 19.1 ms |
-| **Hendecaxennon Simplex** | 11D | 12 | $12 \times 12$ | 0.0094 | **100.0%** | 18.5 ms |
-| **Hendecaxennon Orthoplex**| 11D | 22 | $22 \times 22$ | 0.0070 | **100.0%** | 18.6 ms |
-
-> **Key Discovery**: The **10D Decayotton Orthoplex** (20 antipodal vertices, 400 grid cells) achieved the lowest loss (**0.0001**) with **zero computational overhead** over the 3D baseline.
+| **Tetrahedron** | 3D | 4 | $4 \times 4$ | 0.0054 | 0.8% | 27.3 ms |
+| **Enneazetton Simplex** | 9D | 10 | $10 \times 10$ | 0.0055 | 2.3% | 26.5 ms |
+| **Enneazetton Orthoplex**| 9D | 18 | $18 \times 18$ | 0.0193 | 0.8% | 26.8 ms |
+| **Decayotton Simplex** | 10D | 11 | $11 \times 11$ | 0.0187 | 1.6% | 25.2 ms |
+| **Decayotton Orthoplex** | 10D | 20 | $20 \times 20$ | 0.0072 | 2.3% | 27.3 ms |
+| **Hendecaxennon Simplex** | 11D | 12 | $12 \times 12$ | 0.0057 | 0.8% | 24.0 ms |
+| **Hendecaxennon Orthoplex**| 11D | 22 | $22 \times 22$ | 0.0417 | 1.6% | 26.3 ms |
 
 ### 5.3 Directional Selectivity & Reversal Discrimination
 
-Measuring forward associative strength vs. backward leakage under structured pairs ($A \to B$):
+Evaluating forward associative training ($A \to B$) and reverse probing ($B \to ?$) with the query placed after contextual facts (`test_savg_directionality.py`):
 
-| Architecture | Forward Correlation | Backward Leakage | Directional Selectivity Ratio |
-| :--- | :--- | :--- | :--- |
-| **TensorSAT Baseline** | +0.0014 | -0.0039 | **0.36** |
-| **IMF + SAVG (Decoupled)** | +0.0019 | -0.0022 | **0.89** (**2.47× cleaner**) |
+| Architecture | Forward Accuracy ($A \to B$) | Forward Cosine | Reverse Leakage ($B \to A$) | Reverse Cosine | Directional Separation |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **TensorSAT Baseline** | 100.0% | +0.7432 | 6.2% | +0.0238 | +0.7194 |
+| **IMF + SAVG (Decoupled)** | 100.0% | +0.8238 | 18.8% | +0.1165 | +0.7074 |
 
 ---
 
@@ -300,15 +298,16 @@ from polytope_connector import ConfigurablePolytopeConnector
 from triton_savg_kernel import FusedSAVGLayer
 
 # 1. Polytope Connector (10D Decayotton Orthoplex: 20 vertices, 400 grid slots)
-connector = ConfigurablePolytopeConnector(d_model=64, preset="decayotton_orthoplex")
-x = torch.randn(16, 128, 64, device="cuda")
+device = "cuda" if torch.cuda.is_available() else "cpu"
+connector = ConfigurablePolytopeConnector(d_model=64, preset="decayotton_orthoplex").to(device)
+x = torch.randn(16, 128, 64, device=device)
 
 # Extract normalized barycentric coordinates
 coords = connector.get_coordinates(x)          # [16, 128, 20]
 grid_mod = connector.compute_grid_modulation(x) # [16, 128, 1, 1]
 
-# 2. Production Triton JIT Fused SAVG Layer (0.74 ms step latency)
-fused_layer = FusedSAVGLayer(d_model=64, preset="decayotton_orthoplex").cuda()
+# 2. Fused SAVG Layer
+fused_layer = FusedSAVGLayer(d_model=64, preset="decayotton_orthoplex").to(device)
 out = fused_layer(x)                            # [16, 128, 64]
 ```
 
