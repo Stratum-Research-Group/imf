@@ -369,7 +369,7 @@ The IMF project features 7 precision line-art logos engineered to the exact dime
 | **06** | `imf_logo_06_decayotton_decagonal_orbit` | **Decayotton 10D Decagonal Projection** — 10D regular polytope with dual nested decagonal shells & landmark orbits. |
 | **07** | `imf_logo_07_hendecaxennon_coordinate_frame` | **Hendecaxennon 11D Coordinate Frame** — 11-simplex higher-arity frame with chiral chords and metric foliation rings. |
 
-All logo files are located in `assets/logos/` in both 1376x768 JPEG and lossless PNG formats, generated via `scripts/build_imf_logos.py`.
+The primary IMF logo is located in `assets/imf_logo.jpg` (`1376x768`), with script-based generation for custom variants available in `scripts/build_imf_logos.py`.
 
 ---
 
