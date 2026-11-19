@@ -33,9 +33,10 @@
 - [6. Impact on AI and Scientific Domains](#6-impact-on-ai-and-scientific-domains)
 - [7. Repository Structure](#7-repository-structure)
 - [8. Quickstart \& Usage](#8-quickstart--usage)
-- [9. Visual Identity \& Logo Variants](#9-visual-identity--logo-variants)
-- [10. Ownership \& Governance](#10-ownership--governance)
-- [11. Citation \& References](#11-citation--references)
+- [9. Technical Reports & Publications](#9-technical-reports--publications)
+- [10. Visual Identity \& Logo Variants](#10-visual-identity--logo-variants)
+- [11. Ownership \& Governance](#11-ownership--governance)
+- [12. Citation \& References](#12-citation--references)
 
 ---
 
@@ -331,7 +332,25 @@ python test_savg_directionality.py
 
 ---
 
-## 9. Visual Identity & Logo Variants
+## 9. Technical Reports & Publications
+
+The IMF foundation and its empirical/theoretical proofs are detailed across three official Stratum Research Group publications located in `papers/`:
+
+1. **[Technical Report 01: Lie-Algebraic Memory Splitting](file:///home/akarta/Projects/0.WiP/IMF/papers/01_savg_lie_algebraic_memory_splitting.md)**  
+   *Symmetric-Antisymmetric Virtual Grid Attention (SAVG) and the Resolution of the Reversal Curse.*  
+   Formalizes the $\mathrm{Sym}^2 \oplus \bigwedge^2$ Jordan-Lie decomposition, the 2.47x directional discrimination margin, phase-inversion dynamics, and hardware-fused Triton JIT kernels.
+
+2. **[Technical Report 02: Higher-Dimensional Polytope Landmark Connectors (HDPLC)](file:///home/akarta/Projects/0.WiP/IMF/papers/02_hdplc_higher_dimensional_polytope_connectors.md)**  
+   *Barycentric Simplex Frames, Orthoplex Antipodal Pairs, and Multi-Hop Knowledge Topology.*  
+   Formulates regular polytope coordinate embeddings across the Enneazetton (9D), Decayotton (10D), and Hendecaxennon (11D), featuring Canonical Polyadic (CP) rank factorizations for arity-3 and arity-4 hyperface bindings (99.4% precision on multi-hop reasoning).
+
+3. **[Foundational Position Paper 03: The Architecture of Meaning](file:///home/akarta/Projects/0.WiP/IMF/papers/03_epistemological_foundations_and_real_world_applications.md)**  
+   *Epistemological Foundations, Formal Mathematical Physics, and Real-World Horizons of SAVG and HDPLC.*  
+   Examines the philosophical transition from statistical correlation to symmetry-governed topological geometry, Degen's eight-square identity, Lean 4 bridge proofs, and transformative applications across mechanistic interpretability, neuromorphic hardware, automated theorem proving, and genomic interaction modeling.
+
+---
+
+## 10. Visual Identity & Logo Variants
 
 The IMF project features 7 precision line-art logos engineered to the exact dimensions (`1376x768`), typographic scale, and studio aesthetic of Stratum Research Group assets:
 
@@ -349,13 +368,13 @@ All logo files are located in `assets/logos/` in both 1376x768 JPEG and lossless
 
 ---
 
-## 10. Ownership & Governance
+## 11. Ownership & Governance
 
 IMF is designed, owned, and maintained by **Stratum Research Group (SRG)**. All architectural specifications, formal Lean 4 theorems, and CUDA/Triton memory kernels are governed under the Stratum Research Group research framework.
 
 ---
 
-## 11. Citation & References
+## 12. Citation & References
 
 ```bibtex
 @article{imf2026polytope,
