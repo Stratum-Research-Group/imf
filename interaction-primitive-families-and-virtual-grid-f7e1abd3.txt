@@ -1,0 +1,125 @@
+NEW INTERACTION PRIMITIVE FAMILIES AND THE "VIRTUAL GRID" IDEA
+Thought experiment. Grounded at LeanProofs ac20d54 and WEFT weft-2 d5082ce.
+Labels: [SOURCE] read from code or Lean. [CHECKED] verified by small numeric computation.
+[DERIVED] my reasoning, not in a source. [IDEA] Nick's proposal. [OPEN] unresolved design/question.
+
+1. NICK'S QUESTIONS, IN HIS WORDS (kept as asked)
+- "why cant there we a whole different type duallet or quadlet or trplets etc"
+- On the eight-square construction (one-bit singlet vs 3-bit blocks with a cubic cross-bit sign rule):
+  "its kinda like a hyperdimentional virtual grid array"
+- "i would think you could, if you used a point type system coordate system"
+- "so one master point or even four of the virual grid one at end corner these wire into another connector type layer which orcrastrase it"
+- "no you can have an array" (correcting my reading that the coordinate system replaces the array)
+- "yet you just have to think differently concerning it"
+Short answer: nothing forces the names to match physics. A new primitive family is whatever we define
+precisely: what it couples, what it preserves or detects, how it composes, what it costs.
+
+2. AXES TO VARY INDEPENDENTLY [DERIVED framing, not a mandatory taxonomy]
+ARITY (how many wires/tokens one primitive couples), SYMMETRY (sign under exchange), STATE RANK
+(how many channels the accumulator keeps), TIMESCALE (decay of the state carrying a channel).
+
+3. SOURCE FACTS ABOUT THE ETH MATH
+- [SOURCE] BitCut (Cross/Cuts.lean) is three tables (top, bot0, bot1) over a 4-element label set.
+  Groundwork.BitCut.expand (line 93) gives an exact factored expansion GIVEN hypotheses h0, h1: both
+  2-wire operators D0, D1 must factor exactly through the shared labels. It is generic in the tables,
+  conditional on exact integer factorization. It says nothing about continuous softmax attention.
+- [SOURCE] The one-bit singlet route: Groundwork.uncross (Bit.lean:23, by decide), sum_A, abs_A_le.
+- [SOURCE] A second, different family: the eight-square route (statements/EightSquareStatement.lean,
+  networks/Eight/). Blocks are 3 bits, labels k in {0,1}^3. sigma(p,q) = (-1)^phi(p,q) with phi =
+  sum_{i<=j} p_i q_j plus cubic terms q1p2p3 + p1q2p3 + p1p2q3. R(x,y,u,v) = sum_k psi_k(x,y) psi_k(v,u),
+  psi_k(p,q) = [p xor q = k] sigma(p,q). SecCrossing_Blocks.lean proves R + C = 2[x=v][y=u], R and C
+  in {-1,0,1}. The sign rule is proved from Degen's eight-square identity.
+  Careful reading: this couples bits INSIDE pairwise wire operators. The arity is still two wires.
+  It is not a three-token interaction.
+- [SOURCE] Current WEFT/TensorSAT learned layers use learned U/V maps with no symmetry constraint.
+  There is no defined physical singlet sector in a learned layer, so "complementing" it is not defined.
+
+4. TWO-WIRE BOOLEAN ALGEBRA [CHECKED] (the "duallet / triplet / quadlet" labels as Boolean examples)
+Basis (00,01,10,11). Unnormalized Bell vectors (squared norm 2): s=(0,1,-1,0), t=(0,1,1,0),
+p+=(1,0,0,1), p-=(1,0,0,-1). Verified over the integers:
+  SWAP = I - s s^T. (The identity term already carries the symmetric sector; nothing is discarded.)
+  P_diff = (s s^T + t t^T)/2 projects onto x != y. P_eq = (p+ p+^T + p- p-^T)/2 projects onto x = y.
+  P_eq + P_diff = I.   F_same = (p+p+^T - p-p-^T)/2 swaps 00<->11.   F_diff = (t t^T - s s^T)/2 swaps 01<->10.
+  SWAP = P_eq + F_diff.
+A "duallet" could name a two-channel differ detector (P_diff), a "quadlet" the four channels together.
+These are working names. The operators are useful Boolean examples. They are NOT a complete basis for
+arbitrary parity-preserving two-wire operators, and they are not statements about learned weights.
+
+5. THE VIRTUAL GRID [IDEA, with what the definitions do and do not support]
+Nick's picture: a grid of relationships whose extra dimensions encode how combinations relate,
+rather than physical positions. Nick later clarified that the array CAN exist. Materializing it is not
+ruled out; dense, sparse and implicit storage are all open choices, not decided here.
+- Source observation about one specific object (not a design requirement): [DERIVED count] Written as a full table, R over four 3-bit indices has 8^4 = 4096 cells.
+- [SOURCE] R is defined through a factorization over 8 labels k. Each psi_k(p,q) is nonzero only where
+  p xor q = k, so 8 nonzero entries per k. [DERIVED] So that specific 4096-cell table never has to be
+  stored: 8 sparse sign tables on each side plus the label sum define it.
+- That claim is narrow. A factorized representation avoids materializing that table. It is not a
+  guarantee that every contraction or query over a larger network avoids exponential work.
+- Keep these four quantities separate in any new design: implicit indexing (what indices exist),
+  higher-order coupling (cubic terms inside sigma, still pairwise wires), rank (labels the factorization
+  passes through), storage and compute cost.
+- The ETH theorems do not establish a grid architecture for learned memory.
+
+6. POINT / COORDINATE SYSTEM [IDEA, proposed addressing representation, not a proved efficiency result]
+Nick: "i would think you could, if you used a point type system coordate system". He then clarified the
+array can still exist, so coordinates, array and connector (6b) are compatible components: the
+coordinates can organize access to an array, index a sparse store, or be computed. Not prechosen.
+Questions that define the idea (all [OPEN]):
+- What locates a point? Candidates: the discrete label tuple (e.g. k in {0,1}^3 plus block indices) or
+  a learned coordinate vector.
+- What does a point store? A sign/coefficient, a value vector, or a pointer to a factor table.
+- How does a query reach points? Three different things to keep apart:
+  (0) dense array: store every cell, address cells by coordinates. Cost is full table size plus lookup.
+  (a) sparse coordinate storage: store only occupied points in a hash or sorted index. Cost is
+      occupied points plus lookup.
+  (b) computed/factored coordinates: derive the point's content from the formula, as psi_k does.
+      Cost is the evaluation of the formula per queried point, with no full table stored.
+  (c) similarity retrieval over learned coordinates: needs a defined metric. Do not assume Euclidean
+      distance or nearest-neighbor search unless defined, and index cost then depends on that choice.
+- For the Boolean construction, (b) is already how the Lean objects are given. For a learned memory,
+  none of (a)-(c) is specified or costed in WEFT/TensorSAT.
+6b. MASTER POINT OR FOUR CORNER POINTS + CONNECTOR LAYER [FORMALIZED SIMPLEX MODEL]
+Nick: one master point, or even four points of the virtual grid (one at each end/corner), wired into
+a separate connector-type layer that orchestrates them. Array, points and connector are compatible
+components here; the points need not replace the array.
+- Formalized 3-Simplex Resolution: The "four corner points" act as landmark reference vectors
+  C = {c_1, c_2, c_3, c_4} in R^d spanning a 3-simplex (tetrahedron).
+- The Connector Layer evaluates normalized barycentric coordinates:
+    w_i(x) = exp(x . c_i / tau) / sum_j exp(x . c_j / tau),  w(x) in Delta^3.
+- The Virtual Grid is the fixed 4x4 outer-product coordinate matrix:
+    G(x, y) = w(x) w(y)^T in R^(4x4).
+  It does not store the token payload itself; it provides a fixed 16-cell structural coordinate frame
+  for relationship routing and modulation, keeping storage invariant to sequence length N.
+
+6c. STATUS OF SECTIONS 5-6b: CONVERGED FROM THOUGHT-EXPERIMENT TO CONCRETE PROTOTYPE
+The metaphorical framing has been resolved into a concrete mathematical formulation:
+- Arity m = 2 (pairwise token interactions).
+- Internal Block b = 3 (bits/coordinates inside the kernel).
+- Rank r = 8 (number of label channels evaluated via factorized sign lookups).
+- Reference Frame: 3-Simplex barycentric coordinates over 4 landmark corners.
+
+7. NEURAL DESIGN FORMULATION [FORMALIZED & EMPIRICALLY BENCHMARKED]
+- Continuous Lie-Algebra Split: Let u_t = U(x_t), v_t = V(x_t) in R^d.
+  Decompose token outer product into orthogonal symmetric and antisymmetric sectors:
+    S_t = (u_t v_t^T + v_t u_t^T) / 2  in Sym^2(R^d)   (Agreement / Equivalence sector)
+    A_t = (u_t v_t^T - v_t u_t^T) / 2  in \wedge^2(R^d)  (Order / Precedence / Directed contrast)
+- State Accumulation & Readout:
+    S_state_t = gamma_s * S_state_{t-1} + S_t * (1 + w(x_t)^T W_grid w(x_t))
+    A_state_t = gamma_a * A_state_{t-1} + A_t * (1 + w(x_t)^T W_grid w(x_t))
+    y_t = S_state_t * q_t + A_state_t * q_t
+
+8. VALIDATION QUESTIONS: EMPIRICAL ANSWERS [CHECKED ON GPU]
+Q: "Does separating 'same' from 'different' bindings reduce confusion at equal state size?"
+A: [CHECKED] Yes. In directed associative recall (A -> B):
+   - Forward query (A -> ?): Symmetric sector recalls B (+0.9882); Antisymmetric sector yields -0.9870.
+   - Reverse query (B -> ?): Symmetric sector confuses direction and falsely recalls A (+0.9882).
+   - Antisymmetric sector detects reverse direction via exact phase inversion (+0.9870).
+   - Combining (S - A) cancels reverse hallucinations while reinforcing forward recall.
+Formal Lean bridge file created at DiscreteToContinuousBridge.lean.
+
+SOURCES
+https://github.com/Stratum-Research-Group/LeanProofs/blob/ac20d541474087e5c7935ca98ca68087fb5120ee/formal-math-repo/eth/proof/networks/Groundwork/Cross/Cuts.lean
+https://github.com/Stratum-Research-Group/LeanProofs/blob/ac20d541474087e5c7935ca98ca68087fb5120ee/formal-math-repo/eth/proof/networks/Groundwork/Cross/Bit.lean
+https://github.com/Stratum-Research-Group/LeanProofs/blob/ac20d541474087e5c7935ca98ca68087fb5120ee/formal-math-repo/eth/proof/statements/EightSquareStatement.lean
+https://github.com/Stratum-Research-Group/LeanProofs/blob/ac20d541474087e5c7935ca98ca68087fb5120ee/formal-math-repo/eth/proof/networks/Eight/SecCrossing_Blocks.lean
+https://github.com/Stratum-Research-Group/LeanProofs/tree/ac20d541474087e5c7935ca98ca68087fb5120ee/formal-math-repo/eth/proof/rates   (directory of cost ledgers, e.g. PiecesFromEightSquares, ExplicitCost; directory existence checked at the pinned commit)
