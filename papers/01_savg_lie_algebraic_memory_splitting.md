@@ -149,45 +149,45 @@ acc_sym = alpha * acc_sym + grid_scale * sym_outer
 acc_skew = beta * acc_skew + grid_scale * skew_outer
 ```
 
-### 4.2 Latency and Memory Benchmarks
+### 4.2 Empirical Execution and Hardware Efficiency
 
-On an NVIDIA RTX 4090 / Blackwell architecture (tested on CUDA 13.2 / PyTorch 2.15), SAVG demonstrates superior compute efficiency:
+The Triton JIT kernel fuses state accumulation, exponential decay, and output contraction into SRAM tiles, avoiding materialization of $O(B \cdot T \cdot d^2)$ full state trajectories in global memory during forward evaluation.
 
-| Architecture | Forward Step Latency (ms) | Peak VRAM ($N=4096$) | Reversal Discrimination Ratio |
+In local empirical benchmarks on consumer GPU hardware (NVIDIA GeForce RTX 5060 Ti, CUDA, PyTorch 2.15), single-step recurrent forward times scale with token dimension:
+
+| Configuration | Sequence Length ($N$) | Step Latency (ms) | Peak Memory Profile |
 |:---|:---:|:---:|:---:|
-| Standard Linear Attention | 1.84 ms | 1.42 GB | 1.02x (Indifferent) |
-| Standard Transformer (FlashAttn-2) | 4.88 ms | 3.85 GB | 1.14x (Marginal) |
-| TensorSAT Hybrid Baseline | 22.46 ms | 4.10 GB | 1.38x |
-| **SAVG (Ours, Fused Triton)** | **0.74 ms** | **0.88 GB** | **2.47x (Strong Rejection)** |
-
-The Triton JIT kernel achieves a **6.59x speedup** over unfused PyTorch baselines, executing a full forward step in 0.74 ms while cutting memory consumption by 78%.
+| Fused SAVG Layer ($d=64$) | 128 | ~6.20 ms | $O(B \cdot d^2)$ bounded |
+| Fused SAVG Layer ($d=64$) | 256 | ~8.96 ms | $O(B \cdot d^2)$ bounded |
+| TensorSAT Hybrid Baseline | 128 | ~20.81 ms | Attention cache bounded |
 
 ---
 
 ## 5. Empirical Evaluation
 
 ### 5.1 Multi-Query Associative Recall (MQAR) Under Noise
-We benchmarked SAVG on Multi-Query Associative Recall tasks at sequence lengths $N \in \{128, 256, 512, 1024, 4096\}$ with 16 to 128 key-value pairs embedded amidst random distractor tokens.
+We evaluated SAVG on Multi-Query Associative Recall tasks at sequence lengths $N \in \{128, 256\}$ with dynamic, sequence-specific key-value pairs and distractor tokens, utilizing a shared, persistent vocabulary codebook across train and evaluation batches (`benchmark_mqar.py`).
 
-```
-Accuracy (%) vs Context Length (N)
-100% ┤  SAVG ───────────────────────────────┐ (96.8% at N=4096)
- 80% ┤                                      └────────────┐
- 60% ┤  Transformer (FlashAttn) ────────────┐            │
- 40% ┤  Linear Attention ────────┐          │            │
- 20% ┤                            │          │            │
-  0% ┴─────────┬──────────┬───────┴──┬───────┴──┬─────────┴──
-            N=128      N=256       N=512     N=1024    N=4096
-```
+| Sequence Length ($N$) | Architecture | Training Loss (60 steps) | Held-Out Eval Acc % | Step Latency |
+|:---|:---|:---:|:---:|:---:|
+| **128 tokens** | TensorSAT Baseline | 0.6989 | 1.6% | 20.81 ms |
+| | **TensorSAT + SAVG** | **0.1364** | 1.6% | **6.20 ms** |
+| **256 tokens** | TensorSAT Baseline | 0.8993 | 1.6% | 9.52 ms |
+| | **TensorSAT + SAVG** | **0.0599** | 0.0% | **8.96 ms** |
 
-While linear attention mechanisms collapse to near-zero accuracy beyond $N=512$ due to distractor noise accumulation, SAVG retains **96.8% retrieval accuracy** at $N=4096$, driven by the metric localization of the virtual grid and the skew-symmetric suppression of non-causal associations.
+*Analysis*: In small-scale few-step optimization (60 steps), SAVG accelerates training loss minimization by an order of magnitude compared to standard unaugmented attention. However, because both models are trained from scratch on toy sequences without broad pretraining, neither model generalizes to held-out evaluation queries without an extensive pretraining curriculum.
 
 ### 5.2 Directional Reversal Discrimination
-To evaluate resolution of the Reversal Curse, models were trained on ordered knowledge triples $(E_1 \xrightarrow{R} E_2)$ and probed with:
-1. **Forward Query**: $E_1 \xrightarrow{R} ?$ (Expected: $E_2$)
-2. **Reverse Query**: $E_2 \xrightarrow{R} ?$ (Expected: Rejection / Nil, not $E_1$)
+To evaluate causal directionality and the Reversal Curse, models were trained on directed in-context associations where fact pairs $(A \to B)$ appear at positions 0–1, followed by a query probe at position 2 (`test_savg_directionality.py`):
+1. **Forward Query**: Probe with $A$ at pos 2 (Expected target: $B$)
+2. **Reverse Probe**: Probe with $B$ at pos 2 (Evaluating false reverse recall of $A$)
 
-Standard attention mechanisms retrieve $E_1$ on the reverse query with 89.2% probability (false backward hallucination). In contrast, SAVG outputs a **negative retrieval logit** ($\mathcal{S}_{\mathrm{rev}} = -0.412$ vs $\mathcal{S}_{\mathrm{fwd}} = +1.018$), achieving a **2.47x directional discrimination margin** that structurally prevents the model from conflating causal directionality.
+| Architecture | Forward Accuracy ($A \to B$) | Forward Cosine | Reverse False Recall ($B \to A$) | Reverse Cosine | Directional Separation |
+|:---|:---:|:---:|:---:|:---:|:---:|
+| TensorSAT Baseline | 100.0% | +0.7432 | 6.2% | +0.0238 | +0.7194 |
+| **TensorSAT + SAVG** | **100.0%** | **+0.8238** | 18.8% | +0.1165 | **+0.7074** |
+
+SAVG produces higher forward associative correlation (+0.8238 vs +0.7432) for directed pairs. While skew-symmetric state accumulation algebraically suppresses symmetric cross-talk, practical complete suppression of false backward attribution in neural models requires explicitly thresholded rejection heads rather than uncalibrated linear readout.
 
 ---
 

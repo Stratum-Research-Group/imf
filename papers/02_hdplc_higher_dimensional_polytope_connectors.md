@@ -8,7 +8,7 @@
 
 ## Abstract
 
-Continuous vector embeddings in deep sequence architectures reside in unconstrained Euclidean geometries $\mathbb{R}^d$, lacking topological coordinate reference anchors to structure multi-relational binding and multi-hop inference. In this work, we present **Higher-Dimensional Polytope Landmark Connectors (HDPLC)**, a geometric coordinate system that projects continuous state representations onto the hyperfaces of high-dimensional regular polytopes: the **Enneazetton** (9D simplex/orthoplex), the **Decayotton** (10D simplex/orthoplex), and the **Hendecaxennon** (11D simplex/orthoplex). By parameterizing landmark geometries as convex barycentric hulls ($D$-simplex with $D+1$ vertices) and antipodal coordinate pairs ($D$-orthoplex with $2D$ vertices), HDPLC constructs a continuous virtual grid that bounds relational density, prevents spatial crowding, and facilitates Canonical Polyadic (CP) rank factorizations for higher-arity ($m \ge 3$) hyperface interactions. Empirical evaluations demonstrate that HDPLC enables exact 3-hop and 4-hop multi-entity relational traversal across complex knowledge graphs with 99.4% precision, eliminating intermediate state decay and enabling $O(N)$ linear-context knowledge reasoning.
+Continuous vector embeddings in deep sequence architectures reside in unconstrained Euclidean geometries $\mathbb{R}^d$, lacking topological coordinate reference anchors to structure multi-relational binding and multi-hop inference. In this work, we present **Higher-Dimensional Polytope Landmark Connectors (HDPLC)**, a geometric coordinate system that projects continuous state representations onto the hyperfaces of high-dimensional regular polytopes: the **Enneazetton** (9D simplex/orthoplex), the **Decayotton** (10D simplex/orthoplex), and the **Hendecaxennon** (11D simplex/orthoplex). By parameterizing landmark geometries as convex barycentric hulls ($D$-simplex with $D+1$ vertices) and antipodal coordinate pairs ($D$-orthoplex with $2D$ vertices), HDPLC constructs a continuous virtual grid that bounds relational density, prevents spatial crowding, and facilitates Canonical Polyadic (CP) rank factorizations for higher-arity ($m \ge 3$) hyperface interactions. We formalize the geometric parameterization, implement CP-factorized hyperface bindings, and benchmark configuration properties across relational retrieval tasks.
 
 ---
 
@@ -109,25 +109,22 @@ $$\mathbf{y} = W_{\mathrm{out}} \left( \mathbf{h}_{\mathrm{modulated}} W_{\mathr
 
 ## 5. Empirical Evaluation on Multi-Hop Knowledge Traversal
 
-To evaluate HDPLC's ability to maintain relational structures over multi-step reasoning, we deployed the **SPO Multi-Hop Benchmark** and the **Dense 3-Hop Stress Test** (`benchmark_spo_multihop.py` and `stress_spo_multihop.py`).
+To evaluate HDPLC's ability to maintain relational structures over multi-step reasoning, we evaluated the **SPO Multi-Hop Benchmark** and the **3-Hop Stress Test** (`benchmark_spo_multihop.py` and `stress_spo_multihop.py`).
 
 ### 5.1 Multi-Hop Knowledge Chains
-Knowledge graphs containing 256 interconnected entity chains of length $L \in \{1, 2, 3, 4\}$ were embedded into persistent memory:
+Knowledge chains over a fixed deterministic transition function $e_{t+1} = T(e_t, r_t) = (e_t \cdot (r_t + 1) + (r_t + 3)) \pmod N$ were constructed without target leakage in the input query. Models were prompted with the head entity and the ordered relation sequence ($E_1 + [R_1, R_2] \to ?$) and evaluated on predicting the correct tail entity:
 
-$$E_1 \xrightarrow{R_1} E_2 \xrightarrow{R_2} E_3 \xrightarrow{R_3} E_4$$
+| Task | Model Architecture | Train Loss | Train Acc % | Held-Out Acc % | Step Latency |
+|:---|:---|:---:|:---:|:---:|:---:|
+| **2-Hop Query** | Pairwise Attention (Arity-2) | 0.0000 | 100.0% | 2.0% | 5.95 ms |
+| | **Simplex Hyperface (Arity-3)** | **0.0000** | **100.0%** | 0.8% | **1.76 ms** |
+| **3-Hop Stress** | Pairwise Attention (Arity-2) | 0.0000 | 100.0% | 0.4% | 13.49 ms |
+| | **Simplex Hyperface (Arity-3)** | **0.0000** | **100.0%** | 0.8% | **1.86 ms** |
 
-Models were prompted with the head entity and the relational path ($E_1 + [R_1, R_2, R_3] \to ?$) and evaluated on retrieving the correct tail entity $E_4$.
-
-| Architecture | 1-Hop Accuracy | 2-Hop Accuracy | 3-Hop Accuracy | 4-Hop Accuracy |
-|:---|:---:|:---:|:---:|:---:|
-| Standard Transformer (Llama-style MLP) | 98.4% | 76.2% | 48.1% | 21.6% |
-| Linear Attention (Outer Product) | 94.2% | 58.7% | 29.4% | 11.2% |
-| Mamba (SSM Recurrence) | 96.5% | 71.3% | 42.8% | 19.5% |
-| **HDPLC (Decayotton Orthoplex, D=10)** | **99.8%** | **99.5%** | **99.4%** | **97.8%** |
-| **HDPLC (Hendecaxennon Simplex, D=11)** | **99.9%** | **99.6%** | **99.5%** | **98.2%** |
+*Findings*: The CP-factorized higher-arity simplex module executes substantially faster than pairwise attention (1.76 ms vs 5.95 ms for 2-hop; 1.86 ms vs 13.49 ms for 3-hop) while achieving zero training loss within 60 steps. However, true zero-shot relational composition on held-out chains requires extensive multi-task pretraining beyond small-batch toy optimization.
 
 ### 5.2 Geometric Collision and Spatial Crowding Resistance
-Under dense knowledge accumulation ($N > 1000$ relational triples), standard continuous memory exhibits eigenvalue collapse: new triples overwrite existing connections. HDPLC's polytope grid partitions the latent space into discrete barycentric sectors, ensuring that unrelated facts reside in distinct simplicial faces. This architecture achieves a **0.0% false-positive collision rate** across 10,000 synthetic multi-entity queries.
+HDPLC's polytope grid partitions the latent space into bounded barycentric sectors. In contrast to unconstrained Euclidean vectors which undergo angular collapse as dimension increases, regular polytope vertex frames enforce distinct simplicial faces that provide structural regularization across latent states.
 
 ---
 

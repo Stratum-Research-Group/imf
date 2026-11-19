@@ -25,7 +25,7 @@ In theoretical physics, continuous symmetries give rise to conserved physical qu
 The IMF paradigm restores mathematical discipline to neural computing by establishing:
 1. **Algebraic Invariance via Lie Decompositions**: Explicitly segregating commutative equivalence ($\mathrm{Sym}^2$) from anti-commutative causal flow ($\bigwedge^2 \cong \mathfrak{so}(d)$).
 2. **Topological Invariance via Polytope Convex Hulls**: Constraining continuous activations within the bounded barycentric coordinate frames of regular polytopes (Enneazetton, Decayotton, Hendecaxennon).
-3. **Formal Verification via Interactive Theorem Provers**: Formally proving that continuous metric modulations remain non-degenerate and strictly positive using Lean 4.
+3. **Formal Verification via Interactive Theorem Provers**: Formally proving the algebraic sector direct sum decomposition and Frobenius orthogonality using Lean 4.
 
 ```
                            THE EPISTEMOLOGICAL TRANSITION
@@ -63,25 +63,24 @@ Why do regular polytopes in dimensions 9, 10, and 11 play such a pivotal role in
 The synthesis of SAVG and HDPLC unlocks unprecedented capabilities across five major industrial and scientific domains:
 
 ### 3.1 Mechanistic Interpretability and Circuit Auditing
-A primary blocker in enterprise and defense AI adoption is the "black box" nature of neural activations. In standard models, polysemantic neurons fire for hundreds of unrelated concepts due to superposition.
-- **Direct Polytope Readouts**: In HDPLC, every hidden state is projected onto the known vertices and edges of a regular polytope. Activations can be decomposed into an exact human-readable barycentric ledger:
-  $$\mathbf{x} = 0.62 \cdot \text{Vertex}_{\text{Temporal}} + 0.28 \cdot \text{Vertex}_{\text{CausalHead}} + 0.10 \cdot \text{Vertex}_{\text{Conditional}}$$
-- **Auditable Causal Tracing**: Because SAVG segregates causal flow into $\mathfrak{so}(d)$, model auditors can mathematically extract the direction of every inference step by computing the antisymmetric commutator matrix, proving whether a decision was guided by evidence or retrograde confabulation.
+A primary blocker in enterprise AI adoption is the "black box" nature of neural activations. In standard models, polysemantic neurons fire for hundreds of unrelated concepts due to superposition.
+- **Polytope Landmark Decompositions**: In HDPLC, hidden states are projected onto regular polytope vertex frames. While learned landmark vectors require supervised probing to establish human-interpretable labels, the normalized barycentric weights $w_i(x)$ provide a bounded, localized convex coordinate framework.
+- **Auditable Causal Tracing**: Because SAVG segregates directional flow into $\mathfrak{so}(d)$, model auditors can analyze inference flow by inspecting the antisymmetric sector matrix, evaluating whether activations reflect symmetric association or directed transitions.
 
 ### 3.2 Formal Autonomous Reasoning and Multi-Hop Knowledge Navigation
-Current agentic workflows suffer from "hallucination loops" when attempting multi-step logical deduction: as step count increases, intermediate errors compound exponentially.
-- **Deterministic Multi-Hop Graph Traversal**: Using HDPLC's higher-arity simplex hyperface modules ($m=3, 4$), autonomous agents can bind Subject-Predicate-Object-Context tuples with near-zero degradation. As shown in our empirical stress tests, HDPLC sustains **99.4% precision on 3-hop and 4-hop logical chains**, enabling reliable automated legal discovery, intelligence analysis, and multi-document synthesis.
-- **Immunity to the Reversal Curse**: In intelligence and threat analysis, discovering that *Agent X contacted Agent Y* must not imply that *Agent Y initiated contact with Agent X*. SAVG's 2.47x directional discrimination margin guarantees strict asymmetry in security-critical attribution graphs.
+Current agentic workflows suffer from degradation when attempting multi-step logical deduction:
+- **Multi-Hop Graph Traversal**: Using HDPLC's higher-arity simplex hyperface modules ($m=3, 4$), models bind Subject-Predicate-Object-Context tuples with CP factorizations that evaluate significantly faster than standard unrolled pairwise attention while maintaining stable loss convergence.
+- **Directional Discrimination**: In intelligence and threat analysis, discovering that *Agent X contacted Agent Y* must not imply that *Agent Y initiated contact with Agent X*. SAVG's antisymmetric sector enforces non-commutative state updates that distinguish forward transitions from retrograde leakage.
 
 ### 3.3 Automated Scientific Discovery and Theorem Proving
-Automated theorem proving in systems like Lean 4, Isabelle, and Coq requires exploring vast combinatorial search trees where directionality is absolute: a premise leads to a conclusion, but a conclusion does not prove the premise.
-- **Lean 4 Proof Search Acceleration**: By replacing standard attention with SAVG, proof-search language models can evaluate goal-directed inference without drifting into backwards circular proofs.
-- **Continuous Crossing Bounds**: Because IMF's bridge between continuous activations and discrete logic is formally verified in Lean 4, models built on IMF can natively interface with formal proof environments without the impedance mismatch that plagues conventional LLMs.
+Automated theorem proving in systems like Lean 4, Isabelle, and Coq requires exploring search trees where directionality is absolute:
+- **Proof Search Traversal**: By modeling directed transitions via skew-symmetric channels, proof-search models can evaluate goal-directed inference while penalizing backwards circular steps.
+- **Formally Verified Sector Algebra**: Because IMF's algebraic decomposition is formally verified in Lean 4 without external Mathlib dependencies, the formal properties of the operator are mathematically proven.
 
 ### 3.4 Hardware-Efficient Edge AI and Neuromorphic Computing
-Current generative AI is crippled by massive energy and memory requirements: FlashAttention-2 requires huge SRAM buffers, and linear attention loses memory retention over long sequences.
-- **Sub-Millisecond Edge Execution**: Our fused Triton JIT kernel executes an entire SAVG memory update in **0.74 ms** on consumer GPU hardware, cutting memory usage by 78% relative to standard transformers.
-- **Non-Volatile Neuromorphic Mapping**: The antipodal pairs of HDPLC orthoplexes map directly onto crossbar arrays and memristor cross-point architectures: a positive pole corresponds to $+V_{\mathrm{read}}$ and a negative pole to $-V_{\mathrm{read}}$, opening the path to ultra-low-power edge hardware that operates at microwatt power envelopes.
+Edge deployment requires disciplined compute and memory bounds:
+- **Fused Memory Updates**: The Triton JIT kernel executes SAVG memory updates in bounded SRAM tiles, avoiding global memory materialization of intermediate outer products.
+- **Non-Volatile Neuromorphic Mapping**: The antipodal pairs of HDPLC orthoplexes map directly onto crossbar arrays and memristor cross-point architectures: a positive pole corresponds to $+V_{\mathrm{read}}$ and a negative pole to $-V_{\mathrm{read}}$, presenting opportunities for low-power neuromorphic implementations.
 
 ### 3.5 Genomic Architecture and Macromolecular Interaction Modeling
 Biological sequence modeling (DNA, RNA, proteins) is inherently governed by spatial chirality, directional reading ($5' \to 3'$ versus $3' \to 5'$), and higher-order multi-body interactions (tertiary and quaternary folding).
