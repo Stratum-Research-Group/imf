@@ -7,8 +7,10 @@ package "IMF" where
 
 @[default_target]
 lean_lib «DiscreteToContinuousBridge» where
+  srcDir := "lean"
   roots := #[`DiscreteToContinuousBridge]
 
 @[default_target]
 lean_lib «ContinuousCrossingBounds» where
+  srcDir := "lean"
   roots := #[`ContinuousCrossingBounds]

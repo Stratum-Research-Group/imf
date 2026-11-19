@@ -258,9 +258,12 @@ Measuring forward associative strength vs. backward leakage under structured pai
 ```
 IMF/
 ├── README.md                                          # Comprehensive documentation & grounded theory
-├── interaction-primitive-families-and-virtual-grid-f7e1abd3.txt  # Exploratory research notes
-├── DiscreteToContinuousBridge.lean                    # Lean 4 sector symmetry proofs (Integer ring)
-├── ContinuousCrossingBounds.lean                      # Lean 4 Frobenius orthogonality & energy bounds
+├── pyproject.toml                                     # Python project configuration (uv / pip)
+├── lakefile.lean                                      # Lean 4 Lake configuration
+├── lean-toolchain                                     # Lean 4 version pinning (v4.33.1)
+├── lean/                                              # Formally verified Lean 4 theorems
+│   ├── DiscreteToContinuousBridge.lean                # Sector symmetry & direct sum decomposition
+│   └── ContinuousCrossingBounds.lean                  # Frobenius orthogonality & energy conservation
 ├── polytope_connector.py                              # Configurable higher-dimensional polytope connector
 ├── triton_savg_kernel.py                              # Triton GPU fused scan with Autograd backward support
 ├── higher_arity_simplex.py                            # Arity-3 and Arity-4 CP-factorized simplex tensor bindings
@@ -273,6 +276,7 @@ IMF/
 ├── tests/                                             # Automated pytest verification test suite
 ├── scripts/                                           # Asset and logo generation scripts
 ├── papers/                                            # Research reports and theoretical foundations
+├── docs/reviews/                                      # Specification notes and peer reviews
 └── assets/                                            # Project brand assets and logos
 ```
 
@@ -312,10 +316,9 @@ out = fused_layer(x)                            # [16, 128, 64]
 
 ```bash
 # 1. Verify formal Lean 4 theorems (Zero Mathlib dependency)
-lean DiscreteToContinuousBridge.lean
-lean ContinuousCrossingBounds.lean
+lake build
 
-# 2. Benchmark Triton JIT Fused GPU kernel (6.59x speedup)
+# 2. Benchmark Triton JIT Fused GPU kernel & verify backward autograd
 python triton_savg_kernel.py
 
 # 3. Test Higher-Arity Simplex (Arity-3 Multi-Hop Knowledge Traversal)
