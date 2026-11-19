@@ -15,8 +15,17 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-sys.path.insert(0, os.path.abspath("../TensorSAT"))
-from tensorsat.hybrid import HybridSingletAttention
+CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
+TENSORSAT_PATH = os.path.abspath(os.path.join(CURRENT_DIR, "..", "TensorSAT"))
+if os.path.exists(TENSORSAT_PATH) and TENSORSAT_PATH not in sys.path:
+    sys.path.insert(0, TENSORSAT_PATH)
+
+try:
+    from tensorsat.hybrid import HybridSingletAttention
+    HAS_TENSORSAT = True
+except ImportError:
+    HAS_TENSORSAT = False
+
 from polytope_connector import ConfigurablePolytopeConnector
 from benchmark_mqar import generate_mqar_batch, MQARModelWrapper
 

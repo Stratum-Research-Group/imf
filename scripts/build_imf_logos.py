@@ -506,9 +506,10 @@ CONCEPTS = [
 
 
 def main():
-    imf_assets = Path("/home/akarta/Projects/0.WiP/IMF/assets/logos")
+    repo_root = Path(__file__).resolve().parent.parent
+    imf_assets = repo_root / "assets" / "logos"
     imf_assets.mkdir(parents=True, exist_ok=True)
-    branding_dir = Path("/home/akarta/Projects/z.branding")
+    branding_dir = repo_root.parent.parent / "z.branding"
 
     print(f"[*] Building 7 precision IMF logos at {WIDTH}x{HEIGHT} (2x supersampled to {W_S}x{H_S})...")
 
@@ -543,13 +544,13 @@ def main():
 
         # Also copy primary variant to /assets/imf_logo.jpg for default repo presentation
         if i == 0:
-            default_jpg = Path("/home/akarta/Projects/0.WiP/IMF/assets/imf_logo.jpg")
-            default_png = Path("/home/akarta/Projects/0.WiP/IMF/assets/imf_logo.png")
+            default_jpg = repo_root / "assets" / "imf_logo.jpg"
+            default_png = repo_root / "assets" / "imf_logo.png"
             composite.save(default_jpg, quality=98, subsampling=0)
             composite.save(default_png)
             print(f"      -> Created default primary logo: {default_jpg}")
 
-        # Also copy to z.branding for centralized asset access
+        # Also copy to z.branding if available
         if branding_dir.is_dir():
             import shutil
             shutil.copy(jpg_path, branding_dir / jpg_path.name)
