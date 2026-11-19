@@ -58,6 +58,7 @@ py-modules = [
     "higher_arity_simplex",
     "polytope_connector",
     "pretrain_imf_lm",
+    "demo_char_lm",
     "stress_spo_multihop",
     "test_savg_directionality",
     "test_savg_harness",

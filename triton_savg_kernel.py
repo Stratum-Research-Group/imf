@@ -158,6 +158,65 @@ def pytorch_reference_savg_scan(U, V, Q, grid_mod, gamma_s=0.999, gamma_a=0.990)
     return Out
 
 
+def analytic_savg_backward(U, V, Q, grid_mod, grad_out, gamma_s=0.999, gamma_a=0.990):
+    """
+    Exact O(B * d^2) memory reverse adjoint pass for SAVG scan.
+    Eliminates O(B * T * d^2) intermediate autograd graph storage.
+    """
+    B, T, D = U.shape
+    device = U.device
+    dtype = U.dtype
+
+    grad_U = torch.zeros_like(U)
+    grad_V = torch.zeros_like(V)
+    grad_Q = torch.zeros_like(Q)
+    grad_g = torch.zeros_like(grid_mod)
+
+    # Reconstruct forward states with low memory overhead
+    S_fwd = []
+    A_fwd = []
+    curr_S = torch.zeros(B, D, D, device=device, dtype=dtype)
+    curr_A = torch.zeros(B, D, D, device=device, dtype=dtype)
+
+    for t in range(T):
+        u_t, v_t = U[:, t], V[:, t]
+        g_t = grid_mod[:, t].view(B, 1, 1)
+        sym = 0.5 * (torch.bmm(u_t.unsqueeze(2), v_t.unsqueeze(1)) + torch.bmm(v_t.unsqueeze(2), u_t.unsqueeze(1)))
+        anti = 0.5 * (torch.bmm(u_t.unsqueeze(2), v_t.unsqueeze(1)) - torch.bmm(v_t.unsqueeze(2), u_t.unsqueeze(1)))
+        curr_S = gamma_s * curr_S + g_t * sym
+        curr_A = gamma_a * curr_A + g_t * anti
+        S_fwd.append(curr_S)
+        A_fwd.append(curr_A)
+
+    adj_S = torch.zeros(B, D, D, device=device, dtype=dtype)
+    adj_A = torch.zeros(B, D, D, device=device, dtype=dtype)
+
+    for t in reversed(range(T)):
+        u_t, v_t, q_t = U[:, t], V[:, t], Q[:, t]
+        g_t = grid_mod[:, t].view(B, 1, 1)
+        d_out_t = grad_out[:, t]
+
+        net_t = S_fwd[t] + A_fwd[t]
+        grad_Q[:, t] = torch.bmm(net_t.transpose(1, 2), d_out_t.unsqueeze(-1)).squeeze(-1)
+
+        d_net_t = torch.bmm(d_out_t.unsqueeze(-1), q_t.unsqueeze(-2))
+        adj_S = adj_S + 0.5 * (d_net_t + d_net_t.transpose(1, 2))
+        adj_A = adj_A + 0.5 * (d_net_t - d_net_t.transpose(1, 2))
+
+        sym = 0.5 * (torch.bmm(u_t.unsqueeze(2), v_t.unsqueeze(1)) + torch.bmm(v_t.unsqueeze(2), u_t.unsqueeze(1)))
+        anti = 0.5 * (torch.bmm(u_t.unsqueeze(2), v_t.unsqueeze(1)) - torch.bmm(v_t.unsqueeze(2), u_t.unsqueeze(1)))
+        grad_g[:, t] = (adj_S * sym + adj_A * anti).sum(dim=[1, 2])
+
+        eff_adj = g_t * (adj_S + adj_A)
+        grad_U[:, t] = torch.bmm(eff_adj, v_t.unsqueeze(-1)).squeeze(-1)
+        grad_V[:, t] = torch.bmm(eff_adj.transpose(1, 2), u_t.unsqueeze(-1)).squeeze(-1)
+
+        adj_S = gamma_s * adj_S
+        adj_A = gamma_a * adj_A
+
+    return grad_U, grad_V, grad_Q, grad_g
+
+
 class SAVGScanFunction(torch.autograd.Function):
     @staticmethod
     def forward(ctx, U, V, Q, grid_mod, gamma_s=0.999, gamma_a=0.990, use_triton=True):
@@ -188,16 +247,11 @@ class SAVGScanFunction(torch.autograd.Function):
 
     @staticmethod
     def backward(ctx, grad_out):
-        # Full autograd gradient via unrolled reference graph
         U, V, Q, grid_mod = ctx.saved_tensors
-        with torch.enable_grad():
-            U_ref = U.detach().requires_grad_(True)
-            V_ref = V.detach().requires_grad_(True)
-            Q_ref = Q.detach().requires_grad_(True)
-            g_ref = grid_mod.detach().requires_grad_(True)
-            out_ref = pytorch_reference_savg_scan(U_ref, V_ref, Q_ref, g_ref, ctx.gamma_s, ctx.gamma_a)
-            out_ref.backward(grad_out)
-        return U_ref.grad, V_ref.grad, Q_ref.grad, g_ref.grad, None, None, None
+        grad_U, grad_V, grad_Q, grad_g = analytic_savg_backward(
+            U, V, Q, grid_mod, grad_out, ctx.gamma_s, ctx.gamma_a
+        )
+        return grad_U, grad_V, grad_Q, grad_g, None, None, None
 
 
 class FusedSAVGLayer(nn.Module):
@@ -209,17 +263,23 @@ class FusedSAVGLayer(nn.Module):
         self.W_u = nn.Linear(d_model, d_model, bias=False)
         self.W_v = nn.Linear(d_model, d_model, bias=False)
         self.W_q = nn.Linear(d_model, d_model, bias=False)
+        self.W_gate = nn.Linear(d_model, d_model, bias=True)
         self.out_proj = nn.Linear(d_model, d_model, bias=False)
         self.connector = ConfigurablePolytopeConnector(d_model, preset=preset)
+
+        # Initialize gate bias to favor balanced symmetric/antisymmetric mixture
+        nn.init.zeros_(self.W_gate.bias)
 
     def forward(self, x: torch.Tensor, use_triton: bool = True) -> torch.Tensor:
         U = self.W_u(x)
         V = self.W_v(x)
         Q = self.W_q(x)
+        gate = torch.sigmoid(self.W_gate(x))
 
         grid_mod = self.connector.compute_grid_modulation(x).squeeze(-1).squeeze(-1)
         out_scan = SAVGScanFunction.apply(U, V, Q, grid_mod, 0.999, 0.990, use_triton)
-        return self.out_proj(out_scan)
+        # Dynamic gated routing: gate balances symmetric and directional features
+        return self.out_proj(gate * out_scan)
 
     def init_state(self, batch_size: int, device: torch.device, dtype=torch.float32):
         """Initializes constant O(1) state matrices for streaming autoregressive decoding."""
@@ -287,7 +347,8 @@ class FusedSAVGLayer(nn.Module):
             net_state = S_next + A_next
             out_t = torch.bmm(net_state, q_t.unsqueeze(-1)).squeeze(-1)
 
-        return self.out_proj(out_t), (S_next, A_next)
+        gate_t = torch.sigmoid(self.W_gate(x_t))
+        return self.out_proj(gate_t * out_t), (S_next, A_next)
 
 
 def run_timing_and_verification():
