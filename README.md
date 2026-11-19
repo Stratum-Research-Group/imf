@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/imf_logo.jpg" alt="IMF — Stratum Research Group" width="700" />
+  <img src="assets/logo.png" alt="IMF — Stratum Research Group" width="700" />
 </p>
 
 # IMF: Interaction Primitive Families & Higher-Dimensional Virtual Grid Memory
@@ -7,7 +7,7 @@
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![PyTorch 2.0+](https://img.shields.io/badge/PyTorch-2.0+-ee4c2c.svg)](https://pytorch.org/)
 [![Lean 4](https://img.shields.io/badge/Lean-4-purple.svg)](https://leanprover.github.io/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![License: Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![CUDA Accelerated](https://img.shields.io/badge/Hardware-CUDA%20Accelerated-76B900.svg)](https://developer.nvidia.com/cuda-zone)
 [![Organization](https://img.shields.io/badge/Owner-Stratum%20Research%20Group-black.svg)](#ownership--governance)
 
@@ -34,9 +34,8 @@
 - [7. Repository Structure](#7-repository-structure)
 - [8. Quickstart \& Usage](#8-quickstart--usage)
 - [9. Technical Reports & Publications](#9-technical-reports--publications)
-- [10. Visual Identity \& Logo Variants](#10-visual-identity--logo-variants)
-- [11. Ownership \& Governance](#11-ownership--governance)
-- [12. Citation \& References](#12-citation--references)
+- [10. Ownership \& Governance](#10-ownership--governance)
+- [11. Citation \& References](#11-citation--references)
 
 ---
 
@@ -235,8 +234,20 @@ Evaluating forward associative training ($A \to B$) and reverse probing ($B \to 
 
 | Architecture | Forward Accuracy ($A \to B$) | Forward Cosine | Reverse Leakage ($B \to A$) | Reverse Cosine | Directional Separation |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **TensorSAT Baseline** | 100.0% | +0.7432 | 6.2% | +0.0238 | +0.7194 |
-| **IMF + SAVG (Decoupled)** | 100.0% | +0.8238 | 18.8% | +0.1165 | +0.7074 |
+| **TensorSAT Baseline** | 100.0% | +0.7384 | 12.5% | +0.0124 | +0.7260 |
+| **IMF + SAVG (Decoupled)** | 100.0% | +0.8058 | 6.2% | +0.0616 | +0.7442 |
+| **Lie SAVG + Phase Margin (Mish)** | **100.0%** | **+0.7703** | **0.0%** | **-0.1987** | **+0.9690** |
+
+> *Phase-Margin Formulation*: By routing relational bindings through the Lie antisymmetric sector ($A = -A^\top$) paired with smooth activation ($\operatorname{Mish}$) and a directional contrast margin, the model exploits the alternating sign flip ($\mathbf{q}_B^\top A \mathbf{q}_A = - \mathbf{q}_A^\top A \mathbf{q}_B$), driving reverse projection negative and eliminating reverse leakage without sacrificing forward accuracy.
+
+### 5.4 Fused Kernel Hardware Acceleration (CUDA Throughput)
+
+Benchmarking the fused Triton JIT SAVG scan against the unfused PyTorch reference at $B=16, T=512, D=64$ on NVIDIA GeForce RTX 5060 Ti:
+
+| Scan Implementation | Per-Step Latency | Speedup | Numerical Max Diff |
+| :--- | :--- | :--- | :--- |
+| **PyTorch Reference Scan** | 137.74 ms | 1.00x | — |
+| **Fused Triton JIT Scan** | **0.90 ms** | **152.7x** | $4.29 \times 10^{-5}$ |
 
 ---
 
@@ -317,25 +328,33 @@ out = fused_layer(x)                            # [16, 128, 64]
 
 ### Running the Verification Suite & Benchmarks
 
+Prerequisites: Python 3.10+ (managed via `uv` or `pip`) and Lean 4 `v4.33.1` (managed via `elan`).
+
 ```bash
+# 0. Run automated test suite
+uv run pytest
+
 # 1. Verify formal Lean 4 theorems (Zero Mathlib dependency)
-lake build
+lake build  # or: ~/.elan/bin/lake build
 
 # 2. Benchmark Triton JIT Fused GPU kernel & verify backward autograd
-python triton_savg_kernel.py
+uv run python triton_savg_kernel.py
 
 # 3. Test Higher-Arity Simplex (Arity-3 Multi-Hop Knowledge Traversal)
-python benchmark_spo_multihop.py
-python stress_spo_multihop.py
+uv run python benchmark_spo_multihop.py
+uv run python stress_spo_multihop.py
 
 # 4. Multi-Query Associative Recall benchmark
-python benchmark_mqar.py
+uv run python benchmark_mqar.py
 
 # 5. Polytope comparison (Enneazetton, Decayotton, Hendecaxennon)
-python benchmark_polytopes.py
+uv run python benchmark_polytopes.py
 
 # 6. Directional selectivity & in-context reversal evaluation
-python test_savg_directionality.py
+uv run python test_savg_directionality.py
+
+# 7. End-to-end language model pretraining & O(1) streaming generation
+uv run python pretrain_imf_lm.py
 ```
 
 ---
@@ -358,31 +377,13 @@ The IMF foundation and its empirical/theoretical formulations are detailed acros
 
 ---
 
-## 10. Visual Identity & Logo Variants
-
-The IMF project features 7 precision line-art logos engineered to the exact dimensions (`1376x768`), typographic scale, and studio aesthetic of Stratum Research Group assets:
-
-| Variant | Concept ID | Architectural Theme |
-|:---|:---|:---|
-| **01 (Default)** | `imf_logo_01_enneazetton_polytope` | **Enneazetton 9D Polytope & Simplex Lattice** — 9-vertex regular projection with chord lattice & barycentric focal core. |
-| **02** | `imf_logo_02_savg_lie_split` | **Lie-Algebraic Memory Split (SAVG)** — Symmetric metric ring intersecting an antisymmetric skew-symmetric commutator lemniscate. |
-| **03** | `imf_logo_03_directional_phase_inversion` | **Directional Phase Inversion & Causal Wavefront** — Opposing spiral wavefronts resolving the Reversal Curse. |
-| **04** | `imf_logo_04_degens_eight_square` | **Degen's Eight-Square Identity & Octonionic Fibration** — 8-fold octagram with coordinate fibration and central normed invariant core. |
-| **05** | `imf_logo_05_virtual_grid_torus` | **Virtual Grid Torus & Continuous Crossing Flow** — Axonometric toroidal manifold with continuous helical streamlines ($O(N)$ linear memory). |
-| **06** | `imf_logo_06_decayotton_decagonal_orbit` | **Decayotton 10D Decagonal Projection** — 10D regular polytope with dual nested decagonal shells & landmark orbits. |
-| **07** | `imf_logo_07_hendecaxennon_coordinate_frame` | **Hendecaxennon 11D Coordinate Frame** — 11-simplex higher-arity frame with chiral chords and metric foliation rings. |
-
-The primary IMF logo is located in `assets/imf_logo.jpg` (`1376x768`), with script-based generation for custom variants available in `scripts/build_imf_logos.py`.
-
----
-
-## 11. Ownership & Governance
+## 10. Ownership & Governance
 
 IMF is designed, owned, and maintained by **Stratum Research Group (SRG)**. All architectural specifications, formal Lean 4 theorems, and CUDA/Triton memory kernels are governed under the Stratum Research Group research framework.
 
 ---
 
-## 12. Citation & References
+## 11. Citation & References
 
 ```bibtex
 @techreport{imf2026polytope,

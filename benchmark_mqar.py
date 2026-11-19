@@ -111,7 +111,10 @@ class MQARModelWrapper(nn.Module):
 
 def run_mqar_benchmark():
     if not HAS_TENSORSAT:
-        print("[!] TensorSAT not available, skipping MQAR baseline execution.")
+        print("\n[!] TensorSAT baseline dependency not found.")
+        print("    To run comparative benchmarks against the TensorSAT baseline, clone it to a sibling directory:")
+        print("    git clone https://github.com/Stratum-Research-Group/TensorSAT.git ../TensorSAT")
+        print("    Skipping MQAR comparison run.\n")
         return
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")

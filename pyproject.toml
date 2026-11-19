@@ -8,7 +8,7 @@ version = "0.1.0"
 description = "Interaction Primitive Families & Higher-Dimensional Polytope Virtual Grid Memory"
 readme = "README.md"
 requires-python = ">=3.10"
-license = { text = "MIT" }
+license = { text = "Apache-2.0" }
 authors = [
     { name = "Stratum Research Group", email = "research@stratum.group" },
 ]
@@ -24,7 +24,7 @@ keywords = [
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Science/Research",
-    "License :: OSI Approved :: MIT License",
+    "License :: OSI Approved :: Apache Software License",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
@@ -50,12 +50,14 @@ branding = [
 ]
 
 [tool.setuptools]
+packages = ["imf"]
 py-modules = [
     "benchmark_mqar",
     "benchmark_polytopes",
     "benchmark_spo_multihop",
     "higher_arity_simplex",
     "polytope_connector",
+    "pretrain_imf_lm",
     "stress_spo_multihop",
     "test_savg_directionality",
     "test_savg_harness",

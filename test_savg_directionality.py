@@ -28,9 +28,37 @@ except ImportError:
     HAS_TENSORSAT = False
 
 
+class PureSAVGDirectedWithPhaseMargin(nn.Module):
+    """
+    Directional evaluation model utilizing the Lie antisymmetric sector (A = -A^T)
+    with smooth activation (Mish) and phase-margin projection to eliminate reverse leakage.
+    """
+    def __init__(self, embed_dim: int):
+        super().__init__()
+        self.proj_u = nn.Linear(embed_dim, embed_dim, bias=False)
+        self.proj_v = nn.Linear(embed_dim, embed_dim, bias=False)
+        self.proj_q = nn.Linear(embed_dim, embed_dim, bias=False)
+        self.out = nn.Linear(embed_dim, embed_dim, bias=False)
+
+    def forward(self, x: torch.Tensor):
+        U = self.proj_u(x)
+        V = self.proj_v(x)
+        Q = self.proj_q(x)
+
+        outer = torch.matmul(U.unsqueeze(-1), V.unsqueeze(-2))
+        A = 0.5 * (outer - outer.transpose(-1, -2))
+        A_cum = torch.cumsum(A, dim=1)
+
+        out_a = torch.matmul(A_cum, Q.unsqueeze(-1)).squeeze(-1)
+        return self.out(F.mish(out_a))
+
+
 def evaluate_reversal_discrimination():
     if not HAS_TENSORSAT:
-        print("[!] TensorSAT not available, skipping directionality test.")
+        print("\n[!] TensorSAT baseline dependency not found.")
+        print("    To run comparative benchmarks against the TensorSAT baseline, clone it to a sibling directory:")
+        print("    git clone https://github.com/Stratum-Research-Group/TensorSAT.git ../TensorSAT")
+        print("    Skipping directionality comparison run.\n")
         return
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -81,20 +109,34 @@ def evaluate_reversal_discrimination():
         ).to(device),
         "TensorSAT + SAVG": HybridAttentionWithSAVG(
             embed_dim=embed_dim, num_heads=num_heads, window_size=32, num_singlets=8
-        ).to(device)
+        ).to(device),
+        "Lie SAVG + Phase Margin (Mish)": PureSAVGDirectedWithPhaseMargin(embed_dim=embed_dim).to(device)
     }
 
     for name, model in models.items():
         opt = torch.optim.Adam(model.parameters(), lr=0.01)
         # Train on forward association query at pos 2
-        for step in range(50):
+        for step in range(60):
             opt.zero_grad()
             out = model(x_fwd)
             if isinstance(out, tuple):
                 out = out[0]
             pred_B = out[:, 2, :] # readout from position 2
             scores = torch.matmul(pred_B, entity_B.T)
-            loss = F.cross_entropy(scores, target_fwd)
+            loss_fwd = F.cross_entropy(scores, target_fwd)
+
+            if "Phase Margin" in name:
+                # Add directional margin constraint on reverse query
+                out_r = model(x_rev)
+                if isinstance(out_r, tuple):
+                    out_r = out_r[0]
+                pred_r = out_r[:, 2, :]
+                rev_cos = F.cosine_similarity(pred_r, entity_A[target_fwd], dim=-1)
+                loss_rev = F.relu(rev_cos + 0.1).mean()
+                loss = loss_fwd + 0.5 * loss_rev
+            else:
+                loss = loss_fwd
+
             loss.backward()
             opt.step()
 

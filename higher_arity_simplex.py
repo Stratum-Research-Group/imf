@@ -71,9 +71,6 @@ class HigherAritySimplexBinding(nn.Module):
             hadamard_rank = hadamard_rank * p  # [B, T, R]
 
         # 3. Simplex Hyperface Modulation
-        # Compute barycentric coordinates for the primary anchor token
-        anchor_coords = F.softmax(torch.matmul(tokens[0], self.corners.T), dim=-1) # [B, T, K]
-
         if self.arity == 3:
             c1 = F.softmax(torch.matmul(tokens[0], self.corners.T), dim=-1)
             c2 = F.softmax(torch.matmul(tokens[1], self.corners.T), dim=-1)
@@ -82,8 +79,9 @@ class HigherAritySimplexBinding(nn.Module):
             face_mod = torch.einsum("bti,btj,btk,ijk->bt", c1, c2, c3, self.face_weights)
             hadamard_rank = hadamard_rank * (1.0 + face_mod.unsqueeze(-1))
         else:
-            # Factorized 4-way face modulation
-            face_mod = torch.matmul(anchor_coords, self.face_factor) # [B, T, R]
+            # Factorized 4-way face modulation using primary anchor coordinates
+            anchor_coords = F.softmax(torch.matmul(tokens[0], self.corners.T), dim=-1)  # [B, T, K]
+            face_mod = torch.matmul(anchor_coords, self.face_factor)  # [B, T, R]
             hadamard_rank = hadamard_rank * (1.0 + face_mod)
 
         # 4. Reconstruct to embedding dimension via core weights

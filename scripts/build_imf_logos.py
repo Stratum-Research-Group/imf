@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Generate 7 distinct, precision IMF (Interaction Model Foundations) logos matching
-the dimensions, typography, layout, and studio line-art aesthetic of dioptra_logo.jpg (1376x768).
+Generate the primary precision IMF (Interaction Model Foundations) logo matching
+the dimensions, typography, layout, and studio line-art aesthetic (1376x768).
 
 Layout:
   [Left: Mathematical / Architectural Emblem] | IMF
@@ -9,14 +9,9 @@ Layout:
                                                 Research
                                                 Group
 
-Concepts:
-  01 - Enneazetton 9D Polytope & Barycentric Simplex Lattice (Higher-Dimensional Polytope Landmark Connector)
-  02 - Symmetric-Antisymmetric Lie-Algebraic Memory Split (SAVG Decomposition: Symmetric Kernel + Antisymmetric Commutator)
-  03 - Directional Phase Inversion & Causal Wavefront (Reversal Curse Elimination: Forward vs Backward Phase)
-  04 - Degen's Eight-Square Identity & Octonionic Fibration (Circuit Lower Bounds & Normed Algebra Memory)
-  05 - Virtual Grid Torus & Continuous Crossing Flow (Continuous Crossing Bounds & $O(N)$ Context Scaling)
-  06 - Decayotton 10D Decagonal Projection & Landmark Orbit (Decagonal Polytope Vertex System)
-  07 - Hendecaxennon 11D Hyper-Foliation & Coordinate Bastion (11D Higher-Arity Simplex Coordinate Frame)
+Outputs:
+  - assets/logo.png
+  - assets/logo.jpg
 """
 
 import math
@@ -522,58 +517,47 @@ CONCEPTS = [
 
 def main():
     repo_root = Path(__file__).resolve().parent.parent
-    imf_assets = repo_root / "assets" / "logos"
-    imf_assets.mkdir(parents=True, exist_ok=True)
+    assets_dir = repo_root / "assets"
+    assets_dir.mkdir(parents=True, exist_ok=True)
     branding_dir = repo_root.parent.parent / "z.branding"
 
-    print(f"[*] Building 7 precision IMF logos at {WIDTH}x{HEIGHT} (2x supersampled to {W_S}x{H_S})...")
+    c = CONCEPTS[0]
+    print(f"[*] Building primary IMF logo ({c['title']}) at {WIDTH}x{HEIGHT} (2x supersampled to {W_S}x{H_S})...")
 
-    # Base studio background with micro-grain noise matching dioptra_logo.jpg
+    # Base studio background with micro-grain noise
     base_bg = create_studio_background(WIDTH, HEIGHT, seed=2026)
 
-    for i, c in enumerate(CONCEPTS):
-        print(f"[{i+1}/7] Rendering {c['id']}: {c['title']}...")
+    # 1. Create 2x transparent overlay
+    overlay = Image.new("RGBA", (W_S, H_S), (0, 0, 0, 0))
 
-        # 1. Create 2x transparent overlay
-        overlay = Image.new("RGBA", (W_S, H_S), (0, 0, 0, 0))
+    # 2. Render Left Emblem
+    c["draw_fn"](overlay, EMBLEM_CX * SCALE, EMBLEM_CY * SCALE, SCALE)
 
-        # 2. Render Left Emblem
-        c["draw_fn"](overlay, EMBLEM_CX * SCALE, EMBLEM_CY * SCALE, SCALE)
+    # 3. Render layout template (Divider + Typography: IMF / Stratum Research Group)
+    draw_overlay = ImageDraw.Draw(overlay)
+    render_base_template(draw_overlay, scale=SCALE)
 
-        # 3. Render layout template (Divider + Typography: IMF / Stratum Research Group)
-        draw_overlay = ImageDraw.Draw(overlay)
-        render_base_template(draw_overlay, scale=SCALE)
+    # 4. Downsample overlay with Lanczos anti-aliasing
+    overlay_1x = overlay.resize((WIDTH, HEIGHT), Image.Resampling.LANCZOS)
 
-        # 4. Downsample overlay with Lanczos anti-aliasing
-        overlay_1x = overlay.resize((WIDTH, HEIGHT), Image.Resampling.LANCZOS)
+    # 5. Composite onto studio paper background
+    composite = base_bg.copy()
+    composite.paste(overlay_1x, (0, 0), overlay_1x)
 
-        # 5. Composite onto studio paper background
-        composite = base_bg.copy()
-        composite.paste(overlay_1x, (0, 0), overlay_1x)
+    # 6. Save outputs: assets/logo.jpg and assets/logo.png
+    default_jpg = assets_dir / "logo.jpg"
+    default_png = assets_dir / "logo.png"
+    composite.save(default_jpg, quality=98, subsampling=0)
+    composite.save(default_png)
+    print(f"      -> Created primary logo: {default_jpg} and {default_png}")
 
-        # 6. Save outputs: high-quality JPEG and lossless PNG
-        jpg_path = imf_assets / f"{c['id']}.jpg"
-        png_path = imf_assets / f"{c['id']}.png"
-        composite.save(jpg_path, quality=98, subsampling=0)
-        composite.save(png_path)
+    # Also copy to z.branding if available
+    if branding_dir.is_dir():
+        import shutil
+        shutil.copy(default_jpg, branding_dir / "imf_logo.jpg")
+        shutil.copy(default_png, branding_dir / "imf_logo.png")
 
-        # Also copy primary variant to /assets/imf_logo.jpg for default repo presentation
-        if i == 0:
-            default_jpg = repo_root / "assets" / "imf_logo.jpg"
-            default_png = repo_root / "assets" / "imf_logo.png"
-            composite.save(default_jpg, quality=98, subsampling=0)
-            composite.save(default_png)
-            print(f"      -> Created default primary logo: {default_jpg}")
-
-        # Also copy to z.branding if available
-        if branding_dir.is_dir():
-            import shutil
-            shutil.copy(jpg_path, branding_dir / jpg_path.name)
-            shutil.copy(png_path, branding_dir / png_path.name)
-
-        print(f"      -> Saved {jpg_path} and {png_path}")
-
-    print("[+] All 7 IMF logos created successfully!")
+    print("[+] IMF logo created successfully!")
 
 
 if __name__ == "__main__":

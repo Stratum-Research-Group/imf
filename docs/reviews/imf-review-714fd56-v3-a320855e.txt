@@ -1,0 +1,157 @@
+IMF REVIEW, 714fd56 (v3)
+2026-11-19, Africa/Johannesburg
+Repository: https://github.com/Stratum-Research-Group/imf
+Reviewed commit: 714fd560f6ca57f5d40abb678103fc95e38c2d33 (main HEAD, "docs(readme): remove lingering unverified benchmark labels and precise probe algebra", 2026-11-19 17:58 +02:00)
+Pinned tree: https://github.com/Stratum-Research-Group/imf/tree/714fd560f6ca57f5d40abb678103fc95e38c2d33 (verified resolving at review time)
+Previous reviews: b67fa54, 40628e9 (shipped in docs/reviews/)
+
+FILE MAP (shorthand used below)
+- papers/01 = papers/01_savg_lie_algebraic_memory_splitting.md
+- papers/02 = papers/02_hdplc_higher_dimensional_polytope_connectors.md
+- papers/03 = papers/03_epistemological_foundations_and_real_world_applications.md
+
+VERDICT
+The repo is tidier than last round: packaging builds, the test suite grew and passes, and the README no longer oversells the benchmark tables. The core algebra is sound and I verified the phase-inversion math numerically. The main structural finding is a mismatch between the instrument the papers prove things about and the layer that ships: as implemented, FusedSAVGLayer is exactly a two-timescale decayed outer-product memory (closed form verified below), while Theorem 1 of paper 1 assumes dual probes and separate symmetric/antisymmetric readouts that the layer does not have. Separately, the repo's own directionality table currently reads against the headline claim: the SAVG variant shows higher reverse leakage and lower directional separation than the baseline, while the README and papers say the Reversal Curse is resolved. On generalization: no benchmark demonstrates a reliable above-baseline held-out lift; the held-out success counts are single digits on one seed and sit close to simple uniform-guess and constant-predictor references on this single run. The positive quantitative results I could verify are training-set fit and author-run latencies.
+
+These are implementation, experiment and documentation findings. They do not touch the mathematics of the free symmetric/skew decomposition, which is correct as far as it goes. Do not read any item below as a verdict on the wider construction.
+
+SCOPE AND EVIDENCE
+- Fresh clone at review time. 28 tracked files total. Read in full: all 11 tracked Python files (2,036 lines), README.md (395 lines), all three papers (479 lines), both Lean modules (183 lines), lakefile, lake-manifest, lean-toolchain, pyproject.toml, .gitignore (3,093 lines across code + papers + README + Lean). Not reviewed line by line: the two shipped review txts in docs/reviews/ (prior review artifacts), the binary assets in assets/, uv.lock, git history.
+- Environment: Python 3.10.12, Linux, 2 CPU, 1.9 GB RAM, no GPU. I installed CPU-only PyTorch and pytest into this environment to run the suite: torch 2.14.1+cpu (from https://download.pytorch.org/whl/cpu) and pytest 9.2.0. No Triton, no Lean toolchain, no TensorSAT checkout.
+- RAN means executed at this commit in this review. READ means source inspection. DERIVED means mathematical or data-flow reasoning confirmed by a small numerical check. Line numbers apply to 714fd56.
+- RAN at this commit:
+  * python -m pytest tests/ -q -> 15/15 pass in 0.97 s (7 preset + 2 grid + 2 arity + 1 SAVG layer + 3 dtype; the 12 from last round plus 3 new dtype cases).
+  * python triton_savg_kernel.py -> CPU reference verification and full backward gradient flow pass.
+  * python benchmark_spo_multihop.py and python stress_spo_multihop.py -> reproduced; numbers in finding 3.
+  * python benchmark_mqar.py, python test_savg_directionality.py, python benchmark_polytopes.py -> each prints a TensorSAT-missing skip line and exits 0.
+  * python -m pip wheel --no-deps . -> imf-0.1.0-py3-none-any.whl builds cleanly; contents inspected.
+  * python -m py_compile on all 11 Python files -> clean.
+  * Numerical checks: SAVG closed-form decomposition (finding 1), phase-inversion algebra (finding 16), saved-activation volume scaling in backward (finding 7, script in Appendix A), SPO test-target distributions and constant-predictor baselines (finding 3).
+- Source tree untouched; read-only review.
+
+FINDINGS
+Severity: HIGH first, then MEDIUM, then LOW. Fixes are directions, not mandates; where an item is a design note rather than a defect, it says so.
+
+1. HIGH, DERIVED+RAN. As shipped, the fused SAVG layer is exactly a two-timescale decayed outer-product memory; the paper's dual-probe directional instrument is not what runs.
+   triton_savg_kernel.py:65-66 (kernel) and :94-96 (reference) sum net = S_state + A_state and then apply the query. Since S + A = 0.5(uv^T + vu^T) + 0.5(uv^T - vu^T) = uv^T, the per-step increment recombines before readout. Note that uv^T itself is already orientation-sensitive once U and V are distinct learned projections (it maps v-directions to u-directions). What the split adds structurally in this wiring is only the reverse-orientation vu^T contribution, and that contribution is controlled entirely by the decay gap. With the shipped unequal decays (gamma_s = 0.999, gamma_a = 0.990, hardcoded at triton_savg_kernel.py:161) the output is precisely
+      out_t = sum_tau g_tau [ c1(k) u_tau v_tau^T + c2(k) v_tau u_tau^T ] q_t,  k = t - tau,
+      c1(k) = 0.5(gs^k + ga^k), c2(k) = 0.5(gs^k - ga^k),
+   verified against the reference implementation in closed form (max abs diff 7.4e-6, B=2, T=12, D=8). The reverse-orientation coefficient relative to the forward one is c2/c1 = 0.00 at lag 0, 0.22 at lag 50, 0.72 at lag 200 for the shipped gammas. With equal decays c2 = 0 identically and the layer is algebraically equivalent to a plain single-decay outer-product scan, confirmed numerically within floating-point error (max abs diff 3.8e-6).
+   The mismatch: Theorem 1 (papers/01, section 2.2) scores with two separate probes (q_u, q_v), a coupling lambda, and independent S and A readouts. FusedSAVGLayer has one readout of the summed state, and Q is an independent projection of x, so the theorem's hypothesis (query proportional to u) is not enforced anywhere in the layer. The phase-inversion result itself is correct where its assumptions hold (finding 16); the gap is between the proven instrument and the shipped wiring.
+   Fix direction: either give the layer separate S and A readouts with the dual-probe scoring the theorem assumes, or state in the docs that the fused layer is a two-timescale outer-product memory and reserve the directional claims for a readout that keeps the sectors apart. Do not touch the decomposition math itself.
+
+2. HIGH, READ. The headline claim contradicts the repo's own table.
+   README.md:236-239 and papers/01:185-188: SAVG reverse leakage 18.8% vs baseline 6.2%, directional separation +0.7074 vs baseline +0.7194. Meanwhile README.md:53 says IMF "solves these challenges", papers/01:196 says SAVG "mathematically resolves the Reversal Curse", papers/03:121 calls it "a solved artifact of primitive linear algebra". On the numbers the repo publishes, the augmented model is currently slightly worse on the separation metric and about three times higher on reverse leakage. Paper 1 section 5.2 already hedges ("requires explicitly thresholded rejection heads"); the conclusions and README are the parts out of sync.
+   Scope note: this is a single-seed, train-set probe (finding 8), so treat the table as preliminary evidence, not a refutation of the mechanism; but the wording should match the evidence either way.
+   Fix direction: align the three conclusion statements with the tables, or rerun the probe after addressing finding 1 and update the tables.
+
+3. MEDIUM, RAN. No benchmark demonstrates a reliable above-baseline held-out lift.
+   Reproduced at this commit on CPU. 2-hop SPO: held-out accuracy 0.8% (baseline) and 1.6% (arity-3) out of 256 test chains, i.e. 2 and 4 successes. 3-hop: 0.0% and 0.4%, i.e. 0 and 1 successes.
+   Reference baselines, computed at this commit (not assumed):
+   - Uniform-guess reference: 1/128 = 0.78% (2-hop), 1/256 = 0.39% (3-hop). Uniform independent guessing has expected accuracy 1/N for any label distribution, so this reference is statistically valid here; it is just a weak comparator if labels are nonuniform.
+   - Constant-predictor baseline (predict the train set's majority label): 1.17% on the 2-hop test set, 0.39% on the 3-hop test set. This is the stronger observed simple baseline.
+   The models' held-out results sit close to these simple references on this single run: the arity-3 model's 1.6% (4 successes) is above the constant baseline's 1.17%, the pairwise baseline's 0.8% (2 successes) is below it, and all counts are within single-seed noise of each other. The honest summary is absence of evidence, not a calibrated at-chance verdict: no reliable above-baseline generalization is demonstrated, and the sample sizes (single seed, single-digit successes) cannot support a stronger statement in either direction. Train accuracy is 100% everywhere, so what the SPO scripts currently measure clearly is training-set fit.
+   MQAR (published numbers, not rerun here): held-out 0.0-1.6% on 64 evaluation queries; uniform-guess reference 1/256 = 0.39%.
+   Two validity problems with the SPO comparison itself:
+   a. The "Pairwise Attention (Arity-2)" baseline degenerates to an MLP: its self-attention runs over a sequence of length 1 (benchmark_spo_multihop.py:40-45), where attention is an identity-weighted pass. The published speed win (1.76 ms vs 5.95 ms) is against that baseline, and it did not reproduce here: on CPU the arity-3 model was slightly slower (1.52 vs 1.24 ms 2-hop; 1.72 vs 1.48 ms 3-hop). There is also no warmup in benchmark_spo_multihop.py, so first-step costs land on whichever model runs first.
+   b. Single seed everywhere; no mean or variance reported in any benchmark.
+   Fix direction: report SPO as a capacity/memorization probe until a held-out split shows a statistically clear lift (multi-seed, report mean and std, and report the empirical constant-predictor baseline alongside the uniform 1/N reference); give the baseline a real sequence or rename it MLP; add warmup to the timing loop.
+
+4. MEDIUM, RAN. Three headline benchmarks silently no-op on a fresh clone.
+   benchmark_mqar.py:113, test_savg_directionality.py:35-38, benchmark_polytopes.py:71-74: without a sibling ../TensorSAT checkout they print one skip line and exit 0 (verified: exit code 0 for all three). README.md:292-294 quickstart never mentions the TensorSAT dependency or the sys.path hook (benchmark_mqar.py:21-24 and equivalents). Anyone cloning and following the quickstart gets empty results that look like success.
+   Fix direction: exit nonzero with an explicit "TensorSAT not found at ../TensorSAT" message, and document the sibling checkout in the quickstart.
+
+5. MEDIUM, READ. Paper 1 describes a tiled kernel the code does not contain; kernel scaling in d is untested.
+   Papers/01:135 describes "sequence chunks into SRAM (Tile sizes B_M = 32, B_N = 32)". No such constants or tiling exist in triton_savg_kernel.py: the kernel keeps two BLOCK_D x BLOCK_D fp32 states per program with BLOCK_D = next_power_of_2(D) (:110), one program per batch item, T looped serially. As a logical size, at d_model = 512 those states are 2 x 512^2 x 4 B = 2 MB of values per program instance; how Triton would actually allocate or spill that, and at which d the kernel stops compiling, is untested here because there is no GPU in this environment. The verified part of this finding is the source/paper mismatch; the hardware behavior at large d is an open gate, not an asserted cap. Also note the docstring at :144 says "Production-ready", which is ahead of any demonstrated scaling data.
+   Fix direction: correct paper 1 section 4.1 to describe the actual kernel; document intended d range once measured on GPU; soften "Production-ready".
+
+6. MEDIUM, READ. Three different objects are all called SAVG.
+   The kernel/FusedSAVGLayer: two decayed sectors, summed before readout (finding 1). The benchmarked wrapper in test_savg_harness.py:81 and benchmark_polytopes.py:60: antisymmetric-only, undecayed cumsum (gamma = 1), tanh-gated additive readout. Paper Theorem 1: dual-probe scoring with coupling lambda. Results from the wrapper do not measure the kernel, and neither matches the theorem's instrument. The undecayed cumsum also means the wrapper has no decay-based saturation control, while paper 1 section 2.3 motivates grid modulation as preventing unbounded state saturation.
+   Fix direction: name the variants distinctly in code and papers, and run at least one benchmark against the actual FusedSAVGLayer update rule.
+
+7. MEDIUM, RAN. Backward pass saves activation volume proportional to B.T.d^2 (measured).
+   triton_savg_kernel.py:130-139 recomputes the full T-step reference scan with autograd enabled during backward. I measured the cumulative volume of tensors saved for backward with torch.autograd.graph.saved_tensors_hooks on CPU (B=2; T in {4,8,16,32}; d in {16,32}; script in Appendix A): saved elements ~= 3.3-3.6 x B.T.d^2 at every size, i.e. linear in T.d^2 (e.g. T=32, d=32: 215,168 elements). Two clarifications: this is cumulative saved-tensor volume across the unrolled graph, not measured peak live memory; and it characterizes the reference backward path the layer actually uses, independent of any GPU. The O(B.d^2) memory figure quoted in paper 1 section 4.2 is a forward-only property; training-side storage grows with sequence length times d squared.
+   Fix direction: mark the bound forward-only in the paper; consider a custom backward (reverse pass with checkpointing) before training-at-scale claims.
+
+8. MEDIUM, READ. Directionality probe has no held-out associations.
+   test_savg_directionality.py:75: train_indices = range(16) covers all 16 pairs; forward "accuracy" 100% is training accuracy, and the reverse probe runs on the same pairs. Last round asked for a matched baseline and holdout; the baseline was added, the holdout was not. Related: the harness task in test_savg_harness.py (evaluate_synthetic_reasoning) predicts shifted random noise, so its printed "Loss Improvement with SAVG" is a memorization-of-noise number, not a reasoning signal.
+   Fix direction: hold out half the pairs from forward training and probe on them; relabel or replace the noise-shift task.
+
+9. DESIGN NOTE, READ. SPO transition map and comparator choice.
+   benchmark_spo_multihop.py:71 and stress_spo_multihop.py:41: T(e, r) = (e(r+1) + (r+3)) mod N. For odd r, r+1 is even, so the map is non-injective modulo 128/256 and chains can merge on shared targets. This is not a correctness bug: the task remains a well-defined deterministic function, and nothing about multi-hop query tasks requires invertible relations. Measured on this commit's test sets, the 256 chains cover 104 distinct targets (2-hop) and 155 (3-hop); a finite sample missing some labels does not by itself prove the underlying target distribution is nonuniform, so this is reported as context for comparator choice (finding 3 reports both the uniform 1/N reference and the empirical constant-predictor baseline), not as a defect. Optional change only, if you want guaranteed-uniform targets: use a per-relation bijection (e.g. e -> (e + r + 1) mod N composed with a fixed permutation).
+
+10. LOW, READ. benchmark_mqar.py:9 promises "Multi-seed execution reporting mean and std". The runner uses single fixed seeds (42 train / 1337 test) and reports single numbers. Docstring predates the code.
+
+11. LOW, READ. Broken link/metadata observation only: README.md:10's license badge links to LICENSE, and pyproject declares MIT, but no LICENSE file exists in the repo, so the badge link 404s. Whether and how to license the repo is your call; this is just the broken reference.
+
+12. LOW, READ. Papers/01:156 cites "PyTorch 2.15". I cannot confirm that version exists: the index I installed from (https://download.pytorch.org/whl/cpu) offered 2.14.1+cpu as latest at review time. Possible typo for the actual version on the RTX 5060 Ti machine; check pip show torch there and correct.
+
+13. LOW, READ. "Sub-millisecond" claims contradict the repo's own measurements. Papers/02:71 ("sub-millisecond hardware kernel execution") and papers/03:109 ("sub-millisecond step latency") vs published tables: 1.76-27.3 ms steps (paper 2 section 5.1, README section 5.2) and 6.2-9.0 ms SAVG steps (paper 1 section 5.1).
+
+14. LOW, READ. higher_arity_simplex.py:75: anchor_coords is computed then unused on the arity-3 path (c1 at :78 recomputes the identical softmax). Dead store plus a duplicated softmax per call. Trivial cleanup.
+
+15. LOW, READ. Packaging hygiene observation (policy, not correctness): pyproject py-modules ships the root benchmark_*.py and test_*.py scripts as top-level modules (verified in the built wheel), so installing imf drops generic names like test_savg_harness into site-packages, while tests/ itself is not packaged and the suite cannot run from an install. Only worth changing if you plan to distribute the wheel.
+
+16. MATH NOTE, DERIVED+RAN. The algebra checks out; one historical analogy is asserted without a theorem.
+   Verified numerically: paper 1 section 2.2's phase inversion for the orthogonal case, A u = -0.5||u||^2 v when u is orthogonal to v (max err 9.5e-7). Note this clean form needs orthogonality; for general u, v the expression is 0.5((v.u)u - ||u||^2 v), so the exact inversion is a property of the aligned/orthogonal regime, not a general statement about arbitrary readout directions. The Lean theorems are correct elementary ring identities over Int with doubled sectors (2M = 2S + 2A); the files themselves note the normalized split needs halving, i.e. Q or R. What the proofs establish is the decomposition's algebra, not any property of the trained layer's behavior.
+   The one weak spot: papers/03 section 2.2 presents dimensions 9-11 as "the precise boundary where normed algebraic stability interfaces with multi-dimensional combinatorial freedom", in the context of Degen's identity and Hurwitz's theorem. Hurwitz's theorem bounds normed division algebras (composition algebras) at dimensions 1, 2, 4, 8 (reference: https://en.wikipedia.org/wiki/Hurwitz%27s_theorem_(composition_algebras), fetched at review time); no theorem is supplied in the paper connecting that bound to the 9-11 choice. The dimensions may well be good engineering picks; the paper just does not establish a mathematical reason, so the "precise boundary" phrasing should be softened or a citation added.
+
+OPEN GATES (unrun here)
+- Triton GPU kernel never compiled or compared against the reference on CUDA. Numerical equivalence on GPU, behavior at large d (finding 5), and all published latencies remain author-reported from the RTX 5060 Ti.
+- lake build unrun (no Lean toolchain in this environment; installing one exceeded the resource budget). The Lean sources contain no sorry/admit and read as typecheckable, but that is READ, not RAN.
+- MQAR, directionality and polytope benchmarks unrun end to end (need the TensorSAT sibling repo; only the skip paths were verified, finding 4).
+- Logo generator not executed (Pillow absent); visual outputs not inspected.
+- Nothing here ran on your PC; cross-machine comparison welcome as usual at this commit.
+
+REPRODUCTION (commands used at 714fd56)
+  git clone https://github.com/Stratum-Research-Group/imf && cd imf && git checkout 714fd560f6ca57f5d40abb678103fc95e38c2d33
+  python3 -m pip install --index-url https://download.pytorch.org/whl/cpu torch
+  python3 -m pip install pytest
+  python3 -m pytest tests/ -q
+  python3 triton_savg_kernel.py
+  python3 benchmark_spo_multihop.py
+  python3 stress_spo_multihop.py
+  python3 -m pip wheel --no-deps .
+(The three TensorSAT-dependent scripts require a sibling ../TensorSAT checkout; without it they skip with exit 0.)
+
+APPENDIX A: saved-activation volume measurement script (finding 7)
+Save as a .py file in the repo root and run it there with torch installed (verified reproducing at this commit). Counts every tensor autograd saves for backward through the reference scan; prints the ratio to B*T*d^2.
+
+  import torch
+  from triton_savg_kernel import pytorch_reference_savg_scan
+  from torch.autograd.graph import saved_tensors_hooks
+
+  B = 2
+  print("T   d   saved_elems  elems/(B*T*d^2)")
+  for T in [4, 8, 16, 32]:
+      for d in [16, 32]:
+          torch.manual_seed(0)
+          U = torch.randn(B, T, d, requires_grad=True)
+          V = torch.randn(B, T, d, requires_grad=True)
+          Q = torch.randn(B, T, d, requires_grad=True)
+          g = torch.rand(B, T, requires_grad=True) + 0.5
+          saved = [0]
+          def pack(t):
+              saved[0] += t.numel()
+              return t
+          with saved_tensors_hooks(pack, lambda t: t):
+              out = pytorch_reference_savg_scan(U, V, Q, g)
+          out.sum().backward()
+          print(f"{T:3d} {d:3d}  {saved[0]:10d}  {saved[0]/(B*T*d*d):8.2f}")
+
+Observed output at this commit (torch 2.14.1+cpu):
+  T=4  d=16: 7,312 (3.57)   T=4  d=32: 26,896 (3.28)
+  T=8  d=16: 14,624 (3.57)  T=8  d=32: 53,792 (3.28)
+  T=16 d=16: 29,248 (3.57)  T=16 d=32: 107,584 (3.28)
+  T=32 d=16: 58,496 (3.57)  T=32 d=32: 215,168 (3.28)
+
+STATUS OF PREVIOUS ROUNDS
+- Fixed since 40628e9: SPO answer leakage (target no longer in input, code confirmed); MQAR per-sequence randomized bindings, shared codebook and non-overlapping pairs; CPU backward path and dtype coverage (15/15 pass); wheel build (previously failing, now builds); README benchmark labels cleaned at 714fd56; directionality gained a matched baseline.
+- Still open from 40628e9, sharpened above: no demonstrated held-out generalization (3, 8); directionality holdout (8); multi-seed statistics (10); SPO reference-baseline choice (3, 9); claims-vs-tables drift, now in new locations (2, 12, 13).
+
+DO-NOT-TOUCH BOUNDARIES
+- Do not alter the symmetric/skew decomposition, the Lean theorems, or the paper mathematics in response to findings 1, 2, 6: those are wiring and wording gaps, not math errors. Finding 16 is the only math-adjacent wording change suggested.
+- Do not change benchmark semantics silently to make tables look better; change a task only with a matching docs update.
+- docs/reviews/ contents are historical; leave them as-is.
+
+Review coverage: complete read of code, papers and configs at 714fd56, plus execution of everything runnable without GPU, Lean, TensorSAT or Pillow. 28 tracked files; the sweep covers all source and documentation, excluding only binary assets, uv.lock, git history and line-by-line re-audit of the shipped prior-review txts.

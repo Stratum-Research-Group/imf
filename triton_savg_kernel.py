@@ -69,6 +69,66 @@ if HAS_TRITON:
             tl.store(out_ptrs, out_t, mask=mask_d1)
 
 
+    @triton.jit
+    def _savg_step_kernel(
+        u_ptr, v_ptr, q_ptr, mod_ptr,
+        s_in_ptr, a_in_ptr,
+        s_out_ptr, a_out_ptr, out_ptr,
+        B, D,
+        stride_ub, stride_ud,
+        stride_vb, stride_vd,
+        stride_qb, stride_qd,
+        stride_sb, stride_sd1, stride_sd2,
+        stride_ab, stride_ad1, stride_ad2,
+        stride_ob, stride_od,
+        gamma_s: tl.constexpr,
+        gamma_a: tl.constexpr,
+        BLOCK_D: tl.constexpr,
+    ):
+        """Single-step O(1) autoregressive inference kernel."""
+        pid_b = tl.program_id(axis=0)
+
+        offs_d1 = tl.arange(0, BLOCK_D)
+        offs_d2 = tl.arange(0, BLOCK_D)
+        mask_d1 = offs_d1 < D
+        mask_d2 = offs_d2 < D
+
+        u_ptrs = u_ptr + pid_b * stride_ub + offs_d1 * stride_ud
+        v_ptrs = v_ptr + pid_b * stride_vb + offs_d2 * stride_vd
+        q_ptrs = q_ptr + pid_b * stride_qb + offs_d2 * stride_qd
+
+        u_val = tl.load(u_ptrs, mask=mask_d1, other=0.0)
+        v_val = tl.load(v_ptrs, mask=mask_d2, other=0.0)
+        q_val = tl.load(q_ptrs, mask=mask_d2, other=0.0)
+        g_val = tl.load(mod_ptr + pid_b)
+
+        s_ptrs = s_in_ptr + pid_b * stride_sb + offs_d1[:, None] * stride_sd1 + offs_d2[None, :] * stride_sd2
+        a_ptrs = a_in_ptr + pid_b * stride_ab + offs_d1[:, None] * stride_ad1 + offs_d2[None, :] * stride_ad2
+        mask_2d = mask_d1[:, None] & mask_d2[None, :]
+
+        s_prev = tl.load(s_ptrs, mask=mask_2d, other=0.0)
+        a_prev = tl.load(a_ptrs, mask=mask_2d, other=0.0)
+
+        sym_inc = 0.5 * (u_val[:, None] * v_val[None, :] + v_val[:, None] * u_val[None, :])
+        anti_inc = 0.5 * (u_val[:, None] * v_val[None, :] - v_val[:, None] * u_val[None, :])
+
+        s_new = gamma_s * s_prev + g_val * sym_inc
+        a_new = gamma_a * a_prev + g_val * anti_inc
+
+        # Store updated states
+        s_out_ptrs = s_out_ptr + pid_b * stride_sb + offs_d1[:, None] * stride_sd1 + offs_d2[None, :] * stride_sd2
+        a_out_ptrs = a_out_ptr + pid_b * stride_ab + offs_d1[:, None] * stride_ad1 + offs_d2[None, :] * stride_ad2
+        tl.store(s_out_ptrs, s_new, mask=mask_2d)
+        tl.store(a_out_ptrs, a_new, mask=mask_2d)
+
+        # Output readout
+        net_state = s_new + a_new
+        out_val = tl.sum(net_state * q_val[None, :], axis=1)
+
+        out_ptrs = out_ptr + pid_b * stride_ob + offs_d1 * stride_od
+        tl.store(out_ptrs, out_val, mask=mask_d1)
+
+
 def pytorch_reference_savg_scan(U, V, Q, grid_mod, gamma_s=0.999, gamma_a=0.990):
     """Numerically identical PyTorch reference implementation for testing and autograd."""
     B, T, D = U.shape
@@ -160,6 +220,74 @@ class FusedSAVGLayer(nn.Module):
         grid_mod = self.connector.compute_grid_modulation(x).squeeze(-1).squeeze(-1)
         out_scan = SAVGScanFunction.apply(U, V, Q, grid_mod, 0.999, 0.990, use_triton)
         return self.out_proj(out_scan)
+
+    def init_state(self, batch_size: int, device: torch.device, dtype=torch.float32):
+        """Initializes constant O(1) state matrices for streaming autoregressive decoding."""
+        S = torch.zeros(batch_size, self.d_model, self.d_model, device=device, dtype=dtype)
+        A = torch.zeros(batch_size, self.d_model, self.d_model, device=device, dtype=dtype)
+        return S, A
+
+    def step(
+        self,
+        x_t: torch.Tensor,
+        state: tuple[torch.Tensor, torch.Tensor],
+        gamma_s: float = 0.999,
+        gamma_a: float = 0.990,
+        use_triton: bool = True
+    ) -> tuple[torch.Tensor, tuple[torch.Tensor, torch.Tensor]]:
+        """
+        O(1) streaming autoregressive generation step.
+        Input:
+            x_t: [B, D] current token embedding
+            state: (S_prev, A_prev) where each is [B, D, D]
+        Returns:
+            out_t: [B, D] layer output
+            new_state: (S_next, A_next)
+        """
+        B, D = x_t.shape
+        S_prev, A_prev = state
+        device = x_t.device
+        dtype = x_t.dtype
+
+        u_t = self.W_u(x_t)
+        v_t = self.W_v(x_t)
+        q_t = self.W_q(x_t)
+        g_t = self.connector.compute_grid_modulation(x_t.unsqueeze(1)).squeeze(1).squeeze(-1).squeeze(-1) # [B]
+
+        if HAS_TRITON and use_triton and device.type == "cuda" and (D & (D - 1) == 0):
+            S_next = torch.empty_like(S_prev)
+            A_next = torch.empty_like(A_prev)
+            out_t = torch.empty_like(x_t)
+
+            BLOCK_D = triton.next_power_of_2(D)
+            grid = (B,)
+            _savg_step_kernel[grid](
+                u_t, v_t, q_t, g_t,
+                S_prev, A_prev,
+                S_next, A_next, out_t,
+                B, D,
+                u_t.stride(0), u_t.stride(1),
+                v_t.stride(0), v_t.stride(1),
+                q_t.stride(0), q_t.stride(1),
+                S_prev.stride(0), S_prev.stride(1), S_prev.stride(2),
+                A_prev.stride(0), A_prev.stride(1), A_prev.stride(2),
+                out_t.stride(0), out_t.stride(1),
+                gamma_s=gamma_s,
+                gamma_a=gamma_a,
+                BLOCK_D=BLOCK_D,
+            )
+        else:
+            # PyTorch fallback step
+            sym_inc = 0.5 * (torch.bmm(u_t.unsqueeze(2), v_t.unsqueeze(1)) + torch.bmm(v_t.unsqueeze(2), u_t.unsqueeze(1)))
+            anti_inc = 0.5 * (torch.bmm(u_t.unsqueeze(2), v_t.unsqueeze(1)) - torch.bmm(v_t.unsqueeze(2), u_t.unsqueeze(1)))
+            g_b = g_t.unsqueeze(-1).unsqueeze(-1)
+
+            S_next = gamma_s * S_prev + g_b * sym_inc
+            A_next = gamma_a * A_prev + g_b * anti_inc
+            net_state = S_next + A_next
+            out_t = torch.bmm(net_state, q_t.unsqueeze(-1)).squeeze(-1)
+
+        return self.out_proj(out_t), (S_next, A_next)
 
 
 def run_timing_and_verification():
