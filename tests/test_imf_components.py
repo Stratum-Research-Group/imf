@@ -90,3 +90,49 @@ def test_fused_savg_layer_dtypes(dtype):
     assert x.grad is not None
     assert x.grad.dtype == dtype
 
+
+def test_fused_savg_streaming_step_equivalence():
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    d_model = 32
+    batch = 2
+    layer = FusedSAVGLayer(d_model=d_model, preset="tetrahedron").to(device)
+
+    state = layer.init_state(batch, device)
+    x_t = torch.randn(batch, d_model, device=device)
+
+    out_tri, state_tri = layer.step(x_t, state, use_triton=True)
+    out_ref, state_ref = layer.step(x_t, state, use_triton=False)
+
+    assert out_tri.shape == (batch, d_model)
+    assert state_tri[0].shape == (batch, d_model, d_model)
+    assert state_tri[1].shape == (batch, d_model, d_model)
+
+    max_diff_out = (out_tri - out_ref).abs().max().item()
+    max_diff_s = (state_tri[0] - state_ref[0]).abs().max().item()
+    max_diff_a = (state_tri[1] - state_ref[1]).abs().max().item()
+
+    assert max_diff_out < 1e-4
+    assert max_diff_s < 1e-4
+    assert max_diff_a < 1e-4
+
+
+def test_imf_language_model_forward_and_generate():
+    from pretrain_imf_lm import IMFLanguageModel
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    vocab_size = 50
+    d_model = 32
+    lm = IMFLanguageModel(vocab_size=vocab_size, d_model=d_model, n_layers=2, preset="tetrahedron").to(device)
+
+    # 1. Forward batch
+    tokens = torch.randint(0, vocab_size, (2, 8), device=device)
+    logits = lm(tokens)
+    assert logits.shape == (2, 8, vocab_size)
+
+    # 2. Streaming step
+    states = lm.init_streaming_states(batch_size=1, device=device)
+    curr_tok = torch.tensor([[5]], device=device)
+    step_logits, next_states = lm.generate_step(curr_tok.squeeze(1), states)
+    assert step_logits.shape == (1, vocab_size)
+    assert len(next_states) == 2
+
+
