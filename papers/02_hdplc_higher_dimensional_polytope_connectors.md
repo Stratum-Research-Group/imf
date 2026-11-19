@@ -68,7 +68,7 @@ D = 11       Hendecaxennon           Orthoplex        22                 22 × 2
 The Enneazetton represents 9-dimensional geometry. In orthoplex form ($K=18$), it perfectly accommodates 9 fundamental semantic roles (e.g., Subject, Predicate, Direct Object, Indirect Object, Temporal Anchor, Spatial Anchor, Modality, Polarity, Certainty) alongside their exact negative counterparts.
 
 ### 3.2 The Decayotton ($D=10$)
-The 10-dimensional Decayotton Orthoplex ($K=20$) provides a canonical $20 \times 20$ interaction grid (400 interaction slots). This geometry serves as the default backbone in IMF, offering the optimal balance between representational expressivity and sub-millisecond hardware kernel execution.
+The 10-dimensional Decayotton Orthoplex ($K=20$) provides a canonical $20 \times 20$ interaction grid (400 interaction slots). This geometry serves as the default backbone in IMF, offering the optimal balance between representational expressivity and hardware kernel execution efficiency (~0.90 ms fused scan latency and 0.24 ms streaming step latency).
 
 ### 3.3 The Hendecaxennon ($D=11$)
 The Hendecaxennon ($D=11$) represents an 11-simplex ($K=12$) or 11-orthoplex ($K=22$). It provides higher-arity capacity for complex compositional reasoning involving nested clausal qualifiers, conditional hypotheses, and multi-agent attribution frames.

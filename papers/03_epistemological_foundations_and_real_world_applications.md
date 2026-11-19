@@ -106,7 +106,7 @@ The IMF architecture represents the first milestone in Stratum Research Group's 
 1. **Phase 1: Foundations (Current Milestone)**
    - Mathematical formulation of SAVG Lie decomposition and HDPLC regular polytope coordinates.
    - Formal verification in Lean 4 (`DiscreteToContinuousBridge.lean`, `ContinuousCrossingBounds.lean`).
-   - Hardware-fused Triton JIT kernels achieving sub-millisecond step latency.
+   - Hardware-fused Triton JIT kernels achieving high-throughput execution (0.90 ms scan and 0.24 ms streaming step latency).
 2. **Phase 2: Scale and Domain-Specific Adaptation**
    - Pre-training hybrid 7B-to-70B parameter models combining SAVG with local sliding-window attention.
    - Deploying HDPLC multi-arity connectors in genomic foundation models and automated Lean 4 mathematical copilots.

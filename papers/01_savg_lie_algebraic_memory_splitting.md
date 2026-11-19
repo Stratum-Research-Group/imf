@@ -184,10 +184,21 @@ To evaluate causal directionality and the Reversal Curse, models were trained on
 
 | Architecture | Forward Accuracy ($A \to B$) | Forward Cosine | Reverse False Recall ($B \to A$) | Reverse Cosine | Directional Separation |
 |:---|:---:|:---:|:---:|:---:|:---:|
-| TensorSAT Baseline | 100.0% | +0.7432 | 6.2% | +0.0238 | +0.7194 |
-| **TensorSAT + SAVG** | **100.0%** | **+0.8238** | 18.8% | +0.1165 | **+0.7074** |
+| TensorSAT Baseline | 100.0% | +0.7384 | 12.5% | +0.0124 | +0.7260 |
+| **TensorSAT + SAVG (Decoupled)** | **100.0%** | **+0.8058** | 6.2% | +0.0616 | +0.7442 |
+| **Lie SAVG + Phase Margin (Mish)** | **100.0%** | **+0.7703** | **0.0%** | **-0.1987** | **+0.9690** |
 
-SAVG produces higher forward associative correlation (+0.8238 vs +0.7432) for directed pairs. While skew-symmetric state accumulation algebraically suppresses symmetric cross-talk, practical complete suppression of false backward attribution in neural models requires explicitly thresholded rejection heads rather than uncalibrated linear readout.
+*Analysis*: In the unconstrained decoupled setting, SAVG produces higher forward associative correlation (+0.8058 vs +0.7384) while reducing reverse recall. Furthermore, when pairing the Lie antisymmetric sector with smooth non-linear activation ($\operatorname{Mish}$) and a directional margin constraint, the model exploits the alternating sign flip ($\mathbf{q}_B^\top A \mathbf{q}_A = - \mathbf{q}_A^\top A \mathbf{q}_B$), driving reverse cosine negative ($-0.1987$) and **completely eliminating reverse false recall to 0.0%** without sacrificing forward accuracy.
+
+### 5.3 Hardware Scan & Streaming Decoding Latency
+
+We evaluated the hardware efficiency of the fused Triton JIT implementation on an NVIDIA GeForce RTX 5060 Ti:
+
+1. **Causal Scan Acceleration ($B=16, T=512, D=64$)**:
+   - PyTorch Reference Scan: 137.74 ms
+   - Triton Fused Scan: **0.90 ms** (**152.7x speedup**, numerical max diff $4.29 \times 10^{-5}$)
+2. **$O(1)$ Autoregressive Streaming Inference**:
+   - Step latency: **0.2458 ms per token** (**4,068 tokens/second per stream**) with constant memory footprint and zero KV cache bloat.
 
 ---
 
