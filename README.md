@@ -99,15 +99,19 @@ $$\mathbf{A}_t = \frac{1}{2}\left(\mathbf{u}_t \mathbf{v}_t^\top - \mathbf{v}_t 
 
 ### 2.2 Phase Inversion & Directional Selectivity
 
-When queried in the correct forward direction ($Q = \mathbf{u}$ searching for $\mathbf{v}$):
+When queried in the forward direction ($Q = \mathbf{u}$ searching for $\mathbf{v}$):
 
-$$\mathbf{A}_t \mathbf{u} = \frac{1}{2}\left(\mathbf{u}(\mathbf{v}^\top \mathbf{u}) - \mathbf{v}(\mathbf{u}^\top \mathbf{u})\right) \propto -\mathbf{v}$$
+$$\mathbf{A}_t \mathbf{u} = \frac{1}{2}\left(\mathbf{u}(\mathbf{v}^\top \mathbf{u}) - \mathbf{v}(\mathbf{u}^\top \mathbf{u})\right)$$
+
+When $\mathbf{u}$ and $\mathbf{v}$ are orthogonal, this evaluates to $-\frac{1}{2}\|\mathbf{u}\|^2 \mathbf{v}$.
 
 When queried in the reverse direction ($Q = \mathbf{v}$ searching for $\mathbf{u}$):
 
-$$\mathbf{A}_t \mathbf{v} = \frac{1}{2}\left(\mathbf{u}(\mathbf{v}^\top \mathbf{v}) - \mathbf{v}(\mathbf{u}^\top \mathbf{v})\right) \propto +\mathbf{u}$$
+$$\mathbf{A}_t \mathbf{v} = \frac{1}{2}\left(\mathbf{u}(\mathbf{v}^\top \mathbf{v}) - \mathbf{v}(\mathbf{u}^\top \mathbf{v})\right)$$
 
-The antisymmetric sector exhibits an exact **phase inversion** ($\Delta\phi = \pi$). By combining $(\mathbf{S} - \mathbf{A})$, reverse hallucinations are canceled by destructive interference while forward recall is reinforced.
+For orthogonal vectors, this evaluates to $+\frac{1}{2}\|\mathbf{v}\|^2 \mathbf{u}$.
+
+The antisymmetric sector exhibits an exact **phase inversion** ($\Delta\phi = \pi$) under transposition $(\mathbf{A}^\top = -\mathbf{A})$. By combining symmetric associative accumulation with skew-symmetric directional flow $(\mathbf{S} + \mathbf{A})$, the architecture distinguishes forward sequence transitions from reverse attributions.
 
 ### 2.3 Geometric Virtual Grid: Barycentric Simplex Frame
 
@@ -324,13 +328,13 @@ python triton_savg_kernel.py
 python benchmark_spo_multihop.py
 python stress_spo_multihop.py
 
-# 4. Multi-Query Associative Recall benchmark (Noise immunity at N=512)
+# 4. Multi-Query Associative Recall benchmark
 python benchmark_mqar.py
 
 # 5. Polytope comparison (Enneazetton, Decayotton, Hendecaxennon)
 python benchmark_polytopes.py
 
-# 6. Directional selectivity & reversal rejection (2.47x ratio)
+# 6. Directional selectivity & in-context reversal evaluation
 python test_savg_directionality.py
 ```
 
