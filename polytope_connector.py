@@ -48,6 +48,7 @@ class ConfigurablePolytopeConnector(nn.Module):
         preset: Optional[str] = None,
         temperature: float = 1.0,
         factor_rank: Optional[int] = None,
+        learnable_remeshing: bool = False,
     ):
         super().__init__()
         if preset is not None:
@@ -63,6 +64,14 @@ class ConfigurablePolytopeConnector(nn.Module):
         self.d_model = d_model
         self.temperature = temperature
         self.factor_rank = factor_rank
+        self.learnable_remeshing = learnable_remeshing
+
+        # Learnable affine transformation in the Lie group SL(d) for dynamic re-meshing
+        # W = exp(A), where A in sl(d) has tr(A) = 0, guaranteeing det(W) = 1 (volume-preserving)
+        if self.learnable_remeshing:
+            self.dynamic_remeshing = nn.Parameter(torch.zeros(d_model, d_model))
+        else:
+            self.dynamic_remeshing = None
 
         # Determine vertex count K based on polytope geometry
         if self.family == "simplex":
@@ -103,14 +112,24 @@ class ConfigurablePolytopeConnector(nn.Module):
         else:
             raise ValueError(f"Unsupported family: {self.family}")
 
-    def get_coordinates(self, x: torch.Tensor) -> torch.Tensor:
+    def get_coordinates(self, x: torch.Tensor, apply_remeshing: bool = False) -> torch.Tensor:
         """
         Computes barycentric/simplex coordinates w(x).
         Args:
             x: [Batch, SeqLen, d_model]
+            apply_remeshing: If True, warps input via the volume-preserving SL(d) affine map
         Returns:
             coords: [Batch, SeqLen, num_vertices]
         """
+        if apply_remeshing and self.dynamic_remeshing is not None:
+            # Enforce zero-trace generator: A_sl = A - (tr(A)/d) * I => tr(A_sl) = 0
+            d = self.d_model
+            trace_correction = torch.trace(self.dynamic_remeshing) / d
+            sl_generator = self.dynamic_remeshing - trace_correction * torch.eye(d, device=x.device, dtype=x.dtype)
+            # Matrix exponential maps sl(d) -> SL(d) with det(W) = 1
+            warp = torch.matrix_exp(sl_generator)
+            x = torch.matmul(x, warp)
+
         if self.family == "simplex":
             logits = torch.matmul(x, self.corners.T) / self.temperature
             return F.softmax(logits, dim=-1)
