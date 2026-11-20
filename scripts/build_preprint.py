@@ -256,6 +256,7 @@ def main():
         PAPERS_DIR / "01_savg_lie_algebraic_memory_splitting.md",
         PAPERS_DIR / "02_hdplc_higher_dimensional_polytope_connectors.md",
         PAPERS_DIR / "03_epistemological_foundations_and_real_world_applications.md",
+        PAPERS_DIR / "04_grassmann_stereochemistry_and_sl_d_remeshing.md",
     ]
 
     html_sections = []
