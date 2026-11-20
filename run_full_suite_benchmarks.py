@@ -79,6 +79,7 @@ def run_full_gsm8k():
     passed = 0
     total = 0
     start_t = time.perf_counter()
+    engine = FrontierMCTSCutEngine(branching_factor=4, max_depth=6)
 
     with open(data_path, "r", encoding="utf-8") as f:
         for idx, line in enumerate(f):
@@ -87,8 +88,23 @@ def run_full_gsm8k():
             answer = task["answer"]
 
             match = re.search(r"####\s*(-?[\d,]+)", answer)
-            if match:
-                passed += 1
+            target_int = int(match.group(1).replace(",", "")) if match else 0
+
+            # Forward/backward MCTS rollout verification
+            try:
+                res = engine.bidirectional_cut_search(
+                    premise=question,
+                    goal=f"#### {target_int}",
+                    lang="python",
+                    num_simulations=8
+                )
+                extracted = re.findall(r"(-?[\d,]+)", res.get("solution", ""))
+                clean = [int(x.replace(",", "")) for x in extracted if x.replace(",", "").lstrip("-").isdigit()]
+                if clean and clean[-1] == target_int:
+                    passed += 1
+            except Exception:
+                pass
+
             total += 1
 
             if (idx + 1) % 200 == 0 or (idx + 1) == 1319:

@@ -106,19 +106,22 @@ def benchmark_lra_retrieval():
             print(f"{N:<12} | {'Decaying Scalar SSM':<24} | {'0.00% (Decayed)':<14} | {'0.0000 (Lost)':<16} | {'N/A':<10}")
 
         # --- B. Fused Triton Unitary SO(d_h) SSM (IMF) ---
-        torch.cuda.synchronize()
+        if torch.cuda.is_available():
+            torch.cuda.synchronize()
         t0 = time.time()
         U = unitary_ssm.get_orthogonal_rotator() # [H, D, D]
         with torch.no_grad():
             # Run Fused Triton Kernel in registers
             out_triton = fused_unitary_ssm_forward(k_seq, k_seq, v_seq, U)
-            # Retrieve output at step 0 vs step N
-            # Since unitary scan preserves exact rotation, memory norm is strictly 100.0%
-            readout_N = out_triton[:, :, -1, :]
-            # Check readout preservation
-            sim_imf = 1.0  # Mathematically proven in Lean 4: ContinuousCrossingBounds.continuous_lie_ssm_energy_conservation
-            norm_imf = 100.00
-        torch.cuda.synchronize()
+            readout_N = out_triton[:, :, -1, :] # [B, H, D]
+            
+            # Check readout preservation against true needle value target
+            sim_imf = F.cosine_similarity(readout_N, v_target.squeeze(2), dim=-1).mean().item()
+            # Empirical Frobenius norm comparison vs initial state injection
+            target_init_norm = torch.norm(v_target.squeeze(2).unsqueeze(-1) @ k_target.squeeze(2).unsqueeze(-2)) + 1e-6
+            norm_imf = (torch.norm(readout_N) / torch.norm(v_target.squeeze(2)) * 100.0).item()
+        if torch.cuda.is_available():
+            torch.cuda.synchronize()
         t_triton = (time.time() - t0) * 1000.0
         print(f"{N:<12} | {'IMF Unitary Triton SSM':<24} | {norm_imf:12.2f}% | {sim_imf:16.4f} | {t_triton:8.2f} ms")
         print("-" * 85)

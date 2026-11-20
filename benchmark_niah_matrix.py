@@ -78,7 +78,9 @@ def evaluate_grid():
     for c_idx, N in enumerate(context_lengths):
         print(f"\n[*] Evaluating Context Length N = {N:,}...")
         for d_idx, depth in enumerate(depths):
-            tokens, target, _ = generate_niah_sequence(N, depth, vocab_size, seed=1000 * N + int(depth * 100))
+            # Disjoint sets: fit on train_tokens, evaluate generalization on eval_tokens
+            train_tokens, train_target, _ = generate_niah_sequence(N, depth, vocab_size, seed=1000 * N + int(depth * 100))
+            eval_tokens, eval_target, _ = generate_niah_sequence(N, depth, vocab_size, seed=5000 * N + int(depth * 100))
 
             # 1. IMF Multi-Head SAVG (Polytope 10D Decayotton)
             savg_model = NeedleRetrievalModel(
@@ -91,8 +93,8 @@ def evaluate_grid():
             t0 = time.perf_counter()
             for _ in range(5):
                 opt_savg.zero_grad()
-                logits = savg_model(tokens)
-                loss = F.cross_entropy(logits[:, -1, :], torch.tensor([target], device=DEVICE))
+                logits = savg_model(train_tokens)
+                loss = F.cross_entropy(logits[:, -1, :], torch.tensor([train_target], device=DEVICE))
                 loss.backward()
                 opt_savg.step()
             if DEVICE.type == "cuda":
@@ -100,9 +102,10 @@ def evaluate_grid():
             t_savg = (time.perf_counter() - t0) * 1000.0 / 5.0
             step_times.append(t_savg)
 
+            # Evaluate on held-out evaluation sequence
             with torch.no_grad():
-                pred = torch.argmax(savg_model(tokens)[:, -1, :], dim=-1).item()
-                savg_acc = 1.0 if pred == target else 0.0
+                pred = torch.argmax(savg_model(eval_tokens)[:, -1, :], dim=-1).item()
+                savg_acc = 1.0 if pred == eval_target else 0.0
                 savg_matrix[d_idx, c_idx] = savg_acc
 
             # 2. Standard Linear Attention (if within compute budget for N <= 8192)
@@ -113,18 +116,19 @@ def evaluate_grid():
                 opt_lin = torch.optim.Adam(lin_model.parameters(), lr=0.01)
                 for _ in range(5):
                     opt_lin.zero_grad()
-                    logits = lin_model(tokens)
-                    loss = F.cross_entropy(logits[:, -1, :], torch.tensor([target], device=DEVICE))
+                    logits = lin_model(train_tokens)
+                    loss = F.cross_entropy(logits[:, -1, :], torch.tensor([train_target], device=DEVICE))
                     loss.backward()
                     opt_lin.step()
                 with torch.no_grad():
-                    pred_lin = torch.argmax(lin_model(tokens)[:, -1, :], dim=-1).item()
-                    linear_acc = 1.0 if pred_lin == target else 0.0
+                    pred_lin = torch.argmax(lin_model(eval_tokens)[:, -1, :], dim=-1).item()
+                    linear_acc = 1.0 if pred_lin == eval_target else 0.0
             else:
-                linear_acc = 0.0
+                linear_acc = float('nan')
             linear_matrix[d_idx, c_idx] = linear_acc
 
-            print(f"  Depth {int(depth * 100):2d}% | SAVG Recall: {savg_acc * 100:.0f}% ({t_savg:6.2f} ms) | Linear Attention: {linear_acc * 100:.0f}%")
+            lin_str = f"{linear_acc * 100:.0f}%" if not math.isnan(linear_acc) else "Unmeasured"
+            print(f"  Depth {int(depth * 100):2d}% | SAVG Recall: {savg_acc * 100:.0f}% ({t_savg:6.2f} ms) | Linear Attention: {lin_str}")
 
     # Generate Publication Heatmap
     try:

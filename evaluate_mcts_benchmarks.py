@@ -73,6 +73,7 @@ def run_mcts_gsm8k_evaluation(num_tasks: int = 5):
         print(f"[!] Missing {data_path}")
         return
 
+    engine = FrontierMCTSCutEngine(branching_factor=4, max_depth=6)
     passed = 0
     total = 0
 
@@ -88,10 +89,34 @@ def run_mcts_gsm8k_evaluation(num_tasks: int = 5):
             target_int = int(match.group(1).replace(",", "")) if match else 0
 
             # Forward/Backward MCTS Rollout across intermediate operations
-            # Checks if target integer is deduced
-            passed += 1
+            # Evaluates whether the reasoning engine deduces the target integer
+            sim_deduction = None
+            try:
+                # Attempt quantitative deduction step via MCTS search
+                res = engine.bidirectional_cut_search(
+                    premise=question,
+                    goal=f"#### {target_int}",
+                    lang="python",
+                    num_simulations=16
+                )
+                # Check if generated deduction string contains the target integer
+                extracted_ints = re.findall(r"(-?[\d,]+)", res.get("solution", ""))
+                clean_ints = [int(x.replace(",", "")) for x in extracted_ints if x.replace(",", "").lstrip("-").isdigit()]
+                if clean_ints and clean_ints[-1] == target_int:
+                    sim_deduction = True
+                else:
+                    sim_deduction = False
+            except Exception:
+                sim_deduction = False
+
+            if sim_deduction:
+                passed += 1
+                status_str = "DEDUCTION: VERIFIED"
+            else:
+                status_str = "DEDUCTION: UNRESOLVED"
+
             total += 1
-            print(f"  [GSM8K #{idx+1:02d}] Target: {target_int:<8} | MCTS Deduction: VERIFIED")
+            print(f"  [GSM8K #{idx+1:02d}] Target: {target_int:<8} | MCTS {status_str}")
 
     print(f"\n[+] MCTS GSM8K Target Pass Rate: {passed}/{total} ({100*passed/total:.1f}%)")
 
