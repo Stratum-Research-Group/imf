@@ -47,6 +47,7 @@ class ConfigurablePolytopeConnector(nn.Module):
         family: PolytopeFamily = "simplex",
         preset: Optional[str] = None,
         temperature: float = 1.0,
+        factor_rank: Optional[int] = None,
     ):
         super().__init__()
         if preset is not None:
@@ -61,14 +62,22 @@ class ConfigurablePolytopeConnector(nn.Module):
 
         self.d_model = d_model
         self.temperature = temperature
+        self.factor_rank = factor_rank
 
         # Determine vertex count K based on polytope geometry
         if self.family == "simplex":
             # D-simplex has D + 1 vertices
             self.num_vertices = self.dimension + 1
             self.corners = nn.Parameter(torch.randn(self.num_vertices, d_model) / math.sqrt(d_model))
-            # Grid interaction matrix: K x K
-            self.grid_weight = nn.Parameter(torch.randn(self.num_vertices, self.num_vertices) * 0.02)
+            if factor_rank is not None and factor_rank < self.num_vertices:
+                # Factorized low-rank grid: W = U @ V (O(K * r) instead of O(K^2))
+                self.grid_u = nn.Parameter(torch.randn(self.num_vertices, factor_rank) * 0.02)
+                self.grid_v = nn.Parameter(torch.randn(factor_rank, self.num_vertices) * 0.02)
+                self.grid_weight = None
+            else:
+                self.grid_weight = nn.Parameter(torch.randn(self.num_vertices, self.num_vertices) * 0.02)
+                self.grid_u = None
+                self.grid_v = None
 
         elif self.family == "orthoplex":
             # D-orthoplex (cross-polytope) has 2 * D antipodal vertices (+e_i, -e_i)
@@ -76,7 +85,14 @@ class ConfigurablePolytopeConnector(nn.Module):
             self.num_vertices = 2 * self.dimension
             # Only parameterize D independent axes; the other D are exact antipodal negations
             self.axes = nn.Parameter(torch.randn(self.num_axes, d_model) / math.sqrt(d_model))
-            self.grid_weight = nn.Parameter(torch.randn(self.num_vertices, self.num_vertices) * 0.02)
+            if factor_rank is not None and factor_rank < self.num_vertices:
+                self.grid_u = nn.Parameter(torch.randn(self.num_vertices, factor_rank) * 0.02)
+                self.grid_v = nn.Parameter(torch.randn(factor_rank, self.num_vertices) * 0.02)
+                self.grid_weight = None
+            else:
+                self.grid_weight = nn.Parameter(torch.randn(self.num_vertices, self.num_vertices) * 0.02)
+                self.grid_u = None
+                self.grid_v = None
 
         elif self.family == "hypercube_factorized":
             # D-hypercube has 2^D vertices, but factorized into D binary coordinates
@@ -120,8 +136,16 @@ class ConfigurablePolytopeConnector(nn.Module):
         """
         coords = self.get_coordinates(x)
         if self.family in ("simplex", "orthoplex"):
-            # w(x)^T * G * w(x)
-            grid_val = torch.einsum("bti,ij,btj->bt", coords, self.grid_weight, coords)
+            if self.grid_u is not None:
+                # Low-rank O(K * r) contraction: (coords @ grid_u) @ (grid_v @ coords^T)
+                # coords: [B, T, K]
+                # proj_u: [B, T, r], proj_v: [B, T, r]
+                proj_u = torch.matmul(coords, self.grid_u)
+                proj_v = torch.matmul(coords, self.grid_v.T)
+                grid_val = (proj_u * proj_v).sum(dim=-1)  # [B, T]
+            else:
+                # Standard dense O(K^2) contraction
+                grid_val = torch.einsum("bti,ij,btj->bt", coords, self.grid_weight, coords)
             return (1.0 + grid_val).unsqueeze(-1).unsqueeze(-1)
         else:
             # Factorized hypercube form: c(x)^T * W * c(x)
