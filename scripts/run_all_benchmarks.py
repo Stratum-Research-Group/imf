@@ -49,6 +49,8 @@ def main():
         ("Unit Test Regression Suite", [py_bin, "-m", "pytest", "tests/"]),
         ("Directional Recall & Phase Margin Test", [py_bin, "test_savg_directionality.py"]),
         ("Factual Reversal Curse Benchmark", [py_bin, "benchmark_reversal_curse.py"]),
+        ("Chiral Enantiomer Discrimination Benchmark", [py_bin, "benchmark_chiral_discrimination.py"]),
+        ("Extreme Multilinear Arity Benchmark", [py_bin, "benchmark_infinite_arity_scaling.py"]),
         ("Long-Context Sub-Quadratic MQAR Scaling", [py_bin, "benchmark_long_context_mqar.py"]),
         ("Needle-In-A-Haystack 8k Retrieval", [py_bin, "benchmark_needle_in_haystack.py"]),
         ("Polytope Geometric Ablation Benchmark", [py_bin, "benchmark_polytope_ablation.py"]),
