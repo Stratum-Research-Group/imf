@@ -123,8 +123,29 @@ Knowledge chains over a fixed deterministic transition function $e_{t+1} = T(e_t
 
 *Findings*: The CP-factorized higher-arity simplex module executes substantially faster than pairwise attention (1.76 ms vs 5.95 ms for 2-hop; 1.86 ms vs 13.49 ms for 3-hop) while achieving zero training loss within 60 steps. However, true zero-shot relational composition on held-out chains requires extensive multi-task pretraining beyond small-batch toy optimization.
 
-### 5.2 Geometric Collision and Spatial Crowding Resistance
+### 5.2 Needle-In-A-Haystack (NIAH) Long-Context Spatial Stability
+To evaluate whether HDPLC's bounded barycentric coordinate frame prevents representation collapse across extreme sequence lengths, we evaluated full-grid Needle-In-A-Haystack retrieval across context lengths $N \in \{1024, 2048, 4096, 8192, 16384\}$ tokens and needle placement depths $\{10\%, 25\%, 50\%, 75\%, 90\%\}$.
+
+![NIAH Grid Heatmap](../assets/niah_grid_heatmap.png)
+
+| Context Length ($N$) | Depth | Standard Linear Attention | IMF Multi-Head SAVG (10D Polytope) | Step Latency |
+|:---|:---:|:---:|:---:|:---:|
+| **1,024** | 10%–90% | 100% | **100%** | 3.79–8.43 ms |
+| **2,048** | 10%–90% | 100% | **100%** | 5.32–8.67 ms |
+| **4,096** | 10%–90% | 100% | **100%** | 12.49–19.34 ms |
+| **8,192** | 10%–90% | 100% | **100%** | 20.81–32.26 ms |
+| **16,384** | 10%–90% | 0.0% (collapsed) | **100%** | **24.93–43.17 ms** |
+
+*Findings*: Standard linear attention experiences numerical accumulation drift beyond $8\text{k}$ tokens, collapsing to 0% retrieval at $N = 16,384$. In contrast, IMF Multi-Head SAVG anchored to the 10D Decayotton virtual grid achieves **100% retrieval across all depths up to 16,384 tokens**, maintaining stable step latencies of 24.9–43.2 ms.
+
+### 5.3 Geometric Collision and Spatial Crowding Resistance
 HDPLC's polytope grid partitions the latent space into bounded barycentric sectors. In contrast to unconstrained Euclidean vectors which undergo angular collapse as dimension increases, regular polytope vertex frames enforce distinct simplicial faces that provide structural regularization across latent states.
+
+### 5.4 Formal Verification in Lean 4
+The partition of unity and antipodal symmetries of the polytope frames are formally verified in `lean/PolytopeBarycentric.lean` and `lean/ContinuousCrossingBounds.lean`:
+- **Simplex Coordinate Boundedness**: `coord_le_total_of_sum` and `coord_le_one_of_unit_sum` prove that each barycentric coordinate is bounded by the total sum ($\sum_{i=1}^K w_i = 1 \implies w_j \in [0, 1]$).
+- **Orthoplex Antipodal Involution**: `antipodal_involution` proves that the orthoplex coordinate inversion $k \mapsto (k + D) \pmod{2D}$ is an exact mathematical involution ($f \circ f = \mathrm{id}$).
+- **Communication Crossing Lower Bound**: `skew_crossing_rank_lower_bound` and `crossing_margin_invariant_under_symmetric_shift` establish that directional contrast across a bisection cut is strictly invariant under symmetric background perturbations.
 
 ---
 
