@@ -89,8 +89,16 @@ class MultiLanguageExecutionVerifier:
                 timeout=10,
                 text=True,
             )
-            success = (res.returncode == 0)
-            msg = "Valid Lean 4 formal proof tactics." if success else res.stderr[:300]
+            # Lean 4 outputs warnings on stdout/stderr when `sorry` is used
+            combined_out = res.stdout + res.stderr
+            has_sorry = "declaration uses `sorry`" in combined_out or "declaration uses 'sorry'" in combined_out or "uses sorry" in combined_out
+            success = (res.returncode == 0) and not has_sorry
+            if has_sorry:
+                msg = "Proof incomplete: declaration uses `sorry`."
+            elif success:
+                msg = "Valid Lean 4 formal proof tactics."
+            else:
+                msg = res.stderr[:300]
             return success, msg
         except Exception as e:
             return False, str(e)
