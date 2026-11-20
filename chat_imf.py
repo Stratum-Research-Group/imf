@@ -108,11 +108,12 @@ def main():
         n_layers = ckpt.get("n_layers", 3)
         preset = ckpt.get("preset", "decayotton_orthoplex")
         use_higher_arity = any("arity_binding" in k for k in ckpt["model_state"].keys())
+        use_continuous_simplex = any("continuous_binding" in k for k in ckpt["model_state"].keys())
         # Automatically count projection branches in arity_binding
         arity_projs = [k for k in ckpt["model_state"].keys() if "blocks.0.arity_binding.projections." in k]
         arity = len(arity_projs) if arity_projs else (3 if use_higher_arity else 3)
 
-        if "ScaledIMFDecoderLM" in str(ckpt.get("arch", "")) or n_layers >= 6 or use_higher_arity:
+        if "ScaledIMFDecoderLM" in str(ckpt.get("arch", "")) or n_layers >= 6 or use_higher_arity or use_continuous_simplex:
             from train_scaled_imf import ScaledIMFDecoderLM
             model = ScaledIMFDecoderLM(
                 vocab_size=vocab_size,
@@ -121,6 +122,7 @@ def main():
                 n_layers=n_layers,
                 preset=preset,
                 use_higher_arity=use_higher_arity,
+                use_continuous_simplex=use_continuous_simplex,
                 arity=arity,
             ).to(device)
         else:
