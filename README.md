@@ -265,7 +265,26 @@ Evaluated on Multi-Query Associative Recall across long contexts on an NVIDIA Ge
 
 > *Phase-Margin Formulation*: By routing relational bindings through the Lie antisymmetric sector ($A = -A^\top$) paired with smooth activation ($\operatorname{Mish}$) and a directional contrast margin, the model exploits the alternating sign flip ($\mathbf{q}_B^\top A \mathbf{q}_A = - \mathbf{q}_A^\top A \mathbf{q}_B$), driving reverse projection negative and eliminating reverse leakage without sacrificing forward accuracy.
 
-### 5.4 Fused Kernel Hardware Acceleration (CUDA Throughput)
+### 5.5 Needle In A Haystack (NIAH) Retrieval ($N \le 8192$)
+
+Evaluated on long-context single-needle key-value retrieval at depths of 10%, 50%, and 90% amidst random distractor tokens (`benchmark_needle_in_haystack.py`):
+
+| Context ($N$) | Depth | Standard Linear Attention | IMF Multi-Head SAVG (Polytope 10D) | Step Latency | Hardware Speedup |
+|:---|:---:|:---:|:---:|:---:|:---:|
+| **1024** | 10% | Retrieved (907 ms) | **Retrieved (✓)** | **71.94 ms** | **12.6x** |
+| | 50% | Retrieved (701 ms) | **Retrieved (✓)** | **6.35 ms** | **110x** |
+| | 90% | Retrieved (717 ms) | **Retrieved (✓)** | **6.57 ms** | **109x** |
+| **2048** | 10% | Retrieved (1390 ms) | **Retrieved (✓)** | **9.11 ms** | **152x** |
+| | 50% | Retrieved (1379 ms) | **Retrieved (✓)** | **10.16 ms** | **135x** |
+| | 90% | Retrieved (1390 ms) | **Retrieved (✓)** | **8.43 ms** | **164x** |
+| **4096** | 10% | Retrieved (2878 ms) | **Retrieved (✓)** | **21.57 ms** | **133x** |
+| | 50% | Retrieved (2855 ms) | **Retrieved (✓)** | **19.41 ms** | **147x** |
+| | 90% | Retrieved (2848 ms) | **Retrieved (✓)** | **16.71 ms** | **170x** |
+| **8192** | 10% | Retrieved (5782 ms) | **Retrieved (✓)** | **37.10 ms** | **155x** |
+| | 50% | Retrieved (5724 ms) | **Retrieved (✓)** | **31.57 ms** | **181x** |
+| | 90% | Retrieved (5707 ms) | **Retrieved (✓)** | **31.75 ms** | **179x** |
+
+### 5.6 Fused Kernel Hardware Acceleration (CUDA Throughput)
 
 Benchmarking the fused Triton JIT SAVG scan and backward pass against the unfused PyTorch reference on NVIDIA GeForce RTX 5060 Ti:
 

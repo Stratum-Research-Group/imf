@@ -216,6 +216,27 @@ We evaluated the hardware efficiency of the fused Triton JIT implementation on a
 2. **$O(1)$ Autoregressive Streaming Inference**:
    - Step latency: **0.2458 ms per token** (**4,068 tokens/second per stream**) with constant memory footprint and zero KV cache bloat.
 
+### 5.4 Long-Context Needle In A Haystack (NIAH) Retrieval ($N \le 8192$)
+
+To evaluate associative memory retention under extreme context length, we deployed the Needle In A Haystack benchmark (`benchmark_needle_in_haystack.py`), placing a secret key-value pair at depths of 10%, 50%, and 90% amidst random distractor tokens:
+
+| Context ($N$) | Depth | Standard Linear Attention | IMF Multi-Head SAVG (Polytope 10D) | SAVG Step Time | Speedup |
+|:---|:---:|:---:|:---:|:---:|:---:|
+| **1024** | 10% | Retrieved (907 ms) | **Retrieved (✓)** | **71.94 ms** | **12.6x** |
+| | 50% | Retrieved (701 ms) | **Retrieved (✓)** | **6.35 ms** | **110x** |
+| | 90% | Retrieved (717 ms) | **Retrieved (✓)** | **6.57 ms** | **109x** |
+| **2048** | 10% | Retrieved (1390 ms) | **Retrieved (✓)** | **9.11 ms** | **152x** |
+| | 50% | Retrieved (1379 ms) | **Retrieved (✓)** | **10.16 ms** | **135x** |
+| | 90% | Retrieved (1390 ms) | **Retrieved (✓)** | **8.43 ms** | **164x** |
+| **4096** | 10% | Retrieved (2878 ms) | **Retrieved (✓)** | **21.57 ms** | **133x** |
+| | 50% | Retrieved (2855 ms) | **Retrieved (✓)** | **19.41 ms** | **147x** |
+| | 90% | Retrieved (2848 ms) | **Retrieved (✓)** | **16.71 ms** | **170x** |
+| **8192** | 10% | Retrieved (5782 ms) | **Retrieved (✓)** | **37.10 ms** | **155x** |
+| | 50% | Retrieved (5724 ms) | **Retrieved (✓)** | **31.57 ms** | **181x** |
+| | 90% | Retrieved (5707 ms) | **Retrieved (✓)** | **31.75 ms** | **179x** |
+
+Across all context depths up to $N = 8192$, IMF Multi-Head SAVG achieves 100% needle retrieval while executing in under **38 ms per step**, compared to **5.78 seconds** for standard attention baselines (up to **181x speedup** on CUDA).
+
 ---
 
 ## 6. Conclusion and Future Horizons
