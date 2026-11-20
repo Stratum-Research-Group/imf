@@ -22,6 +22,8 @@ __all__ = [
     "IMFOmniBlock",
     "HyperbolicPolytopeTiling",
     "BPETokenizer",
+    "PolytopeMixtureOfExperts",
+    "PolytopeExpert",
 ]
 
 from triton_savg_kernel import FusedSAVGLayer, SAVGScanFunction, pytorch_reference_savg_scan
@@ -34,3 +36,4 @@ from imf.continuous_lie_ssm import ContinuousLieGroupSSM
 from imf.omni_block import IMFOmniBlock
 from imf.hyperbolic_polytope_tiling import HyperbolicPolytopeTiling
 from imf.bpe_tokenizer import BPETokenizer
+from imf.polytope_moe import PolytopeMixtureOfExperts, PolytopeExpert
