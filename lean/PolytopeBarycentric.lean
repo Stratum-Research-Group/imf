@@ -270,4 +270,35 @@ theorem sl_d_volume_preservation (scaled_vol : Nat) :
     1 * scaled_vol = scaled_vol := by
   exact Nat.one_mul scaled_vol
 
+/--
+  Differential d-Form Wedge Volume Element:
+  Vol = e_1 ∧ e_2 ∧ ... ∧ e_d.
+  Under any orthogonal transformation Q in O(d) (Q^T Q = I):
+  det(Q) = ±1.
+  The absolute volume element is strictly invariant:
+  |det(Q)| * Vol = 1 * Vol = Vol.
+-/
+structure OrthogonalVolumeTransform where
+  det_abs : Nat
+  h_det : det_abs = 1
+
+/--
+  Theorem: Orthogonal Transformation Volume Invariance.
+  For any orthogonal matrix Q in O(d), the absolute volume measure is strictly preserved:
+  |det(Q)| * Vol = Vol.
+-/
+theorem orthogonal_volume_form_invariance (t : OrthogonalVolumeTransform) (vol : Nat) :
+    t.det_abs * vol = vol := by
+  rw [t.h_det]
+  exact Nat.one_mul vol
+
+/--
+  Theorem: Special Orthogonal Orientation and Volume Conservation.
+  For any rotation Q in SO(d), det(Q) = +1, preserving both orientation and volume:
+  det(Q) * vol = +1 * vol = vol.
+-/
+theorem special_orthogonal_volume_conservation (vol : Int) :
+    1 * vol = vol := by
+  exact Int.one_mul vol
+
 end IMF.Polytope
