@@ -15,20 +15,21 @@ import torch.nn.functional as F
 
 class HigherAritySimplexBinding(nn.Module):
     """
-    Arity-3 and Arity-4 Simplex Hyperface Interaction Module.
-    Uses CP rank factorization to avoid O(d^3) or O(d^4) parameter explosion.
+    Arbitrary Arity Simplex Hyperface Interaction Module (Arity m in [3, 10]).
+    Uses CP rank factorization with RMS-normalization to avoid O(d^m) parameter explosion
+    and numerical vanishing across high-degree multilinear products:
     
-    T(x, y, z) = sum_{r=1}^R [ w_r · (U_r x) ⊙ (V_r y) ⊙ (W_r z) ]
+    T(x_1, ..., x_m) = sum_{r=1}^R [ w_r · ⊙_{i=1}^m RMSNorm(W_i x_i)_r ] · (1 + FaceMod)
     """
     def __init__(
         self,
         d_model: int,
         arity: int = 3,
         rank: int = 16,
-        num_corners: int = 10, # Decayotton Simplex default
+        num_corners: int = 11, # Decayotton Simplex default
     ):
         super().__init__()
-        assert arity in (3, 4), "Supported arities are 3 (triplets) or 4 (quadlets)"
+        assert 3 <= arity <= 10, "Supported arities are between 3 and 10"
         self.d_model = d_model
         self.arity = arity
         self.rank = rank
@@ -47,8 +48,10 @@ class HigherAritySimplexBinding(nn.Module):
         if arity == 3:
             # 2-faces (triangles) over simplex vertices
             self.face_weights = nn.Parameter(torch.randn(num_corners, num_corners, num_corners) * 0.01)
+            self.face_factor = None
         else:
-            # 3-faces (tetrahedra) over simplex vertices (factorized)
+            # Factorized (m-1)-faces over simplex vertices (O(K * R) complexity)
+            self.face_weights = None
             self.face_factor = nn.Parameter(torch.randn(num_corners, rank) * 0.02)
 
         self.out_proj = nn.Linear(d_model, d_model, bias=False)
@@ -62,8 +65,13 @@ class HigherAritySimplexBinding(nn.Module):
         """
         assert len(tokens) == self.arity, f"Expected {self.arity} token streams, got {len(tokens)}"
 
-        # 1. Project tokens onto CP factor rank spaces: [B, T, R]
-        projected = [proj(t) for proj, t in zip(self.projections, tokens)]
+        # 1. Project tokens onto CP factor rank spaces and normalize to prevent vanishing
+        projected = []
+        for proj, t in zip(self.projections, tokens):
+            p = proj(t)
+            # RMS normalization in rank space for stable high-degree product
+            rms = torch.rsqrt(torch.mean(p ** 2, dim=-1, keepdim=True) + 1e-5)
+            projected.append(p * rms)
 
         # 2. Hadamard product in rank-R space: ⊙_i (W_i X_i)
         hadamard_rank = projected[0]
@@ -71,7 +79,7 @@ class HigherAritySimplexBinding(nn.Module):
             hadamard_rank = hadamard_rank * p  # [B, T, R]
 
         # 3. Simplex Hyperface Modulation
-        if self.arity == 3:
+        if self.arity == 3 and self.face_weights is not None:
             c1 = F.softmax(torch.matmul(tokens[0], self.corners.T), dim=-1)
             c2 = F.softmax(torch.matmul(tokens[1], self.corners.T), dim=-1)
             c3 = F.softmax(torch.matmul(tokens[2], self.corners.T), dim=-1)
@@ -79,7 +87,7 @@ class HigherAritySimplexBinding(nn.Module):
             face_mod = torch.einsum("bti,btj,btk,ijk->bt", c1, c2, c3, self.face_weights)
             hadamard_rank = hadamard_rank * (1.0 + face_mod.unsqueeze(-1))
         else:
-            # Factorized 4-way face modulation using primary anchor coordinates
+            # Factorized m-way face modulation using primary anchor coordinates
             anchor_coords = F.softmax(torch.matmul(tokens[0], self.corners.T), dim=-1)  # [B, T, K]
             face_mod = torch.matmul(anchor_coords, self.face_factor)  # [B, T, R]
             hadamard_rank = hadamard_rank * (1.0 + face_mod)

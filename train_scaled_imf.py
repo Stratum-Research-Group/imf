@@ -113,7 +113,7 @@ def main():
     parser.add_argument("--train_steps", type=int, default=200, help="Training steps")
     parser.add_argument("--lr", type=float, default=1.5e-3, help="Peak learning rate")
     parser.add_argument("--use_higher_arity", action="store_true", help="Enable CP-factorized simplex hyperface binding")
-    parser.add_argument("--arity", type=int, default=3, choices=[3, 4], help="Simplex hyperface arity (3 for triplets, 4 for quadlets)")
+    parser.add_argument("--arity", type=int, default=3, help="Simplex hyperface arity (e.g. 3, 4, 10)")
     parser.add_argument("--save_path", type=str, default="checkpoints/imf_tinystories_scaled.pt", help="Checkpoint save path")
     args = parser.parse_args()
 
