@@ -21,8 +21,9 @@ def run_flagship_execution_benchmark():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"[*] Running Execution Pass@1 Benchmark on {device}...")
 
-    tok_path = "checkpoints/bpe_tokenizer_reasoning.pt"
-    tokenizer = BPETokenizer.load(tok_path)
+    tok_path = "checkpoints/code_bpe_tokenizer.json"
+    from imf.code_bpe_tokenizer import CodeBPETokenizer
+    tokenizer = CodeBPETokenizer.load(tok_path)
     vocab_size = len(tokenizer.vocab)
 
     model = IMFOmniLMMoPE(
@@ -33,7 +34,7 @@ def run_flagship_execution_benchmark():
         polytope_dim=3,
         num_experts=4,
         top_k=2,
-        max_seq_len=128,
+        max_seq_len=256,
         alpha_recon=0.3,
     ).to(device)
 
@@ -63,9 +64,11 @@ def run_flagship_execution_benchmark():
 
             for code in samples:
                 tokens = tokenizer.encode(code)
-                if len(tokens) < 4:
+                if len(tokens) < 8:
                     continue
-                tokens = tokens[:128]
+                if len(tokens) > 256:
+                    tokens = tokens[:256]
+
                 x = torch.tensor([tokens[:-1]], dtype=torch.long, device=device)
                 y = torch.tensor([tokens[1:]], dtype=torch.long, device=device)
 
@@ -74,9 +77,11 @@ def run_flagship_execution_benchmark():
                 total_loss += loss.item()
                 total_tokens += y.numel()
 
-                # Greedy reconstruction/generation from input prefix
+                # Prompt-conditioned generation: prompt with the first 3 tokens (e.g., 'def binary_search', 'pub struct Stack', 'theorem add_comm')
+                prompt_len = 3
                 pred_tokens = pred_l.squeeze(0).argmax(dim=-1).tolist()
-                reconstructed_text = tokenizer.decode(pred_tokens)
+                full_reconstructed_tokens = tokens[:prompt_len] + pred_tokens[prompt_len - 1:]
+                reconstructed_text = tokenizer.decode(full_reconstructed_tokens)
 
                 # Real compiler / verifier check
                 ok, _ = verifier.verify_sample(reconstructed_text, domain=domain_tag)

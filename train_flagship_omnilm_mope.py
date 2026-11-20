@@ -19,7 +19,7 @@ import torch.nn.functional as F
 from imf.omni_block import IMFOmniBlock
 from imf.polytope_moe import PolytopeMixtureOfExperts
 from imf.eth_cut_reasoning import BidirectionalCutReasoning
-from imf.bpe_tokenizer import BPETokenizer
+from imf.code_bpe_tokenizer import CodeBPETokenizer
 from imf.synthetic_reasoning_corpus import MultiDomainCorpusSynthesizer
 from imf.execution_verifier import MultiLanguageExecutionVerifier
 
@@ -145,11 +145,11 @@ def train_flagship_omnilm_mope():
     train_samples = synthesizer.generate_corpus(num_samples=1500)
     val_samples = synthesizer.generate_corpus(num_samples=250)
 
-    tok_path = "checkpoints/bpe_tokenizer_reasoning.pt"
-    tokenizer = BPETokenizer.load(tok_path)
+    tok_path = "checkpoints/code_bpe_tokenizer.json"
+    tokenizer = CodeBPETokenizer.load(tok_path)
     vocab_size = len(tokenizer.vocab)
 
-    def encode_corpus(samples, seq_len=128):
+    def encode_corpus(samples, seq_len=256):
         full_tokens = []
         for text, _ in samples:
             full_tokens.extend(tokenizer.encode(text))
@@ -157,8 +157,8 @@ def train_flagship_omnilm_mope():
         full_tokens = full_tokens[:num_batches * seq_len]
         return torch.tensor(full_tokens, dtype=torch.long).reshape(-1, seq_len)
 
-    train_data = encode_corpus(train_samples, seq_len=128).to(device)
-    val_data = encode_corpus(val_samples, seq_len=128).to(device)
+    train_data = encode_corpus(train_samples, seq_len=256).to(device)
+    val_data = encode_corpus(val_samples, seq_len=256).to(device)
 
     # 2. Model Setup
     model = IMFOmniLMMoPE(
@@ -169,7 +169,7 @@ def train_flagship_omnilm_mope():
         polytope_dim=3,
         num_experts=4,
         top_k=2,
-        max_seq_len=128,
+        max_seq_len=256,
         alpha_recon=0.3,
     ).to(device)
 

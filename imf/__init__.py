@@ -22,6 +22,7 @@ __all__ = [
     "IMFOmniBlock",
     "HyperbolicPolytopeTiling",
     "BPETokenizer",
+    "CodeBPETokenizer",
     "PolytopeMixtureOfExperts",
     "PolytopeExpert",
     "IMFJointReconPredictorLM",
@@ -38,6 +39,7 @@ from imf.continuous_lie_ssm import ContinuousLieGroupSSM
 from imf.omni_block import IMFOmniBlock
 from imf.hyperbolic_polytope_tiling import HyperbolicPolytopeTiling
 from imf.bpe_tokenizer import BPETokenizer
+from imf.code_bpe_tokenizer import CodeBPETokenizer
 from imf.polytope_moe import PolytopeMixtureOfExperts, PolytopeExpert
 from imf.joint_recon_predictor import IMFJointReconPredictorLM
 from imf.eth_cut_reasoning import BidirectionalCutReasoning
