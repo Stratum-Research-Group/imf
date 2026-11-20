@@ -261,6 +261,7 @@ def main():
         PAPERS_DIR / "06_the_imf_omni_block.md",
         PAPERS_DIR / "07_empirical_appendix_and_distributed_scaling.md",
         PAPERS_DIR / "08_hyperbolic_polytope_tilings.md",
+        PAPERS_DIR / "09_cut_factorized_bidirectional_reasoning_and_polytope_moe.md",
     ]
 
     html_sections = []

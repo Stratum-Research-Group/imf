@@ -127,6 +127,7 @@ def main():
     parser.add_argument("--checkpoint", type=str, default="checkpoints/imf_model.pt", help="Path to trained checkpoint")
     parser.add_argument("--temperature", type=float, default=0.75, help="Sampling temperature")
     parser.add_argument("--top_k", type=int, default=30, help="Top-k filtering")
+    parser.add_argument("--cot", action="store_true", help="Enable Bidirectional Chain-of-Thought (CoT) cut reasoning mode")
     parser.add_argument("--max_tokens", type=int, default=120, help="Max tokens to generate per turn")
     parser.add_argument("--prompt", type=str, default="", help="Single prompt generation mode")
     args = parser.parse_args()
