@@ -113,4 +113,30 @@ theorem gated_diagonal_purely_symmetric {d : Nat} (M : MatrixSector d) (g : Int)
   rw [h_mul_zero]
   omega
 
+/--
+  Theorem: Phase Inversion Sign Reversal under Transposition.
+  For any coordinate pair (i, j), evaluating the antisymmetric sector on the transpose
+  yields the exact arithmetic negation of the forward evaluation:
+  (2A)ᵀ(i, j) + (2A)(i, j) = 0.
+  This grounds the algebraic basis for directional discrimination and reverse query rejection.
+-/
+theorem phase_inversion_reversal_sum_zero {d : Nat} (M : MatrixSector d) (i j : Fin d) :
+    (transpose (antiSector2 M) i j) + (antiSector2 M i j) = 0 := by
+  dsimp [transpose, antiSector2, sub]
+  show (M j i - M i j) + (M i j - M j i) = 0
+  omega
+
+/--
+  Theorem: Directional Margin Contrast.
+  For an asymmetric relation where M(i, j) ≠ M(j, i), the difference between
+  the forward evaluation (2A)(i, j) and reverse evaluation (2A)(j, i)
+  is strictly proportional to the directional asymmetry:
+  (2A)(i, j) - (2A)(j, i) = 2 * (M i j - M j i).
+-/
+theorem directional_margin_contrast {d : Nat} (M : MatrixSector d) (i j : Fin d) :
+    (antiSector2 M i j) - (antiSector2 M j i) = 2 * (M i j - M j i) := by
+  dsimp [antiSector2, sub]
+  show (M i j - M j i) - (M j i - M i j) = 2 * (M i j - M j i)
+  omega
+
 end IMF.Bridge
