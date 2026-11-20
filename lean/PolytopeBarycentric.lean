@@ -164,11 +164,8 @@ theorem tri_branch_gating_bound (g y S M : Int) (hg0 : 0 ≤ g) (hgS : g ≤ S)
     omega
 
 /--
-  Theorem: Multi-Hop Deduction Transitivity Bound.
-  In a k-hop premise chain (A_0 -> A_1 -> ... -> A_k), let each step introduce an
-  unfaithfulness / decay factor ε with 0 ≤ ε.
-  The total transitive distance under triangle inequality across k intermediate hops is bounded by:
-  dist(A_0, A_k) ≤ k * step_dist.
+  Bound: Multi-Hop Transitivity Reflexive Bound.
+  Trivial reflexive inequality on integer distance metrics: k * step_dist ≤ k * step_dist.
 -/
 theorem multihop_transitivity_bound (k step_dist : Nat) :
     k * step_dist ≤ k * step_dist := by
@@ -261,10 +258,10 @@ theorem subdivision_convex_hull_invariance {P : Nat} {Total : Nat}
   exact hle
 
 /--
-  Theorem: Polytope Volume Preservation under SL(D) Dynamic Re-Meshing.
-  For any learnable transformation matrix W = exp(A) with generator A in sl(D) having tr(A) = 0:
-  det(W) = exp(tr(A)) = exp(0) = 1.
-  Modeled algebraically: the scaled volume determinant scaling factor is exactly 1.
+  Identity: Scalar Multiplicative Volume Scaling Invariance.
+  Trivial identity on integer-scaled volume scalars: 1 * scaled_vol = scaled_vol.
+  Note: Determinant preservation det(exp(A)) = exp(tr(A)) = exp(0) = 1 for traceless
+  generators is implemented in imf/polytope_connector.py.
 -/
 theorem sl_d_volume_preservation (scaled_vol : Nat) :
     1 * scaled_vol = scaled_vol := by
@@ -390,45 +387,33 @@ theorem mope_100_expert_capacity_bound (T : Nat) :
   exact Nat.div_mul_le_self T 100
 
 /--
-  Theorem: Polytope Simplex Dimension and Optimal Active Support Bound.
-  In a d-dimensional convex polytope complex, Carathéodory's theorem dictates that
-  any convex state can be supported on an affine simplex with at most d + 1 vertices.
-  For a 5D polytope (d = 5), setting k = 4 active experts guarantees that the support
-  size satisfies k ≤ d + 1, ensuring affine independence and preventing over-diffused redundancy:
-  4 ≤ 5 + 1.
+  Bound: Constant Integer Dimension Inequality.
+  Proves 4 ≤ 5 + 1 by decision procedure.
+  Evaluates the concrete dimension constraint k ≤ d + 1 for d=5 and k=4.
 -/
 theorem polytope_simplex_active_support_bound :
     4 ≤ 5 + 1 := by
   decide
 
 /--
-  Theorem: Barycentric Residual Error Scaling Bound.
-  Let ε_res be the discrete approximation residual bounded by 100 / k (scaled by 100 for integer arithmetic).
-  For k = 4 active experts, the residual bound evaluates to exactly 25:
-  100 / 4 = 25.
-  Modeled over integer-scaled invariants.
+  Arithmetic: Fixed-Point Residual Value Evaluation.
+  Evaluates 100 / 4 = 25 by reflexivity.
 -/
 theorem barycentric_residual_k4_bound :
     100 / 4 = 25 := by
   rfl
 
 /--
-  Theorem: Speculative Decoding Exact Distribution Preservation.
-  Let p_d and p_t be integer-scaled probability masses (scaled by 1000).
-  If p_t ≤ p_d, the accepted probability is p_t: min(p_d, p_t) = p_t.
-  Guarantees that speculative rejection sampling never over-allocates probability mass
-  beyond the target model's true likelihood.
+  Identity: Minimum Value under Inequality.
+  For natural numbers p_d, p_t, if p_t ≤ p_d then min p_d p_t = p_t.
 -/
 theorem speculative_acceptance_min_le_target (p_d p_t : Nat) (h : p_t ≤ p_d) :
     min p_d p_t = p_t := by
   omega
 
 /--
-  Theorem: Speculative Complement Recovery Bound.
-  The residual probability allocated to correction sampling equals (p_t - min(p_d, p_t)).
-  When p_t ≤ p_d, this residual is identically 0:
-  p_t - min(p_d, p_t) = 0.
-  Proves that accepted tokens require zero correction compensation.
+  Identity: Residual Zero Difference under Target Boundedness.
+  For natural numbers p_d, p_t, if p_t ≤ p_d then p_t - min p_d p_t = 0.
 -/
 theorem speculative_residual_zero_when_accepted (p_d p_t : Nat) (h : p_t ≤ p_d) :
     p_t - min p_d p_t = 0 := by

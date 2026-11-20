@@ -131,24 +131,24 @@ def run_dimension_scaling_benchmark():
             vram = [r["peak_vram"] for r in fam_res]
 
             label = f"{fam.capitalize()} ({'D+1' if fam=='simplex' else '2D'} Vertices)"
-            ax1.plot(dims, losses, color=color, marker=marker, linestyle=ls, linewidth=2.0, label=label)
-            ax2.plot(latencies, losses, color=color, marker=marker, linestyle=ls, linewidth=2.0, label=label)
+            ax1.plot(dims, latencies, color=color, marker=marker, linestyle=ls, linewidth=2.0, label=label)
+            ax2.plot(dims, vram, color=color, marker=marker, linestyle=ls, linewidth=2.0, label=label)
 
-            # Annotate dimensions on Pareto curve
+            # Annotate dimensions on curve
             for r in fam_res:
-                ax2.annotate(f"{r['dimension']}D", (r["step_ms"], r["val_loss"]), textcoords="offset points", xytext=(0, 7), ha="center", fontsize=8)
+                ax1.annotate(f"{r['dimension']}D", (r["dimension"], r["step_ms"]), textcoords="offset points", xytext=(0, 7), ha="center", fontsize=8)
 
-        ax1.set_title("Validation Loss vs. Polytope Dimension (D = 4 to 16)", fontsize=12, fontweight="bold")
+        ax1.set_title("Step Latency vs. Polytope Dimension (D = 4 to 16)", fontsize=12, fontweight="bold")
         ax1.set_xlabel("Polytope Dimension (D)", fontsize=11)
-        ax1.set_ylabel("Validation Cross-Entropy Loss", fontsize=11)
+        ax1.set_ylabel("Step Latency (ms/step)", fontsize=11)
         ax1.grid(True, linestyle="--", alpha=0.4)
-        ax1.legend(loc="upper right", fontsize=10)
+        ax1.legend(loc="upper left", fontsize=10)
 
-        ax2.set_title("Pareto Frontier: Accuracy / Loss vs. Step Latency", fontsize=12, fontweight="bold")
-        ax2.set_xlabel("Step Latency (ms/step)", fontsize=11)
-        ax2.set_ylabel("Validation Cross-Entropy Loss (Lower = Better)", fontsize=11)
+        ax2.set_title("Peak VRAM Footprint vs. Polytope Dimension", fontsize=12, fontweight="bold")
+        ax2.set_xlabel("Polytope Dimension (D)", fontsize=11)
+        ax2.set_ylabel("Peak VRAM (MB)", fontsize=11)
         ax2.grid(True, linestyle="--", alpha=0.4)
-        ax2.legend(loc="upper right", fontsize=10)
+        ax2.legend(loc="upper left", fontsize=10)
 
         plot_path = OUTPUT_DIR / "polytope_dimension_scaling_pareto.png"
         plt.savefig(plot_path, dpi=200)

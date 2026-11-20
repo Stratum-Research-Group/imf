@@ -30,6 +30,7 @@ class CodeBPETokenizer:
             self.vocab = {tok: idx for idx, tok in enumerate(self.special_tokens)}
             self.inverse_vocab = {idx: tok for tok, idx in self.vocab.items()}
             self.merges = []
+        self._bpe_ranks = {pair: i for i, pair in enumerate(self.merges)}
 
     @property
     def pad_id(self) -> int:
@@ -118,19 +119,30 @@ class CodeBPETokenizer:
         segments = self._pre_tokenize(text)
         for seg in segments:
             seg_tuple = tuple(list(seg))
-            for pair in self.merges:
-                first, second = pair
-                merged = first + second
-                new_seg = []
-                i = 0
-                while i < len(seg_tuple):
-                    if i < len(seg_tuple) - 1 and seg_tuple[i] == first and seg_tuple[i + 1] == second:
-                        new_seg.append(merged)
-                        i += 2
-                    else:
-                        new_seg.append(seg_tuple[i])
-                        i += 1
-                seg_tuple = tuple(new_seg)
+            if len(seg_tuple) > 1 and self._bpe_ranks:
+                while True:
+                    min_rank = float("inf")
+                    best_pair = None
+                    for i in range(len(seg_tuple) - 1):
+                        p = (seg_tuple[i], seg_tuple[i + 1])
+                        r = self._bpe_ranks.get(p, float("inf"))
+                        if r < min_rank:
+                            min_rank = r
+                            best_pair = p
+                    if min_rank == float("inf"):
+                        break
+                    first, second = best_pair
+                    merged = first + second
+                    new_seg = []
+                    i = 0
+                    while i < len(seg_tuple):
+                        if i < len(seg_tuple) - 1 and seg_tuple[i] == first and seg_tuple[i + 1] == second:
+                            new_seg.append(merged)
+                            i += 2
+                        else:
+                            new_seg.append(seg_tuple[i])
+                            i += 1
+                    seg_tuple = tuple(new_seg)
 
             tokens.extend([self.vocab.get(sym, self.unk_id) for sym in seg_tuple])
 

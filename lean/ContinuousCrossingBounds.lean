@@ -92,11 +92,8 @@ theorem bilinear_energy_partition {d : Nat} (M : MatrixSector d) (i j : Fin d) :
   omega
 
 /--
-  Theorem: Communication Crossing Lower Bound.
-  Let n be the sequence context length. Any communication channel transmitting
-  n distinct directional edge assertions across an antisymmetric boundary with state
-  capacity bounded by rank r requires r ≥ n/d in the absence of compression.
-  Formulated as the non-degeneracy of total skew rank under linearly independent updates.
+  Lower Bound: Arithmetic Context-to-Dimension Ratio.
+  Given 0 < d and d ≤ n, the integer quotient n / d is at least 1.
 -/
 theorem skew_crossing_rank_lower_bound (n d : Nat) (hd : 0 < d) (hn : d ≤ n) :
     1 ≤ n / d := by
@@ -143,14 +140,10 @@ theorem triton_register_tile_memory_bound (T D : Nat) :
   omega
 
 /--
-  Theorem: Fused Associative Scan Operator Composition Associativity.
-  For linear state updates with unitary rotation matrix U in SO(d) and innovation W:
-  Step update: T(M) = U * M * U^T + W.
-  Two successive updates T_1 followed by T_2 compose associatively:
-  T_2(T_1(M)) preserves the exact structural recurrence whether folded sequentially
-  or reduced via parallel associative scan prefixes:
-  U_2 * (U_1 * M * U_1^T + W_1) * U_2^T + W_2 = (U_2 * U_1) * M * (U_2 * U_1)^T + (U_2 * W_1 * U_2^T + W_2).
-  Formulated algebraically: the composition operator preserves total energy trace.
+  Identity: Scalar Associative Scan Energy Trace Reflexivity.
+  Trivial reflexive identity on scalar representation: e1 + e2 = e1 + e2.
+  Note: Matrix associativity of step updates U_2 * (U_1 * M * U_1^T + W_1) * U_2^T + W_2
+  is evaluated at runtime in imf/triton_unitary_ssm_kernel.py.
 -/
 theorem triton_associative_scan_closure (e1 e2 : Nat) :
     e1 + e2 = e1 + e2 := by
@@ -315,22 +308,18 @@ theorem lambda_crossing_branch_le_total (lambda i : Nat) (_hi : i ≤ lambda) :
   exact Nat.le_refl (2 ^ lambda)
 
 /--
-  Theorem: Summed Multi-Bit Cut-Product Bound.
-  For lambda-bit signature vectors, the summed cut configuration space
-  satisfies the upper envelope:
-  sum_{i=0}^lambda 2^lambda = (lambda + 1) * 2^lambda.
+  Bound: Multi-Bit Cut-Product Envelope Reflexive Bound.
+  Trivial reflexive inequality: (lambda + 1) * 2^lambda ≤ (lambda + 1) * 2^lambda.
 -/
 theorem lambda_cut_envelope_bound (lambda : Nat) :
     (lambda + 1) * (2 ^ lambda) ≤ (lambda + 1) * (2 ^ lambda) := by
   exact Nat.le_refl ((lambda + 1) * (2 ^ lambda))
 
 /--
-  Theorem: Unitary Lift of Cut Factorization.
-  When the discrete singlet s(p, q) is embedded into the continuous Lie algebra so(d)
-  via the antisymmetric operator S = A - A^T,
-  the resulting infinitesimal transformation exp(Δ S) preserves trace energy identically:
-  ||exp(Δ S) x||^2 = ||x||^2.
-  Modeled over integer-scaled invariants: 1 * E = E.
+  Identity: Scalar Multiplicative Unit Identity on Energy.
+  Trivial identity on integer-scaled scalar invariants: 1 * energy = energy.
+  Note: Continuous unitary norm preservation ||exp(Δ S) x||^2 = ||x||^2 is verified
+  numerically in test_chiral_and_quaternary.py.
 -/
 theorem continuous_singlet_unitary_energy_conservation (energy : Int) :
     1 * energy = energy := by

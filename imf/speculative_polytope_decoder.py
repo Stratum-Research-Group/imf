@@ -55,6 +55,47 @@ class SpeculativePolytopeDecoder:
 
         while (curr_ids.shape[1] - prompt_ids.shape[1]) < max_new_tokens:
             steps += 1
+            if self.temperature == 0.0:
+                # Deterministic Greedy Speculative Decoding Path
+                # Step 1: Autoregressively draft gamma tokens greedily
+                draft_ids = curr_ids.clone()
+                for _ in range(self.gamma):
+                    logits, _, _ = self.drafter(draft_ids)
+                    next_token = torch.argmax(logits[:, -1, :], dim=-1, keepdim=True)
+                    draft_ids = torch.cat([draft_ids, next_token], dim=-1)
+
+                speculated_tokens = draft_ids[:, curr_ids.shape[1]:]  # [1, gamma]
+                total_speculated += self.gamma
+
+                # Step 2: Target verifies in parallel
+                target_logits, _, _ = self.target(draft_ids)
+                eval_target_tokens = torch.argmax(target_logits[:, curr_ids.shape[1]-1:-1, :], dim=-1)
+
+                # Step 3: Exact greedy verification
+                accepted_in_step = 0
+                for i in range(self.gamma):
+                    t_spec = speculated_tokens[0, i]
+                    t_target = eval_target_tokens[0, i]
+                    if t_spec == t_target:
+                        accepted_in_step += 1
+                        curr_ids = torch.cat([curr_ids, t_spec.unsqueeze(0).unsqueeze(0)], dim=-1)
+                    else:
+                        # Mismatch: append target model's greedy choice
+                        curr_ids = torch.cat([curr_ids, t_target.unsqueeze(0).unsqueeze(0)], dim=-1)
+                        break
+
+                total_accepted += accepted_in_step
+                # Bonus token if all accepted
+                if accepted_in_step == self.gamma:
+                    bonus_token = torch.argmax(target_logits[:, -1, :], dim=-1, keepdim=True)
+                    curr_ids = torch.cat([curr_ids, bonus_token], dim=-1)
+                    total_accepted += 1
+
+                if (curr_ids.shape[1] - prompt_ids.shape[1]) >= max_new_tokens:
+                    break
+                continue
+
+            # Stochastic Speculative Decoding Path (temperature > 0.0)
             # Step 1: Drafter generates gamma speculative candidate tokens autoregressively
             draft_ids = curr_ids.clone()
             draft_probs = []
@@ -64,10 +105,7 @@ class SpeculativePolytopeDecoder:
                 logits, _, _ = self.drafter(draft_ids)
                 next_token_logits = logits[:, -1, :] / self.temperature
                 p_draft = F.softmax(next_token_logits, dim=-1) # [1, V]
-                if self.temperature == 0.0:
-                    next_token = torch.argmax(p_draft, dim=-1, keepdim=True)
-                else:
-                    next_token = torch.multinomial(p_draft, 1)
+                next_token = torch.multinomial(p_draft, 1)
                 draft_probs.append(p_draft[0, next_token[0, 0]])
                 draft_dist_list.append(p_draft[0])
                 draft_ids = torch.cat([draft_ids, next_token], dim=-1)
@@ -112,10 +150,7 @@ class SpeculativePolytopeDecoder:
             if accepted_in_step == self.gamma:
                 final_logits = target_logits[:, -1, :] / self.temperature
                 p_bonus = F.softmax(final_logits, dim=-1)
-                if self.temperature == 0.0:
-                    bonus_token = torch.argmax(p_bonus, dim=-1, keepdim=True)
-                else:
-                    bonus_token = torch.multinomial(p_bonus, 1)
+                bonus_token = torch.multinomial(p_bonus, 1)
                 curr_ids = torch.cat([curr_ids, bonus_token], dim=-1)
                 total_accepted += 1
 

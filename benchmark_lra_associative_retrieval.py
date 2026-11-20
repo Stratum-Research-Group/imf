@@ -93,8 +93,7 @@ def benchmark_lra_retrieval():
         
         # --- A. Decaying Scalar SSM (Mamba-2 / S4 baseline style) ---
         t0 = time.time()
-        # For N=65536, sequential PyTorch loop can be very slow; run slice if huge
-        if N <= 16384:
+        try:
             with torch.no_grad():
                 out_decay, M_decay = decaying_ssm(k_seq, k_seq, v_seq)
                 probe_res = torch.matmul(M_decay, q_probe.squeeze(2).unsqueeze(-1)).squeeze(-1)
@@ -102,8 +101,9 @@ def benchmark_lra_retrieval():
                 norm_decay = (torch.norm(M_decay) / (torch.norm(torch.matmul(v_target.squeeze(2).unsqueeze(-1), k_target.squeeze(2).unsqueeze(-2))) + 1e-6)).item() * 100.0
             t_decay = (time.time() - t0) * 1000.0
             print(f"{N:<12} | {'Decaying Scalar SSM':<24} | {norm_decay:12.2f}% | {sim_decay:16.4f} | {t_decay:8.2f} ms")
-        else:
-            print(f"{N:<12} | {'Decaying Scalar SSM':<24} | {'0.00% (Decayed)':<14} | {'0.0000 (Lost)':<16} | {'N/A':<10}")
+        except RuntimeError as e:
+            # Handle out-of-memory or timeout on very large sequences gracefully
+            print(f"{N:<12} | {'Decaying Scalar SSM':<24} | {'Unmeasured (OOM)':<14} | {'Unmeasured':<16} | {'N/A':<10}")
 
         # --- B. Fused Triton Unitary SO(d_h) SSM (IMF) ---
         if torch.cuda.is_available():
@@ -117,8 +117,6 @@ def benchmark_lra_retrieval():
             
             # Check readout preservation against true needle value target
             sim_imf = F.cosine_similarity(readout_N, v_target.squeeze(2), dim=-1).mean().item()
-            # Empirical Frobenius norm comparison vs initial state injection
-            target_init_norm = torch.norm(v_target.squeeze(2).unsqueeze(-1) @ k_target.squeeze(2).unsqueeze(-2)) + 1e-6
             norm_imf = (torch.norm(readout_N) / torch.norm(v_target.squeeze(2)) * 100.0).item()
         if torch.cuda.is_available():
             torch.cuda.synchronize()
@@ -128,8 +126,9 @@ def benchmark_lra_retrieval():
 
     print("\nBENCHMARK CONCLUSION:")
     print("1. Scalar decaying SSMs (Mamba/S4 style) experience exponential associative forgetting past 4k tokens.")
-    print("2. IMF's SO(d_h) Unitary SSM preserves 100.00% Frobenius memory norm up to 65,536 tokens.")
-    print(f"3. Fused Triton kernel executes 65,536 tokens in ~{t_triton:.2f} ms on RTX 5060 Ti.")
+    print(f"2. IMF's SO(d_h) Unitary SSM measured norm preservation at N={context_lengths[-1]}: {norm_imf:.2f}% (CosSim: {sim_imf:.4f}).")
+    dev_name = torch.cuda.get_device_name(0) if torch.cuda.is_available() else "CPU"
+    print(f"3. Fused Triton kernel executes N={context_lengths[-1]} tokens in ~{t_triton:.2f} ms on {dev_name}.")
 
 
 if __name__ == "__main__":
