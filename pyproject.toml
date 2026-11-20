@@ -58,6 +58,7 @@ py-modules = [
     "benchmark_spo_multihop",
     "benchmark_long_context_mqar",
     "benchmark_needle_in_haystack",
+    "benchmark_niah_matrix",
     "benchmark_reversal_curse",
     "chat_imf",
     "demo_char_lm",

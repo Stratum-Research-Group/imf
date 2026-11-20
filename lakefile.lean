@@ -14,3 +14,8 @@ lean_lib «DiscreteToContinuousBridge» where
 lean_lib «ContinuousCrossingBounds» where
   srcDir := "lean"
   roots := #[`ContinuousCrossingBounds]
+
+@[default_target]
+lean_lib «PolytopeBarycentric» where
+  srcDir := "lean"
+  roots := #[`PolytopeBarycentric]
