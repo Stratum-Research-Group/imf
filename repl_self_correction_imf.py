@@ -103,12 +103,17 @@ def main():
             print(f"[✗ FAIL] Compiler Diagnostic:\n    {diag}")
             print("[*] Triggering Test-Time Agentic Self-Correction Engine...")
             
-            # Simple heuristic self-correction demonstration
-            repaired = code
-            if mode == "python" and not code.endswith("\n"):
-                repaired = code + "\n"
-            elif mode == "lean4" and "sorry" in code:
-                repaired = code.replace("sorry", "rfl")
+            # Multi-Turn Agentic Self-Correction Loop via MCTS Cut-Search
+            from imf.frontier_mcts_cut_engine import FrontierMCTSCutEngine
+            engine = FrontierMCTSCutEngine(branching_factor=4, max_depth=6)
+
+            res = engine.bidirectional_cut_search(
+                premise=code,
+                goal="",
+                lang=mode,
+                num_simulations=16
+            )
+            repaired = res.get("solution", code)
             
             if mode == "python":
                 rep_pass, rep_diag = verifier.verify_python(repaired)
@@ -116,6 +121,12 @@ def main():
                 rep_pass, rep_diag = verifier.verify_rust(repaired)
             elif mode == "lean4":
                 rep_pass, rep_diag = verifier.verify_lean4(repaired)
+            elif mode in ("c", "c17"):
+                rep_pass, rep_diag = verifier.verify_c(repaired)
+            elif mode == "ebpf":
+                rep_pass, rep_diag = verifier.verify_ebpf(repaired)
+            else:
+                rep_pass, rep_diag = False, "Unknown domain for self-correction"
 
             if rep_pass:
                 print(f"[✓ REPAIRED] Autonomous Self-Correction Succeeded:\n{repaired}\n    {rep_diag}")

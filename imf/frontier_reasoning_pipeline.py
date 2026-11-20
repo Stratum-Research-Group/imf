@@ -31,9 +31,13 @@ def build_scaled_imf_model(
 ) -> IMFOmniLMMoPE:
     """
     Builds a scaled IMF-OmniLM-MoPE architecture sized for elite frontier reasoning:
-    - 125M Scale: d_model=512,  layers=6,  heads=8  (Fits in ~2.5 GB VRAM)
-    - 350M Scale: d_model=1024, layers=12, heads=16 (Fits in ~6.5 GB VRAM on RTX 5060 Ti)
-    - 1B Scale  : d_model=2048, layers=16, heads=16 (Fits in ~14 GB VRAM with FP16/BF16)
+    - 125M Scale: d_model=512,  layers=6,  heads=8  (~114M active params/token; ~1.2B total sparse weights)
+    - 350M Scale: d_model=1024, layers=12, heads=16 (~887M active params/token; ~9.9B total sparse weights)
+    - 1B Scale  : d_model=2048, layers=16, heads=16 (~4.7B active params/token; ~53B total sparse weights)
+    
+    Memory footprints:
+    - Active parameters are resident across the top-4 active simplex vertices per token.
+    - Full sparse weights in fp16 require 2.5 GB (125M), 19.9 GB (350M), and 106 GB (1B).
     """
     if scale == "125M":
         d_model = 512
@@ -79,7 +83,7 @@ class FrontierReasoningAgent:
         self.verifier = MultiLanguageExecutionVerifier()
         self.sci_verifier = ScientificExecutionVerifier()
 
-    def reason_and_solve(self, prompt: str, domain: str = "python") -> Dict[str, Any]:
+    def reason_and_solve(self, prompt: str, domain: str = "python", max_gen_tokens: int = 64) -> Dict[str, Any]:
         start_t = time.perf_counter()
         
         # Step 1: Detect language/domain and formulate test-time goal
@@ -92,32 +96,52 @@ class FrontierReasoningAgent:
         else:
             goal = "\n"
 
-        # Step 2: Execute MCTS Bidirectional Cut-Search (O(B^{k/2}) complexity)
+        # Step 2: Invoke neural model autoregressive generation
+        device = next(self.model.parameters()).device
+        prompt_ids = self.tokenizer.encode(prompt)
+        input_tensor = torch.tensor([prompt_ids], dtype=torch.long, device=device)
+        
+        generated_tokens = []
+        curr_tensor = input_tensor
+        with torch.no_grad():
+            for _ in range(max_gen_tokens):
+                logits, _, _ = self.model(curr_tensor)
+                next_tok = torch.argmax(logits[:, -1, :], dim=-1, keepdim=True)
+                curr_tensor = torch.cat([curr_tensor, next_tok], dim=-1)
+                generated_tokens.append(next_tok.item())
+                if next_tok.item() == self.tokenizer.vocab.get("<eos>", -1):
+                    break
+
+        neural_solution = self.tokenizer.decode(generated_tokens)
+
+        # Step 3: Run MCTS Bidirectional Cut-Search for formal closure
         search_res = self.mcts.bidirectional_cut_search(
             premise=prompt,
             goal=goal,
             lang=domain,
-            num_simulations=32
+            num_simulations=16
         )
 
         elapsed = time.perf_counter() - start_t
 
-        # Step 3: Format the visible "Deep Thinking" trace (o1/R1 style)
+        # Step 4: Format visible Deep Thinking trace
         thinking_trace = (
             "<thought>\n"
             f"1. Problem Formulation: Ingested task in domain '{domain}'.\n"
             f"2. Polytope Routing: Dispatched to active 4-simplex expert manifold.\n"
-            f"3. ETH Cut Search: Explored {search_res['bidirectional_cut_evals']} states "
-            f"(Factorized from {search_res['theoretical_unidirectional_evals']} unidirectional states, {search_res['exponential_speedup_factor']:.1f}x speedup).\n"
-            f"4. Deterministic Execution Verification: {search_res['diagnostic']}\n"
+            f"3. Neural Proposal: Generated {len(generated_tokens)} candidate tokens.\n"
+            f"4. ETH Cut Search: Explored {search_res['bidirectional_cut_evals']} states "
+            f"({search_res['exponential_speedup_factor']:.1f}x reduction).\n"
+            f"5. Deterministic Execution Verification: {search_res['diagnostic']}\n"
             "</thought>\n"
         )
 
-        final_output = f"{thinking_trace}\n{search_res['solution']}"
+        final_output = f"{thinking_trace}\n# Neural Generation:\n{neural_solution}\n# Formal Synthesis:\n{search_res['solution']}"
         return {
             "output": final_output,
             "verified": search_res["verified"],
             "thinking_time_s": elapsed,
+            "neural_token_count": len(generated_tokens),
             "speedup_factor": search_res["exponential_speedup_factor"]
         }
 
