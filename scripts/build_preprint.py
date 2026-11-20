@@ -265,6 +265,7 @@ def main():
         PAPERS_DIR / "10_omnipresent_polytope_moe_64_domains.md",
         PAPERS_DIR / "11_universal_benchmark_manifolds_and_enterprise_os.md",
         PAPERS_DIR / "12_frontier_mcts_cut_reasoning_and_enterprise_frameworks.md",
+        PAPERS_DIR / "13_polytope_speculative_decoding_and_mcts_evaluations.md",
     ]
 
     html_sections = []
