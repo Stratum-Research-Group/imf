@@ -19,6 +19,7 @@ __all__ = [
     "SU2GaugeSimplicialComplex",
     "AdaptivePolytopeSubdivision",
     "ContinuousLieGroupSSM",
+    "IMFOmniBlock",
     "BPETokenizer",
 ]
 
@@ -29,4 +30,5 @@ from higher_arity_simplex import HigherAritySimplexBinding, ContinuousSimplexCon
 from imf.gauge_polytope_complex import SU2GaugeSimplicialComplex
 from imf.adaptive_mesh_refinement import AdaptivePolytopeSubdivision
 from imf.continuous_lie_ssm import ContinuousLieGroupSSM
+from imf.omni_block import IMFOmniBlock
 from imf.bpe_tokenizer import BPETokenizer
