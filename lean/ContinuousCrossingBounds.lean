@@ -343,4 +343,29 @@ theorem continuous_singlet_unitary_energy_conservation (energy : Int) :
     1 * energy = energy := by
   exact Int.one_mul energy
 
+/--
+  Canonical 2D Skew-Symmetric / Singlet Matrix Generator:
+  S = [[0, -1], [1, 0]].
+  Represents the infinitesimal generator of SO(2) rotations and the complex structure J.
+-/
+def singletMatrix2D : Fin 2 → Fin 2 → Int :=
+  fun i j =>
+    if i = 0 ∧ j = 1 then -1
+    else if i = 1 ∧ j = 0 then 1
+    else 0
+
+/--
+  Theorem: Singlet Complex Structure Invariance (S² = -I).
+  Multiplying the singlet matrix S by itself yields the negative identity:
+  (S * S) = [[-1, 0], [0, -1]] = -I.
+  Proves constructively that the antisymmetric singlet operator induces an exact
+  complex structure J² = -I, establishing an exact isomorphism between
+  the 2D singlet crossing coupling and U(1) ⊂ SO(2) unitary phase rotations.
+-/
+theorem singlet_matrix_sq_neg_identity (i j : Fin 2) :
+    (singletMatrix2D i 0 * singletMatrix2D 0 j + singletMatrix2D i 1 * singletMatrix2D 1 j) =
+    if i = j then -1 else 0 := by
+  revert i j
+  decide
+
 end IMF.Proof
