@@ -108,6 +108,7 @@ def main():
         n_layers = ckpt.get("n_layers", 3)
         preset = ckpt.get("preset", "decayotton_orthoplex")
         use_higher_arity = any("arity_binding" in k for k in ckpt["model_state"].keys())
+        arity = 4 if any("projections.3" in k for k in ckpt["model_state"].keys()) else 3
 
         if "ScaledIMFDecoderLM" in str(ckpt.get("arch", "")) or n_layers >= 6 or use_higher_arity:
             from train_scaled_imf import ScaledIMFDecoderLM
@@ -117,7 +118,8 @@ def main():
                 num_heads=num_heads,
                 n_layers=n_layers,
                 preset=preset,
-                use_higher_arity=use_higher_arity
+                use_higher_arity=use_higher_arity,
+                arity=arity,
             ).to(device)
         else:
             model = IMFMultiHeadLM(vocab_size=vocab_size, d_model=d_model, num_heads=num_heads, n_layers=n_layers, preset=preset).to(device)

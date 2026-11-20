@@ -26,16 +26,18 @@ class ScaledIMFDecoderLM(nn.Module):
         n_layers: int = 6,
         preset: str = "decayotton_orthoplex",
         use_higher_arity: bool = False,
+        arity: int = 3,
         arity_rank: int = 16,
     ):
         super().__init__()
         self.d_model = d_model
         self.vocab_size = vocab_size
         self.use_higher_arity = use_higher_arity
+        self.arity = arity
         self.tok_embed = nn.Embedding(vocab_size, d_model)
         self.blocks = nn.ModuleList([
             IMFMultiHeadDecoderBlock(
-                d_model, num_heads, preset=preset, use_higher_arity=use_higher_arity, arity_rank=arity_rank
+                d_model, num_heads, preset=preset, use_higher_arity=use_higher_arity, arity=arity, arity_rank=arity_rank
             )
             for _ in range(n_layers)
         ])
@@ -110,7 +112,8 @@ def main():
     parser.add_argument("--batch_size", type=int, default=16, help="Batch size")
     parser.add_argument("--train_steps", type=int, default=200, help="Training steps")
     parser.add_argument("--lr", type=float, default=1.5e-3, help="Peak learning rate")
-    parser.add_argument("--use_higher_arity", action="store_true", help="Enable CP-factorized 3-simplex hyperface binding")
+    parser.add_argument("--use_higher_arity", action="store_true", help="Enable CP-factorized simplex hyperface binding")
+    parser.add_argument("--arity", type=int, default=3, choices=[3, 4], help="Simplex hyperface arity (3 for triplets, 4 for quadlets)")
     parser.add_argument("--save_path", type=str, default="checkpoints/imf_tinystories_scaled.pt", help="Checkpoint save path")
     args = parser.parse_args()
 
@@ -135,6 +138,7 @@ def main():
         n_layers=args.n_layers,
         preset="decayotton_orthoplex",
         use_higher_arity=args.use_higher_arity,
+        arity=args.arity,
     ).to(device)
 
     params = sum(p.numel() for p in model.parameters())
