@@ -56,9 +56,18 @@ class ScaledIMFDecoderLM(nn.Module):
 
 
 def load_dataset(corpus_path: Path, bpe_vocab_path: Path):
-    text = corpus_path.read_text(encoding="utf-8")
+    cached_tokens_path = corpus_path.with_suffix(".pt")
     tokenizer = BPETokenizer.load(bpe_vocab_path)
-    encoded = torch.tensor(tokenizer.encode(text), dtype=torch.long)
+    if cached_tokens_path.exists():
+        print(f"[*] Loading pre-encoded tokens from cache: {cached_tokens_path}...")
+        encoded = torch.load(cached_tokens_path)
+    else:
+        print(f"[*] Encoding {corpus_path} with BPE...")
+        text = corpus_path.read_text(encoding="utf-8")
+        encoded = torch.tensor(tokenizer.encode(text), dtype=torch.long)
+        torch.save(encoded, cached_tokens_path)
+        print(f"    Saved token cache ({len(encoded):,} tokens) to {cached_tokens_path}")
+
     n = int(0.95 * len(encoded))
     train_data = encoded[:n]
     val_data = encoded[n:]
@@ -125,7 +134,17 @@ def main():
 
     opt = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=0.01)
 
-    print(f"\n[*] Starting Pretraining for {args.train_steps} steps...")
+    # Cosine annealing schedule with warmup
+    warmup_steps = min(500, args.train_steps // 10)
+    def get_lr(step):
+        if step < warmup_steps:
+            return float(step) / float(max(1, warmup_steps))
+        progress = float(step - warmup_steps) / float(max(1, args.train_steps - warmup_steps))
+        return 0.1 + 0.9 * 0.5 * (1.0 + math.cos(math.pi * progress))
+
+    scheduler = torch.optim.lr_scheduler.LambdaLR(opt, lr_lambda=get_lr)
+
+    print(f"\n[*] Starting Pretraining for {args.train_steps} steps (Warmup: {warmup_steps} steps)...")
     model.train()
     t0 = time.perf_counter()
 
@@ -137,9 +156,11 @@ def main():
         loss.backward()
         torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
         opt.step()
+        scheduler.step()
 
-        if step % 50 == 0 or step == 1:
-            print(f"  Step {step:3d}/{args.train_steps} | Loss: {loss.item():.4f}")
+        if step % 500 == 0 or step == 100 or step == 1:
+            curr_lr = opt.param_groups[0]["lr"]
+            print(f"  Step {step:5d}/{args.train_steps} | Loss: {loss.item():.4f} | LR: {curr_lr:.2e}")
 
     total_time = (time.perf_counter() - t0) * 1000.0
     ms_per_step = total_time / args.train_steps

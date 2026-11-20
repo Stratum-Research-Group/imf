@@ -24,6 +24,7 @@ class BPETokenizer:
             self.vocab = {tok: idx for idx, tok in enumerate(self.special_tokens)}
             self.inverse_vocab = {idx: tok for tok, idx in self.vocab.items()}
             self.merges = []
+        self._word_cache: Dict[str, List[int]] = {}
 
     @property
     def vocab_size(self) -> int:
@@ -108,13 +109,17 @@ class BPETokenizer:
         self.inverse_vocab = {idx: tok for tok, idx in self.vocab.items()}
 
     def encode(self, text: str, add_special_tokens: bool = False) -> List[int]:
-        """Encode text string into list of token IDs."""
+        """Encode text string into list of token IDs with subword memoization."""
         tokens = []
         if add_special_tokens:
             tokens.append(self.bos_id)
 
         words = text.split()
-        for w_idx, word in enumerate(words):
+        for word in words:
+            if word in self._word_cache:
+                tokens.extend(self._word_cache[word])
+                continue
+
             word_tuple = tuple(list(word) + ["</w>"])
             for pair in self.merges:
                 first, second = pair
@@ -130,8 +135,9 @@ class BPETokenizer:
                         i += 1
                 word_tuple = tuple(new_word)
 
-            for sym in word_tuple:
-                tokens.append(self.vocab.get(sym, self.unk_id))
+            w_toks = [self.vocab.get(sym, self.unk_id) for sym in word_tuple]
+            self._word_cache[word] = w_toks
+            tokens.extend(w_toks)
 
         if add_special_tokens:
             tokens.append(self.eos_id)
