@@ -355,6 +355,14 @@ uv run python test_savg_directionality.py
 
 # 7. End-to-end language model pretraining & O(1) streaming generation
 uv run python pretrain_imf_lm.py
+
+# 8. Comparative pretraining benchmark against standard Causal Transformer
+uv run python train_imf_corpus.py --use_bpe
+
+# 9. Interactive real-time streaming chat CLI (O(1) recurrent step)
+uv run python chat_imf.py --checkpoint checkpoints/imf_bpe.pt
+# or if installed as package:
+uv run chat-imf
 ```
 
 ---

@@ -189,5 +189,28 @@ def test_triton_backward_kernel_equivalence():
     assert torch.allclose(g1.grad, gg_ref, atol=1e-4)
 
 
+def test_bpe_tokenizer_roundtrip(tmp_path):
+    """Test BPETokenizer train, encode, decode, and JSON serialization."""
+    from imf.bpe_tokenizer import BPETokenizer
+    corpus = "To be or not to be that is the question whether tis nobler in the mind to suffer"
+    tok = BPETokenizer()
+    tok.train(corpus, target_vocab_size=50)
+
+    # Encode & decode
+    sample = "To be or not to be"
+    encoded = tok.encode(sample)
+    assert len(encoded) > 0
+    decoded = tok.decode(encoded)
+    assert decoded == sample
+
+    # Save & load
+    save_path = tmp_path / "test_tok.json"
+    tok.save(save_path)
+    loaded = BPETokenizer.load(save_path)
+    assert loaded.vocab_size == tok.vocab_size
+    assert loaded.decode(loaded.encode(sample)) == sample
+
+
+
 
 
