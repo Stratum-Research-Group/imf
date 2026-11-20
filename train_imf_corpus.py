@@ -21,7 +21,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 from imf import MultiHeadSAVGLayer
-from higher_arity_simplex import HigherAritySimplexBinding
+from higher_arity_simplex import HigherAritySimplexBinding, ContinuousSimplexConvolutionalBinding
 
 
 class CharTokenizer:
@@ -92,18 +92,27 @@ class IMFMultiHeadDecoderBlock(nn.Module):
         use_higher_arity: bool = False,
         arity: int = 3,
         arity_rank: int = 16,
+        use_continuous_simplex: bool = False,
     ):
         super().__init__()
         self.ln1 = nn.LayerNorm(d_model)
         self.savg = MultiHeadSAVGLayer(d_model=d_model, num_heads=num_heads, preset=preset)
         self.use_higher_arity = use_higher_arity
+        self.use_continuous_simplex = use_continuous_simplex
         self.arity = arity
-        if use_higher_arity:
+        if use_continuous_simplex:
+            self.ln_arity = nn.LayerNorm(d_model)
+            self.continuous_binding = ContinuousSimplexConvolutionalBinding(d_model=d_model, rank=arity_rank)
+            self.arity_gate = nn.Parameter(torch.zeros(1))
+            self.arity_binding = None
+        elif use_higher_arity:
             self.ln_arity = nn.LayerNorm(d_model)
             self.arity_binding = HigherAritySimplexBinding(d_model=d_model, arity=arity, rank=arity_rank)
             self.arity_gate = nn.Parameter(torch.zeros(1))
+            self.continuous_binding = None
         else:
             self.arity_binding = None
+            self.continuous_binding = None
 
         self.ln2 = nn.LayerNorm(d_model)
         self.mlp = nn.Sequential(
@@ -114,7 +123,11 @@ class IMFMultiHeadDecoderBlock(nn.Module):
 
     def forward(self, x: torch.Tensor):
         x = x + self.savg(self.ln1(x))
-        if self.use_higher_arity and self.arity_binding is not None:
+        if self.use_continuous_simplex and self.continuous_binding is not None:
+            norm_x = self.ln_arity(x)
+            bound = self.continuous_binding(norm_x)
+            x = x + torch.tanh(self.arity_gate) * bound
+        elif self.use_higher_arity and self.arity_binding is not None:
             norm_x = self.ln_arity(x)
             B, T, D = norm_x.shape
             streams = [norm_x]

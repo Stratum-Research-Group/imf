@@ -28,16 +28,18 @@ class ScaledIMFDecoderLM(nn.Module):
         use_higher_arity: bool = False,
         arity: int = 3,
         arity_rank: int = 16,
+        use_continuous_simplex: bool = False,
     ):
         super().__init__()
         self.d_model = d_model
         self.vocab_size = vocab_size
         self.use_higher_arity = use_higher_arity
+        self.use_continuous_simplex = use_continuous_simplex
         self.arity = arity
         self.tok_embed = nn.Embedding(vocab_size, d_model)
         self.blocks = nn.ModuleList([
             IMFMultiHeadDecoderBlock(
-                d_model, num_heads, preset=preset, use_higher_arity=use_higher_arity, arity=arity, arity_rank=arity_rank
+                d_model, num_heads, preset=preset, use_higher_arity=use_higher_arity, arity=arity, arity_rank=arity_rank, use_continuous_simplex=use_continuous_simplex
             )
             for _ in range(n_layers)
         ])
@@ -113,6 +115,7 @@ def main():
     parser.add_argument("--train_steps", type=int, default=200, help="Training steps")
     parser.add_argument("--lr", type=float, default=1.5e-3, help="Peak learning rate")
     parser.add_argument("--use_higher_arity", action="store_true", help="Enable CP-factorized simplex hyperface binding")
+    parser.add_argument("--use_continuous_simplex", action="store_true", help="Enable continuous sliding-window multilinear simplex convolution")
     parser.add_argument("--arity", type=int, default=3, help="Simplex hyperface arity (e.g. 3, 4, 10)")
     parser.add_argument("--save_path", type=str, default="checkpoints/imf_tinystories_scaled.pt", help="Checkpoint save path")
     args = parser.parse_args()
@@ -139,6 +142,7 @@ def main():
         preset="decayotton_orthoplex",
         use_higher_arity=args.use_higher_arity,
         arity=args.arity,
+        use_continuous_simplex=args.use_continuous_simplex,
     ).to(device)
 
     params = sum(p.numel() for p in model.parameters())

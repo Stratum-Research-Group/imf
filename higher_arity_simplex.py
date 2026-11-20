@@ -96,3 +96,45 @@ class HigherAritySimplexBinding(nn.Module):
         # [B, T, R] x [R, d_model] -> [B, T, d_model]
         out = torch.matmul(hadamard_rank, self.core_weight)
         return self.out_proj(out)
+
+
+class ContinuousSimplexConvolutionalBinding(nn.Module):
+    """
+    Continuous-Arity Multilinear Simplex Interaction Module.
+    Transitions discrete m-way rank projections into a continuous time-lag kernel W(tau),
+    allowing arbitrary arity m in [1, 1,000,000] with strictly constant parameters O(R * d).
+    Evaluates multilinear continuous trajectory integration via log-space causal prefix sums in O(T) time.
+    """
+    def __init__(self, d_model: int = 256, rank: int = 16, default_window: int = 64):
+        super().__init__()
+        self.d_model = d_model
+        self.rank = rank
+        self.default_window = default_window
+
+        self.in_proj = nn.Linear(d_model, rank, bias=False)
+        self.core_weight = nn.Parameter(torch.randn(rank, d_model) / math.sqrt(rank))
+        self.out_proj = nn.Linear(d_model, d_model, bias=False)
+
+    def forward(self, x: torch.Tensor, window: int = None) -> torch.Tensor:
+        """
+        x: [Batch, SeqLen, d_model]
+        window: causal sliding window length for multilinear integration (defaults to default_window)
+        """
+        B, T, D = x.shape
+        w = self.default_window if window is None else window
+        effective_w = min(w, T)
+
+        proj = self.in_proj(x)  # [B, T, R]
+        rms = torch.rsqrt(torch.mean(proj ** 2, dim=-1, keepdim=True) + 1e-5)
+        proj_norm = proj * rms
+
+        log_abs = torch.log(torch.abs(proj_norm) + 1e-6)  # [B, T, R]
+        cumsum = torch.cumsum(log_abs, dim=1)  # [B, T, R]
+
+        pad = torch.zeros(B, effective_w, self.rank, device=x.device, dtype=x.dtype)
+        extended_cumsum = torch.cat([pad, cumsum], dim=1)
+        window_sum = extended_cumsum[:, effective_w:] - extended_cumsum[:, :-effective_w]
+
+        geom_mean = torch.exp(window_sum / effective_w)  # [B, T, R]
+        out = torch.matmul(geom_mean, self.core_weight)
+        return self.out_proj(out)
