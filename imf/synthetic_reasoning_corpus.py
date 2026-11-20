@@ -98,7 +98,7 @@ impl<T> Stack<T> {
   omega
 
 theorem mul_distrib_add (a b c : Nat) : a * (b + c) = a * b + a * c := by
-  ring
+  exact Nat.mul_add a b c
 
 theorem le_transitive (a b c : Nat) (h1 : a ≤ b) (h2 : b ≤ c) : a ≤ c := by
   exact Nat.le_trans h1 h2
