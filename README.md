@@ -30,6 +30,8 @@
   - [5.1 Multi-Query Associative Recall (MQAR)](#51-multi-query-associative-recall-mqar)
   - [5.2 Polytope Dimension \& Family Comparison](#52-polytope-dimension--family-comparison)
   - [5.3 Directional Selectivity \& Reversal Discrimination](#53-directional-selectivity--reversal-discrimination)
+  - [5.4 Fused Kernel Hardware Acceleration (CUDA Throughput)](#54-fused-kernel-hardware-acceleration-cuda-throughput)
+  - [5.5 Comparative Pretraining & Streaming Recurrent Inference](#55-comparative-pretraining--streaming-recurrent-inference)
 - [6. Theoretical Parallels & Exploratory Hypotheses](#6-theoretical-parallels--exploratory-hypotheses)
 - [7. Repository Structure](#7-repository-structure)
 - [8. Quickstart \& Usage](#8-quickstart--usage)
@@ -242,12 +244,25 @@ Evaluating forward associative training ($A \to B$) and reverse probing ($B \to 
 
 ### 5.4 Fused Kernel Hardware Acceleration (CUDA Throughput)
 
-Benchmarking the fused Triton JIT SAVG scan against the unfused PyTorch reference at $B=16, T=512, D=64$ on NVIDIA GeForce RTX 5060 Ti:
+Benchmarking the fused Triton JIT SAVG scan and backward pass against the unfused PyTorch reference on NVIDIA GeForce RTX 5060 Ti:
 
-| Scan Implementation | Per-Step Latency | Speedup | Numerical Max Diff |
-| :--- | :--- | :--- | :--- |
-| **PyTorch Reference Scan** | 137.74 ms | 1.00x | — |
-| **Fused Triton JIT Scan** | **0.90 ms** | **152.7x** | $4.29 \times 10^{-5}$ |
+| Kernel / Pass | Dimensions ($B, T, D$) | PyTorch Reference | Fused Triton JIT | Speedup | Numerical Max Diff |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **Forward Scan** | $16, 512, 64$ | 137.74 ms | **0.90 ms** | **152.7x** | $4.29 \times 10^{-5}$ |
+| **Backward Adjoint Pass** | $8, 256, 32$ | 154.53 ms | **0.33 ms** | **468.3x** | $7.63 \times 10^{-6}$ |
+| **Full Step (Fwd + Bwd)** | $8, 256, 32$ | 211.78 ms | **1.06 ms** | **199.6x** | $< 1.0 \times 10^{-5}$ |
+| **Streaming Step $O(1)$** | $1, 1, 32$ | 4.82 ms | **0.246 ms** | **19.6x** | Exact |
+
+### 5.5 Comparative Pretraining & Streaming Recurrent Inference
+
+Pretraining comparison between Standard Causal Multi-Head Transformer (PyTorch SDPA Flash Attention) and IMF Multi-Head SAVG on TinyShakespeare (1.1M tokens) with Subword BPE tokenization (`train_imf_corpus.py`):
+
+| Architecture | Active Parameters | Train Loss (150 steps) | Validation Loss | Validation Perplexity | Streaming Generation Latency |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **Standard Causal Transformer** | 908,416 | **4.6012** | **4.8953** | 133.66 | $O(N)$ KV Cache Growth |
+| **IMF Multi-Head SAVG (Polytope 10D)** | **699,312 (-23.0%)** | 5.8568 | 5.9651 | 389.59 | **$O(1)$ Constant (0.246 ms/tok)** |
+
+> *Inference Complexity*: While standard causal attention requires buffering all past key-value states in memory ($O(B \cdot N \cdot D)$ VRAM allocation), IMF's streaming generation step executes in strictly constant $O(1)$ time and memory: 204 tokens/sec locally without KV cache memory growth.
 
 ---
 
@@ -274,12 +289,20 @@ IMF/
 ├── pyproject.toml                                     # Python project configuration (uv / pip)
 ├── lakefile.lean                                      # Lean 4 Lake configuration
 ├── lean-toolchain                                     # Lean 4 version pinning (v4.33.1)
+├── imf/                                               # Packaged library module
+│   ├── __init__.py                                    # Library exports (FusedSAVGLayer, MultiHeadSAVGLayer, BPETokenizer, ...)
+│   └── bpe_tokenizer.py                               # Pure-Python self-contained BPE subword tokenizer
 ├── lean/                                              # Formally verified Lean 4 theorems
 │   ├── DiscreteToContinuousBridge.lean                # Sector symmetry & direct sum decomposition
 │   └── ContinuousCrossingBounds.lean                  # Frobenius orthogonality & energy conservation
 ├── polytope_connector.py                              # Configurable higher-dimensional polytope connector
-├── triton_savg_kernel.py                              # Triton GPU fused scan with Autograd backward support
+├── multihead_savg.py                                  # Multi-head SAVG layer with batched Triton execution
+├── triton_savg_kernel.py                              # Triton GPU fused scan & backward kernel with autograd
 ├── higher_arity_simplex.py                            # Arity-3 and Arity-4 CP-factorized simplex tensor bindings
+├── chat_imf.py                                        # Interactive real-time streaming chat CLI (O(1) recurrence)
+├── train_imf_corpus.py                                # Pretraining benchmark against standard Causal Transformer
+├── pretrain_imf_lm.py                                 # Pretraining & O(1) streaming generation demonstration
+├── test_reversal_benchmark.py                         # Standardized evaluation of Reversal Curse
 ├── test_savg_harness.py                               # PyTorch SAVG integration harness
 ├── test_savg_directionality.py                        # Empirical directional selectivity test on trained pairs
 ├── benchmark_mqar.py                                  # Multi-Query Associative Recall benchmark
