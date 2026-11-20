@@ -257,6 +257,7 @@ def main():
         PAPERS_DIR / "02_hdplc_higher_dimensional_polytope_connectors.md",
         PAPERS_DIR / "03_epistemological_foundations_and_real_world_applications.md",
         PAPERS_DIR / "04_grassmann_stereochemistry_and_sl_d_remeshing.md",
+        PAPERS_DIR / "05_non_abelian_gauge_fields_and_continuous_lie_ssm.md",
     ]
 
     html_sections = []
