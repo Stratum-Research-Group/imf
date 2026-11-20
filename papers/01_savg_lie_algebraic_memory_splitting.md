@@ -119,11 +119,27 @@ theorem sym_anti_pointwise_orthogonal {d : Nat} (M : MatrixSector d) (i j : Fin 
   have h_cancel : (M i j - M j i) + (M j i - M i j) = 0 := by omega
   rw [h_cancel]
   rw [Int.mul_zero]
+
+-- Verified Lean 4 Core Invariant: Phase Inversion Sign Reversal
+theorem phase_inversion_reversal_sum_zero {d : Nat} (M : MatrixSector d) (i j : Fin d) :
+    (transpose (antiSector2 M) i j) + (antiSector2 M i j) = 0 := by
+  dsimp [transpose, antiSector2, sub]
+  show (M j i - M i j) + (M i j - M j i) = 0
+  omega
+
+-- Verified Lean 4 Core Invariant: Directional Margin Contrast
+theorem directional_margin_contrast {d : Nat} (M : MatrixSector d) (i j : Fin d) :
+    (antiSector2 M i j) - (antiSector2 M j i) = 2 * (M i j - M j i) := by
+  dsimp [antiSector2, sub]
+  show (M i j - M j i) - (M j i - M i j) = 2 * (M i j - M j i)
+  omega
 ```
 
-The formal proofs establish two essential algebraic foundations:
+The formal proofs establish four essential algebraic foundations:
 1. **Direct Sum Decomposition**: Every interaction matrix uniquely decomposes into symmetric ($2S = M + M^\top$) and antisymmetric ($2A = M - M^\top$) sectors.
 2. **Frobenius Orthogonality**: The symmetric and antisymmetric components are strictly orthogonal under the matrix inner product ($\langle S, A \rangle_F = 0$), ensuring zero cross-talk between associative equivalence and directed skew flow. Extension to real rings $\mathbb{R}$ follows by standard scalar field division.
+3. **Phase Inversion Cancellation**: Transposition over the skew-symmetric sector maps strictly to its arithmetic negation ($\mathbf{A}^\top + \mathbf{A} = 0$), algebraically canceling retrograde query flow.
+4. **Directional Contrast Margin**: The margin between forward and reverse evaluation is strictly proportional to twice the directional relation asymmetry ($2 \cdot (M_{ij} - M_{ji})$).
 
 ---
 

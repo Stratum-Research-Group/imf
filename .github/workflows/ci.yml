@@ -1,0 +1,53 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test-python:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install uv and build dependencies
+        run: |
+          curl -LsSf https://astral.sh/uv/install.sh | sh
+          export PATH="$HOME/.local/bin:$PATH"
+          uv venv
+          . .venv/bin/activate
+          uv pip install torch numpy pytest setuptools
+
+      - name: Run Pytest CPU Suite
+        run: |
+          . .venv/bin/activate
+          pytest -q -p no:cacheprovider
+
+      - name: Build Wheel & Sdist
+        run: |
+          export PATH="$HOME/.local/bin:$PATH"
+          uv build
+
+  verify-lean:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Elan & Lean 4
+        run: |
+          curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh -s -- -y --default-toolchain none
+          export PATH="$HOME/.elan/bin:$PATH"
+          elan toolchain install $(cat lean-toolchain)
+          elan default $(cat lean-toolchain)
+
+      - name: Build Lean 4 Theorems
+        run: |
+          export PATH="$HOME/.elan/bin:$PATH"
+          lake build

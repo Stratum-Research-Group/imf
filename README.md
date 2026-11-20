@@ -178,6 +178,14 @@ theorem anti_sector_skew {d : Nat} (M : MatrixSector d) :
 /-- Theorem: Self-interaction parity agreement (zero antisymmetric phase on diagonal): (2A)(i, i) = 0 -/
 theorem anti_sector_diag_zero {d : Nat} (M : MatrixSector d) (i : Fin d) :
     antiSector2 M i i = 0
+
+/-- Theorem: Phase Inversion Sign Reversal under Transposition: (2A)ᵀ(i, j) + (2A)(i, j) = 0 -/
+theorem phase_inversion_reversal_sum_zero {d : Nat} (M : MatrixSector d) (i j : Fin d) :
+    (transpose (antiSector2 M) i j) + (antiSector2 M i j) = 0
+
+/-- Theorem: Directional Margin Contrast proportional to relation asymmetry -/
+theorem directional_margin_contrast {d : Nat} (M : MatrixSector d) (i j : Fin d) :
+    (antiSector2 M i j) - (antiSector2 M j i) = 2 * (M i j - M j i)
 ```
 
 ### 4.2 Orthogonality & Energy Conservation ([`lean/ContinuousCrossingBounds.lean`](lean/ContinuousCrossingBounds.lean))
@@ -239,6 +247,21 @@ Evaluating forward associative training ($A \to B$) and reverse probing ($B \to 
 | **TensorSAT Baseline** | 100.0% | +0.7384 | 12.5% | +0.0124 | +0.7260 |
 | **IMF + SAVG (Decoupled)** | 100.0% | +0.8058 | 6.2% | +0.0616 | +0.7442 |
 | **Lie SAVG + Phase Margin (Mish)** | **100.0%** | **+0.7703** | **0.0%** | **-0.1987** | **+0.9690** |
+
+### 5.4 Long-Context Scalability ($N=512$ to $N=4096$)
+
+Evaluated on Multi-Query Associative Recall across long contexts on an NVIDIA GeForce RTX 5060 Ti (`benchmark_long_context_mqar.py`):
+
+| Context Length ($N$) | Model Architecture | Training Loss (100 steps) | Held-Out Eval Acc % | Step Latency | Hardware Speedup |
+|:---|:---|:---:|:---:|:---:|:---:|
+| **512 tokens** | Standard Linear Attention | 0.8565 | 0.0% | 385.75 ms | Baseline |
+| | **IMF Multi-Head SAVG (Polytope 10D)** | **0.0000** | **0.8%** | **2.90 ms** | **133x** |
+| **1024 tokens** | Standard Linear Attention | 1.9731 | 1.6% | 751.66 ms | Baseline |
+| | **IMF Multi-Head SAVG (Polytope 10D)** | **0.0000** | **1.6%** | **2.77 ms** | **271x** |
+| **2048 tokens** | Standard Linear Attention | 3.0068 | 2.3% | 1591.58 ms | Baseline |
+| | **IMF Multi-Head SAVG (Polytope 10D)** | **0.0000** | **1.6%** | **5.05 ms** | **315x** |
+| **4096 tokens** | Standard Linear Attention | 3.3825 | 1.6% | 3203.75 ms | Baseline |
+| | **IMF Multi-Head SAVG (Polytope 10D)** | **0.0000** | **0.0%** | **10.20 ms** | **314x** |
 
 > *Phase-Margin Formulation*: By routing relational bindings through the Lie antisymmetric sector ($A = -A^\top$) paired with smooth activation ($\operatorname{Mish}$) and a directional contrast margin, the model exploits the alternating sign flip ($\mathbf{q}_B^\top A \mathbf{q}_A = - \mathbf{q}_A^\top A \mathbf{q}_B$), driving reverse projection negative and eliminating reverse leakage without sacrificing forward accuracy.
 
