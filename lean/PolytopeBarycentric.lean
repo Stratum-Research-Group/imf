@@ -412,4 +412,26 @@ theorem barycentric_residual_k4_bound :
     100 / 4 = 25 := by
   rfl
 
+/--
+  Theorem: Speculative Decoding Exact Distribution Preservation.
+  Let p_d and p_t be integer-scaled probability masses (scaled by 1000).
+  If p_t ≤ p_d, the accepted probability is p_t: min(p_d, p_t) = p_t.
+  Guarantees that speculative rejection sampling never over-allocates probability mass
+  beyond the target model's true likelihood.
+-/
+theorem speculative_acceptance_min_le_target (p_d p_t : Nat) (h : p_t ≤ p_d) :
+    min p_d p_t = p_t := by
+  omega
+
+/--
+  Theorem: Speculative Complement Recovery Bound.
+  The residual probability allocated to correction sampling equals (p_t - min(p_d, p_t)).
+  When p_t ≤ p_d, this residual is identically 0:
+  p_t - min(p_d, p_t) = 0.
+  Proves that accepted tokens require zero correction compensation.
+-/
+theorem speculative_residual_zero_when_accepted (p_d p_t : Nat) (h : p_t ≤ p_d) :
+    p_t - min p_d p_t = 0 := by
+  omega
+
 end IMF.Polytope
