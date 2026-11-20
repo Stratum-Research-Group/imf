@@ -7,13 +7,7 @@ Core exports:
 - SAVGScanFunction: Autograd functional interface for SAVG scan
 """
 
-from triton_savg_kernel import FusedSAVGLayer, SAVGScanFunction, pytorch_reference_savg_scan
-from multihead_savg import MultiHeadSAVGLayer
-from polytope_connector import ConfigurablePolytopeConnector
-from higher_arity_simplex import HigherAritySimplexBinding
-from imf.bpe_tokenizer import BPETokenizer
-
-__version__ = "0.1.0"
+__version__ = "0.3.0"
 __all__ = [
     "FusedSAVGLayer",
     "MultiHeadSAVGLayer",
@@ -21,5 +15,18 @@ __all__ = [
     "pytorch_reference_savg_scan",
     "ConfigurablePolytopeConnector",
     "HigherAritySimplexBinding",
+    "ContinuousSimplexConvolutionalBinding",
+    "SU2GaugeSimplicialComplex",
+    "AdaptivePolytopeSubdivision",
+    "ContinuousLieGroupSSM",
     "BPETokenizer",
 ]
+
+from triton_savg_kernel import FusedSAVGLayer, SAVGScanFunction, pytorch_reference_savg_scan
+from multihead_savg import MultiHeadSAVGLayer
+from polytope_connector import ConfigurablePolytopeConnector
+from higher_arity_simplex import HigherAritySimplexBinding, ContinuousSimplexConvolutionalBinding
+from imf.gauge_polytope_complex import SU2GaugeSimplicialComplex
+from imf.adaptive_mesh_refinement import AdaptivePolytopeSubdivision
+from imf.continuous_lie_ssm import ContinuousLieGroupSSM
+from imf.bpe_tokenizer import BPETokenizer
