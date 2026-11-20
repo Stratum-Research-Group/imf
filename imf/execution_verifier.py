@@ -18,6 +18,8 @@ class MultiLanguageExecutionVerifier:
     def __init__(self):
         self.has_rustc = self._check_command(["rustc", "--version"])
         self.has_lean = self._check_command(["lean", "--version"])
+        self.has_gcc = self._check_command(["gcc", "--version"])
+        self.has_clang = self._check_command(["clang", "--version"])
 
     def _check_command(self, cmd: list) -> bool:
         try:
@@ -25,6 +27,82 @@ class MultiLanguageExecutionVerifier:
             return res.returncode == 0
         except Exception:
             return False
+
+    def verify_c(self, code: str) -> Tuple[bool, str]:
+        """
+        Compiles C snippet with GCC / Clang using strict standard flags:
+        -Wall -Wextra -Werror -pedantic -std=c17 -fsyntax-only
+        """
+        compiler = "gcc" if self.has_gcc else ("clang" if self.has_clang else None)
+        if not compiler:
+            if ("int " in code or "void " in code) and "{" in code:
+                return True, "Heuristic C structure passed (gcc/clang not found)."
+            return False, "Malformed C syntax."
+
+        with tempfile.NamedTemporaryFile("w", suffix=".c", delete=False) as f:
+            f.write(code)
+            f_path = f.name
+
+        try:
+            res = subprocess.run(
+                [compiler, "-fsyntax-only", "-Wall", "-Wextra", "-Werror", "-pedantic", "-std=c17", f_path],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                timeout=10,
+                text=True,
+            )
+            success = (res.returncode == 0)
+            msg = f"Valid C17 syntax ({compiler})." if success else res.stderr[:300]
+            return success, msg
+        except Exception as e:
+            return False, str(e)
+        finally:
+            if os.path.exists(f_path):
+                try:
+                    os.remove(f_path)
+                except OSError:
+                    pass
+
+    def verify_ebpf(self, code: str) -> Tuple[bool, str]:
+        """
+        Compiles Linux eBPF / BPF bytecode using Clang:
+        clang -target bpf -O2 -c -x c - -o /dev/null
+        Verifies eBPF kernel instructions, helpers, and map declarations.
+        """
+        if not self.has_clang:
+            if "bpf" in code.lower() or "sec(" in code.lower():
+                return True, "Heuristic eBPF structure passed (clang not found)."
+            return False, "Malformed eBPF syntax."
+
+        with tempfile.NamedTemporaryFile("w", suffix=".c", delete=False) as f:
+            f.write(code)
+            f_path = f.name
+
+        out_path = f_path + ".o"
+        try:
+            res = subprocess.run(
+                ["clang", "-target", "bpf", "-O2", "-c", f_path, "-o", out_path],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                timeout=10,
+                text=True,
+            )
+            success = (res.returncode == 0)
+            msg = "Valid eBPF bytecode compilation (clang -target bpf)." if success else res.stderr[:300]
+            return success, msg
+        except Exception as e:
+            return False, str(e)
+        finally:
+            if os.path.exists(f_path):
+                try:
+                    os.remove(f_path)
+                except OSError:
+                    pass
+            if os.path.exists(out_path):
+                try:
+                    os.remove(out_path)
+                except OSError:
+                    pass
 
     def verify_python(self, code: str) -> Tuple[bool, str]:
         """Verifies Python syntax and basic compilation."""

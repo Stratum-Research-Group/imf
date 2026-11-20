@@ -21,7 +21,7 @@ def main():
 
     print("=" * 75)
     print("  IMF AGENTIC SELF-CORRECTION COMPILER REPL (v0.6.0)")
-    print("  Languages: :py (Python), :rs (Rust), :lean (Lean 4), :quit")
+    print("  Languages: :py (Python), :rs (Rust), :c (C17), :bpf (eBPF), :lean (Lean 4), :quit")
     print("=" * 75)
 
     mode = "python"
@@ -46,6 +46,14 @@ def main():
             mode = "rust"
             print("[*] Switched to Rustc verifier mode.")
             continue
+        elif line_strip == ":c":
+            mode = "c"
+            print("[*] Switched to C17 (GCC/Clang) verifier mode.")
+            continue
+        elif line_strip == ":bpf":
+            mode = "ebpf"
+            print("[*] Switched to Linux eBPF (Clang -target bpf) verifier mode.")
+            continue
         elif line_strip == ":lean":
             mode = "lean4"
             print("[*] Switched to Lean 4 tactic verifier mode.")
@@ -59,6 +67,10 @@ def main():
             passed, diag = verifier.verify_python(code)
         elif mode == "rust":
             passed, diag = verifier.verify_rust(code)
+        elif mode == "c":
+            passed, diag = verifier.verify_c(code)
+        elif mode == "ebpf":
+            passed, diag = verifier.verify_ebpf(code)
         elif mode == "lean4":
             passed, diag = verifier.verify_lean4(code)
 
