@@ -174,4 +174,54 @@ theorem multihop_transitivity_bound (k step_dist : Nat) :
     k * step_dist ≤ k * step_dist := by
   exact Nat.le_refl (k * step_dist)
 
+/--
+  Quaternionic element Q = (w, x, y, z) over Int ring.
+  Represents elements of SU(2) (scaled).
+-/
+structure Quat where
+  w : Int
+  x : Int
+  y : Int
+  z : Int
+
+/--
+  Hamiltonian Quaternion multiplication:
+  (w1 + x1 i + y1 j + z1 k)(w2 + x2 i + y2 j + z2 k).
+-/
+def quatMul (q1 q2 : Quat) : Quat :=
+  { w := q1.w * q2.w - q1.x * q2.x - q1.y * q2.y - q1.z * q2.z,
+    x := q1.w * q2.x + q1.x * q2.w + q1.y * q2.z - q1.z * q2.y,
+    y := q1.w * q2.y - q1.x * q2.z + q1.y * q2.w + q1.z * q2.x,
+    z := q1.w * q2.z + q1.x * q2.y - q1.y * q2.x + q1.z * q2.w }
+
+/--
+  Scalar trace / real part of quaternion: Tr(q) = 2 * w.
+  Modeled simply as the real component w (since 2w = 2w' ↔ w = w').
+-/
+def quatReal (q : Quat) : Int := q.w
+
+/--
+  Theorem: Cyclic Trace Invariance of 2-step Quaternionic Transport.
+  Re(q1 * q2) = Re(q2 * q1).
+  Formally proves commutativity of the scalar curvature under cyclic shifts.
+-/
+theorem quat_mul_real_comm (q1 q2 : Quat) :
+    quatReal (quatMul q1 q2) = quatReal (quatMul q2 q1) := by
+  dsimp [quatReal, quatMul]
+  have h1 : q1.w * q2.w = q2.w * q1.w := by rw [Int.mul_comm]
+  have h2 : q1.x * q2.x = q2.x * q1.x := by rw [Int.mul_comm]
+  have h3 : q1.y * q2.y = q2.y * q1.y := by rw [Int.mul_comm]
+  have h4 : q1.z * q2.z = q2.z * q1.z := by rw [Int.mul_comm]
+  rw [h1, h2, h3, h4]
+
+/--
+  Theorem: Non-Abelian Wilson Loop Cyclic Trace Invariance.
+  For any triangular face in a simplicial 2-complex with gauge connections U1, U2, U3 in SU(2),
+  the Wilson loop holonomy curvature F = Re(U1 * U2 * U3) is strictly invariant under cyclic permutations:
+  Re((U1 * U2) * U3) = Re(U3 * (U1 * U2)).
+-/
+theorem wilson_loop_cyclic_invariance (U1 U2 U3 : Quat) :
+    quatReal (quatMul (quatMul U1 U2) U3) = quatReal (quatMul U3 (quatMul U1 U2)) := by
+  exact quat_mul_real_comm (quatMul U1 U2) U3
+
 end IMF.Polytope
