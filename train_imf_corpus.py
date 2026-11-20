@@ -14,6 +14,7 @@ Zero external dependencies.
 
 import time
 import math
+import argparse
 from pathlib import Path
 import torch
 import torch.nn as nn
@@ -135,13 +136,24 @@ class IMFMultiHeadLM(nn.Module):
         return self.head(self.ln_f(x)), next_states
 
 
-def load_dataset():
+def load_dataset(use_bpe: bool = False, target_vocab_size: int = 500):
     data_path = Path(__file__).parent / "data" / "tinyshakespeare.txt"
     if not data_path.exists():
         raise FileNotFoundError(f"Missing {data_path}")
     text = data_path.read_text(encoding="utf-8")
-    tokenizer = CharTokenizer(text)
-    encoded = torch.tensor(tokenizer.encode(text), dtype=torch.long)
+    if use_bpe:
+        from imf.bpe_tokenizer import BPETokenizer
+        bpe_path = Path(__file__).parent / "data" / "shakespeare_bpe.json"
+        if bpe_path.exists():
+            tokenizer = BPETokenizer.load(bpe_path)
+        else:
+            tokenizer = BPETokenizer()
+            tokenizer.train(text, target_vocab_size=target_vocab_size)
+            tokenizer.save(bpe_path)
+        encoded = torch.tensor(tokenizer.encode(text), dtype=torch.long)
+    else:
+        tokenizer = CharTokenizer(text)
+        encoded = torch.tensor(tokenizer.encode(text), dtype=torch.long)
     n = int(0.9 * len(encoded))
     train_data = encoded[:n]
     val_data = encoded[n:]
@@ -169,22 +181,27 @@ def evaluate_perplexity(model, data, seq_len, device, eval_batches=20):
     return avg_loss, ppl
 
 
-def run_benchmark():
+def run_benchmark(
+    use_bpe: bool = False,
+    bpe_vocab_size: int = 500,
+    train_steps: int = 150,
+    save_checkpoint: str = "",
+):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print("=" * 85)
-    print(f"PRETRAINING COMPARISON: Standard Transformer vs IMF Multi-Head SAVG on {device}")
+    tok_type = f"BPE Subword (target vocab: {bpe_vocab_size})" if use_bpe else "Character"
+    print(f"PRETRAINING COMPARISON: Standard Transformer vs IMF Multi-Head SAVG ({tok_type}) on {device}")
     print("=" * 85)
 
-    tokenizer, train_data, val_data = load_dataset()
+    tokenizer, train_data, val_data = load_dataset(use_bpe=use_bpe, target_vocab_size=bpe_vocab_size)
     print(f"[*] Dataset: TinyShakespeare (Train: {len(train_data):,} tokens, Val: {len(val_data):,} tokens)")
-    print(f"[*] Vocabulary: {tokenizer.vocab_size} unique character tokens")
+    print(f"[*] Vocabulary: {tokenizer.vocab_size} unique tokens")
 
     d_model = 128
     num_heads = 4
     n_layers = 3
     seq_len = 128
     batch_size = 16
-    train_steps = 150
 
     models = {
         "Standard Causal Transformer (SDPA)": BaselineTransformerLM(
@@ -234,6 +251,24 @@ def run_benchmark():
             "ms_per_step": ms_per_step,
         }
 
+        if save_checkpoint and "IMF" in name:
+            ckpt_path = Path(save_checkpoint)
+            ckpt_path.parent.mkdir(parents=True, exist_ok=True)
+            tok_meta = {
+                "vocab": tokenizer.vocab if hasattr(tokenizer, "vocab") else None,
+                "merges": tokenizer.merges if hasattr(tokenizer, "merges") else None,
+            }
+            torch.save({
+                "model_state": model.state_dict(),
+                "vocab_size": tokenizer.vocab_size,
+                "d_model": d_model,
+                "num_heads": num_heads,
+                "n_layers": n_layers,
+                "preset": "decayotton_orthoplex",
+                "tokenizer_meta": tok_meta,
+            }, ckpt_path)
+            print(f"  [+] Saved trained checkpoint to {ckpt_path}")
+
     # Summary Table
     print("\n" + "=" * 95)
     print("PRETRAINING BENCHMARK SUMMARY (150 steps on 1.1M token corpus)")
@@ -246,4 +281,16 @@ def run_benchmark():
 
 
 if __name__ == "__main__":
-    run_benchmark()
+    parser = argparse.ArgumentParser(description="Pretraining benchmark comparing Transformer vs IMF Multi-Head SAVG")
+    parser.add_argument("--use_bpe", action="store_true", help="Use subword BPE tokenizer instead of characters")
+    parser.add_argument("--bpe_vocab_size", type=int, default=500, help="Target vocabulary size for BPE")
+    parser.add_argument("--train_steps", type=int, default=150, help="Number of training steps")
+    parser.add_argument("--save_checkpoint", type=str, default="", help="Optional path to save IMF model checkpoint")
+    args = parser.parse_args()
+
+    run_benchmark(
+        use_bpe=args.use_bpe,
+        bpe_vocab_size=args.bpe_vocab_size,
+        train_steps=args.train_steps,
+        save_checkpoint=args.save_checkpoint,
+    )

@@ -43,6 +43,7 @@ venv.bak/
 # PyTorch / CUDA caches
 .triton/
 .cache/
+checkpoints/
 
 # IDE / Editor artifacts
 .vscode/

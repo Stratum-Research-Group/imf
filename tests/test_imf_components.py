@@ -159,4 +159,35 @@ def test_multihead_savg_layer():
     assert next_st[0].shape == (B, H, D // H, D // H)
 
 
+def test_triton_backward_kernel_equivalence():
+    """Verify that fused Triton backward matches analytic adjoint backward within tight tolerance."""
+    from triton_savg_kernel import HAS_TRITON, analytic_savg_backward, SAVGScanFunction
+    if not (HAS_TRITON and torch.cuda.is_available()):
+        pytest.skip("CUDA or Triton not available")
+
+    B, T, D = 4, 16, 32
+    U = torch.randn(B, T, D, device="cuda")
+    V = torch.randn(B, T, D, device="cuda")
+    Q = torch.randn(B, T, D, device="cuda")
+    g = torch.sigmoid(torch.randn(B, T, device="cuda"))
+    dOut = torch.randn(B, T, D, device="cuda")
+
+    gU_ref, gV_ref, gQ_ref, gg_ref = analytic_savg_backward(U, V, Q, g, dOut)
+
+    # Test via SAVGScanFunction autograd backward with use_triton=True
+    U1 = U.clone().requires_grad_()
+    V1 = V.clone().requires_grad_()
+    Q1 = Q.clone().requires_grad_()
+    g1 = g.clone().requires_grad_()
+
+    out_triton = SAVGScanFunction.apply(U1, V1, Q1, g1, 0.999, 0.990, True)
+    torch.autograd.backward(out_triton, dOut)
+
+    assert torch.allclose(U1.grad, gU_ref, atol=1e-4)
+    assert torch.allclose(V1.grad, gV_ref, atol=1e-4)
+    assert torch.allclose(Q1.grad, gQ_ref, atol=1e-4)
+    assert torch.allclose(g1.grad, gg_ref, atol=1e-4)
+
+
+
 

@@ -11,6 +11,7 @@ from triton_savg_kernel import FusedSAVGLayer, SAVGScanFunction, pytorch_referen
 from multihead_savg import MultiHeadSAVGLayer
 from polytope_connector import ConfigurablePolytopeConnector
 from higher_arity_simplex import HigherAritySimplexBinding
+from imf.bpe_tokenizer import BPETokenizer
 
 __version__ = "0.1.0"
 __all__ = [
@@ -20,4 +21,5 @@ __all__ = [
     "pytorch_reference_savg_scan",
     "ConfigurablePolytopeConnector",
     "HigherAritySimplexBinding",
+    "BPETokenizer",
 ]

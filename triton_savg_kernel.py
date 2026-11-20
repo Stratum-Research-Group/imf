@@ -70,6 +70,121 @@ if HAS_TRITON:
 
 
     @triton.jit
+    def _savg_backward_kernel(
+        U_ptr, V_ptr, Q_ptr, mod_ptr, dOut_ptr,
+        dU_ptr, dV_ptr, dQ_ptr, dg_ptr,
+        S_fwd_ptr, A_fwd_ptr,
+        B, T, D,
+        stride_ub, stride_ut, stride_ud,
+        stride_vb, stride_vt, stride_vd,
+        stride_qb, stride_qt, stride_qd,
+        stride_mb, stride_mt,
+        stride_dob, stride_dot, stride_dod,
+        stride_dub, stride_dut, stride_dud,
+        stride_dvb, stride_dvt, stride_dvd,
+        stride_dqb, stride_dqt, stride_dqd,
+        stride_dgb, stride_dgt,
+        stride_sb, stride_st, stride_sd1, stride_sd2,
+        stride_ab, stride_at, stride_ad1, stride_ad2,
+        gamma_s: tl.constexpr,
+        gamma_a: tl.constexpr,
+        BLOCK_D: tl.constexpr,
+    ):
+        """
+        Fused GPU Backward Kernel for SAVG scan.
+        Performs forward pass in registers to buffer S_t and A_t,
+        then executes the reverse adjoint pass to compute exact gradients
+        with zero PyTorch autograd graph overhead.
+        """
+        pid_b = tl.program_id(axis=0)
+
+        offs_d1 = tl.arange(0, BLOCK_D)
+        offs_d2 = tl.arange(0, BLOCK_D)
+        mask_d1 = offs_d1 < D
+        mask_d2 = offs_d2 < D
+        mask_2d = mask_d1[:, None] & mask_d2[None, :]
+
+        # 1. Forward sweep in registers storing intermediate forward states
+        s_curr = tl.zeros([BLOCK_D, BLOCK_D], dtype=tl.float32)
+        a_curr = tl.zeros([BLOCK_D, BLOCK_D], dtype=tl.float32)
+
+        for t in range(0, T):
+            u_ptrs = U_ptr + pid_b * stride_ub + t * stride_ut + offs_d1 * stride_ud
+            v_ptrs = V_ptr + pid_b * stride_vb + t * stride_vt + offs_d2 * stride_vd
+            mod_ptr_t = mod_ptr + pid_b * stride_mb + t * stride_mt
+
+            u_t = tl.load(u_ptrs, mask=mask_d1, other=0.0)
+            v_t = tl.load(v_ptrs, mask=mask_d2, other=0.0)
+            g_t = tl.load(mod_ptr_t)
+
+            sym_inc = 0.5 * (u_t[:, None] * v_t[None, :] + v_t[:, None] * u_t[None, :])
+            anti_inc = 0.5 * (u_t[:, None] * v_t[None, :] - v_t[:, None] * u_t[None, :])
+
+            s_curr = gamma_s * s_curr + g_t * sym_inc
+            a_curr = gamma_a * a_curr + g_t * anti_inc
+
+            s_save_ptrs = S_fwd_ptr + pid_b * stride_sb + t * stride_st + offs_d1[:, None] * stride_sd1 + offs_d2[None, :] * stride_sd2
+            a_save_ptrs = A_fwd_ptr + pid_b * stride_ab + t * stride_at + offs_d1[:, None] * stride_ad1 + offs_d2[None, :] * stride_ad2
+            tl.store(s_save_ptrs, s_curr, mask=mask_2d)
+            tl.store(a_save_ptrs, a_curr, mask=mask_2d)
+
+        # 2. Backward adjoint sweep
+        adj_S = tl.zeros([BLOCK_D, BLOCK_D], dtype=tl.float32)
+        adj_A = tl.zeros([BLOCK_D, BLOCK_D], dtype=tl.float32)
+
+        for t_step in range(0, T):
+            t = T - 1 - t_step
+
+            u_ptrs = U_ptr + pid_b * stride_ub + t * stride_ut + offs_d1 * stride_ud
+            v_ptrs = V_ptr + pid_b * stride_vb + t * stride_vt + offs_d2 * stride_vd
+            q_ptrs = Q_ptr + pid_b * stride_qb + t * stride_qt + offs_d2 * stride_qd
+            do_ptrs = dOut_ptr + pid_b * stride_dob + t * stride_dot + offs_d1 * stride_dod
+            mod_ptr_t = mod_ptr + pid_b * stride_mb + t * stride_mt
+
+            u_t = tl.load(u_ptrs, mask=mask_d1, other=0.0)
+            v_t = tl.load(v_ptrs, mask=mask_d2, other=0.0)
+            q_t = tl.load(q_ptrs, mask=mask_d2, other=0.0)
+            do_t = tl.load(do_ptrs, mask=mask_d1, other=0.0)
+            g_t = tl.load(mod_ptr_t)
+
+            s_read_ptrs = S_fwd_ptr + pid_b * stride_sb + t * stride_st + offs_d1[:, None] * stride_sd1 + offs_d2[None, :] * stride_sd2
+            a_read_ptrs = A_fwd_ptr + pid_b * stride_ab + t * stride_at + offs_d1[:, None] * stride_ad1 + offs_d2[None, :] * stride_ad2
+            s_t = tl.load(s_read_ptrs, mask=mask_2d, other=0.0)
+            a_t = tl.load(a_read_ptrs, mask=mask_2d, other=0.0)
+
+            # Gradient into Q: (S_t + A_t)^T @ dOut_t
+            net_t = s_t + a_t
+            dq_val = tl.sum(tl.trans(net_t) * do_t[None, :], axis=1)
+            tl.store(dQ_ptr + pid_b * stride_dqb + t * stride_dqt + offs_d2 * stride_dqd, dq_val, mask=mask_d2)
+
+            # Adjoint updates
+            d_net_t = do_t[:, None] * q_t[None, :]
+            d_net_sym = 0.5 * (d_net_t + tl.trans(d_net_t))
+            d_net_anti = 0.5 * (d_net_t - tl.trans(d_net_t))
+
+            adj_S = adj_S + d_net_sym
+            adj_A = adj_A + d_net_anti
+
+            sym_inc = 0.5 * (u_t[:, None] * v_t[None, :] + v_t[:, None] * u_t[None, :])
+            anti_inc = 0.5 * (u_t[:, None] * v_t[None, :] - v_t[:, None] * u_t[None, :])
+
+            # Gradient into g_t: sum(adj_S * sym + adj_A * anti)
+            dg_val = tl.sum(adj_S * sym_inc + adj_A * anti_inc)
+            tl.store(dg_ptr + pid_b * stride_dgb + t * stride_dgt, dg_val)
+
+            # Gradient into u_t and v_t
+            eff_adj = g_t * (adj_S + adj_A)
+            du_val = tl.sum(eff_adj * v_t[None, :], axis=1)
+            dv_val = tl.sum(tl.trans(eff_adj) * u_t[None, :], axis=1)
+
+            tl.store(dU_ptr + pid_b * stride_dub + t * stride_dut + offs_d1 * stride_dud, du_val, mask=mask_d1)
+            tl.store(dV_ptr + pid_b * stride_dvb + t * stride_dvt + offs_d2 * stride_dvd, dv_val, mask=mask_d2)
+
+            # Recurse adjoint backwards
+            adj_S = gamma_s * adj_S
+            adj_A = gamma_a * adj_A
+
+    @triton.jit
     def _savg_step_kernel(
         u_ptr, v_ptr, q_ptr, mod_ptr,
         s_in_ptr, a_in_ptr,
@@ -223,6 +338,7 @@ class SAVGScanFunction(torch.autograd.Function):
         ctx.save_for_backward(U, V, Q, grid_mod)
         ctx.gamma_s = gamma_s
         ctx.gamma_a = gamma_a
+        ctx.use_triton = use_triton
 
         if use_triton and HAS_TRITON and U.is_cuda:
             B, T, D = U.shape
@@ -248,10 +364,47 @@ class SAVGScanFunction(torch.autograd.Function):
     @staticmethod
     def backward(ctx, grad_out):
         U, V, Q, grid_mod = ctx.saved_tensors
-        grad_U, grad_V, grad_Q, grad_g = analytic_savg_backward(
-            U, V, Q, grid_mod, grad_out, ctx.gamma_s, ctx.gamma_a
-        )
-        return grad_U, grad_V, grad_Q, grad_g, None, None, None
+        gamma_s = ctx.gamma_s
+        gamma_a = ctx.gamma_a
+
+        if ctx.use_triton and HAS_TRITON and U.is_cuda:
+            B, T, D = U.shape
+            BLOCK_D = triton.next_power_of_2(D)
+            grad_U = torch.empty_like(U)
+            grad_V = torch.empty_like(V)
+            grad_Q = torch.empty_like(Q)
+            grad_g = torch.empty_like(grid_mod)
+
+            S_fwd = torch.empty(B, T, BLOCK_D, BLOCK_D, device=U.device, dtype=torch.float32)
+            A_fwd = torch.empty(B, T, BLOCK_D, BLOCK_D, device=U.device, dtype=torch.float32)
+
+            grid = (B,)
+            _savg_backward_kernel[grid](
+                U, V, Q, grid_mod, grad_out,
+                grad_U, grad_V, grad_Q, grad_g,
+                S_fwd, A_fwd,
+                B, T, D,
+                U.stride(0), U.stride(1), U.stride(2),
+                V.stride(0), V.stride(1), V.stride(2),
+                Q.stride(0), Q.stride(1), Q.stride(2),
+                grid_mod.stride(0), grid_mod.stride(1),
+                grad_out.stride(0), grad_out.stride(1), grad_out.stride(2),
+                grad_U.stride(0), grad_U.stride(1), grad_U.stride(2),
+                grad_V.stride(0), grad_V.stride(1), grad_V.stride(2),
+                grad_Q.stride(0), grad_Q.stride(1), grad_Q.stride(2),
+                grad_g.stride(0), grad_g.stride(1),
+                S_fwd.stride(0), S_fwd.stride(1), S_fwd.stride(2), S_fwd.stride(3),
+                A_fwd.stride(0), A_fwd.stride(1), A_fwd.stride(2), A_fwd.stride(3),
+                gamma_s=gamma_s,
+                gamma_a=gamma_a,
+                BLOCK_D=BLOCK_D,
+            )
+            return grad_U, grad_V, grad_Q, grad_g, None, None, None
+        else:
+            grad_U, grad_V, grad_Q, grad_g = analytic_savg_backward(
+                U, V, Q, grid_mod, grad_out, gamma_s, gamma_a
+            )
+            return grad_U, grad_V, grad_Q, grad_g, None, None, None
 
 
 class FusedSAVGLayer(nn.Module):
