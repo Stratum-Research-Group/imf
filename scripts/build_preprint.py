@@ -262,6 +262,7 @@ def main():
         PAPERS_DIR / "07_empirical_appendix_and_distributed_scaling.md",
         PAPERS_DIR / "08_hyperbolic_polytope_tilings.md",
         PAPERS_DIR / "09_cut_factorized_bidirectional_reasoning_and_polytope_moe.md",
+        PAPERS_DIR / "10_omnipresent_polytope_moe_64_domains.md",
     ]
 
     html_sections = []

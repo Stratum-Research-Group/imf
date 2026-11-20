@@ -7,9 +7,10 @@ from imf.synthetic_reasoning_corpus import MultiDomainCorpusSynthesizer
 
 
 def main():
-    print("[*] Generating training text across Python, Rust, Lean 4, and Math...")
-    syn = MultiDomainCorpusSynthesizer(seed=101)
-    samples = syn.generate_corpus(num_samples=2000)
+    from imf.omni_64_multidomain_synthesizer import Omni64DomainSynthesizer
+    print("[*] Generating training text across 64 Omni-Polytope Domains (Systems, Cyber Security, Logic, Mathematics, Genomics)...")
+    syn = Omni64DomainSynthesizer(seed=101)
+    samples = syn.generate_corpus(num_samples=12800)
     full_text = "\n\n".join([s[0] for s in samples])
 
     tokenizer = CodeBPETokenizer()

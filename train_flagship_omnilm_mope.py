@@ -20,7 +20,7 @@ from imf.omni_block import IMFOmniBlock
 from imf.polytope_moe import PolytopeMixtureOfExperts
 from imf.eth_cut_reasoning import BidirectionalCutReasoning
 from imf.code_bpe_tokenizer import CodeBPETokenizer
-from imf.synthetic_reasoning_corpus import MultiDomainCorpusSynthesizer
+from imf.omni_64_multidomain_synthesizer import Omni64DomainSynthesizer
 from imf.execution_verifier import MultiLanguageExecutionVerifier
 
 
@@ -37,7 +37,7 @@ class IMFOmniLMMoPE(nn.Module):
         num_layers: int = 2,
         num_heads: int = 4,
         polytope_dim: int = 3,
-        num_experts: int = 4,
+        num_experts: int = 32,
         top_k: int = 2,
         max_seq_len: int = 256,
         alpha_recon: float = 0.3,
@@ -140,10 +140,10 @@ def train_flagship_omnilm_mope():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"[*] Launching Flagship IMF-OmniLM-MoPE Pretraining on {device}...")
 
-    # 1. Dataset & Tokenizer
-    synthesizer = MultiDomainCorpusSynthesizer(seed=42)
-    train_samples = synthesizer.generate_corpus(num_samples=1500)
-    val_samples = synthesizer.generate_corpus(num_samples=250)
+    # 1. Dataset & Tokenizer across 64 Omni Domains
+    synthesizer = Omni64DomainSynthesizer(seed=42)
+    train_samples = synthesizer.generate_corpus(num_samples=12800)
+    val_samples = synthesizer.generate_corpus(num_samples=1280)
 
     tok_path = "checkpoints/code_bpe_tokenizer.json"
     tokenizer = CodeBPETokenizer.load(tok_path)
@@ -160,14 +160,14 @@ def train_flagship_omnilm_mope():
     train_data = encode_corpus(train_samples, seq_len=256).to(device)
     val_data = encode_corpus(val_samples, seq_len=256).to(device)
 
-    # 2. Model Setup
+    # 2. Model Setup: Scaled to 32 Active Geometric Domain Experts
     model = IMFOmniLMMoPE(
         vocab_size=vocab_size,
         d_model=128,
         num_layers=2,
         num_heads=4,
-        polytope_dim=3,
-        num_experts=4,
+        polytope_dim=5,
+        num_experts=32,
         top_k=2,
         max_seq_len=256,
         alpha_recon=0.3,

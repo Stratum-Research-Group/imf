@@ -78,12 +78,11 @@ class PolytopeMixtureOfExperts(nn.Module):
         d_ff = d_ff_expert if d_ff_expert is not None else 4 * d_model
 
         if expert_domains is None:
-            self.expert_domains = [
-                "systems_code",       # Python, Rust, C
-                "formal_logic_lean4", # Lean 4, formal proof verification
-                "symbolic_math",      # Multi-step arithmetic, symbolic algebra
-                "natural_discourse",  # Grammar, linguistic comprehension
-            ][:num_experts]
+            try:
+                from imf.omni_64_multidomain_synthesizer import OMNI_64_EXPERT_DOMAINS
+                self.expert_domains = OMNI_64_EXPERT_DOMAINS[:num_experts]
+            except ImportError:
+                self.expert_domains = [f"domain_{i}" for i in range(num_experts)]
             while len(self.expert_domains) < num_experts:
                 self.expert_domains.append(f"domain_{len(self.expert_domains)}")
         else:
