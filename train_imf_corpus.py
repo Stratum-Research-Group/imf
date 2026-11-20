@@ -21,6 +21,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 from imf import MultiHeadSAVGLayer
+from higher_arity_simplex import HigherAritySimplexBinding
 
 
 class CharTokenizer:
@@ -82,11 +83,26 @@ class BaselineTransformerLM(nn.Module):
 
 
 class IMFMultiHeadDecoderBlock(nn.Module):
-    """Transformer decoder block replacing quadratic attention with MultiHeadSAVGLayer."""
-    def __init__(self, d_model: int, num_heads: int, preset: str = "decayotton_orthoplex"):
+    """Transformer decoder block replacing quadratic attention with MultiHeadSAVGLayer and optional HigherAritySimplexBinding."""
+    def __init__(
+        self,
+        d_model: int,
+        num_heads: int,
+        preset: str = "decayotton_orthoplex",
+        use_higher_arity: bool = False,
+        arity_rank: int = 16,
+    ):
         super().__init__()
         self.ln1 = nn.LayerNorm(d_model)
         self.savg = MultiHeadSAVGLayer(d_model=d_model, num_heads=num_heads, preset=preset)
+        self.use_higher_arity = use_higher_arity
+        if use_higher_arity:
+            self.ln_arity = nn.LayerNorm(d_model)
+            self.arity_binding = HigherAritySimplexBinding(d_model=d_model, arity=3, rank=arity_rank)
+            self.arity_gate = nn.Parameter(torch.zeros(1))
+        else:
+            self.arity_binding = None
+
         self.ln2 = nn.LayerNorm(d_model)
         self.mlp = nn.Sequential(
             nn.Linear(d_model, 4 * d_model),
@@ -96,6 +112,15 @@ class IMFMultiHeadDecoderBlock(nn.Module):
 
     def forward(self, x: torch.Tensor):
         x = x + self.savg(self.ln1(x))
+        if self.use_higher_arity and self.arity_binding is not None:
+            # 3-stream self-interaction via shifted projections
+            norm_x = self.ln_arity(x)
+            # Create triplet streams: x_t, x_{t-1}, x_{t-2} causal shifts
+            B, T, D = norm_x.shape
+            x_prev1 = torch.cat([torch.zeros(B, 1, D, device=x.device, dtype=x.dtype), norm_x[:, :-1, :]], dim=1)
+            x_prev2 = torch.cat([torch.zeros(B, 2, D, device=x.device, dtype=x.dtype), norm_x[:, :-2, :]], dim=1)
+            bound = self.arity_binding([norm_x, x_prev1, x_prev2])
+            x = x + torch.tanh(self.arity_gate) * bound
         x = x + self.mlp(self.ln2(x))
         return x
 
