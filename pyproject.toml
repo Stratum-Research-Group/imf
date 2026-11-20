@@ -62,6 +62,8 @@ py-modules = [
     "demo_char_lm",
     "chat_imf",
     "train_imf_corpus",
+    "train_scaled_imf",
+    "benchmark_long_context_mqar",
     "test_reversal_benchmark",
     "stress_spo_multihop",
     "test_savg_directionality",
