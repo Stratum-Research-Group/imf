@@ -8,12 +8,14 @@ Core exports:
 """
 
 from triton_savg_kernel import FusedSAVGLayer, SAVGScanFunction, pytorch_reference_savg_scan
+from multihead_savg import MultiHeadSAVGLayer
 from polytope_connector import ConfigurablePolytopeConnector
 from higher_arity_simplex import HigherAritySimplexBinding
 
 __version__ = "0.1.0"
 __all__ = [
     "FusedSAVGLayer",
+    "MultiHeadSAVGLayer",
     "SAVGScanFunction",
     "pytorch_reference_savg_scan",
     "ConfigurablePolytopeConnector",

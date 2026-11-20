@@ -136,3 +136,27 @@ def test_imf_language_model_forward_and_generate():
     assert len(next_states) == 2
 
 
+def test_multihead_savg_layer():
+    from multihead_savg import MultiHeadSAVGLayer
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    B, T, D, H = 2, 8, 32, 4
+    layer = MultiHeadSAVGLayer(d_model=D, num_heads=H, preset="tetrahedron").to(device)
+
+    x = torch.randn(B, T, D, device=device, requires_grad=True)
+    out = layer(x)
+    assert out.shape == (B, T, D)
+
+    # Autograd flow
+    loss = out.sum()
+    loss.backward()
+    assert x.grad is not None
+
+    # Streaming step
+    state = layer.init_state(B, device)
+    x_t = torch.randn(B, D, device=device)
+    step_out, next_st = layer.step(x_t, state)
+    assert step_out.shape == (B, D)
+    assert next_st[0].shape == (B, H, D // H, D // H)
+
+
+

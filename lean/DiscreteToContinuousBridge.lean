@@ -87,4 +87,30 @@ theorem anti_sector_diag_zero {d : Nat} (M : MatrixSector d) (i : Fin d) :
   show M i i - M i i = 0
   omega
 
+/--
+  Theorem: Gated Direct Sum Decomposition.
+  For any scalar routing gate g and complementary gate (1 - g),
+  convex scaling preserves algebraic reconstruction:
+  g * (2S) + (1 - g) * (2A) matches gated bilinear projection.
+-/
+theorem gated_sym_anti_convex_combination {d : Nat} (M : MatrixSector d) (g : Int) (i j : Fin d) :
+    g * (symSector2 M i j) + (1 - g) * (antiSector2 M i j) =
+    g * (M i j + M j i) + (1 - g) * (M i j - M j i) := by
+  dsimp [symSector2, antiSector2, add, sub, transpose]
+
+/--
+  Theorem: Gated Antisymmetric Nullity on Self-Interaction.
+  For any arbitrary routing gate g, the diagonal self-interaction
+  is governed strictly by the symmetric component:
+  g * (2S)(i, i) + (1 - g) * (2A)(i, i) = g * (M i i + M i i).
+-/
+theorem gated_diagonal_purely_symmetric {d : Nat} (M : MatrixSector d) (g : Int) (i : Fin d) :
+    g * (symSector2 M i i) + (1 - g) * (antiSector2 M i i) = g * (M i i + M i i) := by
+  dsimp [symSector2, antiSector2, add, sub, transpose]
+  have h_zero : M i i - M i i = 0 := by omega
+  rw [h_zero]
+  have h_mul_zero : (1 - g) * 0 = 0 := by rw [Int.mul_zero]
+  rw [h_mul_zero]
+  omega
+
 end IMF.Bridge
