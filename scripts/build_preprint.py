@@ -259,6 +259,7 @@ def main():
         PAPERS_DIR / "04_grassmann_stereochemistry_and_sl_d_remeshing.md",
         PAPERS_DIR / "05_non_abelian_gauge_fields_and_continuous_lie_ssm.md",
         PAPERS_DIR / "06_the_imf_omni_block.md",
+        PAPERS_DIR / "07_empirical_appendix_and_distributed_scaling.md",
     ]
 
     html_sections = []
