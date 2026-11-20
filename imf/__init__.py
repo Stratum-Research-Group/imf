@@ -25,6 +25,7 @@ __all__ = [
     "PolytopeMixtureOfExperts",
     "PolytopeExpert",
     "IMFJointReconPredictorLM",
+    "BidirectionalCutReasoning",
 ]
 
 from triton_savg_kernel import FusedSAVGLayer, SAVGScanFunction, pytorch_reference_savg_scan
@@ -39,3 +40,4 @@ from imf.hyperbolic_polytope_tiling import HyperbolicPolytopeTiling
 from imf.bpe_tokenizer import BPETokenizer
 from imf.polytope_moe import PolytopeMixtureOfExperts, PolytopeExpert
 from imf.joint_recon_predictor import IMFJointReconPredictorLM
+from imf.eth_cut_reasoning import BidirectionalCutReasoning

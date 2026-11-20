@@ -239,4 +239,71 @@ theorem cayley_transform_bijectivity (a : Int) :
   have : 2 * a = a * 2 := by rw [Int.mul_comm]
   rw [this]
 
+/--
+  One-Bit Singlet State Function s(p, q):
+  s(p, q) = 0 if p = q;  s(0, 1) = +1;  s(1, 0) = -1.
+  Represents the discrete antisymmetric chiral unit on two-state wires.
+-/
+def singlet (p q : Nat) : Int :=
+  if p = 0 ∧ q = 1 then 1
+  else if p = 1 ∧ q = 0 then -1
+  else 0
+
+/--
+  Exact One-Bit Crossing Indicator X1(x, y, u, v) = [x = v ∧ y = u]
+-/
+def cross1 (x y u v : Nat) : Int :=
+  if x = v ∧ y = u then 1 else 0
+
+/--
+  Exact One-Bit Straight-Through Indicator I1(x, y, u, v) = [x = u ∧ y = v]
+-/
+def ident1 (x y u v : Nat) : Int :=
+  if x = u ∧ y = v then 1 else 0
+
+/--
+  Theorem: Upstream ETH One-Bit Uncrossing Identity (formal-math Bit.lean `uncross`).
+  cross1(x, y, u, v) = ident1(x, y, u, v) - singlet(x, y) * singlet(u, v)
+  for all binary inputs x, y, u, v ∈ {0, 1}.
+  Proved purely constructively across all 16 boolean wire combinations.
+-/
+theorem eth_one_bit_uncross_identity (x y u v : Nat)
+    (hx : x = 0 ∨ x = 1) (hy : y = 0 ∨ y = 1)
+    (hu : u = 0 ∨ u = 1) (hv : v = 0 ∨ v = 1) :
+    cross1 x y u v = ident1 x y u v - singlet x y * singlet u v := by
+  rcases hx with rfl | rfl <;>
+  rcases hy with rfl | rfl <;>
+  rcases hu with rfl | rfl <;>
+  rcases hv with rfl | rfl <;>
+  decide
+
+/--
+  Theorem: Bidirectional Cut Search Complexity Factorization.
+  Given a deduction sequence of length k = 2m with branching factor B ≥ 1,
+  the total unstructured path search space B^(2m) factorizes across an intermediate cut:
+  B^(2m) = (B^m) * (B^m).
+  By meeting at the cut m, search complexity reduces from B^(2m) to B^m + B^m ≤ 2 * B^m.
+-/
+theorem bidirectional_cut_search_factorization (B m : Nat) :
+    B ^ (2 * m) = (B ^ m) * (B ^ m) := by
+  have : 2 * m = m + m := by omega
+  rw [this, Nat.pow_add]
+
+/--
+  Theorem: Exponential Search Reduction via Cut Meeting.
+  For any branching factor B ≥ 2 and step depth m ≥ 1,
+  bidirectional cut exploration is exponentially bounded:
+  2 * (B ^ m) ≤ B ^ (2 * m).
+-/
+theorem bidirectional_cut_exponential_reduction (B m : Nat) (hB : 2 ≤ B) (hm : 1 ≤ m) :
+    2 * (B ^ m) ≤ B ^ (2 * m) := by
+  rw [bidirectional_cut_search_factorization]
+  have h_bound : 2 ≤ B ^ m := by
+    calc
+      2 ≤ B := hB
+      _ = B ^ 1 := (Nat.pow_one B).symm
+      _ ≤ B ^ m := Nat.pow_le_pow_right (by omega) hm
+  have : 2 * (B ^ m) ≤ (B ^ m) * (B ^ m) := Nat.mul_le_mul_right (B ^ m) h_bound
+  exact this
+
 end IMF.Proof
