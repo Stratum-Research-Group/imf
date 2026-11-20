@@ -60,6 +60,8 @@ py-modules = [
     "polytope_connector",
     "pretrain_imf_lm",
     "demo_char_lm",
+    "train_imf_corpus",
+    "test_reversal_benchmark",
     "stress_spo_multihop",
     "test_savg_directionality",
     "test_savg_harness",
