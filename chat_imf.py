@@ -12,6 +12,7 @@ import sys
 import time
 from pathlib import Path
 import torch
+import torch.nn as nn
 import torch.nn.functional as F
 
 from imf.bpe_tokenizer import BPETokenizer
@@ -19,7 +20,7 @@ from train_imf_corpus import IMFMultiHeadLM, CharTokenizer
 
 
 def stream_generate(
-    model: IMFMultiHeadLM,
+    model: nn.Module,
     tokenizer,
     prompt: str,
     max_new_tokens: int = 150,
@@ -28,7 +29,8 @@ def stream_generate(
     device: torch.device = torch.device("cpu"),
 ):
     """
-    Stream tokens to stdout in real time using O(1) recurrent step inference.
+    Stream tokens to stdout in real time.
+    Supports both recurrent O(1) step generation and autoregressive sequence forward passes.
     """
     model.eval()
     if hasattr(tokenizer, "encode"):
@@ -39,52 +41,85 @@ def stream_generate(
     if not input_ids:
         input_ids = [0]
 
-    # Initialize recurrent states for all layers: O(B * H * d_h^2)
-    states = model.init_streaming_states(batch_size=1, device=device)
+    sys.stdout.write(prompt)
+    sys.stdout.flush()
 
-    # Prime the recurrent states with the prompt tokens
-    with torch.no_grad():
-        for tok_id in input_ids[:-1]:
-            tok_tensor = torch.tensor([tok_id], device=device)
-            _, states = model.generate_step(tok_tensor, states)
+    # Check if model supports streaming recurrent state
+    if hasattr(model, "init_streaming_states") and hasattr(model, "generate_step"):
+        # Recurrent O(1) path
+        states = model.init_streaming_states(batch_size=1, device=device)
+        with torch.no_grad():
+            for tok_id in input_ids[:-1]:
+                tok_tensor = torch.tensor([tok_id], device=device)
+                _, states = model.generate_step(tok_tensor, states)
 
-        last_tok = torch.tensor([input_ids[-1]], device=device)
+            curr_tok = torch.tensor([input_ids[-1]], device=device)
+            generated_count = 0
+            t_start = time.perf_counter()
 
-        sys.stdout.write(prompt)
-        sys.stdout.flush()
+            for _ in range(max_new_tokens):
+                logits, states = model.generate_step(curr_tok, states)
+                logits = logits[0] / max(temperature, 1e-5)
 
-        curr_tok = last_tok
+                if top_k > 0:
+                    v, _ = torch.topk(logits, min(top_k, logits.size(-1)))
+                    logits[logits < v[-1]] = -float("Inf")
+
+                probs = F.softmax(logits, dim=-1)
+                next_tok_id = torch.multinomial(probs, num_samples=1).item()
+
+                if hasattr(tokenizer, "decode"):
+                    token_str = tokenizer.decode([next_tok_id])
+                else:
+                    token_str = tokenizer.idx2char.get(next_tok_id, "")
+
+                sys.stdout.write(token_str)
+                sys.stdout.flush()
+
+                curr_tok = torch.tensor([next_tok_id], device=device)
+                generated_count += 1
+
+                if hasattr(tokenizer, "eos_id") and next_tok_id == tokenizer.eos_id:
+                    break
+
+            elapsed = time.perf_counter() - t_start
+            tok_per_sec = generated_count / max(elapsed, 1e-5)
+            print(f"\n\n[INFO] Generated {generated_count} tokens in {elapsed:.3f}s ({tok_per_sec:.1f} tok/s, O(1) recurrent step)")
+    else:
+        # Autoregressive forward path (e.g. IMFOmniLM)
+        tokens_tensor = torch.tensor([input_ids], device=device)
         generated_count = 0
         t_start = time.perf_counter()
 
-        for _ in range(max_new_tokens):
-            logits, states = model.generate_step(curr_tok, states)
-            logits = logits[0] / max(temperature, 1e-5)
+        with torch.no_grad():
+            for _ in range(max_new_tokens):
+                logits = model(tokens_tensor)  # [1, T, vocab_size]
+                next_token_logits = logits[0, -1, :] / max(temperature, 1e-5)
 
-            if top_k > 0:
-                v, _ = torch.topk(logits, min(top_k, logits.size(-1)))
-                logits[logits < v[-1]] = -float("Inf")
+                if top_k > 0:
+                    v, _ = torch.topk(next_token_logits, min(top_k, next_token_logits.size(-1)))
+                    next_token_logits[next_token_logits < v[-1]] = -float("Inf")
 
-            probs = F.softmax(logits, dim=-1)
-            next_tok_id = torch.multinomial(probs, num_samples=1).item()
+                probs = F.softmax(next_token_logits, dim=-1)
+                next_tok_id = torch.multinomial(probs, num_samples=1).item()
 
-            if hasattr(tokenizer, "decode"):
-                token_str = tokenizer.decode([next_tok_id])
-            else:
-                token_str = tokenizer.idx2char.get(next_tok_id, "")
+                if hasattr(tokenizer, "decode"):
+                    token_str = tokenizer.decode([next_tok_id])
+                else:
+                    token_str = tokenizer.idx2char.get(next_tok_id, "")
 
-            sys.stdout.write(token_str)
-            sys.stdout.flush()
+                sys.stdout.write(token_str)
+                sys.stdout.flush()
 
-            curr_tok = torch.tensor([next_tok_id], device=device)
-            generated_count += 1
+                tokens_tensor = torch.cat([tokens_tensor, torch.tensor([[next_tok_id]], device=device)], dim=1)
+                generated_count += 1
 
-            if hasattr(tokenizer, "eos_id") and next_tok_id == tokenizer.eos_id:
-                break
+                if hasattr(tokenizer, "eos_id") and next_tok_id == tokenizer.eos_id:
+                    break
 
-        elapsed = time.perf_counter() - t_start
-        tok_per_sec = generated_count / max(elapsed, 1e-5)
-        print(f"\n\n[INFO] Generated {generated_count} tokens in {elapsed:.3f}s ({tok_per_sec:.1f} tok/s, O(1) recurrent step)")
+            elapsed = time.perf_counter() - t_start
+            tok_per_sec = generated_count / max(elapsed, 1e-5)
+            print(f"\n\n[INFO] Generated {generated_count} tokens in {elapsed:.3f}s ({tok_per_sec:.1f} tok/s, IMF-OmniBlock forward)")
 
 
 def main():
@@ -107,36 +142,53 @@ def main():
         num_heads = ckpt.get("num_heads", 4)
         n_layers = ckpt.get("n_layers", 3)
         preset = ckpt.get("preset", "decayotton_orthoplex")
-        use_higher_arity = any("arity_binding" in k for k in ckpt["model_state"].keys())
-        use_continuous_simplex = any("continuous_binding" in k for k in ckpt["model_state"].keys())
-        # Automatically count projection branches in arity_binding
-        arity_projs = [k for k in ckpt["model_state"].keys() if "blocks.0.arity_binding.projections." in k]
-        arity = len(arity_projs) if arity_projs else (3 if use_higher_arity else 3)
-
-        if "ScaledIMFDecoderLM" in str(ckpt.get("arch", "")) or n_layers >= 6 or use_higher_arity or use_continuous_simplex:
-            from train_scaled_imf import ScaledIMFDecoderLM
-            model = ScaledIMFDecoderLM(
+        # Check if checkpoint is an IMFOmniLM checkpoint
+        if "model_state_dict" in ckpt:
+            from train_omni_lm import IMFOmniLM
+            model = IMFOmniLM(
                 vocab_size=vocab_size,
                 d_model=d_model,
                 num_heads=num_heads,
                 n_layers=n_layers,
-                preset=preset,
-                use_higher_arity=use_higher_arity,
-                use_continuous_simplex=use_continuous_simplex,
-                arity=arity,
+                polytope_dim=10,
+                conv_rank=32,
+                conv_window=6,
+                use_triton_ssm=False,
             ).to(device)
+            model.load_state_dict(ckpt["model_state_dict"])
+            tokenizer_path = Path("data/tinystories_bpe.json")
+            tokenizer = BPETokenizer.load(tokenizer_path) if tokenizer_path.exists() else None
         else:
-            model = IMFMultiHeadLM(vocab_size=vocab_size, d_model=d_model, num_heads=num_heads, n_layers=n_layers, preset=preset).to(device)
-        model.load_state_dict(ckpt["model_state"])
+            use_higher_arity = any("arity_binding" in k for k in ckpt["model_state"].keys())
+            use_continuous_simplex = any("continuous_binding" in k for k in ckpt["model_state"].keys())
+            # Automatically count projection branches in arity_binding
+            arity_projs = [k for k in ckpt["model_state"].keys() if "blocks.0.arity_binding.projections." in k]
+            arity = len(arity_projs) if arity_projs else (3 if use_higher_arity else 3)
 
-        tokenizer_meta = ckpt.get("tokenizer_meta")
-        if tokenizer_meta and "merges" in tokenizer_meta:
-            tokenizer = BPETokenizer(vocab=tokenizer_meta["vocab"], merges=tokenizer_meta["merges"])
-        elif "chars" in ckpt:
-            tokenizer = CharTokenizer("".join(ckpt["chars"]))
-        else:
-            data_file = Path("data/tinyshakespeare.txt")
-            tokenizer = CharTokenizer(data_file.read_text(encoding="utf-8")) if data_file.exists() else None
+            if "ScaledIMFDecoderLM" in str(ckpt.get("arch", "")) or n_layers >= 6 or use_higher_arity or use_continuous_simplex:
+                from train_scaled_imf import ScaledIMFDecoderLM
+                model = ScaledIMFDecoderLM(
+                    vocab_size=vocab_size,
+                    d_model=d_model,
+                    num_heads=num_heads,
+                    n_layers=n_layers,
+                    preset=preset,
+                    use_higher_arity=use_higher_arity,
+                    use_continuous_simplex=use_continuous_simplex,
+                    arity=arity,
+                ).to(device)
+            else:
+                model = IMFMultiHeadLM(vocab_size=vocab_size, d_model=d_model, num_heads=num_heads, n_layers=n_layers, preset=preset).to(device)
+            model.load_state_dict(ckpt["model_state"])
+
+            tokenizer_meta = ckpt.get("tokenizer_meta")
+            if tokenizer_meta and "merges" in tokenizer_meta:
+                tokenizer = BPETokenizer(vocab=tokenizer_meta["vocab"], merges=tokenizer_meta["merges"])
+            elif "chars" in ckpt:
+                tokenizer = CharTokenizer("".join(ckpt["chars"]))
+            else:
+                data_file = Path("data/tinyshakespeare.txt")
+                tokenizer = CharTokenizer(data_file.read_text(encoding="utf-8")) if data_file.exists() else None
     else:
         print("[*] No saved checkpoint found. Scaffolding pretrained weights on TinyShakespeare...")
         from train_imf_corpus import load_dataset

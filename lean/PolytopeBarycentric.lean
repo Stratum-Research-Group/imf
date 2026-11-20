@@ -224,4 +224,17 @@ theorem wilson_loop_cyclic_invariance (U1 U2 U3 : Quat) :
     quatReal (quatMul (quatMul U1 U2) U3) = quatReal (quatMul U3 (quatMul U1 U2)) := by
   exact quat_mul_real_comm (quatMul U1 U2) U3
 
+/--
+  Theorem: Complete 3-Cycle Permutation Invariance of the Wilson Loop Holonomy Trace.
+  For any triangular 2-simplex face with gauge connections U1, U2, U3 in SU(2):
+  Re((U1 * U2) * U3) = Re(U3 * (U1 * U2)) and Re((U2 * U3) * U1) = Re(U1 * (U2 * U3)).
+  Formally establishes complete cyclic group C3 gauge invariance across all triangular faces.
+-/
+theorem wilson_loop_complete_cyclic_invariance (U1 U2 U3 : Quat) :
+    quatReal (quatMul (quatMul U1 U2) U3) = quatReal (quatMul U3 (quatMul U1 U2)) ∧
+    quatReal (quatMul (quatMul U2 U3) U1) = quatReal (quatMul U1 (quatMul U2 U3)) := by
+  constructor
+  · exact quat_mul_real_comm (quatMul U1 U2) U3
+  · exact quat_mul_real_comm (quatMul U2 U3) U1
+
 end IMF.Polytope
