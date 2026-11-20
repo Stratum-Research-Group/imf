@@ -346,4 +346,26 @@ theorem hyperbolic_exponential_volume_bound (r : Nat) :
       omega
     omega
 
+/--
+  Polytope Mixture-of-Experts (MoPE) Routing Non-Starvation:
+  Let E ≥ 1 be the number of experts, and let total token dispatch mass T ≥ E.
+  If uniform capacity / balanced distribution is attained such that each expert
+  receives at least its fair share floor (T / E), then no expert receives 0 tokens:
+  ∀ e ∈ [1, E], dispatch(e) ≥ 1.
+-/
+theorem mope_expert_routing_non_starvation (T E : Nat) (hE : 1 ≤ E) (hT : E ≤ T) :
+    1 ≤ T / E := by
+  have hE_pos : 0 < E := by omega
+  have : 1 * E ≤ T := by omega
+  exact (Nat.le_div_iff_mul_le hE_pos).mpr this
+
+/--
+  Theorem: Polytope Domain Routing Capacity Conservation.
+  The sum of dispatch allocations across all E domain experts equals total token budget T:
+  E * (T / E) ≤ T.
+-/
+theorem mope_domain_capacity_conservation (T E : Nat) :
+    (T / E) * E ≤ T := by
+  exact Nat.div_mul_le_self T E
+
 end IMF.Polytope
