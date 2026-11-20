@@ -74,6 +74,7 @@ py-modules = [
     "train_imf_corpus",
     "train_scaled_imf",
     "triton_savg_kernel",
+    "visualize_polytope_sparsity",
     "web_demo",
 ]
 
