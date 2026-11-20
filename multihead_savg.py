@@ -89,7 +89,11 @@ class MultiHeadSAVGLayer(nn.Module):
         state: tuple[torch.Tensor, torch.Tensor],
         use_triton: bool = True
     ) -> tuple[torch.Tensor, tuple[torch.Tensor, torch.Tensor]]:
-        """O(1) Streaming Multi-Head Autoregressive Step."""
+        """
+        O(1) Streaming Multi-Head Autoregressive Step.
+        Note: Operates via geometric state decay factors gamma_s and gamma_a (bounded retention
+        across past associative writes S and A).
+        """
         B, D = x_t.shape
         H, d = self.num_heads, self.d_head
         S_prev, A_prev = state  # [B, H, d, d]

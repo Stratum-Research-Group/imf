@@ -1,16 +1,15 @@
 """
 benchmark_dimension_scaling.py
-Systematic Pareto-frontier analysis of Polytope Landmark Connectors across dimensions:
+Throughput and Memory Scaling Benchmark across Polytope Dimensions:
 Dimensions evaluated: D in {4, 6, 8, 10, 12, 14, 16}
 Families compared:
   1. Simplex (D + 1 vertices)
   2. Orthoplex (2D antipodal vertices)
 
 Evaluates:
-  - Multi-query associative recall loss & test accuracy
-  - Training throughput & step latency (ms/step)
+  - Step latency (ms/step) & hardware throughput on tensor batch
   - Memory consumption (peak allocated VRAM in MB)
-  - Geometric barycentric entropy and Gini sparsity
+  - Synthetic token classification loss on Gaussian random manifold (throughput benchmark)
 Generates publication plot: assets/polytope_dimension_scaling_pareto.png
 """
 

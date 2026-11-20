@@ -117,33 +117,26 @@ theorem crossing_margin_invariant_under_symmetric_shift {d : Nat}
   omega
 
 /--
-  Theorem: Exact Unitary Orthogonality of the Cayley Transform.
-  For any skew-symmetric generator A = -Aᵀ in so(d), the Cayley transform
-  U = (I - A)(I + A)⁻¹ satisfies Uᵀ U = I.
-  Formulated algebraically on coordinates: for any vector inner product preserved under
-  orthogonal rotation, the squared norm difference is zero: ||U v||² - ||v||² = 0.
+  Identity: Scalar Difference Invariance Identity.
+  Algebraic reflection identity corresponding to preserved scalar invariants v - v = 0.
 -/
 theorem orthogonal_rotator_norm_preservation (v_norm_sq : Int) :
     v_norm_sq - v_norm_sq = 0 := by
   omega
 
 /--
-  Theorem: Continuous Lie Group SSM Lossless Frobenius Energy Invariance.
-  Let E be the Frobenius energy ||M||_F² of the associative memory matrix.
-  Under any unitary state rotation M ↦ U M Uᵀ with U in SO(d), the rotated energy
-  E_rot satisfies E_rot = E (zero decay, zero explosion).
+  Identity: Energy Scalar Reflexivity.
+  Trivial reflexive identity on scalar energy representations: energy = energy.
+  Note: Operational Frobenius norm preservation under matrix exponentiation ||exp(A) M exp(-A)||_F = ||M||_F
+  is enforced numerically in exact arithmetic in imf/continuous_lie_ssm.py.
 -/
 theorem continuous_lie_ssm_energy_conservation (energy : Nat) :
     energy = energy := by
   rfl
 
 /--
-  Theorem: Fused Triton Register Tile Bounded Memory Footprint.
-  In the fused Triton associative scan kernel (_unitary_ssm_fwd_kernel), the state matrix M
-  is maintained as a D x D tile residing in thread registers rather than high-latency HBM.
-  For head dimension D, the register memory allocated per thread program is strictly D * D words,
-  independent of sequence length T:
-  RegisterMemory(T, D) = D^2 = O(1) in T.
+  Bound: Constant Register Tile Size Scaling.
+  Independent of sequence length T, D * D is bounded by D * D + 0 * T.
 -/
 theorem triton_register_tile_memory_bound (T D : Nat) :
     D * D ≤ D * D + 0 * T := by
