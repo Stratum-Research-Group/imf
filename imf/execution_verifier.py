@@ -35,9 +35,7 @@ class MultiLanguageExecutionVerifier:
         """
         compiler = "gcc" if self.has_gcc else ("clang" if self.has_clang else None)
         if not compiler:
-            if ("int " in code or "void " in code) and "{" in code:
-                return True, "Heuristic C structure passed (gcc/clang not found)."
-            return False, "Malformed C syntax."
+            return False, "UNVERIFIED: Neither gcc nor clang found in PATH to compile C17."
 
         with tempfile.NamedTemporaryFile("w", suffix=".c", delete=False) as f:
             f.write(code)
@@ -70,9 +68,7 @@ class MultiLanguageExecutionVerifier:
         Verifies eBPF kernel instructions, helpers, and map declarations.
         """
         if not self.has_clang:
-            if "bpf" in code.lower() or "sec(" in code.lower():
-                return True, "Heuristic eBPF structure passed (clang not found)."
-            return False, "Malformed eBPF syntax."
+            return False, "UNVERIFIED: clang not found in PATH to compile eBPF target."
 
         with tempfile.NamedTemporaryFile("w", suffix=".c", delete=False) as f:
             f.write(code)
@@ -119,10 +115,7 @@ class MultiLanguageExecutionVerifier:
     def verify_rust(self, code: str) -> Tuple[bool, str]:
         """Compiles Rust code snippet as a library crate using rustc."""
         if not self.has_rustc:
-            # Fallback to structural heuristic if rustc is unavailable
-            if "fn " in code and ("{" in code and "}" in code):
-                return True, "Heuristic Rust structure passed (rustc not in PATH)."
-            return False, "Malformed Rust syntax."
+            return False, "UNVERIFIED: rustc not found in PATH to compile Rust."
 
         with tempfile.NamedTemporaryFile("w", suffix=".rs", delete=False) as f:
             f.write(code)
@@ -151,9 +144,7 @@ class MultiLanguageExecutionVerifier:
     def verify_lean4(self, code: str) -> Tuple[bool, str]:
         """Checks Lean 4 theorem and proof tactics using lean CLI."""
         if not self.has_lean:
-            if "theorem " in code and ":= by" in code:
-                return True, "Heuristic Lean 4 structure passed (lean not in PATH)."
-            return False, "Malformed Lean 4 syntax."
+            return False, "UNVERIFIED: lean not found in PATH to verify Lean 4 proof."
 
         with tempfile.NamedTemporaryFile("w", suffix=".lean", delete=False) as f:
             f.write(code)

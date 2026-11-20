@@ -37,7 +37,7 @@ def _unitary_ssm_fwd_kernel(
 
     # Load head unitary rotation matrix U [D, D]
     u_ptrs = U_ptr + pid_h * stride_uh + offs_d1[:, None] * stride_ur + offs_d2[None, :] * stride_uc
-    U = tl.load(u_ptrs) # [D, D]
+    U = tl.load(u_ptrs).to(tl.float32) # [D, D]
     U_T = tl.trans(U)   # [D, D]
 
     # Initialize state memory M = 0 [D, D] in registers
@@ -49,9 +49,9 @@ def _unitary_ssm_fwd_kernel(
         k_offset = pid_b * stride_kb + pid_h * stride_kh + t * stride_kt + offs_d1 * stride_kd
         v_offset = pid_b * stride_vb + pid_h * stride_vh + t * stride_vt + offs_d1 * stride_vd
 
-        q = tl.load(Q_ptr + q_offset) # [D]
-        k = tl.load(K_ptr + k_offset) # [D]
-        v = tl.load(V_ptr + v_offset) # [D]
+        q = tl.load(Q_ptr + q_offset).to(tl.float32) # [D]
+        k = tl.load(K_ptr + k_offset).to(tl.float32) # [D]
+        v = tl.load(V_ptr + v_offset).to(tl.float32) # [D]
 
         # Compute exterior wedge innovation: W = v k^T - k v^T
         W = v[:, None] * k[None, :] - k[:, None] * v[None, :] # [D, D]
@@ -70,7 +70,7 @@ def _unitary_ssm_fwd_kernel(
 
         # Store output y_t
         out_offset = pid_b * stride_ob + pid_h * stride_oh + t * stride_ot + offs_d1 * stride_od
-        tl.store(Out_ptr + out_offset, tl.squeeze(y, 1))
+        tl.store(Out_ptr + out_offset, tl.squeeze(y, 1).to(Out_ptr.dtype.element_ty))
 
 
 def fused_unitary_ssm_forward(q: torch.Tensor, k: torch.Tensor, v: torch.Tensor, U: torch.Tensor) -> torch.Tensor:

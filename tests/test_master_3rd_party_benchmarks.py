@@ -19,11 +19,17 @@ from train_flagship_omnilm_mope import IMFOmniLMMoPE
 
 
 def test_3rd_party_benchmarks():
+    import os
+    import pytest
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"[*] Running IMF 3rd-Party Benchmark Battery on {device}...")
 
-    # 1. Load Tokenizer & Model
+    # 1. Load Tokenizer & Model (or skip if integration fixtures absent in clean CI clone)
     tok_path = "checkpoints/code_bpe_tokenizer.json"
+    ckpt_path = "checkpoints/imf_omnilm_mope_flagship.pt"
+    if not (os.path.exists(tok_path) and os.path.exists(ckpt_path)):
+        pytest.skip("Integration checkpoint / tokenizer not committed in clean CI clone. Skipping integration test.")
+
     tokenizer = CodeBPETokenizer.load(tok_path)
     vocab_size = len(tokenizer.vocab)
 
@@ -39,7 +45,6 @@ def test_3rd_party_benchmarks():
         alpha_recon=0.3,
     ).to(device)
 
-    ckpt_path = "checkpoints/imf_omnilm_mope_flagship.pt"
     state_dict = torch.load(ckpt_path, map_location=device)
     model.load_state_dict(state_dict)
     model.eval()
