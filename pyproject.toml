@@ -54,6 +54,7 @@ packages = ["imf"]
 py-modules = [
     "benchmark_mqar",
     "benchmark_polytopes",
+    "benchmark_polytope_ablation",
     "benchmark_spo_multihop",
     "benchmark_long_context_mqar",
     "benchmark_needle_in_haystack",

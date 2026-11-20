@@ -152,6 +152,21 @@ class ConfigurablePolytopeConnector(nn.Module):
             factor_val = torch.einsum("bti,ij,btj->bt", coords, self.factor_weight, coords)
             return (1.0 + factor_val).unsqueeze(-1).unsqueeze(-1)
 
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        """
+        Forward projection: maps embeddings x through the barycentric polytope landmark frame.
+        For [..., d_model], returns barycentric coordinate projection into embedding space.
+        """
+        coords = self.get_coordinates(x)
+        if self.family == "simplex":
+            return torch.matmul(coords, self.corners)
+        elif self.family == "orthoplex":
+            # coords has 2D dimensions corresponding to [axes, -axes]
+            antipodal_vertices = torch.cat([self.axes, -self.axes], dim=0)
+            return torch.matmul(coords, antipodal_vertices)
+        else:
+            return torch.matmul(coords, self.basis_projections.weight)
+
     def extra_repr(self) -> str:
         return (
             f"dimension={self.dimension}, family='{self.family}', "
