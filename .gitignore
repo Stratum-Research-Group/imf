@@ -52,3 +52,5 @@ checkpoints/
 *.swo
 *~
 *.pt
+tests/3rdparty/benchmarks/human-eval/.git
+tests/3rdparty/benchmarks/gsm8k/.git
