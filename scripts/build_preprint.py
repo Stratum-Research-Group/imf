@@ -273,6 +273,10 @@ def main():
         PAPERS_DIR / "18_high_density_code_reasoning_and_empirical_benchmarks.md",
         PAPERS_DIR / "19_nested_hypercube_lattices_and_formally_gated_optimization.md",
         PAPERS_DIR / "20_riemannian_lie_group_optimization_and_cayley_dynamics.md",
+        PAPERS_DIR / "21_cut_rsi_8bit_adamw_logarithmic_variance.md",
+        PAPERS_DIR / "22_lie_riemannian_manifold_optimization_and_cayley_flows.md",
+        PAPERS_DIR / "23_gradient_activation_checkpointing_in_geometric_networks.md",
+        PAPERS_DIR / "24_theoretical_limits_of_optimizer_compression_16kb_16mb.md",
     ]
 
     html_sections = []
