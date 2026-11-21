@@ -66,7 +66,7 @@ def train_scaled_125m():
 
     batch_size = 16
     num_batches = len(train_data) // batch_size
-    steps = 250
+    steps = 100
     start_time = time.perf_counter()
 
     for step in range(1, steps + 1):
@@ -87,7 +87,7 @@ def train_scaled_125m():
         scaler.step(optimizer)
         scaler.update()
 
-        if step % 50 == 0 or step == steps:
+        if step % 10 == 0 or step == steps:
             model.eval()
             with torch.no_grad():
                 val_in = val_data[:32, :-1]
@@ -102,13 +102,14 @@ def train_scaled_125m():
                 f"Step {step:3d}/{steps} | "
                 f"Train Loss: {loss.item():.4f} | "
                 f"Val Loss: {val_loss:.4f} (PPL: {val_ppl:.2f}) | "
-                f"Elapsed: {elapsed:.1f}s"
+                f"Elapsed: {elapsed:.1f}s",
+                flush=True,
             )
 
     os.makedirs("checkpoints", exist_ok=True)
     out_path = "checkpoints/imf_scaled_125m_omni118.pt"
     torch.save(model.state_dict(), out_path)
-    print(f"[+] Saved Scaled 125M Checkpoint to {out_path}")
+    print(f"[+] Saved Scaled 125M Checkpoint to {out_path}", flush=True)
 
 
 if __name__ == "__main__":
