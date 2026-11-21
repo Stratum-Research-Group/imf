@@ -289,7 +289,7 @@ def main():
         PAPERS_DIR / "34_polytopic_speculative_decoding_and_lean4_invariance.md",
         PAPERS_DIR / "35_milestone_synthesis_autonomous_rsi_and_release.md",
         PAPERS_DIR / "36_cognitive_flow_state_machines_and_procedural_multimodal_generation.md",
-        PAPERS_DIR / "37_hardware_software_codesign_and_cognitive_swarm_synthesis.md",
+        PAPERS_DIR / "37_cognitive_swarm_synthesis_and_multiagent_formal_verification.md",
     ]
 
     html_sections = []
