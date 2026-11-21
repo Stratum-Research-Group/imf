@@ -271,6 +271,7 @@ def main():
         PAPERS_DIR / "16_aether_100_generation_autonomous_evolution_lean_oracles.md",
         PAPERS_DIR / "17_hybrid_fluency_pretraining_and_polytope_convergence.md",
         PAPERS_DIR / "18_high_density_code_reasoning_and_empirical_benchmarks.md",
+        PAPERS_DIR / "19_nested_hypercube_lattices_and_formally_gated_optimization.md",
     ]
 
     html_sections = []

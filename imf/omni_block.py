@@ -25,6 +25,7 @@ from imf.triton_unitary_ssm_kernel import fused_unitary_ssm_forward
 from higher_arity_simplex import ContinuousSimplexConvolutionalBinding
 from imf.gauge_polytope_complex import SU2GaugeSimplicialComplex
 from polytope_connector import ConfigurablePolytopeConnector
+from imf.nested_hypercube_cell import NestedHypercubeCell
 
 
 class IMFOmniBlock(nn.Module):
@@ -44,6 +45,7 @@ class IMFOmniBlock(nn.Module):
         conv_rank: int = 64,
         conv_window: int = 8,
         use_triton_ssm: bool = True,
+        use_nested_hypercube: bool = False,
         dropout: float = 0.0,
     ):
         super().__init__()
@@ -53,6 +55,7 @@ class IMFOmniBlock(nn.Module):
         self.head_dim = d_model // num_heads
         self.polytope_dim = polytope_dim
         self.use_triton_ssm = use_triton_ssm
+        self.use_nested_hypercube = use_nested_hypercube
 
         # 1. Polytope Connector for Barycentric Simplicial Coordinates
         self.polytope_connector = ConfigurablePolytopeConnector(
@@ -79,13 +82,24 @@ class IMFOmniBlock(nn.Module):
             d_model=d_model,
         )
 
+        # 5. Optional Recursive Nested Hypercube Cell Decompositions
+        if self.use_nested_hypercube:
+            self.nested_hypercube = NestedHypercubeCell(
+                d_model=d_model,
+                hypercube_dim=4,
+                recursion_depth=3,
+            )
+            n_branches = 4
+        else:
+            self.nested_hypercube = None
+            n_branches = 3
+
         # Gated Multi-Modal Integration & Feedforward Fusion
         self.norm1 = nn.RMSNorm(d_model)
         self.norm2 = nn.RMSNorm(d_model)
         
-        # Branch gating: SSM memory, Simplex convolution, and Wilson loop holonomy
-        self.gate_proj = nn.Linear(d_model, 3 * d_model, bias=True)
-        self.branch_fusion = nn.Linear(3 * d_model, d_model, bias=False)
+        self.gate_proj = nn.Linear(d_model, n_branches * d_model, bias=True)
+        self.branch_fusion = nn.Linear(n_branches * d_model, d_model, bias=False)
 
         # Feedforward sub-layer (SwiGLU)
         ffn_dim = int(d_model * 8 / 3)
@@ -165,15 +179,24 @@ class IMFOmniBlock(nn.Module):
         y_gauge = self.gauge_complex.compute_triangle_curvature(coords)
 
         # 3. Dynamic Branch Gating & Multi-Modal Interaction
-        # Compute dynamic gating factors for each branch
-        gates = torch.sigmoid(self.gate_proj(x_norm)) # [B, T, 3 * D]
-        g_ssm, g_conv, g_gauge = torch.chunk(gates, 3, dim=-1)
-
-        fused_branches = torch.cat([
-            g_ssm * y_ssm,
-            g_conv * y_conv,
-            g_gauge * y_gauge,
-        ], dim=-1) # [B, T, 3 * D]
+        if self.use_nested_hypercube and self.nested_hypercube is not None:
+            y_nested = self.nested_hypercube(x_norm)
+            gates = torch.sigmoid(self.gate_proj(x_norm)) # [B, T, 4 * D]
+            g_ssm, g_conv, g_gauge, g_nested = torch.chunk(gates, 4, dim=-1)
+            fused_branches = torch.cat([
+                g_ssm * y_ssm,
+                g_conv * y_conv,
+                g_gauge * y_gauge,
+                g_nested * y_nested,
+            ], dim=-1)
+        else:
+            gates = torch.sigmoid(self.gate_proj(x_norm)) # [B, T, 3 * D]
+            g_ssm, g_conv, g_gauge = torch.chunk(gates, 3, dim=-1)
+            fused_branches = torch.cat([
+                g_ssm * y_ssm,
+                g_conv * y_conv,
+                g_gauge * y_gauge,
+            ], dim=-1)
 
         attn_out = self.branch_fusion(fused_branches)
         x = x + self.dropout(attn_out)
