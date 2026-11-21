@@ -19,3 +19,8 @@ lean_lib «ContinuousCrossingBounds» where
 lean_lib «PolytopeBarycentric» where
   srcDir := "lean"
   roots := #[`PolytopeBarycentric]
+
+@[default_target]
+lean_lib «RecursiveSelfImprovementETH» where
+  srcDir := "lean"
+  roots := #[`RecursiveSelfImprovementETH]
