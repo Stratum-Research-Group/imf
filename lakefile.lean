@@ -44,6 +44,7 @@ lean_lib «IMF» where
     `IMF.LeechLatticeSpec,
     `IMF.ETHUncrossingParallelNormSpec,
     `IMF.SpeculativeAcceptanceSpec,
-    `IMF.CognitiveFlowSpec
+    `IMF.CognitiveFlowSpec,
+    `IMF.FixedPointQuantizationSpec
   ]
 
