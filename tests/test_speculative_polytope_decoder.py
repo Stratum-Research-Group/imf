@@ -9,7 +9,7 @@ Unit tests verifying the end-to-end SpeculativePolytopeDecoder:
 
 import torch
 import pytest
-from train_flagship_omnilm_mope import IMFOmniLMMoPE
+from imf.joint_recon_predictor import IMFJointReconPredictorLM
 from imf.speculative_polytope_decoder import SpeculativePolytopeDecoder
 
 
@@ -19,7 +19,7 @@ def models():
     vocab_size = 256
 
     # Target model: d_model=64, 2 layers, 4 experts
-    target = IMFOmniLMMoPE(
+    target = IMFJointReconPredictorLM(
         vocab_size=vocab_size,
         d_model=64,
         num_layers=2,
@@ -28,12 +28,11 @@ def models():
         num_experts=4,
         top_k=2,
         max_seq_len=64,
-        alpha_recon=0.1,
     ).to(device)
     target.eval()
 
     # Drafter model: d_model=32, 1 layer, 2 experts
-    drafter = IMFOmniLMMoPE(
+    drafter = IMFJointReconPredictorLM(
         vocab_size=vocab_size,
         d_model=32,
         num_layers=1,
@@ -42,7 +41,6 @@ def models():
         num_experts=2,
         top_k=1,
         max_seq_len=64,
-        alpha_recon=0.1,
     ).to(device)
     drafter.eval()
 
