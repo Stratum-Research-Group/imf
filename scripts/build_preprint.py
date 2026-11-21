@@ -283,6 +283,7 @@ def main():
         PAPERS_DIR / "28_the_70b_memory_barrier_sub_byte_factorization.md",
         PAPERS_DIR / "29_empirical_70b_inference_on_consumer_hardware.md",
         PAPERS_DIR / "30_milestone_compendium_synthesis_and_retrospective.md",
+        PAPERS_DIR / "31_continual_russian_doll_polytopes_e8_gosset_and_honeycombs.md",
     ]
 
     html_sections = []
