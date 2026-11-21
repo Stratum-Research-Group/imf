@@ -18,6 +18,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 from train_flagship_omnilm_mope import IMFOmniLMMoPE
+from imf.fused_speculative_verification import fused_speculative_verify_greedy
 
 
 class SpeculativePolytopeDecoder:
@@ -69,27 +70,17 @@ class SpeculativePolytopeDecoder:
 
                 # Step 2: Target verifies in parallel
                 target_logits, _, _ = self.target(draft_ids)
-                eval_target_tokens = torch.argmax(target_logits[:, curr_ids.shape[1]-1:-1, :], dim=-1)
+                eval_target_logits = target_logits[0, curr_ids.shape[1]-1:, :]  # [gamma + 1, vocab]
 
-                # Step 3: Exact greedy verification
-                accepted_in_step = 0
-                for i in range(self.gamma):
-                    t_spec = speculated_tokens[0, i]
-                    t_target = eval_target_tokens[0, i]
-                    if t_spec == t_target:
-                        accepted_in_step += 1
-                        curr_ids = torch.cat([curr_ids, t_spec.unsqueeze(0).unsqueeze(0)], dim=-1)
-                    else:
-                        # Mismatch: append target model's greedy choice
-                        curr_ids = torch.cat([curr_ids, t_target.unsqueeze(0).unsqueeze(0)], dim=-1)
-                        break
-
+                # Step 3: Fused GPU Verification (vectorized/Triton)
+                tokens_to_append = fused_speculative_verify_greedy(
+                    draft_tokens=speculated_tokens[0],
+                    target_logits=eval_target_logits,
+                )
+                
+                accepted_in_step = len(tokens_to_append)
                 total_accepted += accepted_in_step
-                # Bonus token if all accepted
-                if accepted_in_step == self.gamma:
-                    bonus_token = torch.argmax(target_logits[:, -1, :], dim=-1, keepdim=True)
-                    curr_ids = torch.cat([curr_ids, bonus_token], dim=-1)
-                    total_accepted += 1
+                curr_ids = torch.cat([curr_ids, tokens_to_append.unsqueeze(0)], dim=-1)
 
                 if (curr_ids.shape[1] - prompt_ids.shape[1]) >= max_new_tokens:
                     break
