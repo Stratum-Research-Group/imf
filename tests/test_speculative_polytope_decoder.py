@@ -15,6 +15,7 @@ from imf.speculative_polytope_decoder import SpeculativePolytopeDecoder
 
 @pytest.fixture
 def models():
+    torch.manual_seed(42)
     device = "cuda" if torch.cuda.is_available() else "cpu"
     vocab_size = 256
 
