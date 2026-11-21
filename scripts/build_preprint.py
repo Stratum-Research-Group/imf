@@ -287,6 +287,7 @@ def main():
         PAPERS_DIR / "32_eth_uncrossing_parallelism_and_overflow_prevention.md",
         PAPERS_DIR / "33_empirical_multidomain_alignment_and_hyperspace_dynamics.md",
         PAPERS_DIR / "34_polytopic_speculative_decoding_and_lean4_invariance.md",
+        PAPERS_DIR / "35_milestone_synthesis_autonomous_rsi_and_release.md",
     ]
 
     html_sections = []
