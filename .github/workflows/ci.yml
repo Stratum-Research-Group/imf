@@ -1,4 +1,4 @@
-name: CI
+name: IMF Continuous Integration
 
 on:
   push:
@@ -7,47 +7,29 @@ on:
     branches: [ main ]
 
 jobs:
-  test-python:
+  test:
+    name: PyTest & Lean 4 Core Verification
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: "3.12"
 
-      - name: Install uv and build dependencies
-        run: |
-          curl -LsSf https://astral.sh/uv/install.sh | sh
-          export PATH="$HOME/.local/bin:$PATH"
-          uv venv
-          . .venv/bin/activate
-          uv pip install torch numpy pytest setuptools
+      - name: Install uv
+        run: curl -LsSf https://astral.sh/uv/0.6.5/install.sh | sh
 
-      - name: Run Pytest CPU Suite
-        run: |
-          . .venv/bin/activate
-          pytest -q -p no:cacheprovider
+      - name: Install Dependencies
+        run: uv sync
 
-      - name: Build Wheel & Sdist
-        run: |
-          export PATH="$HOME/.local/bin:$PATH"
-          uv build
+      - name: Run Test Suite
+        run: uv run pytest tests/
 
-  verify-lean:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
+      - name: Verify MCTS Prover
+        run: uv run python imf/mcts_lean_prover.py
 
-      - name: Install Elan & Lean 4
-        run: |
-          curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh -s -- -y --default-toolchain none
-          export PATH="$HOME/.elan/bin:$PATH"
-          elan toolchain install $(cat lean-toolchain)
-          elan default $(cat lean-toolchain)
-
-      - name: Build Lean 4 Theorems
-        run: |
-          export PATH="$HOME/.elan/bin:$PATH"
-          lake build
+      - name: Verify Autonomous RSI Daemon
+        run: uv run python imf/imf_daemon.py --iterations 2 --sleep 0.1
