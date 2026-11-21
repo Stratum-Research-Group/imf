@@ -210,22 +210,49 @@ def main():
     parser.add_argument("--temp", type=float, default=0.7, help="Temperature for fluency sampling")
 
     # 'convert' sub-command
-    convert_parser = subparsers.add_parser("convert", help="Convert external container formats (e.g. .weft -> .imf)")
-    convert_parser.add_argument("input", type=str, help="Input file path (e.g. model.weft)")
-    convert_parser.add_argument("-o", "--output", type=str, default=None, help="Output .imf file path")
+    convert_parser = subparsers.add_parser("convert", help="Convert external container formats (.weft <-> .imf)")
+    convert_parser.add_argument("input", type=str, help="Input file path (e.g. model.weft or model.imf)")
+    convert_parser.add_argument("-o", "--output", type=str, default=None, help="Output file path")
+    convert_parser.add_argument(
+        "--direction",
+        choices=["auto", "weft2imf", "imf2weft"],
+        default="auto",
+        help="Conversion direction (auto detects from file extensions)",
+    )
     convert_parser.add_argument(
         "--mode",
         choices=["factorized", "reconstructed"],
         default="factorized",
-        help="Conversion mode: 'factorized' (sub-bit bitboards) or 'reconstructed' (dense FP16/FP32 weights)",
+        help="Conversion mode for weft2imf: 'factorized' (sub-bit bitboards) or 'reconstructed' (dense FP16/FP32 weights)",
+    )
+    convert_parser.add_argument(
+        "--rank",
+        type=int,
+        default=32,
+        help="Binarization rank for imf2weft when binarizing dense weights",
     )
 
     args = parser.parse_args()
 
     if args.subcommand == "convert":
-        from imf.weft_to_imf_converter import convert_weft_to_imf
-        out_path = args.output or str(Path(args.input).with_suffix(".imf"))
-        convert_weft_to_imf(args.input, out_path, mode=args.mode)
+        in_p = Path(args.input)
+        direction = args.direction
+        if direction == "auto":
+            if in_p.suffix.lower() == ".weft":
+                direction = "weft2imf"
+            elif in_p.suffix.lower() == ".imf":
+                direction = "imf2weft"
+            else:
+                raise ValueError("Could not auto-detect conversion direction. Specify --direction weft2imf or imf2weft.")
+
+        if direction == "weft2imf":
+            from imf.weft_to_imf_converter import convert_weft_to_imf
+            out_path = args.output or str(in_p.with_suffix(".imf"))
+            convert_weft_to_imf(str(in_p), out_path, mode=args.mode)
+        elif direction == "imf2weft":
+            from imf.imf_to_weft_converter import convert_imf_to_weft
+            out_path = args.output or str(in_p.with_suffix(".weft"))
+            convert_imf_to_weft(str(in_p), out_path, rank=args.rank)
         return
 
     if args.prompt:
