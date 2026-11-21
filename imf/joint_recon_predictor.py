@@ -1,3 +1,4 @@
+import math
 """
 Joint Reconstruction + Prediction Architecture for IMF (Interaction Model Foundations).
 
@@ -108,10 +109,11 @@ class IMFJointReconPredictorLM(nn.Module):
         x = self.tok_embed(input_ids) + self.pos_embed[:, :T, :]
 
         total_balance_loss = torch.tensor(0.0, device=x.device)
+        res_scale = 1.0 / math.sqrt(2.0 * len(self.layers)) if len(self.layers) > 4 else 1.0
         for omni, moe in zip(self.layers, self.moe_layers):
             x = omni(x)
             moe_out, aux = moe(x)
-            x = x + moe_out
+            x = x + res_scale * moe_out
             total_balance_loss = total_balance_loss + aux["load_balance_loss"]
 
         # Latent representations before output heads
