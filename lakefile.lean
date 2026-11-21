@@ -33,6 +33,7 @@ lean_lib «IMF» where
     `IMF.NestedHypercubeCell,
     `IMF.NestedAutonomousEvolution,
     `IMF.RiemannianAdamW,
-    `IMF.UnifiedIntegerPrecisionETH
+    `IMF.UnifiedIntegerPrecisionETH,
+    `IMF.IMFFileFormatSpec
   ]
 

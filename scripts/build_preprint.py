@@ -278,6 +278,7 @@ def main():
         PAPERS_DIR / "23_gradient_activation_checkpointing_in_geometric_networks.md",
         PAPERS_DIR / "24_theoretical_limits_of_optimizer_compression_16kb_16mb.md",
         PAPERS_DIR / "25_unified_integer_and_mixed_precision_architecture_eth.md",
+        PAPERS_DIR / "26_imf_model_container_specification_and_sub_byte_serialization.md",
     ]
 
     html_sections = []
