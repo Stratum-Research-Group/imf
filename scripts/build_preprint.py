@@ -267,6 +267,7 @@ def main():
         PAPERS_DIR / "12_frontier_mcts_cut_reasoning_and_enterprise_frameworks.md",
         PAPERS_DIR / "13_polytope_speculative_decoding_and_mcts_evaluations.md",
         PAPERS_DIR / "14_empirical_distillation_grpo_and_polytope_reasoning.md",
+        PAPERS_DIR / "15_cut_rsi_aether_formally_gated_recursive_self_improvement.md",
     ]
 
     html_sections = []
