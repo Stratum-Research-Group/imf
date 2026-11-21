@@ -78,6 +78,18 @@ class IMFJointReconPredictorLM(nn.Module):
         )
         self.recon_head = nn.Linear(d_model, vocab_size, bias=False)
 
+        # Apply robust weight initialization across embeddings and heads
+        self._init_weights()
+
+    def _init_weights(self):
+        nn.init.normal_(self.tok_embed.weight, mean=0.0, std=0.02)
+        nn.init.normal_(self.recon_head.weight, mean=0.0, std=0.02)
+        for m in self.recon_mlp.modules():
+            if isinstance(m, nn.Linear):
+                nn.init.normal_(m.weight, mean=0.0, std=0.02)
+                if m.bias is not None:
+                    nn.init.zeros_(m.bias)
+
     def forward(
         self,
         input_ids: torch.Tensor,
@@ -133,16 +145,17 @@ class IMFJointReconPredictorLM(nn.Module):
             with torch.no_grad():
                 latents_flat = latents.reshape(-1, self.d_model)
                 latent_var = latents_flat.var(dim=0).mean().item()
-                # Sample SVD for effective dimensionality / rank
-                sample_u = latents_flat[:min(128, latents_flat.shape[0])]
-                if sample_u.shape[0] >= 16:
-                    s = torch.linalg.svdvals(sample_u - sample_u.mean(dim=0))
-                    # Number of singular values containing 95% energy
-                    s_norm = s / (s.sum() + 1e-7)
-                    cum_energy = torch.cumsum(s_norm, dim=0)
-                    eff_rank = (cum_energy < 0.95).sum().item() + 1
-                else:
-                    eff_rank = self.d_model
+                # Sample SVD for effective dimensionality / rank (run safely on CPU)
+                eff_rank = self.d_model
+                sample_u = latents_flat[:min(128, latents_flat.shape[0])].detach().cpu().float()
+                if sample_u.shape[0] >= 16 and torch.isfinite(sample_u).all():
+                    try:
+                        s = torch.linalg.svdvals(sample_u - sample_u.mean(dim=0))
+                        s_norm = s / (s.sum() + 1e-7)
+                        cum_energy = torch.cumsum(s_norm, dim=0)
+                        eff_rank = (cum_energy < 0.95).sum().item() + 1
+                    except Exception:
+                        eff_rank = self.d_model
 
             metrics = {
                 "total_loss": total_loss,

@@ -15,7 +15,28 @@ import torch.nn.functional as F
 
 from imf.code_bpe_tokenizer import CodeBPETokenizer
 from train_flagship_omnilm_mope import IMFOmniLMMoPE
+from imf.joint_recon_predictor import IMFJointReconPredictorLM
 from imf.speculative_polytope_decoder import SpeculativePolytopeDecoder
+
+
+def load_imf_fluency_system(device: str = "cuda"):
+    tok = CodeBPETokenizer.load("checkpoints/hybrid_bpe_tokenizer_4k.json")
+    vocab_size = len(tok.vocab)
+    model = IMFJointReconPredictorLM(
+        vocab_size=vocab_size,
+        d_model=384,
+        num_layers=4,
+        num_heads=6,
+        polytope_dim=8,
+        num_experts=16,
+        top_k=2,
+        max_seq_len=128,
+        alpha_recon=0.2,
+    ).to(device)
+    state_dict = torch.load("checkpoints/imf_fluency_lm_4k.pt", map_location=device)
+    model.load_state_dict(state_dict)
+    model.eval()
+    return tok, model
 
 
 def load_imf_system(device: str = "cuda"):
@@ -53,6 +74,52 @@ def load_imf_system(device: str = "cuda"):
     drafter.eval()
 
     return tok, target, drafter
+
+
+def inspect_fluency_generation(prompt: str, max_tokens: int = 48, temperature: float = 0.7):
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+    tok, model = load_imf_fluency_system(device)
+
+    p_ids = tok.encode(prompt)
+    curr = torch.tensor([p_ids], device=device, dtype=torch.long)
+
+    print("\n" + "=" * 76)
+    print(f"IMF Fluency Inspection (4K BPE, 129.8M Joint-Recon): {prompt}")
+    print("=" * 76)
+
+    t0 = time.perf_counter()
+    with torch.no_grad():
+        for _ in range(max_tokens):
+            logits, _, metrics = model(curr)
+            next_logits = logits[:, -1, :].clone()
+            
+            # Simple repetition penalty
+            for tid in set(curr[0].tolist()):
+                if next_logits[0, tid] > 0:
+                    next_logits[0, tid] /= 1.2
+                else:
+                    next_logits[0, tid] *= 1.2
+
+            if temperature > 0.0:
+                # Top-k sampling
+                val, idx = torch.topk(next_logits, min(40, next_logits.size(-1)))
+                probs = F.softmax(val / temperature, dim=-1)
+                choice = torch.multinomial(probs, num_samples=1)
+                nxt = torch.gather(idx, -1, choice)
+            else:
+                nxt = next_logits.argmax(dim=-1, keepdim=True)
+
+            curr = torch.cat([curr, nxt], dim=1)
+
+    dt = time.perf_counter() - t0
+    gen_text = tok.decode(curr[0].tolist())
+
+    print(f"Metrics: Latent Variance = {metrics.get('latent_var', 0.0):.4f} | Eff Rank = {metrics.get('eff_rank', 0.0)}")
+    print(f"Throughput: {max_tokens / dt:.1f} tok/s ({max_tokens} tokens in {dt*1000:.1f}ms)")
+    print("\nGenerated Output:")
+    print("-" * 50)
+    print(gen_text)
+    print("-" * 50)
 
 
 def inspect_generation(prompt: str, max_tokens: int = 32, use_speculative: bool = True):
@@ -136,10 +203,15 @@ def main():
     parser.add_argument("--prompt", type=str, default=None, help="Single prompt to inspect")
     parser.add_argument("--tokens", type=int, default=32, help="Tokens to generate")
     parser.add_argument("--speculative", action="store_true", default=True, help="Use speculative decoding")
+    parser.add_argument("--fluency", action="store_true", default=False, help="Use the 4K BPE hybrid fluency model")
+    parser.add_argument("--temp", type=float, default=0.7, help="Temperature for fluency sampling")
     args = parser.parse_args()
 
     if args.prompt:
-        inspect_generation(args.prompt, max_tokens=args.tokens, use_speculative=args.speculative)
+        if args.fluency:
+            inspect_fluency_generation(args.prompt, max_tokens=args.tokens, temperature=args.temp)
+        else:
+            inspect_generation(args.prompt, max_tokens=args.tokens, use_speculative=args.speculative)
     else:
         interactive_chat()
 

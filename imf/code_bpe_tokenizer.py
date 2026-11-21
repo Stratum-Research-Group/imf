@@ -83,12 +83,23 @@ class CodeBPETokenizer:
         self.vocab = {tok: idx for idx, tok in enumerate(self.special_tokens)}
         self.merges = []
 
+        # 1. Guarantee complete printable ASCII byte alphabet is present in base vocabulary
+        # to ensure zero <unk> tokens for code punctuation and standard text
+        for byte_val in range(32, 127):
+            char_ascii = chr(byte_val)
+            if char_ascii not in self.vocab:
+                self.vocab[char_ascii] = len(self.vocab)
+        # Include standard control whitespace characters
+        for ws in ["\n", "\t", "\r"]:
+            if ws not in self.vocab:
+                self.vocab[ws] = len(self.vocab)
+
         segments = self._pre_tokenize(text)
         seg_counts = Counter(segments)
 
         split_words = {tuple(list(seg)): freq for seg, freq in seg_counts.items()}
 
-        # Seed character alphabet
+        # Seed character alphabet from corpus (covers UTF-8 multi-byte characters)
         chars = sorted(list({char for seg in split_words for char in seg}))
         for char in chars:
             if char not in self.vocab:
