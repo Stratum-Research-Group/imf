@@ -294,6 +294,7 @@ def main():
         PAPERS_DIR / "39_higher_dimensional_polytope_barycentric_integer_engine.md",
         PAPERS_DIR / "40_polytope_lattice_quantization_and_e8_gosset_root_codes.md",
         PAPERS_DIR / "41_asymptotic_polytope_lattice_scaling_from_10_to_10_6.md",
+        PAPERS_DIR / "42_hardware_fused_polytope_dequantization_and_sub_byte_tensor_processing.md",
     ]
 
     html_sections = []
