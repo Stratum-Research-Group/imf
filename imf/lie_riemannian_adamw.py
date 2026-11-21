@@ -117,7 +117,7 @@ class LieRiemannianAdamW(torch.optim.Optimizer):
                         num_blocks = math.ceil(n_elem / block_size)
                         state["m_q"] = torch.zeros(n_elem, dtype=torch.int8, device=p.device)
                         state["m_scales"] = torch.zeros(num_blocks, dtype=torch.float32, device=p.device)
-                        state["v_q"] = torch.zeros(n_elem, dtype=torch.int8, device=p.device)
+                        state["v_q"] = torch.zeros(n_elem, dtype=torch.uint8, device=p.device)
                         state["v_scales"] = torch.zeros(num_blocks, dtype=torch.float32, device=p.device)
 
                     state["step"] += 1

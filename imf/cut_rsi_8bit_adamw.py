@@ -64,9 +64,8 @@ def dequantize_and_step_kernel(
     offsets = block_start + tl.arange(0, BLOCK_SIZE)
     mask = offsets < n_elements
 
-    # Load scales
+    # Load scale for first moment
     m_scale = tl.load(m_scales_ptr + pid)
-    v_scale = tl.load(v_scales_ptr + pid)
 
     # Load weights, grads, and quantized moments
     p = tl.load(p_ptr + offsets, mask=mask, other=0.0)
@@ -74,9 +73,13 @@ def dequantize_and_step_kernel(
     m_q = tl.load(m_q_ptr + offsets, mask=mask, other=0).to(tl.float32)
     v_q = tl.load(v_q_ptr + offsets, mask=mask, other=0).to(tl.float32)
 
-    # Dequantize
+    # Dequantize first moment m linearly
     m = m_q * m_scale
-    v = v_q * v_scale
+
+    # Dequantize second moment v logarithmically in base 2:
+    # v_q in [0, 255] maps to log2(v) in [-40.0, 0.0]
+    v_log = v_q * (40.0 / 255.0) - 40.0
+    v = tl.where(v_q > 0.0, tl.exp2(v_log), 0.0)
 
     # Weight decay
     if weight_decay > 0.0:
@@ -94,25 +97,25 @@ def dequantize_and_step_kernel(
     update = m_hat / (tl.sqrt(v_hat) + eps)
     p = p - lr * update
 
-    # Re-quantize moments
+    # Re-quantize first moment m (int8 linear)
     abs_m = tl.abs(m)
     max_m = tl.max(abs_m, axis=0)
     new_m_scale = tl.maximum(max_m / 127.0, 1e-8)
     new_m_q = tl.extra.cuda.libdevice.round(m / new_m_scale)
     new_m_q = tl.maximum(tl.minimum(new_m_q, 127.0), -127.0)
 
-    abs_v = tl.abs(v)
-    max_v = tl.max(abs_v, axis=0)
-    new_v_scale = tl.maximum(max_v / 127.0, 1e-8)
-    new_v_q = tl.extra.cuda.libdevice.round(v / new_v_scale)
-    new_v_q = tl.maximum(tl.minimum(new_v_q, 127.0), 0.0)
+    # Re-quantize second moment v logarithmically (uint8 [1, 255])
+    new_v_clamped = tl.maximum(v, 1e-12)
+    new_v_log = tl.log2(new_v_clamped)
+    new_v_q = tl.extra.cuda.libdevice.round((new_v_log + 40.0) * (255.0 / 40.0))
+    new_v_q = tl.maximum(tl.minimum(new_v_q, 255.0), 1.0)
 
     # Store updated weights and state
     tl.store(p_ptr + offsets, p, mask=mask)
     tl.store(m_scales_ptr + pid, new_m_scale)
-    tl.store(v_scales_ptr + pid, new_v_scale)
+    tl.store(v_scales_ptr + pid, 1.0)
     tl.store(m_q_ptr + offsets, new_m_q.to(tl.int8), mask=mask)
-    tl.store(v_q_ptr + offsets, new_v_q.to(tl.int8), mask=mask)
+    tl.store(v_q_ptr + offsets, new_v_q.to(tl.uint8), mask=mask)
 
 
 class CutRSI8BitAdamW(torch.optim.Optimizer):
@@ -161,7 +164,7 @@ class CutRSI8BitAdamW(torch.optim.Optimizer):
                     num_blocks = math.ceil(n_elem / block_size)
                     state["m_q"] = torch.zeros(n_elem, dtype=torch.int8, device=p.device)
                     state["m_scales"] = torch.zeros(num_blocks, dtype=torch.float32, device=p.device)
-                    state["v_q"] = torch.zeros(n_elem, dtype=torch.int8, device=p.device)
+                    state["v_q"] = torch.zeros(n_elem, dtype=torch.uint8, device=p.device)
                     state["v_scales"] = torch.zeros(num_blocks, dtype=torch.float32, device=p.device)
 
                 state["step"] += 1

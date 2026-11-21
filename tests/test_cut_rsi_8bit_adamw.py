@@ -23,11 +23,11 @@ def test_cut_rsi_8bit_adamw_basic_step():
     # Step optimizer
     opt.step()
 
-    # Verify state allocation in int8
+    # Verify state allocation in int8 / uint8 (2 bytes/param)
     for p in model.parameters():
         st = opt.state[p]
         assert st["m_q"].dtype == torch.int8
-        assert st["v_q"].dtype == torch.int8
+        assert st["v_q"].dtype == torch.uint8
         assert st["m_scales"].dtype == torch.float32
         assert st["step"] == 1
 
