@@ -30,16 +30,18 @@ def test_70b_layer_forward_and_memory():
     print("[✓] 70B Layer forward pass succeeded without NaN or VRAM explosion.")
 
 
-def test_multi_layer_70b_forward():
+def test_70b_polytope_lattice_layer():
     device = "cuda" if torch.cuda.is_available() else "cpu"
-    # Instantiate 4 layers of the 70B architecture to test multi-layer stacking
-    layers = [
-        IMF70BDecoderLayer(d_model=8192, d_mlp=28672, rank=128, dtype=torch.bfloat16).to(device)
-        for _ in range(4)
-    ]
+    # Single 70B layer using Native E8 Polytope Lattice Quantization
+    layer = IMF70BDecoderLayer(
+        d_model=8192,
+        d_mlp=28672,
+        use_polytope_lattice=True,
+    ).to(device)
+
     x = torch.randn(1, 2, 8192, dtype=torch.bfloat16, device=device)
-    h = x
-    for l in layers:
-        h = l(h)
-    assert h.shape == (1, 2, 8192)
-    print("[✓] Multi-layer 70B stack forward execution verified.")
+    out = layer(x)
+
+    assert out.shape == (1, 2, 8192)
+    assert not torch.isnan(out).any()
+    print("[✓] 70B Native E8 Polytope Lattice layer executed successfully without OOM.")

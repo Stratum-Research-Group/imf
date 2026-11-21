@@ -150,7 +150,7 @@ class PolytopeLatticeLinear(nn.Module):
         idx_flat = self.indices.reshape(-1).long()
         vecs = self.e8_roots[idx_flat].to(device) / math.sqrt(2.0)
         W_raw = vecs.reshape(-1, self.scale_block_size)
-        W = (W_raw * self.scales.to(device).to(torch.float32)).reshape(self.out_features, self.in_features)
+        W = (W_raw * self.scales.to(device).to(torch.float32)).reshape(self.out_features, self.in_features).to(x.dtype)
 
         out = F.linear(x, W, self.bias.to(x.dtype) if self.bias is not None else None)
         return out
