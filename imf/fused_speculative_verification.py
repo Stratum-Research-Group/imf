@@ -93,8 +93,8 @@ if HAS_TRITON:
                     accepted += 1
                     mismatch_found = True
 
-        # Check bonus token if all GAMMA were accepted
-        if accepted == GAMMA:
+        # Check bonus token if all GAMMA were accepted without any mismatch
+        if accepted == GAMMA and not mismatch_found:
             max_val = -1e30
             max_idx = 0
             pos = GAMMA

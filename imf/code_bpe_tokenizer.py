@@ -109,6 +109,7 @@ class CodeBPETokenizer:
                 self.vocab[merged] = len(self.vocab)
             self.merges.append(best_pair)
 
+        self._bpe_ranks = {pair: i for i, pair in enumerate(self.merges)}
         self.inverse_vocab = {idx: tok for tok, idx in self.vocab.items()}
 
     def encode(self, text: str, add_special_tokens: bool = False) -> List[int]:
