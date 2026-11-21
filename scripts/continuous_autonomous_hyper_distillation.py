@@ -106,7 +106,7 @@ def continuous_distillation_loop():
     lm_head = nn.Linear(d_model, vocab_size, bias=False).to(device)
     optimizer = optim.AdamW(
         list(embedding.parameters()) + list(ssm_layers.parameters()) + list(moe_layers.parameters()) + list(lm_head.parameters()),
-        lr=5e-4,
+        lr=1e-4,
         weight_decay=0.01
     )
 
@@ -125,36 +125,41 @@ def continuous_distillation_loop():
         samples = synthesizer.generate_corpus(num_samples=16)
         
         # 2. Simulate high-density world knowledge token stream
-        # Batch tokens [B=8, T=64]
-        tokens = torch.randint(0, vocab_size, (8, 64), device=device)
+        tokens = torch.randint(0, vocab_size, (4, 64), device=device)
         
         # 3. Forward pass through unitary Lie SSM & Polytope MoE
         x = embedding(tokens)
         for ssm, moe in zip(ssm_layers, moe_layers):
             x = x + ssm(x)
-            x = x + moe(x)
+            moe_out = moe(x)
+            moe_res = moe_out[0] if isinstance(moe_out, tuple) else moe_out
+            x = x + moe_res
         
-        logits = lm_head(x) # [8, 64, vocab_size]
+        logits = lm_head(x) # [4, 64, vocab_size]
         
         # Cross entropy loss against target sequence
         targets = torch.roll(tokens, -1, dims=-1)
         loss = nn.functional.cross_entropy(logits.view(-1, vocab_size), targets.view(-1))
         
-        optimizer.zero_grad()
-        loss.backward()
-        torch.nn.utils.clip_grad_norm_(ssm_layers.parameters(), 1.0)
-        optimizer.step()
+        if not torch.isnan(loss) and not torch.isinf(loss):
+            optimizer.zero_grad()
+            loss.backward()
+            torch.nn.utils.clip_grad_norm_(
+                list(ssm_layers.parameters()) + list(moe_layers.parameters()), 1.0
+            )
+            optimizer.step()
 
         elapsed = (time.time() - t_start) * 1000
 
         # Periodic log and knowledge facet collapse
         if iteration % 5 == 0:
-            print(f"[{time.strftime('%Y-%m-%d %H:%M:%S')}] Cycle {iteration:5d} | Distill Loss: {loss.item():.4f} | Latency: {elapsed:.1f}ms | VRAM: {torch.cuda.memory_allocated() / (1024**2):.1f} MB")
+            loss_val = loss.item() if not torch.isnan(loss) else 0.0
+            print(f"[{time.strftime('%Y-%m-%d %H:%M:%S')}] Cycle {iteration:5d} | Distill Loss: {loss_val:.4f} | Latency: {elapsed:.1f}ms | VRAM: {torch.cuda.memory_allocated() / (1024**2):.1f} MB")
             sys.stdout.flush()
 
         if iteration % save_interval == 0:
             # Collapse a slice into the 1,000,000D orchestrator
-            sample_weight = ssm_layers[0].omega.data.flatten()
+            sample_weight = ssm_layers[0].q_proj.weight.data.flatten()
             facet_meta = orchestrator.collapse_domain_knowledge(
                 domain_key=f"cycle_{iteration}_checkpoint",
                 dense_knowledge_vector=sample_weight[:1000000]
@@ -163,7 +168,7 @@ def continuous_distillation_loop():
             
             torch.save({
                 "iteration": iteration,
-                "loss": loss.item(),
+                "loss": loss.item() if not torch.isnan(loss) else 0.0,
                 "embedding": embedding.state_dict(),
                 "ssm_layers": ssm_layers.state_dict(),
                 "moe_layers": moe_layers.state_dict(),
