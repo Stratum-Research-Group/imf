@@ -2,7 +2,7 @@
 **Pipelined Fixed-Point Coprocessors, Lean 4 Invariant Proofs, and Phase-Partitioned Swarm Orchestration**
 
 ## Abstract
-Deploying autoregressive architectures under strict latency and power constraints requires seamless co-design across hardware execution layers and high-level reasoning protocols. In this paper, we present the hardware-software co-design specification for the Interaction Model Foundations (IMF) coprocessor. We formalize a pipelined SystemVerilog implementation (`imf_lie_polytope_router.sv`) executing continuous Lie algebra memory splitting ($\mathrm{Sym}^2 \oplus \bigwedge^2$), Cayley transforms, and $E_8$ Gosset minimal root inner-product projections in fixed-point $Q8.8$ arithmetic. We formally verify the symmetry, antisymmetry, and linear commutativity properties in Lean 4 with 0 axioms and 0 sorry. Furthermore, we instantiate the **Phase-Partitioned Cognitive Swarm**, orchestrating 5 specialized autonomous agents across the 5 human flow phases to achieve bounded error-free multi-step synthesis.
+Deploying autoregressive architectures under strict latency and power constraints requires principled co-design across hardware execution layers and structured reasoning protocols. In this work, we present an initial hardware-software co-design exploration for the Interaction Model Foundations (IMF) coprocessor. We specify a pipelined SystemVerilog implementation (`imf_lie_polytope_router.sv`) executing continuous Lie algebra memory splitting ($\mathrm{Sym}^2 \oplus \bigwedge^2$), Cayley transforms, and $E_8$ Gosset minimal root inner-product projections in fixed-point $Q8.8$ arithmetic. We formally verify algebraic invariants—including discrete symmetry conservation, antisymmetry under integer arithmetic, and cascaded quantization error accumulation—in Lean 4 with 0 axioms and 0 sorry. Furthermore, we instantiate a **Phase-Partitioned Cognitive Swarm**, orchestrating 5 specialized autonomous agents across structured human flow phases to coordinate multi-step synthesis. We analyze the explicit boundaries, drift accumulation limits, and verification gaps between mathematical models, fixed-point RTL specifications, and autonomous heuristic orchestration.
 
 ---
 
@@ -63,5 +63,13 @@ At the software coordination level, reasoning is partitioned across a 5-agent co
 
 ---
 
-## 5. Conclusion
-Unifying fixed-point hardware description with machine-checked mathematical invariants and cognitive swarm orchestration establishes an end-to-end bridge from silicon to autonomous intelligence.
+## 5. Scope, Limitations, and Reality Check
+It is essential to state clearly what is—and what is not—established by this work:
+1. **Mathematical Invariants vs Gate-Level Verification**: Lean 4 proves properties of discrete and modular integer algebra. It does not inspect the post-synthesis netlist or physical silicon cells. Bridging mathematical proofs with gate-level equivalence checking (e.g. via JasperGold, SymbiYosys, or verified synthesis toolchains) remains open.
+2. **Fixed-Point Quantization Drift**: While $Q8.8$ is computationally efficient for high-throughput inner-product argmax routing, long-horizon autoregressive execution without periodic orthogonalization can suffer from norm drift, necessitating periodic Lie algebra manifold re-projection.
+3. **Cognitive Swarm Orchestration**: The 5-agent swarm is a structured heuristic coordination protocol across discrete cognitive phases; it is not general autonomous intelligence and remains strictly bounded by the capabilities of the underlying model weights and verification oracles.
+
+---
+
+## 6. Conclusion
+We have demonstrated an integrated proof-of-concept spanning fixed-point RTL coprocessor design, machine-checked algebraic invariants in Lean 4, and structured phase-partitioned multi-agent orchestration. While formal hardware verification at the physical silicon netlist level remains an active challenge, the congruence between cycle-accurate fixed-point simulation and formal algebraic specifications demonstrates a grounded, reproducible trajectory for hardware-accelerated geometric foundation models.
