@@ -448,19 +448,23 @@ uv run chat-imf
 
 ## 9. Technical Reports & Publications
 
-The IMF foundation and its empirical/theoretical formulations are detailed across three internal Stratum Research Group publications located in `papers/`:
+The IMF foundation, empirical scaling laws, speculative decoding, and formal Lean 4 verification are detailed across the complete 15-paper Stratum Research Group publication compendium (compiled in [dist/imf_preprint.pdf](dist/imf_preprint.pdf)):
 
-1. **[Technical Report 01: Lie-Algebraic Memory Splitting](papers/01_savg_lie_algebraic_memory_splitting.md)**  
-   *Symmetric-Antisymmetric Virtual Grid Attention (SAVG) and Directional Discrimination.*  
-   Formalizes the $\mathrm{Sym}^2 \oplus \bigwedge^2$ Jordan-Lie decomposition, phase-inversion dynamics, and hardware-fused Triton JIT kernels with PyTorch autograd compatibility.
-
-2. **[Technical Report 02: Higher-Dimensional Polytope Landmark Connectors (HDPLC)](papers/02_hdplc_higher_dimensional_polytope_connectors.md)**  
-   *Barycentric Simplex Frames, Orthoplex Antipodal Pairs, and Multi-Hop Knowledge Topology.*  
-   Formulates regular polytope coordinate embeddings across the Enneazetton (9D), Decayotton (10D), and Hendecaxennon (11D), featuring Canonical Polyadic (CP) rank factorizations for arity-3 and arity-4 hyperface bindings.
-
-3. **[Foundational Position Paper 03: The Architecture of Meaning](papers/03_epistemological_foundations_and_real_world_applications.md)**  
-   *Epistemological Foundations, Symmetry-Governed Topology, and Potential Application Horizons of SAVG and HDPLC.*  
-   Examines the conceptual transition from unconstrained correlation to symmetry-governed topological geometry, algebraic bridge proofs, and potential research horizons across mechanistic interpretability, neuromorphic hardware, automated theorem proving, and sequence modeling.
+1. **[Technical Report 01: Lie-Algebraic Memory Splitting](papers/01_savg_lie_algebraic_memory_splitting.md)** — *Symmetric-Antisymmetric Virtual Grid Attention (SAVG) and Directional Discrimination.*
+2. **[Technical Report 02: Higher-Dimensional Polytope Landmark Connectors](papers/02_hdplc_higher_dimensional_polytope_connectors.md)** — *Barycentric Simplex Frames, Orthoplex Antipodal Pairs, and Multi-Hop Knowledge Topology.*
+3. **[Foundational Position Paper 03: The Architecture of Meaning](papers/03_epistemological_foundations_and_real_world_applications.md)** — *Epistemological Foundations, Symmetry-Governed Topology, and Horizons of SAVG and HDPLC.*
+4. **[Technical Report 04: Grassmann Stereochemistry & SL(d) Remeshing](papers/04_grassmann_stereochemistry_and_sl_d_remeshing.md)** — *Geometric Clifford algebra bindings and continuous adaptive mesh refinement.*
+5. **[Technical Report 05: Non-Abelian Gauge Fields & Continuous Lie SSM](papers/05_non_abelian_gauge_fields_and_continuous_lie_ssm.md)** — *Unitary rotation kernels and continuous Wilson loop memory invariants.*
+6. **[Technical Report 06: The IMF Omni Block](papers/06_the_imf_omni_block.md)** — *Unified state-space transformer replacement block with sub-quadratic scaling.*
+7. **[Technical Report 07: Empirical Appendix & Distributed Scaling](papers/07_empirical_appendix_and_distributed_scaling.md)** — *Multi-GPU DDP training dynamics and communication benchmarks.*
+8. **[Technical Report 08: Hyperbolic Polytope Tilings](papers/08_hyperbolic_polytope_tilings.md)** — *Poincaré disk embeddings for hierarchical knowledge representation.*
+9. **[Technical Report 09: Cut-Factorized Bidirectional Reasoning & Polytope MoE](papers/09_cut_factorized_bidirectional_reasoning_and_polytope_moe.md)** — *Resolving the exponential deduction collapse via ETH bipartite cuts.*
+10. **[Technical Report 10: Omnipresent Polytope MoE (64 Domains)](papers/10_omnipresent_polytope_moe_64_domains.md)** — *Continuous Lie-group SSM with Hamiltonian symplectic volume conservation.*
+11. **[Technical Report 11: Universal Benchmark Manifolds & Enterprise OS](papers/11_universal_benchmark_manifolds_and_enterprise_os.md)** — *Formal OS-kernel scheduling and memory safety verification.*
+12. **[Technical Report 12: Frontier MCTS Cut Reasoning & Enterprise Frameworks](papers/12_frontier_mcts_cut_reasoning_and_enterprise_frameworks.md)** — *128x combinatorial search tree reduction via discrete complex structures.*
+13. **[Technical Report 13: Polytope Speculative Decoding & MCTS Evaluations](papers/13_polytope_speculative_decoding_and_mcts_evaluations.md)** — *Speculative candidate drafting with parallel target verification.*
+14. **[Technical Report 14: Empirical Distillation, Execution-Grounded GRPO, & Asymmetric Speculative Decoding](papers/14_empirical_distillation_grpo_and_polytope_reasoning.md)** — *Flagship 107.7M pretraining, 24.7x distillation into 4.35M drafter, and verified RL.*
+15. **[Technical Report 15: Cut-RSI (AETHER) — Formally Gated Recursive Self-Improvement](papers/15_cut_rsi_aether_formally_gated_recursive_self_improvement.md)** — *Closed-loop recursive self-improvement grounded in ETH cuts and Lean 4 core oracles.*
 
 ---
 
