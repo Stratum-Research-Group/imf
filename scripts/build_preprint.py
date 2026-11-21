@@ -272,6 +272,7 @@ def main():
         PAPERS_DIR / "17_hybrid_fluency_pretraining_and_polytope_convergence.md",
         PAPERS_DIR / "18_high_density_code_reasoning_and_empirical_benchmarks.md",
         PAPERS_DIR / "19_nested_hypercube_lattices_and_formally_gated_optimization.md",
+        PAPERS_DIR / "20_riemannian_lie_group_optimization_and_cayley_dynamics.md",
     ]
 
     html_sections = []

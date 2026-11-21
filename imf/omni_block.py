@@ -19,6 +19,7 @@ import math
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+from torch.utils.checkpoint import checkpoint
 
 from imf.continuous_lie_ssm import ContinuousLieGroupSSM
 from imf.triton_unitary_ssm_kernel import fused_unitary_ssm_forward
@@ -46,6 +47,7 @@ class IMFOmniBlock(nn.Module):
         conv_window: int = 8,
         use_triton_ssm: bool = True,
         use_nested_hypercube: bool = False,
+        use_checkpointing: bool = False,
         dropout: float = 0.0,
     ):
         super().__init__()
@@ -56,6 +58,7 @@ class IMFOmniBlock(nn.Module):
         self.polytope_dim = polytope_dim
         self.use_triton_ssm = use_triton_ssm
         self.use_nested_hypercube = use_nested_hypercube
+        self.use_checkpointing = use_checkpointing
 
         # 1. Polytope Connector for Barycentric Simplicial Coordinates
         self.polytope_connector = ConfigurablePolytopeConnector(
@@ -153,15 +156,7 @@ class IMFOmniBlock(nn.Module):
             out_seq = out_seq.transpose(1, 2).contiguous().view(B, T, D)
             return self.ssm.out_proj(out_seq)
 
-    def forward(self, x: torch.Tensor, window: int = None) -> torch.Tensor:
-        """
-        Forward pass through IMF OmniBlock.
-        Args:
-            x: [Batch, SeqLen, d_model]
-            window: Optional window size override for continuous simplex convolution
-        Returns:
-            out: [Batch, SeqLen, d_model]
-        """
+    def _inner_forward(self, x: torch.Tensor, window: int = None) -> torch.Tensor:
         B, T, D = x.shape
         x_norm = self.norm1(x)
 
@@ -209,3 +204,17 @@ class IMFOmniBlock(nn.Module):
         x = x + self.dropout(ffn_out)
 
         return x
+
+    def forward(self, x: torch.Tensor, window: int = None) -> torch.Tensor:
+        """
+        Forward pass through IMF OmniBlock with optional activation checkpointing.
+        Args:
+            x: [Batch, SeqLen, d_model]
+            window: Optional window size override for continuous simplex convolution
+        Returns:
+            out: [Batch, SeqLen, d_model]
+        """
+        if self.use_checkpointing and self.training:
+            # Gradient activation checkpointing avoids caching intermediate activations
+            return checkpoint(self._inner_forward, x, window, use_reentrant=False)
+        return self._inner_forward(x, window)

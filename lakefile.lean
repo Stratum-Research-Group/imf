@@ -24,3 +24,9 @@ lean_lib «PolytopeBarycentric» where
 lean_lib «RecursiveSelfImprovementETH» where
   srcDir := "lean"
   roots := #[`RecursiveSelfImprovementETH]
+
+@[default_target]
+lean_lib «IMF» where
+  srcDir := "lean"
+  roots := #[`IMF.CutRSIAdamW, `IMF.NestedHypercubeCell, `IMF.NestedAutonomousEvolution, `IMF.RiemannianAdamW]
+
