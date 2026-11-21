@@ -1,0 +1,31 @@
+# Dockerfile.imf-serving
+# ==============================================================================
+# IMF (Interaction Model Foundations) 1.14B Coprocessor Container
+# Exposes OpenAI-compatible streaming API & Mission Control WebREPL Dashboard.
+# ==============================================================================
+
+FROM nvidia/cuda:12.4.1-runtime-ubuntu22.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV PYTHONUNBUFFERED=1
+
+WORKDIR /app
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    python3 \
+    python3-pip \
+    curl \
+    git \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY pyproject.toml README.md ./
+COPY imf ./imf
+COPY scripts ./scripts
+COPY tools ./tools
+COPY dist/imf-1.0.0-py3-none-any.whl ./
+
+RUN pip3 install --no-cache-dir ./imf-1.0.0-py3-none-any.whl fastapi uvicorn pydantic
+
+EXPOSE 8080 8000
+
+CMD ["python3", "scripts/serve_openai_compatible_api.py"]
