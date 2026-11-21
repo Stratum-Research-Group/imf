@@ -250,7 +250,30 @@ class PolytopeLatticeLinear(nn.Module):
         return layer
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
-        # Reconstruct on the fly in registers or compute directly
+        # If on CUDA, use the register-fused Triton E8 dequantization kernel directly!
+        if x.is_cuda and self.indices.is_cuda and self.scales.is_cuda:
+            try:
+                from imf.triton_e8_kernel import fused_e8_gemv
+                orig_shape = x.shape
+                x_flat = x.reshape(-1, orig_shape[-1]).to(torch.float16)
+                scales_reshaped = self.scales.reshape(self.out_features, -1)
+                roots = self.e8_roots.to(torch.float32)
+                
+                out = fused_e8_gemv(
+                    x_flat,
+                    self.indices,
+                    scales_reshaped,
+                    roots,
+                    scale_block_size=self.scale_block_size
+                ).to(x.dtype)
+                
+                if self.bias is not None:
+                    out = out + self.bias.to(x.dtype)
+                return out.reshape(orig_shape[:-1] + (self.out_features,))
+            except Exception:
+                pass  # Fall back to PyTorch in-memory path
+
+        # Fallback PyTorch CPU / emulation path
         device = x.device
         idx_flat = self.indices.reshape(-1).long()
         vecs = self.e8_roots[idx_flat].to(device) / math.sqrt(2.0)
