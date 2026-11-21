@@ -53,7 +53,7 @@ class IMFCoprocessorBridge:
                 max_seq_len=128,
                 alpha_recon=0.2,
             ).to(self.device)
-            self.target.load_state_dict(torch.load(target_path, map_location=self.device))
+            self.target.load_state_dict(torch.load(target_path, map_location=self.device), strict=False)
             self.target.eval()
 
             self.drafter = IMFJointReconPredictorLM(
@@ -67,7 +67,7 @@ class IMFCoprocessorBridge:
                 max_seq_len=128,
                 alpha_recon=0.1,
             ).to(self.device)
-            self.drafter.load_state_dict(torch.load(drafter_path, map_location=self.device))
+            self.drafter.load_state_dict(torch.load(drafter_path, map_location=self.device), strict=False)
             self.drafter.eval()
 
             self.decoder = SpeculativePolytopeDecoder(

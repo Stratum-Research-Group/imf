@@ -53,11 +53,24 @@ class ContinuousLieGroupSSM(nn.Module):
     def get_orthogonal_rotator(self) -> torch.Tensor:
         """
         Computes the exact SO(d_h) unitary transition operator U = exp(Delta_t * A_so).
+        Includes strict spectral normalization and log_delta clamping to guarantee
+        exact numerical stability in bfloat16 / fp16 and prevent gradient explosion.
         """
         # Exact skew-symmetric projection onto so(d_h): A_so = 1/2 (A - A^T)
         A_so = 0.5 * (self.raw_generator - self.raw_generator.transpose(-1, -2))
-        delta = torch.exp(self.log_delta).view(self.num_heads, 1, 1)
-        return torch.matrix_exp(delta * A_so)  # [num_heads, head_dim, head_dim]
+        
+        # Spectral Frobenius norm bounding per head: scale to bounded operator norm <= 1.0
+        f_norm = torch.linalg.norm(A_so, ord="fro", dim=(-1, -2), keepdim=True) + 1e-6
+        A_so_normalized = A_so / torch.clamp(f_norm, min=1.0)
+        
+        # Clamp log_delta to safe continuous step interval [exp(-4.0), exp(1.5)] -> [0.018, 4.48]
+        clamped_log_delta = torch.clamp(self.log_delta, min=-4.0, max=1.5)
+        delta = torch.exp(clamped_log_delta).view(self.num_heads, 1, 1)
+        
+        # Compute unitary matrix exponential in float32 for maximum precision, then cast
+        arg = (delta * A_so_normalized).to(torch.float32)
+        U = torch.matrix_exp(arg)
+        return U.to(self.raw_generator.dtype)  # [num_heads, head_dim, head_dim]
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         """

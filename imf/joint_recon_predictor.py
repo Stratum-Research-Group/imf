@@ -64,6 +64,8 @@ class IMFJointReconPredictorLM(nn.Module):
         ])
 
         self.ln_f = nn.LayerNorm(d_model)
+        self.layer_norms = nn.ModuleList([nn.LayerNorm(d_model) for _ in range(num_layers)])
+        self.moe_norms = nn.ModuleList([nn.LayerNorm(d_model) for _ in range(num_layers)])
 
         # 1. Prediction Head (Target: Next Token x_{t+1})
         self.pred_head = nn.Linear(d_model, vocab_size, bias=False)
@@ -110,9 +112,9 @@ class IMFJointReconPredictorLM(nn.Module):
 
         total_balance_loss = torch.tensor(0.0, device=x.device)
         res_scale = 1.0 / math.sqrt(2.0 * len(self.layers)) if len(self.layers) > 4 else 1.0
-        for omni, moe in zip(self.layers, self.moe_layers):
-            x = omni(x)
-            moe_out, aux = moe(x)
+        for omni, moe, ln1, ln2 in zip(self.layers, self.moe_layers, self.layer_norms, self.moe_norms):
+            x = x + res_scale * omni(ln1(x))
+            moe_out, aux = moe(ln2(x))
             x = x + res_scale * moe_out
             total_balance_loss = total_balance_loss + aux["load_balance_loss"]
 
