@@ -290,6 +290,9 @@ def main():
         PAPERS_DIR / "35_milestone_synthesis_autonomous_rsi_and_release.md",
         PAPERS_DIR / "36_cognitive_flow_state_machines_and_procedural_multimodal_generation.md",
         PAPERS_DIR / "37_cognitive_swarm_synthesis_and_multiagent_formal_verification.md",
+        PAPERS_DIR / "38_full_polytope_coordinates_and_manifold_parameter_spaces.md",
+        PAPERS_DIR / "39_higher_dimensional_polytope_barycentric_integer_engine.md",
+        PAPERS_DIR / "40_polytope_lattice_quantization_and_e8_gosset_root_codes.md",
     ]
 
     html_sections = []
