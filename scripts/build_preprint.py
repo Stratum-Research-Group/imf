@@ -269,6 +269,7 @@ def main():
         PAPERS_DIR / "14_empirical_distillation_grpo_and_polytope_reasoning.md",
         PAPERS_DIR / "15_cut_rsi_aether_formally_gated_recursive_self_improvement.md",
         PAPERS_DIR / "16_aether_100_generation_autonomous_evolution_lean_oracles.md",
+        PAPERS_DIR / "17_hybrid_fluency_pretraining_and_polytope_convergence.md",
     ]
 
     html_sections = []
