@@ -296,6 +296,7 @@ def main():
         PAPERS_DIR / "41_asymptotic_polytope_lattice_scaling_from_10_to_10_6.md",
         PAPERS_DIR / "42_hardware_fused_polytope_dequantization_and_sub_byte_tensor_processing.md",
         PAPERS_DIR / "43_autonomous_recursive_self_improvement_and_polytope_convergence.md",
+        PAPERS_DIR / "44_geometry_of_epistemic_soundness_in_multi_agent_swarms.md",
     ]
 
     html_sections = []
