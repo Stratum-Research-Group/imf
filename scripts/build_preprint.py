@@ -270,6 +270,7 @@ def main():
         PAPERS_DIR / "15_cut_rsi_aether_formally_gated_recursive_self_improvement.md",
         PAPERS_DIR / "16_aether_100_generation_autonomous_evolution_lean_oracles.md",
         PAPERS_DIR / "17_hybrid_fluency_pretraining_and_polytope_convergence.md",
+        PAPERS_DIR / "18_high_density_code_reasoning_and_empirical_benchmarks.md",
     ]
 
     html_sections = []
