@@ -36,6 +36,7 @@ lean_lib «IMF» where
     `IMF.UnifiedIntegerPrecisionETH,
     `IMF.IMFFileFormatSpec,
     `IMF.ETHUncrossingSpec,
-    `IMF.Architecture70BSpec
+    `IMF.Architecture70BSpec,
+    `IMF.PolydokonSpec
   ]
 
