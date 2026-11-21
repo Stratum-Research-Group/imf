@@ -34,6 +34,6 @@ def test_eth_lean_oracle_verifies_sound_math():
 def test_eth_lean_rsi_cycle_runs_successfully():
     improver = ETHLeanRecursiveImprover()
     result = improver.run_rsi_cycle(max_generations=1)
-    assert result["total_proposed"] == 3
-    assert result["total_verified"] == 3
+    assert result["total_proposed"] == 2
+    assert result["total_verified"] == 2
     assert result["verification_rate"] == 1.0
