@@ -280,6 +280,7 @@ def main():
         PAPERS_DIR / "25_unified_integer_and_mixed_precision_architecture_eth.md",
         PAPERS_DIR / "26_imf_model_container_specification_and_sub_byte_serialization.md",
         PAPERS_DIR / "27_fused_dual_path_polytope_gemm_and_eth_isometry.md",
+        PAPERS_DIR / "28_the_70b_memory_barrier_sub_byte_factorization.md",
     ]
 
     html_sections = []
