@@ -4,6 +4,7 @@
 #include <iostream>
 #include <chrono>
 #include <vector>
+#include <string>
 
 namespace imf {
 
@@ -65,12 +66,12 @@ int main(int argc, char* argv[]) {
     }
 
     if (line != "exit") {
-        std::cout << "[*] Generating response for: \"" << line << "\"..." << std::endl;
+        std::cout << "[*] Autoregressive Token Generation for: \"" << line << "\"..." << std::endl;
         torch::Tensor current_id = torch::tensor({100}, torch::TensorOptions().dtype(torch::kInt64).device(device));
-        std::cout << "Output Tokens: ";
+        std::cout << "Generated Sequence Tokens: [ ";
 
         auto t_gen_start = std::chrono::high_resolution_clock::now();
-        int num_tokens = 16;
+        int num_tokens = 24;
         for (int i = 0; i < num_tokens; ++i) {
             torch::Tensor emb = tok_embed.index({current_id}).unsqueeze(0); // [1, d_model]
 
@@ -83,7 +84,7 @@ int main(int argc, char* argv[]) {
             // 3. Honeycomb coordinate projection
             auto [cell_coords, cell_hash] = honeycomb_tiler.forward(emb);
 
-            // Prediction head step
+            // Autoregressive Prediction step
             torch::Tensor logits = torch::matmul(emb.unsqueeze(0), pred_head.t());
             current_id = torch::argmax(logits.index({0, -1, torch::indexing::Slice()}), -1);
             std::cout << current_id.item<int64_t>() << " " << std::flush;
@@ -94,7 +95,7 @@ int main(int argc, char* argv[]) {
         double elapsed_sec = std::chrono::duration<double>(t_gen_end - t_gen_start).count();
         double tok_per_sec = num_tokens / elapsed_sec;
 
-        std::cout << "\n\n[*] Benchmark: " << num_tokens << " tokens in " << (elapsed_sec * 1000.0) 
+        std::cout << "]\n\n[*] Generation Metrics: " << num_tokens << " tokens in " << (elapsed_sec * 1000.0) 
                   << " ms (" << tok_per_sec << " tok/s) with simultaneous E8 Gosset + Matryoshka + Honeycomb C++ routing." << std::endl;
     }
 
