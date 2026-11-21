@@ -22,10 +22,20 @@ jobs:
       - name: Install uv
         run: curl -LsSf https://astral.sh/uv/0.6.5/install.sh | sh
 
-      - name: Install Dependencies
-        run: uv sync
+      - name: Install Lean 4 via elan
+        run: |
+          curl -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y
+          echo "$HOME/.elan/bin" >> $GITHUB_PATH
 
-      - name: Run Test Suite
+      - name: Install Dependencies
+        run: uv sync --extra dev
+
+      - name: Verify Lean 4 Lake Build
+        run: |
+          elan --version
+          lake build
+
+      - name: Run PyTest Test Suite
         run: uv run pytest tests/
 
       - name: Verify MCTS Prover
