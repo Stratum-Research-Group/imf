@@ -286,6 +286,7 @@ def main():
         PAPERS_DIR / "31_continual_russian_doll_polytopes_e8_gosset_and_honeycombs.md",
         PAPERS_DIR / "32_eth_uncrossing_parallelism_and_overflow_prevention.md",
         PAPERS_DIR / "33_empirical_multidomain_alignment_and_hyperspace_dynamics.md",
+        PAPERS_DIR / "34_polytopic_speculative_decoding_and_lean4_invariance.md",
     ]
 
     html_sections = []
