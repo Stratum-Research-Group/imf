@@ -40,6 +40,7 @@ lean_lib «IMF» where
     `IMF.PolydokonSpec,
     `IMF.Polydecakon14DSpec,
     `IMF.RussianDollCrossPolytopeSpec,
-    `IMF.GossetAndHoneycombSpec
+    `IMF.GossetAndHoneycombSpec,
+    `IMF.LeechLatticeSpec
   ]
 

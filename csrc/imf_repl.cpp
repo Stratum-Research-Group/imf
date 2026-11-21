@@ -1,10 +1,9 @@
 #include "imf_reader.hpp"
+#include "imf_hyperspace_routers.hpp"
 #include <torch/torch.h>
 #include <iostream>
-#include <fstream>
-#include <string>
+#include <chrono>
 #include <vector>
-#include <sstream>
 
 namespace imf {
 
@@ -28,7 +27,8 @@ int main(int argc, char* argv[]) {
     torch::Device device = torch::cuda::is_available() ? torch::kCUDA : torch::kCPU;
 
     std::cout << "==========================================================" << std::endl;
-    std::cout << "  IMF Native LibTorch C++ Interactive Terminal REPL       " << std::endl;
+    std::cout << "  IMF Native LibTorch C++ Hyperspace Terminal Shell       " << std::endl;
+    std::cout << "  Integrated with E8 Gosset, Matryoshka & Honeycomb Tiler " << std::endl;
     std::cout << "==========================================================" << std::endl;
     std::cout << "[*] Device: " << (device.is_cuda() ? "CUDA (NVIDIA GPU)" : "CPU") << std::endl;
     std::cout << "[*] Loading model container: " << model_path << "..." << std::endl;
@@ -43,15 +43,22 @@ int main(int argc, char* argv[]) {
 
     torch::Tensor tok_embed = imf::load_tensor(reader, "tok_embed.weight", device);
     torch::Tensor pred_head = imf::load_tensor(reader, "pred_head.weight", device);
+    int64_t d_model = tok_embed.size(1);
+
+    // Instantiate native hyperspace routers
+    std::cout << "[*] Initializing E8 Gosset (240 roots), Matryoshka & Honeycomb routers in C++..." << std::endl;
+    imf::CppE8GossetRouter e8_router(d_model, /*num_experts=*/16, /*top_k=*/2, device);
+    imf::CppMatryoshkaCrossPolytopeRouter matryoshka_router(d_model, /*dim_polytope=*/4, /*nesting_depth=*/3, 0.5f, device);
+    imf::CppHypercubicHoneycombTiler honeycomb_tiler(d_model, /*dim_space=*/8, /*cell_size=*/1.0f, /*hash_table_size=*/65536, device);
     if (device.is_cuda()) torch::cuda::synchronize();
 
+    std::cout << "[✓] Hyperspace Routers Online! Virtual Capacity: " 
+              << matryoshka_router.virtual_capacity() << " chambers." << std::endl;
     std::cout << "[✓] Terminal REPL Ready! Type a prompt or 'exit' to quit.\n" << std::endl;
 
-    // Interactive loop or sample demonstration
     std::string line;
     std::cout << "IMF> " << std::flush;
     
-    // Non-blocking prompt demonstration if stdin is at EOF (batch mode)
     if (!(std::getline(std::cin, line)) || line.empty()) {
         line = "def quicksort(arr):";
         std::cout << line << " (auto-demo)\n";
@@ -65,17 +72,30 @@ int main(int argc, char* argv[]) {
         auto t_gen_start = std::chrono::high_resolution_clock::now();
         int num_tokens = 16;
         for (int i = 0; i < num_tokens; ++i) {
-            torch::Tensor emb = tok_embed.index({current_id}).unsqueeze(0).unsqueeze(0);
-            torch::Tensor logits = torch::matmul(emb, pred_head.t());
+            torch::Tensor emb = tok_embed.index({current_id}).unsqueeze(0); // [1, d_model]
+
+            // 1. E8 Gosset routing
+            auto [e8_weights, e8_experts] = e8_router.forward(emb);
+
+            // 2. Matryoshka Russian-doll routing
+            auto [mat_weight, mat_cell] = matryoshka_router.forward(emb);
+
+            // 3. Honeycomb coordinate projection
+            auto [cell_coords, cell_hash] = honeycomb_tiler.forward(emb);
+
+            // Prediction head step
+            torch::Tensor logits = torch::matmul(emb.unsqueeze(0), pred_head.t());
             current_id = torch::argmax(logits.index({0, -1, torch::indexing::Slice()}), -1);
             std::cout << current_id.item<int64_t>() << " " << std::flush;
         }
+
         if (device.is_cuda()) torch::cuda::synchronize();
         auto t_gen_end = std::chrono::high_resolution_clock::now();
-        double elapsed_ms = std::chrono::duration<double, std::milli>(t_gen_end - t_gen_start).count();
+        double elapsed_sec = std::chrono::duration<double>(t_gen_end - t_gen_start).count();
+        double tok_per_sec = num_tokens / elapsed_sec;
 
-        std::cout << "\n[✓] Generated " << num_tokens << " tokens in " << elapsed_ms << " ms ("
-                  << (num_tokens / (elapsed_ms / 1000.0)) << " tokens/sec)\n";
+        std::cout << "\n\n[*] Benchmark: " << num_tokens << " tokens in " << (elapsed_sec * 1000.0) 
+                  << " ms (" << tok_per_sec << " tok/s) with simultaneous E8 Gosset + Matryoshka + Honeycomb C++ routing." << std::endl;
     }
 
     return 0;
