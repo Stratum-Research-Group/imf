@@ -47,6 +47,7 @@ lean_lib «IMF» where
     `IMF.CognitiveFlowSpec,
     `IMF.FixedPointQuantizationSpec,
     `IMF.AsymptoticPolytopeBounds,
-    `IMF.HardwareFusedDequantSpec
+    `IMF.HardwareFusedDequantSpec,
+    `IMF.EpistemicSoundnessSpec
   ]
 
