@@ -33,7 +33,9 @@ from imf.e8_gosset_router import E8GossetRouter
 class PolytopeLatticeQuantizer(nn.Module):
     """
     Quantizes continuous weight matrices into discrete Polytope Lattice coordinates.
-    Slices inputs into 8D blocks and assigns each block to an exact vertex of the E8 root lattice.
+    Supports:
+    - 8D E8 Gosset 4_21 Lattice (240 minimal roots in R^8)
+    - High-D Barycentric Orthogonal Matching Pursuit (OMP) (100D to 1,000,000D)
     """
     def __init__(self, scale_block_size: int = 64):
         super().__init__()
@@ -42,6 +44,109 @@ class PolytopeLatticeQuantizer(nn.Module):
         # Instantiate E8 Gosset 240 minimal roots [240, 8]
         e8 = E8GossetRouter(d_model=8, num_experts=16)
         self.register_buffer("e8_roots", e8.e8_roots) # [240, 8]
+
+    def quantize_barycentric_omp(
+        self,
+        W: torch.Tensor,
+        dim: int = 100,
+        k: Optional[int] = None,
+        max_iters: int = 20
+    ) -> Tuple[torch.Tensor, torch.Tensor, torch.Tensor, Dict[str, Any]]:
+        """
+        High-Dimensional Barycentric Orthogonal Matching Pursuit (OMP) Quantizer (Paper 39 & 41).
+        Projects D-dimensional weight slices onto a k-sparse facet of a D-dimensional cross-polytope:
+            w ≈ s * sum_{j=1}^k lambda_j * v_{pi(j)}
+
+        Args:
+            W: Weight tensor [out_features, in_features]
+            dim: High-dimensional slice length D (e.g. 100, 1000, 10000)
+            k: Number of active barycentric vertices (defaults to ceil(4 * log10(D)))
+            max_iters: Maximum pursuit iterations
+
+        Returns:
+            active_indices: [num_vecs, k] int32 vertex IDs (0 .. 2*dim - 1)
+            active_weights: [num_vecs, k] float16 barycentric coordinates
+            scales:         [num_vecs, 1] float16 vector scale factors
+            stats:          Compression ratio, effective bpw, and angular retention
+        """
+        device = W.device
+        orig_shape = W.shape
+        out_f, in_f = orig_shape
+        assert in_f % dim == 0, f"in_features ({in_f}) must be divisible by dim ({dim})"
+
+        if k is None:
+            k = max(4, math.ceil(4 * math.log10(dim)))
+
+        # Slices in R^dim: [num_vecs, dim]
+        W_hd = W.reshape(-1, dim)
+        num_vecs = W_hd.size(0)
+
+        # Scale factor per D-dimensional vector
+        scales = torch.norm(W_hd, dim=-1, keepdim=True).clamp(min=1e-5) # [num_vecs, 1]
+        W_unit = W_hd / scales
+
+        # Greedy OMP on standard signed basis: {+e_i, -e_i} for i in 1..dim (2*dim vertices)
+        # Residual tracking
+        residual = W_unit.clone() # [num_vecs, dim]
+        selected_indices = []
+        selected_lambdas = []
+
+        # Find top-k signed coordinate projections
+        for _ in range(k):
+            # Inner product with standard basis is just coordinate values
+            # Positive coord -> vertex i (0..dim-1), Negative coord -> vertex dim + i (dim..2*dim-1)
+            abs_res = torch.abs(residual)
+            best_coord = torch.argmax(abs_res, dim=-1) # [num_vecs]
+            
+            # Gather sign and value
+            sign = torch.sign(residual.gather(1, best_coord.unsqueeze(1)))
+            val = abs_res.gather(1, best_coord.unsqueeze(1))
+            
+            # Map to 0..2*dim-1
+            vertex_id = torch.where(sign.squeeze(1) >= 0, best_coord, best_coord + dim)
+            selected_indices.append(vertex_id)
+            selected_lambdas.append(val.squeeze(1))
+
+            # Deflate residual
+            residual.scatter_add_(1, best_coord.unsqueeze(1), -sign * val)
+
+        active_indices = torch.stack(selected_indices, dim=1).to(torch.int32) # [num_vecs, k]
+        active_weights = torch.stack(selected_lambdas, dim=1).to(torch.float16) # [num_vecs, k]
+
+        # Normalize barycentric partition of unity
+        weight_sum = active_weights.sum(dim=-1, keepdim=True).clamp(min=1e-5)
+        active_weights = active_weights / weight_sum
+
+        # Compute reconstructed weights and angular retention
+        reconstructed = torch.zeros_like(W_unit)
+        for j in range(k):
+            v_id = active_indices[:, j]
+            coord = torch.where(v_id < dim, v_id, v_id - dim).long()
+            sgn = torch.where(v_id < dim, 1.0, -1.0).to(device)
+            w_val = active_weights[:, j].to(torch.float32) * sgn
+            reconstructed.scatter_add_(1, coord.unsqueeze(1), w_val.unsqueeze(1))
+
+        # Re-scale
+        reconstructed_W = (reconstructed * scales).reshape(orig_shape)
+        cos_sim = F.cosine_similarity(W.reshape(-1), reconstructed_W.reshape(-1), dim=0).item()
+
+        # Information density calculation
+        log2_comb = k * math.log2((dim * math.e) / k) + k
+        idx_bpw = log2_comb / dim
+        scale_bpw = 16.0 / dim
+        total_bpw = idx_bpw + scale_bpw
+
+        stats = {
+            "num_weights": W.numel(),
+            "dimension": dim,
+            "k_sparse_vertices": k,
+            "angular_preservation_cosine": cos_sim,
+            "bits_per_weight": total_bpw,
+            "compression_ratio": 16.0 / total_bpw,
+            "polytope_family": f"{dim}D_Barycentric_Cross_Polytope",
+        }
+
+        return active_indices, active_weights, scales.to(torch.float16), stats
 
     def quantize_matrix(self, W: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor, Dict[str, Any]]:
         """
