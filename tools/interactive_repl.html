@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>IMF Coprocessor & Cognitive Flow REPL</title>
+  <style>
+    :root {
+      --bg: #090d16;
+      --panel: #0f172a;
+      --border: #1e293b;
+      --accent: #38bdf8;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --code-bg: #030712;
+      --flow: #10b981;
+      --struggle: #f59e0b;
+      --release: #a855f7;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace;
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
+    #visualizer-pane {
+      flex: 1;
+      position: relative;
+      border-right: 1px solid var(--border);
+    }
+    canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    #repl-pane {
+      width: 480px;
+      background: var(--panel);
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      padding: 16px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header h1 { font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: var(--accent); }
+    #flow-hud {
+      display: flex;
+      gap: 6px;
+      padding: 10px 16px;
+      background: #020617;
+      border-bottom: 1px solid var(--border);
+    }
+    .phase-badge {
+      font-size: 10px;
+      padding: 4px 8px;
+      border-radius: 4px;
+      background: #1e293b;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .phase-badge.active {
+      background: var(--accent);
+      color: #000;
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
+    }
+    #terminal {
+      flex: 1;
+      padding: 16px;
+      overflow-y: auto;
+      font-family: "Fira Code", monospace;
+      font-size: 12px;
+      line-height: 1.5;
+      background: var(--code-bg);
+      white-space: pre-wrap;
+    }
+    .msg-user { color: var(--accent); margin-bottom: 8px; }
+    .msg-assistant { color: var(--text); margin-bottom: 16px; border-left: 2px solid var(--flow); padding-left: 8px; }
+    #input-box {
+      padding: 14px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      gap: 8px;
+    }
+    input {
+      flex: 1;
+      background: #020617;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      color: #fff;
+      padding: 10px 12px;
+      font-size: 13px;
+      outline: none;
+    }
+    input:focus { border-color: var(--accent); }
+    button {
+      background: var(--accent);
+      color: #000;
+      border: none;
+      padding: 0 16px;
+      border-radius: 4px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="visualizer-pane">
+    <canvas id="poly-canvas"></canvas>
+  </div>
+
+  <div id="repl-pane">
+    <header>
+      <h1>IMF 1.14B Coprocessor REPL</h1>
+      <span style="font-size: 11px; color: var(--flow);">● Connected</span>
+    </header>
+
+    <div id="flow-hud">
+      <div id="badge-setup" class="phase-badge active">Setup</div>
+      <div id="badge-struggle" class="phase-badge">Struggle</div>
+      <div id="badge-release" class="phase-badge">Release</div>
+      <div id="badge-flow" class="phase-badge">Flow</div>
+      <div id="badge-recovery" class="phase-badge">Recovery</div>
+    </div>
+
+    <div id="terminal"></div>
+
+    <div id="input-box">
+      <input type="text" id="prompt-input" placeholder="Enter prompt (e.g. create responsive SVG badge)..." />
+      <button id="send-btn">Send</button>
+    </div>
+  </div>
+
+  <script>
+    // Polytope Canvas Animation
+    const canvas = document.getElementById("poly-canvas");
+    const ctx = canvas.getContext("2d");
+    function resize() {
+      canvas.width = canvas.parentElement.clientWidth;
+      canvas.height = canvas.parentElement.clientHeight;
+    }
+    window.addEventListener("resize", resize);
+    resize();
+
+    let angle = 0;
+    const nodes = [];
+    for(let i=0; i<64; i++) {
+      nodes.push({
+        x: (Math.random()-0.5)*2,
+        y: (Math.random()-0.5)*2,
+        z: (Math.random()-0.5)*2,
+        w: (Math.random()-0.5)*2,
+        active: false
+      });
+    }
+
+    function render() {
+      ctx.fillStyle = "rgba(9, 13, 22, 0.25)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      const cx = canvas.width / 2;
+      const cy = canvas.height / 2;
+      const scale = Math.min(canvas.width, canvas.height) * 0.35;
+
+      angle += 0.01;
+      const cosA = Math.cos(angle);
+      const sinA = Math.sin(angle);
+
+      ctx.strokeStyle = "rgba(56, 189, 248, 0.15)";
+      ctx.lineWidth = 1;
+
+      // Draw projected polytope lines
+      for(let i=0; i<nodes.length; i++) {
+        for(let j=i+1; j<nodes.length; j++) {
+          const d = Math.hypot(nodes[i].x-nodes[j].x, nodes[i].y-nodes[j].y, nodes[i].z-nodes[j].z);
+          if (d < 0.8) {
+            const px1 = cx + (nodes[i].x * cosA - nodes[i].z * sinA) * scale;
+            const py1 = cy + (nodes[i].y) * scale;
+            const px2 = cx + (nodes[j].x * cosA - nodes[j].z * sinA) * scale;
+            const py2 = cy + (nodes[j].y) * scale;
+            ctx.beginPath();
+            ctx.moveTo(px1, py1);
+            ctx.lineTo(px2, py2);
+            ctx.stroke();
+          }
+        }
+      }
+
+      // Draw nodes
+      for(let i=0; i<nodes.length; i++) {
+        const px = cx + (nodes[i].x * cosA - nodes[i].z * sinA) * scale;
+        const py = cy + (nodes[i].y) * scale;
+        ctx.fillStyle = nodes[i].active ? "#10b981" : "#38bdf8";
+        ctx.beginPath();
+        ctx.arc(px, py, nodes[i].active ? 4 : 2, 0, Math.PI*2);
+        ctx.fill();
+      }
+
+      requestAnimationFrame(render);
+    }
+    render();
+
+    // REPL & WebSocket
+    const term = document.getElementById("terminal");
+    const input = document.getElementById("prompt-input");
+    const sendBtn = document.getElementById("send-btn");
+    const badges = {
+      setup: document.getElementById("badge-setup"),
+      struggle: document.getElementById("badge-struggle"),
+      release: document.getElementById("badge-release"),
+      flow: document.getElementById("badge-flow"),
+      recovery: document.getElementById("badge-recovery"),
+    };
+
+    function setPhase(phase) {
+      Object.values(badges).forEach(b => b.classList.remove("active"));
+      if (badges[phase]) badges[phase].classList.add("active");
+    }
+
+    const ws = new WebSocket(`ws://${location.host}/ws`);
+    ws.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      if (data.type === "phase") {
+        setPhase(data.phase);
+        // activate random nodes
+        nodes.forEach(n => n.active = Math.random() < 0.25);
+      } else if (data.type === "token") {
+        term.textContent += data.text;
+        term.scrollTop = term.scrollHeight;
+      }
+    };
+
+    function sendPrompt() {
+      const val = input.value.trim();
+      if (!val) return;
+      term.textContent += `\n> Task: ${val}\n`;
+      ws.send(JSON.stringify({ prompt: val }));
+      input.value = "";
+    }
+
+    sendBtn.addEventListener("click", sendPrompt);
+    input.addEventListener("keydown", (e) => { if(e.key === "Enter") sendPrompt(); });
+  </script>
+</body>
+</html>
