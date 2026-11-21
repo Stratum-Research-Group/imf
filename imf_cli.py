@@ -200,12 +200,33 @@ def interactive_chat():
 
 def main():
     parser = argparse.ArgumentParser(description="IMF Live Terminal & Inspection CLI")
+    subparsers = parser.add_subparsers(dest="subcommand", help="Sub-commands")
+
+    # 'chat' / default inspection options
     parser.add_argument("--prompt", type=str, default=None, help="Single prompt to inspect")
     parser.add_argument("--tokens", type=int, default=32, help="Tokens to generate")
     parser.add_argument("--speculative", action="store_true", default=True, help="Use speculative decoding")
     parser.add_argument("--fluency", action="store_true", default=False, help="Use the 4K BPE hybrid fluency model")
     parser.add_argument("--temp", type=float, default=0.7, help="Temperature for fluency sampling")
+
+    # 'convert' sub-command
+    convert_parser = subparsers.add_parser("convert", help="Convert external container formats (e.g. .weft -> .imf)")
+    convert_parser.add_argument("input", type=str, help="Input file path (e.g. model.weft)")
+    convert_parser.add_argument("-o", "--output", type=str, default=None, help="Output .imf file path")
+    convert_parser.add_argument(
+        "--mode",
+        choices=["factorized", "reconstructed"],
+        default="factorized",
+        help="Conversion mode: 'factorized' (sub-bit bitboards) or 'reconstructed' (dense FP16/FP32 weights)",
+    )
+
     args = parser.parse_args()
+
+    if args.subcommand == "convert":
+        from imf.weft_to_imf_converter import convert_weft_to_imf
+        out_path = args.output or str(Path(args.input).with_suffix(".imf"))
+        convert_weft_to_imf(args.input, out_path, mode=args.mode)
+        return
 
     if args.prompt:
         if args.fluency:
