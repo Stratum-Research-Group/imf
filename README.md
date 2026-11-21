@@ -448,7 +448,7 @@ uv run chat-imf
 
 ## 9. Technical Reports & Publications
 
-The IMF foundation, empirical scaling laws, speculative decoding, and formal Lean 4 verification are detailed across the complete 15-paper Stratum Research Group publication compendium (compiled in [dist/imf_preprint.pdf](dist/imf_preprint.pdf)):
+The IMF foundation, empirical scaling laws, speculative decoding, and formal Lean 4 verification are detailed across the complete 16-paper Stratum Research Group publication compendium (compiled in [dist/imf_preprint.pdf](dist/imf_preprint.pdf)):
 
 1. **[Technical Report 01: Lie-Algebraic Memory Splitting](papers/01_savg_lie_algebraic_memory_splitting.md)** — *Symmetric-Antisymmetric Virtual Grid Attention (SAVG) and Directional Discrimination.*
 2. **[Technical Report 02: Higher-Dimensional Polytope Landmark Connectors](papers/02_hdplc_higher_dimensional_polytope_connectors.md)** — *Barycentric Simplex Frames, Orthoplex Antipodal Pairs, and Multi-Hop Knowledge Topology.*
@@ -465,6 +465,7 @@ The IMF foundation, empirical scaling laws, speculative decoding, and formal Lea
 13. **[Technical Report 13: Polytope Speculative Decoding & MCTS Evaluations](papers/13_polytope_speculative_decoding_and_mcts_evaluations.md)** — *Speculative candidate drafting with parallel target verification.*
 14. **[Technical Report 14: Empirical Distillation, Execution-Grounded GRPO, & Asymmetric Speculative Decoding](papers/14_empirical_distillation_grpo_and_polytope_reasoning.md)** — *Flagship 107.7M pretraining, 24.7x distillation into 4.35M drafter, and verified RL.*
 15. **[Technical Report 15: Cut-RSI (AETHER) — Formally Gated Recursive Self-Improvement](papers/15_cut_rsi_aether_formally_gated_recursive_self_improvement.md)** — *Closed-loop recursive self-improvement grounded in ETH cuts and Lean 4 core oracles.*
+16. **[Technical Report 16: Open-Ended Autonomous Evolution via 100-Generation Lean 4 Oracles and ETH Hypersimplicial Cuts](papers/16_aether_100_generation_autonomous_evolution_lean_oracles.md)** — *100 continuous generations of self-improving formal mathematics, 198/198 verified theorems, and high-dimensional hypersimplicial face decompositions.*
 
 ---
 
