@@ -66,7 +66,8 @@ def run_execution_grounded_rl(
         max_seq_len=max_seq_len,
         alpha_recon=0.2,
     ).to(device)
-    model.load_state_dict(torch.load(model_checkpoint, map_location=device))
+    sd = torch.load(model_checkpoint, map_location=device)
+    model.load_state_dict(sd, strict=False)
 
     optimizer = torch.optim.AdamW(model.parameters(), lr=lr, betas=(0.9, 0.95), weight_decay=0.01)
 
