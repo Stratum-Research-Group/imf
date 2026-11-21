@@ -34,6 +34,7 @@ lean_lib «IMF» where
     `IMF.NestedAutonomousEvolution,
     `IMF.RiemannianAdamW,
     `IMF.UnifiedIntegerPrecisionETH,
-    `IMF.IMFFileFormatSpec
+    `IMF.IMFFileFormatSpec,
+    `IMF.ETHUncrossingSpec
   ]
 
