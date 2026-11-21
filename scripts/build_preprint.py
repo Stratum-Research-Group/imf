@@ -277,6 +277,7 @@ def main():
         PAPERS_DIR / "22_lie_riemannian_manifold_optimization_and_cayley_flows.md",
         PAPERS_DIR / "23_gradient_activation_checkpointing_in_geometric_networks.md",
         PAPERS_DIR / "24_theoretical_limits_of_optimizer_compression_16kb_16mb.md",
+        PAPERS_DIR / "25_unified_integer_and_mixed_precision_architecture_eth.md",
     ]
 
     html_sections = []

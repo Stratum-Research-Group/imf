@@ -28,5 +28,11 @@ lean_lib «RecursiveSelfImprovementETH» where
 @[default_target]
 lean_lib «IMF» where
   srcDir := "lean"
-  roots := #[`IMF.CutRSIAdamW, `IMF.NestedHypercubeCell, `IMF.NestedAutonomousEvolution, `IMF.RiemannianAdamW]
+  roots := #[
+    `IMF.CutRSIAdamW,
+    `IMF.NestedHypercubeCell,
+    `IMF.NestedAutonomousEvolution,
+    `IMF.RiemannianAdamW,
+    `IMF.UnifiedIntegerPrecisionETH
+  ]
 
