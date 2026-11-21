@@ -45,6 +45,7 @@ lean_lib «IMF» where
     `IMF.ETHUncrossingParallelNormSpec,
     `IMF.SpeculativeAcceptanceSpec,
     `IMF.CognitiveFlowSpec,
-    `IMF.FixedPointQuantizationSpec
+    `IMF.FixedPointQuantizationSpec,
+    `IMF.AsymptoticPolytopeBounds
   ]
 
