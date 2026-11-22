@@ -1,190 +1,115 @@
 """
-Automated Multi-Language Execution & Formal Tactic Verifier.
+Automated Multi-Language Execution & Formal Tactic Verifier for IMF.
 
-Tests model outputs against real ground-truth execution environments:
-1. Python AST parsing and sandbox execution.
-2. Rust compiler syntax check via rustc.
-3. Lean 4 formal tactic and proof validation via lean CLI.
+Unifies ground-truth execution environments and deterministic verification oracles:
+ 1. x86-64 Assembly (GAS / Intel syntax)
+ 2. ARM64 (AArch64) Assembly
+ 3. RISC-V (RV64) Assembly
+ 4. LLVM Intermediate Representation (LLVM-IR)
+ 5. CUDA C++ Kernel Verification (nvcc)
+ 6. Modern C++20 Concepts & PMR (g++ / clang++)
+ 7. Linux Kernel eBPF Bytecode (clang -target bpf)
+ 8. C17 Memory Safety & Bounds (gcc / clang)
+ 9. Rust Strict Library Type-Checking (rustc)
+10. Python Algorithmic Execution & Sandbox Unit Assertions
+11. Lean 4 Formal Theorems (#print axioms zero-axiom gating)
+12. CRISPR Genomics & Watson-Crick DNA
+13. Cheminformatics SMILES & Valency Topology
+14. Agentic JSON RPC & Tool Calling Schema
 """
 
-import ast
-import os
-import subprocess
-import tempfile
-from typing import Dict, Tuple
+from typing import Dict, Tuple, Optional
+from imf.domain_execution_verifiers import DomainExecutionVerifierRegistry
 
 
 class MultiLanguageExecutionVerifier:
     def __init__(self):
-        self.has_rustc = self._check_command(["rustc", "--version"])
-        self.has_lean = self._check_command(["lean", "--version"])
-        self.has_gcc = self._check_command(["gcc", "--version"])
-        self.has_clang = self._check_command(["clang", "--version"])
+        self.registry = DomainExecutionVerifierRegistry()
+        self.has_rustc = self.registry.has_rustc
+        self.has_lean = self.registry.has_lean
+        self.has_gcc = self.registry.has_gcc
+        self.has_clang = self.registry.has_clang
+        self.has_nvcc = self.registry.has_nvcc
+        self.has_as = self.registry.has_as
+        self.has_opt = self.registry.has_opt
 
-    def _check_command(self, cmd: list) -> bool:
-        try:
-            res = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=5)
-            return res.returncode == 0
-        except Exception:
-            return False
-
-    def verify_c(self, code: str) -> Tuple[bool, str]:
-        """
-        Compiles C snippet with GCC / Clang using strict standard flags:
-        -Wall -Wextra -Werror -pedantic -std=c17 -fsyntax-only
-        """
-        compiler = "gcc" if self.has_gcc else ("clang" if self.has_clang else None)
-        if not compiler:
-            return False, "UNVERIFIED: Neither gcc nor clang found in PATH to compile C17."
-
-        with tempfile.NamedTemporaryFile("w", suffix=".c", delete=False) as f:
-            f.write(code)
-            f_path = f.name
-
-        try:
-            res = subprocess.run(
-                [compiler, "-fsyntax-only", "-Wall", "-Wextra", "-Werror", "-pedantic", "-std=c17", f_path],
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                timeout=10,
-                text=True,
-            )
-            success = (res.returncode == 0)
-            msg = f"Valid C17 syntax ({compiler})." if success else res.stderr[:300]
-            return success, msg
-        except Exception as e:
-            return False, str(e)
-        finally:
-            if os.path.exists(f_path):
-                try:
-                    os.remove(f_path)
-                except OSError:
-                    pass
-
-    def verify_ebpf(self, code: str) -> Tuple[bool, str]:
-        """
-        Compiles Linux eBPF / BPF bytecode using Clang:
-        clang -target bpf -O2 -c -x c - -o /dev/null
-        Verifies eBPF kernel instructions, helpers, and map declarations.
-        """
-        if not self.has_clang:
-            return False, "UNVERIFIED: clang not found in PATH to compile eBPF target."
-
-        with tempfile.NamedTemporaryFile("w", suffix=".c", delete=False) as f:
-            f.write(code)
-            f_path = f.name
-
-        out_path = f_path + ".o"
-        try:
-            res = subprocess.run(
-                ["clang", "-target", "bpf", "-O2", "-c", f_path, "-o", out_path],
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                timeout=10,
-                text=True,
-            )
-            success = (res.returncode == 0)
-            msg = "Valid eBPF bytecode compilation (clang -target bpf)." if success else res.stderr[:300]
-            return success, msg
-        except Exception as e:
-            return False, str(e)
-        finally:
-            if os.path.exists(f_path):
-                try:
-                    os.remove(f_path)
-                except OSError:
-                    pass
-            if os.path.exists(out_path):
-                try:
-                    os.remove(out_path)
-                except OSError:
-                    pass
-
-    def verify_python(self, code: str) -> Tuple[bool, str]:
-        """Verifies Python syntax and basic compilation."""
-        try:
-            tree = ast.parse(code)
-            # Try compiling to bytecode
-            compile(tree, filename="<synthetic>", mode="exec")
-            return True, "Valid Python syntax & AST compilation."
-        except SyntaxError as e:
-            return False, f"Python SyntaxError: {e}"
-        except Exception as e:
-            return False, f"Python Exception: {e}"
+    # Forwarding methods for backward compatibility
+    def verify_python(self, code: str, test_assertions: Optional[str] = None) -> Tuple[bool, str]:
+        return self.registry.verify_python_execution(code, test_assertions)
 
     def verify_rust(self, code: str) -> Tuple[bool, str]:
-        """Compiles Rust code snippet as a library crate using rustc."""
-        if not self.has_rustc:
-            return False, "UNVERIFIED: rustc not found in PATH to compile Rust."
+        return self.registry.verify_rust(code)
 
-        with tempfile.NamedTemporaryFile("w", suffix=".rs", delete=False) as f:
-            f.write(code)
-            f_path = f.name
+    def verify_c(self, code: str) -> Tuple[bool, str]:
+        return self.registry.verify_c17(code)
 
-        out_path = f_path + ".rmeta"
-        try:
-            res = subprocess.run(
-                ["rustc", "--crate-type", "lib", "--emit=metadata", "-o", out_path, f_path],
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                timeout=10,
-                text=True,
-            )
-            success = (res.returncode == 0)
-            msg = "Valid Rust syntax & type-checking." if success else res.stderr[:300]
-            return success, msg
-        except Exception as e:
-            return False, str(e)
-        finally:
-            if os.path.exists(f_path):
-                os.remove(f_path)
-            if os.path.exists(out_path):
-                os.remove(out_path)
+    def verify_cpp(self, code: str) -> Tuple[bool, str]:
+        return self.registry.verify_cpp20(code)
 
-    def verify_lean4(self, code: str) -> Tuple[bool, str]:
-        """Checks Lean 4 theorem and proof tactics using lean CLI."""
-        if not self.has_lean:
-            return False, "UNVERIFIED: lean not found in PATH to verify Lean 4 proof."
+    def verify_ebpf(self, code: str) -> Tuple[bool, str]:
+        return self.registry.verify_ebpf(code)
 
-        with tempfile.NamedTemporaryFile("w", suffix=".lean", delete=False) as f:
-            f.write(code)
-            f_path = f.name
+    def verify_lean4(self, code: str, theorem_name: Optional[str] = None) -> Tuple[bool, str]:
+        return self.registry.verify_lean4(code, theorem_name)
 
-        try:
-            res = subprocess.run(
-                ["lean", f_path],
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                timeout=10,
-                text=True,
-            )
-            # Lean 4 outputs warnings on stdout/stderr when `sorry` is used
-            combined_out = res.stdout + res.stderr
-            has_sorry = "declaration uses `sorry`" in combined_out or "declaration uses 'sorry'" in combined_out or "uses sorry" in combined_out
-            success = (res.returncode == 0) and not has_sorry
-            if has_sorry:
-                msg = "Proof incomplete: declaration uses `sorry`."
-            elif success:
-                msg = "Valid Lean 4 formal proof tactics."
-            else:
-                msg = res.stderr[:300]
-            return success, msg
-        except Exception as e:
-            return False, str(e)
-        finally:
-            if os.path.exists(f_path):
-                os.remove(f_path)
+    def verify_x86_assembly(self, code: str, use_intel_syntax: bool = True) -> Tuple[bool, str]:
+        return self.registry.verify_x86_assembly(code, use_intel_syntax)
+
+    def verify_arm64_assembly(self, code: str) -> Tuple[bool, str]:
+        return self.registry.verify_arm64_assembly(code)
+
+    def verify_riscv_assembly(self, code: str) -> Tuple[bool, str]:
+        return self.registry.verify_riscv_assembly(code)
+
+    def verify_llvm_ir(self, code: str) -> Tuple[bool, str]:
+        return self.registry.verify_llvm_ir(code)
+
+    def verify_cuda(self, code: str) -> Tuple[bool, str]:
+        return self.registry.verify_cuda(code)
+
+    def verify_genomics(self, sequence: str, target_pam: Optional[str] = "NGG") -> Tuple[bool, str]:
+        return self.registry.verify_genomics_dna(sequence, target_pam)
+
+    def verify_smiles(self, smiles: str) -> Tuple[bool, str]:
+        return self.registry.verify_smiles_valency(smiles)
+
+    def verify_tool_call(self, json_str: str) -> Tuple[bool, str]:
+        return self.registry.verify_tool_call_json(json_str)
 
     def verify_sample(self, text: str, domain: str) -> Tuple[bool, str]:
-        if domain == "python":
+        """Routes domain strings to the corresponding ground-truth execution verifier."""
+        d = domain.lower()
+        if d in ["python", "py"]:
             return self.verify_python(text)
-        elif domain == "rust":
+        elif d in ["rust", "rs"]:
             return self.verify_rust(text)
-        elif domain == "lean4":
+        elif d in ["lean", "lean4"]:
             return self.verify_lean4(text)
-        elif domain == "math":
+        elif d in ["c", "c17"]:
+            return self.verify_c(text)
+        elif d in ["cpp", "c++", "cpp20"]:
+            return self.verify_cpp(text)
+        elif d in ["ebpf", "bpf"]:
+            return self.verify_ebpf(text)
+        elif d in ["x86", "x86_64", "asm", "assembly"]:
+            return self.verify_x86_assembly(text)
+        elif d in ["arm", "arm64", "aarch64"]:
+            return self.verify_arm64_assembly(text)
+        elif d in ["riscv", "riscv64", "rv64"]:
+            return self.verify_riscv_assembly(text)
+        elif d in ["llvm", "llvm_ir", "ir"]:
+            return self.verify_llvm_ir(text)
+        elif d in ["cuda", "nvcc"]:
+            return self.verify_cuda(text)
+        elif d in ["dna", "genomics", "crispr"]:
+            return self.verify_genomics(text)
+        elif d in ["smiles", "chemistry", "cheminformatics"]:
+            return self.verify_smiles(text)
+        elif d in ["json", "tool_call", "rpc", "agent"]:
+            return self.verify_tool_call(text)
+        elif d == "math":
             has_thought = "<thought>" in text and "</thought>" in text
-            has_ans = "Answer:" in text
+            has_ans = "Answer:" in text or "####" in text
             return (has_thought and has_ans), "Valid arithmetic CoT structure."
         else:
-            return True, "Unknown domain passed."
+            return True, f"Unknown domain '{domain}' passed (no-op)."

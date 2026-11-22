@@ -303,6 +303,7 @@ def main():
         PAPERS_DIR / "48_polytope_speculative_decoding_and_zero_axiom_verification.md",
         PAPERS_DIR / "49_multi_domain_formal_verification_benchmarks_in_lean4.md",
         PAPERS_DIR / "50_grpo_reinforcement_learning_over_verifiable_lean4_oracles.md",
+        PAPERS_DIR / "51_multi_architecture_ground_truth_execution_oracles.md",
     ]
 
     html_sections = []
