@@ -28,11 +28,13 @@ class SpeculativePolytopeDecoder:
         drafter_model: IMFOmniLMMoPE,
         gamma: int = 4,
         temperature: float = 1.0,
+        repetition_penalty: float = 1.25,
     ):
         self.target = target_model
         self.drafter = drafter_model
         self.gamma = gamma
         self.temperature = temperature
+        self.repetition_penalty = repetition_penalty
         self.target.eval()
         self.drafter.eval()
 
@@ -62,7 +64,14 @@ class SpeculativePolytopeDecoder:
                 draft_ids = curr_ids.clone()
                 for _ in range(self.gamma):
                     logits, _, _ = self.drafter(draft_ids)
-                    next_token = torch.argmax(logits[:, -1, :], dim=-1, keepdim=True)
+                    next_logits = logits[:, -1, :].clone()
+                    if self.repetition_penalty != 1.0:
+                        for prev_tok in set(draft_ids[0].tolist()):
+                            if next_logits[0, prev_tok] > 0:
+                                next_logits[0, prev_tok] /= self.repetition_penalty
+                            else:
+                                next_logits[0, prev_tok] *= self.repetition_penalty
+                    next_token = torch.argmax(next_logits, dim=-1, keepdim=True)
                     draft_ids = torch.cat([draft_ids, next_token], dim=-1)
 
                 speculated_tokens = draft_ids[:, curr_ids.shape[1]:]  # [1, gamma]
@@ -70,7 +79,15 @@ class SpeculativePolytopeDecoder:
 
                 # Step 2: Target verifies in parallel
                 target_logits, _, _ = self.target(draft_ids)
-                eval_target_logits = target_logits[0, curr_ids.shape[1]-1:, :]  # [gamma + 1, vocab]
+                eval_target_logits = target_logits[0, curr_ids.shape[1]-1:, :].clone()  # [gamma + 1, vocab]
+                if self.repetition_penalty != 1.0:
+                    for pos in range(eval_target_logits.shape[0]):
+                        seen = set(curr_ids[0].tolist() + draft_ids[0, :curr_ids.shape[1] + pos].tolist())
+                        for prev_tok in seen:
+                            if eval_target_logits[pos, prev_tok] > 0:
+                                eval_target_logits[pos, prev_tok] /= self.repetition_penalty
+                            else:
+                                eval_target_logits[pos, prev_tok] *= self.repetition_penalty
 
                 # Step 3: Fused GPU Verification (vectorized/Triton)
                 tokens_to_append = fused_speculative_verify_greedy(
