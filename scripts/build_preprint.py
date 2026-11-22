@@ -320,6 +320,7 @@ def main():
         PAPERS_DIR / "65_architectural_tradeoffs_in_geometric_neural_mechanics.md",
         PAPERS_DIR / "66_bypassing_geometric_neural_bottlenecks_via_eth_lean_formalisms.md",
         PAPERS_DIR / "67_synthesizing_millennium_formalisms_and_neural_mechanics.md",
+        PAPERS_DIR / "68_polytope_cell_virtualization_and_nested_russian_doll_hierarchies.md",
     ]
 
     html_sections = []
