@@ -305,6 +305,7 @@ def main():
         PAPERS_DIR / "50_grpo_reinforcement_learning_over_verifiable_lean4_oracles.md",
         PAPERS_DIR / "51_multi_architecture_ground_truth_execution_oracles.md",
         PAPERS_DIR / "52_unified_multimodal_lie_projection_for_vision_and_audio.md",
+        PAPERS_DIR / "53_bidirectional_mcts_cut_reasoning_over_compiler_oracles.md",
     ]
 
     html_sections = []

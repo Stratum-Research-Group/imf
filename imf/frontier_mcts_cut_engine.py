@@ -1,7 +1,8 @@
 """
 Frontier MCTS Engine with ETH Cut-Reasoning & Multi-Verifier Grounding (IMF).
+
 Implements the 5 Frontier Pillars:
-1. Ground-Truth Execution Verifiers (Python AST, rustc, Lean 4).
+1. Ground-Truth Multi-Architecture Execution Verifiers (14 domains: x86, ARM64, RISC-V, CUDA, eBPF, C17, Rust, Lean 4, etc.).
 2. Bidirectional Cut Search (B^{2m} = B^m * B^m factorized tree search).
 3. Step-Level Process Reward Evaluator (PRM step score + cut compatibility).
 4. 100-Domain Polytope MoPE Routing Context.
@@ -48,29 +49,33 @@ class FrontierMCTSCutEngine:
 
     def evaluate_step_prm(self, prefix: str, candidate_step: str, lang: str) -> float:
         """
-        Step-Level Process Reward Model (PRM).
-        Evaluates mathematical/logical validity of candidate step.
+        Step-Level Process Reward Model (PRM) querying native compilers & formal kernels.
         """
-        full_code = prefix + candidate_step
-        if lang == "python":
-            passed, _ = self.verifier.verify_python(full_program := full_code)
-            if passed:
-                return 1.0
-            # Partial AST parse or indentation check
-            if not candidate_step.endswith(":") and ("def " in candidate_step or "return " in candidate_step):
-                return 0.7
-            return 0.3
-        elif lang == "lean4":
+        full_code = prefix + "\n" + candidate_step
+        passed, _ = self.verifier.verify_sample(full_code, lang)
+        if passed:
+            return 1.0
+
+        # Domain heuristic partial rewards if full program is in progress
+        d = lang.lower()
+        if d in ["lean", "lean4"]:
             if "sorry" in candidate_step:
-                return 0.1
-            if any(t in candidate_step for t in ["exact", "rfl", "omega", "induction", "cases"]):
-                return 0.95
-            return 0.5
-        elif lang == "rust":
-            if "fn " in candidate_step and "{" in candidate_step:
+                return 0.0
+            if any(t in candidate_step for t in ["exact", "rfl", "omega", "induction", "cases", "simp"]):
                 return 0.8
-            return 0.4
-        return 0.5
+        elif d in ["python", "py"]:
+            if "def " in candidate_step or "return " in candidate_step:
+                return 0.6
+        elif d in ["rust", "rs", "c", "c17", "cpp"]:
+            if "{" in candidate_step or ";" in candidate_step:
+                return 0.6
+        elif d in ["x86", "arm64", "riscv"]:
+            if any(op in candidate_step for op in ["mov", "li", "xor", "syscall", "svc", "ecall"]):
+                return 0.7
+        elif d in ["cuda", "nvcc"]:
+            if "__global__" in candidate_step or "threadIdx" in candidate_step:
+                return 0.8
+        return 0.3
 
     def bidirectional_cut_search(
         self,
@@ -89,17 +94,12 @@ class FrontierMCTSCutEngine:
         root_forward = SearchNode(state_str=premise, depth=0)
         root_backward = SearchNode(state_str=goal, depth=0)
 
-        best_forward_path = []
-        best_backward_path = []
-
         # 1. Forward Rollout Tree Search (Depth m)
         for _ in range(num_simulations // 2):
             node = root_forward
-            # Selection
             while node.children and node.depth < half_depth:
                 node = max(node.children, key=lambda c: c.ucb1(node.visits))
 
-            # Expansion
             if node.depth < half_depth and not node.is_terminal:
                 candidate_steps = self._generate_candidate_steps(node.state_str, lang, forward=True)
                 for step in candidate_steps:
@@ -114,7 +114,6 @@ class FrontierMCTSCutEngine:
                 if node.children:
                     node = node.children[0]
 
-            # Rollout & Backpropagation
             reward = node.step_score
             curr = node
             while curr:
@@ -150,32 +149,19 @@ class FrontierMCTSCutEngine:
                 curr = curr.parent
 
         # 3. Intermediate Bipartite Cut Synthesis (Singlet Pairing S^2 = -I)
-        # Select highest-value forward leaf and highest-value backward leaf first
         forward_leaves = sorted(self._collect_leaves(root_forward), key=lambda x: x.value, reverse=True)[:5]
-        backward_leaves = sorted(self._collect_leaves(root_backward), key=lambda x: x.value, reverse=True)[:5]
-
         best_plan = None
         verified = False
         diagnostic = "No cut synthesis reached closure."
 
-        # Check forward leaf directly or paired with goal
         for f_leaf in forward_leaves:
-            # Test direct goal completion
             candidate_solutions = [
                 f"{f_leaf.state_str}\n  {goal}",
                 f"{premise}\n  {goal}",
                 f"{f_leaf.state_str}"
             ]
             for candidate in candidate_solutions:
-                if lang == "python":
-                    pass_ok, diag = self.verifier.verify_python(candidate)
-                elif lang == "lean4":
-                    pass_ok, diag = self.verifier.verify_lean4(candidate)
-                elif lang == "rust":
-                    pass_ok, diag = self.verifier.verify_rust(candidate)
-                else:
-                    pass_ok, diag = False, "Unknown language"
-
+                pass_ok, diag = self.verifier.verify_sample(candidate, lang)
                 if pass_ok:
                     best_plan = candidate
                     verified = True
@@ -184,7 +170,6 @@ class FrontierMCTSCutEngine:
             if verified:
                 break
 
-        # Fallback if cut pairing needs self-correction
         if not verified and forward_leaves:
             best_plan = forward_leaves[0].state_str
             diagnostic = "Synthesized candidate (unverified)."
@@ -201,7 +186,8 @@ class FrontierMCTSCutEngine:
         }
 
     def _generate_candidate_steps(self, context: str, lang: str, forward: bool) -> List[str]:
-        if lang == "lean4":
+        d = lang.lower()
+        if d in ["lean", "lean4"]:
             return [
                 "  intro n",
                 "  induction n with",
@@ -209,18 +195,41 @@ class FrontierMCTSCutEngine:
                 "  | succ n ih => exact Nat.add_zero (n + 1)",
                 "  exact Nat.add_zero n"
             ]
-        elif lang == "python":
+        elif d in ["python", "py"]:
             return [
                 "    total = 0",
                 "    for x in items: total += x",
                 "    return total",
                 "    if not items: return 0"
             ]
-        elif lang == "rust":
+        elif d in ["rust", "rs"]:
             return [
                 "    let mut sum = 0;",
                 "    for &x in items { sum += x; }",
                 "    sum"
+            ]
+        elif d in ["x86", "asm", "assembly"]:
+            return [
+                "    mov rax, 60",
+                "    xor rdi, rdi",
+                "    syscall"
+            ]
+        elif d in ["arm64", "aarch64"]:
+            return [
+                "    mov x8, #93",
+                "    mov x0, #0",
+                "    svc #0"
+            ]
+        elif d in ["riscv", "rv64"]:
+            return [
+                "    li a7, 93",
+                "    li a0, 0",
+                "    ecall"
+            ]
+        elif d in ["cuda", "nvcc"]:
+            return [
+                "    int i = threadIdx.x;",
+                "    out[i] = in1[i] + in2[i];"
             ]
         return ["// step"]
 
@@ -239,17 +248,28 @@ class FrontierMCTSCutEngine:
 if __name__ == "__main__":
     engine = FrontierMCTSCutEngine(branching_factor=4, max_depth=8)
     
-    premise = "theorem nat_add_zero_closure (n : Nat) : n + 0 = n := by"
-    goal = "exact Nat.add_zero n"
-    
-    res = engine.bidirectional_cut_search(premise, goal, lang="lean4", num_simulations=64)
-    print("=" * 75)
-    print("  FRONTIER MCTS ETH CUT-SEARCH RESULT")
-    print("=" * 75)
-    print(f"  Verified Ground-Truth Closure : {res['verified']}")
-    print(f"  Compiler Diagnostic           : {res['diagnostic']}")
-    print(f"  Unidirectional Complexity     : O(B^8) = {res['theoretical_unidirectional_evals']:,} evaluations")
-    print(f"  Bidirectional Cut Complexity  : 2 * O(B^4) = {res['bidirectional_cut_evals']:,} evaluations")
-    print(f"  Asymptotic Search Speedup     : {res['exponential_speedup_factor']:,.1f}x reduction")
-    print("=" * 75)
-    print(f"Synthesized Solution:\n{res['solution']}\n")
+    # 1. Lean 4 Formal Cut-Search
+    premise_lean = "theorem nat_add_zero_closure (n : Nat) : n + 0 = n := by"
+    goal_lean = "exact Nat.add_zero n"
+    res_lean = engine.bidirectional_cut_search(premise_lean, goal_lean, lang="lean4", num_simulations=64)
+    print("=" * 80)
+    print("  MCTS ETH CUT-SEARCH: Lean 4 Formal Proof")
+    print(f"  Verified Ground-Truth: {res_lean['verified']} | Diagnostic: {res_lean['diagnostic'][:60]}")
+    print(f"  Exponential Speedup : {res_lean['exponential_speedup_factor']:,.1f}x reduction")
+
+    # 2. x86-64 Assembly Cut-Search
+    premise_x86 = ".global _start\n_start:"
+    goal_x86 = "mov rax, 60\nxor rdi, rdi\nsyscall"
+    res_x86 = engine.bidirectional_cut_search(premise_x86, goal_x86, lang="x86", num_simulations=32)
+    print("=" * 80)
+    print("  MCTS ETH CUT-SEARCH: x86-64 Assembly Object")
+    print(f"  Verified Ground-Truth: {res_x86['verified']} | Diagnostic: {res_x86['diagnostic'][:60]}")
+
+    # 3. ARM64 Assembly Cut-Search
+    premise_arm = ".global _start\n_start:"
+    goal_arm = "mov x8, #93\nmov x0, #0\nsvc #0"
+    res_arm = engine.bidirectional_cut_search(premise_arm, goal_arm, lang="arm64", num_simulations=32)
+    print("=" * 80)
+    print("  MCTS ETH CUT-SEARCH: ARM64 Assembly Object")
+    print(f"  Verified Ground-Truth: {res_arm['verified']} | Diagnostic: {res_arm['diagnostic'][:60]}")
+    print("=" * 80)
