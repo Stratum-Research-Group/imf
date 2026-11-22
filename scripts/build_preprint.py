@@ -306,6 +306,7 @@ def main():
         PAPERS_DIR / "51_multi_architecture_ground_truth_execution_oracles.md",
         PAPERS_DIR / "52_unified_multimodal_lie_projection_for_vision_and_audio.md",
         PAPERS_DIR / "53_bidirectional_mcts_cut_reasoning_over_compiler_oracles.md",
+        PAPERS_DIR / "54_autonomous_multi_domain_compiler_orchestration_and_polytope_coevolution.md",
     ]
 
     html_sections = []
