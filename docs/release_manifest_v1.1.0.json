@@ -1,0 +1,33 @@
+{
+  "release": "v1.1.0-imf-foundation-1b",
+  "name": "Interaction Model Foundations: 1.14B SFT Foundation Model & 60-Paper Compendium",
+  "timestamp": "2026-11-22T22:05:00Z",
+  "git_commit": "bf9cd62",
+  "architectures": [
+    "Continuous Lie-Group SSM SO(d_h) with Sym^2 + /\\^2 factorization",
+    "8D Polytope MoPE (Enneazetton 1_61 and Gosset 4_21 lattices)",
+    "Unitary Stiefel Multimodal Vision Projector",
+    "Causal 1D Multilinear Audio Projector"
+  ],
+  "model_parameters": 1138987152,
+  "artifacts": {
+    "pytorch_weights": "checkpoints/imf_foundation_1b_sft.pt",
+    "edge_imf_container": "checkpoints/imf_foundation_1b.imf",
+    "preprint_pdf": "dist/imf_preprint.pdf",
+    "papers_count": 60,
+    "experience_replay_buffer": "data/rsi_experience_buffer/certified_rsi_stream.jsonl"
+  },
+  "training_metrics": {
+    "tokens_trained": 25593264,
+    "initial_val_ppl": 158.30,
+    "final_val_loss": 3.6674,
+    "best_val_ppl": 39.15,
+    "hardware": "NVIDIA GeForce RTX 5060 Ti (16 GB VRAM)"
+  },
+  "verification_guarantees": {
+    "lean4_core_reflection": "Zero-axiom certified (#print axioms)",
+    "assembly_backends": ["x86-64 (GNU as)", "ARM64 AArch64 (clang)", "RISC-V RV64GC (clang)"],
+    "systems_compilers": ["CUDA C++ (nvcc)", "Modern C++20 (g++)", "Linux eBPF (clang)", "Rust (rustc)"],
+    "model_collapse_prevention": "100% deterministic compiler gating"
+  }
+}
