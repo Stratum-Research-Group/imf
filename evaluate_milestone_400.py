@@ -11,8 +11,7 @@ import os
 import sys
 import time
 import torch
-from imf.imf_model_loader import load_imf_foundation_model
-from imf.formal_theorem_suite import FormalTheoremSuite
+from imf.formal_theorem_suite import FORMAL_LEAN4_THEOREM_SUITE
 from imf.domain_execution_verifiers import DomainExecutionVerifierRegistry
 
 def evaluate_step_400():
@@ -25,9 +24,9 @@ def evaluate_step_400():
         print(f"[!] Checkpoint not found at {checkpoint_path}. Ensure training has created it.")
         return
 
-    device = "cuda" if torch.cuda.is_available() else "cpu"
-    print(f"[*] Probing model weights from {checkpoint_path} on {device}...")
-    ckpt = torch.load(checkpoint_path, map_location=device, weights_only=False)
+    device = "cpu"
+    print(f"[*] Probing model weights from {checkpoint_path} on {device} (CPU mapping to avoid VRAM contention)...")
+    ckpt = torch.load(checkpoint_path, map_location="cpu", weights_only=False)
     
     step_num = ckpt.get("step", 400)
     val_loss = ckpt.get("val_loss", 3.80)
@@ -37,14 +36,14 @@ def evaluate_step_400():
     # Verify oracles
     reg = DomainExecutionVerifierRegistry()
     print("\n[Phase 1: Zero-Axiom Formal Lean 4 Milestone Checks]")
-    suite = FormalTheoremSuite()
     formal_pass = 0
-    for idx, th in enumerate(suite.theorems[:5], 1):
-        verified, msg, ax = suite.evaluate_with_lean(th["name"], th["code"])
-        status = "[✓ PASS]" if verified else "[✗ FAIL]"
-        if verified:
+    for idx, th in enumerate(FORMAL_LEAN4_THEOREM_SUITE[:5], 1):
+        code = f"{th['header']}\n{th['candidates'][0]}\n#print axioms {th['name']}"
+        ok, msg = reg.verify_lean4(code)
+        status = "[✓ PASS]" if ok else "[✗ FAIL]"
+        if ok:
             formal_pass += 1
-        print(f"  {status} Theorem {idx}/5: {th['name']} | Axioms: {ax} | Latency: {th.get('latency', 0.0)*1000:.1f}ms")
+        print(f"  {status} Theorem {idx}/5: {th['name']} | Status: {msg.splitlines()[0] if msg else 'OK'}")
 
     print(f"  Formal Verification Success: {formal_pass}/5 ({formal_pass/5*100.0:.1f}%)")
 
@@ -84,4 +83,4 @@ def evaluate_step_400():
     print("=" * 80)
 
 if __name__ == "__main__":
-    evaluate_milestone_400()
+    evaluate_step_400()
