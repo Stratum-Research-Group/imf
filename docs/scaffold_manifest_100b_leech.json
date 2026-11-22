@@ -1,0 +1,20 @@
+{
+  "model_name": "IMF-100B-Leech-Flagship",
+  "architecture": "LieSSM_PolytopeMoPE_100B",
+  "version": "1.3.0-preview",
+  "total_parameters": 100000000000,
+  "active_parameters_per_token": 12500000000,
+  "d_model": 8192,
+  "n_layers": 64,
+  "n_experts_total": 512,
+  "n_experts_active": 64,
+  "routing_lattice": "Leech_Lambda_24",
+  "lattice_kissing_number": 196560,
+  "conway_group": "Co_1",
+  "quantization": "PLVQ_Leech_SubByte",
+  "effective_bits_per_param": 2.5,
+  "uncompressed_fp16_gb": 200.0,
+  "target_imf_container_gb": 31.25,
+  "alignment_bytes": 64,
+  "single_80gb_gpu_safe": true
+}
