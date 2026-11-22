@@ -318,6 +318,8 @@ def main():
         PAPERS_DIR / "63_counter_rotating_manifold_vortices_and_high_dim_orthoplex_core.md",
         PAPERS_DIR / "64_decoupling_mechanisms_in_high_dimensional_lie_state_spaces.md",
         PAPERS_DIR / "65_architectural_tradeoffs_in_geometric_neural_mechanics.md",
+        PAPERS_DIR / "66_bypassing_geometric_neural_bottlenecks_via_eth_lean_formalisms.md",
+        PAPERS_DIR / "67_synthesizing_millennium_formalisms_and_neural_mechanics.md",
     ]
 
     html_sections = []
