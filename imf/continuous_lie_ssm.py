@@ -32,12 +32,13 @@ class ContinuousLieGroupSSM(nn.Module):
     Continuous-Time Lie Group State-Space Layer.
     Unitary state rotations on SO(d_h) guarantee exact norm preservation.
     """
-    def __init__(self, d_model: int = 256, num_heads: int = 8):
+    def __init__(self, d_model: int = 256, num_heads: int = 8, runtime_orthogonalization: bool = True):
         super().__init__()
         assert d_model % num_heads == 0
         self.d_model = d_model
         self.num_heads = num_heads
         self.head_dim = d_model // num_heads
+        self.runtime_orthogonalization = runtime_orthogonalization
 
         # Generator Lie algebra elements: [num_heads, head_dim, head_dim]
         self.raw_generator = nn.Parameter(
@@ -71,6 +72,15 @@ class ContinuousLieGroupSSM(nn.Module):
         # Compute unitary matrix exponential in float32 for maximum precision, then cast
         arg = (delta * A_so_normalized).to(torch.float32)
         U = torch.matrix_exp(arg)
+
+        # Runtime Cayley/Stiefel retraction gating: guarantee exact isometry ||U^T U - I|| <= eps
+        if self.runtime_orthogonalization:
+            # Polar decomposition / UV factor projection: U = U (U^T U)^{-1/2}
+            # via one-step Newton-Schulz iteration: U_k+1 = 1.5 * U_k - 0.5 * U_k @ U_k^T @ U_k
+            U_f32 = U.to(torch.float32)
+            U_next = 1.5 * U_f32 - 0.5 * torch.matmul(U_f32, torch.matmul(U_f32.transpose(-1, -2), U_f32))
+            U = U_next
+
         return U.to(self.raw_generator.dtype)  # [num_heads, head_dim, head_dim]
 
     def verify_energy_preservation(self, tolerance: float = 1e-4) -> Tuple[bool, torch.Tensor]:

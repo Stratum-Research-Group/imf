@@ -20,6 +20,7 @@ torch.set_num_threads(1)
 torch.set_num_interop_threads(1)
 
 from imf.code_bpe_tokenizer import CodeBPETokenizer
+from imf.eth_lean_recursive_improver import ETHLeanRecursiveImprover
 from train_flagship_omnilm_mope import IMFOmniLMMoPE
 
 
@@ -75,22 +76,29 @@ def evaluate_completion_reward(prompt: str, completion: str, test_suite: str, ex
     +1.0: Valid AST parse (syntactically valid Python).
     +0.5: Matches expected analytical prefix.
     -0.5: SyntaxError or RuntimeError during test.
+    +2.0: Formal Lean 4 Oracle Verification for mathematically verified steps.
     """
+    # 1. Formal Lean 4 Oracle Verification (if candidate contains Lean theorem code)
+    if "theorem " in completion or ("def " in completion and "by" in completion):
+        lean_improver = ETHLeanRecursiveImprover()
+        ok, _ = lean_improver.verify_lean_snippet(completion)
+        return 2.5 if ok else -0.5
+
     code = prompt + completion.split("\n")[0]  # First line completion
     reward = 0.0
 
-    # 1. Syntax check
+    # 2. Syntax check
     try:
         ast.parse(code)
         reward += 0.5
     except SyntaxError:
         return -0.5
 
-    # 2. Heuristic prefix check
+    # 3. Heuristic prefix check
     if completion.strip().startswith(expected_prefix):
         reward += 0.5
 
-    # 3. Dynamic execution test
+    # 4. Dynamic execution test
     exec_scope = {}
     try:
         exec(code + "\n" + test_suite, exec_scope)
