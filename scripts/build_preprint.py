@@ -309,6 +309,7 @@ def main():
         PAPERS_DIR / "54_autonomous_multi_domain_compiler_orchestration_and_polytope_coevolution.md",
         PAPERS_DIR / "55_continuous_multimodal_lie_manifolds_and_asymptotic_cut_search.md",
         PAPERS_DIR / "56_the_autonomous_rsi_flywheel_and_zero_entropy_distillation.md",
+        PAPERS_DIR / "57_polytope_lattice_quantization_and_subbyte_container_serialization.md",
     ]
 
     html_sections = []
