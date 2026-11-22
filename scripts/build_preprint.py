@@ -311,6 +311,7 @@ def main():
         PAPERS_DIR / "56_the_autonomous_rsi_flywheel_and_zero_entropy_distillation.md",
         PAPERS_DIR / "57_polytope_lattice_quantization_and_subbyte_container_serialization.md",
         PAPERS_DIR / "58_empirical_1b_sft_convergence_and_zero_axiom_benchmarks.md",
+        PAPERS_DIR / "59_the_60_paper_retrospective_interaction_model_foundations.md",
     ]
 
     html_sections = []
