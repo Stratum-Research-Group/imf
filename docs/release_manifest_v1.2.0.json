@@ -1,0 +1,19 @@
+{
+  "model_name": "IMF-7B-Gosset-Distilled-Step1000",
+  "architecture": "LieSSM_PolytopeMoPE_7B",
+  "version": "1.2.0",
+  "total_parameters": 7240000000,
+  "d_model": 4096,
+  "n_layers": 32,
+  "n_heads": 32,
+  "d_state": 128,
+  "quantization": "PLVQ_E8_SubByte",
+  "effective_bits_per_param": 2.5,
+  "distillation_step": 1000,
+  "final_loss": 1.4231,
+  "loss_reduction_pct": 52.4,
+  "lattice_kissing_number": 240,
+  "voronoi_second_moment_G": 0.0717,
+  "alignment_bytes": 64,
+  "zero_axiom_verified": true
+}
