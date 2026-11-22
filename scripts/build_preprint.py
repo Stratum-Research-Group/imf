@@ -321,6 +321,8 @@ def main():
         PAPERS_DIR / "66_bypassing_geometric_neural_bottlenecks_via_eth_lean_formalisms.md",
         PAPERS_DIR / "67_synthesizing_millennium_formalisms_and_neural_mechanics.md",
         PAPERS_DIR / "68_polytope_cell_virtualization_and_nested_russian_doll_hierarchies.md",
+        PAPERS_DIR / "69_empirical_virtual_cell_traversal_and_7b_distillation_benchmarks.md",
+        PAPERS_DIR / "70_grand_capstone_synthesis_and_architecture_manual.md",
     ]
 
     html_sections = []
