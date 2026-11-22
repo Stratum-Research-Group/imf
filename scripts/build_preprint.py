@@ -323,6 +323,7 @@ def main():
         PAPERS_DIR / "68_polytope_cell_virtualization_and_nested_russian_doll_hierarchies.md",
         PAPERS_DIR / "69_empirical_virtual_cell_traversal_and_7b_distillation_benchmarks.md",
         PAPERS_DIR / "70_grand_capstone_synthesis_and_architecture_manual.md",
+        PAPERS_DIR / "71_speculative_sampling_and_virtualized_polytope_russian_doll_hierarchies.md",
     ]
 
     html_sections = []

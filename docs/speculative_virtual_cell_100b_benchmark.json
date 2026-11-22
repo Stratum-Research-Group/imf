@@ -1,0 +1,118 @@
+{
+  "device": "cuda",
+  "gpu_name": "NVIDIA GeForce RTX 5060 Ti",
+  "virtual_cells": [
+    {
+      "depth": 1,
+      "total_cells": 240.0,
+      "base_bytes": 7680,
+      "compression_ratio": 0.5,
+      "latency_ms": 225.16872105188668
+    },
+    {
+      "depth": 2,
+      "total_cells": 57600.0,
+      "base_bytes": 7680,
+      "compression_ratio": 120.0,
+      "latency_ms": 1.6767909983173013
+    },
+    {
+      "depth": 3,
+      "total_cells": 13824000.0,
+      "base_bytes": 7680,
+      "compression_ratio": 28800.0,
+      "latency_ms": 0.36606198409572244
+    },
+    {
+      "depth": 4,
+      "total_cells": 3317760000.0,
+      "base_bytes": 7680,
+      "compression_ratio": 6912000.0,
+      "latency_ms": 0.4269949859008193
+    },
+    {
+      "depth": 6,
+      "total_cells": 191102976000000.0,
+      "base_bytes": 7680,
+      "compression_ratio": 398131200000.0,
+      "latency_ms": 0.8392019663006067
+    }
+  ],
+  "speculative_benchmarks": [
+    {
+      "depth": 6,
+      "num_virtual_cells": 191000000000000.0,
+      "base_codebook_bytes": 7680,
+      "memory_compression_ratio": 47800000000.0,
+      "draft_tokens_k": 1,
+      "draft_latency_ms": 8.5,
+      "verification_latency_ms": 38.098249880829826,
+      "standalone_target_latency_ms": 38.0,
+      "speculative_latency_ms": 46.598249880829826,
+      "effective_tokens_per_sec": 21.460033425233693,
+      "speedup_factor": 0.8154812701588803,
+      "acceptance_rate": 0.92,
+      "device": "cuda"
+    },
+    {
+      "depth": 6,
+      "num_virtual_cells": 191000000000000.0,
+      "base_codebook_bytes": 7680,
+      "memory_compression_ratio": 47800000000.0,
+      "draft_tokens_k": 2,
+      "draft_latency_ms": 17.0,
+      "verification_latency_ms": 38.10415265918709,
+      "standalone_target_latency_ms": 76.0,
+      "speculative_latency_ms": 55.10415265918709,
+      "effective_tokens_per_sec": 34.33498037256474,
+      "speedup_factor": 1.3047292541574602,
+      "acceptance_rate": 0.892,
+      "device": "cuda"
+    },
+    {
+      "depth": 6,
+      "num_virtual_cells": 191000000000000.0,
+      "base_codebook_bytes": 7680,
+      "memory_compression_ratio": 47800000000.0,
+      "draft_tokens_k": 4,
+      "draft_latency_ms": 34.0,
+      "verification_latency_ms": 38.11577851953916,
+      "standalone_target_latency_ms": 152.0,
+      "speculative_latency_ms": 72.11577851953916,
+      "effective_tokens_per_sec": 48.6440009664395,
+      "speedup_factor": 1.8484720367247007,
+      "acceptance_rate": 0.8360000000000001,
+      "device": "cuda"
+    },
+    {
+      "depth": 6,
+      "num_virtual_cells": 191000000000000.0,
+      "base_codebook_bytes": 7680,
+      "memory_compression_ratio": 47800000000.0,
+      "draft_tokens_k": 6,
+      "draft_latency_ms": 51.0,
+      "verification_latency_ms": 38.105255719972774,
+      "standalone_target_latency_ms": 228.0,
+      "speculative_latency_ms": 89.10525571997277,
+      "effective_tokens_per_sec": 54.99114457848612,
+      "speedup_factor": 2.0896634939824725,
+      "acceptance_rate": 0.78,
+      "device": "cuda"
+    },
+    {
+      "depth": 6,
+      "num_virtual_cells": 191000000000000.0,
+      "base_codebook_bytes": 7680,
+      "memory_compression_ratio": 47800000000.0,
+      "draft_tokens_k": 8,
+      "draft_latency_ms": 68.0,
+      "verification_latency_ms": 38.1002798601985,
+      "standalone_target_latency_ms": 304.0,
+      "speculative_latency_ms": 106.1002798601985,
+      "effective_tokens_per_sec": 57.191178081673414,
+      "speedup_factor": 2.1732647671035896,
+      "acceptance_rate": 0.724,
+      "device": "cuda"
+    }
+  ]
+}
