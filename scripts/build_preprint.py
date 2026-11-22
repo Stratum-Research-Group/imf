@@ -316,6 +316,8 @@ def main():
         PAPERS_DIR / "61_subbyte_polytope_lattice_quantization_and_megascale_limits.md",
         PAPERS_DIR / "62_continuous_lie_manifold_dynamics_and_velocity_modulation.md",
         PAPERS_DIR / "63_counter_rotating_manifold_vortices_and_high_dim_orthoplex_core.md",
+        PAPERS_DIR / "64_decoupling_mechanisms_in_high_dimensional_lie_state_spaces.md",
+        PAPERS_DIR / "65_architectural_tradeoffs_in_geometric_neural_mechanics.md",
     ]
 
     html_sections = []
