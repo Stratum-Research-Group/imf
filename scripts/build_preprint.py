@@ -298,6 +298,9 @@ def main():
         PAPERS_DIR / "43_autonomous_recursive_self_improvement_and_polytope_convergence.md",
         PAPERS_DIR / "44_geometry_of_epistemic_soundness_in_multi_agent_swarms.md",
         PAPERS_DIR / "45_epistemic_invariance_and_frontier_roadmap.md",
+        PAPERS_DIR / "46_mechanics_of_polytope_mope_and_hyperbolic_routing.md",
+        PAPERS_DIR / "47_tandem_coordination_of_lie_ssm_polytope_mope_and_anti_collapse.md",
+        PAPERS_DIR / "48_polytope_speculative_decoding_and_zero_axiom_verification.md",
     ]
 
     html_sections = []
