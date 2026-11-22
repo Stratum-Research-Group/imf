@@ -16,7 +16,7 @@ from imf.joint_recon_predictor import IMFJointReconPredictorLM
 
 
 def distill_4k_drafter(
-    tokens_path: str = "data/expanded_corpus/finetune_tokens_4k.pt",
+    tokens_path: str = "data/frontier_corpus/frontier_technical_tokens_4k.pt",
     tokenizer_path: str = "checkpoints/hybrid_bpe_tokenizer_4k.json",
     target_checkpoint: str = "checkpoints/imf_fluency_lm_4k.pt",
     output_checkpoint: str = "checkpoints/imf_drafter_fluency_4k.pt",

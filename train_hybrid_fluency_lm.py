@@ -15,10 +15,10 @@ from imf.code_bpe_tokenizer import CodeBPETokenizer
 
 
 def train_fluency_lm(
-    tokens_path: str = "data/hybrid_corpus/training_tokens_4k.pt",
+    tokens_path: str = "data/frontier_corpus/frontier_technical_tokens_4k.pt",
     tokenizer_path: str = "checkpoints/hybrid_bpe_tokenizer_4k.json",
     output_checkpoint: str = "checkpoints/imf_fluency_lm_4k.pt",
-    max_steps: int = 2000,
+    max_steps: int = 1500,
     batch_size: int = 16,
     seq_len: int = 128,
     lr: float = 6e-4,
