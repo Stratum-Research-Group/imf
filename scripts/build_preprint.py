@@ -313,6 +313,7 @@ def main():
         PAPERS_DIR / "58_empirical_1b_sft_convergence_and_zero_axiom_benchmarks.md",
         PAPERS_DIR / "59_the_60_paper_retrospective_interaction_model_foundations.md",
         PAPERS_DIR / "60_capstone_synthesis_interaction_model_foundations.md",
+        PAPERS_DIR / "61_subbyte_polytope_lattice_quantization_and_megascale_limits.md",
     ]
 
     html_sections = []
