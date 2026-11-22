@@ -38,9 +38,11 @@ def run_benchmark_evaluations():
     model.eval()
 
     test_domains = {
-        "Natural Language Dialogue (TinyStories)": "Once upon a time, there was a little girl named Lily. She loved to play in the sunny garden with her mother and dog.",
+        "Technical Systems Engineering & Memory": "pub fn verify_buffer_bounds(ptr: *const u8, len: usize, max: usize) -> bool {\n    if len > max { return false; }\n    !ptr.is_null()\n}",
         "Python Data Structure & Algorithmic Code": "def binary_search(arr, target):\n    low, high = 0, len(arr) - 1\n    while low <= high:\n        mid = (low + high) // 2\n        if arr[mid] == target:\n            return mid\n",
         "Lean 4 Formal Proofs & Tactics": "theorem add_comm (n m : Nat) : n + m = m + n := by\n  induction n with\n  | zero => simp\n  | succ d ih => rw [Nat.succ_add, ih, Nat.add_succ]\n",
+        "Tool Calling & Agentic JSON Query": '{"tool": "dak-alloydb.get_cluster", "arguments": {"cluster_id": "prod-db-1", "project": "imf-core"}}',
+        "Cheminformatics & Molecular SMILES": "def evaluate_druggability(smiles: str) -> dict:\n    mol = Chem.MolFromSmiles(smiles)\n    mw = Descriptors.MolWt(mol)\n    return {'mw': mw}\n",
     }
 
     results = {}

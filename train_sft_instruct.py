@@ -16,7 +16,7 @@ from imf.joint_recon_predictor import IMFJointReconPredictorLM
 
 
 def build_sft_dataset(
-    json_path: str = "data/expanded_corpus/alpaca_instructions_2k.json",
+    json_path: str = "data/expanded_corpus/code_alpaca_20k.json",
     tokenizer_path: str = "checkpoints/hybrid_bpe_tokenizer_4k.json",
     max_seq_len: int = 128,
 ):
@@ -24,6 +24,8 @@ def build_sft_dataset(
     with open(json_path, "r", encoding="utf-8") as f:
         data = json.load(f)
 
+    # Use first 5,000 high-quality coding & algorithmic instruction pairs
+    data = data[:5000]
     samples = []
     for item in data:
         inst = item.get("instruction", "").strip()
