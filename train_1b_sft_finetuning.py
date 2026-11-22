@@ -5,9 +5,10 @@ Drastically reduces cross-entropy loss and perplexity across code, math, and for
 using KroneckerFactorizedAdamW (16MB memory) + Gradient Checkpointing within 16GB VRAM.
 """
 
+import os
+os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "expandable_segments:True"
 import math
 import time
-import os
 import sys
 from pathlib import Path
 import torch
@@ -27,23 +28,24 @@ def train_sft_1b():
     print("=" * 80)
     print(f"Device: {device} ({torch.cuda.get_device_name(0) if torch.cuda.is_available() else 'CPU'})")
 
-    base_checkpoint_imf = "checkpoints/imf_foundation_1b.imf"
-    sft_tokens_path = "data/expanded_corpus/sft_1b_tokens.pt"
+    base_checkpoint_pt = "checkpoints/imf_foundation_1b.pt"
+    sft_tokens_path = "data/frontier_corpus/frontier_technical_tokens_4k.pt"
     tokenizer_path = "checkpoints/hybrid_bpe_tokenizer_4k.json"
-    output_imf = "checkpoints/imf_foundation_1b.imf"  # in-place upgrade after test
+    output_pt = "checkpoints/imf_foundation_1b_sft.pt"
+    output_imf = "checkpoints/imf_foundation_1b.imf"
 
     tok = CodeBPETokenizer.load(tokenizer_path)
     vocab_size = len(tok.vocab)
 
     # 1. Load Tokens
-    print(f"[*] Loading SFT high-density reasoning tokens from {sft_tokens_path}...")
+    print(f"[*] Loading SFT clean frontier technical reasoning tokens from {sft_tokens_path}...")
     tokens = torch.load(sft_tokens_path, map_location="cpu").long()
     n_tokens = len(tokens)
     print(f"[✓] Loaded {n_tokens:,} tokens ({n_tokens / 1e6:.2f}M tokens).")
 
-    # 2. Load Existing 1.14B Weights via Zero-Copy IMFReader
-    print(f"[*] Loading pretrained weights from {base_checkpoint_imf}...")
-    state_dict = load_imf_state_dict(base_checkpoint_imf, device="cpu")
+    # 2. Load Existing 1.14B Weights
+    print(f"[*] Loading pretrained weights from {base_checkpoint_pt}...")
+    state_dict = torch.load(base_checkpoint_pt, map_location="cpu")
 
     model = IMFJointReconPredictorLM(
         vocab_size=vocab_size,
@@ -83,9 +85,9 @@ def train_sft_1b():
     )
 
     max_steps = 150
-    batch_size = 2
+    batch_size = 1
     seq_len = 128
-    grad_accum_steps = 4
+    grad_accum_steps = 8
     scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=max_steps, eta_min=5.0e-6)
 
     def get_batch():
