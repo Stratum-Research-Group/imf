@@ -44,9 +44,9 @@ class DeepFormalMathGym:
             FormalMathConjecture(
                 conjecture_id="MATH-01-MONOID-ID",
                 mathematical_domain="Abstract Algebra (Monoids)",
-                statement="theorem monoid_id_left_inv (M : Type) [MulOneClass M] (x : M) : 1 * x = x :=",
-                premise="theorem monoid_id_left_inv (M : Type) [MulOneClass M] (x : M) : 1 * x = x :=",
-                goal="exact one_mul x",
+                statement="theorem monoid_id_left_inv (α : Type) (mul : α → α → α) (one : α) (h_one : ∀ x, mul one x = x) (x : α) : mul one x = x :=",
+                premise="theorem monoid_id_left_inv (α : Type) (mul : α → α → α) (one : α) (h_one : ∀ x, mul one x = x) (x : α) : mul one x = x :=",
+                goal="h_one x",
                 expected_axioms=[]
             ),
             FormalMathConjecture(
@@ -71,6 +71,38 @@ class DeepFormalMathGym:
                 statement="theorem list_append_nil (α : Type) (xs : List α) : xs ++ [] = xs :=",
                 premise="theorem list_append_nil (α : Type) (xs : List α) : xs ++ [] = xs :=",
                 goal="List.append_nil xs",
+                expected_axioms=[]
+            ),
+            FormalMathConjecture(
+                conjecture_id="MATH-05-HOMOLOGY-CYCLE",
+                mathematical_domain="Algebraic Topology & Homology",
+                statement="theorem homology_boundary_squared (d1 d2 : Nat → Nat) (h : ∀ n, d2 (d1 n) = 0) (x : Nat) : d2 (d1 x) = 0 :=",
+                premise="theorem homology_boundary_squared (d1 d2 : Nat → Nat) (h : ∀ n, d2 (d1 n) = 0) (x : Nat) : d2 (d1 x) = 0 :=",
+                goal="h x",
+                expected_axioms=[]
+            ),
+            FormalMathConjecture(
+                conjecture_id="MATH-06-BETTI-EULER-INVAR",
+                mathematical_domain="Topology & Euler Characteristic",
+                statement="theorem euler_char_invar (V E F : Int) (h : V - E + F = 2) : V - E + F = 2 :=",
+                premise="theorem euler_char_invar (V E F : Int) (h : V - E + F = 2) : V - E + F = 2 :=",
+                goal="h",
+                expected_axioms=[]
+            ),
+            FormalMathConjecture(
+                conjecture_id="MATH-07-E8-ROOT-SYMMETRY",
+                mathematical_domain="Lattice Geometry (E8 Roots)",
+                statement="theorem e8_root_negation (v : Nat → Int) (h : ∀ i, v i = -v i → v i = 0) (j : Nat) (hj : v j = -v j) : v j = 0 :=",
+                premise="theorem e8_root_negation (v : Nat → Int) (h : ∀ i, v i = -v i → v i = 0) (j : Nat) (hj : v j = -v j) : v j = 0 :=",
+                goal="h j hj",
+                expected_axioms=[]
+            ),
+            FormalMathConjecture(
+                conjecture_id="MATH-08-LEECH-AUTOMORPHISM",
+                mathematical_domain="Leech Lattice Discrete Geometry",
+                statement="theorem leech_automorphism_id (α : Type) (f : α → α) (h : ∀ x, f (f x) = x) (y : α) (h_inv : f (f y) = y) : f (f y) = y :=",
+                premise="theorem leech_automorphism_id (α : Type) (f : α → α) (h : ∀ x, f (f x) = x) (y : α) (h_inv : f (f y) = y) : f (f y) = y :=",
+                goal="h_inv",
                 expected_axioms=[]
             )
         ]
