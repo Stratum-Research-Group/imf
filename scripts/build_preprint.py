@@ -314,6 +314,8 @@ def main():
         PAPERS_DIR / "59_the_60_paper_retrospective_interaction_model_foundations.md",
         PAPERS_DIR / "60_capstone_synthesis_interaction_model_foundations.md",
         PAPERS_DIR / "61_subbyte_polytope_lattice_quantization_and_megascale_limits.md",
+        PAPERS_DIR / "62_continuous_lie_manifold_dynamics_and_velocity_modulation.md",
+        PAPERS_DIR / "63_counter_rotating_manifold_vortices_and_high_dim_orthoplex_core.md",
     ]
 
     html_sections = []
