@@ -21,12 +21,11 @@ from imf.kronecker_factorized_adamw import KroneckerFactorizedAdamW
 
 
 def train_1b_foundation_model(
-    code_alpaca_path: str = "data/expanded_corpus/code_alpaca_20k.json",
-    base_tokens_path: str = "data/expanded_corpus/finetune_tokens_4k.pt",
+    base_tokens_path: str = "data/frontier_corpus/frontier_technical_tokens_4k.pt",
     tokenizer_path: str = "checkpoints/hybrid_bpe_tokenizer_4k.json",
     output_checkpoint: str = "checkpoints/imf_foundation_1b.pt",
-    max_steps: int = 200,
-    batch_size: int = 2,
+    max_steps: int = 500,
+    batch_size: int = 4,
     seq_len: int = 128,
     lr: float = 1e-4,
 ):
@@ -38,19 +37,11 @@ def train_1b_foundation_model(
     tok = CodeBPETokenizer.load(tokenizer_path)
     vocab_size = len(tok.vocab)
 
-    # 1. Load active tokens
-    print("[*] Loading high-density pretraining tokens...")
-    base_tokens = torch.load(base_tokens_path, map_location="cpu").long()
-    with open(code_alpaca_path, "r", encoding="utf-8") as f:
-        code_data = json.load(f)
-    code_blocks = [
-        f"# Problem: {item.get('instruction', '').strip()}\n{item.get('output', '').strip()}\n"
-        for item in code_data if item.get('output', '').strip()
-    ]
-    code_tokens = torch.tensor(tok.encode("\n\n".join(code_blocks)), dtype=torch.long)
-    combined_tokens = torch.cat([base_tokens, code_tokens])
+    # 1. Load active clean 26.1M frontier tokens directly
+    print("[*] Loading clean 26.1M frontier technical tokens...")
+    combined_tokens = torch.load(base_tokens_path, map_location="cpu").long()
     n_tokens = len(combined_tokens)
-    print(f"[✓] Active Corpus: {n_tokens:,} tokens ({n_tokens / 1e6:.2f}M tokens)")
+    print(f"[✓] Active Frontier Technical Stream: {n_tokens:,} tokens ({n_tokens / 1e6:.2f}M tokens)")
 
     # 2. Instantiate 1.14B Model (16 layers, d_model=576, 16 experts per layer)
     print("[*] Instantiating 1.14B IMF Joint Reconstruction Predictor...")
