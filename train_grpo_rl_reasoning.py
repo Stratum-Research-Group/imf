@@ -21,6 +21,7 @@ torch.set_num_interop_threads(1)
 
 from imf.code_bpe_tokenizer import CodeBPETokenizer
 from imf.eth_lean_recursive_improver import ETHLeanRecursiveImprover
+from imf.formal_theorem_suite import FORMAL_LEAN4_THEOREM_SUITE
 from train_flagship_omnilm_mope import IMFOmniLMMoPE
 
 
@@ -68,21 +69,35 @@ PROMPT_TASKS = [
     },
 ]
 
+# Add Formal Lean 4 Ground Truth Tasks from the 18-Theorem Suite
+for thm in FORMAL_LEAN4_THEOREM_SUITE:
+    PROMPT_TASKS.append({
+        "prompt": thm["header"] + "\n",
+        "test": "lean4",
+        "expected_prefix": "  by",
+    })
+
 
 def evaluate_completion_reward(prompt: str, completion: str, test_suite: str, expected_prefix: str) -> float:
     """
     Computes deterministic, verifiable reward:
+    +3.0: Formal Lean 4 Oracle Verification for mathematically certified theorems (zero axioms).
     +2.0: Unit test passes in Python execution environment.
     +1.0: Valid AST parse (syntactically valid Python).
     +0.5: Matches expected analytical prefix.
     -0.5: SyntaxError or RuntimeError during test.
-    +2.0: Formal Lean 4 Oracle Verification for mathematically verified steps.
+    -1.0: Detection of unverified cheat hatches (sorry, admit).
     """
-    # 1. Formal Lean 4 Oracle Verification (if candidate contains Lean theorem code)
-    if "theorem " in completion or ("def " in completion and "by" in completion):
+    # 1. Formal Lean 4 Oracle Verification (if prompt or candidate contains Lean theorem code)
+    if "theorem " in prompt or "theorem " in completion or (":=" in prompt and "by" in completion):
         lean_improver = ETHLeanRecursiveImprover()
-        ok, _ = lean_improver.verify_lean_snippet(completion)
-        return 2.5 if ok else -0.5
+        full_code = prompt + completion
+        ok, msg = lean_improver.verify_lean_snippet(full_code)
+        if ok:
+            return 3.0
+        elif any(f in completion.lower() for f in ["sorry", "admit", "sorryax"]):
+            return -1.0
+        return -0.5
 
     code = prompt + completion.split("\n")[0]  # First line completion
     reward = 0.0
