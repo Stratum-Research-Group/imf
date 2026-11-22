@@ -85,7 +85,7 @@ if __name__ == "__main__":
     from pathlib import Path
     sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-    from train_flagship_omnilm_mope import IMFOmniLMMoPE
+    from imf.omnilm_mope import IMFOmniLMMoPE
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"[*] Testing IMF Live Probing & Diagnostic Suite on {device}...")
 

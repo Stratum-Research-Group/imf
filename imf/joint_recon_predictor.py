@@ -1,4 +1,3 @@
-import math
 """
 Joint Reconstruction + Prediction Architecture for IMF (Interaction Model Foundations).
 
@@ -11,6 +10,7 @@ Provides active anti-collapse pressure on the internal continuous Lie-group SSM 
 preventing long-horizon forgetting of exact syntax, variable identities, and AST structure.
 """
 
+import math
 from typing import Dict, Optional, Tuple
 import torch
 import torch.nn as nn

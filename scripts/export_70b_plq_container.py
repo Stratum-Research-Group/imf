@@ -41,8 +41,8 @@ def main():
     t1 = time.time()
     print(f"[✓] Architecture instantiated in {t1 - t0:.2f}s.")
 
-    print(f"[*] Packaging into zero-copy binary container: {out_path}...")
-    writer = IMFWriter(str(out_path))
+    print(f"[*] Packaging into zero-copy binary container with disk streaming: {out_path}...")
+    writer = IMFWriter(str(out_path), streaming=True)
 
     total_tensors = 0
     total_bytes = 0

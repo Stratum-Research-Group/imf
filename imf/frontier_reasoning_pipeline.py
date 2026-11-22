@@ -19,7 +19,7 @@ from imf.code_bpe_tokenizer import CodeBPETokenizer
 from imf.frontier_mcts_cut_engine import FrontierMCTSCutEngine
 from imf.execution_verifier import MultiLanguageExecutionVerifier
 from imf.scientific_execution_verifiers import ScientificExecutionVerifier
-from train_flagship_omnilm_mope import IMFOmniLMMoPE
+from imf.omnilm_mope import IMFOmniLMMoPE
 
 
 def build_scaled_imf_model(

@@ -1,5 +1,6 @@
 # Paper 42: Hardware-Fused Polytope Dequantization and Sub-Byte Register-Level Tensor Processing
 
+**Author:** Nicholas Charles Mynhardt (Stratum Research Group)
 **Stratum Research Group & IMF Core Team**  
 **Technical Report Series on Information-Theoretic Manifold Foundations (IMF)**
 

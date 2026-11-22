@@ -10,7 +10,7 @@ from typing import List, Optional, Tuple
 import torch
 import torch.nn.functional as F
 
-from train_flagship_omnilm_mope import IMFOmniLMMoPE
+from imf.omnilm_mope import IMFOmniLMMoPE
 from imf.code_bpe_tokenizer import CodeBPETokenizer
 from imf.execution_verifier import MultiLanguageExecutionVerifier
 

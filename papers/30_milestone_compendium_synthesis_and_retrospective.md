@@ -1,5 +1,6 @@
 # Paper 30: Milestone Compendium Synthesis & Benchmark Retrospective: From Lie-Algebraic Memory Splitting to 70B Sub-Byte Inference
 
+**Author:** Nicholas Charles Mynhardt (Stratum Research Group)
 **Authors:** The IMF Foundation Team, Systems Architecture Group, & Formal Verification Group  
 **Date:** November 2026  
 **Status:** Unified Milestone Retrospective & Compendium Synthesis

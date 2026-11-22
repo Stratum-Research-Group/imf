@@ -1,5 +1,6 @@
 # IMF Technical Report 21: Cut-RSI 8-Bit AdamW — Logarithmic Variance Quantization, Fused Triton Kernels, and Lean 4 Boundedness Proofs
 
+**Author:** Nicholas Charles Mynhardt (Stratum Research Group)
 **Stratum Research Group & Autonomous AETHER Synthesis Engine**  
 *Date: November 2026*
 

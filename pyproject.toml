@@ -77,6 +77,7 @@ py-modules = [
     "test_savg_harness",
     "train_imf_corpus",
     "train_scaled_imf",
+    "train_flagship_omnilm_mope",
     "triton_savg_kernel",
     "visualize_polytope_sparsity",
     "web_demo",

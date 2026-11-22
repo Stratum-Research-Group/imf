@@ -111,21 +111,38 @@ class UnifiedIntegerQuantizer:
         block_size: int = 64,
     ) -> torch.Tensor:
         """
-        Dequantizes packed 4-bit uint8 tensor back to original shape using Triton JIT kernel.
+        Dequantizes packed 4-bit uint8 tensor back to original shape using Triton JIT kernel on CUDA,
+        or pure PyTorch vector operations on CPU.
         """
         orig_numel = orig_shape.numel()
         padded_numel = scales.numel() * block_size
-        out = torch.empty(padded_numel, dtype=torch.float32, device=packed.device)
 
-        grid = (scales.numel(),)
-        int4_unpack_and_scale_kernel[grid](
-            packed,
-            scales,
-            out,
-            padded_numel,
-            BLOCK_SIZE=block_size,
-        )
-        return out[:orig_numel].view(orig_shape)
+        if packed.is_cuda and torch.cuda.is_available():
+            try:
+                out = torch.empty(padded_numel, dtype=torch.float32, device=packed.device)
+                grid = (scales.numel(),)
+                int4_unpack_and_scale_kernel[grid](
+                    packed,
+                    scales,
+                    out,
+                    padded_numel,
+                    BLOCK_SIZE=block_size,
+                )
+                return out[:orig_numel].view(orig_shape)
+            except Exception:
+                pass  # Fall through to torch CPU path
+
+        # Pure PyTorch fallback for CPU execution
+        device = packed.device
+        even = (packed & 0x0F).to(torch.float32) - 8.0
+        odd = ((packed >> 4) & 0x0F).to(torch.float32) - 8.0
+        unpacked = torch.empty(packed.numel() * 2, dtype=torch.float32, device=device)
+        unpacked[0::2] = even
+        unpacked[1::2] = odd
+
+        unpacked_blocks = unpacked.view(-1, block_size)
+        recon = (unpacked_blocks * scales.to(device).float().unsqueeze(-1)).flatten()[:orig_numel]
+        return recon.view(orig_shape)
 
     @staticmethod
     def quantize_to_int8(x: torch.Tensor, block_size: int = 128) -> Tuple[torch.Tensor, torch.Tensor]:
@@ -186,6 +203,8 @@ class ETHQuantizedLinear(nn.Module):
             q, scales = UnifiedIntegerQuantizer.quantize_to_int8(init_w)
             self.register_buffer("q_weight", q)
             self.register_buffer("scales", scales)
+        elif self.precision == "fp8" and hasattr(torch, "float8_e4m3fn"):
+            self.register_buffer("fp8_weight", init_w.to(torch.float8_e4m3fn))
         elif self.precision == "bf16":
             self.weight = nn.Parameter(init_w.bfloat16())
         else:
@@ -204,6 +223,9 @@ class ETHQuantizedLinear(nn.Module):
             return torch.matmul(x, w.t()) + (self.bias if self.bias is not None else 0.0)
         elif self.precision == "int8":
             w = UnifiedIntegerQuantizer.dequantize_from_int8(self.q_weight, self.scales).to(x.dtype)
+            return torch.matmul(x, w.t()) + (self.bias if self.bias is not None else 0.0)
+        elif self.precision == "fp8" and hasattr(self, "fp8_weight"):
+            w = self.fp8_weight.to(x.dtype)
             return torch.matmul(x, w.t()) + (self.bias if self.bias is not None else 0.0)
         else:
             return torch.matmul(x, self.weight.t()) + (self.bias if self.bias is not None else 0.0)

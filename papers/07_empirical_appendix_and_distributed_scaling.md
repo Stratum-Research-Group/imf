@@ -3,6 +3,8 @@
 **Technical Paper 07 (Appendix) — Interaction Model Foundations (IMF)**  
 *Stratum Research Group*
 
+**Author:** Nicholas Charles Mynhardt (Stratum Research Group)
+
 ---
 
 ## 1. Overview

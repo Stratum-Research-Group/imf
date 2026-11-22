@@ -53,17 +53,36 @@ class IMF70BDecoderLayer(nn.Module):
         # RMSNorm equivalents
         self.input_layernorm = nn.LayerNorm(d_model, dtype=dtype)
         self.post_attention_layernorm = nn.LayerNorm(d_model, dtype=dtype)
+        self.num_heads = 64
+        self.num_kv_heads = 8
+        self.head_dim = d_model // self.num_heads
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
-        # 1. Attention Block
+        # 1. Attention Block with Causal GQA (Grouped Query Attention 8:1)
+        B, T, C = x.shape
         norm_x = self.input_layernorm(x)
         q = self.q_proj(norm_x)
-        attn_out = self.o_proj(q)
+        k = self.k_proj(norm_x)
+        v = self.v_proj(norm_x)
+
+        q = q.view(B, T, self.num_heads, self.head_dim).transpose(1, 2)
+        k = k.view(B, T, self.num_kv_heads, self.head_dim).transpose(1, 2)
+        v = v.view(B, T, self.num_kv_heads, self.head_dim).transpose(1, 2)
+
+        # Expand KV heads to match query heads for GQA
+        k = k.repeat_interleave(self.num_heads // self.num_kv_heads, dim=1)
+        v = v.repeat_interleave(self.num_heads // self.num_kv_heads, dim=1)
+
+        attn_val = torch.nn.functional.scaled_dot_product_attention(
+            q, k, v, is_causal=(T > 1)
+        )
+        attn_val = attn_val.transpose(1, 2).contiguous().view(B, T, C)
+        attn_out = self.o_proj(attn_val)
         x = x + attn_out
 
-        # 2. MLP Block
+        # 2. MLP Block (SwiGLU: SiLU(gate) * up)
         norm_x2 = self.post_attention_layernorm(x)
-        gate = torch.sigmoid(self.gate_proj(norm_x2))
+        gate = torch.nn.functional.silu(self.gate_proj(norm_x2))
         up = self.up_proj(norm_x2)
         mlp_out = self.down_proj(gate * up)
         x = x + mlp_out

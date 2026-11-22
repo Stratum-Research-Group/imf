@@ -1,5 +1,6 @@
 # Paper 13: Polytope Speculative Decoding, Lean 4 Invariant Conservation, and Full-Suite MCTS Verification
 
+**Author:** Nicholas Charles Mynhardt (Stratum Research Group)
 **Authors**: The IMF Architectural & Formal Methods Consortium  
 **Affiliation**: Institute for Mathematical Foundations & Autonomous Systems  
 **Date**: November 2026  

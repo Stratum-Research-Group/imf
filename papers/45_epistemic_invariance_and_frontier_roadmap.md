@@ -1,5 +1,6 @@
 # Paper 45: The Epistemic Invariance of the IMF Paradigm: A Unified Retrospective and Frontier Roadmap
 
+**Author:** Nicholas Charles Mynhardt (Stratum Research Group)
 **Stratum Research Group & IMF Core Team**  
 **Technical Report Series on Information-Theoretic Manifold Foundations (IMF)**
 

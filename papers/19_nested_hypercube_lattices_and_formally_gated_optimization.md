@@ -1,5 +1,6 @@
 # Technical Report 19: Nested Hypercube Lattices, Virtual Cell Invariants, and Formally Gated 8-Bit Optimization
 
+**Author:** Nicholas Charles Mynhardt (Stratum Research Group)
 **Stratum Research Group**  
 *November 2026*
 

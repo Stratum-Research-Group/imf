@@ -1,5 +1,6 @@
 # Paper 11: Universal 100-Domain Polytope Manifolds: Test-Time Compute Scaling, Enterprise OS Engineering, and Constructive Non-Starvation
 
+**Author:** Nicholas Charles Mynhardt (Stratum Research Group)
 **Authors**: The IMF Architectural & Formal Methods Consortium  
 **Affiliation**: Institute for Mathematical Foundations & Autonomous Systems  
 **Date**: November 2026  

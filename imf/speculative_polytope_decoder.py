@@ -17,7 +17,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from train_flagship_omnilm_mope import IMFOmniLMMoPE
+from imf.omnilm_mope import IMFOmniLMMoPE
 from imf.fused_speculative_verification import fused_speculative_verify_greedy
 
 

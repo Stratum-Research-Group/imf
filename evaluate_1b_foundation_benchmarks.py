@@ -22,7 +22,10 @@ def main():
     device = "cuda" if torch.cuda.is_available() else "cpu"
     print("=" * 80)
     print("IMF 1.14B FOUNDATION MODEL — PUBLIC BENCHMARK EVALUATION SUITE")
-    print(f"Device: {torch.cuda.get_device_name(0)} | VRAM: {torch.cuda.get_device_properties(0).total_memory / 1e9:.2f} GB")
+    if device == "cuda":
+        print(f"Device: {torch.cuda.get_device_name(0)} | VRAM: {torch.cuda.get_device_properties(0).total_memory / 1e9:.2f} GB")
+    else:
+        print("Device: CPU (Resource-bounded fallback execution)")
     print("=" * 80)
 
     tok = CodeBPETokenizer.load("checkpoints/hybrid_bpe_tokenizer_4k.json")
@@ -41,9 +44,15 @@ def main():
         alpha_recon=0.2,
     ).to(device)
 
-    print("Loading Foundation Weights from checkpoints/imf_foundation_1b.imf...")
+    ckpt_path = "checkpoints/imf_foundation_1b.imf"
+    if not os.path.exists(ckpt_path):
+        print(f"[!] Warning: Checkpoint file '{ckpt_path}' not found in checkout.")
+        print("[*] Please download or generate the IMF 1.14B foundation container before running full benchmark evaluation.")
+        return
+
+    print(f"Loading Foundation Weights from {ckpt_path}...")
     t0 = time.time()
-    sd = load_imf_state_dict("checkpoints/imf_foundation_1b.imf", device=device)
+    sd = load_imf_state_dict(ckpt_path, device=device)
     model.load_state_dict(sd, strict=False)
     del sd
     load_time = time.time() - t0

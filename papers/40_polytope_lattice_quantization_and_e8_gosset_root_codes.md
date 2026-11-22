@@ -1,5 +1,6 @@
 # Paper 40: Polytope Lattice Quantization: Breaking the Sub-Byte Frontier via E8 Gosset Root Codes and Matryoshka Chambers
 
+**Author:** Nicholas Charles Mynhardt (Stratum Research Group)
 **Authors:** The Stratum Research Group, Systems Engineering Team, & Quantization Architecture Group  
 **Date:** November 2026  
 **Status:** Architecture Specification, Hardware Implementation & Empirical Evaluation

@@ -49,7 +49,7 @@ def _fused_e8_gemv_kernel(
 
     num_8_blocks = K // 8
     vec8_indices = tl.arange(0, 8)
-    norm_factor = 0.70710678  # 1 / sqrt(2)
+    norm_factor = 2.82842712  # sqrt(8): scale unit 8D vector to match block RMS
 
     # Loop over 8-dimensional chunks
     for b in range(num_8_blocks):

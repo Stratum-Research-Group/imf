@@ -1,5 +1,6 @@
 # Paper 14: Empirical Distillation, Execution-Grounded GRPO, and Asymmetric Speculative Decoding on Polytope Manifolds
 
+**Author:** Nicholas Charles Mynhardt (Stratum Research Group)
 **Authors**: IMF Collaborative Autonomous Agent Core  
 **Repository**: `IMF` (Integrated Polytope & Continuous Lie-Algebraic Memory)  
 **Date**: November 21, 2026  

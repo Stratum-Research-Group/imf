@@ -1,16 +1,16 @@
 """
 imf/eth_lean_recursive_improver.py
-Recursive Self-Improvement (RSI) Engine Grounded in ETH Cut Theorems & Lean 4 Formal Verification.
+Recursive Self-Improvement (RSI) Regression & Formal Theorem Proposer Grounded in Lean 4.
 
-Autonomous Tripartite Architecture:
-1. Generator (Model / Mutator):
-   Proposes higher-dimensional polytope crossing lemmas, multi-cut complexity reductions,
-   and symplectic invariants parameterized by generation seed.
+Tripartite Architecture:
+1. Candidate Generator & Library Proposer:
+   Generates and parameterizes formal Lean 4 candidates (higher-dimensional polytope crossing lemmas,
+   multi-cut complexity reductions, and symplectic invariants) indexed by generation seed.
 2. Oracle Verifier (Lean 4 Kernel):
-   Validates candidates using the Lean 4 proof checker (zero sorry, type-checked proof terms).
-3. Self-Improver (Distillation & Weight Optimization):
-   Only incorporates verified Lean theorems into the training replay buffer, updating policy
-   representations through verified reinforcement learning (GRPO) without human intervention.
+   Validates candidates using the Lean 4 proof checker (zero sorry, type-checked proof terms, zero sorryAx).
+3. Self-Improver & Verification Loop:
+   Aggregates verified Lean theorems into formal invariant databases and provides verified candidate pools
+   for curriculum progression and regression tracking.
 """
 
 import os
@@ -35,10 +35,14 @@ class ETHLeanRecursiveImprover:
     def verify_lean_snippet(self, lean_code: str) -> Tuple[bool, str]:
         """
         Runs Lean 4 compiler in a temporary environment.
-        Returns (success, message). Fails if syntax error, type error, or 'sorry' is present.
+        Enforces strict Alpoge/Riemann-Lean style zero-axiom gating:
+        Returns (success, message). Fails if syntax error, type error, sorry/admit,
+        or non-standard ungrounded axioms are introduced.
         """
-        if "sorry" in lean_code:
-            return False, "Verification Rejected: 'sorry' detected in proof candidate."
+        # Static filter against cheat escape-hatches
+        for forbidden in ["sorry", "sorryAx", "admit", "unsafe"]:
+            if forbidden.lower() in lean_code.lower():
+                return False, f"Verification Rejected: '{forbidden}' detected in proof candidate."
 
         with tempfile.NamedTemporaryFile(suffix=".lean", mode="w", delete=False) as f:
             f.write(lean_code)
@@ -51,13 +55,51 @@ class ETHLeanRecursiveImprover:
                 text=True,
                 timeout=15,
             )
-            success = (res.returncode == 0)
             output = res.stdout + ("\n" + res.stderr if res.stderr else "")
+            output_lower = output.lower()
+            has_sorry = ("sorry" in output_lower) or ("sorryax" in output_lower)
+            success = (res.returncode == 0) and not has_sorry
             return success, output.strip()
         except subprocess.TimeoutExpired:
             return False, "Lean verification timed out."
         except Exception as e:
             return False, f"Invocation error: {e}"
+        finally:
+            if os.path.exists(temp_path):
+                os.remove(temp_path)
+
+    def verify_axioms(self, theorem_name: str, lean_code: str) -> Tuple[bool, str]:
+        """
+        Independent axiom validator modeled on riemann-lean / comparator:
+        Verifies that '#print axioms <thm>' references ONLY standard Lean core axioms:
+        - Classical.choice
+        - Quot.sound
+        - propext
+        """
+        check_code = f"{lean_code}\n\n#print axioms {theorem_name}\n"
+        with tempfile.NamedTemporaryFile(suffix=".lean", mode="w", delete=False) as f:
+            f.write(check_code)
+            temp_path = f.name
+
+        try:
+            res = subprocess.run(
+                [self.lean_bin, temp_path],
+                capture_output=True,
+                text=True,
+                timeout=15,
+            )
+            output = (res.stdout + "\n" + res.stderr).strip()
+            if res.returncode != 0:
+                return False, f"Compilation failed: {output}"
+            
+            allowed = {"Classical.choice", "Quot.sound", "propext", "none"}
+            # Parse axioms printed: e.g. "'thm' depends on axioms: [propext, Quot.sound]" or "does not depend on any axioms"
+            for token in output.replace("[", " ").replace("]", " ").replace(",", " ").split():
+                if "." in token and token not in allowed:
+                    return False, f"Ungrounded non-standard axiom detected: {token}"
+            return True, output
+        except Exception as e:
+            return False, f"Axiom verification failed: {e}"
         finally:
             if os.path.exists(temp_path):
                 os.remove(temp_path)

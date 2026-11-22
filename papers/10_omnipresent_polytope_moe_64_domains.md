@@ -1,5 +1,6 @@
 # Paper 10: Omnipresent Geometric Mixture-of-Polytope-Experts (MoPE): Scaling to 64 Specialized Continuous Manifolds
 
+**Author:** Nicholas Charles Mynhardt (Stratum Research Group)
 **Authors**: The IMF Architectural & Formal Methods Consortium  
 **Affiliation**: Institute for Mathematical Foundations & Autonomous Systems  
 **Date**: November 2026  

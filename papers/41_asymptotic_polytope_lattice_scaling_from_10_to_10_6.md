@@ -1,5 +1,6 @@
 # Paper 41: Asymptotic Polytope Lattice Scaling: Extreme Geometric Quantization from $10^1$ to $10^6$ Dimensions
 
+**Author:** Nicholas Charles Mynhardt (Stratum Research Group)
 **Stratum Research Group & IMF Core Team**  
 **Technical Report Series on Information-Theoretic Manifold Foundations (IMF)**
 

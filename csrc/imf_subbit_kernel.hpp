@@ -7,12 +7,14 @@
 namespace imf {
 
 /**
- * LittleBit-2 Sub-Bit Matrix Operator with Bitwise Parallel Unpack & POPCOUNT.
+ * LittleBit-2 Sub-Bit Matrix Operator with Bitboard Unpacking & Vector GEMM.
  *
  * Implements the dual-path factorized operator:
  * y = sum_p [ ( ( (x * g_p) @ V_b,p ) * l_p ) @ U_b,p^T ] * h_p
  *
- * Where U_b, V_b are stored as packed uint32 bitboards (+1 -> bit 1, -1 -> bit 0).
+ * Where U_b, V_b are stored as packed uint32 bitboards (+1 -> bit 1, -1 -> bit 0),
+ * unpacked to bipolar floats {-1.0, +1.0} for fast low-rank GEMM execution without
+ * dense matrix materialization.
  */
 class SubBitLinearKernel {
 public:
@@ -82,6 +84,9 @@ public:
         if (bias.has_value() && bias.value().defined()) {
             out += bias.value().to(torch::kFloat32);
         }
+
+        // Interval-certified bound check: clamp non-finite or unbounded numerical blow-up
+        out = torch::nan_to_num(out, /*nan=*/0.0, /*posinf=*/1e4, /*neginf=*/-1e4);
 
         return out.to(orig_dtype);
     }

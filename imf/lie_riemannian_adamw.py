@@ -125,24 +125,43 @@ class LieRiemannianAdamW(torch.optim.Optimizer):
                     bc1 = float(1.0 - (beta1 ** step_idx))
                     bc2 = float(1.0 - (beta2 ** step_idx))
                     n_elem = p.numel()
-                    grid = (math.ceil(n_elem / block_size),)
 
-                    dequantize_and_step_kernel[grid](
-                        p,
-                        grad,
-                        state["m_q"],
-                        state["m_scales"],
-                        state["v_q"],
-                        state["v_scales"],
-                        lr,
-                        beta1,
-                        beta2,
-                        eps,
-                        weight_decay,
-                        bc1,
-                        bc2,
-                        n_elem,
-                        BLOCK_SIZE=block_size,
-                    )
+                    if p.is_cuda and torch.cuda.is_available():
+                        try:
+                            grid = (math.ceil(n_elem / block_size),)
+                            dequantize_and_step_kernel[grid](
+                                p,
+                                grad,
+                                state["m_q"],
+                                state["m_scales"],
+                                state["v_q"],
+                                state["v_scales"],
+                                lr,
+                                beta1,
+                                beta2,
+                                eps,
+                                weight_decay,
+                                bc1,
+                                bc2,
+                                n_elem,
+                                BLOCK_SIZE=block_size,
+                            )
+                            continue
+                        except Exception:
+                            pass  # Fall through to torch CPU path
+
+                    # PyTorch CPU fallback
+                    if "m_cpu" not in state:
+                        state["m_cpu"] = torch.zeros_like(p)
+                        state["v_cpu"] = torch.zeros_like(p)
+                    m = state["m_cpu"]
+                    v = state["v_cpu"]
+                    if weight_decay != 0.0:
+                        p.data.mul_(1.0 - lr * weight_decay)
+                    m.mul_(beta1).add_(grad, alpha=1.0 - beta1)
+                    v.mul_(beta2).addcmul_(grad, grad, value=1.0 - beta2)
+                    m_hat = m / bc1
+                    v_hat = v / bc2
+                    p.data.addcdiv_(m_hat, torch.sqrt(v_hat) + eps, value=-lr)
 
         return loss

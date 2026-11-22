@@ -97,7 +97,11 @@ class IMFCoprocessorBridge:
                 timeout=10,
             )
             dt = time.perf_counter() - t0
-            passed = (res.returncode == 0) and ("error" not in res.stderr.lower())
+            output_lower = (res.stdout + " " + res.stderr).lower()
+            # Rigorous proof trust gate: reject if compilation failed, had error, used sorry, or depended on sorryAx
+            has_sorry = ("sorry" in output_lower) or ("sorryax" in output_lower)
+            has_error = ("error" in res.stderr.lower()) or (res.returncode != 0)
+            passed = (not has_error) and (not has_sorry)
             return {
                 "verified": passed,
                 "exit_code": res.returncode,

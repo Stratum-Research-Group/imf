@@ -1,5 +1,6 @@
 # Paper 38: Full Polytope Coordinates: Geometric Parameter Spaces, Manifold Embeddings, and the Transcending of Cartesian Weight Grids
 
+**Author:** Nicholas Charles Mynhardt (Stratum Research Group)
 **Authors:** The Stratum Research Group & IMF Architecture Team  
 **Date:** November 2026  
 **Status:** Foundational Architecture Specification & Mathematical Report

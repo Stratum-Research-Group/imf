@@ -63,3 +63,8 @@ if __name__ == "__main__":
 
     daemon = IMFDaemon()
     daemon.run_iterations(num_iterations=args.iterations, sleep_sec=args.sleep)
+    if hasattr(daemon, "status_file") and daemon.status_file.exists():
+        st = json.loads(daemon.status_file.read_text())
+        if st.get("total_verified", 0) == 0:
+            print("[!] Warning: Zero theorems were verified during exploration.")
+            sys.exit(1)

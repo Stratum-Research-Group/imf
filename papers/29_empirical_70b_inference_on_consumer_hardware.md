@@ -1,5 +1,6 @@
 # Paper 29: Empirical 70-Billion Parameter Model Execution on Consumer Graphics Hardware: Sub-Byte Polytope Factorization and Native C++ Autoregressive Streaming
 
+**Author:** Nicholas Charles Mynhardt (Stratum Research Group)
 **Authors:** The IMF Foundation Team & High-Performance Inference Group  
 **Date:** November 2026  
 **Status:** Formally Verified Standard (Lean 4 `v4.33.1`, Zero Axioms, Zero Sorry)

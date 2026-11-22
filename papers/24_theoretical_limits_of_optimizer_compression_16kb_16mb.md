@@ -1,5 +1,6 @@
 # IMF Technical Report 24: Theoretical Limits of Optimizer Memory Compression — Low-Rank Factorization, Hypercube Projections, and the Road to 16KB / 16MB Optimizers
 
+**Author:** Nicholas Charles Mynhardt (Stratum Research Group)
 **Stratum Research Group & Autonomous AETHER Synthesis Engine**  
 *Date: November 2026*
 

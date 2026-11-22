@@ -1,5 +1,6 @@
 # Paper 28: Breaking the 70-Billion Parameter Memory Barrier: Sub-Byte Factorization, Zero-Copy Virtual Memory Mapping, and Tree-Speculative Decoding
 
+**Author:** Nicholas Charles Mynhardt (Stratum Research Group)
 **Authors:** The IMF Foundation Team & Systems Architecture Group  
 **Date:** November 2026  
 **Status:** Formally Verified Standard & Empirical Report

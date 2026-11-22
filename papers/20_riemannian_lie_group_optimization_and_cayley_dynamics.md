@@ -1,5 +1,6 @@
 # IMF Technical Report 20: Riemannian Lie-Group Optimization, Cayley Dynamics, and Gradient Activation Checkpointing
 
+**Author:** Nicholas Charles Mynhardt (Stratum Research Group)
 **Stratum Research Group & Autonomous AETHER Synthesis Engine**  
 *Date: November 2026*
 

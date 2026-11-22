@@ -178,11 +178,18 @@ class PolytopeLatticeQuantizer(nn.Module):
         sims = torch.matmul(W_unit, self.e8_roots.to(device).t())
         best_indices = torch.argmax(sims, dim=-1).to(torch.uint8) # [num_vecs]
 
-        # Reconstructed 8D unit vectors
+        # Reconstructed 8D vectors matching block RMS
+        # Each root in e8_roots has norm 1.0 (unit vector in R^8).
+        # A unit vector in R^8 has RMS across its 8 coordinates of 1 / sqrt(8).
+        # To match block_RMS across the 64-weight block, the unit vector is scaled
+        # by (sqrt(8) * block_RMS).
+        norm_factor = math.sqrt(8.0)
         e8_dev = self.e8_roots.to(device)
         reconstructed_unit = e8_dev[best_indices.long()]
-        reconstructed_8d = reconstructed_unit * (norms / math.sqrt(2.0))
-        reconstructed_W = reconstructed_8d.reshape(orig_shape)
+        reconstructed_W = (
+            reconstructed_unit.reshape(-1, self.scale_block_size)
+            * (norm_factor * scales.to(device).to(torch.float32))
+        ).reshape(orig_shape)
 
         # Compute angular preservation
         cos_sim = F.cosine_similarity(W.reshape(-1), reconstructed_W.reshape(-1), dim=0).item()
@@ -207,12 +214,13 @@ class PolytopeLatticeQuantizer(nn.Module):
     def dequantize(self, indices: torch.Tensor, scales: torch.Tensor, orig_shape: Tuple[int, int]) -> torch.Tensor:
         """Dequantizes E8 root indices and block scales back to floating-point matrix."""
         device = indices.device
+        norm_factor = math.sqrt(8.0)
         idx_flat = indices.reshape(-1).long()
         # [num_vecs, 8]
-        vecs = self.e8_roots[idx_flat].to(device) / math.sqrt(2.0)
+        vecs = self.e8_roots[idx_flat].to(device)
         W_raw = vecs.reshape(-1, self.scale_block_size)
-        # Apply block scale
-        W_scaled = W_raw * scales.to(device).to(torch.float32)
+        # Apply block scale with norm preservation factor
+        W_scaled = W_raw * (norm_factor * scales.to(device).to(torch.float32))
         return W_scaled.reshape(orig_shape)
 
 
@@ -232,10 +240,14 @@ class PolytopeLatticeLinear(nn.Module):
         self.register_buffer("e8_roots", quantizer.e8_roots)
 
         # Packed discrete indices: [out_features, in_features // 8]
-        self.register_buffer("indices", torch.zeros((out_features, in_features // 8), dtype=torch.uint8))
-        # Scales: [total_weights // scale_block_size, 1]
-        num_blocks = (out_features * in_features) // scale_block_size
-        self.register_buffer("scales", torch.ones((num_blocks, 1), dtype=torch.float16))
+        # Initialize by quantizing a real random initial weight matrix (Kaiming uniform)
+        # to ensure the layer does not initialize as a degenerate constant zero-index map
+        init_weight = torch.empty(out_features, in_features)
+        nn.init.kaiming_uniform_(init_weight, a=math.sqrt(5))
+        init_indices, init_scales, _ = quantizer.quantize_matrix(init_weight)
+
+        self.register_buffer("indices", init_indices)
+        self.register_buffer("scales", init_scales)
         self.register_buffer("bias", None)
 
     @classmethod
@@ -273,12 +285,33 @@ class PolytopeLatticeLinear(nn.Module):
             except Exception:
                 pass  # Fall back to PyTorch in-memory path
 
-        # Fallback PyTorch CPU / emulation path
+        # Fallback PyTorch CPU / emulation path:
+        # Dequantize in chunks along out_features to bound peak CPU memory allocation
         device = x.device
-        idx_flat = self.indices.reshape(-1).long()
-        vecs = self.e8_roots[idx_flat].to(device) / math.sqrt(2.0)
-        W_raw = vecs.reshape(-1, self.scale_block_size)
-        W = (W_raw * self.scales.to(device).to(torch.float32)).reshape(self.out_features, self.in_features).to(x.dtype)
+        norm_factor = math.sqrt(8.0)
+        orig_shape = x.shape
+        in_dim = self.in_features
+        out_dim = self.out_features
+        x_flat = x.reshape(-1, in_dim).to(torch.float32)
 
-        out = F.linear(x, W, self.bias.to(x.dtype) if self.bias is not None else None)
+        chunk_size = 512
+        chunks = []
+        for start in range(0, out_dim, chunk_size):
+            end = min(start + chunk_size, out_dim)
+            chunk_indices = self.indices[start:end]
+            chunk_idx_flat = chunk_indices.reshape(-1).long()
+            chunk_vecs = self.e8_roots[chunk_idx_flat].to(device)
+            chunk_W_raw = chunk_vecs.reshape(-1, self.scale_block_size)
+
+            block_start = (start * in_dim) // self.scale_block_size
+            block_count = ((end - start) * in_dim) // self.scale_block_size
+            chunk_scales = self.scales[block_start : block_start + block_count].to(device).to(torch.float32)
+
+            chunk_W = (chunk_W_raw * (norm_factor * chunk_scales)).reshape(end - start, in_dim)
+            chunks.append(torch.matmul(x_flat, chunk_W.t()))
+
+        out_flat = torch.cat(chunks, dim=-1)
+        if self.bias is not None:
+            out_flat = out_flat + self.bias.to(device).to(torch.float32)
+        out = out_flat.reshape(orig_shape[:-1] + (out_dim,)).to(x.dtype)
         return out

@@ -1,5 +1,6 @@
 # Technical Report 17: Hybrid Fluency Pretraining, Polytope MoE Manifold Dynamics, and Open-Domain Language Convergence
 
+**Author:** Nicholas Charles Mynhardt (Stratum Research Group)
 **Stratum Research Group**  
 *November 2026*
 

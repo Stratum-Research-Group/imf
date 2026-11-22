@@ -49,12 +49,14 @@ class IMFModelConfig:
 
 class IMFPagedSequenceState:
     """Maintains continuous Lie algebra recurrent state per active sequence."""
-    def __init__(self, seq_id: int, num_layers: int, d_model: int, state_dim: int, device: str = "cuda"):
+    def __init__(self, seq_id: int, num_layers: int, num_heads: int, head_dim: int, device: str = "cuda"):
         self.seq_id = seq_id
         self.num_layers = num_layers
-        # SSM state per layer: [d_model, state_dim]
+        self.num_heads = num_heads
+        self.head_dim = head_dim
+        # Recurrent Lie state per layer: [1, num_heads, head_dim, head_dim]
         self.recurrent_states = [
-            torch.zeros(d_model, state_dim, dtype=torch.float32, device=device)
+            torch.zeros(1, num_heads, head_dim, head_dim, dtype=torch.float32, device=device)
             for _ in range(num_layers)
         ]
         self.seq_len = 0
@@ -111,11 +113,43 @@ class IMFForCausalLM_vLLM(nn.Module):
             # 2. Geometric Polytope MoPE step
             norm_x2 = layer["norm2"](x)
             mope_out, _ = layer["mope"](norm_x2)
-            x = x + mope_out
+            x = x + (mope_out[0] if isinstance(mope_out, tuple) else mope_out)
 
         x = self.ln_f(x)
         logits = self.pred_head(x)
         return logits
+
+    def step_with_state(
+        self,
+        token_id: torch.Tensor,
+        states: List[torch.Tensor],
+    ) -> Tuple[torch.Tensor, List[torch.Tensor]]:
+        """
+        Executes a single autoregressive step carrying recurrent Lie SSM state in O(1) memory.
+        Args:
+            token_id: [1, 1] tensor of current token
+            states: list of [1, num_heads, head_dim, head_dim] states per layer
+        Returns:
+            logits: [1, vocab_size]
+            next_states: list of updated states per layer
+        """
+        x = self.tok_embed(token_id)
+        next_states = []
+
+        for idx, layer in enumerate(self.layers):
+            norm_x = layer["norm1"](x)
+            layer_state = states[idx] if states is not None and idx < len(states) else None
+            ssm_out, new_s = layer["ssm"].step(norm_x, state=layer_state)
+            next_states.append(new_s)
+            x = x + ssm_out
+
+            norm_x2 = layer["norm2"](x)
+            mope_out, _ = layer["mope"](norm_x2)
+            x = x + (mope_out[0] if isinstance(mope_out, tuple) else mope_out)
+
+        x = self.ln_f(x)
+        logits = self.pred_head(x).squeeze(1)
+        return logits, next_states
 
 
 class IMFVLLMWorkerAdapter:
@@ -140,11 +174,12 @@ class IMFVLLMWorkerAdapter:
 
     def allocate_sequence(self, seq_id: int):
         if seq_id not in self.active_sequences:
+            head_dim = self.config.d_model // self.config.num_heads
             self.active_sequences[seq_id] = IMFPagedSequenceState(
                 seq_id=seq_id,
                 num_layers=self.config.num_layers,
-                d_model=self.config.d_model,
-                state_dim=self.config.state_dim,
+                num_heads=self.config.num_heads,
+                head_dim=head_dim,
                 device=str(self.device),
             )
 
@@ -154,9 +189,18 @@ class IMFVLLMWorkerAdapter:
 
     @torch.inference_mode()
     def step(self, batch_seq_ids: List[int], input_token_ids: List[int]) -> List[int]:
-        """Single decode step across active scheduled batch."""
-        # input_token_ids: [batch_size] -> input tensor [batch_size, 1]
-        x = torch.tensor(input_token_ids, device=self.device, dtype=torch.long).unsqueeze(-1)
-        logits = self.model(x)[:, -1, :] # [batch_size, vocab_size]
-        next_tokens = torch.argmax(logits, dim=-1).tolist()
+        """Single decode step across active scheduled batch threading recurrent states."""
+        next_tokens = []
+        for seq_id, token_id in zip(batch_seq_ids, input_token_ids):
+            self.allocate_sequence(seq_id)
+            seq_state = self.active_sequences[seq_id]
+            tok_tensor = torch.tensor([[token_id]], device=self.device, dtype=torch.long)
+
+            logits, next_layer_states = self.model.step_with_state(tok_tensor, seq_state.recurrent_states)
+            seq_state.recurrent_states = next_layer_states
+            seq_state.seq_len += 1
+
+            next_tok = int(torch.argmax(logits, dim=-1).item())
+            next_tokens.append(next_tok)
+
         return next_tokens

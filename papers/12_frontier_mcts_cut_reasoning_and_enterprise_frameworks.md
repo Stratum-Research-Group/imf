@@ -1,5 +1,6 @@
 # Paper 12: Frontier Reasoning Engines: Asymptotic MCTS Cut-Search, Architecture-Native Geometric Domains, and Scientific Ground-Truth Verifiers
 
+**Author:** Nicholas Charles Mynhardt (Stratum Research Group)
 **Authors**: The IMF Architectural & Formal Methods Consortium  
 **Affiliation**: Institute for Mathematical Foundations & Autonomous Systems  
 **Date**: November 2026  

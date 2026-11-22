@@ -49,18 +49,24 @@ def _load_weft_format_module():
     except Exception:
         # Fallback to direct file loading if weft package root imports external deps (e.g. transformers)
         import importlib.util
-        possible_paths = [
-            Path("/home/akarta/Projects/0.WiP/Weft/weft/format.py"),
+        env_path = os.environ.get("IMF_WEFT_PATH")
+        possible_paths = []
+        if env_path:
+            possible_paths.append(Path(env_path))
+            if Path(env_path).is_dir():
+                possible_paths.append(Path(env_path) / "weft" / "format.py")
+                possible_paths.append(Path(env_path) / "format.py")
+        possible_paths.extend([
             Path("../Weft/weft/format.py"),
             Path(__file__).resolve().parent.parent.parent / "Weft" / "weft" / "format.py",
-        ]
+        ])
         for p in possible_paths:
-            if p.exists():
+            if p.exists() and p.is_file():
                 spec = importlib.util.spec_from_file_location("weft_format_standalone", str(p))
                 mod = importlib.util.module_from_spec(spec)
                 spec.loader.exec_module(mod)
                 return mod.WeftModelContainer, mod.WeftSubBitLinear
-        raise ImportError("Could not find or import WEFT format module (format.py)")
+        raise ImportError("Could not find or import WEFT format module (format.py). Set IMF_WEFT_PATH to the Weft repository root or format.py.")
 
 
 def unpack_bitboard_numpy(packed: np.ndarray, rank: int) -> np.ndarray:

@@ -1,5 +1,6 @@
 # Paper 27: Fused Dual-Path Polytope GEMM, ETH Reflection Isometries, and Tree-Speculative Decoding in Zero-Copy Containers
 
+**Author:** Nicholas Charles Mynhardt (Stratum Research Group)
 **Authors:** The IMF Foundation Team & Formal Verification Group  
 **Date:** November 2026  
 **Status:** Formally Verified Standard (Lean 4 `v4.33.1`, Zero Axioms, Zero Sorry)

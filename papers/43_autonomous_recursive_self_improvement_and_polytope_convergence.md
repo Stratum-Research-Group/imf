@@ -1,5 +1,6 @@
 # Paper 43: Autonomous Recursive Self-Improvement and The Convergence of Polytope Intelligence
 
+**Author:** Nicholas Charles Mynhardt (Stratum Research Group)
 **Stratum Research Group & IMF Core Team**  
 **Technical Report Series on Information-Theoretic Manifold Foundations (IMF)**
 

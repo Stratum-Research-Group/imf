@@ -1,5 +1,6 @@
 # Paper 26: The IMF Binary Container Specification (.imf): Sub-Byte Factorized Representation, ETH Polytope Uncrossing, and Zero-Copy Serialization
 
+**Author:** Nicholas Charles Mynhardt (Stratum Research Group)
 **Authors:** The IMF Foundation Team & Formal Verification Group  
 **Date:** November 2026  
 **Status:** Formally Verified Standard (Lean 4 `v4.33.1`, Zero Axioms, Zero Sorry)

@@ -1,5 +1,6 @@
 # Paper 33: Empirical Multi-Domain Alignment, Geometric Paradoxes, and Sub-Millisecond Native Hyperspace REPL Architecture
 
+**Author:** Nicholas Charles Mynhardt (Stratum Research Group)
 **Stratum Research Group & IMF Working Group**  
 *November 2026*
 

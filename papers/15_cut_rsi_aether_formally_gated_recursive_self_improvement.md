@@ -1,5 +1,6 @@
 # Paper 15: Cut-RSI (AETHER) — Formally Gated Recursive Self-Improvement via Exponential-Time Hypothesis Bipartite Cuts and Lean 4 Oracles
 
+**Author:** Nicholas Charles Mynhardt (Stratum Research Group)
 **Authors**: IMF Collaborative Autonomous Agent Core  
 **Repository**: `IMF` (Integrated Polytope & Continuous Lie-Algebraic Memory)  
 **Date**: November 21, 2026  

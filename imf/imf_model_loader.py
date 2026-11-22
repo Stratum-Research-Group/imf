@@ -24,14 +24,17 @@ def load_imf_state_dict(imf_path: str, device: str = "cpu") -> Dict[str, torch.T
     return state_dict
 
 
-def load_model_from_imf(model: nn.Module, imf_path: str, device: str = "cpu", strict: bool = True) -> nn.Module:
+def load_model_from_imf(model: nn.Module, imf_path: str, device: str = "cpu", strict: bool = False) -> nn.Module:
     """
     Loads weights from an .imf container into a PyTorch model in-place.
+    Defaults to strict=False to maintain backward compatibility across Pre-LN and architecture revisions.
     """
     t0 = time.perf_counter()
     state_dict = load_imf_state_dict(imf_path, device=device)
     load_time = (time.perf_counter() - t0) * 1000
     
-    model.load_state_dict(state_dict, strict=strict)
+    incompatible = model.load_state_dict(state_dict, strict=strict)
+    if hasattr(incompatible, "missing_keys") and len(incompatible.missing_keys) > 0:
+        print(f"[*] Note: Loaded container with {len(incompatible.missing_keys)} missing keys (strict={strict})")
     print(f"[✓] Successfully loaded {len(state_dict)} tensors from {imf_path} into model in {load_time:.2f} ms")
     return model
