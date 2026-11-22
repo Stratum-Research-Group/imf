@@ -21,6 +21,52 @@ from imf.omnilm_mope import IMFOmniLMMoPE
 from imf.fused_speculative_verification import fused_speculative_verify_greedy
 
 
+def guard_against_greedy_collapse(
+    logits: torch.Tensor,
+    recent_tokens: list[int],
+    max_consecutive_repeat: int = 2,
+    ngram_cycle_size: int = 2,
+) -> torch.Tensor:
+    """
+    Architectural Anti-Greed Guard:
+    Prevents degenerate greedy attractor cycles, trivial fixed-point collapse,
+    and subword looping at the logits level before argmax or sampling.
+
+    Enforces:
+    1. Consecutive token suppression: Masks any token emitted >= max_consecutive_repeat times.
+    2. N-gram cycle barrier: Detects repeating 2-gram and 3-gram loops (e.g. A B A B -> masks A).
+    3. Monotonic frequency penalty on recent context window.
+    """
+    masked = logits.clone()
+
+    # 1. Immediate consecutive loop breaker
+    if len(recent_tokens) >= max_consecutive_repeat:
+        last_tok = recent_tokens[-1]
+        if all(t == last_tok for t in recent_tokens[-max_consecutive_repeat:]):
+            masked[..., last_tok] = float("-inf")
+
+    # 2. 2-gram cycle breaker: [A, B, A, B] -> mask A
+    if len(recent_tokens) >= 4:
+        if recent_tokens[-4:-2] == recent_tokens[-2:]:
+            masked[..., recent_tokens[-2]] = float("-inf")
+
+    # 3. 3-gram cycle breaker: [A, B, C, A, B, C] -> mask A
+    if len(recent_tokens) >= 6:
+        if recent_tokens[-6:-3] == recent_tokens[-3:]:
+            masked[..., recent_tokens[-3]] = float("-inf")
+
+    # 4. Context-window frequency damping
+    window = recent_tokens[-32:]
+    counts: Dict[int, int] = {}
+    for t in window:
+        counts[t] = counts.get(t, 0) + 1
+    for tok_id, freq in counts.items():
+        if masked[..., tok_id] > float("-inf"):
+            masked[..., tok_id] -= 1.5 * freq
+
+    return masked
+
+
 class SpeculativePolytopeDecoder:
     def __init__(
         self,
@@ -60,18 +106,14 @@ class SpeculativePolytopeDecoder:
             steps += 1
             if self.temperature == 0.0:
                 # Deterministic Greedy Speculative Decoding Path
-                # Step 1: Autoregressively draft gamma tokens greedily
+                # Step 1: Autoregressively draft gamma tokens greedily with Anti-Greed Barrier
                 draft_ids = curr_ids.clone()
                 for _ in range(self.gamma):
                     logits, _, _ = self.drafter(draft_ids)
-                    next_logits = logits[:, -1, :].clone()
-                    if self.repetition_penalty != 1.0:
-                        for prev_tok in set(draft_ids[0].tolist()):
-                            if next_logits[0, prev_tok] > 0:
-                                next_logits[0, prev_tok] /= self.repetition_penalty
-                            else:
-                                next_logits[0, prev_tok] *= self.repetition_penalty
-                    next_token = torch.argmax(next_logits, dim=-1, keepdim=True)
+                    next_logits = logits[0, -1, :].clone()
+                    # Apply anti-greed guard against attractor cycles
+                    next_logits = guard_against_greedy_collapse(next_logits, draft_ids[0].tolist())
+                    next_token = torch.argmax(next_logits, dim=-1, keepdim=True).unsqueeze(0)
                     draft_ids = torch.cat([draft_ids, next_token], dim=-1)
 
                 speculated_tokens = draft_ids[:, curr_ids.shape[1]:]  # [1, gamma]
@@ -80,14 +122,9 @@ class SpeculativePolytopeDecoder:
                 # Step 2: Target verifies in parallel
                 target_logits, _, _ = self.target(draft_ids)
                 eval_target_logits = target_logits[0, curr_ids.shape[1]-1:, :].clone()  # [gamma + 1, vocab]
-                if self.repetition_penalty != 1.0:
-                    for pos in range(eval_target_logits.shape[0]):
-                        seen = set(curr_ids[0].tolist() + draft_ids[0, :curr_ids.shape[1] + pos].tolist())
-                        for prev_tok in seen:
-                            if eval_target_logits[pos, prev_tok] > 0:
-                                eval_target_logits[pos, prev_tok] /= self.repetition_penalty
-                            else:
-                                eval_target_logits[pos, prev_tok] *= self.repetition_penalty
+                for pos in range(eval_target_logits.shape[0]):
+                    hist = curr_ids[0].tolist() + draft_ids[0, curr_ids.shape[1]:curr_ids.shape[1] + pos].tolist()
+                    eval_target_logits[pos] = guard_against_greedy_collapse(eval_target_logits[pos], hist)
 
                 # Step 3: Fused GPU Verification (vectorized/Triton)
                 tokens_to_append = fused_speculative_verify_greedy(
