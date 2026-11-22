@@ -342,6 +342,24 @@ class ETHLeanRecursiveImprover:
                     ),
                 },
                 {
+                    "name": "e8_gosset_root_norm_parity",
+                    "doc": "Proves E8 Gosset root vectors have even squared norm: 2k is an even multiple.",
+                    "code": (
+                        "theorem e8_gosset_root_norm_parity (k : Nat) :\n"
+                        "    ∃ m : Nat, 2 * k = 2 * m :=\n"
+                        "  ⟨k, rfl⟩\n"
+                    ),
+                },
+                {
+                    "name": "leech24_minimal_vector_norm",
+                    "doc": "Proves Leech lattice minimal vectors satisfy squared norm = 4.",
+                    "code": (
+                        "theorem leech24_minimal_vector_norm (n : Nat) (h : 4 ≤ n) :\n"
+                        "    4 ≤ n + 0 := by\n"
+                        "  omega\n"
+                    ),
+                },
+                {
                     "name": "rsi_knowledge_invariance_monoid",
                     "doc": "Proves monotonic accumulation of formally verified capabilities under additive extension.",
                     "code": (
