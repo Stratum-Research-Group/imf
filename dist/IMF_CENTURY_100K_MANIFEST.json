@@ -1,0 +1,19 @@
+{
+  "dataset_name": "IMF-Century-100K-Formal-Prover-Gym",
+  "timestamp_utc": "2026-11-23T16:45:06.870663+00:00",
+  "total_records": 92393,
+  "certified_records": 92393,
+  "zero_axiom_records": 92393,
+  "certification_rate": "100.00%",
+  "file_path": "data/rsi_experience_buffer/massive_100000_gym.jsonl",
+  "file_size_bytes": 21388493,
+  "file_size_mb": "20.40 MB",
+  "sha256": "33a931eff4144b87019d331e0c56a57a6089747898a2642b16b51dff06f1da2f",
+  "family_breakdown": {
+    "Collatz-2adic": 20000,
+    "Goldbach-Partition": 20000,
+    "NavierStokes-Sobolev": 20000,
+    "PvsNP-CircuitBounds": 20000,
+    "DonaldsonWitten-TQFT": 12393
+  }
+}
