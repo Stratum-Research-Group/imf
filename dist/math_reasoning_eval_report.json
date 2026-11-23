@@ -1,0 +1,33 @@
+{
+  "results": [
+    {
+      "task": "2-Step Linear Syllogism (A -> B -> C)",
+      "hops": 2,
+      "norm_ratio": 3.404,
+      "accuracy_pct": 98.5,
+      "status": "PASSED"
+    },
+    {
+      "task": "3-Step Transitive Inequality (A < B < C < D)",
+      "hops": 3,
+      "norm_ratio": 3.4118,
+      "accuracy_pct": 97.0,
+      "status": "PASSED"
+    },
+    {
+      "task": "4-Step Closed Modular Orbit (A -> B -> C -> D -> A)",
+      "hops": 4,
+      "norm_ratio": 3.5556,
+      "accuracy_pct": 95.5,
+      "status": "PASSED"
+    },
+    {
+      "task": "Barycentric Polytope Simplex Conservation",
+      "hops": 1,
+      "norm_ratio": 3.3755,
+      "accuracy_pct": 100.0,
+      "status": "PASSED"
+    }
+  ],
+  "mean_accuracy_pct": 97.75
+}
