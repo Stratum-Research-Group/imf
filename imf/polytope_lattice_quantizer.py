@@ -222,7 +222,7 @@ class PolytopeLatticeQuantizer(nn.Module):
         """Dequantizes E8 root indices and block scales back to floating-point matrix."""
         device = indices.device
         norm_factor = math.sqrt(8.0)
-        idx_flat = indices.reshape(-1).long()
+        idx_flat = indices.reshape(-1).long().cpu()
         # [num_vecs, 8]
         vecs = self.e8_roots[idx_flat].to(device)
         W_raw = vecs.reshape(-1, self.scale_block_size)

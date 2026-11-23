@@ -1,0 +1,30 @@
+{
+  "pinned_revision": "7aa35ecc99f6c37367891ecdcd10ce23abd4a03a",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "python": "3.13.15",
+    "torch": "2.15.0+cu132",
+    "cuda_available": true,
+    "device_name": "NVIDIA GeForce RTX 5060 Ti",
+    "total_vram_gb": 15.53
+  },
+  "offline_loading_verified": true,
+  "storage_sizes": {
+    "base_fp16_bytes": 131584,
+    "weft_factorized_bytes": 8753,
+    "imf_e8_lattice_bytes": 10752,
+    "compression_ratio_fp16_to_e8": 12.238095238095237
+  },
+  "performance": {
+    "startup_cold_load_ms": 0.464,
+    "first_token_latency_fp16_ms": 882.578,
+    "first_token_latency_e8_ms": 16.662,
+    "decode_throughput_tok_sec": 366.2,
+    "peak_host_ram_mb": 1563.8,
+    "peak_device_vram_mb": 40.2
+  },
+  "quality_retention": {
+    "relative_frobenius_error": 0.54166,
+    "angular_cosine_preservation": 0.985
+  }
+}
