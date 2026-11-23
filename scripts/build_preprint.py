@@ -376,6 +376,7 @@ def main():
         PAPERS_DIR / "paper_120_grand_capstone_megascale_1m_gym.md",
         PAPERS_DIR / "paper_121_quantum_error_correction_e8_honeycomb_codes.md",
         PAPERS_DIR / "paper_122_chern_simons_tqft_anyons_toroidal_silicon.md",
+        PAPERS_DIR / "paper_123_heterotic_string_e8_calabi_yau_polytope_compactification.md",
     ]
 
     html_sections = []
