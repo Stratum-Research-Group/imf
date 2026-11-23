@@ -11,16 +11,31 @@ import json
 import asyncio
 from pathlib import Path
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, JSONResponse
+from imf.padic_embedding import PAdicTokenEmbedding
 import uvicorn
 
 app = FastAPI(title="IMF Coprocessor Live Server")
 HTML_FILE = Path(__file__).resolve().parent.parent / "tools" / "interactive_repl.html"
+PADIC_ENGINE = PAdicTokenEmbedding(vocab_size=1024, prime_p=2, max_depth=16)
 
 @app.get("/")
 async def get_index():
     with open(HTML_FILE, "r") as f:
         return HTMLResponse(content=f.read())
+
+@app.get("/api/padic_coordinates")
+async def get_padic_coords(tok_a: int = 10, tok_b: int = 20):
+    val = PADIC_ENGINE.valuation(tok_a, tok_b)
+    dist = PADIC_ENGINE.ultrametric_distance(tok_a, tok_b)
+    return JSONResponse({
+        "tok_a": tok_a,
+        "tok_b": tok_b,
+        "digits_a": PADIC_ENGINE.coordinates.get(tok_a, [])[:8],
+        "digits_b": PADIC_ENGINE.coordinates.get(tok_b, [])[:8],
+        "valuation": val,
+        "ultrametric_distance": dist
+    })
 
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):

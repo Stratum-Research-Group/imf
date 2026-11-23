@@ -346,6 +346,7 @@ def main():
         PAPERS_DIR / "paper_91_geometric_quantum_circuit_compilation_orthoplex.md",
         PAPERS_DIR / "paper_92_non_archimedean_p_adic_manifolds_and_iwasawa_theory.md",
         PAPERS_DIR / "paper_93_motivic_galois_groups_and_grothendieck_topoi.md",
+        PAPERS_DIR / "paper_94_langlands_duality_and_automorphic_hecke_representations.md",
     ]
 
     html_sections = []
