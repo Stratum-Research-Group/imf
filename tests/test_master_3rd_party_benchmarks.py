@@ -12,7 +12,10 @@ Evaluates the model across:
 
 import ast
 import json
+import os
+import sys
 import torch
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "scripts", "training")))
 from imf.code_bpe_tokenizer import CodeBPETokenizer
 from imf.execution_verifier import MultiLanguageExecutionVerifier
 from train_flagship_omnilm_mope import IMFOmniLMMoPE

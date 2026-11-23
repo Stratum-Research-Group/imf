@@ -56,8 +56,9 @@ class StreamingMultimodalEngine:
 
     def reset_recurrent_state(self, batch_size: int = 1):
         """Resets the persistent Lie SSM memory buffer to zero manifold."""
+        d_h = self.d_model // self.num_heads
         self.recurrent_memory = torch.zeros(
-            batch_size, self.d_model, self.d_state,
+            batch_size, self.num_heads, d_h, d_h,
             device=self.device
         )
         self.total_tokens_processed = 0
@@ -80,8 +81,12 @@ class StreamingMultimodalEngine:
         # Project 2D frame into Lie manifold tokens: [B, 196, d_model]
         patch_tokens = self.multimodal_interface.embed_vision(frame_tensor)
         
-        # Pass through Lie SSM OmniBlock
-        out_tokens = self.lie_block(patch_tokens)
+        # Pass through Lie SSM OmniBlock with persistent recurrent state threading
+        out_tokens, self.recurrent_memory = self.lie_block(
+            patch_tokens,
+            initial_ssm_state=self.recurrent_memory,
+            return_final_state=True,
+        )
         
         elapsed = time.perf_counter() - t0
         self.total_frames_ingested += 1
@@ -113,8 +118,12 @@ class StreamingMultimodalEngine:
         # Project 1D audio into Lie manifold tokens: [B, T_downsampled, d_model]
         audio_tokens = self.multimodal_interface.embed_audio(audio_chunk)
 
-        # Pass through Lie SSM OmniBlock
-        out_tokens = self.lie_block(audio_tokens)
+        # Pass through Lie SSM OmniBlock with persistent recurrent state threading
+        out_tokens, self.recurrent_memory = self.lie_block(
+            audio_tokens,
+            initial_ssm_state=self.recurrent_memory,
+            return_final_state=True,
+        )
 
         elapsed = time.perf_counter() - t0
         self.total_tokens_processed += audio_tokens.shape[1]
@@ -142,7 +151,11 @@ class StreamingMultimodalEngine:
             self.reset_recurrent_state(batch_size=B)
 
         text_tokens = self.multimodal_interface.embed_text(input_ids)
-        out_tokens = self.lie_block(text_tokens)
+        out_tokens, self.recurrent_memory = self.lie_block(
+            text_tokens,
+            initial_ssm_state=self.recurrent_memory,
+            return_final_state=True,
+        )
 
         elapsed = time.perf_counter() - t0
         self.total_tokens_processed += text_tokens.shape[1]

@@ -100,11 +100,14 @@ class IMFOmniLMMoPE(nn.Module):
             x = x + moe_out
             total_balance_loss = total_balance_loss + aux["load_balance_loss"]
 
-        # Apply Bidirectional Cut-Reasoning:
-        # Reconcile forward state rollout with backward adjoint representation
+        # Strictly Causal Autoregressive Representation:
+        # Autoregressive next-token prediction heads must maintain prefix invariance.
+        # Forward states 'x' are directly passed through the causal output normalizer.
+        latents = self.ln_f(x)
+
+        # Optional Cut-Reasoning verification metric (without backwards sequence leakage into causal heads)
         x_rev = torch.flip(x, dims=[1])
-        x_cut, cut_metrics = self.cut_reasoner(x, x_rev)
-        latents = self.ln_f(x_cut)
+        _, cut_metrics = self.cut_reasoner(x, x_rev)
 
         pred_logits = self.pred_head(latents)
         recon_features = self.recon_mlp(latents)

@@ -16,6 +16,7 @@ Synthesizes three core mathematical principles into a unified, high-throughput c
 """
 
 import math
+from typing import Optional, Tuple, Dict, Any, Union
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -111,11 +112,14 @@ class IMFOmniBlock(nn.Module):
         self.ffn_w3 = nn.Linear(ffn_dim, d_model, bias=False)
         self.dropout = nn.Dropout(dropout)
 
-    def forward_ssm(self, x_norm: torch.Tensor) -> torch.Tensor:
+    def forward_ssm(
+        self,
+        x_norm: torch.Tensor,
+        initial_state: Optional[torch.Tensor] = None,
+        return_final_state: bool = False,
+    ):
         """
-        Executes Lie Group SO(d_h) SSM forward pass.
-        Uses Fused Triton associative kernel if input is on CUDA and D is supported,
-        otherwise falls back to sequential autograd-compatible PyTorch scan.
+        Executes Lie Group SO(d_h) SSM forward pass with optional recurrent state threading.
         """
         B, T, D = x_norm.shape
         H = self.num_heads
@@ -128,17 +132,20 @@ class IMFOmniBlock(nn.Module):
 
         U = self.ssm.get_orthogonal_rotator() # [H, d_h, d_h]
 
-        if self.use_triton_ssm and x_norm.is_cuda and (d_h in (8, 16, 32, 64)) and not torch.is_grad_enabled():
+        if self.use_triton_ssm and x_norm.is_cuda and (d_h in (8, 16, 32, 64)) and not torch.is_grad_enabled() and initial_state is None and not return_final_state:
             # Fast inference path via register-tiled Triton kernel
             out_ssm = fused_unitary_ssm_forward(q, k, v, U) # [B, H, T, d_h]
             out_ssm = out_ssm.transpose(1, 2).contiguous().view(B, T, D)
             return self.ssm.out_proj(out_ssm)
         else:
-            # Training / autograd / CPU path via PyTorch scan
+            # Training / autograd / CPU path via PyTorch scan with state threading
             U_exp = U.unsqueeze(0)             # [1, H, d_h, d_h]
             U_T_exp = U.transpose(-1, -2).unsqueeze(0)
 
-            M = torch.zeros(B, H, d_h, d_h, device=x_norm.device, dtype=x_norm.dtype)
+            if initial_state is not None:
+                M = initial_state.clone()
+            else:
+                M = torch.zeros(B, H, d_h, d_h, device=x_norm.device, dtype=x_norm.dtype)
             outputs = []
 
             for t in range(T):
@@ -154,9 +161,18 @@ class IMFOmniBlock(nn.Module):
 
             out_seq = torch.stack(outputs, dim=2)  # [B, H, T, d_h]
             out_seq = out_seq.transpose(1, 2).contiguous().view(B, T, D)
-            return self.ssm.out_proj(out_seq)
+            out = self.ssm.out_proj(out_seq)
+            if return_final_state:
+                return out, M
+            return out
 
-    def _inner_forward(self, x: torch.Tensor, window: int = None) -> torch.Tensor:
+    def _inner_forward(
+        self,
+        x: torch.Tensor,
+        window: int = None,
+        initial_ssm_state: Optional[torch.Tensor] = None,
+        return_final_state: bool = False,
+    ):
         B, T, D = x.shape
         x_norm = self.norm1(x)
 
@@ -165,7 +181,15 @@ class IMFOmniBlock(nn.Module):
 
         # 2. Parallel Unified Branches:
         # Branch A: Unitary Lie SSM (lossless infinite context memory)
-        y_ssm = self.forward_ssm(x_norm)
+        final_ssm_state = None
+        if return_final_state or initial_ssm_state is not None:
+            y_ssm, final_ssm_state = self.forward_ssm(
+                x_norm,
+                initial_state=initial_ssm_state,
+                return_final_state=True,
+            )
+        else:
+            y_ssm = self.forward_ssm(x_norm)
 
         # Branch B: Continuous multilinear simplex convolution (higher-arity tokens)
         y_conv = self.simplex_conv(x_norm, window=window)
@@ -203,18 +227,33 @@ class IMFOmniBlock(nn.Module):
         ffn_out = self.ffn_w3(F.silu(w1) * w2)
         x = x + self.dropout(ffn_out)
 
+        if return_final_state:
+            return x, final_ssm_state
         return x
 
-    def forward(self, x: torch.Tensor, window: int = None) -> torch.Tensor:
+    def forward(
+        self,
+        x: torch.Tensor,
+        window: int = None,
+        initial_ssm_state: Optional[torch.Tensor] = None,
+        return_final_state: bool = False,
+    ):
         """
-        Forward pass through IMF OmniBlock with optional activation checkpointing.
+        Forward pass through IMF OmniBlock with optional activation checkpointing and recurrent state threading.
         Args:
             x: [Batch, SeqLen, d_model]
             window: Optional window size override for continuous simplex convolution
+            initial_ssm_state: Optional [B, H, d_h, d_h] persistent recurrent memory
+            return_final_state: If True, returns (out, final_ssm_state)
         Returns:
-            out: [Batch, SeqLen, d_model]
+            out: [Batch, SeqLen, d_model] (or tuple if return_final_state)
         """
-        if self.use_checkpointing and self.training:
+        if self.use_checkpointing and self.training and initial_ssm_state is None and not return_final_state:
             # Gradient activation checkpointing avoids caching intermediate activations
             return checkpoint(self._inner_forward, x, window, use_reentrant=False)
-        return self._inner_forward(x, window)
+        return self._inner_forward(
+            x,
+            window=window,
+            initial_ssm_state=initial_ssm_state,
+            return_final_state=return_final_state,
+        )

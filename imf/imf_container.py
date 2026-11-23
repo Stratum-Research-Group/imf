@@ -59,6 +59,10 @@ class IMFWriter:
         else:
             self.data_bytes = io.BytesIO()
 
+    def set_config(self, config: Dict[str, Any]):
+        """Set or update the model configuration metadata dictionary."""
+        self.model_config.update(config)
+
     def add_tensor(
         self,
         name: str,

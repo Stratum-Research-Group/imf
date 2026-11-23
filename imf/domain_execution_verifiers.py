@@ -455,3 +455,27 @@ class DomainExecutionVerifierRegistry:
             return True, f"Valid RPC tool call for '{data['tool']}' with {len(data['arguments'])} arguments."
 
         return True, "Valid structured JSON payload."
+
+    # -------------------------------------------------------------
+    # 15. Triton GPU JIT Kernel AST & Syntax Verifier
+    # -------------------------------------------------------------
+    def verify_triton_kernel(self, code: str) -> Tuple[bool, str]:
+        """Validates that Triton Python code parses cleanly into AST and contains @triton.jit."""
+        import ast
+        try:
+            tree = ast.parse(code)
+        except SyntaxError as e:
+            return False, f"Triton kernel syntax error: {e}"
+
+        has_jit = False
+        for node in ast.walk(tree):
+            if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                for deco in node.decorator_list:
+                    if isinstance(deco, ast.Attribute) and deco.attr == "jit":
+                        has_jit = True
+                    elif isinstance(deco, ast.Name) and deco.id == "jit":
+                        has_jit = True
+
+        if not has_jit:
+            return False, "No function found decorated with @triton.jit"
+        return True, "Valid Triton JIT kernel AST syntax and decorator structure."

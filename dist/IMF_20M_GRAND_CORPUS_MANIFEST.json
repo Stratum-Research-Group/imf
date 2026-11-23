@@ -1,8 +1,8 @@
 {
   "corpus_name": "IMF Grand Megascale 20x 1,000,000-Step Formal Prover Corpus",
-  "total_certified_theorems": 12000000,
+  "total_certified_theorems": 13000000,
   "target_theorems": 20000000,
-  "passes_completed": 12,
+  "passes_completed": 13,
   "total_passes": 20,
   "axioms_used": 0,
   "verification_kernel": "Lean 4 Core v4.16.0",
@@ -126,6 +126,16 @@
       "archive_file": "dist/gym_20m_corpus/gym_1m_pass_12.tar.zst",
       "archive_size_bytes": 1687021,
       "archive_sha256": "76b74237aba79ad0f63b756f98e90b6596c4318a0198b97181e724bf524db06f"
+    },
+    {
+      "pass_num": 13,
+      "steps": 1000000,
+      "elapsed_seconds": 729.49,
+      "steps_per_sec": 1370.82,
+      "raw_sha256": "1226bd6ae902a57838868c1a59ac36948792825dd1cd19806716d02639bcd18f",
+      "archive_file": "dist/gym_20m_corpus/gym_1m_pass_13.tar.zst",
+      "archive_size_bytes": 1740316,
+      "archive_sha256": "e94ab178f093d3728bd8ab912283d561b2d474e4d78bdea3482f3ca09a550ee7"
     }
   ]
 }

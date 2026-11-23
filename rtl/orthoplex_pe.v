@@ -30,10 +30,11 @@ module orthoplex_pe #(
     output reg  signed [ACC_WIDTH-1:0]  acc_out
 );
 
-    wire signed [DATA_WIDTH-1:0] diff_val;
-    wire signed [DATA_WIDTH-1:0] abs_diff;
+    // Widen difference computation to prevent signed overflow (e.g. 32767 - (-32768) = 65535)
+    wire signed [DATA_WIDTH:0] diff_val;
+    wire signed [DATA_WIDTH:0] abs_diff;
 
-    assign diff_val = data_in_x - data_in_y;
+    assign diff_val = {data_in_x[DATA_WIDTH-1], data_in_x} - {data_in_y[DATA_WIDTH-1], data_in_y};
     assign abs_diff = (diff_val < 0) ? -diff_val : diff_val;
 
     always @(posedge clk or negedge rst_n) begin
@@ -47,7 +48,7 @@ module orthoplex_pe #(
             data_out_y <= data_in_y;
 
             if (is_l1_mode) begin
-                acc_out <= acc_out + {{(ACC_WIDTH-DATA_WIDTH){1'b0}}, abs_diff};
+                acc_out <= acc_out + {{(ACC_WIDTH-(DATA_WIDTH+1)){1'b0}}, abs_diff};
             end else begin
                 case (weight_ternary)
                     2'b01: acc_out <= acc_out + {{(ACC_WIDTH-DATA_WIDTH){data_in_x[DATA_WIDTH-1]}}, data_in_x};

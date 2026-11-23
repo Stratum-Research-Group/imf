@@ -9,8 +9,12 @@ Demonstrates:
 """
 
 import math
+import os
+import sys
 import torch
 import torch.nn.functional as F
+
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "scripts", "training")))
 
 from imf.code_bpe_tokenizer import CodeBPETokenizer
 from imf.formal_theorem_suite import FORMAL_LEAN4_THEOREM_SUITE

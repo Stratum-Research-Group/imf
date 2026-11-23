@@ -36,27 +36,38 @@ module cayley_inverter #(
     reg signed [DATA_WIDTH-1:0] w_sq;
     reg signed [DATA_WIDTH-1:0] num_r00;
     reg signed [DATA_WIDTH-1:0] num_r01;
+    reg signed [DATA_WIDTH-1:0] inv_denom;
+    reg                         stage1_valid;
 
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
-            r00_out   <= ONE;
-            r01_out   <= 0;
-            valid_out <= 1'b0;
-            w_sq      <= 0;
-            num_r00   <= 0;
-            num_r01   <= 0;
+            r00_out      <= ONE;
+            r01_out      <= 0;
+            valid_out    <= 1'b0;
+            w_sq         <= 0;
+            num_r00      <= 0;
+            num_r01      <= 0;
+            inv_denom    <= ONE;
+            stage1_valid <= 1'b0;
         end else if (ena) begin
-            // Pipeline stage 1: fixed-point approximate squaring
-            w_sq    <= (omega_in * omega_in) >>> FRAC_BITS;
-            num_r00 <= ONE - ((omega_in * omega_in) >>> FRAC_BITS);
-            num_r01 <= -(omega_in <<< 1);
+            // Pipeline stage 1: fixed-point squaring & Taylor expansion 1 / (1 + w^2) ~ 1 - w^2
+            w_sq         <= (omega_in * omega_in) >>> FRAC_BITS;
+            num_r00      <= ONE - ((omega_in * omega_in) >>> FRAC_BITS);
+            num_r01      <= -(omega_in <<< 1);
+            inv_denom    <= ONE - ((omega_in * omega_in) >>> FRAC_BITS);
+            stage1_valid <= 1'b1;
 
-            // Pipeline stage 2: output normalized Cayley rotation elements
-            r00_out   <= num_r00;
-            r01_out   <= num_r01;
-            valid_out <= 1'b1;
+            // Pipeline stage 2: output normalized Cayley rotation elements R = Numerator * InvDenom
+            if (stage1_valid) begin
+                r00_out   <= (num_r00 * inv_denom) >>> FRAC_BITS;
+                r01_out   <= (num_r01 * inv_denom) >>> FRAC_BITS;
+                valid_out <= 1'b1;
+            end else begin
+                valid_out <= 1'b0;
+            end
         end else begin
-            valid_out <= 1'b0;
+            stage1_valid <= 1'b0;
+            valid_out    <= 1'b0;
         end
     end
 
