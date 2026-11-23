@@ -1,0 +1,20 @@
+{
+  "pdk": "sky130_fd_sc_hd",
+  "top_module": "tt_um_imf_orthoplex_tile",
+  "clock_mhz": 50.0,
+  "total_standard_cells": 111,
+  "total_transistors": 1940,
+  "standard_cell_area_um2": 1611.2,
+  "core_die_area_um2": 2301.71,
+  "core_die_area_mm2": 0.002302,
+  "tinytapeout_tile_utilization_pct": 14.39,
+  "static_leakage_nw": 15.682,
+  "dynamic_power_uw": 24.0,
+  "cell_breakdown": {
+    "FULL_ADDER": 24,
+    "DFF": 41,
+    "XOR2": 16,
+    "MUX2": 18,
+    "NAND2": 12
+  }
+}
