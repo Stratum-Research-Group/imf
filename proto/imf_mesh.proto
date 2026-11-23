@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package imf.mesh;
+
+// Service for distributed high-dimensional Lie manifold sharding
+service IMFDistributedMeshService {
+    // Stream forward hidden states across partitioned polytope nodes
+    rpc StreamPolytopeActivation (stream PolytopeTensorFrame) returns (stream PolytopeTensorFrame);
+
+    // Synchronize SO(N) Lie gauge holonomy across nodes
+    rpc SyncLieHolonomy (HolonomySyncRequest) returns (HolonomySyncResponse);
+
+    // Heartbeat & Manifold Telemetry exchange
+    rpc ExchangeMeshTelemetry (MeshTelemetryRequest) returns (MeshTelemetryResponse);
+}
+
+message PolytopeTensorFrame {
+    uint64 sequence_id = 1;
+    uint32 source_node_id = 2;
+    uint32 target_node_id = 3;
+    string polytope_simplex = 4; // e.g. "E8_GOSSET", "LEECH_24", "ORTHOPLEX_14D"
+    repeated float hidden_state = 5;
+    float manifold_drift_norm = 6;
+    bytes holonomy_checksum = 7;
+}
+
+message HolonomySyncRequest {
+    uint32 cluster_epoch = 1;
+    repeated float so_n_matrix = 2; // Flat N x N unitary Lie rotation
+    uint32 dimension = 3;
+}
+
+message HolonomySyncResponse {
+    bool synchronized = 1;
+    float residual_orthogonal_error = 2;
+    uint64 sync_timestamp_ns = 3;
+}
+
+message MeshTelemetryRequest {
+    uint32 node_id = 1;
+    float local_throughput_tokens_sec = 2;
+    float landauer_dissipation_nj = 3;
+}
+
+message MeshTelemetryResponse {
+    uint32 active_cluster_nodes = 1;
+    float global_speculative_speedup = 2;
+    bool all_nodes_gauge_locked = 3;
+}
