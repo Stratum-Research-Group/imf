@@ -18,13 +18,14 @@ class IMFCayleySequenceLayer(nn.Module):
     def __init__(self, dim: int):
         super().__init__()
         self.dim = dim
-        self.norm = DonaldsonWittenTQFTNorm(dim)
-        self.skew_gen = nn.Parameter(torch.randn(dim, dim) * 0.02)
+        self.norm = nn.LayerNorm(dim)
+        self.skew_gen = nn.Parameter(torch.randn(dim, dim) * 0.01)
         self.ffn = nn.Sequential(
             nn.Linear(dim, dim * 2),
-            nn.SiLU(),
+            nn.GELU(),
             nn.Linear(dim * 2, dim)
         )
+        self.norm2 = nn.LayerNorm(dim)
 
     def get_orthogonal_operator(self, invert: bool = False) -> torch.Tensor:
         I = torch.eye(self.dim, device=self.skew_gen.device)
@@ -37,7 +38,8 @@ class IMFCayleySequenceLayer(nn.Module):
         h = self.norm(x)
         R = self.get_orthogonal_operator(invert=invert)
         rotated = torch.matmul(h, R)
-        out = x + self.ffn(rotated)
+        h2 = x + rotated
+        out = h2 + self.ffn(self.norm2(h2))
         return out
 
 if __name__ == "__main__":
