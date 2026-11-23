@@ -334,6 +334,7 @@ def main():
         PAPERS_DIR / "paper_79_systolic_orthoplex_accelerators.md",
         PAPERS_DIR / "paper_80_grand_capstone_synthesis.md",
         PAPERS_DIR / "paper_81_millennium_prize_formal_verification_gym.md",
+        PAPERS_DIR / "paper_82_higher_order_millennium_proof_atlas.md",
     ]
 
     html_sections = []
