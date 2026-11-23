@@ -328,6 +328,8 @@ def main():
         PAPERS_DIR / "73_multi_query_associative_recall_and_needle_geometry_in_100b_leech_mope.md",
         PAPERS_DIR / "74_high_order_leech_coset_expansions_for_megascale_compression.md",
         PAPERS_DIR / "75_counter_rotating_lie_manifold_vortices_up_to_100k_dimensions.md",
+        PAPERS_DIR / "76_manifold_clutching_and_information_passing_centers.md",
+        PAPERS_DIR / "77_geometric_coupling_of_spin_and_model_quality.md",
     ]
 
     html_sections = []
