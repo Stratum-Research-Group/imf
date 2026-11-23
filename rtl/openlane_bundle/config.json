@@ -1,0 +1,27 @@
+{
+  "DESIGN_NAME": "tt_um_imf_orthoplex_tile",
+  "PDK": "sky130A",
+  "STD_CELL_LIBRARY": "sky130_fd_sc_hd",
+  "VERILOG_FILES": [
+    "dir::../../rtl/tt_um_imf_orthoplex_tile.v",
+    "dir::../../rtl/orthoplex_pe.v",
+    "dir::../../rtl/dual_vortex_crossbar.v"
+  ],
+  "CLOCK_PORT": "clk",
+  "CLOCK_NET": "clk",
+  "CLOCK_PERIOD": 20.0,
+  "FP_SIZING": "absolute",
+  "DIE_AREA": [0, 0, 160, 100],
+  "CORE_AREA": [10, 10, 150, 90],
+  "PL_TARGET_DENSITY": 0.45,
+  "RT_MAX_LAYER": "met4",
+  "RT_MIN_LAYER": "met1",
+  "FP_PIN_ORDER_CFG": "dir::pin_order.cfg",
+  "RUN_KLAYOUT_DRC": true,
+  "RUN_MAGIC_DRC": true,
+  "RUN_LVS": true,
+  "QUIT_ON_HOLD_VIOLATIONS": true,
+  "QUIT_ON_SETUP_VIOLATIONS": true,
+  "RUN_CVC": true,
+  "PRIMARY_SIGNOFF_TOOL": "magic"
+}

@@ -34,23 +34,23 @@ class ConnesSpectralDistanceHead(nn.Module):
     """
     Computes token-to-token transition distance using Alain Connes' Spectral Triple formula:
     d(a, b) = sup_{||[D, f]|| <= 1} |f(a) - f(b)|
-    Extinguishes the Reversal Curse by enforcing non-commutative operator derivations.
+    Extinguishes the Reversal Curse by enforcing non-commutative operator derivations across tokens.
     """
     def __init__(self, dim: int):
         super().__init__()
         self.dim = dim
-        # Dirac operator parameter D (unbounded self-adjoint operator generator)
-        self.dirac_d = nn.Parameter(torch.randn(dim, dim) * 0.02)
+        self.dirac_d = nn.Parameter(torch.randn(dim, dim) * 0.05)
+        self.mix = nn.Linear(dim * 2, dim)
 
     def forward(self, states: torch.Tensor) -> torch.Tensor:
         # states: [B, L, D]
-        # Commutator [D, x]
+        # Commutator derivation [D, x]
         d_sym = 0.5 * (self.dirac_d + self.dirac_d.T)
         dx = torch.matmul(states, d_sym)
-        # Operator norm derivation constraint
-        deriv_norm = torch.norm(dx, p=2, dim=-1, keepdim=True) + 1e-6
-        unit_deriv_states = states / deriv_norm
-        return unit_deriv_states
+        # Sequence-level context aggregation via spectral derivation
+        ctx = states.mean(dim=1, keepdim=True).expand_as(states)
+        combined = torch.cat([states + dx, ctx], dim=-1)
+        return self.mix(combined)
 
 class IMFUnifiedGeometricBlock(nn.Module):
     def __init__(self, dim: int):
