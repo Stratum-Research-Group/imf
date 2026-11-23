@@ -71,4 +71,8 @@ async def websocket_endpoint(websocket: WebSocket):
         pass
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="127.0.0.1", port=8000, log_level="warning")
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--port", type=int, default=8086)
+    args = parser.parse_args()
+    uvicorn.run(app, host="127.0.0.1", port=args.port, log_level="warning")

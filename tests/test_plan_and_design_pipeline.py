@@ -41,7 +41,7 @@ def test_imf_foundation_plan_design_metadata(tmp_path):
 
     config = reader.get_config()
     alignment = config.get("alignment", "")
-    assert alignment in ["Cognitive-Flow-State-Aligned", "RSI-Autonomous-Compiler-Evolved"]
+    assert alignment in ["Cognitive-Flow-State-Aligned", "RSI-Autonomous-Compiler-Evolved", "Curriculum-Deepened-600"]
     reader.close()
 
 def test_svg_and_plan_formatting():

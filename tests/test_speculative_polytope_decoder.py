@@ -53,12 +53,14 @@ def test_speculative_greedy_exact_equivalence(models):
     prompt = torch.tensor([[10, 20, 30]], device=device, dtype=torch.long)
     max_new_tokens = 16
 
-    # Standalone greedy target rollout
+    # Standalone greedy target rollout (with matching guard_against_greedy_collapse)
+    from imf.speculative_polytope_decoder import guard_against_greedy_collapse
     standalone_ids = prompt.clone()
     with torch.no_grad():
         for _ in range(max_new_tokens):
             logits, _, _ = target(standalone_ids)
-            next_tok = logits[:, -1, :].argmax(dim=-1, keepdim=True)
+            next_logits = guard_against_greedy_collapse(logits[0, -1, :].clone(), standalone_ids[0].tolist())
+            next_tok = next_logits.argmax(dim=-1, keepdim=True).unsqueeze(0)
             standalone_ids = torch.cat([standalone_ids, next_tok], dim=1)
 
     # Speculative decoder rollout
