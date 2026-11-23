@@ -333,6 +333,7 @@ def main():
         PAPERS_DIR / "78_sanctuary_of_ultra_high_dimensions_and_hardware_scaling.md",
         PAPERS_DIR / "paper_79_systolic_orthoplex_accelerators.md",
         PAPERS_DIR / "paper_80_grand_capstone_synthesis.md",
+        PAPERS_DIR / "paper_81_millennium_prize_formal_verification_gym.md",
     ]
 
     html_sections = []
