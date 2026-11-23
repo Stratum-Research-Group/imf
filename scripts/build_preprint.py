@@ -358,6 +358,12 @@ def main():
         PAPERS_DIR / "paper_102_non_abelian_holonomy_wilson_loops_toroidal_silicon.md",
         PAPERS_DIR / "paper_103_quantum_hall_chern_invariance_recurrent_gradients.md",
         PAPERS_DIR / "paper_104_calabi_yau_mirror_symmetry_polytope_state_spaces.md",
+        PAPERS_DIR / "paper_105_homological_mirror_symmetry_fukaya_categories.md",
+        PAPERS_DIR / "paper_106_quantum_geometric_tensor_fubini_study_natural_gradient.md",
+        PAPERS_DIR / "paper_107_grothendieck_topos_motives_universal_token_translation.md",
+        PAPERS_DIR / "paper_108_k_theory_d_branes_boundary_states.md",
+        PAPERS_DIR / "paper_109_shannon_information_capacity_isometric_recurrent_channels.md",
+        PAPERS_DIR / "paper_110_topological_edge_states_systolic_fault_tolerance.md",
     ]
 
     html_sections = []
