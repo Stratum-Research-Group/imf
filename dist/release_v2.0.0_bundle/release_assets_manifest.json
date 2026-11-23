@@ -1,0 +1,47 @@
+{
+  "release_tag": "v2.0.0-imf-century-monograph",
+  "assets": [
+    {
+      "name": "imf_preprint.pdf",
+      "path": "dist/imf_preprint.pdf",
+      "size_kb": 7106.45,
+      "sha256": "e657a9170c2e6a9a925c471862aa6c9f3ed21412dae276ff8db2e51553b3b47c"
+    },
+    {
+      "name": "silicon_floorplan.svg",
+      "path": "dist/silicon_floorplan.svg",
+      "size_kb": 17.71,
+      "sha256": "b6e448ffb6c87bf6de2d0a4b233bf54d092cd670f99db856a1ba8feeb1a2b9b8"
+    },
+    {
+      "name": "tt_um_imf_orthoplex_tile.gds",
+      "path": "rtl/openlane_bundle/gds/tt_um_imf_orthoplex_tile.gds",
+      "size_kb": 0.04,
+      "sha256": "fc900b9d31ce11f858b9ceeb14eb81b04258bd2347c6080e31cf8c093f55cbf1"
+    },
+    {
+      "name": "imf-2.0.0-py3-none-any.whl",
+      "path": "dist/imf-2.0.0-py3-none-any.whl",
+      "size_kb": 382.02,
+      "sha256": "5bd662334c3fa5a72b76d07975bea6f490d7fed77f9e7b3b7be92902b45f385c"
+    },
+    {
+      "name": "imf-2.0.0.tar.gz",
+      "path": "dist/imf-2.0.0.tar.gz",
+      "size_kb": 341.48,
+      "sha256": "f338908c34d3780f0bb1f1eb716feec16564cd836393aa72ab9fcc18f79b2c0a"
+    },
+    {
+      "name": "manifest.json",
+      "path": "dist/dataset_century_proofs/manifest.json",
+      "size_kb": 0.74,
+      "sha256": "b19a7427d8ad2e91b46c582e763d016ae4ab24f7427170c413623d06482e0b27"
+    },
+    {
+      "name": "physical_tapeout_signoff.json",
+      "path": "rtl/reports/physical_tapeout_signoff.json",
+      "size_kb": 1.0,
+      "sha256": "ffe809207beee6280d2bda21ce564ad028d09dcef659baf87f20e588ddd40764"
+    }
+  ]
+}
