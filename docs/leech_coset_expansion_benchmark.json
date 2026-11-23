@@ -1,0 +1,38 @@
+[
+  {
+    "depth": 1,
+    "total_cells": 1024.0,
+    "physical_bytes": 65664,
+    "equiv_fp16_bytes": 49152.0,
+    "compression_ratio": 0.7485380116959064,
+    "latency_ms": 0.09386679972521961,
+    "reconstruction_mse": 0.6516152024269104
+  },
+  {
+    "depth": 2,
+    "total_cells": 1048576.0,
+    "physical_bytes": 65664,
+    "equiv_fp16_bytes": 50331648.0,
+    "compression_ratio": 766.5029239766081,
+    "latency_ms": 0.1620972203090787,
+    "reconstruction_mse": 0.5008385181427002
+  },
+  {
+    "depth": 3,
+    "total_cells": 1073741824.0,
+    "physical_bytes": 65664,
+    "equiv_fp16_bytes": 51539607552.0,
+    "compression_ratio": 784898.9941520467,
+    "latency_ms": 0.21371079958043993,
+    "reconstruction_mse": 0.41303420066833496
+  },
+  {
+    "depth": 4,
+    "total_cells": 1099511627776.0,
+    "physical_bytes": 65664,
+    "equiv_fp16_bytes": 52776558133248.0,
+    "compression_ratio": 803736570.0116959,
+    "latency_ms": 0.26900943950749934,
+    "reconstruction_mse": 0.35578617453575134
+  }
+]
