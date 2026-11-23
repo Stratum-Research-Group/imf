@@ -347,6 +347,7 @@ def main():
         PAPERS_DIR / "paper_92_non_archimedean_p_adic_manifolds_and_iwasawa_theory.md",
         PAPERS_DIR / "paper_93_motivic_galois_groups_and_grothendieck_topoi.md",
         PAPERS_DIR / "paper_94_langlands_duality_and_automorphic_hecke_representations.md",
+        PAPERS_DIR / "paper_95_geometric_langlands_hitchin_fibrations_and_higgs_bundles.md",
     ]
 
     html_sections = []
