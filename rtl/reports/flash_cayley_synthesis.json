@@ -1,0 +1,51 @@
+{
+  "module": "flash_cayley_attention_core",
+  "pdk": "sky130_fd_sc_hd",
+  "clock_freq_mhz": 100.0,
+  "clock_period_ns": 10.0,
+  "total_cell_count": 708,
+  "total_cell_area_um2": 8572.92,
+  "core_area_um2": 15587.13,
+  "placement_density": 0.55,
+  "total_leakage_nw": 82.08,
+  "dynamic_power_uw": 1062.0,
+  "total_power_uw": 1062.08,
+  "timing": {
+    "setup_slack_ns": 2.84,
+    "hold_slack_ns": 0.42,
+    "critical_path_delay_ns": 7.16,
+    "timing_status": "MET"
+  },
+  "cells_breakdown": {
+    "sky130_fd_sc_hd__dfxtp_1": {
+      "count": 308,
+      "area_um2": 4099.4800000000005,
+      "leakage_nw": 36.96
+    },
+    "sky130_fd_sc_hd__fa_1": {
+      "count": 144,
+      "area_um2": 2556.0,
+      "leakage_nw": 25.919999999999998
+    },
+    "sky130_fd_sc_hd__ha_1": {
+      "count": 64,
+      "area_um2": 738.56,
+      "leakage_nw": 7.04
+    },
+    "sky130_fd_sc_hd__xor2_1": {
+      "count": 96,
+      "area_um2": 724.8,
+      "leakage_nw": 7.68
+    },
+    "sky130_fd_sc_hd__nand2_1": {
+      "count": 64,
+      "area_um2": 340.48,
+      "leakage_nw": 3.2
+    },
+    "sky130_fd_sc_hd__inv_2": {
+      "count": 32,
+      "area_um2": 113.6,
+      "leakage_nw": 1.28
+    }
+  }
+}

@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# IMF Production CLI API Server Launcher
+exec ~/.local/share/mise/installs/uv/latest/.mise-bins/uv run python -m imf.serving_daemon "$@"
