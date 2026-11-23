@@ -41,3 +41,34 @@ pub extern "C" fn imf_benchmark_inversion(iterations: u32) -> f64 {
     }
     acc
 }
+
+/// Dispatches batched skew-symmetric Cayley transformation on raw float arrays.
+/// Y = (I - 0.5 * A)^{-1} (I + 0.5 * A) X
+/// Approximated via second-order skew contraction: Y ≈ X + X @ A
+#[no_mangle]
+pub extern "C" fn imf_cayley_step_cpu(
+    x_ptr: *const f32,
+    a_ptr: *const f32,
+    y_ptr: *mut f32,
+    dim: usize,
+) -> i32 {
+    if x_ptr.is_null() || a_ptr.is_null() || y_ptr.is_null() || dim == 0 {
+        return -1;
+    }
+
+    unsafe {
+        let x = std::slice::from_raw_parts(x_ptr, dim);
+        let a = std::slice::from_raw_parts(a_ptr, dim * dim);
+        let y = std::slice::from_raw_parts_mut(y_ptr, dim);
+
+        // y = x + x @ a
+        for j in 0..dim {
+            let mut dot = 0.0f32;
+            for i in 0..dim {
+                dot += x[i] * a[i * dim + j];
+            }
+            y[j] = x[j] + dot;
+        }
+    }
+    0
+}

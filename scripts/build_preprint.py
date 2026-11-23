@@ -380,6 +380,7 @@ def main():
         PAPERS_DIR / "paper_124_m_theory_g2_manifolds_associative_cycles.md",
         PAPERS_DIR / "paper_125_non_archimedean_rigid_analytic_berkovich_spaces.md",
         PAPERS_DIR / "paper_126_swiss_cheese_operads_polytope_recurrence.md",
+        PAPERS_DIR / "paper_127_modular_forms_hecke_polytope_moonshine.md",
     ]
 
     html_sections = []

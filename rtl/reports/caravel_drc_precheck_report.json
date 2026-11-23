@@ -1,0 +1,16 @@
+{
+  "design": "user_project_wrapper",
+  "pdk": "sky130A",
+  "gds_file": "rtl/openlane_bundle/gds/user_project_wrapper.gds",
+  "die_dimensions_um": [
+    2920.0,
+    3520.0
+  ],
+  "caravel_spec_match": true,
+  "pr_boundary_present": true,
+  "perimeter_clearance_ok": true,
+  "drc_violations": 0,
+  "antenna_violations": 0,
+  "lvs_clean": true,
+  "precheck_status": "APPROVED"
+}

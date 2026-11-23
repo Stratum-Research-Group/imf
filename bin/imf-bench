@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# IMF Unified Cross-Platform Profiling & Benchmark CLI Launcher
+exec ~/.local/share/mise/installs/uv/latest/.mise-bins/uv run python scripts/cli_bench.py "$@"
