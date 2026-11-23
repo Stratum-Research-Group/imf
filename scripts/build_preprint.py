@@ -383,6 +383,7 @@ def main():
         PAPERS_DIR / "paper_127_modular_forms_hecke_polytope_moonshine.md",
         PAPERS_DIR / "paper_128_non_commutative_hodge_de_rham_spectral_sequences.md",
         PAPERS_DIR / "paper_129_homological_mirror_symmetry_fukaya_polytope_categories.md",
+        PAPERS_DIR / "paper_130_unified_polytope_epistemology_and_silicon.md",
     ]
 
     html_sections = []

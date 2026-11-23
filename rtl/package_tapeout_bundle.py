@@ -65,7 +65,7 @@ def write_binary_gdsii():
 
 def package_and_sign_tapeout():
     import subprocess
-    cmd = f"tar -cf - -C rtl openlane_bundle reports | zstd -19 -T0 -o {ARCHIVE_FILE}"
+    cmd = f"tar -cf - -C rtl openlane_bundle reports | zstd -19 -T0 -f -o {ARCHIVE_FILE}"
     subprocess.run(cmd, shell=True, check=True)
 
     h_sha256 = hashlib.sha256()
