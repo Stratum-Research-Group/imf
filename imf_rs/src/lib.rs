@@ -125,3 +125,62 @@ pub extern "C" fn imf_cayley_step_avx2(
     }
     0
 }
+
+/// Fused Native Autoregressive Inference Step (Zero-Copy C-ABI)
+/// Bypasses Python runtime during decoding:
+/// Computes token step via SIMD state rotation and argmax head prediction.
+#[no_mangle]
+pub unsafe extern "C" fn imf_rs_infer_step(
+    state_ptr: *mut f32,
+    a_mat_ptr: *const f32,
+    head_weights_ptr: *const f32,
+    dim: usize,
+    vocab_size: usize,
+    out_token_id: *mut u32,
+    out_drift: *mut f32,
+) -> i32 {
+    if state_ptr.is_null() || a_mat_ptr.is_null() || head_weights_ptr.is_null() || out_token_id.is_null() || dim == 0 || vocab_size == 0 {
+        return -1;
+    }
+
+    // 1. In-place state rotation using SIMD AVX2 Cayley step
+    let mut next_state = vec![0.0f32; dim];
+    let ret = imf_cayley_step_avx2(state_ptr, a_mat_ptr, next_state.as_mut_ptr(), dim);
+    if ret != 0 {
+        return ret;
+    }
+
+    // Measure state drift ||h_next - h_prev||_2
+    let mut drift_sq = 0.0f32;
+    let old_state = std::slice::from_raw_parts(state_ptr, dim);
+    for i in 0..dim {
+        let diff = next_state[i] - old_state[i];
+        drift_sq += diff * diff;
+    }
+    if !out_drift.is_null() {
+        *out_drift = drift_sq.sqrt();
+    }
+
+    // Write back updated recurrent state
+    std::slice::from_raw_parts_mut(state_ptr, dim).copy_from_slice(&next_state);
+
+    // 2. Argmax prediction over vocabulary head: logits = next_state @ head_weights^T
+    let head = std::slice::from_raw_parts(head_weights_ptr, vocab_size * dim);
+    let mut max_val = f32::NEG_INFINITY;
+    let mut best_tok = 0u32;
+
+    for v in 0..vocab_size {
+        let w_row = &head[v * dim..(v + 1) * dim];
+        let mut logit = 0.0f32;
+        for i in 0..dim {
+            logit += next_state[i] * w_row[i];
+        }
+        if logit > max_val {
+            max_val = logit;
+            best_tok = v as u32;
+        }
+    }
+
+    *out_token_id = best_tok;
+    0
+}

@@ -224,6 +224,20 @@ async def chat_completions(request: Request):
         headers=headers
     )
 
+@app.websocket("/ws/telemetry")
+async def websocket_telemetry(websocket: WebSocket):
+    await websocket.accept()
+    from imf.telemetry_ws import read_shm_telemetry
+    try:
+        while True:
+            t = read_shm_telemetry()
+            t["manifold_drift"] = engine.drift_gauge if engine.drift_gauge > 0 else t["manifold_drift"]
+            t["speculative_speedup"] = engine.speculative_speedup
+            await websocket.send_json(t)
+            await asyncio.sleep(0.1)
+    except WebSocketDisconnect:
+        pass
+
 @app.websocket("/ws/stream")
 async def websocket_stream(websocket: WebSocket):
     await websocket.accept()
