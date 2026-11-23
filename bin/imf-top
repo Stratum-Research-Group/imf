@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# IMF Terminal Telemetry Dashboard Launcher
+exec ~/.local/share/mise/installs/uv/latest/.mise-bins/uv run python -m imf.imf_top "$@"

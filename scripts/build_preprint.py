@@ -364,6 +364,10 @@ def main():
         PAPERS_DIR / "paper_108_k_theory_d_branes_boundary_states.md",
         PAPERS_DIR / "paper_109_shannon_information_capacity_isometric_recurrent_channels.md",
         PAPERS_DIR / "paper_110_topological_edge_states_systolic_fault_tolerance.md",
+        PAPERS_DIR / "paper_111_thermodynamic_landauer_bounds_reversible_systolic_flows.md",
+        PAPERS_DIR / "paper_112_geometric_information_bottleneck_polytope_compression.md",
+        PAPERS_DIR / "paper_113_quantum_spin_hall_chiral_polytope_interconnects.md",
+        PAPERS_DIR / "paper_114_non_abelian_anyons_braid_groups_3d_systolic_fabrics.md",
     ]
 
     html_sections = []
