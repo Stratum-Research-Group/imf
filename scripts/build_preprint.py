@@ -327,6 +327,7 @@ def main():
         PAPERS_DIR / "72_asymptotic_convergence_and_cross_model_distillation_over_40k_steps.md",
         PAPERS_DIR / "73_multi_query_associative_recall_and_needle_geometry_in_100b_leech_mope.md",
         PAPERS_DIR / "74_high_order_leech_coset_expansions_for_megascale_compression.md",
+        PAPERS_DIR / "75_counter_rotating_lie_manifold_vortices_up_to_100k_dimensions.md",
     ]
 
     html_sections = []

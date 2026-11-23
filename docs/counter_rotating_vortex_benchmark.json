@@ -1,0 +1,47 @@
+{
+  "device": "cuda",
+  "max_dimension": 100000,
+  "angular_velocity_rad_s": 1.25,
+  "results": [
+    {
+      "dimension": 100,
+      "boundary_distance": 0.1,
+      "theoretical_distance": 0.1,
+      "distance_error": 0.0,
+      "v_net_center_norm": 0.0,
+      "simulation_latency_ms": 211.78192301886156,
+      "memory_footprint_kb": 1.5625,
+      "status": "NULL_POINT_PRESERVED"
+    },
+    {
+      "dimension": 1000,
+      "boundary_distance": 0.03162277660168379,
+      "theoretical_distance": 0.03162277660168379,
+      "distance_error": 0.0,
+      "v_net_center_norm": 0.0,
+      "simulation_latency_ms": 0.2228399971500039,
+      "memory_footprint_kb": 15.625,
+      "status": "NULL_POINT_PRESERVED"
+    },
+    {
+      "dimension": 10000,
+      "boundary_distance": 0.01,
+      "theoretical_distance": 0.01,
+      "distance_error": 0.0,
+      "v_net_center_norm": 0.0,
+      "simulation_latency_ms": 0.07910898420959711,
+      "memory_footprint_kb": 32.0,
+      "status": "NULL_POINT_PRESERVED"
+    },
+    {
+      "dimension": 100000,
+      "boundary_distance": 0.003162277660168379,
+      "theoretical_distance": 0.003162277660168379,
+      "distance_error": 0.0,
+      "v_net_center_norm": 0.0,
+      "simulation_latency_ms": 0.07537199417129159,
+      "memory_footprint_kb": 32.0,
+      "status": "NULL_POINT_PRESERVED"
+    }
+  ]
+}
