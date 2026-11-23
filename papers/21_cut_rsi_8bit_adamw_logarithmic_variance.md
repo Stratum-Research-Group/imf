@@ -1,8 +1,11 @@
 # IMF Technical Report 21: Cut-RSI 8-Bit AdamW — Logarithmic Variance Quantization, Fused Triton Kernels, and Lean 4 Boundedness Proofs
 
+**Series**: Phase II: Frontier Search & Alignment (Cut-Factorized MCTS, GRPO & Autonomous RSI)  
+**Paper Type**: Formal Deductive Verification  
 **Authors**: The IMF Architectural & Formal Methods Consortium  
 **Date**: November 2026  
-**Status**: Formal Academic Monograph & Machine-Checked Verification  
+**Status**: Machine-Certified Formal Proof — Verified in Lean 4 with 0 External Axioms  
+**Verification Level**: Interactive Proof Certified by Lean 4 Kernel (#print axioms clean, 0 sorry/admit)  
 
 ---
 

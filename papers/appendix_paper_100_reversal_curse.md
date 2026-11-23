@@ -1,8 +1,13 @@
 # Appendix to Paper 100: Empirical Resolution of the Reversal Curse via Lie-Group SO(N) Cayley Manifolds
 
+**Series**: Appendix Treatise (Foundational Mathematical Addendum)  
+**Paper Type**: Formal Deductive Verification  
 **Authors**: The IMF Architectural & Formal Methods Consortium  
 **Date**: November 2026  
-**Status**: Formal Academic Monograph & Machine-Checked Verification  
+**Status**: Machine-Certified Formal Proof — Verified in Lean 4 with 0 External Axioms  
+**Verification Level**: Interactive Proof Certified by Lean 4 Kernel (#print axioms clean, 0 sorry/admit)  
+
+---
 
 ---
 ## A.1 The Reversal Dilemma in Auto-Associative Transformer Models

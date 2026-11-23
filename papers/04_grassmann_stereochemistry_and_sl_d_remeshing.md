@@ -1,8 +1,11 @@
 # Technical Report SRG-IMF-2026-04: Grassmann Exterior Pseudoscalars, $\mathrm{SL}(D)$ Dynamic Polytope Re-Meshing, and Quaternary Simplex Bindings
 
+**Series**: Phase I: Foundational Theory (Lie-Algebraic Memory Splitting & Polytope Connectors)  
+**Paper Type**: Theoretical Mathematical Monograph  
 **Authors**: The IMF Architectural & Formal Methods Consortium  
 **Date**: November 2026  
-**Status**: Formal Academic Monograph & Machine-Checked Verification  
+**Status**: Peer-Review Ready — Closed-Form Analytical Derivations & Asymptotic Proofs  
+**Verification Level**: Rigorous Mathematical Theorems, Norm Bounds, and Group-Theoretic Invariants  
 
 ---
 

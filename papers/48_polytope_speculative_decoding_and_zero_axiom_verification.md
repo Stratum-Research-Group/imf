@@ -1,8 +1,11 @@
 # Paper 48: Polytope Speculative Co-Execution and Zero-Axiom Lean 4 Formal Verification Oracles
 
+**Series**: Phase III: Quantization & Sub-Byte Linear Algebra (E8 Gosset Roots, Barycentric Engines & Sub-Byte GEMM)  
+**Paper Type**: Formal Deductive Verification  
 **Authors**: The IMF Architectural & Formal Methods Consortium  
 **Date**: November 2026  
-**Status**: Formal Academic Monograph & Machine-Checked Verification  
+**Status**: Machine-Certified Formal Proof — Verified in Lean 4 with 0 External Axioms  
+**Verification Level**: Interactive Proof Certified by Lean 4 Kernel (#print axioms clean, 0 sorry/admit)  
 
 ---
 

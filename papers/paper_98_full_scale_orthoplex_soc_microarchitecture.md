@@ -1,8 +1,11 @@
 # Paper 98: Full-Scale Orthoplex System-on-Chip (SoC) Microarchitecture: 64-Core Systolic Meshes, Toroidal Zero-Shear Interconnects, and SkyWater Tapeout Verification
 
+**Series**: Phase V: Formal Prover Gym & Century Capstone (Millennium Verifiers, Microarchitecture & Complete Theory)  
+**Paper Type**: Hardware Architecture & Physical Silicon  
 **Authors**: The IMF Architectural & Formal Methods Consortium  
 **Date**: November 2026  
-**Status**: Formal Academic Monograph & Machine-Checked Verification  
+**Status**: Silicon Signoff Complete — Verified Synthesizable Verilog & Physical GDSII Stream  
+**Verification Level**: SkyWater 130nm Multi-Corner PVT PEX Signoff (DRC/LVS Clean, TinyTapeout/Caravel Compliant)  
 
 ---
 

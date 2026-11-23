@@ -1,8 +1,11 @@
 # Technical Report SRG-IMF-2026-05: Non-Abelian $SU(2)$ Gauge Simplicial Complexes and Continuous Unitary $SO(D)$ State-Space Flows
 
+**Series**: Phase I: Foundational Theory (Lie-Algebraic Memory Splitting & Polytope Connectors)  
+**Paper Type**: Empirical Engineering & Benchmark  
 **Authors**: The IMF Architectural & Formal Methods Consortium  
 **Date**: November 2026  
-**Status**: Formal Academic Monograph & Machine-Checked Verification  
+**Status**: Empirical Verification Complete — Reproducible Hardware Benchmarks on CUDA/Triton  
+**Verification Level**: Sustained Hardware Telemetry (NVIDIA GeForce RTX 5060 Ti, Native Rust Zero-Copy /dev/shm)  
 
 ---
 

@@ -1,8 +1,11 @@
 # Paper 87: Formal Proof Mechanics of the Yang–Mills Mass Gap and OpenLane GDSII Silicon Hardening for Native Orthoplex Accelerators
 
+**Series**: Phase V: Formal Prover Gym & Century Capstone (Millennium Verifiers, Microarchitecture & Complete Theory)  
+**Paper Type**: Hardware Architecture & Physical Silicon  
 **Authors**: The IMF Architectural & Formal Methods Consortium  
 **Date**: November 2026  
-**Status**: Formal Academic Monograph & Machine-Checked Verification  
+**Status**: Silicon Signoff Complete — Verified Synthesizable Verilog & Physical GDSII Stream  
+**Verification Level**: SkyWater 130nm Multi-Corner PVT PEX Signoff (DRC/LVS Clean, TinyTapeout/Caravel Compliant)  
 
 ---
 

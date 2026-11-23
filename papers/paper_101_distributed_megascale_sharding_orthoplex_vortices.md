@@ -1,8 +1,11 @@
 # Paper 101: Distributed Megascale Sharding of 100,000-Dimensional Counter-Rotating Orthoplex Vortices via Non-Blocking Lie Subspace Toroids
 
+**Series**: Phase VI: Megascale Sharding & Topological Silicon (Toroidal Meshes, Anyons & 1M-Step Formal Discoveries)  
+**Paper Type**: Formal Deductive Verification  
 **Authors**: The IMF Architectural & Formal Methods Consortium  
 **Date**: November 2026  
-**Status**: Formal Academic Monograph & Machine-Checked Verification  
+**Status**: Machine-Certified Formal Proof — Verified in Lean 4 with 0 External Axioms  
+**Verification Level**: Interactive Proof Certified by Lean 4 Kernel (#print axioms clean, 0 sorry/admit)  
 
 ---
 

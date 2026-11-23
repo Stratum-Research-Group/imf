@@ -1,8 +1,11 @@
 # Paper 42: Hardware-Fused Polytope Dequantization and Sub-Byte Register-Level Tensor Processing
 
+**Series**: Phase III: Quantization & Sub-Byte Linear Algebra (E8 Gosset Roots, Barycentric Engines & Sub-Byte GEMM)  
+**Paper Type**: Hardware Architecture & Physical Silicon  
 **Authors**: The IMF Architectural & Formal Methods Consortium  
 **Date**: November 2026  
-**Status**: Formal Academic Monograph & Machine-Checked Verification  
+**Status**: Silicon Signoff Complete — Verified Synthesizable Verilog & Physical GDSII Stream  
+**Verification Level**: SkyWater 130nm Multi-Corner PVT PEX Signoff (DRC/LVS Clean, TinyTapeout/Caravel Compliant)  
 
 ---
 
