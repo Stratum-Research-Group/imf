@@ -149,25 +149,28 @@ class FrontierMCTSCutEngine:
                 curr = curr.parent
 
         # 3. Intermediate Bipartite Cut Synthesis (Singlet Pairing S^2 = -I)
+        # Reconcile forward state rollout with backward adjoint representation
         forward_leaves = sorted(self._collect_leaves(root_forward), key=lambda x: x.value, reverse=True)[:5]
+        backward_leaves = sorted(self._collect_leaves(root_backward), key=lambda x: x.value, reverse=True)[:5]
+
         best_plan = None
         verified = False
         diagnostic = "No cut synthesis reached closure."
 
+        # Bi-directional Meeting-in-the-Middle Frontier Join
+        candidate_solutions = []
         for f_leaf in forward_leaves:
-            candidate_solutions = [
-                f"{f_leaf.state_str}\n  {goal}",
-                f"{premise}\n  {goal}",
-                f"{f_leaf.state_str}"
-            ]
-            for candidate in candidate_solutions:
-                pass_ok, diag = self.verifier.verify_sample(candidate, lang)
-                if pass_ok:
-                    best_plan = candidate
-                    verified = True
-                    diagnostic = diag
-                    break
-            if verified:
+            for b_leaf in backward_leaves:
+                candidate_solutions.append(f"{f_leaf.state_str}\n{b_leaf.state_str}")
+            candidate_solutions.append(f"{f_leaf.state_str}\n  {goal}")
+        candidate_solutions.append(f"{premise}\n  {goal}")
+
+        for candidate in candidate_solutions:
+            pass_ok, diag = self.verifier.verify_sample(candidate, lang)
+            if pass_ok:
+                best_plan = candidate
+                verified = True
+                diagnostic = diag
                 break
 
         if not verified and forward_leaves:
@@ -178,6 +181,8 @@ class FrontierMCTSCutEngine:
             "verified": verified,
             "solution": best_plan,
             "diagnostic": diagnostic,
+            "forward_frontier_size": len(forward_leaves),
+            "backward_frontier_size": len(backward_leaves),
             "forward_nodes": root_forward.visits,
             "backward_nodes": root_backward.visits,
             "theoretical_unidirectional_evals": self.b ** self.max_depth,

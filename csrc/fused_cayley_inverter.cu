@@ -42,27 +42,25 @@ __global__ void fused_cayley_inverter_kernel_8x8(
     __syncthreads();
 
     // Invert (I + Omega) using parallel Gauss-Jordan elimination
+    // Each thread (r, c) owns element A[r][c] and A[r][c + 8] to avoid concurrent write races
     #pragma unroll
     for (int p = 0; p < 8; p++) {
-        // Pivot normalization
+        // Read pivot from shared memory
         float pivot = A[p][p];
-        if (fabsf(pivot) < 1e-7f) pivot = 1e-7f;
+        if (fabsf(pivot) < 1e-7f) pivot = (pivot >= 0.0f) ? 1e-7f : -1e-7f;
 
+        // Thread (p, c) normalizes its own columns c and c+8
         if (r == p) {
-            #pragma unroll
-            for (int k = 0; k < 16; k++) {
-                A[p][k] /= pivot;
-            }
+            A[p][c] /= pivot;
+            A[p][c + 8] /= pivot;
         }
         __syncthreads();
 
-        // Elimination of non-pivot rows
+        // Elimination of non-pivot rows: thread (r, c) updates its own elements
         if (r != p) {
             float factor = A[r][p];
-            #pragma unroll
-            for (int k = 0; k < 16; k++) {
-                A[r][k] -= factor * A[p][k];
-            }
+            A[r][c] -= factor * A[p][c];
+            A[r][c + 8] -= factor * A[p][c + 8];
         }
         __syncthreads();
     }
