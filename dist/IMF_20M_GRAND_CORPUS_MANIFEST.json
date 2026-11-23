@@ -1,8 +1,8 @@
 {
   "corpus_name": "IMF Grand Megascale 20x 1,000,000-Step Formal Prover Corpus",
-  "total_certified_theorems": 15000000,
+  "total_certified_theorems": 20000000,
   "target_theorems": 20000000,
-  "passes_completed": 15,
+  "passes_completed": 20,
   "total_passes": 20,
   "axioms_used": 0,
   "verification_kernel": "Lean 4 Core v4.16.0",
@@ -156,6 +156,61 @@
       "archive_file": "dist/gym_20m_corpus/gym_1m_pass_15.tar.zst",
       "archive_size_bytes": 1728354,
       "archive_sha256": "1dc7da30665674fa6a4ff8b4b8ae4f9931df940ff478e47c3a35a69ffab1d3ae"
+    },
+    {
+      "pass_num": 16,
+      "steps": 1000000,
+      "elapsed_seconds": 692.01,
+      "steps_per_sec": 1445.06,
+      "raw_sha256": "da6181e2c64f6e04f6b3e114b6ef5bb8b046a20747982d74174b4189070d8541",
+      "archive_file": "dist/gym_20m_corpus/gym_1m_pass_16.tar.zst",
+      "archive_size_bytes": 1764379,
+      "archive_sha256": "8abd7989aa755c12fa3078ceee3dfbbfa917e4e57a551d7e2dfc1d797a236a6f"
+    },
+    {
+      "pass_num": 17,
+      "steps": 1000000,
+      "elapsed_seconds": 698.71,
+      "steps_per_sec": 1431.21,
+      "raw_sha256": "11008b9e44d12a86ec362925de82031f815ed909f0a9a816f3231254ac0e0fd5",
+      "archive_file": "dist/gym_20m_corpus/gym_1m_pass_17.tar.zst",
+      "archive_size_bytes": 1746589,
+      "archive_sha256": "a67619ef913ce6d7e080009e14722b8b72aeea8aabcc3e51539a3ed1265021a5"
+    },
+    {
+      "pass_num": 18,
+      "steps": 1000000,
+      "elapsed_seconds": 699.76,
+      "steps_per_sec": 1429.05,
+      "raw_sha256": "da57d163b35255c332278ace9b13eb5c302e271ed03eabfc5a2ecf6b223f95a1",
+      "archive_file": "dist/gym_20m_corpus/gym_1m_pass_18.tar.zst",
+      "archive_size_bytes": 1751876,
+      "archive_sha256": "b38790320d4b20e5a5bed4b089f2e4f7255242109a11c790e0abd39aca4f6047"
+    },
+    {
+      "pass_num": 19,
+      "steps": 1000000,
+      "elapsed_seconds": 705.04,
+      "steps_per_sec": 1418.37,
+      "raw_sha256": "fbf0b8209de474429f0c6a1148da411e6748f62725a7242a0ff069e3791979f0",
+      "archive_file": "dist/gym_20m_corpus/gym_1m_pass_19.tar.zst",
+      "archive_size_bytes": 1737300,
+      "archive_sha256": "a6dbfac5b4b762a4240c290f3a905e2587d03019987e8164ac4b2d8431615ea7"
+    },
+    {
+      "pass_num": 20,
+      "steps": 1000000,
+      "elapsed_seconds": 723.49,
+      "steps_per_sec": 1382.18,
+      "raw_sha256": "71f7c4a8e26edd6681c165ec6fc7c93f0d43218b4df4620b2bb6a05fef300141",
+      "archive_file": "dist/gym_20m_corpus/gym_1m_pass_20.tar.zst",
+      "archive_size_bytes": 1728545,
+      "archive_sha256": "c7c387a6d776c64bf90151121db7ad4430103f3859e8b15ebd05e61506ccf4d5"
     }
-  ]
+  ],
+  "final_archive": {
+    "path": "dist/imf_20m_grand_corpus_final.tar.zst",
+    "size_mb": 5.21,
+    "sha256": "9d2cb9b3c8b875d2893771677cee69fe9b2653d54ce582c8d5d9a12dfd6695f8"
+  }
 }

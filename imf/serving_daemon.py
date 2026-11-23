@@ -35,7 +35,8 @@ import uuid
 import asyncio
 from typing import Dict, Any, List, Optional, Generator
 from fastapi import FastAPI, Request, WebSocket, WebSocketDisconnect
-from fastapi.responses import JSONResponse, StreamingResponse
+from fastapi.responses import JSONResponse, StreamingResponse, HTMLResponse
+from pathlib import Path
 import uvicorn
 import torch
 import torch.nn.functional as F
@@ -120,6 +121,13 @@ def get_telemetry_headers() -> Dict[str, str]:
         "X-IMF-Speculative-Speedup": f"{engine.last_speculative_speedup:.2f}x",
         "X-IMF-Device": str(engine.device),
     }
+
+@app.get("/", response_class=HTMLResponse)
+async def get_dashboard():
+    dashboard_file = Path("dist/dashboard.html")
+    if dashboard_file.exists():
+        return HTMLResponse(content=dashboard_file.read_text(encoding="utf-8"))
+    return HTMLResponse(content="<h1>IMF Serving Daemon Live</h1>")
 
 @app.get("/healthz")
 async def healthz():
