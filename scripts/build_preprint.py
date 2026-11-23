@@ -348,6 +348,11 @@ def main():
         PAPERS_DIR / "paper_93_motivic_galois_groups_and_grothendieck_topoi.md",
         PAPERS_DIR / "paper_94_langlands_duality_and_automorphic_hecke_representations.md",
         PAPERS_DIR / "paper_95_geometric_langlands_hitchin_fibrations_and_higgs_bundles.md",
+        PAPERS_DIR / "paper_96_tqft_donaldson_witten_and_instantons_on_4_manifolds.md",
+        PAPERS_DIR / "paper_97_non_commutative_geometry_connes_spectral_triples.md",
+        PAPERS_DIR / "paper_98_full_scale_orthoplex_soc_microarchitecture.md",
+        PAPERS_DIR / "paper_99_autonomous_machine_epistemology_100k_theorems.md",
+        PAPERS_DIR / "paper_100_grand_century_capstone_the_complete_theory.md",
     ]
 
     html_sections = []

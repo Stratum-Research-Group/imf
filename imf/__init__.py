@@ -7,7 +7,7 @@ Core exports:
 - SAVGScanFunction: Autograd functional interface for SAVG scan
 """
 
-__version__ = "1.9.5"
+__version__ = "2.0.0"
 __all__ = [
     "FusedSAVGLayer",
     "MultiHeadSAVGLayer",
