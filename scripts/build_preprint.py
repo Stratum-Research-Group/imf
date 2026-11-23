@@ -341,6 +341,7 @@ def main():
         PAPERS_DIR / "paper_86_riemann_zero_free_region_and_sky130_silicon.md",
         PAPERS_DIR / "paper_87_yang_mills_mass_gap_and_openlane_gdsii.md",
         PAPERS_DIR / "paper_88_bsd_parity_conjecture_and_interactive_serving.md",
+        PAPERS_DIR / "paper_89_algebraic_hodge_cycles_and_chern_characters.md",
     ]
 
     html_sections = []
