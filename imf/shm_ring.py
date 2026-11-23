@@ -76,8 +76,11 @@ class IMFSharedMemoryRing:
         token_len = struct.unpack("<H", self.mm.read(2))[0]
         data = self.mm.read(token_len).decode("utf-8", errors="replace")
         new_tail = tail + 2 + token_len
-        if new_tail > SHM_SIZE or new_tail >= head:
+        if new_tail > SHM_SIZE:
             new_tail = HEADER_SIZE
+        elif new_tail >= head:
+            # Buffer caught up to head; set tail = head to denote empty buffer without re-reading
+            new_tail = head
             
         self.mm.seek(8)
         self.mm.write(struct.pack("<I", new_tail))

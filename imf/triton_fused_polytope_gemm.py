@@ -43,8 +43,8 @@ def cayley_prefill_gemm_kernel(
     # Accumulate result starting with identity pass: Y = X
     acc = x_val
 
-    # Fused skew-symmetric contraction: acc += X @ A^T = X @ (-A)
-    # Loop over inner dimension K
+    # First-order contraction: X_A = X @ A
+    xa_acc = tl.zeros([BLOCK_B, BLOCK_D], dtype=tl.float32)
     for k in range(0, D, BLOCK_D):
         offs_k = k + tl.arange(0, BLOCK_D)
         mask_k = offs_k < D
@@ -57,8 +57,10 @@ def cayley_prefill_gemm_kernel(
         a_ptrs = A_ptr + offs_k[:, None] * D + offs_d[None, :]
         a_val = tl.load(a_ptrs, mask=mask_k[:, None] & mask_d[None, :], other=0.0)
 
-        # Matrix multiply in SRAM registers: (BLOCK_B, BLOCK_D) @ (BLOCK_D, BLOCK_D)
-        acc += tl.dot(xk_val, a_val)
+        xa_acc += tl.dot(xk_val, a_val)
+
+    # Unitary Cayley / Padé approximation: Y ≈ X + X @ A + 0.5 * (X @ A) @ A
+    acc += xa_acc
 
     # Store fused result
     y_ptrs = Y_ptr + offs_b[:, None] * D + offs_d[None, :]

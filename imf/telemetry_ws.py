@@ -31,17 +31,18 @@ def read_shm_telemetry() -> dict:
 
     try:
         with open(SHM_PATH, "rb") as f:
-            data = f.read(48)
-            if len(data) < 48:
+            header_size = 24  # struct.calcsize("<4sIIffI") = 4 + 4 + 4 + 4 + 4 + 4 = 24
+            data = f.read(header_size)
+            if len(data) < header_size:
                 return {"status": "INCOMPLETE"}
-            magic, seq, ts, drift, speedup, tok_s = struct.unpack("16sQQddd", data)
+            magic, head, tail, drift, speedup, flags = struct.unpack("<4sIIffI", data)
             return {
                 "magic": magic.decode("ascii", errors="ignore").strip("\x00"),
-                "sequence_id": seq,
-                "timestamp_ns": ts,
+                "head": head,
+                "tail": tail,
                 "manifold_drift": drift,
                 "speculative_speedup": speedup,
-                "tokens_per_sec": tok_s,
+                "flags": flags,
                 "status": "LIVE"
             }
     except Exception as e:

@@ -44,7 +44,8 @@ def _fused_autoregressive_cayley_kernel(
     out_acc = tl.zeros([BLOCK_D], dtype=tl.float32)
     for k in range(0, D):
         w_val = tl.load(W_ptr + k * D + col_offsets, mask=mask, other=0.0)
-        x_c_k = tl.load(X_ptr + pid_b * D + k) # First-order projection
+        # Load rotated Cayley coordinate rather than raw input X
+        x_c_k = tl.sum(tl.where(col_offsets == k, x_cayley, 0.0))
         out_acc += x_c_k * w_val
 
     tl.store(Out_ptr + pid_b * D + col_offsets, out_acc, mask=mask)

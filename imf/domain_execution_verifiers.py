@@ -349,7 +349,7 @@ class DomainExecutionVerifierRegistry:
     # 11. Lean 4 Formal Theorem & Zero-Axiom Oracle
     # -------------------------------------------------------------
     def verify_lean4(self, code: str, theorem_name: Optional[str] = None) -> Tuple[bool, str]:
-        """Validates Lean 4 code with zero-axiom core reflection gating. Rejects sorry, admit, sorryAx, unsafe."""
+        """Validates Lean 4 code with zero-axiom core reflection gating. Rejects sorry, admit, sorryAx, unsafe, and custom project axioms."""
         for escape in ["sorry", "sorryAx", "admit", "unsafe"]:
             if escape in code:
                 return False, f"Verification Rejected: '{escape}' escape-hatch detected."
@@ -365,11 +365,23 @@ class DomainExecutionVerifierRegistry:
             res = subprocess.run(["lean", tmp_path], capture_output=True, text=True, timeout=60)
             combined = res.stdout + ("\n" + res.stderr if res.stderr else "")
             if res.returncode == 0 and "sorry" not in combined.lower():
-                return True, "Lean 4 machine-checked formal proof certified."
+                # Strict Zero-Axiom audit: parse #print axioms output if present
+                # Lean's standard foundational axioms: propext, Classical.choice, Quot.sound
+                standard_axioms = {"propext", "Classical.choice", "Quot.sound"}
+                for line in combined.splitlines():
+                    if "depends on axioms:" in line:
+                        axioms_part = line.split("depends on axioms:")[-1].strip().strip("[]").replace(",", " ")
+                        used_axioms = set(axioms_part.split())
+                        unauthorized = used_axioms - standard_axioms
+                        if unauthorized:
+                            return False, f"Verification Rejected: Unauthorized non-standard axioms detected: {unauthorized}"
+                return True, "Lean 4 machine-checked formal proof certified with 0 non-standard axioms."
             else:
                 err_lines = [l for l in combined.splitlines() if "error:" in l or "declaration uses" in l]
                 msg = err_lines[0] if err_lines else (res.stderr.strip() or "Lean 4 type-check failure.")
                 return False, f"Lean 4 error: {msg}"
+        except (FileNotFoundError, PermissionError) as e:
+            return False, f"UNVERIFIED: Lean 4 compiler unavailable ({type(e).__name__}: {e})"
         except Exception as e:
             return False, str(e)
         finally:

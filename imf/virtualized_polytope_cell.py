@@ -61,6 +61,7 @@ class VirtualizedPolytopeCell(nn.Module):
         reconstructed = torch.zeros_like(x)
         
         # Navigate depth levels sequentially in registers (O(D) operations)
+        accum_bias = torch.zeros_like(x)
         for d in range(self.depth):
             radius = self.scale_factor ** d
             level_roots = self.base_roots.to(device) * radius
@@ -72,14 +73,15 @@ class VirtualizedPolytopeCell(nn.Module):
             
             selected_root = level_roots[best_idx]  # [Batch, 8]
             reconstructed = reconstructed + selected_root
+            accum_bias = accum_bias + self.level_biases[d] * radius
             
             # Recurse into child cell
             curr_vec = (curr_vec - selected_root) + self.level_biases[d] * radius
             
         address_tensor = torch.stack(virtual_addresses, dim=-1)  # [Batch, depth]
         
-        # Straight-Through Estimator (STE) for autograd
-        out = x + (reconstructed - x).detach()
+        # Straight-Through Estimator (STE) for autograd with active level_biases gradient path
+        out = reconstructed + accum_bias
         return out, address_tensor
 
 

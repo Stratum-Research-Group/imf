@@ -173,10 +173,17 @@ class PolytopeLatticeQuantizer(nn.Module):
         norms = torch.norm(W_8d, dim=-1, keepdim=True).clamp(min=1e-5)
         W_unit = W_8d / norms
 
-        # Find nearest E8 root by maximizing inner product: [num_vecs, 240]
-        # E8 roots have norm sqrt(2), dot product is proportional to cosine similarity
-        sims = torch.matmul(W_unit, self.e8_roots.to(device).t())
-        best_indices = torch.argmax(sims, dim=-1).to(torch.uint8) # [num_vecs]
+        # Find nearest E8 root by maximizing inner product in memory-bounded chunks:
+        # Prevents allocating huge [N_vectors, 240] similarity arrays (>8 GB for 8192x8192 matrices)
+        CHUNK_SIZE = 32768
+        e8_roots_t = self.e8_roots.to(device).t()
+        best_indices_list = []
+        for i in range(0, num_vecs, CHUNK_SIZE):
+            chunk = W_unit[i:i + CHUNK_SIZE]
+            sims_chunk = torch.matmul(chunk, e8_roots_t)
+            best_indices_list.append(torch.argmax(sims_chunk, dim=-1).to(torch.uint8))
+
+        best_indices = torch.cat(best_indices_list, dim=0) if len(best_indices_list) > 1 else best_indices_list[0]
 
         # Reconstructed 8D vectors matching block RMS
         # Each root in e8_roots has norm 1.0 (unit vector in R^8).
