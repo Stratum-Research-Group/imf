@@ -1,0 +1,16 @@
+{
+  "design_name": "user_project_wrapper",
+  "pdk": "sky130A",
+  "harness": "caravel_open_mpw",
+  "die_area_um": [
+    2920.0,
+    3520.0
+  ],
+  "core_macro": "imf_century_unified_soc_top",
+  "wishbone_clock_mhz": 100.0,
+  "gds_file": "rtl/openlane_bundle/gds/user_project_wrapper.gds",
+  "gds_sha256": "16fc5ef9ab159a83ed0470acc84666a81aa90eb0005e1cb562fb1d23846ecfbe",
+  "drc_clean": true,
+  "lvs_clean": true,
+  "antenna_violations": 0
+}

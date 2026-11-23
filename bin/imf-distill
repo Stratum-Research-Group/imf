@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# IMF Hugging Face -> Sub-Byte E8 Gosset Distillation CLI Launcher
+exec ~/.local/share/mise/installs/uv/latest/.mise-bins/uv run python scripts/cli_distill.py "$@"

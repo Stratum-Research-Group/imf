@@ -155,9 +155,24 @@
       container.appendChild(renderer.domElement);
 
       buildPolytope('e8');
+      connectTelemetryWS();
 
       window.addEventListener('resize', onWindowResize, false);
       animate();
+    }
+
+    function connectTelemetryWS() {
+      try {
+        const ws = new WebSocket("ws://127.0.0.1:8765");
+        ws.onmessage = function(event) {
+          try {
+            const data = JSON.parse(event.data);
+            if (data.manifold_drift !== undefined) {
+              document.getElementById('drift-val').innerText = Number(data.manifold_drift).toExponential(2);
+            }
+          } catch(e) {}
+        };
+      } catch(e) {}
     }
 
     function generateE8Roots() {
