@@ -5,4 +5,12 @@ edition = "2021"
 authors = ["The IMF Autonomous Collective"]
 description = "High-performance native Rust client and CLI for IMF isometric inference & verification"
 
+[lib]
+name = "imf_rs"
+crate-type = ["cdylib", "rlib"]
+
+[[bin]]
+name = "imf_rs"
+path = "src/main.rs"
+
 [dependencies]
