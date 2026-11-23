@@ -332,6 +332,7 @@ def main():
         PAPERS_DIR / "77_geometric_coupling_of_spin_and_model_quality.md",
         PAPERS_DIR / "78_sanctuary_of_ultra_high_dimensions_and_hardware_scaling.md",
         PAPERS_DIR / "paper_79_systolic_orthoplex_accelerators.md",
+        PAPERS_DIR / "paper_80_grand_capstone_synthesis.md",
     ]
 
     html_sections = []
