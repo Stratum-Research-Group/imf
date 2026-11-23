@@ -354,6 +354,10 @@ def main():
         PAPERS_DIR / "paper_99_autonomous_machine_epistemology_100k_theorems.md",
         PAPERS_DIR / "paper_100_grand_century_capstone_the_complete_theory.md",
         PAPERS_DIR / "appendix_paper_100_reversal_curse.md",
+        PAPERS_DIR / "paper_101_distributed_megascale_sharding_orthoplex_vortices.md",
+        PAPERS_DIR / "paper_102_non_abelian_holonomy_wilson_loops_toroidal_silicon.md",
+        PAPERS_DIR / "paper_103_quantum_hall_chern_invariance_recurrent_gradients.md",
+        PAPERS_DIR / "paper_104_calabi_yau_mirror_symmetry_polytope_state_spaces.md",
     ]
 
     html_sections = []
