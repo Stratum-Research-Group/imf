@@ -11,16 +11,16 @@
   "offline_loading_verified": true,
   "storage_sizes": {
     "base_fp16_bytes": 131584,
-    "weft_factorized_bytes": 8753,
+    "weft_factorized_bytes": 8752,
     "imf_e8_lattice_bytes": 10752,
     "compression_ratio_fp16_to_e8": 12.238095238095237
   },
   "performance": {
-    "startup_cold_load_ms": 0.464,
-    "first_token_latency_fp16_ms": 882.578,
-    "first_token_latency_e8_ms": 16.662,
-    "decode_throughput_tok_sec": 366.2,
-    "peak_host_ram_mb": 1563.8,
+    "startup_cold_load_ms": 0.178,
+    "first_token_latency_fp16_ms": 611.649,
+    "first_token_latency_e8_ms": 10.974,
+    "decode_throughput_tok_sec": 561.5,
+    "peak_host_ram_mb": 1553.2,
     "peak_device_vram_mb": 40.2
   },
   "quality_retention": {

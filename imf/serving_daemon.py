@@ -80,6 +80,14 @@ class IMFServingEngine:
         self.last_speculative_speedup: float = 1.0
         self.has_fused_cuda = torch.cuda.is_available()
 
+    @property
+    def drift_gauge(self) -> float:
+        return self.last_measured_drift
+
+    @property
+    def speculative_speedup(self) -> float:
+        return self.last_speculative_speedup
+
     def generate_tokens(self, prompt: str, max_tokens: int = 32) -> Generator[str, None, None]:
         # Encode simple token hash representation for input prompt
         tokens = [abs(hash(w)) % self.vocab_size for w in prompt.split()]
@@ -165,6 +173,7 @@ async def chat_completions(request: Request):
     if not stream:
         tokens = list(engine.generate_tokens(prompt, max_tokens))
         content = " ".join(tokens)
+        headers = get_telemetry_headers()
         payload = {
             "id": request_id,
             "object": "chat.completion",
