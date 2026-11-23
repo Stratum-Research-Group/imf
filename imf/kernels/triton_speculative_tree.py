@@ -83,34 +83,35 @@ if HAS_TRITON:
                 best_acc = curr_acc
                 best_p = p
 
-        # Write out metadata
-        tl.store(BestCount_ptr, best_acc)
+        # Total accepted tokens to return is matched prefix + 1 (either target correction or bonus)
+        total_tokens_out = best_acc + 1
+        tl.store(BestCount_ptr, total_tokens_out)
         tl.store(BestPathIdx_ptr, best_p)
 
         # Store winning accepted tokens
         acc_written = 0
         mismatch_seen = False
         for d in range(0, DEPTH):
-            d_tok = tl.load(DraftTree_ptr + best_p * DEPTH + d)
-            # Compute target argmax at this position
-            m_val = -1e30
-            m_idx = 0
-            for v_offset in range(0, VOCAB, BLOCK_V):
-                v_idx = v_offset + tl.arange(0, BLOCK_V)
-                v_mask = v_idx < VOCAB
-                l_val = tl.load(
-                    TargetLogits_ptr + (best_p * (DEPTH + 1) + d) * VOCAB + v_idx,
-                    mask=v_mask,
-                    other=-1e30
-                )
-                loc_max = tl.max(l_val, axis=0)
-                if loc_max > m_val:
-                    is_m = l_val == loc_max
-                    inds = tl.where(is_m & v_mask, v_idx, 999999)
-                    m_val = loc_max
-                    m_idx = tl.min(inds, axis=0)
-
             if not mismatch_seen:
+                d_tok = tl.load(DraftTree_ptr + best_p * DEPTH + d)
+                # Compute target argmax at this position
+                m_val = -1e30
+                m_idx = 0
+                for v_offset in range(0, VOCAB, BLOCK_V):
+                    v_idx = v_offset + tl.arange(0, BLOCK_V)
+                    v_mask = v_idx < VOCAB
+                    l_val = tl.load(
+                        TargetLogits_ptr + (best_p * (DEPTH + 1) + d) * VOCAB + v_idx,
+                        mask=v_mask,
+                        other=-1e30
+                    )
+                    loc_max = tl.max(l_val, axis=0)
+                    if loc_max > m_val:
+                        is_m = l_val == loc_max
+                        inds = tl.where(is_m & v_mask, v_idx, 999999)
+                        m_val = loc_max
+                        m_idx = tl.min(inds, axis=0)
+
                 if m_idx == d_tok:
                     tl.store(BestTokens_ptr + acc_written, d_tok)
                     acc_written += 1
