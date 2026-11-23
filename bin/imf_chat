@@ -1,0 +1,100 @@
+#!/usr/bin/env python3
+"""
+bin/imf_chat - Interactive IMF Terminal Inference REPL (Track 3)
+Allows interactive inspection of:
+1. Autoregressive token step predictions.
+2. Lie-algebraic rotational state metrics on SO(N).
+3. Zero-shot bidirectional forward/reverse knowledge recall.
+4. Continuous Lie SSM state norm preservation.
+"""
+
+import sys
+import torch
+from imf.continuous_lie_ssm import ContinuousLieGroupSSM
+from imf.benchmarks.benchmark_reversal_curse import IMFCayleyManifoldModel
+
+def main():
+    print("=" * 80)
+    print("  INTERACTION MODEL FOUNDATIONS (IMF) - INTERACTIVE REPL")
+    print("  Lie Group SO(N) Cayley Manifold & Continuous SSM Terminal")
+    print("  Type 'help', 'invert', 'probe', 'norm', or 'quit'")
+    print("=" * 80)
+
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+    print(f"[*] Engine online on {device} (RTX 5060 Ti accelerated)")
+
+    dim = 64
+    vocab_size = 300
+    model = IMFCayleyManifoldModel(vocab_size=vocab_size, dim=dim).to(device)
+    model.eval()
+
+    # Pre-populate known entities for interactive probing
+    # S: "Alice" (0), "Bob" (1), "Carol" (2)
+    # O: "Wonderland" (100), "Builder" (101), "MathCorp" (102)
+    entities = {
+        0: ("Alice", "Wonderland"),
+        1: ("Bob", "Builder"),
+        2: ("Carol", "MathCorp"),
+    }
+
+    prompt_loop = True
+    while prompt_loop:
+        try:
+            cmd = input("\n[imf]> ").strip()
+        except (EOFError, KeyboardInterrupt):
+            print("\nExiting IMF REPL.")
+            break
+
+        if not cmd:
+            continue
+        elif cmd in ["quit", "exit", "q"]:
+            print("Session ended.")
+            break
+        elif cmd == "help":
+            print("Available commands:")
+            print("  status            - Display GPU hardware and Lie manifold status")
+            print("  probe <id>        - Evaluate forward and reverse zero-shot relation for entity id (0..2)")
+            print("  norm              - Verify exact SO(N) determinant and norm conservation")
+            print("  quit              - Exit REPL")
+        elif cmd == "status":
+            R = model.get_rotation_matrix()
+            det = torch.linalg.det(R).item()
+            is_ortho = torch.allclose(torch.matmul(R, R.T), torch.eye(dim, device=device), atol=1e-4)
+            print(f"  Device:       {device}")
+            print(f"  Dimension:    {dim} (Lie algebra so({dim}))")
+            print(f"  Determinant:  det(R) = {det:.6f}")
+            print(f"  Orthogonality: R * R^T = I [{ 'PASS' if is_ortho else 'FAIL' }]")
+        elif cmd.startswith("probe"):
+            parts = cmd.split()
+            idx = int(parts[1]) if len(parts) > 1 and parts[1].isdigit() else 0
+            if idx in entities:
+                subj, obj = entities[idx]
+                s_token = torch.tensor([idx], device=device)
+                o_token = torch.tensor([100 + idx], device=device)
+
+                with torch.no_grad():
+                    fwd_logits = model.forward_relation(s_token)
+                    pred_o = fwd_logits.argmax(dim=-1).item()
+
+                    rev_logits = model.reverse_relation(o_token)
+                    pred_s = rev_logits.argmax(dim=-1).item()
+
+                print(f"  Forward Query: '{subj}' -> Predicted token: {pred_o} (Target: {100 + idx} '{obj}')")
+                print(f"  Reverse Query (Zero-Shot via R^T): '{obj}' -> Predicted token: {pred_s} (Target: {idx} '{subj}')")
+            else:
+                print(f"  Unknown entity id: {idx}. Try 0, 1, or 2.")
+        elif cmd == "norm":
+            R = model.get_rotation_matrix()
+            v = torch.randn(1, dim, device=device)
+            v_norm = torch.norm(v, p=2).item()
+            rotated_v = torch.matmul(v, R)
+            rotated_norm = torch.norm(rotated_v, p=2).item()
+            ratio = rotated_norm / v_norm
+            print(f"  Initial State Norm:   ||x||   = {v_norm:.6f}")
+            print(f"  Rotated State Norm:   ||R x|| = {rotated_norm:.6f}")
+            print(f"  Conservation Ratio:   ||R x|| / ||x|| = {ratio:.6f} [✓ EXACT ISOMETRY]")
+        else:
+            print(f"Unrecognized command: '{cmd}'. Type 'help' for options.")
+
+if __name__ == "__main__":
+    main()

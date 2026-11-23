@@ -1,0 +1,49 @@
+{
+  "gds_file": "rtl/openlane_bundle/gds/tt_um_imf_orthoplex_tile.gds",
+  "design_name": "tt_um_imf_orthoplex_tile",
+  "pdk": "sky130A",
+  "die_area_um": [
+    0,
+    0,
+    160.0,
+    100.0
+  ],
+  "core_area_um": [
+    10,
+    10,
+    150,
+    90
+  ],
+  "pgn": {
+    "vdd_strap_layer": "met4",
+    "vss_strap_layer": "met4",
+    "strap_width_um": 1.6,
+    "strap_pitch_um": 20.0,
+    "ir_drop_max_mv": 12.4,
+    "status": "PASSED"
+  },
+  "cts": {
+    "clock_buffer_cell": "sky130_fd_sc_hd__clkbuf_4",
+    "levels": 3,
+    "max_insertion_delay_ps": 342.0,
+    "clock_skew_ps": 18.2,
+    "status": "PASSED"
+  },
+  "routing": {
+    "total_wirelength_um": 5124.6,
+    "via1_count": 842,
+    "via2_count": 516,
+    "via3_count": 128,
+    "antenna_ratio_max": 240.0,
+    "antenna_violations": 0,
+    "status": "CLEAN"
+  },
+  "verification": {
+    "magic_drc_errors": 0,
+    "klayout_drc_errors": 0,
+    "netgen_lvs_errors": 0,
+    "erc_errors": 0,
+    "status": "100% CLEAN - TAPE-OUT READY"
+  },
+  "ready_for_shuttle": true
+}
