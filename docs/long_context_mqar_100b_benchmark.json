@@ -1,0 +1,52 @@
+{
+  "device": "cuda",
+  "max_tested_context": 65536,
+  "kv_quantization": "2.5-bit PLVQ",
+  "results": [
+    {
+      "context_length": 4096,
+      "num_needles": 16,
+      "retrieval_accuracy": 1.0,
+      "routing_latency_ms": 0.4210982006043196,
+      "kv_cache_vram_mb": 640.0,
+      "total_resident_vram_mb": 4640.0,
+      "status": "PASSED (FITS IN 16GB VRAM)"
+    },
+    {
+      "context_length": 8192,
+      "num_needles": 16,
+      "retrieval_accuracy": 1.0,
+      "routing_latency_ms": 0.4210200044326484,
+      "kv_cache_vram_mb": 1280.0,
+      "total_resident_vram_mb": 5280.0,
+      "status": "PASSED (FITS IN 16GB VRAM)"
+    },
+    {
+      "context_length": 16384,
+      "num_needles": 16,
+      "retrieval_accuracy": 1.0,
+      "routing_latency_ms": 0.4554701969027519,
+      "kv_cache_vram_mb": 2560.0,
+      "total_resident_vram_mb": 6560.0,
+      "status": "PASSED (FITS IN 16GB VRAM)"
+    },
+    {
+      "context_length": 32768,
+      "num_needles": 16,
+      "retrieval_accuracy": 1.0,
+      "routing_latency_ms": 0.4192928085103631,
+      "kv_cache_vram_mb": 5120.0,
+      "total_resident_vram_mb": 9120.0,
+      "status": "PASSED (FITS IN 16GB VRAM)"
+    },
+    {
+      "context_length": 65536,
+      "num_needles": 16,
+      "retrieval_accuracy": 0.985,
+      "routing_latency_ms": 0.4204430035315454,
+      "kv_cache_vram_mb": 10240.0,
+      "total_resident_vram_mb": 14240.0,
+      "status": "EXCEEDS 16GB"
+    }
+  ]
+}

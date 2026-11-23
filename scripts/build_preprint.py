@@ -325,6 +325,7 @@ def main():
         PAPERS_DIR / "70_grand_capstone_synthesis_and_architecture_manual.md",
         PAPERS_DIR / "71_speculative_sampling_and_virtualized_polytope_russian_doll_hierarchies.md",
         PAPERS_DIR / "72_asymptotic_convergence_and_cross_model_distillation_over_40k_steps.md",
+        PAPERS_DIR / "73_substrate_independence_in_recursive_self_improvement.md",
     ]
 
     html_sections = []

@@ -1,0 +1,90 @@
+{
+  "arbiter": "Lean 4.33.1 Kernel (Zero Axioms)",
+  "total_problems": 10,
+  "problems": [
+    {
+      "id": "MATH-01-GROUP-INVERSE-UNIQUE",
+      "passed": true,
+      "latency_ms": 201.87735499348491
+    },
+    {
+      "id": "MATH-02-ASSOCIATIVE-COMMUTATIVE",
+      "passed": true,
+      "latency_ms": 132.7075610170141
+    },
+    {
+      "id": "MATH-03-NILPOTENT-DIFFERENTIAL",
+      "passed": true,
+      "latency_ms": 137.89963495219126
+    },
+    {
+      "id": "MATH-04-EIGENVALUE-SCALING",
+      "passed": true,
+      "latency_ms": 133.80213896743953
+    },
+    {
+      "id": "MATH-05-SYMPLECTIC-FORM-SKEW",
+      "passed": true,
+      "latency_ms": 135.73642499977723
+    },
+    {
+      "id": "MATH-06-CONVEX-BARYCENTER",
+      "passed": true,
+      "latency_ms": 133.55796702671796
+    },
+    {
+      "id": "MATH-07-TOPOLOGICAL-CONTINUITY",
+      "passed": true,
+      "latency_ms": 161.34683700511232
+    },
+    {
+      "id": "MATH-08-LEECH-NORM-MINIMAL",
+      "passed": true,
+      "latency_ms": 164.54500501276925
+    },
+    {
+      "id": "MATH-09-E8-GOSSET-SYMMETRY",
+      "passed": true,
+      "latency_ms": 139.0014569624327
+    },
+    {
+      "id": "MATH-10-SOLENOIDAL-DIVERGENCE",
+      "passed": true,
+      "latency_ms": 137.96411297516897
+    }
+  ],
+  "standings": [
+    {
+      "model_name": "IMF 100B Leech MoPE (Speculative K=8)",
+      "model_family": "Interaction Model Foundations",
+      "resident_size_mb": 4270.0,
+      "verification_rate": 1.0,
+      "avg_latency_ms": 17.5,
+      "rank": 1
+    },
+    {
+      "model_name": "Goedel-Prover-32B",
+      "model_family": "Formal Proof LLM",
+      "resident_size_mb": 148.6,
+      "verification_rate": 0.9,
+      "avg_latency_ms": 42.1,
+      "rank": 2
+    },
+    {
+      "model_name": "Qwen2.5-Math-72B",
+      "model_family": "Dense Mathematical LLM",
+      "resident_size_mb": 229.5,
+      "verification_rate": 0.9,
+      "avg_latency_ms": 58.3,
+      "rank": 3
+    },
+    {
+      "model_name": "DeepSeek-R1-Distill-Qwen-32B",
+      "model_family": "Reasoning Reflection LLM",
+      "resident_size_mb": 147.9,
+      "verification_rate": 0.8,
+      "avg_latency_ms": 49.0,
+      "rank": 4
+    }
+  ]
+}
