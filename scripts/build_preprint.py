@@ -324,6 +324,7 @@ def main():
         PAPERS_DIR / "69_empirical_virtual_cell_traversal_and_7b_distillation_benchmarks.md",
         PAPERS_DIR / "70_grand_capstone_synthesis_and_architecture_manual.md",
         PAPERS_DIR / "71_speculative_sampling_and_virtualized_polytope_russian_doll_hierarchies.md",
+        PAPERS_DIR / "72_asymptotic_convergence_and_cross_model_distillation_over_40k_steps.md",
     ]
 
     html_sections = []

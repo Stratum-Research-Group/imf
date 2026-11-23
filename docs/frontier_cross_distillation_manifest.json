@@ -1,0 +1,26 @@
+[
+  {
+    "model_file": "model_consolidated_subbit.gguf",
+    "size_bytes": 240600806,
+    "dimension_projected": 8,
+    "e8_quantization_mse": 0.2120833545923233,
+    "spectral_variance_mean": 73.86368560791016,
+    "status": "INGESTED_AND_PROJECTED"
+  },
+  {
+    "model_file": "model_consolidated_subbit.gguf",
+    "size_bytes": 155779478,
+    "dimension_projected": 8,
+    "e8_quantization_mse": 0.20364165306091309,
+    "spectral_variance_mean": 73.79659271240234,
+    "status": "INGESTED_AND_PROJECTED"
+  },
+  {
+    "model_file": "model_consolidated_subbit.gguf",
+    "size_bytes": 155131670,
+    "dimension_projected": 8,
+    "e8_quantization_mse": 0.23583075404167175,
+    "spectral_variance_mean": 73.80442810058594,
+    "status": "INGESTED_AND_PROJECTED"
+  }
+]
