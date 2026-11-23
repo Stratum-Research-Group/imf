@@ -1,0 +1,19 @@
+{
+  "dataset_name": "IMF Century 100K Formal Prover Gym (Sealed Release)",
+  "timestamp_utc": "2026-11-23T17:22:34.164731+00:00",
+  "total_certified_theorems": 100000,
+  "axioms": 0,
+  "format": "JSON-Lines (Strict Lean 4.33.1 formal derivations)",
+  "raw_file": {
+    "path": "data/rsi_experience_buffer/massive_100000_gym.jsonl",
+    "size_bytes": 23297851,
+    "sha256": "c737606466673e7cf71d3e8b6e020e68cc1115d863a6caa4db8da6cb025e942d",
+    "sha512": "cc2e4304a41f87ff48e3b6dd81114b57252e4ea352f29edd9f011ce12e239d2b8113ac228e81ea7351c2c1cd9c939034401e9dd868eb4b40e616a73c4b5850fc"
+  },
+  "archive_file": {
+    "path": "dist/imf_century_100k_gym.tar.zst",
+    "size_bytes": 370070,
+    "sha256": "5611e4cfe6dafc30ccd98699afc62fe9436a63a9ff9a0f70eef7197035e60b81",
+    "sha512": "58908fd4eb8228aa4f65512e19996ba68b6c818c466b459b9aee578c6747964421b7ba0c0dd5349f48b7db91b79c0758f286b17d1b20bab9b8db27d9c6ba1e5c"
+  }
+}
