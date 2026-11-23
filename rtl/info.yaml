@@ -1,0 +1,45 @@
+---
+# Tiny Tapeout Project Information
+project:
+  title:        "Native Orthoplex Processing Element & Zero-Shear Crossbar (NOSA)"
+  author:       "IMF Autonomous Hardware Engineering Group"
+  discord:      ""
+  description:  "Sub-bit ternary signed accumulator and zero-shear clutching crossbar tile."
+  language:     "Verilog"
+  clock_hz:     50000000
+
+# How many tiles does this design occupy?
+tiles: "1x1"
+
+# A description of what the inputs do
+inputs:
+  - enable
+  - is_l1_mode
+  - weight_ternary[0]
+  - weight_ternary[1]
+  - null_point_strobe
+  - reserved_5
+  - reserved_6
+  - reserved_7
+
+# A description of what the outputs do
+outputs:
+  - result[0]
+  - result[1]
+  - result[2]
+  - result[3]
+  - result[4]
+  - result[5]
+  - result[6]
+  - result[7]
+
+# Bidirectional pins configured as inputs (data_in_x)
+bidirectional:
+  - data_in_x[0]
+  - data_in_x[1]
+  - data_in_x[2]
+  - data_in_x[3]
+  - data_in_x[4]
+  - data_in_x[5]
+  - data_in_x[6]
+  - data_in_x[7]
