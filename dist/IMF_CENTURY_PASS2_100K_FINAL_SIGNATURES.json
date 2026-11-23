@@ -1,0 +1,26 @@
+{
+  "dataset_name": "IMF Century Pass 2 100K Formal Prover Gym (Sealed Release)",
+  "timestamp_utc": "2026-11-23T17:45:15.375529+00:00",
+  "total_certified_theorems": 100000,
+  "axioms": 0,
+  "format": "JSON-Lines (Strict Lean 4.33.1 formal derivations)",
+  "domains": {
+    "YangMills-SpectralGap": 20000,
+    "BSD-EllipticRank": 20000,
+    "Hodge-AlgebraicCycles": 20000,
+    "Langlands-Automorphic": 20000,
+    "Riemann-SpectralZeros": 20000
+  },
+  "raw_file": {
+    "path": "data/rsi_experience_buffer/massive_gym_pass2.jsonl",
+    "size_bytes": 17257790,
+    "sha256": "4651a1372e88ebe4b7f248ad4168c8e9ee3aef0ca89c0ec40a3fd588d3cd7a28",
+    "sha512": "2afbecff9d6b6c85a252054a1d1eef551724814d4232971d3b22ba47f82e580e4b2cfe57eb4ccca5140fbf3c6e8da889f520a96c5f6703cb62963fbc8815b038"
+  },
+  "archive_file": {
+    "path": "dist/imf_century_pass2_100k_gym.tar.zst",
+    "size_bytes": 208609,
+    "sha256": "9e960ea71f3545a0e2d3cbab1989d93b4984fe0d3f902845d6dfed66fe57eb6a",
+    "sha512": "101393b4008f9e5234ef699f4f0c28049ec3119f09eb55b920768a2e28a3e816e7124bc11408e098fcf6bf2817135f5d2742c8efbc85ade6872845dbaac88121"
+  }
+}
