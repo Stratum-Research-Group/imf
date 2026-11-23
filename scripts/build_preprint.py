@@ -343,6 +343,7 @@ def main():
         PAPERS_DIR / "paper_88_bsd_parity_conjecture_and_interactive_serving.md",
         PAPERS_DIR / "paper_89_algebraic_hodge_cycles_and_chern_characters.md",
         PAPERS_DIR / "paper_90_grand_capstone_synthesis_90_treatises.md",
+        PAPERS_DIR / "paper_91_geometric_quantum_circuit_compilation_orthoplex.md",
     ]
 
     html_sections = []
