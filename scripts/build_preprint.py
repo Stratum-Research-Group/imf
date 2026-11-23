@@ -372,6 +372,7 @@ def main():
         PAPERS_DIR / "paper_116_categorical_quantum_mechanics_zx_calculus_polytope_tensors.md",
         PAPERS_DIR / "paper_117_discoveries_and_invariants_100k_gym.md",
         PAPERS_DIR / "paper_118_qcd_quark_gluon_plasma_chiral_restoration_lie_manifolds.md",
+        PAPERS_DIR / "paper_119_scientific_discoveries_pass2_100k_gym.md",
     ]
 
     html_sections = []
