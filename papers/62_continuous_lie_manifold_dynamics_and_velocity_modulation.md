@@ -1,9 +1,8 @@
 # Paper 62: Continuous Lie Manifold Dynamics: Rotational Velocity Modulation, Non-Abelian Gauge Flows, and Multi-Frequency Harmonic Gear Spectra in Neural State Spaces
 
-**Author**: Stratum Research Group & The IMF Autonomous Discovery Engine  
+**Authors**: The IMF Architectural & Formal Methods Consortium  
 **Date**: November 2026  
-**Status**: Formal Academic Monograph & Technical Report  
-**Subject Classification**: Differential Geometry (math.DG), Machine Learning (cs.LG), Dynamical Systems (math.DS), Mathematical Physics (math-ph)
+**Status**: Formal Academic Monograph & Machine-Checked Verification  
 
 ---
 

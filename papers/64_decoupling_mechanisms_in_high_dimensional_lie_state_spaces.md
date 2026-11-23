@@ -1,9 +1,8 @@
 # Paper 64: Decoupling Mechanisms in High-Dimensional Lie-Group State Spaces: Cartan Subalgebra Factorization, Commutator Annihilation, and Gauge-Invariant Nullspace Projection
 
-**Author**: Stratum Research Group & The IMF Autonomous Discovery Engine  
+**Authors**: The IMF Architectural & Formal Methods Consortium  
 **Date**: November 2026  
-**Status**: Formal Academic Monograph & Technical Report  
-**Subject Classification**: Differential Geometry (math.DG), Machine Learning (cs.LG), Lie Algebras (math.RA), Dynamical Systems (math.DS)
+**Status**: Formal Academic Monograph & Machine-Checked Verification  
 
 ---
 

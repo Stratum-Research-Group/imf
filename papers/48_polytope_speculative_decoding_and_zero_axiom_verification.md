@@ -1,8 +1,8 @@
 # Paper 48: Polytope Speculative Co-Execution and Zero-Axiom Lean 4 Formal Verification Oracles
 
-**Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
-**Stratum Research Group & IMF Core Team**  
-**Technical Report Series on Information-Theoretic Manifold Foundations (IMF)**
+**Authors**: The IMF Architectural & Formal Methods Consortium  
+**Date**: November 2026  
+**Status**: Formal Academic Monograph & Machine-Checked Verification  
 
 ---
 

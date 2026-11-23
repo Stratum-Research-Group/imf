@@ -1,9 +1,8 @@
 # Paper 61: Sub-Byte Polytope Lattice Vector Quantization, Continuous Straight-Through Autograd, and Megascale Limits in Interaction Model Foundations
 
-**Author**: Stratum Research Group & The IMF Autonomous Discovery Engine  
+**Authors**: The IMF Architectural & Formal Methods Consortium  
 **Date**: November 2026  
-**Status**: Formal Academic Monograph & Technical Report  
-**Subject Classification**: Machine Learning (cs.LG), Discrete Geometry (math.MG), Hardware Systems (cs.AR), Logic in Computer Science (cs.LO)
+**Status**: Formal Academic Monograph & Machine-Checked Verification  
 
 ---
 

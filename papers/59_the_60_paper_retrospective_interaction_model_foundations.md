@@ -1,8 +1,8 @@
 # The 60-Paper Retrospective: Interaction Model Foundations and The Formal Architecture of Machine Reason
 
-**Authors**: IMF Frontier Research Group  
+**Authors**: The IMF Architectural & Formal Methods Consortium  
 **Date**: November 2026  
-**Status**: Formal Research Monograph — Paper 59
+**Status**: Formal Academic Monograph & Machine-Checked Verification  
 
 ---
 

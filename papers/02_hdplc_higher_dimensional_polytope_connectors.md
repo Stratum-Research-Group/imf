@@ -1,9 +1,8 @@
 # Higher-Dimensional Polytope Landmark Connectors (HDPLC): Barycentric Simplex Frames, Orthoplex Antipodal Pairs, and Multi-Hop Knowledge Topology
 
-**Author:** Nicholas Charles Mynhardt (Stratum Research Group)
-**Stratum Research Group (SRG)**  
-*Technical Report SRG-IMF-2026-02*  
-*November 2026*
+**Authors**: The IMF Architectural & Formal Methods Consortium  
+**Date**: November 2026  
+**Status**: Formal Academic Monograph & Machine-Checked Verification  
 
 ---
 

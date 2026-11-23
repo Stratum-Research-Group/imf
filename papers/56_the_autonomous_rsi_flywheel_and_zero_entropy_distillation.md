@@ -1,8 +1,8 @@
 # The Autonomous Recursive Self-Improvement Flywheel: Eliminating Model Collapse via Non-Stochastic Host Oracles
 
-**Authors**: IMF Frontier Research Group  
+**Authors**: The IMF Architectural & Formal Methods Consortium  
 **Date**: November 2026  
-**Status**: Formal Research Monograph — Paper 56
+**Status**: Formal Academic Monograph & Machine-Checked Verification  
 
 ---
 

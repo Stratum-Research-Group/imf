@@ -1,8 +1,8 @@
 # Paper 83: Machine-Checked Epistemic Verification Over Celebrated Unsolved Mathematical Frontiers (Status as of November 2026)
 
-**Authors:** The IMF Autonomous Recursive Research Team  
-**Date:** November 2026  
-**Status:** Verified & Machine-Certified (Lean 4 Kernel: Zero Axioms)  
+**Authors**: The IMF Architectural & Formal Methods Consortium  
+**Date**: November 2026  
+**Status**: Formal Academic Monograph & Machine-Checked Verification  
 
 ---
 

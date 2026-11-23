@@ -1,9 +1,8 @@
 # Paper 70: Grand Capstone Synthesis and Architecture Manual: Interaction Model Foundations from 1B to 1T Scale
 
-**Author**: Stratum Research Group & The IMF Autonomous Discovery Engine  
+**Authors**: The IMF Architectural & Formal Methods Consortium  
 **Date**: November 2026  
-**Status**: Formal Academic Monograph & Capstone Manual (Release v1.2.0)  
-**Subject Classification**: Foundations of Computer Science (cs.OH), Machine Learning (cs.LG), Mathematical Software (cs.MS)
+**Status**: Formal Academic Monograph & Machine-Checked Verification  
 
 ---
 

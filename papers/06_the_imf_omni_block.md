@@ -1,9 +1,8 @@
 # The IMF-OmniBlock: Unifying Unitary Continuous-Time Lie SSMs with Non-Abelian Gauge Polytopes
 
-**Technical Paper 06 — Interaction Model Foundations (IMF)**  
-*Stratum Research Group*
-
-**Author:** Nicholas Charles Mynhardt (Stratum Research Group)
+**Authors**: The IMF Architectural & Formal Methods Consortium  
+**Date**: November 2026  
+**Status**: Formal Academic Monograph & Machine-Checked Verification  
 
 ---
 

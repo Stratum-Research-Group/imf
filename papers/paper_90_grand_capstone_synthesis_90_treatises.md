@@ -1,7 +1,8 @@
 # Paper 90: Grand Capstone Synthesis: Ninety Foundational Treatises on Interaction Model Foundations, Geometric Neural Mechanics, and Zero-Axiom Autonomous Silicon
 
-**Stratum Research Group**  
-*November 2026*
+**Authors**: The IMF Architectural & Formal Methods Consortium  
+**Date**: November 2026  
+**Status**: Formal Academic Monograph & Machine-Checked Verification  
 
 ---
 

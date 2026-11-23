@@ -1,8 +1,8 @@
 # Paper 103: Quantum Hall Topo-Algebraic Invariance, Chern Simplex Flow, and Non-Vanishing Recurrent Gradients Across Infinite Horizons
 
-**Authors**: Interaction Model Foundations Consortium  
-**Classification**: Topological Quantum Field Theory, Condensed Matter Physics, Deep Recurrent Mechanics  
-**Status**: Formal Mathematical Treatise & Zero-Axiom Lean 4 Monograph  
+**Authors**: The IMF Architectural & Formal Methods Consortium  
+**Date**: November 2026  
+**Status**: Formal Academic Monograph & Machine-Checked Verification  
 
 ---
 

@@ -1,9 +1,8 @@
 # Paper 39: The Higher-Dimensional Polytope Barycentric Integer Engine: Formal Partitions of Unity, Discrete Simplex Lattices, and Lean 4 Proofs
 
-**Author:** Nicholas Charles Mynhardt (Stratum Research Group)
-**Authors:** The Stratum Research Group & Formal Verification Team  
-**Date:** November 2026  
-**Status:** Formally Verified Standard & Technical Monograph
+**Authors**: The IMF Architectural & Formal Methods Consortium  
+**Date**: November 2026  
+**Status**: Formal Academic Monograph & Machine-Checked Verification  
 
 ---
 

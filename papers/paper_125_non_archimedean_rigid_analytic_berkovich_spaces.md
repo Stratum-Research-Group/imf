@@ -1,8 +1,8 @@
 # Paper 125: Non-Archimedean Rigid Analytic Spaces and Berkovich Spectra in Polytope Routing
 
-**Author**: Interaction Model Foundations Consortium  
+**Authors**: The IMF Architectural & Formal Methods Consortium  
 **Date**: November 2026  
-**Status**: Formal Verification Complete & Clean (Lean 4: 0 Axioms)
+**Status**: Formal Academic Monograph & Machine-Checked Verification  
 
 ---
 

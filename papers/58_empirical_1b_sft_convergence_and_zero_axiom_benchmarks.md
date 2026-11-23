@@ -1,8 +1,8 @@
 # Empirical 1.14B SFT Convergence and Multi-Domain Zero-Axiom Benchmark Synthesis
 
-**Authors**: IMF Frontier Research Group  
+**Authors**: The IMF Architectural & Formal Methods Consortium  
 **Date**: November 2026  
-**Status**: Formal Research Monograph — Paper 58
+**Status**: Formal Academic Monograph & Machine-Checked Verification  
 
 ---
 

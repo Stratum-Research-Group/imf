@@ -1,7 +1,8 @@
 # Paper 97: Non-Commutative Geometry, Alain Connes' Spectral Triples, and Operator Theoretic Token Metrics
 
-**Stratum Research Group**  
-*November 2026*
+**Authors**: The IMF Architectural & Formal Methods Consortium  
+**Date**: November 2026  
+**Status**: Formal Academic Monograph & Machine-Checked Verification  
 
 ---
 

@@ -1,8 +1,8 @@
 # Paper 106: Quantum Geometric Tensors, Fubini-Study Riemannian Metrics, and Gauge-Invariant Natural Gradient Optimization on Higher-Dimensional Polytope Manifolds
 
-**Authors**: Interaction Model Foundations Consortium  
-**Classification**: Quantum Information Geometry, Riemannian Manifolds, First-Order Optimization  
-**Status**: Formal Treatises & Zero-Axiom Lean 4 Monograph  
+**Authors**: The IMF Architectural & Formal Methods Consortium  
+**Date**: November 2026  
+**Status**: Formal Academic Monograph & Machine-Checked Verification  
 
 ---
 

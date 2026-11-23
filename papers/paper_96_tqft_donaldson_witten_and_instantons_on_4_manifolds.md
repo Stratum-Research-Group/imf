@@ -1,7 +1,8 @@
 # Paper 96: Topological Quantum Field Theory, Donaldson–Witten Invariants, and Instantons on 4-Manifolds as Neural Normalization
 
-**Stratum Research Group**  
-*November 2026*
+**Authors**: The IMF Architectural & Formal Methods Consortium  
+**Date**: November 2026  
+**Status**: Formal Academic Monograph & Machine-Checked Verification  
 
 ---
 

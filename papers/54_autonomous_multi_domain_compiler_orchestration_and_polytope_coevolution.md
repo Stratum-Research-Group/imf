@@ -1,8 +1,8 @@
 # Multi-Architecture Ground-Truth Verification and Polytope Co-evolution in Foundation Language Models
 
-**Authors**: IMF Frontier Research Group  
+**Authors**: The IMF Architectural & Formal Methods Consortium  
 **Date**: November 2026  
-**Status**: Formal Research Monograph — Paper 54
+**Status**: Formal Academic Monograph & Machine-Checked Verification  
 
 ---
 

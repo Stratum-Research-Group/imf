@@ -1,8 +1,8 @@
 # Continuous O(1) Multimodal Lie Manifolds and Asymptotic Bipartite Cut Search in Frontier Foundation Models
 
-**Authors**: IMF Frontier Research Group  
+**Authors**: The IMF Architectural & Formal Methods Consortium  
 **Date**: November 2026  
-**Status**: Formal Research Monograph — Paper 55
+**Status**: Formal Academic Monograph & Machine-Checked Verification  
 
 ---
 

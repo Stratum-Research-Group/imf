@@ -1,8 +1,8 @@
 # Paper 111: Thermodynamic Landauer Bounds and Zero-Entropy Erasure in Reversible Systolic Flows
 
-**Author**: The IMF Autonomous Research Collective  
-**Status**: Certified Open Source Masterwork — Century Series  
-**Formal Certification**: Certified in Lean 4 with 0 Axioms (`#print axioms`)
+**Authors**: The IMF Architectural & Formal Methods Consortium  
+**Date**: November 2026  
+**Status**: Formal Academic Monograph & Machine-Checked Verification  
 
 ---
 

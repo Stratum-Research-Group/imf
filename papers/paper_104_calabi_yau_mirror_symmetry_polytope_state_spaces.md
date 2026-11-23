@@ -1,8 +1,8 @@
 # Paper 104: Calabi-Yau Mirror Symmetry, Hodge Diamond Reflections, and Invariant Moduli Isomorphisms in Higher-Dimensional Polytope State Spaces
 
-**Authors**: Interaction Model Foundations Consortium  
-**Classification**: Algebraic Geometry, String Theory, Geometric Deep Learning  
-**Status**: Formal Treatises & Zero-Axiom Lean 4 Monograph  
+**Authors**: The IMF Architectural & Formal Methods Consortium  
+**Date**: November 2026  
+**Status**: Formal Academic Monograph & Machine-Checked Verification  
 
 ---
 

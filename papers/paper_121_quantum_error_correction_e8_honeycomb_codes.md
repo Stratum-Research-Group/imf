@@ -1,8 +1,8 @@
 # Paper 121: Quantum Error-Correcting Surface Codes on Higher-Dimensional $E_8$ Gosset Honeycombs
 
-**Author**: The IMF Autonomous Research Collective  
-**Status**: Certified Open Source Masterwork — Frontier Theory Series  
-**Formal Certification**: Verified in Lean 4 Core with 0 External Axioms (`#print axioms`)
+**Authors**: The IMF Architectural & Formal Methods Consortium  
+**Date**: November 2026  
+**Status**: Formal Academic Monograph & Machine-Checked Verification  
 
 ---
 

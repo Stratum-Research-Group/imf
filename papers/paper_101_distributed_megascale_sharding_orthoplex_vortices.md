@@ -1,8 +1,8 @@
 # Paper 101: Distributed Megascale Sharding of 100,000-Dimensional Counter-Rotating Orthoplex Vortices via Non-Blocking Lie Subspace Toroids
 
-**Authors**: Interaction Model Foundations Consortium  
-**Classification**: Distributed Machine Learning, High-Performance Computing, Differential Geometry  
-**Status**: Formal Mathematical Specification & Distributed Architecture Report  
+**Authors**: The IMF Architectural & Formal Methods Consortium  
+**Date**: November 2026  
+**Status**: Formal Academic Monograph & Machine-Checked Verification  
 
 ---
 

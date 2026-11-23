@@ -1,10 +1,8 @@
 # Technical Paper 09: Cut-Factorized Bidirectional Reasoning and Polytope Mixture-of-Experts
 
-**Author:** Nicholas Charles Mynhardt (Stratum Research Group)
-**Stratum Research Group & Interaction Model Foundations (IMF)**  
-*Formal Theory, Architecture, and Empirical Benchmarks*  
-**Date:** November 2026  
-**Status:** Verified via Constructive Lean 4 Proofs & CUDA Implementations  
+**Authors**: The IMF Architectural & Formal Methods Consortium  
+**Date**: November 2026  
+**Status**: Formal Academic Monograph & Machine-Checked Verification  
 
 ---
 

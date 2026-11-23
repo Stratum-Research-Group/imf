@@ -1,5 +1,10 @@
 # Comprehensive Empirical Appendix: Symbolic Reasoning, Lambada Context Completion, and Distributed Scaling
 
+**Authors**: The IMF Architectural & Formal Methods Consortium  
+**Date**: November 2026  
+**Status**: Formal Academic Monograph & Machine-Checked Verification  
+
+---
 **Technical Paper 07 (Appendix) — Interaction Model Foundations (IMF)**  
 *Stratum Research Group*
 

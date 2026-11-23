@@ -1,8 +1,8 @@
 # Paper 85: The Massive 2,000-Step Formal Prover Gym: Granular Machine Certification Over Unsolved Mathematical Frontiers
 
-**Authors:** The IMF Autonomous Recursive Research Team  
-**Date:** November 2026  
-**Status:** Verified & Machine-Certified (Lean 4 Kernel: Zero Axioms)  
+**Authors**: The IMF Architectural & Formal Methods Consortium  
+**Date**: November 2026  
+**Status**: Formal Academic Monograph & Machine-Checked Verification  
 
 ---
 

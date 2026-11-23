@@ -1,9 +1,8 @@
 # Paper 69: Empirical Convergence and Microsecond Traversal of Virtualized Polytope Russian-Doll Cells in 7B Distillation
 
-**Author**: Stratum Research Group & The IMF Autonomous Discovery Engine  
+**Authors**: The IMF Architectural & Formal Methods Consortium  
 **Date**: November 2026  
-**Status**: Formal Academic Monograph & Technical Report  
-**Subject Classification**: Machine Learning (cs.LG), Computer Systems (cs.AR), Discrete Mathematics (math.CO)
+**Status**: Formal Academic Monograph & Machine-Checked Verification  
 
 ---
 

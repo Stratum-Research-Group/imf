@@ -1,8 +1,8 @@
 # IMF Technical Report 22: Lie-Riemannian Manifold Optimization, Cayley Geodesic Flows, and Zero-Drift Unitary Memory
 
-**Author:** Nicholas Charles Mynhardt (Stratum Research Group)
-**Stratum Research Group & Autonomous AETHER Synthesis Engine**  
-*Date: November 2026*
+**Authors**: The IMF Architectural & Formal Methods Consortium  
+**Date**: November 2026  
+**Status**: Formal Academic Monograph & Machine-Checked Verification  
 
 ---
 

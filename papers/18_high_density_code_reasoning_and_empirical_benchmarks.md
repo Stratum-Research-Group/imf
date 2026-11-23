@@ -1,8 +1,8 @@
 # Technical Report 18: High-Density Code Reasoning, Multi-Domain Benchmark Scaling, and Empirical Comparison Against Open-Weights Models
 
-**Author:** Nicholas Charles Mynhardt (Stratum Research Group)
-**Stratum Research Group**  
-*November 2026*
+**Authors**: The IMF Architectural & Formal Methods Consortium  
+**Date**: November 2026  
+**Status**: Formal Academic Monograph & Machine-Checked Verification  
 
 ---
 

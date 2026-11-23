@@ -1,5 +1,10 @@
 # Appendix to Paper 100: Empirical Resolution of the Reversal Curse via Lie-Group SO(N) Cayley Manifolds
 
+**Authors**: The IMF Architectural & Formal Methods Consortium  
+**Date**: November 2026  
+**Status**: Formal Academic Monograph & Machine-Checked Verification  
+
+---
 ## A.1 The Reversal Dilemma in Auto-Associative Transformer Models
 Standard Transformer attention exhibits complete directional amnesia: training strictly on forward associative facts $A \to B$ yields zero-shot retrieval accuracy of $0.0\%$ on the reverse query $B \to A$. In unconstrained Euclidean projection spaces $W \in \mathbb{R}^{d \times d}$, weights lack isometric or unitary properties ($W^{-1} \neq W^T$), rendering the inverse path mathematically undefined.
 

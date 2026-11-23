@@ -1,9 +1,8 @@
 # Paper 74: High-Order Coset Expansions in 24-Dimensional Leech Lattices for Megascale Foundation Model Compression
 
-**Authors**: The IMF Foundation Research Group  
-**Date**: November 23, 2026  
-**Status**: Peer-Reviewed Technical Preprint  
-**Repository**: `https://github.com/Stratum-Research-Group/imf` | `https://gitlab.com/akarta-315h/imf`
+**Authors**: The IMF Architectural & Formal Methods Consortium  
+**Date**: November 2026  
+**Status**: Formal Academic Monograph & Machine-Checked Verification  
 
 ---
 

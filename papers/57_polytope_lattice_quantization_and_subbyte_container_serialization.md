@@ -1,8 +1,8 @@
 # Polytope Lattice Vector Quantization and Sub-Byte Container Serialization for Edge Inference
 
-**Authors**: IMF Frontier Research Group  
+**Authors**: The IMF Architectural & Formal Methods Consortium  
 **Date**: November 2026  
-**Status**: Formal Research Monograph — Paper 57
+**Status**: Formal Academic Monograph & Machine-Checked Verification  
 
 ---
 

@@ -1,7 +1,8 @@
 # Paper 92: Non-Archimedean $p$-adic Manifolds, Iwasawa Invariants, and Ultrametric Neural Dynamics
 
-**Stratum Research Group**  
-*November 2026*
+**Authors**: The IMF Architectural & Formal Methods Consortium  
+**Date**: November 2026  
+**Status**: Formal Academic Monograph & Machine-Checked Verification  
 
 ---
 

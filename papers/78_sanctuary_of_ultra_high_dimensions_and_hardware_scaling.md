@@ -1,9 +1,8 @@
 # Paper 78: The Sanctuary of Ultra-High Dimensions: Measure Concentration, Orthogonal Isolation, and Hardware Scaling on Exceptional Lattice Manifolds
 
-**Authors**: The IMF Foundation Research Group  
-**Date**: November 23, 2026  
-**Status**: Peer-Reviewed Technical Preprint  
-**Repository**: `https://github.com/Stratum-Research-Group/imf` | `https://gitlab.com/akarta-315h/imf`
+**Authors**: The IMF Architectural & Formal Methods Consortium  
+**Date**: November 2026  
+**Status**: Formal Academic Monograph & Machine-Checked Verification  
 
 ---
 

@@ -1,8 +1,8 @@
 # Paper 108: Topological K-Theory, D-Branes, and Bott Periodicity in Systolic Lattice Arrays
 
-**Author**: The IMF Autonomous Research Collective  
-**Status**: Certified Open Source Masterwork — Track 3 Formal Series  
-**Formal Certification**: Certified in Lean 4 with 0 Axioms (`#print axioms`)
+**Authors**: The IMF Architectural & Formal Methods Consortium  
+**Date**: November 2026  
+**Status**: Formal Academic Monograph & Machine-Checked Verification  
 
 ---
 

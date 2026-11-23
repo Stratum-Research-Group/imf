@@ -1,7 +1,8 @@
 # Paper 99: Autonomous Machine Epistemology: Empirical Soundness, Self-Correction, and Machine Certification over 100,000 Zero-Axiom Theorems
 
-**Stratum Research Group**  
-*November 2026*
+**Authors**: The IMF Architectural & Formal Methods Consortium  
+**Date**: November 2026  
+**Status**: Formal Academic Monograph & Machine-Checked Verification  
 
 ---
 

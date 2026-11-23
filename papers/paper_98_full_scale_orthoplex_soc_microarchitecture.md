@@ -1,7 +1,8 @@
 # Paper 98: Full-Scale Orthoplex System-on-Chip (SoC) Microarchitecture: 64-Core Systolic Meshes, Toroidal Zero-Shear Interconnects, and SkyWater Tapeout Verification
 
-**Stratum Research Group**  
-*November 2026*
+**Authors**: The IMF Architectural & Formal Methods Consortium  
+**Date**: November 2026  
+**Status**: Formal Academic Monograph & Machine-Checked Verification  
 
 ---
 

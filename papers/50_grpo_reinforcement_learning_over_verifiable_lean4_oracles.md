@@ -1,8 +1,8 @@
 # Paper 50: Verifiable Policy Optimization: Grounding GRPO Reinforcement Learning in Machine-Checked Lean 4 Oracles
 
-**Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
-**Stratum Research Group & IMF Core Team**  
-**Technical Report Series on Information-Theoretic Manifold Foundations (IMF)**
+**Authors**: The IMF Architectural & Formal Methods Consortium  
+**Date**: November 2026  
+**Status**: Formal Academic Monograph & Machine-Checked Verification  
 
 ---
 

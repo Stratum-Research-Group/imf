@@ -1,8 +1,8 @@
 # Paper 124: M-Theory $G_2$-Manifolds, Associative 3-Cycles, and Exceptional Lie State Spaces
 
-**Author**: The IMF Autonomous Research Collective  
-**Status**: Certified Open Source Masterwork — M-Theory Mathematical Series  
-**Formal Certification**: Verified in Lean 4 Core with 0 External Axioms (`#print axioms`)
+**Authors**: The IMF Architectural & Formal Methods Consortium  
+**Date**: November 2026  
+**Status**: Formal Academic Monograph & Machine-Checked Verification  
 
 ---
 

@@ -1,9 +1,8 @@
 # Non-Euclidean Hyperbolic Polytope Tilings ($\mathbb{H}^d$) and Exponential Tree Hierarchies
 
-**Technical Paper 08 — Interaction Model Foundations (IMF)**  
-*Stratum Research Group*
-
-**Author:** Nicholas Charles Mynhardt (Stratum Research Group)
+**Authors**: The IMF Architectural & Formal Methods Consortium  
+**Date**: November 2026  
+**Status**: Formal Academic Monograph & Machine-Checked Verification  
 
 ---
 

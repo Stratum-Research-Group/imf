@@ -1,11 +1,8 @@
 # Technical Report SRG-IMF-2026-05: Non-Abelian $SU(2)$ Gauge Simplicial Complexes and Continuous Unitary $SO(D)$ State-Space Flows
 
-**Author:** Nicholas Charles Mynhardt (Stratum Research Group)
-**Stratum Research Group (SRG)**  
-*Interaction Model Foundations (IMF) Working Group*  
-Author: SRG Core Research Team  
-Date: November 2026  
-Status: Approved Technical Report & Formal Specification  
+**Authors**: The IMF Architectural & Formal Methods Consortium  
+**Date**: November 2026  
+**Status**: Formal Academic Monograph & Machine-Checked Verification  
 
 ---
 

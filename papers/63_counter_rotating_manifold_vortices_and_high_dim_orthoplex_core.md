@@ -1,9 +1,8 @@
 # Paper 63: Counter-Rotating Manifold Vortices and Ultra-High-Dimensional Orthoplex Core Dynamics: Topological Stagnation Points, Holographic Facet Boundaries, and ETH Measure Uncrossing
 
-**Author**: Stratum Research Group & The IMF Autonomous Discovery Engine  
+**Authors**: The IMF Architectural & Formal Methods Consortium  
 **Date**: November 2026  
-**Status**: Formal Academic Monograph & Technical Report  
-**Subject Classification**: Discrete Geometry (math.MG), Algebraic Topology (math.AT), Computational Complexity (cs.CC), Quantum & High-Dimensional Information (quant-ph)
+**Status**: Formal Academic Monograph & Machine-Checked Verification  
 
 ---
 

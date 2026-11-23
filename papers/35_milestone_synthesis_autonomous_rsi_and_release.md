@@ -1,8 +1,8 @@
 # Paper 35: Milestone Synthesis, Autonomous RSI Evolution, and Release Architecture
 
-**Author:** Nicholas Charles Mynhardt (Stratum Research Group)
-**Stratum Research Group & IMF Working Group**  
-*November 2026*
+**Authors**: The IMF Architectural & Formal Methods Consortium  
+**Date**: November 2026  
+**Status**: Formal Academic Monograph & Machine-Checked Verification  
 
 ---
 

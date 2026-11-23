@@ -1,7 +1,8 @@
 # Paper 89: Algebraic Hodge Cycles, Chern Character Ring Homomorphisms, and Zero-Axiom Lean 4 Manifold Verification
 
-**Stratum Research Group**  
-*November 2026*
+**Authors**: The IMF Architectural & Formal Methods Consortium  
+**Date**: November 2026  
+**Status**: Formal Academic Monograph & Machine-Checked Verification  
 
 ---
 

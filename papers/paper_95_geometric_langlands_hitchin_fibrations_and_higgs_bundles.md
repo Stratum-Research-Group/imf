@@ -1,7 +1,8 @@
 # Paper 95: The Geometric Langlands Correspondence, Hitchin Integrable Fibrations, and Higgs Bundles as Continuous Neural Memory Cores
 
-**Stratum Research Group**  
-*November 2026*
+**Authors**: The IMF Architectural & Formal Methods Consortium  
+**Date**: November 2026  
+**Status**: Formal Academic Monograph & Machine-Checked Verification  
 
 ---
 

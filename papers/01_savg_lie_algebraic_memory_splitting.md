@@ -1,9 +1,8 @@
 # Lie-Algebraic Memory Splitting: Symmetric-Antisymmetric Virtual Grid Attention (SAVG) and the Resolution of the Reversal Curse
 
-**Author:** Nicholas Charles Mynhardt (Stratum Research Group)
-**Stratum Research Group (SRG)**  
-*Technical Report SRG-IMF-2026-01*  
-*November 2026*
+**Authors**: The IMF Architectural & Formal Methods Consortium  
+**Date**: November 2026  
+**Status**: Formal Academic Monograph & Machine-Checked Verification  
 
 ---
 

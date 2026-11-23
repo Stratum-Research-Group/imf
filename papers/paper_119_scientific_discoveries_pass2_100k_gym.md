@@ -1,11 +1,8 @@
 # Paper 119: Scientific Discoveries and Gauge Invariants of the Pass 2 100K Formal Prover Gym
 
-**Author**: The IMF Autonomous Research Collective  
-**Status**: Certified Open Source Masterwork — Century Series Discovery Monograph (Pass 2)  
-**Dataset Artifact**: `dist/imf_century_pass2_100k_gym.tar.zst`  
-**Archive SHA-256**: `9e960ea71f3545a0e2d3cbab1989d93b4984fe0d3f902845d6dfed66fe57eb6a`  
-**Raw Stream SHA-256**: `4651a1372e88ebe4b7f248ad4168c8e9ee3aef0ca89c0ec40a3fd588d3cd7a28`  
-**Formal Certification**: Verified in Lean 4 Core with 0 External Axioms (`#print axioms`)
+**Authors**: The IMF Architectural & Formal Methods Consortium  
+**Date**: November 2026  
+**Status**: Formal Academic Monograph & Machine-Checked Verification  
 
 ---
 

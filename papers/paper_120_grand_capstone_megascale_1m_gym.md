@@ -1,11 +1,8 @@
 # Paper 120: Grand Capstone of the Megascale 1,000,000-Step Formal Prover Gym
 
-**Author**: The IMF Autonomous Research Collective  
-**Status**: Certified Open Source Masterwork — Megascale Discovery Monograph  
-**Dataset Artifact**: `dist/imf_megascale_1m_gym.tar.zst`  
-**Archive SHA-256**: `bfad21d51c91286444920cb82490cb87a24eb9523b31cb65753c05367a347762`  
-**Raw Stream SHA-256**: `e21e1bc7cddcda05eb74cf4aac509315c24cceded997d999461857b12c620e03`  
-**Formal Certification**: Verified in Lean 4 Core with 0 External Axioms (`#print axioms`)
+**Authors**: The IMF Architectural & Formal Methods Consortium  
+**Date**: November 2026  
+**Status**: Formal Academic Monograph & Machine-Checked Verification  
 
 ---
 

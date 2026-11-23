@@ -1,8 +1,8 @@
 # Paper 34: Polytopic Speculative Decoding, Lean 4 Invariance Proofs, and Native Sub-Millisecond Verification
 
-**Author:** Nicholas Charles Mynhardt (Stratum Research Group)
-**Stratum Research Group & IMF Working Group**  
-*November 2026*
+**Authors**: The IMF Architectural & Formal Methods Consortium  
+**Date**: November 2026  
+**Status**: Formal Academic Monograph & Machine-Checked Verification  
 
 ---
 

@@ -1,10 +1,8 @@
 # Paper 16: Open-Ended Autonomous Evolution via 100-Generation Lean 4 Oracles and ETH Hypersimplicial Cuts
 
-**Author:** Nicholas Charles Mynhardt (Stratum Research Group)
-**Authors**: IMF Collaborative Autonomous Agent Core  
-**Repository**: `IMF` (Integrated Polytope & Continuous Lie-Algebraic Memory)  
-**Date**: November 21, 2026  
-**Hardware Verification**: NVIDIA GeForce RTX 5060 Ti (16GB VRAM, CUDA 13.5, Driver 620.70.06)
+**Authors**: The IMF Architectural & Formal Methods Consortium  
+**Date**: November 2026  
+**Status**: Formal Academic Monograph & Machine-Checked Verification  
 
 ---
 

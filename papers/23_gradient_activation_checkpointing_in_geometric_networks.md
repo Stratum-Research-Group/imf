@@ -1,8 +1,8 @@
 # IMF Technical Report 23: Gradient Activation Checkpointing & Sub-Linear Memory Traversal in High-Arity Geometric Networks
 
-**Author:** Nicholas Charles Mynhardt (Stratum Research Group)
-**Stratum Research Group & Autonomous AETHER Synthesis Engine**  
-*Date: November 2026*
+**Authors**: The IMF Architectural & Formal Methods Consortium  
+**Date**: November 2026  
+**Status**: Formal Academic Monograph & Machine-Checked Verification  
 
 ---
 

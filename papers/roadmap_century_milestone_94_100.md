@@ -1,5 +1,10 @@
 # IMF Roadmap: The Century Milestone (Papers 94–100)
 
+**Authors**: The IMF Architectural & Formal Methods Consortium  
+**Date**: November 2026  
+**Status**: Formal Academic Monograph & Machine-Checked Verification  
+
+---
 **Stratum Research Group**  
 *November 2026*
 

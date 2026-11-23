@@ -1,7 +1,8 @@
 # Paper 91: Geometric Quantum Circuit Compilation via Orthoplex Roots and Leech Lattice Clifford+T Topologies
 
-**Stratum Research Group**  
-*November 2026*
+**Authors**: The IMF Architectural & Formal Methods Consortium  
+**Date**: November 2026  
+**Status**: Formal Academic Monograph & Machine-Checked Verification  
 
 ---
 

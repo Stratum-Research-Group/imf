@@ -1,8 +1,8 @@
 # Capstone Synthesis: The Interaction Model Foundations Compendium and the Path to Verified Machine Intelligence
 
-**Authors**: IMF Frontier Research Group  
+**Authors**: The IMF Architectural & Formal Methods Consortium  
 **Date**: November 2026  
-**Status**: Formal Research Monograph — Paper 60 (Capstone Monograph)
+**Status**: Formal Academic Monograph & Machine-Checked Verification  
 
 ---
 

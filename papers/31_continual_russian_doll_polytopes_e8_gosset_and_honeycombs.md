@@ -1,9 +1,8 @@
 # Technical Report 31: Continual Russian-Doll Polytope Factorization, Higher-D Manifolds ($D \ge 14$), and Uniform $k_{21}$ Gosset/Honeycomb Embeddings
 
-**Author:** Nicholas Charles Mynhardt (Stratum Research Group)
-**Authors:** IMF Research Collective  
-**Date:** November 2026  
-**Status:** Formally Verified in Lean 4 Core (0 axioms, 0 sorry, 0 warnings), Tested in PyTorch 2.15.0+cu132
+**Authors**: The IMF Architectural & Formal Methods Consortium  
+**Date**: November 2026  
+**Status**: Formal Academic Monograph & Machine-Checked Verification  
 
 ---
 

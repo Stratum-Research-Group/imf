@@ -1,9 +1,8 @@
 # Paper 117: Discoveries and Invariants of the 100,000-Step Formal Prover Gym
 
-**Author**: The IMF Autonomous Research Collective  
-**Status**: Certified Open Source Masterwork — Century Series Discovery Monograph  
-**Dataset Artifact**: `dist/imf_century_100k_gym.tar.zst` (SHA-256: `5611e4cfe6dafc30ccd98699afc62fe9436a63a9ff9a0f70eef7197035e60b81`)  
-**Formal Certification**: Certified in Lean 4 with 0 Axioms (`#print axioms`)
+**Authors**: The IMF Architectural & Formal Methods Consortium  
+**Date**: November 2026  
+**Status**: Formal Academic Monograph & Machine-Checked Verification  
 
 ---
 

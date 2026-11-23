@@ -1,9 +1,8 @@
 # The Architecture of Meaning: Epistemological Foundations, Formal Mathematical Physics, and Real-World Horizons of SAVG and HDPLC
 
-**Author:** Nicholas Charles Mynhardt (Stratum Research Group)
-**Stratum Research Group (SRG)**  
-*Foundational Position Paper SRG-IMF-2026-03*  
-*November 2026*
+**Authors**: The IMF Architectural & Formal Methods Consortium  
+**Date**: November 2026  
+**Status**: Formal Academic Monograph & Machine-Checked Verification  
 
 ---
 

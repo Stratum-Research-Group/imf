@@ -1,9 +1,8 @@
 # Paper 65: Architectural Trade-Offs in Geometric Neural Mechanics: A Comparative Analysis of High-Dimensional Voronoi Lattices, Spinning Lie Manifolds, and Orthoplex Singularity Filtering
 
-**Author**: Stratum Research Group & The IMF Autonomous Discovery Engine  
+**Authors**: The IMF Architectural & Formal Methods Consortium  
 **Date**: November 2026  
-**Status**: Formal Academic Monograph & Technical Report  
-**Subject Classification**: Machine Learning Architecture (cs.LG), Discrete Geometry (math.MG), Information Theory (cs.IT), Systems and Control (eess.SY)
+**Status**: Formal Academic Monograph & Machine-Checked Verification  
 
 ---
 

@@ -1,8 +1,8 @@
 # Paper 110: Topological Edge States and Fault Tolerance in Systolic Array Fabrics
 
-**Author**: The IMF Autonomous Research Collective  
-**Status**: Certified Open Source Masterwork — Century Series  
-**Formal Certification**: Certified in Lean 4 with 0 Axioms (`#print axioms`)
+**Authors**: The IMF Architectural & Formal Methods Consortium  
+**Date**: November 2026  
+**Status**: Formal Academic Monograph & Machine-Checked Verification  
 
 ---
 

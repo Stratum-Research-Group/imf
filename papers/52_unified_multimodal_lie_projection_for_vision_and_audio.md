@@ -1,8 +1,8 @@
 # Paper 52: Continuous Multimodal Ingestion: Unitary Stiefel Projections and Cross-Modal Polytope Routing for Vision and Audio
 
-**Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
-**Stratum Research Group & IMF Core Team**  
-**Technical Report Series on Information-Theoretic Manifold Foundations (IMF)**
+**Authors**: The IMF Architectural & Formal Methods Consortium  
+**Date**: November 2026  
+**Status**: Formal Academic Monograph & Machine-Checked Verification  
 
 ---
 

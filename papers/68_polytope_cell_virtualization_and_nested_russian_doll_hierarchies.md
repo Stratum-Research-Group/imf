@@ -1,9 +1,8 @@
 # Paper 68: Polytope Cell Virtualization and Nested Homothetic Russian-Doll Hierarchies: Asymptotic Memory Amplification and Formal Containment Invariants in Lean 4
 
-**Author**: Stratum Research Group & The IMF Autonomous Discovery Engine  
+**Authors**: The IMF Architectural & Formal Methods Consortium  
 **Date**: November 2026  
-**Status**: Formal Academic Monograph & Technical Report  
-**Subject Classification**: Computer Architecture (cs.AR), Discrete Geometry (math.MG), Data Structures (cs.DS), Formal Verification (cs.LO)
+**Status**: Formal Academic Monograph & Machine-Checked Verification  
 
 ---
 

@@ -1,8 +1,8 @@
 # Paper 84: Multi-Step Deductive Proof Pipelines for Unsolved Mathematical Conjectures in Lean 4
 
-**Authors:** The IMF Autonomous Recursive Research Team  
-**Date:** November 2026  
-**Status:** Verified & Machine-Certified (Lean 4 Kernel: Zero Axioms)  
+**Authors**: The IMF Architectural & Formal Methods Consortium  
+**Date**: November 2026  
+**Status**: Formal Academic Monograph & Machine-Checked Verification  
 
 ---
 
