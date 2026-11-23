@@ -370,6 +370,7 @@ def main():
         PAPERS_DIR / "paper_114_non_abelian_anyons_braid_groups_3d_systolic_fabrics.md",
         PAPERS_DIR / "paper_115_ads_cft_holographic_entanglement_polytope_boundary_states.md",
         PAPERS_DIR / "paper_116_categorical_quantum_mechanics_zx_calculus_polytope_tensors.md",
+        PAPERS_DIR / "paper_117_discoveries_and_invariants_100k_gym.md",
     ]
 
     html_sections = []
