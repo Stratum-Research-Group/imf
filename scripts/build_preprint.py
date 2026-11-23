@@ -345,6 +345,7 @@ def main():
         PAPERS_DIR / "paper_90_grand_capstone_synthesis_90_treatises.md",
         PAPERS_DIR / "paper_91_geometric_quantum_circuit_compilation_orthoplex.md",
         PAPERS_DIR / "paper_92_non_archimedean_p_adic_manifolds_and_iwasawa_theory.md",
+        PAPERS_DIR / "paper_93_motivic_galois_groups_and_grothendieck_topoi.md",
     ]
 
     html_sections = []
