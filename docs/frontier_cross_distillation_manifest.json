@@ -1,5 +1,6 @@
 [
   {
+    "model_name": "qwen2.5-math-72b-subbit",
     "model_file": "model_consolidated_subbit.gguf",
     "size_bytes": 240600806,
     "dimension_projected": 8,
@@ -8,6 +9,7 @@
     "status": "INGESTED_AND_PROJECTED"
   },
   {
+    "model_name": "goedel-prover-32b-subbit",
     "model_file": "model_consolidated_subbit.gguf",
     "size_bytes": 155779478,
     "dimension_projected": 8,
@@ -16,11 +18,39 @@
     "status": "INGESTED_AND_PROJECTED"
   },
   {
+    "model_name": "deepseek-r1-distill-qwen-32b-subbit",
     "model_file": "model_consolidated_subbit.gguf",
     "size_bytes": 155131670,
     "dimension_projected": 8,
     "e8_quantization_mse": 0.23583075404167175,
     "spectral_variance_mean": 73.80442810058594,
+    "status": "INGESTED_AND_PROJECTED"
+  },
+  {
+    "model_name": "qwen2.5-coder-7b-subbit",
+    "model_file": "model_consolidated_subbit.gguf",
+    "size_bytes": 50354242,
+    "dimension_projected": 8,
+    "e8_quantization_mse": 0.22235195338726044,
+    "spectral_variance_mean": 74.1004867553711,
+    "status": "INGESTED_AND_PROJECTED"
+  },
+  {
+    "model_name": "qwen2.5-coder-14b-subbit",
+    "model_file": "model_consolidated_subbit.gguf",
+    "size_bytes": 81938310,
+    "dimension_projected": 8,
+    "e8_quantization_mse": 0.19568398594856262,
+    "spectral_variance_mean": 73.60746765136719,
+    "status": "INGESTED_AND_PROJECTED"
+  },
+  {
+    "model_name": "qwen2.5-coder-32b-subbit",
+    "model_file": "model_consolidated_subbit.gguf",
+    "size_bytes": 154869398,
+    "dimension_projected": 8,
+    "e8_quantization_mse": 0.22176916897296906,
+    "spectral_variance_mean": 73.75701141357422,
     "status": "INGESTED_AND_PROJECTED"
   }
 ]

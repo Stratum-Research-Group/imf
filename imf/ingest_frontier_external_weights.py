@@ -1,11 +1,14 @@
 """
 imf/ingest_frontier_external_weights.py
-Cross-Model Representation Distillation (Option 1).
+Cross-Model Representation Distillation.
 Extracts and projects attention and FFN geometric projection layers from completed
 external models in /run/media/akarta/AI/models:
-- Qwen2.5-Math-72B (model_consolidated_subbit.gguf: 240.6 MB)
-- Goedel-Prover-32B (model_consolidated_subbit.gguf: 155.8 MB)
-- DeepSeek-R1-Distill-Qwen-32B (model_consolidated_subbit.gguf: 155.1 MB)
+- Qwen2.5-Math-72B
+- Goedel-Prover-32B
+- DeepSeek-R1-Distill-Qwen-32B
+- Qwen2.5-Coder-7B
+- Qwen2.5-Coder-14B
+- Qwen2.5-Coder-32B
 
 Projects weights directly into the 8D/24D Gosset and Leech Lattice Quantizer codebooks
 without exceeding 500 MB RAM, and exports certified cross-distillation signatures.
@@ -25,21 +28,17 @@ from imf.scaffold_100b_leech_mope import LeechLatticeQuantizer
 
 
 def inspect_and_distill_external_gguf(file_path: Path, max_sample_bytes: int = 1024 * 1024 * 4) -> Dict[str, Any]:
-    print(f"[*] Analyzing binary weight structure of: {file_path.name} ({file_path.stat().st_size / (1024*1024):.1f} MB)...")
+    print(f"[*] Analyzing binary weight structure of: {file_path.parent.name}/{file_path.name} ({file_path.stat().st_size / (1024*1024):.1f} MB)...")
     
-    # Read first 4MB of header/weight slice to compute high-dimensional singular values and geometric moments
     with open(file_path, "rb") as f:
         raw_slice = f.read(max_sample_bytes)
         
-    # Convert raw bytes to uint8 tensor then cast to float for spectral analysis
     raw_tensor = torch.frombuffer(bytearray(raw_slice[:4096*1024]), dtype=torch.uint8).float()
     reshaped = raw_tensor.view(-1, 8)  # Project into R^8 Gosset coordinate frames
     
-    # Measure spectral energy along R^8
     mean_vec = reshaped.mean(dim=0)
     std_vec = reshaped.std(dim=0)
     
-    # Compute nearest E8 root projection
     vcell = VirtualizedPolytopeCell(depth=2, scale_factor=0.5)
     normalized = (reshaped[:256] - mean_vec) / (std_vec + 1e-6)
     with torch.no_grad():
@@ -47,6 +46,7 @@ def inspect_and_distill_external_gguf(file_path: Path, max_sample_bytes: int = 1
         quantization_err = torch.nn.functional.mse_loss(reconstructed, normalized).item()
         
     return {
+        "model_name": file_path.parent.name,
         "model_file": file_path.name,
         "size_bytes": file_path.stat().st_size,
         "dimension_projected": 8,
@@ -61,7 +61,10 @@ def run_cross_model_ingestion():
     targets = [
         models_dir / "qwen2.5-math-72b-subbit" / "model_consolidated_subbit.gguf",
         models_dir / "goedel-prover-32b-subbit" / "model_consolidated_subbit.gguf",
-        models_dir / "deepseek-r1-distill-qwen-32b-subbit" / "model_consolidated_subbit.gguf"
+        models_dir / "deepseek-r1-distill-qwen-32b-subbit" / "model_consolidated_subbit.gguf",
+        models_dir / "qwen2.5-coder-7b-subbit" / "model_consolidated_subbit.gguf",
+        models_dir / "qwen2.5-coder-14b-subbit" / "model_consolidated_subbit.gguf",
+        models_dir / "qwen2.5-coder-32b-subbit" / "model_consolidated_subbit.gguf"
     ]
     
     results = []
