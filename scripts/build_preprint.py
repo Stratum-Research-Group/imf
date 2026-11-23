@@ -353,6 +353,7 @@ def main():
         PAPERS_DIR / "paper_98_full_scale_orthoplex_soc_microarchitecture.md",
         PAPERS_DIR / "paper_99_autonomous_machine_epistemology_100k_theorems.md",
         PAPERS_DIR / "paper_100_grand_century_capstone_the_complete_theory.md",
+        PAPERS_DIR / "appendix_paper_100_reversal_curse.md",
     ]
 
     html_sections = []

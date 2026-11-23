@@ -1,0 +1,11 @@
+{
+  "module": "cayley_inverter",
+  "pdk": "sky130_fd_sc_hd",
+  "total_cells": 163,
+  "cell_area_um2": 1947.93,
+  "core_area_um2": 3541.69,
+  "leakage_power_nw": 18.6,
+  "dynamic_power_uw": 244.5,
+  "clock_mhz": 100.0,
+  "timing_status": "MET"
+}
