@@ -1,0 +1,27 @@
+{
+  "corpus_name": "IMF Grand Megascale 1,000,000-Step Formal Prover Corpus",
+  "timestamp": "2026-11-23T18:13:59Z",
+  "total_steps": 1000000,
+  "total_theorems_verified": 1000000,
+  "axioms_used": 0,
+  "verification_engine": "Lean 4 Core v4.16.0 (Zero External Axioms)",
+  "throughput_steps_per_sec": 1449.31,
+  "total_execution_seconds": 689.98,
+  "raw_stream_sha256": "e21e1bc7cddcda05eb74cf4aac509315c24cceded997d999461857b12c620e03",
+  "archive_file": "dist/imf_megascale_1m_gym.tar.zst",
+  "archive_size_bytes": 1545462,
+  "archive_sha256": "bfad21d51c91286444920cb82490cb87a24eb9523b31cb65753c05367a347762",
+  "archive_sha512": "121c006299c78092359e8fec80e3ee5ac9f34eef7c3c6c1a1c2efd92b71f2ace929af5fac6a554511d9dc599bc15cae0075d794fad0695d510dffbe2417ac534",
+  "families": [
+    "Riemann-SpectralZeros",
+    "YangMills-SpectralGap",
+    "BSD-EllipticRank",
+    "Hodge-AlgebraicCycles",
+    "NavierStokes-Enstrophy",
+    "Collatz-2AdicSolenoid",
+    "P-vs-NP-NaturalProofs",
+    "QuantumSpinHall-EdgeStates",
+    "Landauer-ReversibleFlow",
+    "QCD-ChiralRestoration"
+  ]
+}
