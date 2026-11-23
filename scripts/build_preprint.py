@@ -330,6 +330,7 @@ def main():
         PAPERS_DIR / "75_counter_rotating_lie_manifold_vortices_up_to_100k_dimensions.md",
         PAPERS_DIR / "76_manifold_clutching_and_information_passing_centers.md",
         PAPERS_DIR / "77_geometric_coupling_of_spin_and_model_quality.md",
+        PAPERS_DIR / "78_sanctuary_of_ultra_high_dimensions_and_hardware_scaling.md",
     ]
 
     html_sections = []
