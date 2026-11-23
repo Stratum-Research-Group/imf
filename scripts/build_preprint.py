@@ -378,6 +378,7 @@ def main():
         PAPERS_DIR / "paper_122_chern_simons_tqft_anyons_toroidal_silicon.md",
         PAPERS_DIR / "paper_123_heterotic_string_e8_calabi_yau_polytope_compactification.md",
         PAPERS_DIR / "paper_124_m_theory_g2_manifolds_associative_cycles.md",
+        "paper_125_non_archimedean_rigid_analytic_berkovich_spaces.md",
     ]
 
     html_sections = []
