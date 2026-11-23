@@ -337,6 +337,7 @@ def main():
         PAPERS_DIR / "paper_82_higher_order_millennium_proof_atlas.md",
         PAPERS_DIR / "paper_83_unsolved_mathematical_frontiers_gym.md",
         PAPERS_DIR / "paper_84_multi_step_deductive_proof_pipelines_unsolved_math.md",
+        PAPERS_DIR / "paper_85_massive_2000_step_formal_proof_gym.md",
     ]
 
     html_sections = []
