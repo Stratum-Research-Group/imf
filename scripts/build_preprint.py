@@ -371,6 +371,7 @@ def main():
         PAPERS_DIR / "paper_115_ads_cft_holographic_entanglement_polytope_boundary_states.md",
         PAPERS_DIR / "paper_116_categorical_quantum_mechanics_zx_calculus_polytope_tensors.md",
         PAPERS_DIR / "paper_117_discoveries_and_invariants_100k_gym.md",
+        PAPERS_DIR / "paper_118_qcd_quark_gluon_plasma_chiral_restoration_lie_manifolds.md",
     ]
 
     html_sections = []
