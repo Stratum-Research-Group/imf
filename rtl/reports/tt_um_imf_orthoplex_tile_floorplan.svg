@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%" style="background:#0a0d14; font-family: monospace;">
+  <defs>
+    <linearGradient id="coreGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+    <linearGradient id="peGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7" />
+      <stop offset="100%" stop-color="#0369a1" />
+    </linearGradient>
+    <linearGradient id="vortexGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10b981" />
+      <stop offset="100%" stop-color="#047857" />
+    </linearGradient>
+  </defs>
+
+  <!-- Outer Die Boundary (160um x 100um scaled to 760 x 460) -->
+  <rect x="20" y="20" width="760" height="460" rx="12" fill="url(#coreGrad)" stroke="#38bdf8" stroke-width="3" />
+  
+  <!-- Title & PDK Metadata -->
+  <text x="40" y="55" fill="#f8fafc" font-size="18" font-weight="bold">TinyTapeout 1x1 Slot: tt_um_imf_orthoplex_tile</text>
+  <text x="40" y="78" fill="#94a3b8" font-size="12">PDK: SkyWater 130nm (sky130_fd_sc_hd) | Area: 160µm × 100µm | Target: 50.0 MHz</text>
+  <text x="40" y="96" fill="#38bdf8" font-size="12">Power: 24.0 µW (Active) | 15.68 nW (Leakage) | Utilization: 14.39% (111 Cells)</text>
+
+  <!-- Power Ring Guard Rails (VDD & VSS) -->
+  <rect x="35" y="110" width="730" height="355" fill="none" stroke="#e11d48" stroke-width="2" stroke-dasharray="8,4" />
+  <rect x="42" y="117" width="716" height="341" fill="none" stroke="#2563eb" stroke-width="2" stroke-dasharray="8,4" />
+  <text x="50" y="132" fill="#e11d48" font-size="10">VDD (1.8V)</text>
+  <text x="120" y="132" fill="#2563eb" font-size="10">VSS (GND)</text>
+
+  <!-- Left IO Pads: 8 Dedicated Inputs (ui_in[7:0]) -->
+  <g transform="translate(45, 150)">
+    <rect x="0" y="0" width="60" height="290" rx="6" fill="#1e293b" stroke="#64748b" stroke-width="1.5" />
+    <text x="8" y="22" fill="#cbd5e1" font-size="11" font-weight="bold">ui_in[7:0]</text>
+    <circle cx="30" cy="50" r="10" fill="#38bdf8" />
+    <circle cx="30" cy="80" r="10" fill="#38bdf8" />
+    <circle cx="30" cy="110" r="10" fill="#38bdf8" />
+    <circle cx="30" cy="140" r="10" fill="#38bdf8" />
+    <circle cx="30" cy="170" r="10" fill="#38bdf8" />
+    <circle cx="30" cy="200" r="10" fill="#38bdf8" />
+    <circle cx="30" cy="230" r="10" fill="#38bdf8" />
+    <circle cx="30" cy="260" r="10" fill="#38bdf8" />
+  </g>
+
+  <!-- Right IO Pads: 8 Dedicated Outputs (uo_out[7:0]) -->
+  <g transform="translate(695, 150)">
+    <rect x="0" y="0" width="60" height="290" rx="6" fill="#1e293b" stroke="#64748b" stroke-width="1.5" />
+    <text x="4" y="22" fill="#cbd5e1" font-size="11" font-weight="bold">uo_out[7:0]</text>
+    <circle cx="30" cy="50" r="10" fill="#f59e0b" />
+    <circle cx="30" cy="80" r="10" fill="#f59e0b" />
+    <circle cx="30" cy="110" r="10" fill="#f59e0b" />
+    <circle cx="30" cy="140" r="10" fill="#f59e0b" />
+    <circle cx="30" cy="170" r="10" fill="#f59e0b" />
+    <circle cx="30" cy="200" r="10" fill="#f59e0b" />
+    <circle cx="30" cy="230" r="10" fill="#f59e0b" />
+    <circle cx="30" cy="260" r="10" fill="#f59e0b" />
+  </g>
+
+  <!-- Central Standard Cell Core Region -->
+  <rect x="130" y="150" width="540" height="290" rx="8" fill="#0f172a" stroke="#475569" stroke-width="1.5" />
+  <text x="145" y="175" fill="#e2e8f0" font-size="13" font-weight="bold">Core Area: 140µm × 80µm (Active Logic Region)</text>
+
+  <!-- Block 1: Native Orthoplex Processing Element (NOSA ALU) -->
+  <g transform="translate(150, 195)">
+    <rect x="0" y="0" width="230" height="225" rx="6" fill="url(#peGrad)" stroke="#38bdf8" stroke-width="1.5" />
+    <text x="15" y="28" fill="#ffffff" font-size="13" font-weight="bold">Orthoplex Ternary ALU</text>
+    <text x="15" y="48" fill="#bae6fd" font-size="10">Sub-bit {-1, 0, +1} Signed Accumulator</text>
+    <text x="15" y="66" fill="#bae6fd" font-size="10">Area: 864.2 µm² | Cells: 62</text>
+    <path d="M 25 110 L 70 85 L 115 110 L 70 135 Z" fill="none" stroke="#ffffff" stroke-width="2" />
+    <circle cx="70" cy="110" r="4" fill="#facc15" />
+    <text x="130" y="105" fill="#f8fafc" font-size="11">Zero-Multiplier</text>
+    <text x="130" y="122" fill="#f8fafc" font-size="11">Barrel Shift</text>
+    <text x="130" y="139" fill="#f8fafc" font-size="11">Ternary Add</text>
+    <rect x="15" y="165" width="200" height="42" rx="4" fill="#0369a1" />
+    <text x="25" y="190" fill="#ffffff" font-size="10">Registers: 8-bit Signed Accumulator</text>
+  </g>
+
+  <!-- Block 2: Zero-Shear Dual-Vortex Crossbar & Clutching Center -->
+  <g transform="translate(410, 195)">
+    <rect x="0" y="0" width="240" height="225" rx="6" fill="url(#vortexGrad)" stroke="#34d399" stroke-width="1.5" />
+    <text x="15" y="28" fill="#ffffff" font-size="13" font-weight="bold">Dual-Vortex Crossbar</text>
+    <text x="15" y="48" fill="#a7f3d0" font-size="10">Zero-Shear Null-Point Boundary</text>
+    <text x="15" y="66" fill="#a7f3d0" font-size="10">Area: 747.0 µm² | Cells: 49</text>
+    <!-- Counter-rotating spirals -->
+    <circle cx="65" cy="115" r="28" fill="none" stroke="#ffffff" stroke-width="2" stroke-dasharray="6,3" />
+    <circle cx="115" cy="115" r="28" fill="none" stroke="#facc15" stroke-width="2" stroke-dasharray="6,3" />
+    <line x1="90" y1="85" x2="90" y2="145" stroke="#ef4444" stroke-width="2" />
+    <text x="155" y="105" fill="#f8fafc" font-size="11">Vortex 1: +Ω</text>
+    <text x="155" y="122" fill="#facc15" font-size="11">Vortex 2: -Ω</text>
+    <text x="155" y="139" fill="#ef4444" font-size="11">Null: ∇v = 0</text>
+    <rect x="15" y="165" width="210" height="42" rx="4" fill="#047857" />
+    <text x="25" y="190" fill="#ffffff" font-size="10">Timing Slack: +1.18ns (Clean Sign-off)</text>
+  </g>
+</svg>
