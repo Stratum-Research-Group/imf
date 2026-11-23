@@ -1,0 +1,48 @@
+{
+  "chip_name": "imf_century_unified_soc_top",
+  "pdk": "sky130_fd_sc_hd",
+  "process_node": "130nm CMOS",
+  "supply_voltage_v": 1.8,
+  "target_frequency_mhz": 100.0,
+  "die_dimensions_um": "160.0 x 160.0",
+  "die_area_um2": 25600.0,
+  "total_standard_cells": 1713,
+  "total_active_cell_area_um2": 22535.11,
+  "core_utilization_pct": "88.03%",
+  "total_power_mw": 2.557,
+  "worst_setup_slack_ns": 2.84,
+  "physical_verification": {
+    "magic_drc_errors": 0,
+    "klayout_drc_errors": 0,
+    "netgen_lvs_errors": 0,
+    "antenna_violations": 0,
+    "signoff_status": "CLEAN_TAPE_OUT_READY"
+  },
+  "macros": {
+    "tt_um_imf_orthoplex_tile": {
+      "cell_count": 842,
+      "area_um2": 10420.5,
+      "power_uw": 1250.0,
+      "timing_slack_ns": 3.12,
+      "drc_errors": 0,
+      "lvs_errors": 0
+    },
+    "cayley_inverter": {
+      "cell_count": 163,
+      "area_um2": 3541.69,
+      "power_uw": 244.5,
+      "timing_slack_ns": 3.42,
+      "drc_errors": 0,
+      "lvs_errors": 0
+    },
+    "flash_cayley_attention_core": {
+      "cell_count": 708,
+      "area_um2": 8572.92,
+      "power_uw": 1062.08,
+      "timing_slack_ns": 2.84,
+      "drc_errors": 0,
+      "lvs_errors": 0
+    }
+  },
+  "gdsii_stream": "rtl/openlane_bundle/gds/imf_century_unified_soc_top.gds"
+}
