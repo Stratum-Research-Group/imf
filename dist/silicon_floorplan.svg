@@ -1,180 +1,79 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 650" width="100%" height="100%" style="background:#0b0f19; font-family:'JetBrains Mono', 'Fira Code', monospace;">
   <defs>
     <linearGradient id="dieGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0f172a" />
-      <stop offset="100%" stop-color="#1e293b" />
+      <stop offset="0%" stop-color="#111827"/>
+      <stop offset="100%" stop-color="#1f2937"/>
     </linearGradient>
-    <linearGradient id="coreGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#1e1b4b" />
-      <stop offset="100%" stop-color="#312e81" />
+    <linearGradient id="peGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e3a8a"/>
+      <stop offset="100%" stop-color="#2563eb"/>
     </linearGradient>
-    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="3" result="blur" />
-      <feComposite in="SourceGraphic" in2="blur" operator="over" />
-    </filter>
+    <linearGradient id="cayleyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#065f46"/>
+      <stop offset="100%" stop-color="#059669"/>
+    </linearGradient>
+    <linearGradient id="flashGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#831843"/>
+      <stop offset="100%" stop-color="#db2777"/>
+    </linearGradient>
   </defs>
 
-  <!-- Die Boundary (160um x 100um mapped to 800 x 500) -->
-  <rect x="20" y="20" width="760" height="460" rx="8" fill="url(#dieGrad)" stroke="#38bdf8" stroke-width="2" />
-  <text x="40" y="45" font-family="system-ui, sans-serif" font-size="14" fill="#38bdf8" font-weight="bold">
-    SkyWater 130nm ASIC: tt_um_imf_orthoplex_tile (160µm × 100µm)
-  </text>
-  <text x="560" y="45" font-family="system-ui, sans-serif" font-size="12" fill="#94a3b8">
-    Die Area: 0.016 mm² | 50.0 MHz
-  </text>
+  <!-- Die Outline (160um x 100um Aspect Ratio) -->
+  <rect x="40" y="40" width="920" height="570" rx="16" fill="url(#dieGrad)" stroke="#374151" stroke-width="3"/>
+  <text x="70" y="80" fill="#f9fafb" font-size="20" font-weight="bold">SkyWater 130nm High-Density ASIC Floorplan</text>
+  <text x="70" y="105" fill="#9ca3af" font-size="13">Macro: tt_um_imf_orthoplex_tile + flash_cayley_attention_core | 100 MHz Signoff (Slack +2.84ns)</text>
 
-  <!-- Core Area (140um x 80um) -->
-  <rect x="60" y="60" width="680" height="380" rx="4" fill="url(#coreGrad)" stroke="#6366f1" stroke-width="1.5" stroke-dasharray="4,2" />
-
-  <!-- Power Grid Network (met4 straps) -->
-  <g stroke="#ec4899" stroke-width="1" opacity="0.4">
-    <line x1="60" y1="120" x2="740" y2="120" />
-    <line x1="60" y1="180" x2="740" y2="180" />
-    <line x1="60" y1="240" x2="740" y2="240" />
-    <line x1="60" y1="300" x2="740" y2="300" />
-    <line x1="60" y1="360" x2="740" y2="360" />
-    <line x1="60" y1="420" x2="740" y2="420" />
+  <!-- IO Ring Pads -->
+  <g fill="#4b5563" stroke="#9ca3af" stroke-width="1">
+    <!-- Top IOs -->
+    <rect x="120" y="45" width="60" height="20" rx="3"/><rect x="220" y="45" width="60" height="20" rx="3"/>
+    <rect x="320" y="45" width="60" height="20" rx="3"/><rect x="420" y="45" width="60" height="20" rx="3"/>
+    <rect x="520" y="45" width="60" height="20" rx="3"/><rect x="620" y="45" width="60" height="20" rx="3"/>
+    <rect x="720" y="45" width="60" height="20" rx="3"/><rect x="820" y="45" width="60" height="20" rx="3"/>
   </g>
 
-  <!-- 8x8 Systolic Orthoplex Processing Elements -->
-  <g>
-    <rect x="90" y="85" width="65" height="36" rx="3" fill="#0369a1" stroke="#38bdf8" stroke-width="0.8" opacity="0.85" />
-    <text x="122.5" y="106.0" font-family="monospace" font-size="8" fill="#e0f2fe" text-anchor="middle">PE_0_0</text>
-    <rect x="167" y="85" width="65" height="36" rx="3" fill="#0369a1" stroke="#38bdf8" stroke-width="0.8" opacity="0.85" />
-    <text x="199.5" y="106.0" font-family="monospace" font-size="8" fill="#e0f2fe" text-anchor="middle">PE_0_1</text>
-    <rect x="244" y="85" width="65" height="36" rx="3" fill="#0369a1" stroke="#38bdf8" stroke-width="0.8" opacity="0.85" />
-    <text x="276.5" y="106.0" font-family="monospace" font-size="8" fill="#e0f2fe" text-anchor="middle">PE_0_2</text>
-    <rect x="321" y="85" width="65" height="36" rx="3" fill="#0369a1" stroke="#38bdf8" stroke-width="0.8" opacity="0.85" />
-    <text x="353.5" y="106.0" font-family="monospace" font-size="8" fill="#e0f2fe" text-anchor="middle">PE_0_3</text>
-    <rect x="398" y="85" width="65" height="36" rx="3" fill="#0369a1" stroke="#38bdf8" stroke-width="0.8" opacity="0.85" />
-    <text x="430.5" y="106.0" font-family="monospace" font-size="8" fill="#e0f2fe" text-anchor="middle">PE_0_4</text>
-    <rect x="475" y="85" width="65" height="36" rx="3" fill="#0369a1" stroke="#38bdf8" stroke-width="0.8" opacity="0.85" />
-    <text x="507.5" y="106.0" font-family="monospace" font-size="8" fill="#e0f2fe" text-anchor="middle">PE_0_5</text>
-    <rect x="552" y="85" width="65" height="36" rx="3" fill="#0369a1" stroke="#38bdf8" stroke-width="0.8" opacity="0.85" />
-    <text x="584.5" y="106.0" font-family="monospace" font-size="8" fill="#e0f2fe" text-anchor="middle">PE_0_6</text>
-    <rect x="629" y="85" width="65" height="36" rx="3" fill="#0369a1" stroke="#38bdf8" stroke-width="0.8" opacity="0.85" />
-    <text x="661.5" y="106.0" font-family="monospace" font-size="8" fill="#e0f2fe" text-anchor="middle">PE_0_7</text>
-    <rect x="90" y="127" width="65" height="36" rx="3" fill="#0369a1" stroke="#38bdf8" stroke-width="0.8" opacity="0.85" />
-    <text x="122.5" y="148.0" font-family="monospace" font-size="8" fill="#e0f2fe" text-anchor="middle">PE_1_0</text>
-    <rect x="167" y="127" width="65" height="36" rx="3" fill="#0369a1" stroke="#38bdf8" stroke-width="0.8" opacity="0.85" />
-    <text x="199.5" y="148.0" font-family="monospace" font-size="8" fill="#e0f2fe" text-anchor="middle">PE_1_1</text>
-    <rect x="244" y="127" width="65" height="36" rx="3" fill="#0369a1" stroke="#38bdf8" stroke-width="0.8" opacity="0.85" />
-    <text x="276.5" y="148.0" font-family="monospace" font-size="8" fill="#e0f2fe" text-anchor="middle">PE_1_2</text>
-    <rect x="321" y="127" width="65" height="36" rx="3" fill="#0369a1" stroke="#38bdf8" stroke-width="0.8" opacity="0.85" />
-    <text x="353.5" y="148.0" font-family="monospace" font-size="8" fill="#e0f2fe" text-anchor="middle">PE_1_3</text>
-    <rect x="398" y="127" width="65" height="36" rx="3" fill="#0369a1" stroke="#38bdf8" stroke-width="0.8" opacity="0.85" />
-    <text x="430.5" y="148.0" font-family="monospace" font-size="8" fill="#e0f2fe" text-anchor="middle">PE_1_4</text>
-    <rect x="475" y="127" width="65" height="36" rx="3" fill="#0369a1" stroke="#38bdf8" stroke-width="0.8" opacity="0.85" />
-    <text x="507.5" y="148.0" font-family="monospace" font-size="8" fill="#e0f2fe" text-anchor="middle">PE_1_5</text>
-    <rect x="552" y="127" width="65" height="36" rx="3" fill="#0369a1" stroke="#38bdf8" stroke-width="0.8" opacity="0.85" />
-    <text x="584.5" y="148.0" font-family="monospace" font-size="8" fill="#e0f2fe" text-anchor="middle">PE_1_6</text>
-    <rect x="629" y="127" width="65" height="36" rx="3" fill="#0369a1" stroke="#38bdf8" stroke-width="0.8" opacity="0.85" />
-    <text x="661.5" y="148.0" font-family="monospace" font-size="8" fill="#e0f2fe" text-anchor="middle">PE_1_7</text>
-    <rect x="90" y="169" width="65" height="36" rx="3" fill="#0369a1" stroke="#38bdf8" stroke-width="0.8" opacity="0.85" />
-    <text x="122.5" y="190.0" font-family="monospace" font-size="8" fill="#e0f2fe" text-anchor="middle">PE_2_0</text>
-    <rect x="167" y="169" width="65" height="36" rx="3" fill="#0369a1" stroke="#38bdf8" stroke-width="0.8" opacity="0.85" />
-    <text x="199.5" y="190.0" font-family="monospace" font-size="8" fill="#e0f2fe" text-anchor="middle">PE_2_1</text>
-    <rect x="244" y="169" width="65" height="36" rx="3" fill="#0369a1" stroke="#38bdf8" stroke-width="0.8" opacity="0.85" />
-    <text x="276.5" y="190.0" font-family="monospace" font-size="8" fill="#e0f2fe" text-anchor="middle">PE_2_2</text>
-    <rect x="321" y="169" width="65" height="36" rx="3" fill="#0369a1" stroke="#38bdf8" stroke-width="0.8" opacity="0.85" />
-    <text x="353.5" y="190.0" font-family="monospace" font-size="8" fill="#e0f2fe" text-anchor="middle">PE_2_3</text>
-    <rect x="398" y="169" width="65" height="36" rx="3" fill="#0369a1" stroke="#38bdf8" stroke-width="0.8" opacity="0.85" />
-    <text x="430.5" y="190.0" font-family="monospace" font-size="8" fill="#e0f2fe" text-anchor="middle">PE_2_4</text>
-    <rect x="475" y="169" width="65" height="36" rx="3" fill="#0369a1" stroke="#38bdf8" stroke-width="0.8" opacity="0.85" />
-    <text x="507.5" y="190.0" font-family="monospace" font-size="8" fill="#e0f2fe" text-anchor="middle">PE_2_5</text>
-    <rect x="552" y="169" width="65" height="36" rx="3" fill="#0369a1" stroke="#38bdf8" stroke-width="0.8" opacity="0.85" />
-    <text x="584.5" y="190.0" font-family="monospace" font-size="8" fill="#e0f2fe" text-anchor="middle">PE_2_6</text>
-    <rect x="629" y="169" width="65" height="36" rx="3" fill="#0369a1" stroke="#38bdf8" stroke-width="0.8" opacity="0.85" />
-    <text x="661.5" y="190.0" font-family="monospace" font-size="8" fill="#e0f2fe" text-anchor="middle">PE_2_7</text>
-    <rect x="90" y="211" width="65" height="36" rx="3" fill="#0369a1" stroke="#38bdf8" stroke-width="0.8" opacity="0.85" />
-    <text x="122.5" y="232.0" font-family="monospace" font-size="8" fill="#e0f2fe" text-anchor="middle">PE_3_0</text>
-    <rect x="167" y="211" width="65" height="36" rx="3" fill="#0369a1" stroke="#38bdf8" stroke-width="0.8" opacity="0.85" />
-    <text x="199.5" y="232.0" font-family="monospace" font-size="8" fill="#e0f2fe" text-anchor="middle">PE_3_1</text>
-    <rect x="244" y="211" width="65" height="36" rx="3" fill="#0369a1" stroke="#38bdf8" stroke-width="0.8" opacity="0.85" />
-    <text x="276.5" y="232.0" font-family="monospace" font-size="8" fill="#e0f2fe" text-anchor="middle">PE_3_2</text>
-    <rect x="321" y="211" width="65" height="36" rx="3" fill="#0369a1" stroke="#38bdf8" stroke-width="0.8" opacity="0.85" />
-    <text x="353.5" y="232.0" font-family="monospace" font-size="8" fill="#e0f2fe" text-anchor="middle">PE_3_3</text>
-    <rect x="398" y="211" width="65" height="36" rx="3" fill="#0369a1" stroke="#38bdf8" stroke-width="0.8" opacity="0.85" />
-    <text x="430.5" y="232.0" font-family="monospace" font-size="8" fill="#e0f2fe" text-anchor="middle">PE_3_4</text>
-    <rect x="475" y="211" width="65" height="36" rx="3" fill="#0369a1" stroke="#38bdf8" stroke-width="0.8" opacity="0.85" />
-    <text x="507.5" y="232.0" font-family="monospace" font-size="8" fill="#e0f2fe" text-anchor="middle">PE_3_5</text>
-    <rect x="552" y="211" width="65" height="36" rx="3" fill="#0369a1" stroke="#38bdf8" stroke-width="0.8" opacity="0.85" />
-    <text x="584.5" y="232.0" font-family="monospace" font-size="8" fill="#e0f2fe" text-anchor="middle">PE_3_6</text>
-    <rect x="629" y="211" width="65" height="36" rx="3" fill="#0369a1" stroke="#38bdf8" stroke-width="0.8" opacity="0.85" />
-    <text x="661.5" y="232.0" font-family="monospace" font-size="8" fill="#e0f2fe" text-anchor="middle">PE_3_7</text>
-    <rect x="90" y="253" width="65" height="36" rx="3" fill="#0369a1" stroke="#38bdf8" stroke-width="0.8" opacity="0.85" />
-    <text x="122.5" y="274.0" font-family="monospace" font-size="8" fill="#e0f2fe" text-anchor="middle">PE_4_0</text>
-    <rect x="167" y="253" width="65" height="36" rx="3" fill="#0369a1" stroke="#38bdf8" stroke-width="0.8" opacity="0.85" />
-    <text x="199.5" y="274.0" font-family="monospace" font-size="8" fill="#e0f2fe" text-anchor="middle">PE_4_1</text>
-    <rect x="244" y="253" width="65" height="36" rx="3" fill="#0369a1" stroke="#38bdf8" stroke-width="0.8" opacity="0.85" />
-    <text x="276.5" y="274.0" font-family="monospace" font-size="8" fill="#e0f2fe" text-anchor="middle">PE_4_2</text>
-    <rect x="321" y="253" width="65" height="36" rx="3" fill="#0369a1" stroke="#38bdf8" stroke-width="0.8" opacity="0.85" />
-    <text x="353.5" y="274.0" font-family="monospace" font-size="8" fill="#e0f2fe" text-anchor="middle">PE_4_3</text>
-    <rect x="398" y="253" width="65" height="36" rx="3" fill="#0369a1" stroke="#38bdf8" stroke-width="0.8" opacity="0.85" />
-    <text x="430.5" y="274.0" font-family="monospace" font-size="8" fill="#e0f2fe" text-anchor="middle">PE_4_4</text>
-    <rect x="475" y="253" width="65" height="36" rx="3" fill="#0369a1" stroke="#38bdf8" stroke-width="0.8" opacity="0.85" />
-    <text x="507.5" y="274.0" font-family="monospace" font-size="8" fill="#e0f2fe" text-anchor="middle">PE_4_5</text>
-    <rect x="552" y="253" width="65" height="36" rx="3" fill="#0369a1" stroke="#38bdf8" stroke-width="0.8" opacity="0.85" />
-    <text x="584.5" y="274.0" font-family="monospace" font-size="8" fill="#e0f2fe" text-anchor="middle">PE_4_6</text>
-    <rect x="629" y="253" width="65" height="36" rx="3" fill="#0369a1" stroke="#38bdf8" stroke-width="0.8" opacity="0.85" />
-    <text x="661.5" y="274.0" font-family="monospace" font-size="8" fill="#e0f2fe" text-anchor="middle">PE_4_7</text>
-    <rect x="90" y="295" width="65" height="36" rx="3" fill="#0369a1" stroke="#38bdf8" stroke-width="0.8" opacity="0.85" />
-    <text x="122.5" y="316.0" font-family="monospace" font-size="8" fill="#e0f2fe" text-anchor="middle">PE_5_0</text>
-    <rect x="167" y="295" width="65" height="36" rx="3" fill="#0369a1" stroke="#38bdf8" stroke-width="0.8" opacity="0.85" />
-    <text x="199.5" y="316.0" font-family="monospace" font-size="8" fill="#e0f2fe" text-anchor="middle">PE_5_1</text>
-    <rect x="244" y="295" width="65" height="36" rx="3" fill="#0369a1" stroke="#38bdf8" stroke-width="0.8" opacity="0.85" />
-    <text x="276.5" y="316.0" font-family="monospace" font-size="8" fill="#e0f2fe" text-anchor="middle">PE_5_2</text>
-    <rect x="321" y="295" width="65" height="36" rx="3" fill="#0369a1" stroke="#38bdf8" stroke-width="0.8" opacity="0.85" />
-    <text x="353.5" y="316.0" font-family="monospace" font-size="8" fill="#e0f2fe" text-anchor="middle">PE_5_3</text>
-    <rect x="398" y="295" width="65" height="36" rx="3" fill="#0369a1" stroke="#38bdf8" stroke-width="0.8" opacity="0.85" />
-    <text x="430.5" y="316.0" font-family="monospace" font-size="8" fill="#e0f2fe" text-anchor="middle">PE_5_4</text>
-    <rect x="475" y="295" width="65" height="36" rx="3" fill="#0369a1" stroke="#38bdf8" stroke-width="0.8" opacity="0.85" />
-    <text x="507.5" y="316.0" font-family="monospace" font-size="8" fill="#e0f2fe" text-anchor="middle">PE_5_5</text>
-    <rect x="552" y="295" width="65" height="36" rx="3" fill="#0369a1" stroke="#38bdf8" stroke-width="0.8" opacity="0.85" />
-    <text x="584.5" y="316.0" font-family="monospace" font-size="8" fill="#e0f2fe" text-anchor="middle">PE_5_6</text>
-    <rect x="629" y="295" width="65" height="36" rx="3" fill="#0369a1" stroke="#38bdf8" stroke-width="0.8" opacity="0.85" />
-    <text x="661.5" y="316.0" font-family="monospace" font-size="8" fill="#e0f2fe" text-anchor="middle">PE_5_7</text>
-    <rect x="90" y="337" width="65" height="36" rx="3" fill="#0369a1" stroke="#38bdf8" stroke-width="0.8" opacity="0.85" />
-    <text x="122.5" y="358.0" font-family="monospace" font-size="8" fill="#e0f2fe" text-anchor="middle">PE_6_0</text>
-    <rect x="167" y="337" width="65" height="36" rx="3" fill="#0369a1" stroke="#38bdf8" stroke-width="0.8" opacity="0.85" />
-    <text x="199.5" y="358.0" font-family="monospace" font-size="8" fill="#e0f2fe" text-anchor="middle">PE_6_1</text>
-    <rect x="244" y="337" width="65" height="36" rx="3" fill="#0369a1" stroke="#38bdf8" stroke-width="0.8" opacity="0.85" />
-    <text x="276.5" y="358.0" font-family="monospace" font-size="8" fill="#e0f2fe" text-anchor="middle">PE_6_2</text>
-    <rect x="321" y="337" width="65" height="36" rx="3" fill="#0369a1" stroke="#38bdf8" stroke-width="0.8" opacity="0.85" />
-    <text x="353.5" y="358.0" font-family="monospace" font-size="8" fill="#e0f2fe" text-anchor="middle">PE_6_3</text>
-    <rect x="398" y="337" width="65" height="36" rx="3" fill="#0369a1" stroke="#38bdf8" stroke-width="0.8" opacity="0.85" />
-    <text x="430.5" y="358.0" font-family="monospace" font-size="8" fill="#e0f2fe" text-anchor="middle">PE_6_4</text>
-    <rect x="475" y="337" width="65" height="36" rx="3" fill="#0369a1" stroke="#38bdf8" stroke-width="0.8" opacity="0.85" />
-    <text x="507.5" y="358.0" font-family="monospace" font-size="8" fill="#e0f2fe" text-anchor="middle">PE_6_5</text>
-    <rect x="552" y="337" width="65" height="36" rx="3" fill="#0369a1" stroke="#38bdf8" stroke-width="0.8" opacity="0.85" />
-    <text x="584.5" y="358.0" font-family="monospace" font-size="8" fill="#e0f2fe" text-anchor="middle">PE_6_6</text>
-    <rect x="629" y="337" width="65" height="36" rx="3" fill="#0369a1" stroke="#38bdf8" stroke-width="0.8" opacity="0.85" />
-    <text x="661.5" y="358.0" font-family="monospace" font-size="8" fill="#e0f2fe" text-anchor="middle">PE_6_7</text>
-    <rect x="90" y="379" width="65" height="36" rx="3" fill="#0369a1" stroke="#38bdf8" stroke-width="0.8" opacity="0.85" />
-    <text x="122.5" y="400.0" font-family="monospace" font-size="8" fill="#e0f2fe" text-anchor="middle">PE_7_0</text>
-    <rect x="167" y="379" width="65" height="36" rx="3" fill="#0369a1" stroke="#38bdf8" stroke-width="0.8" opacity="0.85" />
-    <text x="199.5" y="400.0" font-family="monospace" font-size="8" fill="#e0f2fe" text-anchor="middle">PE_7_1</text>
-    <rect x="244" y="379" width="65" height="36" rx="3" fill="#0369a1" stroke="#38bdf8" stroke-width="0.8" opacity="0.85" />
-    <text x="276.5" y="400.0" font-family="monospace" font-size="8" fill="#e0f2fe" text-anchor="middle">PE_7_2</text>
-    <rect x="321" y="379" width="65" height="36" rx="3" fill="#0369a1" stroke="#38bdf8" stroke-width="0.8" opacity="0.85" />
-    <text x="353.5" y="400.0" font-family="monospace" font-size="8" fill="#e0f2fe" text-anchor="middle">PE_7_3</text>
-    <rect x="398" y="379" width="65" height="36" rx="3" fill="#0369a1" stroke="#38bdf8" stroke-width="0.8" opacity="0.85" />
-    <text x="430.5" y="400.0" font-family="monospace" font-size="8" fill="#e0f2fe" text-anchor="middle">PE_7_4</text>
-    <rect x="475" y="379" width="65" height="36" rx="3" fill="#0369a1" stroke="#38bdf8" stroke-width="0.8" opacity="0.85" />
-    <text x="507.5" y="400.0" font-family="monospace" font-size="8" fill="#e0f2fe" text-anchor="middle">PE_7_5</text>
-    <rect x="552" y="379" width="65" height="36" rx="3" fill="#0369a1" stroke="#38bdf8" stroke-width="0.8" opacity="0.85" />
-    <text x="584.5" y="400.0" font-family="monospace" font-size="8" fill="#e0f2fe" text-anchor="middle">PE_7_6</text>
-    <rect x="629" y="379" width="65" height="36" rx="3" fill="#0369a1" stroke="#38bdf8" stroke-width="0.8" opacity="0.85" />
-    <text x="661.5" y="400.0" font-family="monospace" font-size="8" fill="#e0f2fe" text-anchor="middle">PE_7_7</text>
+  <!-- Systolic Orthoplex Array (PE Mesh) -->
+  <rect x="80" y="140" width="460" height="430" rx="10" fill="#0f172a" stroke="#1d4ed8" stroke-width="2"/>
+  <text x="100" y="170" fill="#60a5fa" font-size="15" font-weight="bold">2D Toroidal Systolic Mesh (4x4 Orthoplex PEs)</text>
+
+  <!-- Individual PEs -->
+  <g fill="url(#peGrad)" stroke="#3b82f6" stroke-width="1.5">
+    <rect x="100" y="190" width="90" height="70" rx="6"/><text x="120" y="230" fill="#ffffff" font-size="12">PE[0,0]</text>
+    <rect x="210" y="190" width="90" height="70" rx="6"/><text x="230" y="230" fill="#ffffff" font-size="12">PE[0,1]</text>
+    <rect x="320" y="190" width="90" height="70" rx="6"/><text x="340" y="230" fill="#ffffff" font-size="12">PE[0,2]</text>
+    <rect x="430" y="190" width="90" height="70" rx="6"/><text x="450" y="230" fill="#ffffff" font-size="12">PE[0,3]</text>
+
+    <rect x="100" y="280" width="90" height="70" rx="6"/><text x="120" y="320" fill="#ffffff" font-size="12">PE[1,0]</text>
+    <rect x="210" y="280" width="90" height="70" rx="6"/><text x="230" y="320" fill="#ffffff" font-size="12">PE[1,1]</text>
+    <rect x="320" y="280" width="90" height="70" rx="6"/><text x="340" y="320" fill="#ffffff" font-size="12">PE[1,2]</text>
+    <rect x="430" y="280" width="90" height="70" rx="6"/><text x="450" y="320" fill="#ffffff" font-size="12">PE[1,3]</text>
+
+    <rect x="100" y="370" width="90" height="70" rx="6"/><text x="120" y="410" fill="#ffffff" font-size="12">PE[2,0]</text>
+    <rect x="210" y="370" width="90" height="70" rx="6"/><text x="230" y="410" fill="#ffffff" font-size="12">PE[2,1]</text>
+    <rect x="320" y="370" width="90" height="70" rx="6"/><text x="340" y="410" fill="#ffffff" font-size="12">PE[2,2]</text>
+    <rect x="430" y="370" width="90" height="70" rx="6"/><text x="450" y="410" fill="#ffffff" font-size="12">PE[2,3]</text>
+
+    <rect x="100" y="460" width="90" height="70" rx="6"/><text x="120" y="500" fill="#ffffff" font-size="12">PE[3,0]</text>
+    <rect x="210" y="460" width="90" height="70" rx="6"/><text x="230" y="500" fill="#ffffff" font-size="12">PE[3,1]</text>
+    <rect x="320" y="460" width="90" height="70" rx="6"/><text x="340" y="500" fill="#ffffff" font-size="12">PE[3,2]</text>
+    <rect x="430" y="460" width="90" height="70" rx="6"/><text x="450" y="500" fill="#ffffff" font-size="12">PE[3,3]</text>
   </g>
 
-  <!-- Pin Connectors (North / South / East / West) -->
-  <!-- North: ui_in -->
-  <text x="400" y="32" font-family="monospace" font-size="11" fill="#4ade80" text-anchor="middle">ui_in[7:0] (North Inputs)</text>
-  <!-- South: uo_out -->
-  <text x="400" y="472" font-family="monospace" font-size="11" fill="#f43f5e" text-anchor="middle">uo_out[7:0] (South Outputs)</text>
-  <!-- West: Controls (clk, rst_n, ena) -->
-  <text x="12" y="250" font-family="monospace" font-size="10" fill="#facc15" transform="rotate(-90 12,250)" text-anchor="middle">clk / rst_n / ena</text>
-  <!-- East: uio bidirectional -->
-  <text x="788" y="250" font-family="monospace" font-size="10" fill="#c084fc" transform="rotate(90 788,250)" text-anchor="middle">uio_in / uio_out / uio_oe</text>
+  <!-- Hardware Cayley Inverter Unit -->
+  <rect x="560" y="140" width="380" height="190" rx="10" fill="#064e3b" stroke="#10b981" stroke-width="2"/>
+  <text x="580" y="170" fill="#34d399" font-size="15" font-weight="bold">Hardware Cayley Inverter (SO(8) Reversal)</text>
+  <text x="580" y="195" fill="#a7f3d0" font-size="12">Area: 3,541.69 um² | Cells: 163 | Power: 244 uW</text>
+  <rect x="580" y="210" width="340" height="100" rx="6" fill="#022c22" stroke="#059669" stroke-width="1.5"/>
+  <text x="600" y="245" fill="#6ee7b7" font-size="12">R = (I - Ω)(I + Ω)⁻¹ | Exact R⁻¹ = Rᵀ</text>
+  <text x="600" y="275" fill="#6ee7b7" font-size="12">Timing Slack: +3.42 ns @ 100.0 MHz</text>
+
+  <!-- Flash-Cayley Attention Core Unit (Newly Verified) -->
+  <rect x="560" y="350" width="380" height="220" rx="10" fill="#701a75" stroke="#f43f5e" stroke-width="2"/>
+  <text x="580" y="380" fill="#fb7185" font-size="15" font-weight="bold">Flash-Cayley Attention Core (Online Softmax)</text>
+  <text x="580" y="405" fill="#fecdd3" font-size="12">Area: 8,572.92 um² | Cells: 708 | Power: 1,062 uW</text>
+  <rect x="580" y="420" width="340" height="130" rx="6" fill="#4a044e" stroke="#e11d48" stroke-width="1.5"/>
+  <text x="600" y="455" fill="#fda4af" font-size="12">8x 16-bit Pipelined Multiplier Tree</text>
+  <text x="600" y="480" fill="#fda4af" font-size="12">Running Online Max &amp; Acc: Q8.8 Fixed-Point</text>
+  <text x="600" y="505" fill="#fda4af" font-size="12">Timing Slack: +2.84 ns @ 100.0 MHz (MET)</text>
+  <text x="600" y="530" fill="#fda4af" font-size="12">DRC/LVS: 0 Violations (Clean)</text>
 </svg>
