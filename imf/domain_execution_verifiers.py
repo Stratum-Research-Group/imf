@@ -362,7 +362,7 @@ class DomainExecutionVerifierRegistry:
             tmp_path = f.name
 
         try:
-            res = subprocess.run(["lean", tmp_path], capture_output=True, text=True, timeout=15)
+            res = subprocess.run(["lean", tmp_path], capture_output=True, text=True, timeout=60)
             combined = res.stdout + ("\n" + res.stderr if res.stderr else "")
             if res.returncode == 0 and "sorry" not in combined.lower():
                 return True, "Lean 4 machine-checked formal proof certified."

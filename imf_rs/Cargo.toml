@@ -1,0 +1,8 @@
+[package]
+name = "imf_rs"
+version = "2.1.0"
+edition = "2021"
+authors = ["The IMF Autonomous Collective"]
+description = "High-performance native Rust client and CLI for IMF isometric inference & verification"
+
+[dependencies]

@@ -35,6 +35,18 @@ class IMFServingEngine:
         self.drift_gauge = 1.85e-06
         self.speculative_speedup = 4.72
         self.landauer_dissipation_nj = 0.000
+        self.has_fused_cuda = self._init_fused_cuda()
+
+    def _init_fused_cuda(self) -> bool:
+        try:
+            import ctypes
+            lib_path = os.path.join(os.path.dirname(__file__), "..", "csrc", "fused_flash_cayley_attention.so")
+            if os.path.exists(lib_path):
+                self.cuda_lib = ctypes.CDLL(lib_path)
+                return True
+        except Exception:
+            pass
+        return False
 
     def generate_tokens(self, prompt: str, max_tokens: int = 32):
         words = [
@@ -63,7 +75,9 @@ async def healthz():
             "system": "Interaction Model Foundations (IMF)",
             "model": engine.model_name,
             "manifold_drift": engine.drift_gauge,
-            "speculative_speedup": f"{engine.speculative_speedup}x"
+            "speculative_speedup": f"{engine.speculative_speedup}x",
+            "fused_cuda_acceleration": engine.has_fused_cuda,
+            "fused_flash_cayley_kernel": "active" if engine.has_fused_cuda else "cpu_fallback"
         },
         headers=get_telemetry_headers()
     )

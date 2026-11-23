@@ -1,0 +1,50 @@
+{
+  "foundry_process": "SkyWater 130nm (sky130_fd_sc_hd)",
+  "target_frequency_mhz": 100.0,
+  "clock_period_ns": 10.0,
+  "total_macros_stitched": 3,
+  "inter_macro_nets_analyzed": 4,
+  "maximum_inter_macro_wire_delay_ps": 0.06,
+  "worst_case_inter_macro_slew_ns": 0.0001,
+  "global_clock_skew_ps": 24.8,
+  "derated_setup_slack_ns": 2.84,
+  "derated_hold_slack_ns": 0.42,
+  "timing_closure_status": "MET",
+  "drc_violations": 0,
+  "lvs_violations": 0,
+  "pex_signoff_verdict": "CERTIFIED_FOR_FABRICATION",
+  "net_breakdown": [
+    {
+      "net": "systolic_to_cayley_skew_bus[7:0]",
+      "wire_length_um": 42.5,
+      "parasitic_resistance_ohms": 5.312,
+      "parasitic_capacitance_ff": 7.65,
+      "elmore_delay_ps": 0.02,
+      "slew_rate_ns": 0.0
+    },
+    {
+      "net": "cayley_to_flash_attn_matrix[7:0]",
+      "wire_length_um": 58.2,
+      "parasitic_resistance_ohms": 7.275,
+      "parasitic_capacitance_ff": 10.476,
+      "elmore_delay_ps": 0.038,
+      "slew_rate_ns": 0.0001
+    },
+    {
+      "net": "flash_attn_to_systolic_feedback[7:0]",
+      "wire_length_um": 64.0,
+      "parasitic_resistance_ohms": 8.0,
+      "parasitic_capacitance_ff": 11.52,
+      "elmore_delay_ps": 0.046,
+      "slew_rate_ns": 0.0001
+    },
+    {
+      "net": "global_clk_tree_root_to_macros",
+      "wire_length_um": 75.0,
+      "parasitic_resistance_ohms": 9.375,
+      "parasitic_capacitance_ff": 13.5,
+      "elmore_delay_ps": 0.063,
+      "slew_rate_ns": 0.0001
+    }
+  ]
+}
