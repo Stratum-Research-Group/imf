@@ -1,0 +1,47 @@
+{
+  "triton_speculative_tree": {
+    "status": "PASS",
+    "num_candidate_paths": 8,
+    "tree_depth": 4,
+    "vocab_size": 4096,
+    "accepted_tokens": 5,
+    "winning_path_idx": 3,
+    "verification_latency_us": 59.14
+  },
+  "self_balancing_mope_router": {
+    "status": "PASS",
+    "num_experts": 8,
+    "top_k": 2,
+    "balance_loss": 0.02027,
+    "dispatch_entropy": 2.0778,
+    "router_latency_us": 376.65
+  },
+  "imf_vlm_vision_adapter": {
+    "status": "PASS",
+    "image_size": [
+      224,
+      224
+    ],
+    "patch_size": 14,
+    "num_patches": 256,
+    "fused_sequence_length": 320,
+    "projection_latency_ms": 0.998,
+    "vision_token_norm": 23.996
+  },
+  "distributed_sharding_harness": {
+    "status": "PASS",
+    "d_model": 576,
+    "world_size": 1,
+    "rank": 0,
+    "sharded_ssm_shape": [
+      2,
+      64,
+      576
+    ],
+    "sharded_mope_shape": [
+      128,
+      576
+    ],
+    "block_step_latency_ms": 4.705
+  }
+}
