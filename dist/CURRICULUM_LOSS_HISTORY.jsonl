@@ -1,0 +1,1 @@
+{"timestamp": "2026-11-24T18:15:17", "mean_curriculum_loss": 0.04908, "eval_latency_ms": 2.43, "domain_losses": {"algebra_inequalities": 0.05105, "group_theory_lie_algebras": 0.04611, "differential_geometry": 0.06023, "measure_theory_integration": 0.04404, "combinatorics_extremal": 0.03813, "symplectic_phase_space": 0.05491}, "device": "cuda"}
