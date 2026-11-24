@@ -325,6 +325,25 @@
 
   <div class="panel" style="grid-column: span 2; margin-top: 15px;">
     <div class="panel-header">
+      <span>IMF Interactive Lean 4 Proof Terminal (Live WebSocket Console)</span>
+      <span style="font-size: 0.85rem; color: #10b981;" id="bridge-status">Connected: ws://127.0.0.1:8766</span>
+    </div>
+    <div style="display: flex; gap: 10px; margin-bottom: 12px;">
+      <input type="text" id="proof-input" placeholder="Enter mathematical conjecture (e.g. 'Prove that addition of natural numbers is commutative')..." 
+             style="flex: 1; background: #020617; border: 1px solid #334155; border-radius: 6px; padding: 10px 14px; color: #f8fafc; font-size: 0.9rem;" 
+             value="Prove that natural number multiplication is commutative."
+             onkeydown="if(event.key==='Enter') submitConjecture()" />
+      <button onclick="submitConjecture()" style="background: #3b82f6; hover: background: #2563eb; color: #ffffff; border: none; border-radius: 6px; padding: 10px 20px; font-weight: 600; cursor: pointer;">
+        Formalize & Certify
+      </button>
+    </div>
+    <div id="proof-output" style="background: #020617; border: 1px solid #1e293b; border-radius: 6px; padding: 14px; font-family: monospace; font-size: 0.85rem; min-height: 110px; color: #94a3b8; white-space: pre-wrap;">
+Ready to formalize conjectures into zero-axiom Lean 4 proofs. Click 'Formalize & Certify' above.
+    </div>
+  </div>
+
+  <div class="panel" style="grid-column: span 2; margin-top: 15px;">
+    <div class="panel-header">
       <span>IMF Autonomous Swarm & Background Worker Fleet</span>
       <span style="font-size: 0.85rem; color: var(--green);">10 Multiprocessing Workers Active | WebSocket Live</span>
     </div>
@@ -371,6 +390,58 @@
       }, 150);
     }
 
+    // Proof Bridge WebSocket Connection
+    let proofWS = null;
+    function connectProofBridge() {
+      try {
+        proofWS = new WebSocket("ws://127.0.0.1:8766");
+        proofWS.onopen = function() {
+          const st = document.getElementById('bridge-status');
+          if (st) { st.innerText = "Connected: ws://127.0.0.1:8766"; st.style.color = "#10b981"; }
+        };
+        proofWS.onclose = function() {
+          const st = document.getElementById('bridge-status');
+          if (st) { st.innerText = "Offline (Reconnecting...)"; st.style.color = "#ef4444"; }
+          setTimeout(connectProofBridge, 2000);
+        };
+        proofWS.onmessage = function(e) {
+          try {
+            const data = JSON.parse(e.data);
+            const out = document.getElementById('proof-output');
+            if (data.type === 'status') {
+              out.innerHTML = '<span style="color: #f59e0b;">[⚙ Auto-Formalizing] Translating natural conjecture into Lean 4 AST & verifying axioms...</span>';
+            } else if (data.type === 'proof_result') {
+              const res = data.result;
+              const certColor = res.verified ? '#10b981' : '#ef4444';
+              const certText = res.verified ? 'CERTIFIED ZERO-AXIOM [Lean 4 Core]' : 'VERIFICATION FAILED';
+              out.innerHTML = 
+                '<span style="color: ' + certColor + '; font-weight: bold;">[' + certText + ']</span> ' +
+                '<span style="color: #94a3b8;">Latency: ' + res.latency_ms + ' ms | External Axioms: ' + res.external_axioms + '</span>\\n\\n' +
+                '<span style="color: #38bdf8; font-weight: 600;">Lean 4 Code:</span>\\n' +
+                '<span style="color: #f8fafc;">' + res.lean_code.trim() + '</span>\\n\\n' +
+                '<span style="color: #64748b;">Verification Result: ' + res.verification_info + '</span>';
+            }
+          } catch(err) {}
+        };
+      } catch(e) {}
+    }
+
+    function submitConjecture() {
+      const input = document.getElementById('proof-input');
+      const val = input.value.trim();
+      if (!val) return;
+      if (!proofWS || proofWS.readyState !== WebSocket.OPEN) {
+        document.getElementById('proof-output').innerHTML = '<span style="color: #ef4444;">[!] Error: Proof Bridge WebSocket (ws://127.0.0.1:8766) not connected. Ensure daemon is running.</span>';
+        return;
+      }
+      document.getElementById('proof-output').innerHTML = '<span style="color: #f59e0b;">[*] Submitting conjecture to Lean 4 Core verifier...</span>';
+      proofWS.send(JSON.stringify({
+        type: 'formalize',
+        id: 'user_conj_' + Date.now(),
+        problem: val
+      }));
+    }
+
     // WebSocket Telemetry Connection
     function connectWS() {
       try {
@@ -404,7 +475,10 @@
         };
       } catch(e) {}
     }
-    window.onload = connectWS;
+    window.onload = function() {
+      connectWS();
+      connectProofBridge();
+    };
   </script>
 </body>
 </html>
