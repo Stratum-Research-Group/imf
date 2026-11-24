@@ -282,6 +282,25 @@
             if (data.manifold_drift !== undefined) {
               document.getElementById('manifold-drift').innerText = Number(data.manifold_drift).toExponential(2);
             }
+            if (data.token_poincare_coords) {
+              const svg = document.getElementById('poincare-disk');
+              if (svg) {
+                let livePt = document.getElementById('live-token-pt');
+                if (!livePt) {
+                  livePt = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                  livePt.setAttribute('id', 'live-token-pt');
+                  livePt.setAttribute('r', '6');
+                  livePt.setAttribute('fill', '#ef4444');
+                  livePt.setAttribute('stroke', '#ffffff');
+                  livePt.setAttribute('stroke-width', '1.5');
+                  svg.appendChild(livePt);
+                }
+                const cx = data.token_poincare_coords.x * 120;
+                const cy = data.token_poincare_coords.y * 120;
+                livePt.setAttribute('cx', cx);
+                livePt.setAttribute('cy', cy);
+              }
+            }
           } catch(err) {}
         };
       } catch(e) {}
