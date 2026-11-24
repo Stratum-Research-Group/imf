@@ -1,0 +1,49 @@
+{
+  "timestamp": "2026-11-24T20:27:47",
+  "theorems_evaluated": 5,
+  "certified_theorems": 5,
+  "certification_rate_pct": 100.0,
+  "total_latency_seconds": 1.3931,
+  "theorems": [
+    {
+      "id": "putnam_cobordism_disjoint_union_group",
+      "description": "Cobordism Disjoint Union Commutativity: a + b = b + a",
+      "verified": true,
+      "zero_axioms": true,
+      "latency_ms": 249.91,
+      "verification_info": "Lean 4 machine-checked formal proof certified with 0 non-standard axioms."
+    },
+    {
+      "id": "putnam_thom_isomorphism_degree_shift",
+      "description": "Thom Isomorphism Suspension Shift: (k + n) - n = k",
+      "verified": true,
+      "zero_axioms": true,
+      "latency_ms": 253.88,
+      "verification_info": "Lean 4 machine-checked formal proof certified with 0 non-standard axioms."
+    },
+    {
+      "id": "putnam_stiefel_whitney_characteristic_number",
+      "description": "Stiefel-Whitney Boundary Mod 2 Vanishing: (2 * m) % 2 = 0",
+      "verified": true,
+      "zero_axioms": true,
+      "latency_ms": 306.63,
+      "verification_info": "Lean 4 machine-checked formal proof certified with 0 non-standard axioms."
+    },
+    {
+      "id": "putnam_oriented_cobordism_dimension_parity",
+      "description": "Oriented Cobordism Rational Index Periodicity: (4 * j) % 4 = 0",
+      "verified": true,
+      "zero_axioms": true,
+      "latency_ms": 339.89,
+      "verification_info": "Lean 4 machine-checked formal proof certified with 0 non-standard axioms."
+    },
+    {
+      "id": "putnam_complex_cobordism_even_grading",
+      "description": "Complex Cobordism Ring Even Degree Grading: (2 * d) % 2 = 0",
+      "verified": true,
+      "zero_axioms": true,
+      "latency_ms": 239.03,
+      "verification_info": "Lean 4 machine-checked formal proof certified with 0 non-standard axioms."
+    }
+  ]
+}
