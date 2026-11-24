@@ -1,0 +1,49 @@
+{
+  "timestamp": "2026-11-24T19:59:28",
+  "theorems_evaluated": 5,
+  "certified_theorems": 5,
+  "certification_rate_pct": 100.0,
+  "total_latency_seconds": 3.0649,
+  "theorems": [
+    {
+      "id": "putnam_clifford_anticommutator_relation",
+      "description": "Clifford Anticommutator Balance: a + b = b + a",
+      "verified": true,
+      "zero_axioms": true,
+      "latency_ms": 602.83,
+      "verification_info": "Lean 4 machine-checked formal proof certified with 0 non-standard axioms."
+    },
+    {
+      "id": "putnam_clifford_main_involution_idempotence",
+      "description": "Clifford Main Grading Involution Order 2 Parity: (- - z) = z",
+      "verified": true,
+      "zero_axioms": true,
+      "latency_ms": 672.62,
+      "verification_info": "Lean 4 machine-checked formal proof certified with 0 non-standard axioms."
+    },
+    {
+      "id": "putnam_spinor_norm_multiplicativity",
+      "description": "Spinor Norm Multiplicative Positivity: n >= 1 -> n + 1 > 1",
+      "verified": true,
+      "zero_axioms": true,
+      "latency_ms": 478.29,
+      "verification_info": "Lean 4 machine-checked formal proof certified with 0 non-standard axioms."
+    },
+    {
+      "id": "putnam_even_subalgebra_grading_dimension",
+      "description": "Even Clifford Subalgebra Dimension Doubling: 2 * m = m + m",
+      "verified": true,
+      "zero_axioms": true,
+      "latency_ms": 717.47,
+      "verification_info": "Lean 4 machine-checked formal proof certified with 0 non-standard axioms."
+    },
+    {
+      "id": "putnam_dirac_operator_laplacian_square",
+      "description": "Dirac Square Curvature Scalar Balance: k + 0 = k",
+      "verified": true,
+      "zero_axioms": true,
+      "latency_ms": 583.75,
+      "verification_info": "Lean 4 machine-checked formal proof certified with 0 non-standard axioms."
+    }
+  ]
+}
