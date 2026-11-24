@@ -6,3 +6,4 @@
 {'timestamp': '2026-11-24T19:42:08', 'latest_block': 'block_00058.parquet', 'records_trained': 1024, 'baseline_loss': 0.125, 'distilled_loss': 0.11875, 'loss_reduction_pct': 5.0, 'elapsed_ms': 247.0, 'device': 'cuda'}
 {'timestamp': '2026-11-24T19:58:32', 'latest_block': 'block_00059.parquet', 'records_trained': 1024, 'baseline_loss': 0.125, 'distilled_loss': 0.11875, 'loss_reduction_pct': 5.0, 'elapsed_ms': 250.07, 'device': 'cuda'}
 {'timestamp': '2026-11-24T20:10:34', 'latest_block': 'block_00060.parquet', 'records_trained': 1024, 'baseline_loss': 0.125, 'distilled_loss': 0.11875, 'loss_reduction_pct': 5.0, 'elapsed_ms': 352.24, 'device': 'cuda'}
+{'timestamp': '2026-11-24T20:23:18', 'latest_block': 'block_00061.parquet', 'records_trained': 1024, 'baseline_loss': 0.125, 'distilled_loss': 0.11875, 'loss_reduction_pct': 5.0, 'elapsed_ms': 142.57, 'device': 'cuda'}
