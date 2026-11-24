@@ -1,13 +1,13 @@
 {
   "corpus_name": "IMF 32-Billion Step Grand Deductive Corpus",
   "target_steps": 32000000000,
-  "total_certified_theorems": 53000000,
-  "blocks_completed": 53,
+  "total_certified_theorems": 54000000,
+  "blocks_completed": 54,
   "families_count": 32,
   "verification_kernel": "Lean 4 Core v4.16.0",
   "external_axioms": 0,
-  "total_elapsed_seconds": 34033.0,
-  "average_speed_steps_per_sec": 1557.31,
+  "total_elapsed_seconds": 34654.85,
+  "average_speed_steps_per_sec": 1558.22,
   "blocks": [
     {
       "block_idx": 1,
@@ -538,6 +538,16 @@
       "archive_file": "dist/gym_32b_corpus/block_00053.tar.zst",
       "archive_size_bytes": 1923870,
       "archive_sha256": "048d7dcd2518986933eda9075673f71589d7cadea52d4f00a1ab4c916bc06bbb"
+    },
+    {
+      "block_idx": 54,
+      "steps": 1000000,
+      "elapsed_seconds": 621.85,
+      "steps_per_sec": 1608.1,
+      "raw_sha256": "5f831ce2c0a0bbbde5eb786fca1bc84d94c26f25bd6db70ffc36bc316d62d7be",
+      "archive_file": "dist/gym_32b_corpus/block_00054.tar.zst",
+      "archive_size_bytes": 1925859,
+      "archive_sha256": "a5aa509633ed3a3dc53860c5652e5fabd5dddc15a42360bfddb6b55cfeeef092"
     }
   ]
 }
