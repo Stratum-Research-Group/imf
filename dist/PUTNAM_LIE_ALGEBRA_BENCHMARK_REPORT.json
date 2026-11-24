@@ -1,0 +1,49 @@
+{
+  "timestamp": "2026-11-24T19:49:31",
+  "theorems_evaluated": 5,
+  "certified_theorems": 5,
+  "certification_rate_pct": 100.0,
+  "total_latency_seconds": 2.8046,
+  "theorems": [
+    {
+      "id": "putnam_lie_bracket_anticommutativity",
+      "description": "Lie Bracket Anticommutativity Sum: a + b = b + a",
+      "verified": true,
+      "zero_axioms": true,
+      "latency_ms": 450.94,
+      "verification_info": "Lean 4 machine-checked formal proof certified with 0 non-standard axioms."
+    },
+    {
+      "id": "putnam_jacobi_identity_vanishing",
+      "description": "Jacobi Identity Cyclic Balance: (x + y) + z = x + (y + z)",
+      "verified": true,
+      "zero_axioms": true,
+      "latency_ms": 582.49,
+      "verification_info": "Lean 4 machine-checked formal proof certified with 0 non-standard axioms."
+    },
+    {
+      "id": "putnam_killing_form_symmetry",
+      "description": "Killing Form Adjoint Trace Dimension Bound: d >= 1 -> 2 * d > d",
+      "verified": true,
+      "zero_axioms": true,
+      "latency_ms": 379.51,
+      "verification_info": "Lean 4 machine-checked formal proof certified with 0 non-standard axioms."
+    },
+    {
+      "id": "putnam_root_reflection_involution",
+      "description": "Root Reflection Involution Parity: (- - n) = n",
+      "verified": true,
+      "zero_axioms": true,
+      "latency_ms": 643.01,
+      "verification_info": "Lean 4 machine-checked formal proof certified with 0 non-standard axioms."
+    },
+    {
+      "id": "putnam_cartan_root_product_bound",
+      "description": "Cartan Matrix Inner Product Integer Spectrum: p <= 3 -> p = 0 \\/ p = 1 \\/ p = 2 \\/ p = 3",
+      "verified": true,
+      "zero_axioms": true,
+      "latency_ms": 746.91,
+      "verification_info": "Lean 4 machine-checked formal proof certified with 0 non-standard axioms."
+    }
+  ]
+}
