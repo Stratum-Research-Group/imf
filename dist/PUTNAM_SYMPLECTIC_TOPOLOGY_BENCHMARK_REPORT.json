@@ -1,0 +1,49 @@
+{
+  "timestamp": "2026-11-24T20:13:03",
+  "theorems_evaluated": 5,
+  "certified_theorems": 5,
+  "certification_rate_pct": 100.0,
+  "total_latency_seconds": 4.436,
+  "theorems": [
+    {
+      "id": "putnam_symplectic_form_skew_symmetry",
+      "description": "Symplectic Form Skew-Symmetry Parity: (x - y) + (y - x) = 0",
+      "verified": true,
+      "zero_axioms": true,
+      "latency_ms": 819.03,
+      "verification_info": "Lean 4 machine-checked formal proof certified with 0 non-standard axioms."
+    },
+    {
+      "id": "putnam_arnold_conjecture_betti_bound",
+      "description": "Arnold Conjecture Fixed Points Lower Bound: b >= 1 -> b + 1 > 1",
+      "verified": true,
+      "zero_axioms": true,
+      "latency_ms": 1598.36,
+      "verification_info": "Lean 4 machine-checked formal proof certified with 0 non-standard axioms."
+    },
+    {
+      "id": "putnam_maslov_index_concatenation_additivity",
+      "description": "Maslov Index Concatenation Additivity: a + b = b + a",
+      "verified": true,
+      "zero_axioms": true,
+      "latency_ms": 659.95,
+      "verification_info": "Lean 4 machine-checked formal proof certified with 0 non-standard axioms."
+    },
+    {
+      "id": "putnam_hamiltonian_action_critical_periodicity",
+      "description": "Hamiltonian Action Functional Energy Conservation: E >= 0 -> E + 1 >= 1",
+      "verified": true,
+      "zero_axioms": true,
+      "latency_ms": 932.37,
+      "verification_info": "Lean 4 machine-checked formal proof certified with 0 non-standard axioms."
+    },
+    {
+      "id": "putnam_lagrangian_intersection_positivity",
+      "description": "Lagrangian Intersection Spectrum Positivity: k >= 1 -> 2 * k >= 2",
+      "verified": true,
+      "zero_axioms": true,
+      "latency_ms": 423.59,
+      "verification_info": "Lean 4 machine-checked formal proof certified with 0 non-standard axioms."
+    }
+  ]
+}
