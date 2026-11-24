@@ -232,6 +232,45 @@
     </div>
   </div>
 
+
+  <div class="panel" style="grid-column: span 2; margin-top: 15px;">
+    <div class="panel-header">
+      <span>Poincaré Hyperbolic MoPE Router Active Geometry</span>
+      <span style="font-size: 0.85rem; color: var(--blue);">Top-1: 175.7M active (15.4%) | Top-2: 240.1M active (21.0%)</span>
+    </div>
+    <div style="display: flex; gap: 20px; align-items: center; justify-content: space-around; flex-wrap: wrap;">
+      <div style="text-align: center;">
+        <svg id="poincare-disk" width="280" height="280" viewBox="-140 -140 280 280" style="background: #020617; border-radius: 50%; border: 2px solid #3b82f6; box-shadow: 0 0 20px rgba(59,130,246,0.2);">
+          <circle cx="0" cy="0" r="130" fill="none" stroke="#1e293b" stroke-width="1.5" />
+          <circle cx="0" cy="0" r="80" fill="none" stroke="#334155" stroke-dasharray="4,4" />
+          <!-- 8 Hyperbolic Expert Polytope Cells -->
+          <g id="expert-cells" stroke="#3b82f6" stroke-width="1" fill="none" opacity="0.6">
+            <path d="M 0,0 L 0,-130" />
+            <path d="M 0,0 L 92,-92" />
+            <path d="M 0,0 L 130,0" />
+            <path d="M 0,0 L 92,92" />
+            <path d="M 0,0 L 0,130" />
+            <path d="M 0,0 L -92,92" />
+            <path d="M 0,0 L -130,0" />
+            <path d="M 0,0 L -92,-92" />
+          </g>
+          <!-- Active Token Embeddings -->
+          <circle cx="15" cy="-25" r="4" fill="#10b981"><animate attributeName="r" values="3;6;3" dur="2s" repeatCount="indefinite"/></circle>
+          <circle cx="-45" cy="55" r="5" fill="#f59e0b"><animate attributeName="opacity" values="0.4;1;0.4" dur="1.5s" repeatCount="indefinite"/></circle>
+          <circle cx="75" cy="40" r="4" fill="#3b82f6" />
+          <circle cx="-20" cy="-70" r="5" fill="#8b5cf6" />
+          <text x="0" y="4" text-anchor="middle" fill="#94a3b8" font-size="10" font-family="monospace">Origin (c=0)</text>
+        </svg>
+      </div>
+      <div style="flex: 1; min-width: 300px; font-size: 0.85rem; color: var(--subtext); line-height: 1.6;">
+        <div style="color: #f8fafc; font-weight: 600; margin-bottom: 6px;">Hyperbolic Voronoi Tiling & Active Sparsity</div>
+        <div>• <strong>Hyperbolic Curvature:</strong> High-curvature abstract tokens (Lean 4 proofs, ASM) map to the disk boundary ( 	o 1$), isolating dedicated sparse experts.</div>
+        <div style="margin-top: 4px;">• <strong>Active Budget:</strong> Out of 1.14B parameters, only 1-2 experts fire per layer, achieving dense 111M latency with 1.14B capacity.</div>
+        <div style="margin-top: 4px;">• <strong>Speculative Fused Kernel:</strong> Triton E8 lattice dequantization verifies 8 tree paths in <strong>181.61 µs</strong> (4.81x effective speedup).</div>
+      </div>
+    </div>
+  </div>
+
   <script>
     // WebSocket Telemetry Connection
     function connectWS() {

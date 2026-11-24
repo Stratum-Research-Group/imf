@@ -1,0 +1,77 @@
+{
+  "x86_64_asm": {
+    "verified": true,
+    "latency_ms": 8.76,
+    "output": "x86-64 assembly compiled successfully to machine object."
+  },
+  "arm64_asm": {
+    "verified": true,
+    "latency_ms": 33.86,
+    "output": "ARM64 (AArch64) assembly compiled successfully to target object."
+  },
+  "riscv_asm": {
+    "verified": true,
+    "latency_ms": 147.29,
+    "output": "RISC-V (RV64) assembly compiled successfully to target object."
+  },
+  "llvm_ir": {
+    "verified": true,
+    "latency_ms": 78.73,
+    "output": "Valid LLVM-IR syntax & SSA invariant verification."
+  },
+  "cuda_cpp": {
+    "verified": true,
+    "latency_ms": 1417.62,
+    "output": "CUDA C++ kernel compiled successfully (NVCC)."
+  },
+  "modern_cpp": {
+    "verified": true,
+    "latency_ms": 28.03,
+    "output": "C++20 concepts & templates verified (g++)."
+  },
+  "linux_ebpf": {
+    "verified": true,
+    "latency_ms": 313.09,
+    "output": "eBPF bytecode assembly and map descriptors verified."
+  },
+  "c17_strict": {
+    "verified": true,
+    "latency_ms": 135.31,
+    "output": "C17 syntax and strict warning conformance verified."
+  },
+  "rust_strict": {
+    "verified": true,
+    "latency_ms": 335.43,
+    "output": "Rust type-checking and borrow-checker passed."
+  },
+  "python_algo": {
+    "verified": true,
+    "latency_ms": 0.26,
+    "output": "Valid Python syntax & AST compilation."
+  },
+  "lean4_formal": {
+    "verified": true,
+    "latency_ms": 1006.76,
+    "output": "Lean 4 machine-checked formal proof certified with 0 non-standard axioms."
+  },
+  "crispr_genomics": {
+    "verified": true,
+    "latency_ms": 0.05,
+    "output": "Valid DNA sequence (length=31 bp, GC=51.6%). Canonical SpCas9 (NGG) PAM confirmed."
+  },
+  "cheminformatics_smiles": {
+    "verified": true,
+    "latency_ms": 0.09,
+    "output": "SMILES string has valid grammar, ring closures, and bracket topology."
+  },
+  "agentic_json_rpc": {
+    "verified": true,
+    "latency_ms": 0.02,
+    "output": "Valid structured JSON payload."
+  },
+  "triton_kernel": {
+    "verified": true,
+    "latency_ms": 0.16,
+    "output": "Valid Triton JIT kernel AST syntax and decorator structure."
+  }
+}
