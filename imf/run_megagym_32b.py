@@ -43,8 +43,13 @@ MANIFEST_FILE = Path("dist/IMF_32B_GRAND_CORPUS_MANIFEST.json")
 def verify_batch_worker(batch_info: Tuple[int, str, List[Dict[str, Any]]]) -> Tuple[int, bool, str, List[Dict[str, Any]]]:
     batch_idx, full_code, records = batch_info
     reg = DomainExecutionVerifierRegistry()
-    ok, diag = reg.verify_lean4(full_code)
-    return batch_idx, ok, diag, records
+    # Retry once on transient OS/file descriptor/pipe errors
+    for attempt in range(2):
+        ok, diag = reg.verify_lean4(full_code)
+        if ok:
+            return batch_idx, True, diag, records
+        time.sleep(0.5)
+    return batch_idx, False, diag, records
 
 
 def run_single_block(block_idx: int, num_workers: int = DEFAULT_WORKERS) -> Dict[str, Any]:
