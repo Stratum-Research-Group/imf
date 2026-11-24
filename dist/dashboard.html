@@ -325,6 +325,25 @@
 
   <div class="panel" style="grid-column: span 2; margin-top: 15px;">
     <div class="panel-header">
+      <span>IMF DuckDB Parquet Columnar Lake Explorer</span>
+      <span style="font-size: 0.85rem; color: #38bdf8;" id="sql-latency">DuckDB SQL Engine Active (46 Partitions / 460k Records)</span>
+    </div>
+    <div style="display: flex; gap: 10px; margin-bottom: 12px;">
+      <input type="text" id="sql-input" placeholder="Enter DuckDB SQL query against 'lake'..." 
+             style="flex: 1; background: #020617; border: 1px solid #334155; border-radius: 6px; padding: 10px 14px; color: #f8fafc; font-size: 0.9rem;" 
+             value="SELECT block_id, COUNT(*) as steps, AVG(loss) as loss, AVG(perplexity) as ppl FROM lake GROUP BY block_id ORDER BY block_id DESC LIMIT 5"
+             onkeydown="if(event.key==='Enter') executeDuckDBSQL()" />
+      <button onclick="executeDuckDBSQL()" style="background: #10b981; hover: background: #059669; color: #ffffff; border: none; border-radius: 6px; padding: 10px 20px; font-weight: 600; cursor: pointer;">
+        Run SQL
+      </button>
+    </div>
+    <div id="sql-output" style="background: #020617; border: 1px solid #1e293b; border-radius: 6px; padding: 14px; font-family: monospace; font-size: 0.85rem; min-height: 90px; color: #94a3b8; overflow-x: auto;">
+Click 'Run SQL' to execute live analytical queries over dist/parquet_lake/*.parquet.
+    </div>
+  </div>
+
+  <div class="panel" style="grid-column: span 2; margin-top: 15px;">
+    <div class="panel-header">
       <span>IMF Interactive Lean 4 Proof Terminal (Live WebSocket Console)</span>
       <span style="font-size: 0.85rem; color: #10b981;" id="bridge-status">Connected: ws://127.0.0.1:8766</span>
     </div>
@@ -442,13 +461,54 @@ Ready to formalize conjectures into zero-axiom Lean 4 proofs. Click 'Formalize &
       }));
     }
 
-    // WebSocket Telemetry Connection
+    // WebSocket Telemetry & SQL Connection
+    let telemetryWS = null;
+    function executeDuckDBSQL() {
+      const q = document.getElementById('sql-input').value.trim();
+      if (!q) return;
+      if (!telemetryWS || telemetryWS.readyState !== WebSocket.OPEN) {
+        document.getElementById('sql-output').innerHTML = '<span style="color: #ef4444;">[!] Error: Telemetry WebSocket (ws://127.0.0.1:8765) disconnected.</span>';
+        return;
+      }
+      document.getElementById('sql-output').innerHTML = '<span style="color: #f59e0b;">Executing DuckDB SQL query...</span>';
+      telemetryWS.send(JSON.stringify({
+        type: 'sql_query',
+        id: 'sql_' + Date.now(),
+        query: q
+      }));
+    }
+
     function connectWS() {
       try {
-        const ws = new WebSocket("ws://127.0.0.1:8765");
-        ws.onmessage = function(e) {
+        telemetryWS = new WebSocket("ws://127.0.0.1:8765");
+        telemetryWS.onmessage = function(e) {
           try {
             const data = JSON.parse(e.data);
+            if (data.type === 'sql_result') {
+              const res = data.result;
+              const out = document.getElementById('sql-output');
+              const lat = document.getElementById('sql-latency');
+              if (lat) lat.innerText = 'Query Latency: ' + res.latency_ms + ' ms | ' + res.total_rows + ' Rows Returned';
+              if (res.status === 'success') {
+                if (res.rows.length === 0) {
+                  out.innerHTML = '<span style="color: #94a3b8;">Query executed successfully. 0 rows returned.</span>';
+                } else {
+                  let html = '<table style="width: 100%; border-collapse: collapse; text-align: left;">';
+                  res.rows.forEach((r, idx) => {
+                    html += '<tr style="border-bottom: 1px solid #1e293b;' + (idx === 0 ? ' color: #38bdf8;' : ' color: #f8fafc;') + '">';
+                    r.forEach(cell => {
+                      html += '<td style="padding: 6px 10px;">' + (typeof cell === 'number' ? (Number.isInteger(cell) ? cell : cell.toFixed(4)) : cell) + '</td>';
+                    });
+                    html += '</tr>';
+                  });
+                  html += '</table>';
+                  out.innerHTML = html;
+                }
+              } else {
+                out.innerHTML = '<span style="color: #ef4444;">[SQL Error] ' + res.error + '</span>';
+              }
+              return;
+            }
             if (data.manifold_drift !== undefined) {
               document.getElementById('manifold-drift').innerText = Number(data.manifold_drift).toExponential(2);
             }
