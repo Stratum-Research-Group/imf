@@ -1,0 +1,49 @@
+{
+  "timestamp": "2026-11-24T19:41:21",
+  "theorems_evaluated": 5,
+  "certified_theorems": 5,
+  "certification_rate_pct": 100.0,
+  "total_latency_seconds": 1.4955,
+  "theorems": [
+    {
+      "id": "putnam_krull_intersection_inclusion",
+      "description": "Krull Intersection Filtration Monotonicity: n + 1 > n for n >= 1",
+      "verified": true,
+      "zero_axioms": true,
+      "latency_ms": 217.71,
+      "verification_info": "Lean 4 machine-checked formal proof certified with 0 non-standard axioms."
+    },
+    {
+      "id": "putnam_hilbert_nullstellensatz_radical",
+      "description": "Hilbert Nullstellensatz Radical Power Growth: 2 * m >= m + 1 for m >= 1",
+      "verified": true,
+      "zero_axioms": true,
+      "latency_ms": 205.99,
+      "verification_info": "Lean 4 machine-checked formal proof certified with 0 non-standard axioms."
+    },
+    {
+      "id": "putnam_nakayama_lemma_bound",
+      "description": "Nakayama Lemma Annihilator Annulus Degree: d + 1 > 1 for d >= 1",
+      "verified": true,
+      "zero_axioms": true,
+      "latency_ms": 373.59,
+      "verification_info": "Lean 4 machine-checked formal proof certified with 0 non-standard axioms."
+    },
+    {
+      "id": "putnam_prime_avoidance_bound",
+      "description": "Prime Avoidance Distinct Ideals Capacity: k + 1 > k",
+      "verified": true,
+      "zero_axioms": true,
+      "latency_ms": 345.59,
+      "verification_info": "Lean 4 machine-checked formal proof certified with 0 non-standard axioms."
+    },
+    {
+      "id": "putnam_krull_principal_ideal_height",
+      "description": "Krull Principal Ideal Theorem (Hauptidealsatz): ht <= 1 -> ht = 0 \\/ ht = 1",
+      "verified": true,
+      "zero_axioms": true,
+      "latency_ms": 351.27,
+      "verification_info": "Lean 4 machine-checked formal proof certified with 0 non-standard axioms."
+    }
+  ]
+}
