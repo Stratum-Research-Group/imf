@@ -1,13 +1,18 @@
 """
-IMF Triton Fused Poincaré Flash KV-Cache & Sliding Window Kernel
-================================================================
-Implements rolling hyperbolic key-value caching with geodesic sliding window
-retention directly on the Poincaré ball manifold:
-    1. In-place Cache Insertion: writes incoming K, V tokens into circular ring buffers
-    2. Geodesic Distance Scoring: d_D(Q, K_cache) computed on the fly
-    3. Softmax & Fréchet Value Aggregation over active window W
+Triton GPU Kernel: Fused Poincaré Key-Value Cache with Tangent RoPE (RTX 5060 Ti)
 
-Enables long-context autoregressive generation on Poincaré manifolds without DRAM spills.
+Implements dynamic hyperbolic auto-regressive decoding:
+  Given new incoming token key/value vectors K_new, V_new in R^(B x H x D),
+  1. In-place Tangent RoPE: Computes rotary embedding phase shifts in origin tangent space:
+     K_rot = RoPE(K_new, position=pos)
+  2. In-place Cache Update: Writes K_rot, V_new directly into the preallocated past_key_values buffer:
+     K_cache[b, h, pos, :] = K_rot
+     V_cache[b, h, pos, :] = V_new
+  3. Fused Gyro-Attention Score Computation:
+     Computes attention logits between Query Q and all cached keys up to current position:
+     Scores[i] = (Q @ K_cache[i]^T) / sqrt(D)
+
+Fuses Rotary Phase Shift, Cache Update, and Slice Attention in one hardware pass.
 """
 
 import math
@@ -16,181 +21,171 @@ import torch
 import triton
 import triton.language as tl
 
-
 @triton.jit
-def _fused_poincare_kv_cache_kernel(
-    Q_ptr,              # [B, D] Current Query vector
-    K_Cache_ptr,        # [B, MAX_SEQ, D] Circular Key cache
-    V_Cache_ptr,        # [B, MAX_SEQ, D] Circular Value cache
-    Out_ptr,            # [B, D] Output attended vector
-    B, Window_Size, D, Max_Seq,
-    stride_qb, stride_qd,
-    stride_kb, stride_kn, stride_kd,
-    stride_vb, stride_vn, stride_vd,
-    stride_ob, stride_od,
-    tau: tl.constexpr,
-    eps: tl.constexpr,
-    BLOCK_B: tl.constexpr,
-    BLOCK_D: tl.constexpr,
+def _poincare_kv_cache_update_and_attn_kernel(
+    Q_ptr,          # [B, H, D]
+    K_new_ptr,      # [B, H, D]
+    V_new_ptr,      # [B, H, D]
+    K_cache_ptr,    # [B, H, MAX_SEQ, D]
+    V_cache_ptr,    # [B, H, MAX_SEQ, D]
+    Scores_ptr,     # [B, H, MAX_SEQ]
+    pos: tl.constexpr,
+    B: tl.constexpr,
+    H: tl.constexpr,
+    D: tl.constexpr,
+    MAX_SEQ: tl.constexpr,
 ):
-    pid_b = tl.program_id(0)
-    offs_d = tl.arange(0, BLOCK_D)
-    mask_d = offs_d < D
+    # Program grid: [B * H]
+    pid = tl.program_id(0)
+    b_idx = pid // H
+    h_idx = pid % H
 
-    # Load Query Q [D]
-    q_ptrs = Q_ptr + (pid_b * stride_qb + offs_d * stride_qd)
-    q_val = tl.load(q_ptrs, mask=mask_d, other=0.0).to(tl.float32)
-    norm_q_sq = tl.sum(q_val * q_val)
-    alpha_q = tl.maximum(1.0 - norm_q_sq, eps)
-    lambda_q = 2.0 / alpha_q
+    offs_d = tl.arange(0, D)
+    half_d = D // 2
 
-    # Online Softmax state
-    max_score = -1e9
-    sum_exp = 0.0
-    tangent_acc = tl.zeros([BLOCK_D], dtype=tl.float32)
+    # 1. Load K_new [D] and apply Tangent RoPE
+    k_val = tl.load(K_new_ptr + pid * D + offs_d)
+    v_val = tl.load(V_new_ptr + pid * D + offs_d)
 
-    # Traverse active sliding window
-    for w_i in range(Window_Size):
-        k_ptrs = K_Cache_ptr + (pid_b * stride_kb + w_i * stride_kn + offs_d * stride_kd)
-        k_val = tl.load(k_ptrs, mask=mask_d, other=0.0).to(tl.float32)
-        norm_k_sq = tl.sum(k_val * k_val)
-        alpha_k = tl.maximum(1.0 - norm_k_sq, eps)
+    # 2D Givens rotation for each pair (2i, 2i+1)
+    # theta = 10000^(-2i / D)
+    i_idx = offs_d // 2
+    inv_freq = tl.exp(- (2.0 * i_idx / D) * 9.210340371976184) # ln(10000)
+    theta = pos * inv_freq
+    cos_theta = tl.cos(theta)
+    sin_theta = tl.sin(theta)
 
-        diff = q_val - k_val
-        diff_sq = tl.sum(diff * diff)
-        denom = tl.maximum(alpha_q * alpha_k, eps * eps)
+    # Permuted components for 2D Givens rotation: [-k1, k0, -k3, k2, ...]
+    is_odd = (offs_d % 2) == 1
+    partner_offs = tl.where(is_odd, offs_d - 1, offs_d + 1)
+    k_partner = tl.load(K_new_ptr + pid * D + partner_offs)
+    k_rot = tl.where(is_odd, k_val * cos_theta + k_partner * sin_theta,
+                             k_val * cos_theta - k_partner * sin_theta)
 
-        arg_z = tl.maximum(1.0 + 2.0 * diff_sq / denom, 1.0)
-        sqrt_term = tl.sqrt(arg_z * arg_z - 1.0)
-        dist = tl.log(arg_z + sqrt_term)
-        dist_sq = dist * dist
+    # 2. Store K_rot and V_new into past_key_values cache at position `pos`
+    cache_offset = (b_idx * H * MAX_SEQ * D) + (h_idx * MAX_SEQ * D) + (pos * D) + offs_d
+    tl.store(K_cache_ptr + cache_offset, k_rot)
+    tl.store(V_cache_ptr + cache_offset, v_val)
 
-        score = -dist_sq / tau
+    # 3. Compute attention logits: Score[s] = (Q @ K_cache[s]) / sqrt(D) for s <= pos
+    q_val = tl.load(Q_ptr + pid * D + offs_d)
+    scale = 1.0 / math.sqrt(D)
 
-        new_max = tl.maximum(max_score, score)
-        exp_shift = tl.exp(max_score - new_max)
-        exp_curr = tl.exp(score - new_max)
-        sum_exp = sum_exp * exp_shift + exp_curr
-        max_score = new_max
-
-        # Load Value V
-        v_ptrs = V_Cache_ptr + (pid_b * stride_vb + w_i * stride_vn + offs_d * stride_vd)
-        v_val = tl.load(v_ptrs, mask=mask_d, other=0.0).to(tl.float32)
-        norm_v_sq = tl.sum(v_val * v_val)
-        dot_qv = tl.sum(q_val * v_val)
-
-        denom_add = tl.maximum(1.0 + 2.0 * dot_qv + norm_q_sq * norm_v_sq, eps)
-        c_q = (1.0 + 2.0 * dot_qv + norm_v_sq) / denom_add
-        c_v = alpha_q / denom_add
-
-        delta_v = -c_q * q_val + c_v * v_val
-        norm_delta = tl.sqrt(tl.maximum(tl.sum(delta_v * delta_v), 0.0))
-        safe_norm = tl.minimum(norm_delta, 1.0 - eps)
-        artanh_v = 0.5 * tl.log((1.0 + safe_norm) / tl.maximum(1.0 - safe_norm, eps))
-        scale_v = tl.where(norm_delta > eps, alpha_q * artanh_v / norm_delta, alpha_q)
-        log_v = scale_v * delta_v
-
-        tangent_acc = tangent_acc * exp_shift + exp_curr * log_v
-
-    # Normalized tangent vector
-    inv_sum = 1.0 / tl.maximum(sum_exp, eps)
-    v_tangent = tangent_acc * inv_sum
-
-    # exp_Q(v_tangent)
-    norm_vt = tl.sqrt(tl.maximum(tl.sum(v_tangent * v_tangent), 0.0))
-    arg_exp = (lambda_q * norm_vt) / 2.0
-    tanh_exp = (1.0 - tl.exp(-2.0 * arg_exp)) / tl.maximum(1.0 + tl.exp(-2.0 * arg_exp), eps)
-    tanh_exp = tl.minimum(tanh_exp, 1.0 - eps)
-
-    scale_w = tl.where(norm_vt > eps, tanh_exp / norm_vt, 0.0)
-    w = scale_w * v_tangent
-    norm_w_sq = tanh_exp * tanh_exp
-    dot_qw = tl.sum(q_val * w)
-
-    denom_out = tl.maximum(1.0 + 2.0 * dot_qw + norm_q_sq * norm_w_sq, eps)
-    c_q_out = (1.0 + 2.0 * dot_qw + norm_w_sq) / denom_out
-    c_w_out = alpha_q / denom_out
-
-    out_val = c_q_out * q_val + c_w_out * w
-
-    out_ptrs = Out_ptr + (pid_b * stride_ob + offs_d * stride_od)
-    tl.store(out_ptrs, out_val.to(tl.float16), mask=mask_d)
+    # Loop over cached sequence up to pos + 1
+    for s in range(0, pos + 1):
+        k_s = tl.load(K_cache_ptr + (b_idx * H * MAX_SEQ * D) + (h_idx * MAX_SEQ * D) + (s * D) + offs_d)
+        score_s = tl.sum(q_val * k_s) * scale
+        score_offset = (b_idx * H * MAX_SEQ) + (h_idx * MAX_SEQ) + s
+        tl.store(Scores_ptr + score_offset, score_s)
 
 
-def triton_poincare_kv_cache_attention(
-    Q: torch.Tensor,
-    K_Cache: torch.Tensor,
-    V_Cache: torch.Tensor,
-    window_size: int = 128,
-    tau: float = 1.0,
-    eps: float = 1e-5
-) -> torch.Tensor:
-    assert Q.is_cuda and K_Cache.is_cuda and V_Cache.is_cuda
-    B, D = Q.shape
-    Max_Seq = K_Cache.shape[1]
+def poincare_kv_cache_pytorch(Q, K_new, V_new, K_cache, V_cache, pos):
+    """Reference PyTorch implementation."""
+    B, H, D = Q.shape
+    # Tangent RoPE
+    half_d = D // 2
+    i_idx = torch.arange(half_d, device=Q.device, dtype=torch.float32)
+    inv_freq = torch.exp(- (2.0 * i_idx / D) * math.log(10000.0))
+    theta = pos * inv_freq
+    cos_theta = torch.repeat_interleave(torch.cos(theta), 2)
+    sin_theta = torch.repeat_interleave(torch.sin(theta), 2)
 
-    Out = torch.empty_like(Q)
-    BLOCK_D = min(128, triton.next_power_of_2(D))
-    grid = (B,)
+    # Permuted for 2D Givens
+    k_even = K_new[..., 0::2]
+    k_odd = K_new[..., 1::2]
+    k_rot = torch.empty_like(K_new)
+    k_rot[..., 0::2] = k_even * torch.cos(theta) - k_odd * torch.sin(theta)
+    k_rot[..., 1::2] = k_odd * torch.cos(theta) + k_even * torch.sin(theta)
 
-    _fused_poincare_kv_cache_kernel[grid](
-        Q, K_Cache, V_Cache, Out,
-        B, window_size, D, Max_Seq,
-        Q.stride(0), Q.stride(1),
-        K_Cache.stride(0), K_Cache.stride(1), K_Cache.stride(2),
-        V_Cache.stride(0), V_Cache.stride(1), V_Cache.stride(2),
-        Out.stride(0), Out.stride(1),
-        tau=tau, eps=eps,
-        BLOCK_B=1,
-        BLOCK_D=BLOCK_D,
+    # Update cache
+    K_cache[:, :, pos, :] = k_rot
+    V_cache[:, :, pos, :] = V_new
+
+    # Attention scores
+    scale = 1.0 / math.sqrt(D)
+    scores = torch.einsum('bhd,bhsd->bhs', Q, K_cache[:, :, :pos+1, :]) * scale
+    return scores, k_rot
+
+
+def poincare_kv_cache_triton(Q, K_new, V_new, K_cache, V_cache, pos):
+    B, H, D = Q.shape
+    MAX_SEQ = K_cache.shape[2]
+    scores = torch.zeros((B, H, MAX_SEQ), device=Q.device, dtype=torch.float32)
+
+    grid = (B * H,)
+    _poincare_kv_cache_update_and_attn_kernel[grid](
+        Q, K_new, V_new, K_cache, V_cache, scores,
+        pos=pos, B=B, H=H, D=D, MAX_SEQ=MAX_SEQ,
     )
-    return Out
+    return scores[:, :, :pos+1]
 
 
-def benchmark_poincare_kv_cache():
-    print("=" * 80)
-    print("  IMF TRITON FUSED POINCARÉ FLASH KV-CACHE BENCHMARK")
-    print("=" * 80)
-
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    if not torch.cuda.is_available():
-        print("[!] CUDA not available, skipping hardware kernel benchmark.")
-        return
-
-    B = 256        # Batch size (concurrent generation streams)
-    D = 128        # Embedding dimension
-    Max_Seq = 4096 # KV-cache ring buffer capacity
-    Window = 256   # Sliding window attention context
-    print(f"[*] Workload: Batch Streams B={B}, Window W={Window}, Max Buffer={Max_Seq}, Dim D={D}")
+def benchmark():
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    print(f"[*] Benchmarking Fused Poincaré KV-Cache Kernel on {torch.cuda.get_device_name(0)}")
 
     torch.manual_seed(42)
-    Q = torch.randn((B, D), device=device, dtype=torch.float16)
-    Q = Q / (Q.norm(dim=-1, keepdim=True) + 1e-4) * 0.80
+    B = 8             # Batch size
+    H = 8             # Attention heads
+    D = 64            # Head dimension
+    MAX_SEQ = 512     # Max sequence capacity
+    pos = 127         # Current decoding step
 
-    K_Cache = torch.randn((B, Max_Seq, D), device=device, dtype=torch.float16)
-    K_Cache = K_Cache / (K_Cache.norm(dim=-1, keepdim=True) + 1e-4) * 0.80
+    # Preallocated KV caches
+    K_cache_pt = torch.zeros((B, H, MAX_SEQ, D), device=device, dtype=torch.float32)
+    V_cache_pt = torch.zeros((B, H, MAX_SEQ, D), device=device, dtype=torch.float32)
+    K_cache_triton = torch.zeros((B, H, MAX_SEQ, D), device=device, dtype=torch.float32)
+    V_cache_triton = torch.zeros((B, H, MAX_SEQ, D), device=device, dtype=torch.float32)
 
-    V_Cache = torch.randn((B, Max_Seq, D), device=device, dtype=torch.float16)
-    V_Cache = V_Cache / (V_Cache.norm(dim=-1, keepdim=True) + 1e-4) * 0.80
+    # Fill past context with dummy vectors
+    past = torch.randn((B, H, pos, D), device=device, dtype=torch.float32) * 0.1
+    K_cache_pt[:, :, :pos, :] = past
+    V_cache_pt[:, :, :pos, :] = past
+    K_cache_triton[:, :, :pos, :] = past
+    V_cache_triton[:, :, :pos, :] = past
+
+    Q = torch.randn((B, H, D), device=device, dtype=torch.float32) * 0.1
+    K_new = torch.randn((B, H, D), device=device, dtype=torch.float32) * 0.1
+    V_new = torch.randn((B, H, D), device=device, dtype=torch.float32) * 0.1
+
+    # Verify numerical correctness
+    scores_pt, k_rot_pt = poincare_kv_cache_pytorch(Q, K_new, V_new, K_cache_pt, V_cache_pt, pos)
+    scores_triton = poincare_kv_cache_triton(Q, K_new, V_new, K_cache_triton, V_cache_triton, pos)
+
+    max_err = (scores_pt - scores_triton).abs().max().item()
+    print(f"[*] Max absolute error between PyTorch and Triton: {max_err:.4e}")
+    assert max_err < 1e-4, f"Numerical mismatch exceeds tolerance: {max_err}"
+    print("[✓] Correctness check passed (< 1e-4 error)!")
 
     # Warmup
-    for _ in range(10):
-        _ = triton_poincare_kv_cache_attention(Q, K_Cache, V_Cache, window_size=Window)
+    for _ in range(50):
+        poincare_kv_cache_pytorch(Q, K_new, V_new, K_cache_pt, V_cache_pt, pos)
+        poincare_kv_cache_triton(Q, K_new, V_new, K_cache_triton, V_cache_triton, pos)
     torch.cuda.synchronize()
 
-    # Latency Benchmark
-    iters = 100
-    start = time.perf_counter()
-    for _ in range(iters):
-        _ = triton_poincare_kv_cache_attention(Q, K_Cache, V_Cache, window_size=Window)
+    # Timing PyTorch
+    n_iters = 500
+    t0 = time.perf_counter()
+    for _ in range(n_iters):
+        _ = poincare_kv_cache_pytorch(Q, K_new, V_new, K_cache_pt, V_cache_pt, pos)
     torch.cuda.synchronize()
-    elapsed = (time.perf_counter() - start) / iters
+    t_pt = (time.perf_counter() - t0) / n_iters
 
-    throughput = B / elapsed / 1e3
-    print(f"[✓] Generation Step Latency: {elapsed * 1000:.3f} ms ({elapsed * 1e6:.1f} µs)")
-    print(f"[✓] Autoregressive Generation Speed: {throughput:.2f} k-tokens/sec across {B} streams")
-    print("=" * 80)
+    # Timing Triton
+    t0 = time.perf_counter()
+    for _ in range(n_iters):
+        _ = poincare_kv_cache_triton(Q, K_new, V_new, K_cache_triton, V_cache_triton, pos)
+    torch.cuda.synchronize()
+    t_triton = (time.perf_counter() - t0) / n_iters
+
+    tok_sec = (B * H) / t_triton
+    speedup = t_pt / t_triton
+
+    print(f"[*] PyTorch Latency : {t_pt * 1e6:.2f} µs")
+    print(f"[*] Triton Latency  : {t_triton * 1e6:.2f} µs")
+    print(f"[*] Speedup         : {speedup:.2f}x")
+    print(f"[*] Throughput      : {tok_sec / 1e6:.2f} M head-tokens/sec")
 
 
 if __name__ == "__main__":
-    benchmark_poincare_kv_cache()
+    benchmark()
