@@ -26,14 +26,19 @@ from imf.polytope_routing import SelfBalancingPolytopeRouter
 def worker_rank_process(
     rank: int,
     world_size: int,
-    input_tensor: torch.Tensor,
+    input_shm_name: str,
+    output_shm_name: str,
+    B: int,
+    T: int,
+    d_model: int,
     indices: torch.Tensor,
     weights: torch.Tensor,
-    return_dict: Dict[int, torch.Tensor],
 ):
-    """Execution routine for a single simulated distributed cluster rank."""
+    """Execution routine for a single simulated distributed cluster rank using zero-copy shared memory."""
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    d_model = input_tensor.shape[-1]
+
+    # Attach to shared memory mapped input tensor
+    input_tensor = torch.from_file(input_shm_name, shared=True, size=B * T * d_model, dtype=torch.float32).reshape(B, T, d_model)
 
     # Initialize sharded Lie SSM and MoPE for this rank
     shard_ssm = DistributedLieSSMShard(d_model=d_model, world_size=world_size, rank=rank, device=device)
@@ -48,12 +53,12 @@ def worker_rank_process(
         h_ssm = shard_ssm(x_local) # [B, T, d_model]
 
         # 2. Sharded MoPE execution
-        B, T, D = h_ssm.shape
-        h_flat = h_ssm.reshape(B * T, D)
-        out_mope = shard_mope(h_flat, idx_local, wt_local) # [B*T, D]
+        h_flat = h_ssm.reshape(B * T, d_model)
+        out_mope = shard_mope(h_flat, idx_local, wt_local) # [B*T, d_model]
 
-        # Store rank result
-        return_dict[rank] = out_mope.detach().cpu()
+        # Zero-copy write to mapped rank slice in output shared memory
+        rank_out_tensor = torch.from_file(output_shm_name, shared=True, size=world_size * B * T * d_model, dtype=torch.float32).reshape(world_size, B * T, d_model)
+        rank_out_tensor[rank].copy_(out_mope.detach().cpu())
 
 
 def run_distributed_simulation(world_size: int = 2) -> Dict[str, Any]:
@@ -72,16 +77,31 @@ def run_distributed_simulation(world_size: int = 2) -> Dict[str, Any]:
     with torch.no_grad():
         weights, indices, aux = router(x)
 
-    # Multi-process coordination
-    manager = mp.Manager()
-    return_dict = manager.dict()
+    # Zero-Copy POSIX Shared Memory Allocation
+    import tempfile
+    shm_in_file = tempfile.NamedTemporaryFile(prefix="imf_shm_in_", delete=False)
+    shm_out_file = tempfile.NamedTemporaryFile(prefix="imf_shm_out_", delete=False)
+    shm_in_path = shm_in_file.name
+    shm_out_path = shm_out_file.name
+    shm_in_file.close()
+    shm_out_file.close()
+
+    # Pre-allocate files with required bytes
+    with open(shm_in_path, "wb") as f:
+        f.truncate(B * T * d_model * 4)
+    with open(shm_out_path, "wb") as f:
+        f.truncate(world_size * B * T * d_model * 4)
+
+    # Write input tensor into shared memory
+    shm_in_tensor = torch.from_file(shm_in_path, shared=True, size=B * T * d_model, dtype=torch.float32).reshape(B, T, d_model)
+    shm_in_tensor.copy_(x.detach().cpu())
 
     t0 = time.perf_counter()
     processes = []
     for rank in range(world_size):
         p = mp.Process(
             target=worker_rank_process,
-            args=(rank, world_size, x.detach().cpu(), indices.detach().cpu(), weights.detach().cpu(), return_dict),
+            args=(rank, world_size, shm_in_path, shm_out_path, B, T, d_model, indices.detach().cpu(), weights.detach().cpu()),
         )
         p.start()
         processes.append(p)
@@ -91,10 +111,16 @@ def run_distributed_simulation(world_size: int = 2) -> Dict[str, Any]:
 
     elapsed = time.perf_counter() - t0
 
-    # Aggregate outputs across ranks (Simulated AllReduce Sum)
-    aggregated_output = torch.zeros(B * T, d_model)
-    for rank in range(world_size):
-        aggregated_output += return_dict[rank]
+    # Zero-Copy Read from Shared Memory (AllReduce Sum across rank slices)
+    shm_out_tensor = torch.from_file(shm_out_path, shared=True, size=world_size * B * T * d_model, dtype=torch.float32).reshape(world_size, B * T, d_model)
+    aggregated_output = shm_out_tensor.sum(dim=0)
+
+    # Cleanup temp shared memory files
+    try:
+        os.unlink(shm_in_path)
+        os.unlink(shm_out_path)
+    except Exception:
+        pass
 
     output_norm = float(aggregated_output.norm().item())
     print(f"\n[✓] Distributed cluster simulation completed in {elapsed*1000:.2f} ms")
