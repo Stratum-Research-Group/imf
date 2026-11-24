@@ -1,0 +1,8 @@
+{
+  "timestamp": "2026-11-24T17:03:40",
+  "lake_path": "dist/parquet_lake",
+  "total_parquet_files": 3,
+  "sampled_records": 30000,
+  "average_loss": 0.125,
+  "total_axioms": 0
+}
