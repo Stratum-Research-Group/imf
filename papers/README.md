@@ -4,6 +4,14 @@ This index catalog tracks all scientific treatises, technical foundation papers,
 
 ---
 
+## Comprehensive Architecture Whitepapers
+
+| Document | Filename | Scope & Focus | Verification Status |
+| :--- | :--- | :--- | :---: |
+| **Comprehensive Architecture Whitepaper** | [`IMF_MATHEMATICAL_FOUNDATIONS_WHITEPAPER.md`](IMF_MATHEMATICAL_FOUNDATIONS_WHITEPAPER.md) | Grand synthesis of non-Euclidean Riemannian geometry, Lie group SSMs, symplectic phase-space routing, Gosset $4_{21}$ root lattices, and empirical taxonomy of 5 discovered failures across 47M steps. | **Verified (Lean 4 / Hardware Benchmarks)** |
+
+---
+
 ## Foundation Monograph Series (Recent Additions)
 
 | Paper # | Filename | Title | Mathematical / Hardware Scope | Verification Status |
