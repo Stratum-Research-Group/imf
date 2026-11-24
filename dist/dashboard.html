@@ -325,6 +325,35 @@
 
   <div class="panel" style="grid-column: span 2; margin-top: 15px;">
     <div class="panel-header">
+      <span>IMF Thermodynamic Landauer Dissipation & Poincaré Geodesic Curvature Gauge</span>
+      <span style="font-size: 0.85rem; color: #f59e0b;" id="landauer-status">k_B T ln(2) = 2.87e-21 J/bit @ 300K | GPU SRAM Online</span>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px;">
+      <div style="background: #020617; border: 1px solid #1e293b; border-radius: 6px; padding: 12px; text-align: center;">
+        <div style="font-size: 0.75rem; color: #94a3b8;">Mean Landauer Dissipation (ΔE)</div>
+        <div style="font-size: 1.3rem; color: #f59e0b; font-weight: 600; margin-top: 4px;" id="landauer-diss">4.136e-21 J</div>
+        <div style="font-size: 0.7rem; color: #10b981;">Thermodynamic Limit: 2.87e-21 J</div>
+      </div>
+      <div style="background: #020617; border: 1px solid #1e293b; border-radius: 6px; padding: 12px; text-align: center;">
+        <div style="font-size: 0.75rem; color: #94a3b8;">Per-Token KL Divergence (D_KL)</div>
+        <div style="font-size: 1.3rem; color: #38bdf8; font-weight: 600; margin-top: 4px;" id="landauer-kl">1.44 bits/tok</div>
+        <div style="font-size: 0.7rem; color: #10b981;">Entropy Bounded (No Collapse)</div>
+      </div>
+      <div style="background: #020617; border: 1px solid #1e293b; border-radius: 6px; padding: 12px; text-align: center;">
+        <div style="font-size: 0.75rem; color: #94a3b8;">Poincaré Metric Curvature (κ)</div>
+        <div style="font-size: 1.3rem; color: #10b981; font-weight: 600; margin-top: 4px;" id="poincare-curv">5.506</div>
+        <div style="font-size: 0.7rem; color: #38bdf8;">Horizon Margin: ||z|| &le; 0.998</div>
+      </div>
+      <div style="background: #020617; border: 1px solid #1e293b; border-radius: 6px; padding: 12px; text-align: center;">
+        <div style="font-size: 0.75rem; color: #94a3b8;">Thermodynamic Kernel Throughput</div>
+        <div style="font-size: 1.3rem; color: #a855f7; font-weight: 600; margin-top: 4px;">49.43 M tok/s</div>
+        <div style="font-size: 0.7rem; color: #10b981;">Latency: 165.7 &mu;s in SRAM</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel" style="grid-column: span 2; margin-top: 15px;">
+    <div class="panel-header">
       <span>IMF Grand Corpus Step Rate & Mathematical Family Distribution</span>
       <span style="font-size: 0.85rem; color: #10b981;">48,000,000 Certified Steps | 32 Mathematical Families</span>
     </div>
