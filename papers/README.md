@@ -167,3 +167,5 @@ All papers adhere strictly to the IMF Research Standard:
 - **Paper 267**: `paper_267_poincare_discrete_belov_chaltikian.md` - Poincaré Discrete Belov-Chaltikian Lattice Flow. Triton: $29.38\,\mu\text{s}$, $3.14\times$ speedup, $4,461.75\text{M nodes/s}$. 0 Lean axioms.
 - **Paper 268**: `paper_268_poincare_discrete_blaszak_marciniak.md` - Poincaré Discrete Blaszak-Marciniak 3-Field Lattice Flow. Triton: $23.05\,\mu\text{s}$, $5.65\times$ speedup, $5,687.55\text{M nodes/s}$. 0 Lean axioms.
 - **Paper 269**: `paper_269_poincare_discrete_camassa_holm.md` - Poincaré Discrete Camassa-Holm Peakon Lattice Flow. Triton: $10.96\,\mu\text{s}$, $6.32\times$ speedup, $11,955.24\text{M nodes/s}$. 0 Lean axioms.
+- **Paper 270**: `paper_270_poincare_discrete_degasperis_procesi.md` - Poincaré Discrete Degasperis-Procesi Peakon Lattice Flow. Triton: $17.62\,\mu\text{s}$, $6.05\times$ speedup, $7,440.64\text{M nodes/s}$. 0 Lean axioms.
+- **Paper 271**: `paper_271_poincare_discrete_novikov_cubic_peakon.md` - Poincaré Discrete Novikov Cubic Peakon Lattice Flow. Triton: $18.71\,\mu\text{s}$, $6.40\times$ speedup, $7,006.73\text{M nodes/s}$. 0 Lean axioms.
