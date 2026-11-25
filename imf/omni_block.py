@@ -112,7 +112,8 @@ class IMFOmniBlock(nn.Module):
         self.ffn_w2 = nn.Linear(d_model, ffn_dim, bias=False)
         self.ffn_w3 = nn.Linear(ffn_dim, d_model, bias=False)
 
-        # Fused Poincaré Soliton Activation Layer (Phase-Space Volume Preservation)
+        # Fused Poincaré Soliton Activation Layers (Phase-Space Volume Preservation)
+        self.branch_soliton_act = PoincareSolitonActivation(d_model=d_model, alpha=0.25)
         self.soliton_activation = PoincareSolitonActivation(d_model=d_model, alpha=0.5)
 
         self.dropout = nn.Dropout(dropout)
@@ -223,6 +224,7 @@ class IMFOmniBlock(nn.Module):
             ], dim=-1)
 
         attn_out = self.branch_fusion(fused_branches)
+        attn_out = self.branch_soliton_act(attn_out)
         x = x + self.dropout(attn_out)
 
         # 4. Feedforward SwiGLU Block
