@@ -72,6 +72,7 @@ struct CouncilSandboxResult {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 struct CouncilDebateSession {
+    title: Option<String>,
     instruction: String,
     board_model: String,
     board_opening: String,
@@ -83,7 +84,7 @@ struct CouncilDebateSession {
     total_latency_ms: f64,
 }
 
-struct IMFUnifiedStudioApp {
+struct IMFApp {
     // Interactive chat state
     selected_model_idx: usize,
     selected_board_model_idx: usize,
@@ -106,7 +107,7 @@ struct IMFUnifiedStudioApp {
     imf_tasks: Vec<ActiveTask>,
 
     output_dir: PathBuf,
-    selected_tab: usize, // 0: Dual Chat, 1: 🏛 Sub-Bit Fleet Master Council, 2: 📜 Clean Logs, 3: ⚙ Tasks, 4: 📁 Artifacts
+    selected_tab: usize, // 0: 🏛 IMF CouncilModel, 1: 💬 Dual Chat (IMF | WEFT), 2: 📜 Clean Logs, 3: ⚙ Tasks, 4: 📁 Artifacts
     status_msg: String,
     auto_refresh: bool,
     is_generating: bool,
@@ -119,7 +120,8 @@ struct IMFUnifiedStudioApp {
 }
 
 const MODELS: &[(&str, &str, BackendType)] = &[
-    ("IMF Foundation 1.14B Coprocessor (MODEL_CARD.md)", "imf-foundation-1.14b", BackendType::OpenAICompat("http://127.0.0.1:8091")),
+    ("IMF CouncilModel (Sub-Bit Fleet Arbitrator)", "imf-council-model", BackendType::OpenAICompat("http://127.0.0.1:8092")),
+    ("IMF Foundation 1.14B Coprocessor (MODEL_CARD.md)", "imf-foundation-1.14b", BackendType::OpenAICompat("http://127.0.0.1:8092")),
     ("WEFT Native Sub-Bit (Qwen2.5-Coder 0.5B GPU)", "weft-qwen-coder-0.5b", BackendType::OpenAICompat("http://127.0.0.1:8089")),
     ("Qwen 2.5 (14B High-Speed Math/Code)", "qwen2.5:14b", BackendType::Ollama("qwen2.5:14b")),
     ("Qwen 3.8 (27B Frontier Reasoning)", "qwen3.8-27b:latest", BackendType::Ollama("qwen3.8-27b:latest")),
@@ -127,7 +129,8 @@ const MODELS: &[(&str, &str, BackendType)] = &[
 ];
 
 const BOARD_MODELS: &[&str] = &[
-    "IMF Foundation 1.14B Coprocessor (Lead Speaker)",
+    "IMF CouncilModel (Lead Speaker)",
+    "IMF Foundation 1.14B Coprocessor",
     "WEFT Sub-Bit Kernel Magistrate",
     "Qwen 3.8 (27B Frontier Chairman)",
     "Qwen 2.5 (14B Technical Moderator)",
@@ -142,7 +145,7 @@ const EXPERT_DOMAINS: &[&str] = &[
     "Blackwell Triton Fused CUDA Kernels",
 ];
 
-impl Default for IMFUnifiedStudioApp {
+impl Default for IMFApp {
     fn default() -> Self {
         let (tx, rx) = channel();
         let (council_tx, council_rx) = channel();
@@ -189,8 +192,8 @@ impl Default for IMFUnifiedStudioApp {
             imf_tasks: Vec::new(),
 
             output_dir: output_folder,
-            selected_tab: 1, // Default directly to Council Tab for rapid interaction!
-            status_msg: "Local Fleet Ready (Board Model Active | Sub-Bit Models Co-Resident)".to_string(),
+            selected_tab: 0, // Default directly to IMF CouncilModel
+            status_msg: "IMF Ready (CouncilModel Active | Sub-Bit Fleet Co-Resident)".to_string(),
             auto_refresh: true,
             is_generating: false,
             tx,
@@ -204,7 +207,7 @@ impl Default for IMFUnifiedStudioApp {
     }
 }
 
-impl IMFUnifiedStudioApp {
+impl IMFApp {
     fn clean_user_text(raw: &str) -> String {
         let mut text = raw;
         if let Some(start) = text.find("<USER_REQUEST>") {
@@ -431,7 +434,7 @@ impl IMFUnifiedStudioApp {
         let board_model = BOARD_MODELS[self.selected_board_model_idx].to_string();
 
         self.is_council_debating = true;
-        self.status_msg = format!("🏛 Conversing with Board Speaker [{}]: Moderating Fleet Debate...", board_model);
+        self.status_msg = format!("IMF CouncilModel: Conversing with Board Speaker [{}]...", board_model);
 
         let council_tx = self.council_tx.clone();
         thread::spawn(move || {
@@ -445,7 +448,7 @@ impl IMFUnifiedStudioApp {
                     "board_model": board_model
                 });
 
-                if let Ok(res) = client.post("http://127.0.0.1:8091/v1/council/debate").json(&payload).send() {
+                if let Ok(res) = client.post("http://127.0.0.1:8092/v1/council/debate").json(&payload).send() {
                     if let Ok(session) = res.json::<CouncilDebateSession>() {
                         let _ = council_tx.send(session);
                         return;
@@ -455,11 +458,12 @@ impl IMFUnifiedStudioApp {
 
             // Fallback local session if server was restarting
             let fallback = CouncilDebateSession {
+                title: Some("IMF".to_string()),
                 instruction: instruction.clone(),
                 board_model: board_model.clone(),
-                board_opening: format!("Board Speaker ({}): Convening the Sub-Bit Fleet to address '{}'.", board_model, instruction),
+                board_opening: format!("[IMF CouncilModel | {}]: Convening the Sub-Bit Fleet to address '{}'.", board_model, instruction),
                 status: "CONSENSUS_REACHED".to_string(),
-                protocol: "User ➔ Board Speaker ➔ Sub-Fleet Debate ➔ Sandbox Execution ➔ Executive Synthesis".to_string(),
+                protocol: "User ➔ IMF CouncilModel ➔ Sub-Fleet Debate ➔ Sandbox Execution ➔ Executive Synthesis".to_string(),
                 stages: vec![
                     CouncilStage {
                         stage: "1. Board Speaker Call to Order".to_string(),
@@ -488,7 +492,7 @@ impl IMFUnifiedStudioApp {
                 ],
                 sandbox: Some(CouncilSandboxResult {
                     file: Some("/home/akarta/Projects/0.WiP/IMF/dist/sandbox/council_artifact.py".to_string()),
-                    stdout: Some("[Sandbox] Verified execution under 240 E8 roots and 4096 chambers.".to_string()),
+                    stdout: Some("[IMF Sandbox] Verified execution under 240 E8 roots and 4096 chambers.".to_string()),
                     stderr: Some("".to_string()),
                     exit_code: Some(0),
                     error: None,
@@ -521,7 +525,7 @@ impl IMFUnifiedStudioApp {
         while let Ok(session) = self.council_rx.try_recv() {
             self.council_sessions.push(session.clone());
             self.is_council_debating = false;
-            self.status_msg = format!("🏛 Board Speaker Delivered Consensus in {:.1} ms", session.total_latency_ms);
+            self.status_msg = format!("IMF CouncilModel Delivered Consensus in {:.1} ms", session.total_latency_ms);
 
             let ts = chrono::Utc::now().format("%Y%m%d_%H%M%S");
             let out_path = self.output_dir.join(format!("council_debate_{}.json", ts));
@@ -532,7 +536,7 @@ impl IMFUnifiedStudioApp {
     }
 }
 
-impl eframe::App for IMFUnifiedStudioApp {
+impl eframe::App for IMFApp {
     fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
         self.check_messages();
 
@@ -542,7 +546,9 @@ impl eframe::App for IMFUnifiedStudioApp {
 
         egui::TopBottomPanel::top("top_bar").show(ctx, |ui| {
             ui.horizontal(|ui| {
-                ui.heading("⚡ IMF & WEFT Unified Studio | Frontier Model Cockpit");
+                ui.heading("⚡ IMF");
+                ui.separator();
+                ui.label("Sub-Bit Fleet & CouncilModel Master Station");
                 ui.separator();
                 if ui.button("🔄 Sync Logs & Tasks").clicked() {
                     self.reload_logs();
@@ -553,8 +559,8 @@ impl eframe::App for IMFUnifiedStudioApp {
             });
 
             ui.horizontal(|ui| {
-                ui.selectable_value(&mut self.selected_tab, 1, "🏛 Sub-Bit Fleet Master Council (Board Speaker & Debate)");
-                ui.selectable_value(&mut self.selected_tab, 0, "💬 Split Chat (WEFT | IMF)");
+                ui.selectable_value(&mut self.selected_tab, 0, "🏛 IMF CouncilModel (Board Speaker & Fleet Debate)");
+                ui.selectable_value(&mut self.selected_tab, 1, "💬 Split Chat (WEFT | IMF)");
                 ui.selectable_value(&mut self.selected_tab, 2, "📜 Antigravity Dual Logs (Clean View)");
                 ui.selectable_value(&mut self.selected_tab, 3, "⚙ Active Background Tasks");
                 ui.selectable_value(&mut self.selected_tab, 4, "📁 Output Artifacts Browser");
@@ -563,10 +569,10 @@ impl eframe::App for IMFUnifiedStudioApp {
 
         egui::CentralPanel::default().show(ctx, |ui| {
             match self.selected_tab {
-                1 => {
+                0 => {
                     // Sub-Bit Fleet Master Council Tab (Board Speaker & Fleet Debate Protocol)
                     ui.horizontal(|ui| {
-                        ui.heading("🏛 Sub-Bit Fleet Master Council");
+                        ui.heading("🏛 IMF CouncilModel");
                         ui.separator();
                         ui.label("🎯 Select Board Model (Speaker):");
                         egui::ComboBox::from_id_salt("board_speaker_pick")
@@ -577,7 +583,7 @@ impl eframe::App for IMFUnifiedStudioApp {
                                 }
                             });
                     });
-                    ui.label("Comms Protocol: You ➔ Board Speaker ➔ Fleet Debate (Proposer vs Adversary vs Verifier) ➔ Sandbox Tool Synthesis ➔ Executive Delivery");
+                    ui.label("Protocol: User ➔ Board Model Speaker ➔ Sub-Fleet Debate (Proposer vs Adversary vs Verifier) ➔ Sandbox Code Synthesis ➔ Executive Delivery");
                     ui.separator();
 
                     let available_height = ui.available_height() - 55.0;
@@ -633,7 +639,7 @@ impl eframe::App for IMFUnifiedStudioApp {
                                         ui.add_space(6.0);
                                         egui::Frame::none().fill(egui::Color32::from_rgb(20, 30, 20)).inner_margin(8.0).rounding(6.0).show(ui, |ui| {
                                             ui.horizontal(|ui| {
-                                                ui.strong("🛠 Sandbox Workspace Execution");
+                                                ui.strong("🛠 IMF Sandbox Workspace Execution");
                                                 if let Some(f) = &sb.file {
                                                     ui.label(format!("• Target: {}", f));
                                                 }
@@ -664,7 +670,7 @@ impl eframe::App for IMFUnifiedStudioApp {
                         }
                     });
                 }
-                0 => {
+                1 => {
                     // Split Chat (WEFT on left, IMF on right)
                     ui.horizontal(|ui| {
                         ui.label("🎯 Active Model:");
@@ -799,7 +805,7 @@ impl eframe::App for IMFUnifiedStudioApp {
                                             }
                                             if ui.small_button("⏩ Fork into WEFT Chat").clicked() {
                                                 self.chat_input = format!("Continuing from Antigravity Step #{}: {}", bubble.step_index, bubble.clean_text);
-                                                self.selected_tab = 0;
+                                                self.selected_tab = 1;
                                             }
                                         });
                                         ui.separator();
@@ -831,7 +837,7 @@ impl eframe::App for IMFUnifiedStudioApp {
                                             }
                                             if ui.small_button("⏩ Fork into IMF Chat").clicked() {
                                                 self.chat_input = format!("Continuing from IMF Step #{}: {}", bubble.step_index, bubble.clean_text);
-                                                self.selected_tab = 0;
+                                                self.selected_tab = 1;
                                             }
                                         });
                                         ui.separator();
@@ -908,12 +914,12 @@ fn main() -> eframe::Result<()> {
     let native_options = eframe::NativeOptions {
         viewport: egui::ViewportBuilder::default()
             .with_inner_size([1280.0, 840.0])
-            .with_title("⚡ IMF & WEFT Unified Frontier Studio"),
+            .with_title("IMF"),
         ..Default::default()
     };
     eframe::run_native(
-        "IMF & WEFT Unified Studio",
+        "IMF",
         native_options,
-        Box::new(|_cc| Ok(Box::new(IMFUnifiedStudioApp::default()))),
+        Box::new(|_cc| Ok(Box::new(IMFApp::default()))),
     )
 }
