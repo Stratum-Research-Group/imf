@@ -147,6 +147,8 @@ def run_comprehensive_speculative_benchmark() -> Dict[str, Any]:
 
     summary = {
         "device": device,
+        "kind": "simulation_scaffold_analytical_projection",
+        "note": "Only the router kernel is empirically timed. Draft latency, target latency, and acceptance rates are analytical simulation parameters.",
         "gpu_name": torch.cuda.get_device_name(0) if device == "cuda" else "CPU",
         "virtual_cells": cell_results,
         "speculative_benchmarks": [asdict(r) for r in spec_results]

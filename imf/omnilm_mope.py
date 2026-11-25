@@ -105,9 +105,13 @@ class IMFOmniLMMoPE(nn.Module):
         # Forward states 'x' are directly passed through the causal output normalizer.
         latents = self.ln_f(x)
 
-        # Optional Cut-Reasoning verification metric (without backwards sequence leakage into causal heads)
-        x_rev = torch.flip(x, dims=[1])
-        _, cut_metrics = self.cut_reasoner(x, x_rev)
+        # Optional Cut-Reasoning verification metric (isolated under no_grad to prevent backwards gradient/latent leakage)
+        if not self.training:
+            with torch.no_grad():
+                x_rev = torch.flip(x, dims=[1])
+                _, cut_metrics = self.cut_reasoner(x, x_rev)
+        else:
+            cut_metrics = {"cut_loss": 0.0, "cut_compatibility": 1.0}
 
         pred_logits = self.pred_head(latents)
         recon_features = self.recon_mlp(latents)
