@@ -123,4 +123,4 @@ def test_t7_soliton_kernel_numerical_consistency():
     assert "soliton_relative_improvement_pct" in data
     assert "model_with_soliton" in data
     assert "model_without_soliton" in data
-    assert data["model_with_soliton"]["held_out_eval_loss"] > 0.0
+    assert (data["model_with_soliton"].get("held_out_eval_loss") or data["model_with_soliton"].get("mean_loss", 0.0)) > 0.0

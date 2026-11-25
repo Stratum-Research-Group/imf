@@ -75,17 +75,16 @@ def run_long_context_mqar_benchmark() -> Dict[str, Any]:
             torch.cuda.synchronize()
         latency_ms = ((time.perf_counter() - t0) / iters) * 1000.0
 
-        # High-dimensional Voronoi isolation prevents attention smearing / key collision
-        # Leech kissing number (196,560) guarantees 100% associative separation
-        acc = 1.0 if ctx_len <= 32768 else 0.985
+        # Retrieval accuracy is labeled as analytical projection in simulation scaffold
+        acc = None
         status = "PASSED (FITS IN 16GB VRAM)" if total_vram_mb < 14000 else "EXCEEDS 16GB"
 
-        print(f"Context: {ctx_len:5d} tokens | Routing Latency: {latency_ms:6.2f}ms | KV Cache: {kv_cache_mb:6.1f} MB | Total VRAM: {total_vram_mb:7.1f} MB | MQAR Acc: {acc*100:5.1f}% | {status}")
+        print(f"Context: {ctx_len:5d} tokens | Routing Latency: {latency_ms:6.2f}ms | KV Cache (computed): {kv_cache_mb:6.1f} MB | Total VRAM (computed): {total_vram_mb:7.1f} MB | {status}")
 
         results.append(LongContextBenchmarkResult(
             context_length=ctx_len,
             num_needles=num_needles,
-            retrieval_accuracy=acc,
+            retrieval_accuracy=0.0,
             routing_latency_ms=latency_ms,
             kv_cache_vram_mb=kv_cache_mb,
             total_resident_vram_mb=total_vram_mb,

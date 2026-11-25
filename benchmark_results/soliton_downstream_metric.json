@@ -1,23 +1,28 @@
 {
-  "git_commit": "b98cb3b16aa5f09278bb404adfa640ff0f80e853",
-  "timestamp": "2026-11-25 13:31:34 UTC",
-  "task": "Next-Token Synthetic Autoregressive Prediction",
-  "steps": 300,
-  "eval_steps": 50,
-  "batch_size": 8,
-  "seq_len": 256,
-  "dim": 64,
-  "wall_clock_seconds": 107.23881888389587,
+  "git_commit": "e98d008e43dd4130e4d18a4c931387fec21ea85b",
+  "timestamp": "2026-11-25 14:02:34 UTC",
+  "task": "Next-Token Real Text Language Modeling (3 Seeds)",
+  "seeds": [
+    42,
+    1337,
+    2026
+  ],
   "model_with_soliton": {
-    "initial_loss": 6.303214073181152,
-    "final_train_loss": 6.240483283996582,
-    "held_out_eval_loss": 6.240401840209961
+    "losses": [
+      3.051433265209198,
+      3.130689263343811,
+      3.085128426551819
+    ],
+    "mean_loss": 3.089083651701609
   },
   "model_without_soliton": {
-    "initial_loss": 6.293026924133301,
-    "final_train_loss": 6.239675521850586,
-    "held_out_eval_loss": 6.240877275466919
+    "losses": [
+      3.0516690015792847,
+      3.130536437034607,
+      3.085138201713562
+    ],
+    "mean_loss": 3.089114546775818
   },
-  "soliton_relative_improvement_pct": 0.0076180837400409585,
-  "verdict": "Soliton nonlinear activation achieves lower held-out perplexity/loss"
+  "soliton_relative_improvement_pct": 0.0010001271801646666,
+  "verdict": "Soliton activation yields +0.00% loss delta across 3 seeds"
 }

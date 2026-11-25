@@ -7,104 +7,127 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-def run_real_distillation(device='cuda', steps=200, batch_size=8, seq_len=128, dim=64):
-    torch.manual_seed(42)
+def get_text_tokens(device, vocab_size=256):
+    text_path = "data/real_text_sample.txt"
+    if not os.path.exists(text_path):
+        raise FileNotFoundError(f"Missing {text_path}")
+    with open(text_path, "r", encoding="utf-8") as f:
+        text = f.read()
+    raw_bytes = list(text.encode("utf-8"))
+    tokens = torch.tensor([b % vocab_size for b in raw_bytes], dtype=torch.long, device=device)
+    # Split 80% train, 20% held-out
+    split_idx = int(len(tokens) * 0.8)
+    train_tokens = tokens[:split_idx]
+    held_out_tokens = tokens[split_idx:]
+    return train_tokens, held_out_tokens
+
+def make_batches(tokens, batch_size=8, seq_len=128):
+    n_batches = (len(tokens) - 1) // (batch_size * seq_len)
+    total_tokens = n_batches * batch_size * seq_len
+    x_flat = tokens[:total_tokens]
+    y_flat = tokens[1:total_tokens + 1]
+    x_batches = x_flat.view(n_batches, batch_size, seq_len)
+    y_batches = y_flat.view(n_batches, batch_size, seq_len)
+    return x_batches, y_batches
+
+def build_small_lm(vocab_size=256, d_model=64, num_layers=2):
+    class SmallLM(nn.Module):
+        def __init__(self):
+            super().__init__()
+            self.embed = nn.Embedding(vocab_size, d_model)
+            layer = nn.TransformerEncoderLayer(d_model=d_model, nhead=4, dim_feedforward=d_model * 2, batch_first=True)
+            self.encoder = nn.TransformerEncoder(layer, num_layers=num_layers)
+            self.head = nn.Linear(d_model, vocab_size)
+        def forward(self, x):
+            S = x.shape[1]
+            mask = nn.Transformer.generate_square_subsequent_mask(S, device=x.device)
+            h = self.embed(x)
+            out = self.encoder(h, mask=mask, is_causal=True)
+            return self.head(out)
+    return SmallLM()
+
+def run_distillation_experiment():
+    device = 'cuda' if torch.cuda.is_available() else 'cpu'
     git_rev = subprocess.check_output(["git", "rev-parse", "HEAD"]).decode("utf-8").strip()
     
-    vocab_size = 512
-    # Teacher model: 4-layer transformer
-    teacher = nn.TransformerEncoder(
-        nn.TransformerEncoderLayer(d_model=dim, nhead=4, dim_feedforward=dim*2, batch_first=True),
-        num_layers=4
-    ).to(device)
-    teacher_embed = nn.Embedding(vocab_size, dim).to(device)
-    teacher_head = nn.Linear(dim, vocab_size).to(device)
+    train_tok, held_tok = get_text_tokens(device=device, vocab_size=256)
+    train_x, train_y = make_batches(train_tok, batch_size=16, seq_len=128)
+    held_x, held_y = make_batches(held_tok, batch_size=16, seq_len=128)
+    
+    # 1. Train Teacher model on train set for 150 steps
+    teacher = build_small_lm(vocab_size=256, d_model=96, num_layers=3).to(device)
+    t_opt = torch.optim.AdamW(teacher.parameters(), lr=2e-3)
+    teacher.train()
+    for s in range(min(150, len(train_x))):
+        logits = teacher(train_x[s])
+        loss = F.cross_entropy(logits.view(-1, 256), train_y[s].view(-1))
+        t_opt.zero_grad()
+        loss.backward()
+        t_opt.step()
     teacher.eval()
     
-    # Student model: 2-layer transformer
-    student = nn.TransformerEncoder(
-        nn.TransformerEncoderLayer(d_model=dim, nhead=4, dim_feedforward=dim*2, batch_first=True),
-        num_layers=2
-    ).to(device)
-    student_embed = nn.Embedding(vocab_size, dim).to(device)
-    student_head = nn.Linear(dim, vocab_size).to(device)
-    
-    optimizer = torch.optim.AdamW(list(student.parameters()) + list(student_embed.parameters()) + list(student_head.parameters()), lr=1e-3)
-    
-    # Synthetic token corpus
-    torch.manual_seed(2026)
-    train_data = torch.randint(0, vocab_size, (steps, batch_size, seq_len), device=device)
-    held_out_data = torch.randint(0, vocab_size, (30, batch_size, seq_len), device=device)
-    
-    def eval_held_out():
-        student.eval()
+    def eval_model(m):
+        m.eval()
         total_loss = 0.0
         with torch.no_grad():
-            for tokens in held_out_data:
-                inputs = tokens[:, :-1]
-                targets = tokens[:, 1:]
-                h = student(student_embed(inputs))
-                logits = student_head(h)
-                l = F.cross_entropy(logits.reshape(-1, vocab_size), targets.reshape(-1))
+            for b in range(len(held_x)):
+                l = F.cross_entropy(m(held_x[b]).view(-1, 256), held_y[b].view(-1))
                 total_loss += l.item()
-        return total_loss / len(held_out_data)
+        return total_loss / max(len(held_x), 1)
 
-    initial_held_out_loss = eval_held_out()
+    teacher_held_out = eval_model(teacher)
+    
+    # 2. Train Student WITH Knowledge Distillation
+    torch.manual_seed(42)
+    student = build_small_lm(vocab_size=256, d_model=48, num_layers=1).to(device)
+    s_opt = torch.optim.AdamW(student.parameters(), lr=3e-3)
+    
+    init_held_out = eval_model(student)
     
     t0 = time.time()
     student.train()
+    steps = min(150, len(train_x))
     for s in range(steps):
-        tokens = train_data[s]
-        inputs = tokens[:, :-1]
-        targets = tokens[:, 1:]
-        
         with torch.no_grad():
-            t_h = teacher(teacher_embed(inputs))
-            t_logits = teacher_head(t_h)
-            
-        s_h = student(student_embed(inputs))
-        s_logits = student_head(s_h)
-        
-        # Distillation loss: CE with hard targets + KL divergence with soft teacher logits
-        ce_loss = F.cross_entropy(s_logits.reshape(-1, vocab_size), targets.reshape(-1))
-        kl_loss = F.kl_div(
+            t_logits = teacher(train_x[s])
+        s_logits = student(train_x[s])
+        ce = F.cross_entropy(s_logits.view(-1, 256), train_y[s].view(-1))
+        kl = F.kl_div(
             F.log_softmax(s_logits / 2.0, dim=-1),
             F.softmax(t_logits / 2.0, dim=-1),
             reduction='batchmean'
-        ) * (2.0 ** 2)
-        
-        loss = 0.5 * ce_loss + 0.5 * kl_loss
-        optimizer.zero_grad()
+        ) * 4.0
+        loss = 0.5 * ce + 0.5 * kl
+        s_opt.zero_grad()
         loss.backward()
-        optimizer.step()
+        s_opt.step()
         
     dur = time.time() - t0
-    final_held_out_loss = eval_held_out()
+    final_held_out = eval_model(student)
+    reduction = (init_held_out - final_held_out) / init_held_out * 100.0
     
-    reduction_pct = (initial_held_out_loss - final_held_out_loss) / initial_held_out_loss * 100.0
+    verdict = "Distillation verified with significant held-out loss reduction" if reduction > 5.0 else "Minimal or no distillation gain"
     
     results = {
         "git_commit": git_rev,
         "timestamp": time.strftime("%Y-%m-%d %H:%M:%S UTC", time.gmtime()),
-        "task": "Student-Teacher Cross-Entropy & KL Divergence Knowledge Distillation",
-        "device": device,
-        "steps": steps,
-        "batch_size": batch_size,
-        "seq_len": seq_len,
-        "wall_clock_seconds": dur,
-        "initial_held_out_loss": float(initial_held_out_loss),
-        "final_held_out_loss": float(final_held_out_loss),
-        "held_out_loss_reduction_pct": float(reduction_pct),
-        "verdict": "Distillation verified with empirical held-out loss reduction"
+        "task": "Next-Token Knowledge Distillation on Real Text Stream (TinyShakespeare / ASCII)",
+        "dataset": "real_text_sample.txt (50,000 chars)",
+        "teacher_params": sum(p.numel() for p in teacher.parameters()),
+        "student_params": sum(p.numel() for p in student.parameters()),
+        "teacher_held_out_loss": float(teacher_held_out),
+        "student_initial_held_out_loss": float(init_held_out),
+        "student_final_held_out_loss": float(final_held_out),
+        "held_out_loss_reduction_pct": float(reduction),
+        "duration_seconds": float(dur),
+        "verdict": verdict
     }
     
-    os.makedirs("benchmark_results", exist_ok=True)
     out_path = "benchmark_results/distill_heldout.json"
     with open(out_path, "w") as f:
         json.dump(results, f, indent=2)
-    print(f"Distillation complete: Initial Loss={initial_held_out_loss:.4f} -> Final Loss={final_held_out_loss:.4f} ({reduction_pct:+.2f}%)")
+    print(f"Distillation Real-Text Results: Teacher={teacher_held_out:.3f} | Student Init={init_held_out:.3f} -> Final={final_held_out:.3f} ({reduction:+.2f}%)")
     print(f"Saved to {out_path}")
 
-if __name__ == "__main__":
-    dev = 'cuda' if torch.cuda.is_available() else 'cpu'
-    run_real_distillation(device=dev)
+if __name__ == '__main__':
+    run_distillation_experiment()
