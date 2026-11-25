@@ -3,6 +3,8 @@ use serde_json::Value;
 use std::fs::{self, File};
 use std::io::{BufRead, BufReader, Seek, SeekFrom};
 use std::path::PathBuf;
+use std::sync::mpsc::{channel, Receiver, Sender};
+use std::thread;
 use std::time::Instant;
 
 #[derive(Clone)]
@@ -20,35 +22,59 @@ struct RunningTask {
     last_log_line: String,
 }
 
+#[derive(Clone)]
+struct UserMessage {
+    sender: String,
+    text: String,
+    timestamp: String,
+}
+
 pub struct ImfApp {
     prompt_input: String,
-    selected_tab: usize, // 0: Chat & Tasks, 1: Model Studio
+    chat_input: String,
+    selected_tab: usize, // 0: Antigravity Logs, 1: General LLM Chat, 2: Math/Lean Studio
     chat_entries: Vec<ChatEntry>,
     running_tasks: Vec<RunningTask>,
+    user_chat_history: Vec<UserMessage>,
     generated_items_dir: PathBuf,
     selected_family: String,
+    selected_model: String,
     temperature: f32,
     output_count: usize,
     last_refresh: Instant,
     log_status: String,
+    is_generating: bool,
+    tx: Sender<UserMessage>,
+    rx: Receiver<UserMessage>,
 }
 
 impl Default for ImfApp {
     fn default() -> Self {
         let dir = PathBuf::from("imf_gui/generated_items");
         let _ = fs::create_dir_all(&dir);
+        let (tx, rx) = channel();
 
         let mut app = Self {
             prompt_input: String::from("forall (x y : Nat), x + y = y + x"),
-            selected_tab: 0,
+            chat_input: String::new(),
+            selected_tab: 1, // Default to interactive General Chat
             chat_entries: Vec::new(),
             running_tasks: Vec::new(),
+            user_chat_history: vec![UserMessage {
+                sender: String::from("🤖 IMF Assistant"),
+                text: String::from("Hello! I am connected to your local model engine (Ollama/Qwen & IMF Coprocessor). You can chat with me about general topics, coding, reasoning, or math. What would you like to explore?"),
+                timestamp: chrono::Local::now().format("%H:%M:%S").to_string(),
+            }],
             generated_items_dir: dir,
-            selected_family: String::from("Commutative Algebra (E8 Lattice)"),
+            selected_family: String::from("General Reasoning & Coding"),
+            selected_model: String::from("qwen3.8-27b:latest"),
             temperature: 0.7,
             output_count: 0,
             last_refresh: Instant::now(),
-            log_status: String::from("Connecting to Antigravity brain..."),
+            log_status: String::from("Syncing with Antigravity..."),
+            is_generating: false,
+            tx,
+            rx,
         };
         app.refresh_antigravity_state();
         app
@@ -64,7 +90,6 @@ impl ImfApp {
             "/home/akarta/.gemini/antigravity/brain/709ff001-bb91-4c96-a70e-71e9c075fc42/.system_generated/tasks",
         );
 
-        // 1. Read last 25 chat entries from transcript
         if let Ok(mut file) = File::open(&transcript_path) {
             let meta = file.metadata().ok();
             let file_size = meta.map(|m| m.len()).unwrap_or(0);
@@ -111,15 +136,14 @@ impl ImfApp {
                 }
             }
 
-            if parsed.len() > 25 {
+            if parsed.len() > 30 {
                 let len = parsed.len();
-                self.chat_entries = parsed[len - 25..].to_vec();
+                self.chat_entries = parsed[len - 30..].to_vec();
             } else {
                 self.chat_entries = parsed;
             }
         }
 
-        // 2. Scan recent running tasks
         if let Ok(entries) = fs::read_dir(&tasks_dir) {
             let mut tasks = Vec::new();
             let mut file_list: Vec<_> = entries
@@ -155,9 +179,87 @@ impl ImfApp {
 
         self.last_refresh = Instant::now();
         self.log_status = format!(
-            "Sync OK at {}",
+            "Sync OK ({})",
             chrono::Local::now().format("%H:%M:%S")
         );
+    }
+
+    fn send_chat_message(&mut self) {
+        let text = self.chat_input.trim().to_string();
+        if text.is_empty() {
+            return;
+        }
+
+        let now_str = chrono::Local::now().format("%H:%M:%S").to_string();
+        self.user_chat_history.push(UserMessage {
+            sender: String::from("👤 You"),
+            text: text.clone(),
+            timestamp: now_str,
+        });
+
+        self.chat_input.clear();
+        self.is_generating = true;
+
+        let model = self.selected_model.clone();
+        let prompt = text.clone();
+        let tx = self.tx.clone();
+        let out_dir = self.generated_items_dir.clone();
+
+        self.output_count += 1;
+        let count = self.output_count;
+
+        thread::spawn(move || {
+            let client = reqwest::blocking::Client::builder()
+                .timeout(std::time::Duration::from_secs(60))
+                .build()
+                .unwrap();
+
+            let payload = serde_json::json!({
+                "model": model,
+                "prompt": prompt,
+                "stream": false
+            });
+
+            let resp = client
+                .post("http://127.0.0.1:11434/api/generate")
+                .json(&payload)
+                .send();
+
+            let reply_text = match resp {
+                Ok(r) => {
+                    if let Ok(json_val) = r.json::<Value>() {
+                        json_val
+                            .get("response")
+                            .and_then(|res| res.as_str())
+                            .unwrap_or("No response text found.")
+                            .to_string()
+                    } else {
+                        String::from("[Error: Unable to parse model response]")
+                    }
+                }
+                Err(e) => {
+                    format!("[Ollama Error: {}. Is Ollama serving on 11434?]", e)
+                }
+            };
+
+            // Save conversation turn into generated_items folder
+            let now = chrono::Local::now();
+            let out_file = out_dir.join(format!("chat_turn_{:04}_{}.json", count, now.format("%Y%m%d_%H%M%S")));
+            let log_payload = serde_json::json!({
+                "id": count,
+                "model": model,
+                "timestamp": now.to_rfc3339(),
+                "user_prompt": prompt,
+                "response": reply_text
+            });
+            let _ = fs::write(out_file, serde_json::to_string_pretty(&log_payload).unwrap());
+
+            let _ = tx.send(UserMessage {
+                sender: format!("🤖 {}", model),
+                text: reply_text,
+                timestamp: now.format("%H:%M:%S").to_string(),
+            });
+        });
     }
 
     fn generate_artifact(&mut self) {
@@ -191,6 +293,11 @@ impl ImfApp {
 
 impl eframe::App for ImfApp {
     fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
+        while let Ok(msg) = self.rx.try_recv() {
+            self.user_chat_history.push(msg);
+            self.is_generating = false;
+        }
+
         if self.last_refresh.elapsed().as_secs() >= 3 {
             self.refresh_antigravity_state();
             ctx.request_repaint();
@@ -198,7 +305,7 @@ impl eframe::App for ImfApp {
 
         egui::CentralPanel::default().show(ctx, |ui| {
             ui.horizontal(|ui| {
-                ui.heading("⚡ IMF Neural-Symbolic & Antigravity Studio");
+                ui.heading("⚡ IMF Unified Studio & Antigravity Monitor");
                 ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
                     ui.label(&self.log_status);
                     if ui.button("🔄 Refresh").clicked() {
@@ -210,16 +317,91 @@ impl eframe::App for ImfApp {
             ui.separator();
 
             ui.horizontal(|ui| {
-                ui.selectable_value(&mut self.selected_tab, 0, "💬 Antigravity Live Logs & Tasks");
-                ui.selectable_value(&mut self.selected_tab, 1, "🧠 Model Interaction & Generator");
+                ui.selectable_value(&mut self.selected_tab, 1, "💬 General LLM Chat");
+                ui.selectable_value(&mut self.selected_tab, 0, "📡 Antigravity Live Logs & Tasks");
+                ui.selectable_value(&mut self.selected_tab, 2, "📐 Formal Math & Lean Studio");
             });
 
             ui.separator();
 
-            if self.selected_tab == 0 {
+            if self.selected_tab == 1 {
+                // TAB 1: General LLM Interactive Chat
+                ui.horizontal(|ui| {
+                    ui.label("Selected Local Model:");
+                    egui::ComboBox::from_label("")
+                        .selected_text(&self.selected_model)
+                        .show_ui(ui, |ui| {
+                            ui.selectable_value(
+                                &mut self.selected_model,
+                                String::from("qwen3.8-27b:latest"),
+                                "qwen3.8-27b:latest (27B General Reasoning)",
+                            );
+                            ui.selectable_value(
+                                &mut self.selected_model,
+                                String::from("qwen2.5:14b"),
+                                "qwen2.5:14b (14B Coding & Analysis)",
+                            );
+                            ui.selectable_value(
+                                &mut self.selected_model,
+                                String::from("qwen2.5vl:7b"),
+                                "qwen2.5vl:7b (7B Vision-Language)",
+                            );
+                        });
+
+                    if self.is_generating {
+                        ui.colored_label(egui::Color32::from_rgb(255, 200, 80), "⏳ Generating response...");
+                    }
+                });
+
+                ui.separator();
+
+                // Chat Scroll Area
+                egui::ScrollArea::vertical()
+                    .max_height(400.0)
+                    .stick_to_bottom(true)
+                    .show(ui, |ui| {
+                        for msg in &self.user_chat_history {
+                            let color = if msg.sender.starts_with("👤") {
+                                egui::Color32::from_rgb(120, 200, 255)
+                            } else {
+                                egui::Color32::from_rgb(140, 255, 140)
+                            };
+
+                            ui.horizontal(|ui| {
+                                ui.colored_label(color, &msg.sender);
+                                ui.weak(&msg.timestamp);
+                            });
+                            ui.label(&msg.text);
+                            ui.add_space(6.0);
+                        }
+                    });
+
+                ui.separator();
+
+                // Chat Input Box
+                ui.horizontal(|ui| {
+                    let text_edit = ui.add(
+                        egui::TextEdit::singleline(&mut self.chat_input)
+                            .hint_text("Ask anything across coding, science, philosophy, reasoning...")
+                            .desired_width(ui.available_width() - 90.0),
+                    );
+
+                    let enter_pressed = text_edit.lost_focus() && ui.input(|i| i.key_pressed(egui::Key::Enter));
+
+                    if ui.button("➤ Send").clicked() || enter_pressed {
+                        self.send_chat_message();
+                    }
+                });
+
+                ui.add_space(4.0);
+                ui.weak(format!(
+                    "All chat history automatically archived to: {}/",
+                    self.generated_items_dir.display()
+                ));
+
+            } else if self.selected_tab == 0 {
                 // TAB 0: Antigravity Chat & Tasks
                 ui.columns(2, |cols| {
-                    // Column 1: Live Chat Transcript
                     cols[0].heading("💬 Live Conversation Feed (Antigravity)");
                     egui::ScrollArea::vertical()
                         .max_height(480.0)
@@ -244,7 +426,6 @@ impl eframe::App for ImfApp {
                             }
                         });
 
-                    // Column 2: Running Background Tasks & Logs
                     cols[1].heading("⚙ Active Background Tasks");
                     egui::ScrollArea::vertical()
                         .max_height(480.0)
@@ -262,11 +443,8 @@ impl eframe::App for ImfApp {
                         });
                 });
             } else {
-                // TAB 1: Model Interaction Studio
-                ui.heading("🧠 Model Interaction & Theorem Artifact Generator");
-                ui.label("Interact directly with the mathematical generation, quantization, and Lean 4 engines.");
-                ui.separator();
-
+                // TAB 2: Formal Math & Lean Studio
+                ui.heading("📐 Formal Mathematical Verification Studio");
                 ui.horizontal(|ui| {
                     ui.label("Mathematical Domain:");
                     egui::ComboBox::from_label("")
@@ -319,9 +497,9 @@ impl eframe::App for ImfApp {
 fn main() -> eframe::Result<()> {
     let native_options = eframe::NativeOptions {
         viewport: egui::ViewportBuilder::default()
-            .with_inner_size([960.0, 600.0])
-            .with_min_inner_size([700.0, 450.0])
-            .with_title("IMF Neural-Symbolic & Antigravity Studio"),
+            .with_inner_size([1000.0, 640.0])
+            .with_min_inner_size([750.0, 480.0])
+            .with_title("IMF Unified Studio & Antigravity Monitor"),
         ..Default::default()
     };
     eframe::run_native(
