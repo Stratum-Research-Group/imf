@@ -28,6 +28,7 @@ from higher_arity_simplex import ContinuousSimplexConvolutionalBinding
 from imf.gauge_polytope_complex import SU2GaugeSimplicialComplex
 from polytope_connector import ConfigurablePolytopeConnector
 from imf.nested_hypercube_cell import NestedHypercubeCell
+from imf.models.soliton_activation_layer import PoincareSolitonActivation
 
 
 class IMFOmniBlock(nn.Module):
@@ -110,6 +111,10 @@ class IMFOmniBlock(nn.Module):
         self.ffn_w1 = nn.Linear(d_model, ffn_dim, bias=False)
         self.ffn_w2 = nn.Linear(d_model, ffn_dim, bias=False)
         self.ffn_w3 = nn.Linear(ffn_dim, d_model, bias=False)
+
+        # Fused Poincaré Soliton Activation Layer (Phase-Space Volume Preservation)
+        self.soliton_activation = PoincareSolitonActivation(d_model=d_model, alpha=0.5)
+
         self.dropout = nn.Dropout(dropout)
 
     def forward_ssm(
@@ -226,6 +231,9 @@ class IMFOmniBlock(nn.Module):
         w2 = self.ffn_w2(x_ffn_norm)
         ffn_out = self.ffn_w3(F.silu(w1) * w2)
         x = x + self.dropout(ffn_out)
+
+        # 5. Fused Poincaré Soliton Activation (Lattice Hamiltonian update across feature space)
+        x = self.soliton_activation(x)
 
         if return_final_state:
             return x, final_ssm_state

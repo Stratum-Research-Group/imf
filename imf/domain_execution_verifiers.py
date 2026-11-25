@@ -365,17 +365,17 @@ class DomainExecutionVerifierRegistry:
             res = subprocess.run(["lean", tmp_path], capture_output=True, text=True, timeout=60)
             combined = res.stdout + ("\n" + res.stderr if res.stderr else "")
             if res.returncode == 0 and "sorry" not in combined.lower():
-                # Strict Zero-Axiom audit: parse #print axioms output if present
-                # Lean's standard foundational axioms: propext, Classical.choice, Quot.sound
-                standard_axioms = {"propext", "Classical.choice", "Quot.sound"}
+                # Strict Zero External Axiom audit: strictly propext and Quot.sound only
+                # Rejects Classical.choice and any custom project/external axioms
+                standard_axioms = {"propext", "Quot.sound"}
                 for line in combined.splitlines():
                     if "depends on axioms:" in line:
                         axioms_part = line.split("depends on axioms:")[-1].strip().strip("[]").replace(",", " ")
                         used_axioms = set(axioms_part.split())
                         unauthorized = used_axioms - standard_axioms
                         if unauthorized:
-                            return False, f"Verification Rejected: Unauthorized non-standard axioms detected: {unauthorized}"
-                return True, "Lean 4 machine-checked formal proof certified with 0 non-standard axioms."
+                            return False, f"Verification Rejected: Unauthorized non-standard axioms detected (strictly propext, Quot.sound only): {unauthorized}"
+                return True, "Lean 4 machine-checked formal proof certified with 0 non-standard axioms (propext, Quot.sound only)."
             else:
                 err_lines = [l for l in combined.splitlines() if "error:" in l or "declaration uses" in l]
                 msg = err_lines[0] if err_lines else (res.stderr.strip() or "Lean 4 type-check failure.")
