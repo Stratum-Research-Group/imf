@@ -1,0 +1,7 @@
+# Local build & dependencies (committed via main repository source tree)
+.build/
+node_modules/
+out/
+.tmp/
+dist/
+*.log
