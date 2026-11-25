@@ -111,6 +111,7 @@ struct IMFApp {
     status_msg: String,
     auto_refresh: bool,
     is_generating: bool,
+    last_poll: std::time::Instant,
 
     // Channels for background generation
     tx: Sender<(String, ChatMessage, bool)>,
@@ -196,6 +197,7 @@ impl Default for IMFApp {
             status_msg: "IMF Ready (CouncilModel Active | Sub-Bit Fleet Co-Resident)".to_string(),
             auto_refresh: true,
             is_generating: false,
+            last_poll: std::time::Instant::now(),
             tx,
             rx,
             council_tx,
@@ -544,6 +546,10 @@ impl eframe::App for IMFApp {
 
         if self.auto_refresh {
             ctx.request_repaint_after(Duration::from_millis(1000));
+            if (self.selected_tab == 2 || self.selected_tab == 3) && self.last_poll.elapsed() > Duration::from_secs(5) {
+                self.reload_logs();
+                self.last_poll = std::time::Instant::now();
+            }
         }
 
         egui::TopBottomPanel::top("top_bar").show(ctx, |ui| {
