@@ -22,7 +22,7 @@ def compact_lake():
     print(f"Total single-block Parquet partitions detected: {len(all_files)}")
 
     # Group into batches of 10 blocks (10M steps each)
-    super_batches = 100 // 10
+    super_batches = len(all_files) // 10
     compacted_count = 0
 
     for b in range(super_batches):
