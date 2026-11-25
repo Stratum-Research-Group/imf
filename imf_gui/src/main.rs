@@ -97,6 +97,9 @@ struct IMFApp {
     council_sessions: Vec<CouncilDebateSession>,
     council_input: String,
     is_council_debating: bool,
+    broadcast_history: Vec<(String, Vec<(String, String)>)>,
+    broadcast_input: String,
+    is_broadcasting: bool,
 
     // Antigravity logs state
     weft_transcript_path: PathBuf,
@@ -118,6 +121,8 @@ struct IMFApp {
     rx: Receiver<(String, ChatMessage, bool)>,
     council_tx: Sender<CouncilDebateSession>,
     council_rx: Receiver<CouncilDebateSession>,
+    broadcast_tx: Sender<(usize, String, String)>,
+    broadcast_rx: Receiver<(usize, String, String)>,
 }
 
 const MODELS: &[(&str, &str, BackendType)] = &[
@@ -150,6 +155,7 @@ impl Default for IMFApp {
     fn default() -> Self {
         let (tx, rx) = channel();
         let (council_tx, council_rx) = channel();
+        let (broadcast_tx, broadcast_rx) = channel();
 
         let weft_conv_id = "32298e0e-3291-406d-a284-008552ab2cc9";
         let imf_conv_id = "709ff001-bb91-4c96-a70e-71e9c075fc42";
@@ -184,6 +190,9 @@ impl Default for IMFApp {
             council_sessions: Vec::new(),
             council_input: String::new(),
             is_council_debating: false,
+            broadcast_history: Vec::new(),
+            broadcast_input: String::new(),
+            is_broadcasting: false,
 
             weft_transcript_path: brain_base.join(weft_conv_id).join(".system_generated/logs/transcript.jsonl"),
             imf_transcript_path: brain_base.join(imf_conv_id).join(".system_generated/logs/transcript.jsonl"),
@@ -202,6 +211,8 @@ impl Default for IMFApp {
             rx,
             council_tx,
             council_rx,
+            broadcast_tx,
+            broadcast_rx,
         };
 
         app.reload_logs();
@@ -428,6 +439,40 @@ impl IMFApp {
         });
     }
 
+    fn dispatch_broadcast(&mut self) {
+        if self.broadcast_input.trim().is_empty() || self.is_broadcasting {
+            return;
+        }
+
+        let query = self.broadcast_input.trim().to_string();
+        self.broadcast_input.clear();
+        self.is_broadcasting = true;
+        self.status_msg = "Broadcasting test query across all models in fleet...".to_string();
+
+        let session_idx = self.broadcast_history.len();
+        let initial_slots: Vec<(String, String)> = MODELS.iter().map(|(name, _, _)| (name.to_string(), "Awaiting response...".to_string())).collect();
+        self.broadcast_history.push((query.clone(), initial_slots));
+
+        let domain = self.selected_domain.clone();
+
+        for (name, _, backend) in MODELS.iter() {
+            let tx = self.broadcast_tx.clone();
+            let b = backend.clone();
+            let m_name = name.to_string();
+            let d = domain.clone();
+            let q = query.clone();
+
+            thread::spawn(move || {
+                let sys_prompt = format!("You are an AI benchmark model evaluated in {}. Provide a concise, high-density response.", d);
+                let reply = match Self::query_model(b, &sys_prompt, &q) {
+                    Ok(text) => text,
+                    Err(e) => format!("Model unavailable: {}", e),
+                };
+                let _ = tx.send((session_idx, m_name, reply));
+            });
+        }
+    }
+
     fn dispatch_council_debate(&mut self) {
         if self.council_input.trim().is_empty() || self.is_council_debating {
             return;
@@ -526,6 +571,15 @@ impl IMFApp {
             }
         }
 
+        while let Ok((idx, model_name, reply)) = self.broadcast_rx.try_recv() {
+            if idx < self.broadcast_history.len() {
+                if let Some(slot) = self.broadcast_history[idx].1.iter_mut().find(|(m, _)| *m == model_name) {
+                    slot.1 = reply;
+                }
+            }
+            self.is_broadcasting = false;
+        }
+
         while let Ok(session) = self.council_rx.try_recv() {
             self.council_sessions.push(session.clone());
             self.is_council_debating = false;
@@ -568,10 +622,11 @@ impl eframe::App for IMFApp {
 
             ui.horizontal(|ui| {
                 ui.selectable_value(&mut self.selected_tab, 0, "🏛 IMF CouncilModel (Board Speaker & Fleet Debate)");
-                ui.selectable_value(&mut self.selected_tab, 1, "💬 Split Chat (WEFT | IMF)");
-                ui.selectable_value(&mut self.selected_tab, 2, "📜 Antigravity Dual Logs (Clean View)");
-                ui.selectable_value(&mut self.selected_tab, 3, "⚙ Active Background Tasks");
-                ui.selectable_value(&mut self.selected_tab, 4, "📁 Output Artifacts Browser");
+                ui.selectable_value(&mut self.selected_tab, 1, "⚡ Omni-Model Fleet Broadcast (Test All Models)");
+                ui.selectable_value(&mut self.selected_tab, 2, "💬 Split Chat (WEFT | IMF)");
+                ui.selectable_value(&mut self.selected_tab, 3, "📜 Antigravity Dual Logs (Clean View)");
+                ui.selectable_value(&mut self.selected_tab, 4, "⚙ Active Background Tasks");
+                ui.selectable_value(&mut self.selected_tab, 5, "📁 Output Artifacts Browser");
             });
         });
 
@@ -679,6 +734,72 @@ impl eframe::App for IMFApp {
                     });
                 }
                 1 => {
+                    // Omni-Model Fleet Broadcast Tab (Talk to all models simultaneously)
+                    ui.horizontal(|ui| {
+                        ui.heading("⚡ Omni-Model Fleet Broadcast");
+                        ui.label("| Concurrently test and compare all models on the same prompt");
+                        ui.separator();
+                        ui.label("Domain:");
+                        egui::ComboBox::from_id_salt("broadcast_domain_pick")
+                            .selected_text(&self.selected_domain)
+                            .show_ui(ui, |ui| {
+                                for d in EXPERT_DOMAINS {
+                                    ui.selectable_value(&mut self.selected_domain, d.to_string(), *d);
+                                }
+                            });
+                    });
+                    ui.separator();
+
+                    let available_height = ui.available_height() - 55.0;
+                    egui::ScrollArea::vertical()
+                        .id_salt("broadcast_scroll")
+                        .max_height(available_height)
+                        .stick_to_bottom(true)
+                        .show(ui, |ui| {
+                            if self.broadcast_history.is_empty() {
+                                ui.label("No test broadcasts yet. Enter a question or test prompt below to query all models in parallel.");
+                            }
+
+                            for (query, responses) in &self.broadcast_history {
+                                egui::Frame::none().fill(egui::Color32::from_rgb(18, 24, 32)).inner_margin(10.0).rounding(6.0).show(ui, |ui| {
+                                    ui.strong(format!("📋 Broadcast Prompt: \"{}\"", query));
+                                    ui.separator();
+
+                                    let num_models = responses.len();
+                                    let col_w = ((ui.available_width() - 20.0) / (num_models as f32).max(1.0)).max(240.0);
+
+                                    egui::ScrollArea::horizontal().show(ui, |ui| {
+                                        ui.horizontal(|ui| {
+                                            for (model_name, answer) in responses {
+                                                ui.allocate_ui([col_w, 280.0].into(), |ui| {
+                                                    egui::Frame::none().fill(egui::Color32::from_rgb(26, 32, 44)).inner_margin(8.0).rounding(4.0).show(ui, |ui| {
+                                                        ui.strong(model_name);
+                                                        ui.separator();
+                                                        egui::ScrollArea::vertical().id_salt(format!("b_sub_{}", model_name)).max_height(230.0).show(ui, |ui| {
+                                                            ui.label(answer);
+                                                        });
+                                                    });
+                                                });
+                                            }
+                                        });
+                                    });
+                                });
+                                ui.add_space(8.0);
+                            }
+                        });
+
+                    ui.separator();
+                    ui.horizontal(|ui| {
+                        let text_edit = ui.add_sized(
+                            [ui.available_width() - 220.0, 32.0],
+                            egui::TextEdit::singleline(&mut self.broadcast_input).hint_text("Send test prompt to ALL models in the fleet simultaneously..."),
+                        );
+                        if (ui.button("⚡ Broadcast to All Models").clicked() || (text_edit.lost_focus() && ui.input(|i| i.key_pressed(egui::Key::Enter)))) && !self.is_broadcasting {
+                            self.dispatch_broadcast();
+                        }
+                    });
+                }
+                2 => {
                     // Split Chat (WEFT on left, IMF on right)
                     ui.horizontal(|ui| {
                         ui.label("🎯 Active Model:");
@@ -781,7 +902,7 @@ impl eframe::App for IMFApp {
                         }
                     });
                 }
-                2 => {
+                3 => {
                     // Dual Antigravity Logs (Clean Transcript without command execution dumps)
                     ui.horizontal(|ui| {
                         ui.heading("📜 Antigravity Live Transcripts (WEFT vs IMF Side-by-Side)");
@@ -857,7 +978,7 @@ impl eframe::App for IMFApp {
                         });
                     });
                 }
-                3 => {
+                4 => {
                     // Active Background Tasks
                     ui.heading("⚙ Active Background Tasks (WEFT & IMF Fleet)");
                     ui.separator();
@@ -892,7 +1013,7 @@ impl eframe::App for IMFApp {
                         });
                     });
                 }
-                4 => {
+                5 => {
                     // Output Artifacts Browser
                     ui.heading("📁 Saved Artifacts & Deliberations");
                     ui.separator();
