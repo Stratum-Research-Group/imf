@@ -63,6 +63,14 @@ def get_rust_lib():
                 if hasattr(lib, "imf_fast_walsh_hadamard_avx2"):
                     lib.imf_fast_walsh_hadamard_avx2.restype = ctypes.c_int32
                     lib.imf_fast_walsh_hadamard_avx2.argtypes = [ctypes.POINTER(ctypes.c_float), ctypes.c_size_t, ctypes.c_size_t]
+                if hasattr(lib, "imf_shm_ring_consume_batch_avx2"):
+                    lib.imf_shm_ring_consume_batch_avx2.restype = ctypes.c_int32
+                    lib.imf_shm_ring_consume_batch_avx2.argtypes = [
+                        ctypes.POINTER(ctypes.c_float),
+                        ctypes.POINTER(ctypes.c_float),
+                        ctypes.c_size_t,
+                        ctypes.c_size_t
+                    ]
                 _LIB_IMF_RS = lib
                 return _LIB_IMF_RS
             except Exception as e:
@@ -206,3 +214,19 @@ def rust_fwht(x: np.ndarray) -> np.ndarray:
     if st != 0:
         raise RuntimeError(f"FWHT failed with code {st}")
     return y
+
+
+def rust_shm_ring_consume_batch(src: np.ndarray, dst: np.ndarray) -> None:
+    lib = get_rust_lib()
+    if lib is None or not hasattr(lib, "imf_shm_ring_consume_batch_avx2"):
+        raise RuntimeError("imf_shm_ring_consume_batch_avx2 not found")
+    assert src.flags.c_contiguous and dst.flags.c_contiguous
+    assert src.shape == dst.shape
+    st = lib.imf_shm_ring_consume_batch_avx2(
+        src.ctypes.data_as(ctypes.POINTER(ctypes.c_float)),
+        dst.ctypes.data_as(ctypes.POINTER(ctypes.c_float)),
+        src.shape[0],
+        src.shape[1] if src.ndim > 1 else 1
+    )
+    if st != 0:
+        raise RuntimeError(f"SHM ring consumer failed with code {st}")

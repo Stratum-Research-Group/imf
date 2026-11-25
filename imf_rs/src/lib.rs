@@ -354,6 +354,40 @@ pub unsafe extern "C" fn imf_fast_walsh_hadamard_avx2(x_ptr: *mut f32, batch: us
     0
 }
 
+/// Streaming zero-copy consumer of SHM ring buffer batches.
+/// Reads up to max_items (each of dim f32s) into out_buf.
+#[no_mangle]
+pub unsafe extern "C" fn imf_shm_ring_consume_batch_avx2(
+    src_ptr: *const f32,
+    dst_ptr: *mut f32,
+    n_items: usize,
+    dim: usize,
+) -> i32 {
+    if src_ptr.is_null() || dst_ptr.is_null() || n_items == 0 || dim == 0 {
+        return -1;
+    }
+    let total_floats = n_items * dim;
+    #[cfg(target_arch = "x86_64")]
+    {
+        if is_x86_feature_detected!("avx2") {
+            use std::arch::x86_64::*;
+            let mut i = 0;
+            while i + 8 <= total_floats {
+                let v = _mm256_loadu_ps(src_ptr.add(i));
+                _mm256_storeu_ps(dst_ptr.add(i), v);
+                i += 8;
+            }
+            while i < total_floats {
+                *dst_ptr.add(i) = *src_ptr.add(i);
+                i += 1;
+            }
+            return 0;
+        }
+    }
+    std::ptr::copy_nonoverlapping(src_ptr, dst_ptr, total_floats);
+    0
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

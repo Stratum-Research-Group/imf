@@ -1,0 +1,7 @@
+{
+  "database_file": "dist/parquet_lake/theorem_knn_index.duckdb",
+  "total_theorems_indexed": 29999,
+  "build_time_seconds": 0.11,
+  "top_5_query_latency_ms": 6.111,
+  "sample_retrieved_count": 5
+}
