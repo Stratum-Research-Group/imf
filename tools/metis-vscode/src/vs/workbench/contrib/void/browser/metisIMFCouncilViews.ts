@@ -233,6 +233,9 @@ export class IMFCouncilViewPane extends ViewPane {
 				<button id="imf-sandbox-btn" style="background:var(--vscode-button-secondaryBackground); color:var(--vscode-button-secondaryForeground); border:none; padding:6px 10px; border-radius:3px; cursor:pointer; font-size:11px;" title="Execute Sandbox Artifact">
 					▶ Run Sandbox
 				</button>
+				<button id="imf-fastapply-btn" style="background:var(--vscode-button-secondaryBackground); color:var(--vscode-button-secondaryForeground); border:none; padding:6px 10px; border-radius:3px; cursor:pointer; font-size:11px;" title="FastApply Diff to Active Editor">
+					⚡ Diff Buffer
+				</button>
 			</div>
 
 			<div id="imf-council-transcript" style="flex:1; background:var(--vscode-editor-background); border:1px solid var(--vscode-widget-border); border-radius:4px; padding:8px; overflow-y:auto; display:flex; flex-direction:column; gap:8px; min-height:160px; font-size:11px; font-family:var(--vscode-editor-font-family);">
@@ -310,6 +313,35 @@ export class IMFCouncilViewPane extends ViewPane {
 					if (transcript) {
 						transcript.innerHTML += `<div style="color:var(--vscode-errorForeground);">Sandbox error: ${err.message}</div>`;
 					}
+				}
+			};
+		}
+
+		const diffBtn = this._container.querySelector('#imf-fastapply-btn') as HTMLButtonElement;
+		if (diffBtn) {
+			diffBtn.onclick = async () => {
+				diffBtn.disabled = true;
+				diffBtn.textContent = '⏳ Computing Diff...';
+				try {
+					const dres = await fetch('http://127.0.0.1:8092/v1/sandbox/diff', {
+						method: 'POST',
+						headers: { 'Content-Type': 'application/json' },
+						body: JSON.stringify({
+							original_file: 'dist/sandbox/council_artifact.py',
+							modified_code: '# IMF FastApply Invariant Patch\nprint("FastApply: In-Editor Invariant Applied via Void editCodeService")\n'
+						})
+					});
+					const ddata = await dres.json();
+					if (transcript) {
+						transcript.innerHTML += `<div style="margin-top:6px; padding:6px; background:rgba(59,130,246,0.1); border:1px solid #3b82f6; border-radius:3px; color:#93c5fd;"><span style="font-weight:700;">FastApply Diff [Active]:</span> <pre style="margin:0; font-size:10px;">${ddata.diff || 'No diff detected'}</pre></div>`;
+					}
+				} catch (e: any) {
+					if (transcript) {
+						transcript.innerHTML += `<div style="color:var(--vscode-errorForeground);">Diff error: ${e.message}</div>`;
+					}
+				} finally {
+					diffBtn.disabled = false;
+					diffBtn.textContent = '⚡ Diff Buffer';
 				}
 			};
 		}

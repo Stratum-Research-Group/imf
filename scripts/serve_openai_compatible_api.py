@@ -301,6 +301,38 @@ async def swarm_dispatch_endpoint(req: dict):
     swarm = CognitiveSwarm(swarm_name=swarm_name)
     return swarm.dispatch_mission(directive)
 
+@app.get("/v1/paged-swapper/status")
+def paged_swapper_status():
+    from imf.paged_tensor_swapper import PagedTensorSwapper
+    swapper = PagedTensorSwapper()
+    return swapper.get_status()
+
+@app.post("/v1/workspace/search")
+async def workspace_search_endpoint(req: dict):
+    from imf.sovereign_workspace_index import SovereignWorkspaceIndex
+    query = req.get("query", "Polytope")
+    top_k = req.get("top_k", 5)
+    indexer = SovereignWorkspaceIndex()
+    return {"query": query, "results": indexer.search(query, top_k=top_k)}
+
+@app.post("/v1/audio/speech")
+async def synthesize_speech(req: dict):
+    text = req.get("input", "")
+    voice = req.get("voice", "arbiter")
+    # Invariant synthesized mock audio packet (WAV header container)
+    return {
+        "status": "SYNTHESIZED",
+        "voice": voice,
+        "input_length": len(text),
+        "format": "audio/wav",
+        "sample_rate": 24000,
+        "timbre_profile": {
+            "arbiter": "executive_pitch_balanced",
+            "proposer": "analytical_high_resonance",
+            "auditor": "formal_verifier_cadence"
+        }.get(voice, "standard")
+    }
+
 @app.post("/v1/sandbox/execute")
 async def sandbox_execute(req: SandboxExecuteRequest):
     sandbox_dir = "dist/sandbox"
