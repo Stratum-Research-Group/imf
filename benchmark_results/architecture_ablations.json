@@ -1,6 +1,6 @@
 {
-  "git_commit": "bbfa83e45379ba1dd499200e0719e482a3075425",
-  "timestamp": "2026-11-25 14:42:39 UTC",
+  "git_commit": "28520b03c9e37fb458638c3e8725aebc135b9132",
+  "timestamp": "2026-11-25 14:49:18 UTC",
   "task": "Content-Addressed Multi-Query Associative Recall (MQAR) Benchmark",
   "description": "Models parameter-matched within \u00b10.5% (approx 98.9k params) evaluated across 3 random seeds",
   "seeds": [

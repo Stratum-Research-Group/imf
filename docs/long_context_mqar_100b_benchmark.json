@@ -7,7 +7,7 @@
       "context_length": 4096,
       "num_needles": 16,
       "retrieval_accuracy": null,
-      "routing_latency_ms": 0.4594241996528581,
+      "routing_latency_ms": 0.42271779966540635,
       "kv_cache_vram_mb": 640.0,
       "total_resident_vram_mb": 4640.0,
       "status": "PASSED (FITS IN 16GB VRAM)"
@@ -16,7 +16,7 @@
       "context_length": 8192,
       "num_needles": 16,
       "retrieval_accuracy": null,
-      "routing_latency_ms": 0.4511345992796123,
+      "routing_latency_ms": 0.4242284019710496,
       "kv_cache_vram_mb": 1280.0,
       "total_resident_vram_mb": 5280.0,
       "status": "PASSED (FITS IN 16GB VRAM)"
@@ -25,7 +25,7 @@
       "context_length": 16384,
       "num_needles": 16,
       "retrieval_accuracy": null,
-      "routing_latency_ms": 0.42711159912869334,
+      "routing_latency_ms": 0.42416839860379696,
       "kv_cache_vram_mb": 2560.0,
       "total_resident_vram_mb": 6560.0,
       "status": "PASSED (FITS IN 16GB VRAM)"
@@ -34,7 +34,7 @@
       "context_length": 32768,
       "num_needles": 16,
       "retrieval_accuracy": null,
-      "routing_latency_ms": 0.4250817990396172,
+      "routing_latency_ms": 0.4421379999257624,
       "kv_cache_vram_mb": 5120.0,
       "total_resident_vram_mb": 9120.0,
       "status": "PASSED (FITS IN 16GB VRAM)"
@@ -43,7 +43,7 @@
       "context_length": 65536,
       "num_needles": 16,
       "retrieval_accuracy": null,
-      "routing_latency_ms": 0.42564700124785304,
+      "routing_latency_ms": 0.42447099986020476,
       "kv_cache_vram_mb": 10240.0,
       "total_resident_vram_mb": 14240.0,
       "status": "EXCEEDS 16GB"
