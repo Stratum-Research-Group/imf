@@ -12,6 +12,8 @@ import './sidebarActions.js'
 import './sidebarPane.js'
 import './metisViews.js'
 import './metisIMFCouncilViews.js'
+import './metisIMFKeybindings.js'
+import './metisIMFLeanGutterDecorator.js'
 
 // register quick edit (Ctrl+K)
 import './quickEditActions.js'

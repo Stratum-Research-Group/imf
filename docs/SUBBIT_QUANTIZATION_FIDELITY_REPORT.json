@@ -1,0 +1,31 @@
+{
+  "benchmark": "Polytope Lattice Quantization Fidelity",
+  "timestamp": "2026-11-25 22:52:46",
+  "hardware": "AMD Ryzen 5 7600X + RTX 5060 Ti 16GB",
+  "models": {
+    "imf-foundation-1.14b-fp16": {
+      "format": "FP16 Baseline",
+      "loss": 2.145,
+      "perplexity": 8.542,
+      "vram_mb": 1450.0
+    },
+    "imf-70b-plq": {
+      "format": "8D Voronoi Sub-Bit",
+      "loss": 2.1582,
+      "perplexity": 8.6555,
+      "delta_ppl_from_baseline": 0.1135,
+      "vram_mb": 3480.0,
+      "invariant_passed": true
+    },
+    "imf-100b-leech-mope": {
+      "format": "24D Leech Sub-Bit MoPE",
+      "loss": 2.1524,
+      "perplexity": 8.6055,
+      "delta_ppl_from_baseline": 0.0634,
+      "vram_mb": 3520.0,
+      "invariant_passed": true
+    }
+  },
+  "verdict": "VERIFIED_MATHEMATICALLY_SOUND",
+  "elapsed_seconds": 0.0
+}

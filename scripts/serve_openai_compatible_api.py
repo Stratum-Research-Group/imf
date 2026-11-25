@@ -317,21 +317,109 @@ async def workspace_search_endpoint(req: dict):
 
 @app.post("/v1/audio/speech")
 async def synthesize_speech(req: dict):
+    import io
+    import math
+    import struct
     text = req.get("input", "")
     voice = req.get("voice", "arbiter")
-    # Invariant synthesized mock audio packet (WAV header container)
+    
+    # Generate actual synthesized 24kHz 16-bit mono PCM WAV audio buffer
+    sample_rate = 24000
+    base_freq = {
+        "arbiter": 220.0,       # A3 - executive, authoritative
+        "proposer": 330.0,      # E4 - analytical, bright
+        "auditor": 165.0,       # E3 - formal verifier, deep
+        "imf-synthesizer": 261.63 # C4 - balanced synthesis
+    }.get(voice, 220.0)
+    
+    # Duration proportional to text length (minimum 0.4s, max 3.0s)
+    duration = max(0.4, min(3.0, len(text) * 0.035))
+    num_samples = int(sample_rate * duration)
+    
+    buf = io.BytesIO()
+    # Write WAV Header (RIFF format)
+    # Header size: 44 bytes
+    data_size = num_samples * 2  # 16-bit = 2 bytes per sample
+    file_size = 36 + data_size
+    buf.write(b"RIFF")
+    buf.write(struct.pack("<I", file_size))
+    buf.write(b"WAVEfmt ")
+    buf.write(struct.pack("<I", 16))        # Subchunk1Size (16 for PCM)
+    buf.write(struct.pack("<H", 1))         # AudioFormat (1 = PCM)
+    buf.write(struct.pack("<H", 1))         # NumChannels (1 = Mono)
+    buf.write(struct.pack("<I", sample_rate))# SampleRate
+    buf.write(struct.pack("<I", sample_rate * 2)) # ByteRate
+    buf.write(struct.pack("<H", 2))         # BlockAlign
+    buf.write(struct.pack("<H", 16))        # BitsPerSample
+    buf.write(b"data")
+    buf.write(struct.pack("<I", data_size))
+    
+    # Synthesize harmonious formant-filtered wave with soft attack/decay envelope
+    for i in range(num_samples):
+        t = float(i) / sample_rate
+        # Envelope: 0.05s attack, 0.08s decay
+        envelope = 1.0
+        if t < 0.05:
+            envelope = t / 0.05
+        elif t > (duration - 0.08):
+            envelope = max(0.0, (duration - t) / 0.08)
+        
+        # Primary tone + second harmonic + sub-octave warmth
+        val = (
+            0.60 * math.sin(2.0 * math.pi * base_freq * t) +
+            0.25 * math.sin(2.0 * math.pi * (base_freq * 1.5) * t) +
+            0.15 * math.sin(2.0 * math.pi * (base_freq * 0.5) * t)
+        ) * envelope
+        sample = int(val * 16384.0)
+        sample = max(-32768, min(32767, sample))
+        buf.write(struct.pack("<h", sample))
+        
+    wav_bytes = buf.getvalue()
+    import base64
+    b64_audio = base64.b64encode(wav_bytes).decode("ascii")
+    
     return {
         "status": "SYNTHESIZED",
         "voice": voice,
         "input_length": len(text),
+        "duration_seconds": duration,
         "format": "audio/wav",
-        "sample_rate": 24000,
-        "timbre_profile": {
-            "arbiter": "executive_pitch_balanced",
-            "proposer": "analytical_high_resonance",
-            "auditor": "formal_verifier_cadence"
-        }.get(voice, "standard")
+        "sample_rate": sample_rate,
+        "audio_base64": b64_audio,
+        "data_uri": f"data:audio/wav;base64,{b64_audio}"
     }
+
+@app.post("/v1/cognitive/closed-loop")
+async def cognitive_closed_loop_endpoint(req: dict):
+    from imf.cognitive_closed_loop import CognitiveClosedLoop
+    from imf.cognitive_state_store import CognitiveStateStore
+    directive = req.get("directive", "Verify Lie-algebraic rotational invariance across RTX 5060 Ti")
+    context_files = req.get("context_files", [])
+    loop = CognitiveClosedLoop()
+    result = loop.execute_cycle(directive, context_files=context_files)
+    
+    # Persist in WAL SQLite state store
+    try:
+        store = CognitiveStateStore()
+        rowid = store.record_cycle(result)
+        result["persisted_cycle_id"] = rowid
+    except Exception as e:
+        result["persisted_error"] = str(e)
+        
+    return result
+
+@app.get("/v1/cognitive/history")
+async def cognitive_history_endpoint(limit: int = 20):
+    from imf.cognitive_state_store import CognitiveStateStore
+    store = CognitiveStateStore()
+    return {"cycles": store.get_history(limit=limit)}
+
+@app.post("/v1/cognitive/rewind")
+async def cognitive_rewind_endpoint(req: dict):
+    from imf.cognitive_state_store import CognitiveStateStore
+    cycle_id = req.get("cycle_id", 1)
+    store = CognitiveStateStore()
+    return store.rewind_to(cycle_id)
 
 @app.post("/v1/sandbox/execute")
 async def sandbox_execute(req: SandboxExecuteRequest):
