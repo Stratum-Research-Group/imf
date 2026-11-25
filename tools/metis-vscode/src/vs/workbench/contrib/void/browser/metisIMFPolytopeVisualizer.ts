@@ -37,6 +37,8 @@ export class IMFPolytopeVisualizerViewPane extends ViewPane {
 		super(options, keybindingService, contextMenuService, configurationService, contextKeyService, viewDescriptorService, instantiationService, opacityHelper(hoverService), themeService, telemetryService);
 	}
 
+	private _mode: 'E8' | 'LEECH_24' = 'E8';
+
 	protected override renderBody(container: HTMLElement): void {
 		super.renderBody(container);
 		this._container = container;
@@ -50,21 +52,61 @@ export class IMFPolytopeVisualizerViewPane extends ViewPane {
 
 		container.innerHTML = `
 			<div style="font-size:12px; font-weight:700; color:var(--vscode-editor-foreground); display:flex; align-items:center; justify-content:space-between;">
-				<span>🌌 E8 Lattice (240 Roots) & MoPE Router</span>
+				<span id="imf-visualizer-title">🌌 E8 Lattice (240 Roots) & MoPE Router</span>
 				<span style="font-size:10px; color:#10b981; font-weight:600;">ACTIVE</span>
 			</div>
-			<div style="font-size:10px; color:var(--vscode-descriptionForeground);">
+			<div style="display:flex; gap:6px;">
+				<button id="imf-toggle-e8-btn" style="flex:1; background:var(--vscode-button-background); color:var(--vscode-button-foreground); border:none; padding:4px 8px; border-radius:3px; font-size:10px; cursor:pointer;">
+					E8 Gosset (240)
+				</button>
+				<button id="imf-toggle-leech-btn" style="flex:1; background:var(--vscode-button-secondaryBackground); color:var(--vscode-button-secondaryForeground); border:none; padding:4px 8px; border-radius:3px; font-size:10px; cursor:pointer;">
+					Leech \u039B24 Cross-Section
+				</button>
+			</div>
+			<div id="imf-visualizer-desc" style="font-size:10px; color:var(--vscode-descriptionForeground);">
 				Real-time 3D Gosset 4_21 polytope wireframe projection. Illuminated vertices indicate live expert token routing.
 			</div>
-			<canvas id="imf-polytope-canvas" width="280" height="220" style="background:#090d16; border:1px solid #1e293b; border-radius:6px; cursor:grab; margin:4px auto;"></canvas>
+			<canvas id="imf-polytope-canvas" width="280" height="200" style="background:#090d16; border:1px solid #1e293b; border-radius:6px; cursor:grab; margin:4px auto;"></canvas>
 			<div style="display:flex; justify-content:space-between; font-size:10px; color:var(--vscode-descriptionForeground); padding:0 4px;">
-				<span>Polytope: <strong style="color:#60a5fa;">E8 Gosset</strong></span>
-				<span>Roots: <strong style="color:#34d399;">240</strong></span>
-				<span>Lattice: <strong style="color:#f472b6;">Leech \u039B24</strong></span>
+				<span>Active Mode: <strong id="imf-active-lattice-mode" style="color:#60a5fa;">E8 Gosset</strong></span>
+				<span>Spheres: <strong id="imf-sphere-count" style="color:#34d399;">240</strong></span>
+				<span>Silicon: <strong style="color:#f472b6;">RTX 5060 Ti</strong></span>
 			</div>
 		`;
 
 		const canvas = container.querySelector('#imf-polytope-canvas') as HTMLCanvasElement;
+		const e8Btn = container.querySelector('#imf-toggle-e8-btn') as HTMLButtonElement;
+		const leechBtn = container.querySelector('#imf-toggle-leech-btn') as HTMLButtonElement;
+		const title = container.querySelector('#imf-visualizer-title') as HTMLElement;
+		const desc = container.querySelector('#imf-visualizer-desc') as HTMLElement;
+		const modeLabel = container.querySelector('#imf-active-lattice-mode') as HTMLElement;
+		const sphereLabel = container.querySelector('#imf-sphere-count') as HTMLElement;
+
+		if (e8Btn && leechBtn) {
+			e8Btn.onclick = () => {
+				this._mode = 'E8';
+				if (title) title.textContent = '🌌 E8 Lattice (240 Roots) & MoPE Router';
+				if (desc) desc.textContent = 'Real-time 3D Gosset 4_21 polytope wireframe projection. 240 minimal root vectors.';
+				if (modeLabel) modeLabel.textContent = 'E8 Gosset';
+				if (sphereLabel) sphereLabel.textContent = '240';
+				e8Btn.style.background = 'var(--vscode-button-background)';
+				e8Btn.style.color = 'var(--vscode-button-foreground)';
+				leechBtn.style.background = 'var(--vscode-button-secondaryBackground)';
+				leechBtn.style.color = 'var(--vscode-button-secondaryForeground)';
+			};
+			leechBtn.onclick = () => {
+				this._mode = 'LEECH_24';
+				if (title) title.textContent = '🔮 \u039B24 Leech Lattice (196,560 Spheres)';
+				if (desc) desc.textContent = 'Octonionic triality slice of 24-dimensional Leech lattice sphere packing.';
+				if (modeLabel) modeLabel.textContent = 'Leech \u039B24';
+				if (sphereLabel) sphereLabel.textContent = '196,560';
+				leechBtn.style.background = 'var(--vscode-button-background)';
+				leechBtn.style.color = 'var(--vscode-button-foreground)';
+				e8Btn.style.background = 'var(--vscode-button-secondaryBackground)';
+				e8Btn.style.color = 'var(--vscode-button-secondaryForeground)';
+			};
+		}
+
 		if (canvas) {
 			this._startCanvasAnimation(canvas);
 		}

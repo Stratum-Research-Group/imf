@@ -486,6 +486,41 @@ async def sandbox_diff(req: SandboxDiffRequest):
         "file": req.original_file
     }
 
+@app.post("/v1/sandbox/multi-diff")
+async def sandbox_multi_diff(req: dict):
+    """
+    Computes multi-file diffs and provides atomic git staging instructions.
+    """
+    import difflib
+    files = req.get("files", [])
+    results = []
+    for item in files:
+        fpath = item.get("path", "")
+        new_content = item.get("content", "")
+        orig_lines = []
+        if os.path.exists(fpath):
+            with open(fpath, "r", encoding="utf-8", errors="ignore") as f:
+                orig_lines = f.readlines()
+        mod_lines = new_content.splitlines(keepends=True)
+        diff = difflib.unified_diff(
+            orig_lines,
+            mod_lines,
+            fromfile=fpath,
+            tofile=f"patch_{os.path.basename(fpath)}"
+        )
+        diff_text = "".join(diff)
+        results.append({
+            "path": fpath,
+            "has_diff": len(diff_text) > 0,
+            "diff": diff_text
+        })
+    return {
+        "status": "PROPOSED",
+        "file_count": len(results),
+        "patches": results,
+        "git_stage_command": "git add " + " ".join([r["path"] for r in results if r["has_diff"]])
+    }
+
 @app.get("/v1/megagym/routine")
 def megagym_routine():
     manifest_path = "dist/IMF_32B_GRAND_CORPUS_MANIFEST.json"
