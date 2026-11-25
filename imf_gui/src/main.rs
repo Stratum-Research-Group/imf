@@ -128,18 +128,22 @@ struct IMFApp {
 const MODELS: &[(&str, &str, BackendType)] = &[
     ("IMF CouncilModel (Sub-Bit Fleet Arbitrator)", "imf-council-model", BackendType::OpenAICompat("http://127.0.0.1:8092")),
     ("IMF Foundation 1.14B Coprocessor (MODEL_CARD.md)", "imf-foundation-1.14b", BackendType::OpenAICompat("http://127.0.0.1:8092")),
-    ("WEFT Native Sub-Bit (Qwen2.5-Coder 0.5B GPU)", "weft-qwen-coder-0.5b", BackendType::OpenAICompat("http://127.0.0.1:8089")),
-    ("Qwen 2.5 (14B High-Speed Math/Code)", "qwen2.5:14b", BackendType::Ollama("qwen2.5:14b")),
-    ("Qwen 3.8 (27B Frontier Reasoning)", "qwen3.8-27b:latest", BackendType::Ollama("qwen3.8-27b:latest")),
-    ("Qwen 2.5-VL (7B Vision-Language)", "qwen2.5vl:7b", BackendType::Ollama("qwen2.5vl:7b")),
+    ("IMF 70B PLQ (Polytope Lattice Quantized)", "imf-70b-plq", BackendType::OpenAICompat("http://127.0.0.1:8092")),
+    ("IMF Foundation 7B Gosset (E8 Minimal Roots)", "imf-foundation-7b-gosset", BackendType::OpenAICompat("http://127.0.0.1:8092")),
+    ("IMF 100B Leech24 MoPE Lattice", "imf-100b-leech-mope", BackendType::OpenAICompat("http://127.0.0.1:8092")),
+    ("WEFT2 Extended RLVR Sub-Bit", "weft2-extended-rlvr", BackendType::OpenAICompat("http://127.0.0.1:8092")),
+    ("WEFT2 Tool GRPO Sub-Bit", "weft2-tool-grpo", BackendType::OpenAICompat("http://127.0.0.1:8092")),
+    ("WEFT2 SFT 15k Foundation Sub-Bit", "weft2-sft-15k", BackendType::OpenAICompat("http://127.0.0.1:8092")),
+    ("LLaMA 3.3 70B Reasoning Core Sub-Bit", "llama-3.3-70b-core", BackendType::OpenAICompat("http://127.0.0.1:8092")),
+    ("Qwen 2.5 72B Reasoning Core Sub-Bit", "qwen-2.5-72b-core", BackendType::OpenAICompat("http://127.0.0.1:8092")),
 ];
 
 const BOARD_MODELS: &[&str] = &[
     "IMF CouncilModel (Lead Speaker)",
     "IMF Foundation 1.14B Coprocessor",
-    "WEFT Sub-Bit Kernel Magistrate",
-    "Qwen 3.8 (27B Frontier Chairman)",
-    "Qwen 2.5 (14B Technical Moderator)",
+    "IMF 70B PLQ Architecture",
+    "WEFT2 Extended RLVR Sub-Bit",
+    "LLaMA 3.3 70B Reasoning Core",
 ];
 
 const EXPERT_DOMAINS: &[&str] = &[
