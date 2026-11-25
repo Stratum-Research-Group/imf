@@ -1,0 +1,12 @@
+{
+  "git_commit": "79823298bea3f9377f68d22534441b0e58e1dd39",
+  "timestamp": "2026-11-25 15:00:30 UTC",
+  "hardware": "NVIDIA GeForce RTX 5060 Ti",
+  "model_id": "Qwen/Qwen2.5-0.5B",
+  "cold_start_ttft_ms": 450.81,
+  "warm_mean_ttft_ms": 12.22,
+  "warm_std_ttft_ms": 0.81,
+  "cold_to_warm_ratio": 36.89,
+  "iterations": 20,
+  "description": "Empirical first-token time-to-first-token (TTFT) measuring real silicon dispatch cold-start vs. warm execution."
+}

@@ -57,3 +57,6 @@ data/hybrid_corpus/
 *.pt
 tests/3rdparty/benchmarks/human-eval/.git
 tests/3rdparty/benchmarks/gsm8k/.git
+imf_rs/target/
+data/rsi_experience_buffer/
+models/

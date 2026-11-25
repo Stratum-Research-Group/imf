@@ -114,6 +114,54 @@ def main():
     avg_frob = sum(frob_errs) / len(frob_errs)
     overall_ratio = total_orig_bytes / total_quant_bytes
 
+    # 4. Measure Pre- vs Post-Quantization Perplexity on genuine validation text
+    val_text_path = "data/real_text_sample.txt"
+    with open(val_text_path, "r", encoding="utf-8") as f:
+        val_text = f.read()[:2048]
+    val_inputs = tokenizer(val_text, return_tensors="pt").to(model.device)
+
+    print("[*] Computing pre-quantization validation perplexity...")
+    model.eval()
+    with torch.no_grad():
+        pre_loss = model(**val_inputs, labels=val_inputs["input_ids"]).loss.item()
+    pre_ppl = math.exp(pre_loss)
+
+    print("[*] Injecting reconstructed weights into sampled layers for post-quantization PPL...")
+    # Temporarily assign reconstructed weights
+    backup_weights = {}
+    for l_idx in sampled_layer_indices:
+        layer = model.model.layers[l_idx]
+        targets = [
+            ("q_proj", layer.self_attn.q_proj),
+            ("k_proj", layer.self_attn.k_proj),
+            ("v_proj", layer.self_attn.v_proj),
+            ("o_proj", layer.self_attn.o_proj),
+            ("gate_proj", layer.mlp.gate_proj),
+            ("up_proj", layer.mlp.up_proj),
+            ("down_proj", layer.mlp.down_proj),
+        ]
+        for name, mod in targets:
+            w_orig = mod.weight.data.clone()
+            backup_weights[(l_idx, name)] = w_orig
+            indices, scales = quantizer.quantize_weights_e8(w_orig)
+            roots = quantizer.roots_e8.to(w_orig.device)
+            recon = (roots[indices.long().to(w_orig.device)] * scales.unsqueeze(-1).float().to(w_orig.device)).view(w_orig.shape)
+            mod.weight.data.copy_(recon.to(w_orig.dtype))
+
+    with torch.no_grad():
+        post_loss = model(**val_inputs, labels=val_inputs["input_ids"]).loss.item()
+    post_ppl = math.exp(post_loss)
+
+    # Restore original weights
+    for (l_idx, name), w_orig in backup_weights.items():
+        layer = model.model.layers[l_idx]
+        mod = getattr(layer.self_attn if "proj" in name and name != "down_proj" and name != "gate_proj" and name != "up_proj" else layer.mlp, name)
+        mod.weight.data.copy_(w_orig)
+
+    print(f"[*] Perplexity Evaluation on Validation Stream:")
+    print(f"    Baseline FP16 Loss: {pre_loss:.4f} | PPL: {pre_ppl:.2f}")
+    print(f"    E8 Quantized Loss:  {post_loss:.4f} | PPL: {post_ppl:.2f}")
+
     print("=" * 80)
     print("  AGGREGATE QUANTIZATION RESULTS ON REAL FOUNDATION MODEL")
     print("=" * 80)
@@ -121,6 +169,7 @@ def main():
     print(f"  Mean Angular Cosine Sim:     {avg_cos:.4f}")
     print(f"  Mean Relative Frobenius Err: {avg_frob:.4f}")
     print(f"  Empirical Compression Ratio: {overall_ratio:.2f}x ({total_orig_bytes / 1e6:.2f} MB -> {total_quant_bytes / 1e6:.2f} MB)")
+    print(f"  Perplexity (PPL):            FP16={pre_ppl:.2f} -> E8={post_ppl:.2f}")
     print("=" * 80)
 
     out_file = "benchmark_results/real_model_quantization.json"
@@ -135,7 +184,11 @@ def main():
             "mean_relative_frobenius_error": round(avg_frob, 4),
             "empirical_compression_ratio": round(overall_ratio, 2),
             "original_fp16_mb": round(total_orig_bytes / 1e6, 2),
-            "quantized_e8_mb": round(total_quant_bytes / 1e6, 2)
+            "quantized_e8_mb": round(total_quant_bytes / 1e6, 2),
+            "pre_quant_loss": round(pre_loss, 4),
+            "pre_quant_ppl": round(pre_ppl, 2),
+            "post_quant_loss": round(post_loss, 4),
+            "post_quant_ppl": round(post_ppl, 2)
         },
         "layer_samples": layers_evaluated[:10]
     }

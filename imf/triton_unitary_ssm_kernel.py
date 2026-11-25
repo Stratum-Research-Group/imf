@@ -57,16 +57,16 @@ def _unitary_ssm_fwd_kernel(
         W = v[:, None] * k[None, :] - k[:, None] * v[None, :] # [D, D]
 
         # Unitary rotation: M_rot = U @ M @ U^T
-        # Step 1: M_temp = tl.dot(M, U_T)
-        M_temp = tl.dot(M, U_T)
-        # Step 2: M_rot = tl.dot(U, M_temp)
-        M_rot = tl.dot(U, M_temp)
+        # Step 1: M_temp = tl.dot(M, U_T) with IEEE precision
+        M_temp = tl.dot(M, U_T, input_precision="ieee")
+        # Step 2: M_rot = tl.dot(U, M_temp) with IEEE precision
+        M_rot = tl.dot(U, M_temp, input_precision="ieee")
 
         # State innovation
         M = M_rot + W
 
         # Readout: y_t = M @ q_t [D]
-        y = tl.dot(M, q[:, None]) # [D, 1]
+        y = tl.dot(M, q[:, None], input_precision="ieee") # [D, 1]
 
         # Store output y_t
         out_offset = pid_b * stride_ob + pid_h * stride_oh + t * stride_ot + offs_d1 * stride_od
