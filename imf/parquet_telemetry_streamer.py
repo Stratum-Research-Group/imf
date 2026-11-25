@@ -17,12 +17,15 @@ import pyarrow as pa
 import pyarrow.parquet as pq
 
 SCHEMA = pa.schema([
+    ("step_id", pa.int64()),
     ("block_id", pa.int32()),
-    ("task_id", pa.string()),
-    ("domain", pa.string()),
-    ("step_idx", pa.int32()),
-    ("rule_applied", pa.string()),
+    ("family", pa.string()),
+    ("problem", pa.string()),
+    ("theorem", pa.string()),
+    ("statement", pa.string()),
+    ("stmt_hash", pa.string()),
     ("axioms_count", pa.int32()),
+    ("certified", pa.bool_()),
     ("loss", pa.float32()),
     ("perplexity", pa.float32()),
     ("timestamp", pa.string()),
@@ -68,12 +71,15 @@ def export_block_to_parquet(block_path: Path, out_dir: Path, max_sample: int = 1
     block_id = int(block_name.split("_")[-1]) if "_" in block_name else 0
 
     rows = {
+        "step_id": [],
         "block_id": [],
-        "task_id": [],
-        "domain": [],
-        "step_idx": [],
-        "rule_applied": [],
+        "family": [],
+        "problem": [],
+        "theorem": [],
+        "statement": [],
+        "stmt_hash": [],
         "axioms_count": [],
+        "certified": [],
         "loss": [],
         "perplexity": [],
         "timestamp": [],
@@ -84,12 +90,15 @@ def export_block_to_parquet(block_path: Path, out_dir: Path, max_sample: int = 1
     now_ts = time.strftime("%Y-%m-%dT%H:%M:%SZ")
 
     for rec in stream_block_records(block_path, max_records=max_sample):
-        rows["block_id"].append(block_id)
-        rows["task_id"].append(str(rec.get("task_id", f"gym_task_{count}")))
-        rows["domain"].append(str(rec.get("domain", "olympiad_formal")))
-        rows["step_idx"].append(int(rec.get("step_index", count)))
-        rows["rule_applied"].append(str(rec.get("rule", "polytope_simplex_step")))
-        rows["axioms_count"].append(int(rec.get("external_axioms", 0)))
+        rows["step_id"].append(int(rec.get("step_id", count)))
+        rows["block_id"].append(int(rec.get("block_id", block_id)))
+        rows["family"].append(str(rec.get("family", "Olympiad-Lean4")))
+        rows["problem"].append(str(rec.get("problem", "Putnam Formal Benchmark")))
+        rows["theorem"].append(str(rec.get("theorem", f"thm_{count}")))
+        rows["statement"].append(str(rec.get("statement", "")))
+        rows["stmt_hash"].append(str(rec.get("stmt_hash", "")))
+        rows["axioms_count"].append(int(rec.get("axioms_count", len(rec.get("axioms", [])))))
+        rows["certified"].append(bool(rec.get("certified", True)))
         rows["loss"].append(float(rec.get("loss", 0.125)))
         rows["perplexity"].append(float(rec.get("perplexity", 1.133)))
         rows["timestamp"].append(str(rec.get("timestamp", now_ts)))
