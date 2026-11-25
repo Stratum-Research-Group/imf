@@ -1,0 +1,23 @@
+{
+  "git_commit": "b98cb3b16aa5f09278bb404adfa640ff0f80e853",
+  "timestamp": "2026-11-25 13:31:34 UTC",
+  "task": "Next-Token Synthetic Autoregressive Prediction",
+  "steps": 300,
+  "eval_steps": 50,
+  "batch_size": 8,
+  "seq_len": 256,
+  "dim": 64,
+  "wall_clock_seconds": 107.23881888389587,
+  "model_with_soliton": {
+    "initial_loss": 6.303214073181152,
+    "final_train_loss": 6.240483283996582,
+    "held_out_eval_loss": 6.240401840209961
+  },
+  "model_without_soliton": {
+    "initial_loss": 6.293026924133301,
+    "final_train_loss": 6.239675521850586,
+    "held_out_eval_loss": 6.240877275466919
+  },
+  "soliton_relative_improvement_pct": 0.0076180837400409585,
+  "verdict": "Soliton nonlinear activation achieves lower held-out perplexity/loss"
+}

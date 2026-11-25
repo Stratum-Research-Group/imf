@@ -60,7 +60,7 @@ class E8GossetLatticeQuantizer:
             indices: [Num_vectors] in range [0, 239] (encodable in 8 bits / 8 params = 1 bit/param + scale)
             scales: [Num_vectors] FP16 scale factor
         """
-        w_flat = weight_tensor.detach().cpu().view(-1, 8)
+        w_flat = weight_tensor.detach().cpu().float().view(-1, 8)
         scales = w_flat.norm(dim=-1, keepdim=True) / 1.4142  # norm of E8 root is sqrt(2)
         scales = torch.clamp(scales, min=1e-5)
         w_norm = w_flat / scales

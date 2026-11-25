@@ -1,0 +1,155 @@
+{
+  "model_id": "Qwen/Qwen2.5-0.5B",
+  "timestamp": "2026-11-25T15:23:34Z",
+  "hardware": "NVIDIA GeForce RTX 5060 Ti",
+  "aggregate": {
+    "projections_count": 35,
+    "mean_cosine_similarity": 0.8499,
+    "mean_relative_frobenius_error": 0.5479,
+    "empirical_compression_ratio": 5.33,
+    "original_fp16_mb": 149.09,
+    "quantized_e8_mb": 27.96
+  },
+  "layer_samples": [
+    {
+      "shape": [
+        896,
+        896
+      ],
+      "params": 802816,
+      "rel_frob_err": 0.5456708073616028,
+      "cosine_similarity": 0.8511238098144531,
+      "comp_ratio": 5.333333333333333,
+      "orig_bytes": 1605632,
+      "quant_bytes": 301056,
+      "layer_idx": 0,
+      "operator": "q_proj"
+    },
+    {
+      "shape": [
+        128,
+        896
+      ],
+      "params": 114688,
+      "rel_frob_err": 0.5487817525863647,
+      "cosine_similarity": 0.8494201302528381,
+      "comp_ratio": 5.333333333333333,
+      "orig_bytes": 229376,
+      "quant_bytes": 43008,
+      "layer_idx": 0,
+      "operator": "k_proj"
+    },
+    {
+      "shape": [
+        128,
+        896
+      ],
+      "params": 114688,
+      "rel_frob_err": 0.5478079319000244,
+      "cosine_similarity": 0.8499544858932495,
+      "comp_ratio": 5.333333333333333,
+      "orig_bytes": 229376,
+      "quant_bytes": 43008,
+      "layer_idx": 0,
+      "operator": "v_proj"
+    },
+    {
+      "shape": [
+        896,
+        896
+      ],
+      "params": 802816,
+      "rel_frob_err": 0.5484974384307861,
+      "cosine_similarity": 0.8495767712593079,
+      "comp_ratio": 5.333333333333333,
+      "orig_bytes": 1605632,
+      "quant_bytes": 301056,
+      "layer_idx": 0,
+      "operator": "o_proj"
+    },
+    {
+      "shape": [
+        4864,
+        896
+      ],
+      "params": 4358144,
+      "rel_frob_err": 0.5488835573196411,
+      "cosine_similarity": 0.8493648767471313,
+      "comp_ratio": 5.333333333333333,
+      "orig_bytes": 8716288,
+      "quant_bytes": 1634304,
+      "layer_idx": 0,
+      "operator": "gate_proj"
+    },
+    {
+      "shape": [
+        4864,
+        896
+      ],
+      "params": 4358144,
+      "rel_frob_err": 0.5486854314804077,
+      "cosine_similarity": 0.8494735956192017,
+      "comp_ratio": 5.333333333333333,
+      "orig_bytes": 8716288,
+      "quant_bytes": 1634304,
+      "layer_idx": 0,
+      "operator": "up_proj"
+    },
+    {
+      "shape": [
+        896,
+        4864
+      ],
+      "params": 4358144,
+      "rel_frob_err": 0.5472003817558289,
+      "cosine_similarity": 0.8502873182296753,
+      "comp_ratio": 5.333333333333333,
+      "orig_bytes": 8716288,
+      "quant_bytes": 1634304,
+      "layer_idx": 0,
+      "operator": "down_proj"
+    },
+    {
+      "shape": [
+        896,
+        896
+      ],
+      "params": 802816,
+      "rel_frob_err": 0.5480479001998901,
+      "cosine_similarity": 0.849822998046875,
+      "comp_ratio": 5.333333333333333,
+      "orig_bytes": 1605632,
+      "quant_bytes": 301056,
+      "layer_idx": 6,
+      "operator": "q_proj"
+    },
+    {
+      "shape": [
+        128,
+        896
+      ],
+      "params": 114688,
+      "rel_frob_err": 0.5461846590042114,
+      "cosine_similarity": 0.8508425951004028,
+      "comp_ratio": 5.333333333333333,
+      "orig_bytes": 229376,
+      "quant_bytes": 43008,
+      "layer_idx": 6,
+      "operator": "k_proj"
+    },
+    {
+      "shape": [
+        128,
+        896
+      ],
+      "params": 114688,
+      "rel_frob_err": 0.5484214425086975,
+      "cosine_similarity": 0.8496178984642029,
+      "comp_ratio": 5.333333333333333,
+      "orig_bytes": 229376,
+      "quant_bytes": 43008,
+      "layer_idx": 6,
+      "operator": "v_proj"
+    }
+  ]
+}

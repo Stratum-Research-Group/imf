@@ -40,6 +40,9 @@ dependencies = [
     "fastapi>=0.162.5",
     "uvicorn>=0.54.0",
     "markdown>=3.10.3",
+    "transformers>=5.20.2",
+    "datasets>=5.2.0",
+    "accelerate>=1.15.0",
 ]
 
 [project.optional-dependencies]

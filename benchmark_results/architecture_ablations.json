@@ -1,0 +1,154 @@
+{
+  "git_commit": "b98cb3b16aa5f09278bb404adfa640ff0f80e853",
+  "timestamp": "2026-11-25 13:27:44 UTC",
+  "task": "MQAR-Associative-Recall-N512",
+  "seeds": [
+    42,
+    1337,
+    2026
+  ],
+  "evaluations": [
+    {
+      "model": "plain_linear_attention",
+      "seed": 42,
+      "params": 21968,
+      "eval_mse_loss": 0.40942988395690916,
+      "eval_cosine_recall": 0.005769949834793806
+    },
+    {
+      "model": "plain_linear_attention",
+      "seed": 1337,
+      "params": 21968,
+      "eval_mse_loss": 0.3991038882732391,
+      "eval_cosine_recall": -0.0036106597259640692
+    },
+    {
+      "model": "plain_linear_attention",
+      "seed": 2026,
+      "params": 21968,
+      "eval_mse_loss": 0.41017920851707457,
+      "eval_cosine_recall": -0.005619547162204981
+    },
+    {
+      "model": "sym2_only",
+      "seed": 42,
+      "params": 13648,
+      "eval_mse_loss": 0.4084281647205353,
+      "eval_cosine_recall": 0.0010515405237674713
+    },
+    {
+      "model": "sym2_only",
+      "seed": 1337,
+      "params": 13648,
+      "eval_mse_loss": 0.4004486882686615,
+      "eval_cosine_recall": -0.008996822461485863
+    },
+    {
+      "model": "sym2_only",
+      "seed": 2026,
+      "params": 13648,
+      "eval_mse_loss": 0.4090621542930603,
+      "eval_cosine_recall": -0.005687665119767189
+    },
+    {
+      "model": "wedge2_only",
+      "seed": 42,
+      "params": 17808,
+      "eval_mse_loss": 0.40876121520996095,
+      "eval_cosine_recall": -0.0007839357107877732
+    },
+    {
+      "model": "wedge2_only",
+      "seed": 1337,
+      "params": 17808,
+      "eval_mse_loss": 0.39984955549240114,
+      "eval_cosine_recall": -0.009377539716660976
+    },
+    {
+      "model": "wedge2_only",
+      "seed": 2026,
+      "params": 17808,
+      "eval_mse_loss": 0.4090924155712128,
+      "eval_cosine_recall": -0.0057598169147968295
+    },
+    {
+      "model": "standard_transformer",
+      "seed": 42,
+      "params": 38800,
+      "eval_mse_loss": 0.40920204281806943,
+      "eval_cosine_recall": 0.010536896586418152
+    },
+    {
+      "model": "standard_transformer",
+      "seed": 1337,
+      "params": 38800,
+      "eval_mse_loss": 0.40349262952804565,
+      "eval_cosine_recall": -0.00393454959616065
+    },
+    {
+      "model": "standard_transformer",
+      "seed": 2026,
+      "params": 38800,
+      "eval_mse_loss": 0.41464667916297915,
+      "eval_cosine_recall": -0.008498349953442811
+    },
+    {
+      "model": "full_imf_omniblock",
+      "seed": 42,
+      "params": 93944,
+      "eval_mse_loss": 0.4092952787876129,
+      "eval_cosine_recall": 0.005786232743412256
+    },
+    {
+      "model": "full_imf_omniblock",
+      "seed": 1337,
+      "params": 93944,
+      "eval_mse_loss": 0.4012062358856201,
+      "eval_cosine_recall": -0.004815759696066379
+    },
+    {
+      "model": "full_imf_omniblock",
+      "seed": 2026,
+      "params": 93944,
+      "eval_mse_loss": 0.41404322266578675,
+      "eval_cosine_recall": -0.004999061077833176
+    }
+  ],
+  "aggregated_summary": {
+    "plain_linear_attention": {
+      "params": 21968,
+      "mean_loss": 0.40623766024907426,
+      "std_loss": 0.005053605892596238,
+      "mean_cosine_recall": -0.001153419017791748,
+      "std_cosine_recall": 0.0049637811115174095
+    },
+    "sym2_only": {
+      "params": 13648,
+      "mean_loss": 0.4059796690940857,
+      "std_loss": 0.003919549069550844,
+      "mean_cosine_recall": -0.004544315685828527,
+      "std_cosine_recall": 0.004181135062549262
+    },
+    "wedge2_only": {
+      "params": 17808,
+      "mean_loss": 0.40590106209119164,
+      "std_loss": 0.004281197068284127,
+      "mean_cosine_recall": -0.005307097447415193,
+      "std_cosine_recall": 0.0035228987722754424
+    },
+    "standard_transformer": {
+      "params": 38800,
+      "mean_loss": 0.40911378383636476,
+      "std_loss": 0.004554049337350125,
+      "mean_cosine_recall": -0.0006320009877284364,
+      "std_cosine_recall": 0.00811440173155587
+    },
+    "full_imf_omniblock": {
+      "params": 93944,
+      "mean_loss": 0.40818157911300657,
+      "std_loss": 0.005299515866092989,
+      "mean_cosine_recall": -0.0013428626768290997,
+      "std_cosine_recall": 0.0050415871166607255
+    }
+  }
+}
