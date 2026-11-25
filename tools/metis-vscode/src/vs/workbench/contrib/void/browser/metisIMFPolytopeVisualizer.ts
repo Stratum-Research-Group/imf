@@ -112,13 +112,46 @@ export class IMFPolytopeVisualizerViewPane extends ViewPane {
 		}
 	}
 
+	private _zoom = 1.0;
+	private _isDragging = false;
+	private _lastMouseX = 0;
+	private _lastMouseY = 0;
+
 	private _startCanvasAnimation(canvas: HTMLCanvasElement): void {
 		const ctx = canvas.getContext('2d');
 		if (!ctx) return;
 
+		// Mouse Drag Orbit & Wheel Zoom Event Listeners
+		canvas.addEventListener('mousedown', (e) => {
+			this._isDragging = true;
+			this._lastMouseX = e.clientX;
+			this._lastMouseY = e.clientY;
+			canvas.style.cursor = 'grabbing';
+		});
+
+		window.addEventListener('mouseup', () => {
+			this._isDragging = false;
+			canvas.style.cursor = 'grab';
+		});
+
+		canvas.addEventListener('mousemove', (e) => {
+			if (!this._isDragging) return;
+			const dx = e.clientX - this._lastMouseX;
+			const dy = e.clientY - this._lastMouseY;
+			this._angleY += dx * 0.01;
+			this._angleX += dy * 0.01;
+			this._lastMouseX = e.clientX;
+			this._lastMouseY = e.clientY;
+		});
+
+		canvas.addEventListener('wheel', (e) => {
+			e.preventDefault();
+			const zoomFactor = e.deltaY > 0 ? 0.9 : 1.1;
+			this._zoom = Math.max(0.4, Math.min(3.0, this._zoom * zoomFactor));
+		});
+
 		// Generate 240 E8 roots projected down to 3D
 		const vertices: number[][] = [];
-		// Type 1: (\pm 1, \pm 1, 0, 0, 0, 0, 0, 0) combinations -> projected to 3D sphere
 		for (let i = 0; i < 240; i++) {
 			const theta = (i / 240) * Math.PI * 2;
 			const phi = Math.acos(2 * (i % 30) / 30 - 1);
@@ -130,8 +163,10 @@ export class IMFPolytopeVisualizerViewPane extends ViewPane {
 		}
 
 		const render = () => {
-			this._angleX += 0.008;
-			this._angleY += 0.012;
+			if (!this._isDragging) {
+				this._angleX += 0.005;
+				this._angleY += 0.008;
+			}
 
 			ctx.clearRect(0, 0, canvas.width, canvas.height);
 			const cx = canvas.width / 2;
@@ -144,12 +179,10 @@ export class IMFPolytopeVisualizerViewPane extends ViewPane {
 			const projected: [number, number, number][] = [];
 
 			for (const [x0, y0, z0] of vertices) {
-				// Rotate Y
-				const x1 = x0 * cosY + z0 * sinY;
-				const y1 = y0;
-				const z1 = -x0 * sinY + z0 * cosY;
+				const x1 = (x0 * this._zoom) * cosY + (z0 * this._zoom) * sinY;
+				const y1 = (y0 * this._zoom);
+				const z1 = -(x0 * this._zoom) * sinY + (z0 * this._zoom) * cosY;
 
-				// Rotate X
 				const x2 = x1;
 				const y2 = y1 * cosX - z1 * sinX;
 				const z2 = y1 * sinX + z1 * cosX;

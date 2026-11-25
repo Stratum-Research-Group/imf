@@ -15,6 +15,7 @@ import './metisIMFCouncilViews.js'
 import './metisIMFKeybindings.js'
 import './metisIMFLeanGutterDecorator.js'
 import './metisIMFLanguageProvider.js'
+import './metisIMFQuickFixProvider.js'
 
 // register quick edit (Ctrl+K)
 import './quickEditActions.js'

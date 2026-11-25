@@ -1,0 +1,35 @@
+{
+  "hardware": {
+    "device": "cuda",
+    "device_name": "NVIDIA GeForce RTX 5060 Ti",
+    "cuda_version": "13.2",
+    "torch_version": "2.15.0+cu132"
+  },
+  "vram_ceiling_mb": 8192.0,
+  "benchmarks": [
+    {
+      "model": "imf-70b-plq",
+      "total_layers": 80,
+      "layer_size_mb": 96.0,
+      "swaps_measured": 20,
+      "mean_swap_latency_ms": 13.597,
+      "min_swap_latency_ms": 7.032,
+      "max_swap_latency_ms": 137.41,
+      "effective_bandwidth_gb_s": 6.89,
+      "peak_vram_used_mb": 96.0,
+      "within_8gb_ceiling": true
+    },
+    {
+      "model": "imf-100b-leech-mope",
+      "total_layers": 96,
+      "layer_size_mb": 112.0,
+      "swaps_measured": 20,
+      "mean_swap_latency_ms": 8.285,
+      "min_swap_latency_ms": 8.222,
+      "max_swap_latency_ms": 8.639,
+      "effective_bandwidth_gb_s": 13.2,
+      "peak_vram_used_mb": 112.0,
+      "within_8gb_ceiling": true
+    }
+  ]
+}
