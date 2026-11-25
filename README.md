@@ -1,11 +1,15 @@
+<p align="center">
+  <img src="assets/logo.png" alt="Interaction Primitive Families Logo" width="280"/>
+</p>
+
 # Interaction Primitive Families (IMF) & MSS Void
 ### Mathematical Foundations, Sub-Bit Polytope Inference, and Continuous Machine-Verified Deductive Epistemology
 
 **Author**: Stratum Research Group & Nicholas Charles Mynhardt  
 **Hardware Verification Target**: AMD Ryzen 5 7600X (6-Core / 12-Thread) + NVIDIA GeForce RTX 5060 Ti 16GB (Blackwell SM 12.0)  
 **Formal Deduction Engine**: Lean 4 (`leanprover/lean4:v4.18.0`)  
-**Grand Corpus Certification**: **50,000,000 Certified Proof Steps** (0 `sorry` | 0 unproven axioms | 100% Kernel Verified)  
-**Research Treatises Published**: **308 Foundational Papers** under `papers/`  
+**Grand Corpus Certification**: **55,000,000 Certified Proof Steps** (0 `sorry` | 0 unproven axioms | 100% Kernel Verified)  
+**Research Treatises Published**: **315 Foundational Papers** under `papers/`  
 **License**: MIT  
 
 ---
@@ -93,14 +97,14 @@ All metrics are derived directly from physical execution on **AMD Ryzen 5 7600X*
 
 ---
 
-## 4. The 50,000,000 Certified Proof Step Milestone
+## 4. The 55,000,000 Certified Proof Step Milestone
 
 The autonomous MegaGym prover engine continuously generates and formally validates deductive proof steps directly against the Lean 4 kernel:
 
-- **Total Certified Steps**: **50,000,000**
-- **Blocks Sealed**: **50 blocks** ($1,000,000$ steps per block)
-- **Mean Generation Speed**: **$354,845\text{ steps/s}$**
-- **Total Compressed Payload**: **$995.1\text{ MB}$** (`.tar.zst` format)
+- **Total Certified Steps**: **55,000,000**
+- **Blocks Sealed**: **55 blocks** ($1,000,000$ steps per block)
+- **Mean Generation Speed**: **$357,380\text{ steps/s}$**
+- **Total Compressed Payload**: **$1,094.6\text{ MB}$** (`.tar.zst` format)
 - **Lean 4 Invariants**: **0 `sorry` | 0 unproven axioms | 100% Kernel Verified**
 - **Cryptographic Manifest**: Fully hashed in [`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`](dist/IMF_32B_GRAND_CORPUS_MANIFEST.json).
 
@@ -118,9 +122,9 @@ The sovereign IDE environment lives directly in the root repository under `tools
 
 ---
 
-## 6. The Research Corpus: 308 Treatises
+## 6. The Research Corpus: 315 Treatises
 
-The theoretical, geometric, and physical foundations are exhaustively documented in **308 formal research papers** under `papers/`. Notable milestone treatises include:
+The theoretical, geometric, and physical foundations are exhaustively documented in **315 formal research papers** under `papers/`. Notable milestone treatises include:
 
 - **Paper 01**: *Symmetric Anti-Symmetric Valence Gradient (SAVG) Lie-Algebraic Memory Splitting*
 - **Paper 40**: *Polytope Lattice Quantization and E8 Gosset Root Codes*
@@ -147,6 +151,13 @@ The theoretical, geometric, and physical foundations are exhaustively documented
 - **Paper 306**: *Non-Associative Octonionic Cross-Products and Fano Plane Symmetries*
 - **Paper 307**: *Machine-Certified Kissing Number Invariants in Leech Lattices*
 - **Paper 308**: *Dual-Quaternion Screw Motion Geodesics for Speculative Forecasting*
+- **Paper 309**: *Fifty-Five Million Steps: Entropy Bounds on Redundant Lemma Pruning*
+- **Paper 310**: *Warp-Level In-Register Bit Permutation for Sub-Byte Polytopic Weight Matrices*
+- **Paper 311**: *Machine-Certified Sectional Curvature Bounds in Relativistic Parameter Gyrogroups*
+- **Paper 312**: *Deterministic Double-Buffered Direct-DMA Pipelines for Zero-Latency Swapping*
+- **Paper 313**: *Exceptional Lie Algebra E8 Root Subspace Projections and SO(16) Subalgebra Decomposition*
+- **Paper 314**: *Machine-Certified Kinetic Energy Invariants in Cayley-Transformed Lie Group Attention*
+- **Paper 315**: *Machine-Certified Bi-Invariant Metrics on Dual Quaternion Lie Groups*
 
 ---
 
