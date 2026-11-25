@@ -9,7 +9,7 @@ Enables zero-copy foreign-function interface (FFI) bindings for:
 
 import os
 import ctypes
-from typing import Optional, Dict, Any
+from typing import Optional, Dict, Any, Tuple
 import numpy as np
 
 _LIB_IMF_RS = None
@@ -37,6 +37,18 @@ def get_rust_lib():
                     ctypes.POINTER(ctypes.c_float),
                     ctypes.c_size_t
                 ]
+                if hasattr(lib, "imf_rs_infer_batch"):
+                    lib.imf_rs_infer_batch.restype = ctypes.c_int32
+                    lib.imf_rs_infer_batch.argtypes = [
+                        ctypes.POINTER(ctypes.c_float),
+                        ctypes.POINTER(ctypes.c_float),
+                        ctypes.POINTER(ctypes.c_float),
+                        ctypes.c_size_t,
+                        ctypes.c_size_t,
+                        ctypes.c_size_t,
+                        ctypes.POINTER(ctypes.c_uint32),
+                        ctypes.POINTER(ctypes.c_float),
+                    ]
                 _LIB_IMF_RS = lib
                 return _LIB_IMF_RS
             except Exception as e:
@@ -76,3 +88,50 @@ def rust_cayley_step_cpu(x: np.ndarray, a: np.ndarray) -> np.ndarray:
     if status != 0:
         raise RuntimeError(f"Rust Cayley transform failed with code {status}")
     return y
+
+
+def rust_infer_batch(
+    states: np.ndarray,
+    a_mats: np.ndarray,
+    head_weights: np.ndarray
+) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
+    """
+    Batched zero-copy token inference via native Rust SIMD bridge.
+    Args:
+        states: [B, D] float32
+        a_mats: [B, D, D] float32 skew-symmetric generator matrices
+        head_weights: [V, D] float32 language model projection weights
+    Returns:
+        next_states: [B, D] float32 updated in-place
+        tokens: [B] uint32 predicted token ids
+        drifts: [B] float32 drift norms
+    """
+    lib = get_rust_lib()
+    if lib is None or not hasattr(lib, "imf_rs_infer_batch"):
+        raise RuntimeError("Native Rust batched infer function `imf_rs_infer_batch` not found.")
+
+    states_c = np.ascontiguousarray(states, dtype=np.float32)
+    a_mats_c = np.ascontiguousarray(a_mats, dtype=np.float32)
+    head_c = np.ascontiguousarray(head_weights, dtype=np.float32)
+
+    B, D = states_c.shape
+    V = head_c.shape[0]
+
+    out_tokens = np.zeros(B, dtype=np.uint32)
+    out_drifts = np.zeros(B, dtype=np.float32)
+
+    status = lib.imf_rs_infer_batch(
+        states_c.ctypes.data_as(ctypes.POINTER(ctypes.c_float)),
+        a_mats_c.ctypes.data_as(ctypes.POINTER(ctypes.c_float)),
+        head_c.ctypes.data_as(ctypes.POINTER(ctypes.c_float)),
+        B,
+        D,
+        V,
+        out_tokens.ctypes.data_as(ctypes.POINTER(ctypes.c_uint32)),
+        out_drifts.ctypes.data_as(ctypes.POINTER(ctypes.c_float)),
+    )
+    if status != 0:
+        raise RuntimeError(f"Rust batched inference failed with code {status}")
+
+    return states_c, out_tokens, out_drifts
+

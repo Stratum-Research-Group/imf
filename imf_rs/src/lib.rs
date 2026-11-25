@@ -185,6 +185,50 @@ pub unsafe extern "C" fn imf_rs_infer_step(
     0
 }
 
+/// Batched Native Inference Step:
+/// Evaluates multiple batch streams [B, dim] concurrently with zero allocation.
+#[no_mangle]
+pub unsafe extern "C" fn imf_rs_infer_batch(
+    states_ptr: *mut f32,
+    a_mats_ptr: *const f32,
+    head_weights_ptr: *const f32,
+    batch_size: usize,
+    dim: usize,
+    vocab_size: usize,
+    out_tokens_ptr: *mut u32,
+    out_drifts_ptr: *mut f32,
+) -> i32 {
+    if states_ptr.is_null() || a_mats_ptr.is_null() || head_weights_ptr.is_null() 
+       || out_tokens_ptr.is_null() || batch_size == 0 || dim == 0 || vocab_size == 0 {
+        return -1;
+    }
+
+    for b in 0..batch_size {
+        let state_b = states_ptr.add(b * dim);
+        let a_mat_b = a_mats_ptr.add(b * dim * dim);
+        let out_tok = out_tokens_ptr.add(b);
+        let out_drift = if out_drifts_ptr.is_null() {
+            std::ptr::null_mut()
+        } else {
+            out_drifts_ptr.add(b)
+        };
+
+        let ret = imf_rs_infer_step(
+            state_b,
+            a_mat_b,
+            head_weights_ptr,
+            dim,
+            vocab_size,
+            out_tok,
+            out_drift,
+        );
+        if ret != 0 {
+            return ret;
+        }
+    }
+    0
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

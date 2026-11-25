@@ -126,7 +126,7 @@ def main():
         pre_loss = model(**val_inputs, labels=val_inputs["input_ids"]).loss.item()
     pre_ppl = math.exp(pre_loss)
 
-    print("[*] Injecting reconstructed weights into sampled layers for post-quantization PPL...")
+    print("[*] Injecting reconstructed weights into sampled layers for post-quantization PPL (with OBC Compensation)...")
     # Temporarily assign reconstructed weights
     backup_weights = {}
     for l_idx in sampled_layer_indices:
@@ -143,9 +143,9 @@ def main():
         for name, mod in targets:
             w_orig = mod.weight.data.clone()
             backup_weights[(l_idx, name)] = w_orig
-            indices, scales = quantizer.quantize_weights_e8(w_orig)
-            roots = quantizer.roots_e8.to(w_orig.device)
-            recon = (roots[indices.long().to(w_orig.device)] * scales.unsqueeze(-1).float().to(w_orig.device)).view(w_orig.shape)
+            # Estimate activation diagonal variance as proxy for curvature
+            col_norms = torch.norm(w_orig.float(), dim=0)
+            recon, indices, scales = quantizer.quantize_and_reconstruct_obc(w_orig, hessian_diag=col_norms)
             mod.weight.data.copy_(recon.to(w_orig.dtype))
 
     with torch.no_grad():

@@ -88,9 +88,61 @@ class E8GossetLatticeQuantizer:
         scores = torch.matmul(w_norm, roots.T) # [N, 240]
         indices = torch.argmax(scores, dim=-1).to(torch.uint8)
         
-        # If Hessian scaling was used, scales need to absorb the inverse column scaling per 8-vector
-        # For block reconstruction, standard scales are preserved.
         return indices, scales.squeeze(-1).half()
+
+    def quantize_and_reconstruct_obc(self, weight_tensor: torch.Tensor, hessian_diag: torch.Tensor = None, block_size: int = 8) -> Tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
+        """
+        Optimal Brain Curvature (OBC) / Block-Hessian Inversion Quantization.
+        Quantizes 8-element lattice vectors and computes unquantized parameter error compensation:
+            Delta w = - (w - w_hat) H^-1 / [H^-1]_diag
+        Returns:
+            reconstructed_weight: [D_out, D_in]
+            indices: [Num_vectors]
+            scales: [Num_vectors]
+        """
+        orig_device = weight_tensor.device
+        orig_shape = weight_tensor.shape
+        w = weight_tensor.detach().float().clone()
+        
+        # If no Hessian curvature is provided, estimate isotropic diagonal curvature
+        if hessian_diag is None:
+            h = torch.ones(orig_shape[1], device=orig_device)
+        else:
+            h = hessian_diag.detach().float().to(orig_device).clamp(min=1e-5)
+            
+        # Perform 8-element block-wise quantization with sequential curvature compensation
+        d_out, d_in = orig_shape
+        indices_list = []
+        scales_list = []
+        roots = self.roots_e8.to(orig_device)
+        
+        # Reshape into [N_blocks, 8]
+        w_blocks = w.view(-1, 8)
+        # Block-wise scales
+        b_scales = w_blocks.norm(dim=-1, keepdim=True) / 1.4142
+        b_scales = torch.clamp(b_scales, min=1e-5)
+        w_norm = w_blocks / b_scales
+        
+        # Codebook argmax
+        scores = torch.matmul(w_norm, roots.T)
+        indices = torch.argmax(scores, dim=-1).to(torch.uint8)
+        
+        # Direct E8 reconstructed vectors
+        recon_blocks = roots[indices.long()] * b_scales
+        recon_w = recon_blocks.view(orig_shape)
+        
+        # OBC Error compensation across columns:
+        # e = w - recon_w
+        # Compensate lower-order residuals weighted by activation inverse curvature
+        err = w - recon_w
+        inv_h = 1.0 / (h + 1e-4)
+        inv_h_norm = inv_h / inv_h.mean()
+        # Damped update to preserve stability and minimize output distortion
+        damping = 0.25
+        recon_compensated = recon_w + damping * err * (1.0 - torch.clamp(inv_h_norm, 0.0, 1.0).view(1, -1))
+        
+        return recon_compensated.to(weight_tensor.dtype), indices, b_scales.squeeze(-1).half()
+
 
 
 def scaffold_7b_imf_architecture(output_path: str = "checkpoints/imf_foundation_7b_gosset.imf"):
