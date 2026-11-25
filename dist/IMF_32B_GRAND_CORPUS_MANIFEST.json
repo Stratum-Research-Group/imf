@@ -1,13 +1,13 @@
 {
   "corpus_name": "IMF 32-Billion Step Grand Deductive Corpus",
   "target_steps": 32000000000,
-  "total_certified_theorems": 86000000,
-  "blocks_completed": 86,
+  "total_certified_theorems": 107000000,
+  "blocks_completed": 107,
   "families_count": 32,
   "verification_kernel": "Lean 4 Core v4.16.0",
   "external_axioms": 0,
-  "total_elapsed_seconds": 51085.34,
-  "average_speed_steps_per_sec": 1683.46,
+  "total_elapsed_seconds": 60469.46,
+  "average_speed_steps_per_sec": 1769.49,
   "blocks": [
     {
       "block_idx": 1,
@@ -868,6 +868,216 @@
       "archive_file": "dist/gym_32b_corpus/block_00086.tar.zst",
       "archive_size_bytes": 1917614,
       "archive_sha256": "edc513a4f00596b63183577f82ad552512a42981a485e1d1b0cb2b9c7675a0f8"
+    },
+    {
+      "block_idx": 87,
+      "steps": 1000000,
+      "elapsed_seconds": 466.31,
+      "steps_per_sec": 2144.5,
+      "raw_sha256": "47a16a8be709af5b01589ab49e6e4e2e579cfed09320e4db817c2c178fbd5cbd",
+      "archive_file": "dist/gym_32b_corpus/block_00087.tar.zst",
+      "archive_size_bytes": 1924801,
+      "archive_sha256": "410545f1f4c34a17f5d3c97842536e0c1fe2fb6e48b2c434525313f2c49b6e1d"
+    },
+    {
+      "block_idx": 88,
+      "steps": 1000000,
+      "elapsed_seconds": 462.62,
+      "steps_per_sec": 2161.58,
+      "raw_sha256": "56677f52b26a3673a0128de92685ea87b02d979fe97b0cb6f59d54ed3e68065b",
+      "archive_file": "dist/gym_32b_corpus/block_00088.tar.zst",
+      "archive_size_bytes": 1899763,
+      "archive_sha256": "93563b04996aef35a1471250a6336372febc259272176b80edc931bcbbbd03e5"
+    },
+    {
+      "block_idx": 89,
+      "steps": 1000000,
+      "elapsed_seconds": 469.96,
+      "steps_per_sec": 2127.86,
+      "raw_sha256": "cf7aabc2c3f229b2786fba6051e1df785cd433af6b9a3c9867d95c29f14492ed",
+      "archive_file": "dist/gym_32b_corpus/block_00089.tar.zst",
+      "archive_size_bytes": 1912168,
+      "archive_sha256": "e3d3aff5e0877168d93d2a61f9b12ee288824826c2cc0cc806a37d669105d559"
+    },
+    {
+      "block_idx": 90,
+      "steps": 1000000,
+      "elapsed_seconds": 471.94,
+      "steps_per_sec": 2118.91,
+      "raw_sha256": "ff30d22cdd85bc018e60f5346f4c6748c64894b961e1989a57e5c14d6e698503",
+      "archive_file": "dist/gym_32b_corpus/block_00090.tar.zst",
+      "archive_size_bytes": 1926031,
+      "archive_sha256": "82d983f84690fe047b3b0ffa36724166e1439e846b8881a8c78c6e89d63e4930"
+    },
+    {
+      "block_idx": 91,
+      "steps": 1000000,
+      "elapsed_seconds": 469.68,
+      "steps_per_sec": 2129.12,
+      "raw_sha256": "1424181e7e0da94982cdf9bb44f42854401ece66b9a0524aecf40e7195301125",
+      "archive_file": "dist/gym_32b_corpus/block_00091.tar.zst",
+      "archive_size_bytes": 1970729,
+      "archive_sha256": "593143bcf3808f545c4df36a95b75e730812ed28a7e4cfb5835d10b144b5499a"
+    },
+    {
+      "block_idx": 92,
+      "steps": 1000000,
+      "elapsed_seconds": 456.51,
+      "steps_per_sec": 2190.52,
+      "raw_sha256": "eb9d73ce319f10e65d8b8b482b94473f2c604abddc38d30e44c043e70d6af7eb",
+      "archive_file": "dist/gym_32b_corpus/block_00092.tar.zst",
+      "archive_size_bytes": 1925927,
+      "archive_sha256": "000a1455eb153cdfd70e170ed7e1800950af584f82c07e495bc900343d96ce9a"
+    },
+    {
+      "block_idx": 93,
+      "steps": 1000000,
+      "elapsed_seconds": 438.8,
+      "steps_per_sec": 2278.96,
+      "raw_sha256": "5f51ce1024dad723543ba9ce2e5f3d532b6b4b640c308e11b012087db80e0854",
+      "archive_file": "dist/gym_32b_corpus/block_00093.tar.zst",
+      "archive_size_bytes": 1909134,
+      "archive_sha256": "efae55708fd73735060343c21b78a2d3479fca712fa159c084b234b38790c13e"
+    },
+    {
+      "block_idx": 94,
+      "steps": 1000000,
+      "elapsed_seconds": 445.73,
+      "steps_per_sec": 2243.49,
+      "raw_sha256": "edc3d2a741bc2fb51159c7a1281d1ca82fb4e22f3e02f449f85781978080bcd3",
+      "archive_file": "dist/gym_32b_corpus/block_00094.tar.zst",
+      "archive_size_bytes": 1934962,
+      "archive_sha256": "ae968b8d7f46cefacbdaac75dc7676039cc31946c7de3a4c711ae2733305dcc9"
+    },
+    {
+      "block_idx": 95,
+      "steps": 1000000,
+      "elapsed_seconds": 444.14,
+      "steps_per_sec": 2251.56,
+      "raw_sha256": "48532f5effdc512c44a0d9464616171a64d6d8a04a43c125f579f130a139a8bb",
+      "archive_file": "dist/gym_32b_corpus/block_00095.tar.zst",
+      "archive_size_bytes": 1938677,
+      "archive_sha256": "fcf235fe9b0da15ca87c2b03610586bd7d3cd22116ae113263dc4cb03e52435f"
+    },
+    {
+      "block_idx": 96,
+      "steps": 1000000,
+      "elapsed_seconds": 433.75,
+      "steps_per_sec": 2305.48,
+      "raw_sha256": "94a6f4c6b451b2aca86fa7c7a192d9716f75a8f500291b694943bf74c9a0af5c",
+      "archive_file": "dist/gym_32b_corpus/block_00096.tar.zst",
+      "archive_size_bytes": 1937689,
+      "archive_sha256": "312e463b8c9b96394cfe32375cb133d65bea7ebca5b256471d70814c36d9e358"
+    },
+    {
+      "block_idx": 97,
+      "steps": 1000000,
+      "elapsed_seconds": 432.79,
+      "steps_per_sec": 2310.61,
+      "raw_sha256": "e548cd1d0bc8c251d910715169af9998e43603d2c41de7a93c5acf5d17a6aa45",
+      "archive_file": "dist/gym_32b_corpus/block_00097.tar.zst",
+      "archive_size_bytes": 1935553,
+      "archive_sha256": "d3d40ce0e9110ff2db728fb632b7818bf682a0ecbd58e75180a7be3605a68a10"
+    },
+    {
+      "block_idx": 98,
+      "steps": 1000000,
+      "elapsed_seconds": 433.93,
+      "steps_per_sec": 2304.51,
+      "raw_sha256": "3de10766431d87ed7cbaf48f4f96d8c88705ba1d9cfa8ae75a09030164e6f97e",
+      "archive_file": "dist/gym_32b_corpus/block_00098.tar.zst",
+      "archive_size_bytes": 1925888,
+      "archive_sha256": "ebff4b684cd1a7f147f39f3203fc3168f42221df8f6c17d571a35a2bb94ebb40"
+    },
+    {
+      "block_idx": 99,
+      "steps": 1000000,
+      "elapsed_seconds": 432.59,
+      "steps_per_sec": 2311.66,
+      "raw_sha256": "cfb0abb76a9d84a36af34c162c006d33ecc5df3b4502b3dc533fdc66995414b4",
+      "archive_file": "dist/gym_32b_corpus/block_00099.tar.zst",
+      "archive_size_bytes": 1909558,
+      "archive_sha256": "784d31906ba2136f5993428d4d62c04918d9473e497d4fb7cf4b4512821b9066"
+    },
+    {
+      "block_idx": 100,
+      "steps": 1000000,
+      "elapsed_seconds": 434.12,
+      "steps_per_sec": 2303.52,
+      "raw_sha256": "aae467c21fc1b022f3378a2b76cdf2246f47e8b6bf5340d8f8aece4af78d3eee",
+      "archive_file": "dist/gym_32b_corpus/block_00100.tar.zst",
+      "archive_size_bytes": 1909241,
+      "archive_sha256": "273b9d686ff38a9fd14e54429978e2008017c7f17261602732c91b863d701948"
+    },
+    {
+      "block_idx": 101,
+      "steps": 1000000,
+      "elapsed_seconds": 429.79,
+      "steps_per_sec": 2326.7,
+      "raw_sha256": "dd571eeb6a906f85d9fcd437e37d12c0566e6499a429004c50385a033d14459f",
+      "archive_file": "dist/gym_32b_corpus/block_00101.tar.zst",
+      "archive_size_bytes": 1974262,
+      "archive_sha256": "1efe8dc0e1d40cf0e0edb005a9ef7700c9208201a47c8065c9f4dbfe25d616ec"
+    },
+    {
+      "block_idx": 102,
+      "steps": 1000000,
+      "elapsed_seconds": 425.95,
+      "steps_per_sec": 2347.69,
+      "raw_sha256": "01a298cc63c1ac2b5ebe4b0614c9ed2243eab84992664ca64f01e7d2c46fa74c",
+      "archive_file": "dist/gym_32b_corpus/block_00102.tar.zst",
+      "archive_size_bytes": 1971694,
+      "archive_sha256": "30bd564b376ed9df5baf510b60ae01ac4dd814cda26ad037415a3985798ca776"
+    },
+    {
+      "block_idx": 103,
+      "steps": 1000000,
+      "elapsed_seconds": 420.52,
+      "steps_per_sec": 2377.99,
+      "raw_sha256": "da9b651c443842c3c3270675d316df557a77bc3e3095e69a896785869856f114",
+      "archive_file": "dist/gym_32b_corpus/block_00103.tar.zst",
+      "archive_size_bytes": 1937691,
+      "archive_sha256": "8969143347e291a76ce29717600ff0d38ca21c5e19e01f6fe93c6d5456524437"
+    },
+    {
+      "block_idx": 104,
+      "steps": 1000000,
+      "elapsed_seconds": 446.78,
+      "steps_per_sec": 2238.23,
+      "raw_sha256": "14be3f7e1f46f2fd96b1d7e78267a1c8619024e965e4bb963d80fbc2db4c728f",
+      "archive_file": "dist/gym_32b_corpus/block_00104.tar.zst",
+      "archive_size_bytes": 1979416,
+      "archive_sha256": "68ceeb002abc15cd0ffb9a046f8db2ec1122d25299ec3cc02c2da272d6d8fafc"
+    },
+    {
+      "block_idx": 105,
+      "steps": 1000000,
+      "elapsed_seconds": 463.52,
+      "steps_per_sec": 2157.39,
+      "raw_sha256": "8f1dc4bbb27bd25bd4db4d8a0a024a2b737e9bea021954f9d80e6c16f5e502e7",
+      "archive_file": "dist/gym_32b_corpus/block_00105.tar.zst",
+      "archive_size_bytes": 1937502,
+      "archive_sha256": "b3ddab6060fe5274121ee39543a068246b49dfc8a6ec03ac8bc09c8862d5d64b"
+    },
+    {
+      "block_idx": 106,
+      "steps": 1000000,
+      "elapsed_seconds": 458.42,
+      "steps_per_sec": 2181.39,
+      "raw_sha256": "417ae5e83999e53ff8918cc0ac741dbdd740ead8418026a08e8e8a6270e4357b",
+      "archive_file": "dist/gym_32b_corpus/block_00106.tar.zst",
+      "archive_size_bytes": 1998880,
+      "archive_sha256": "3735f10c0cd61f56878c566ec50acc2f10b5c90c03300bb1cf7a51308fb79b4c"
+    },
+    {
+      "block_idx": 107,
+      "steps": 1000000,
+      "elapsed_seconds": 446.27,
+      "steps_per_sec": 2240.8,
+      "raw_sha256": "db72eafa4ef6297f15f05caed8fba32ae4a0f3641d4d71ed008fb0f0c057d3ef",
+      "archive_file": "dist/gym_32b_corpus/block_00107.tar.zst",
+      "archive_size_bytes": 1969488,
+      "archive_sha256": "d59879aec88e14c2eb6e358d227a8e1c473e8c0979def04c82b9b4c54c123b3c"
     }
   ]
 }
