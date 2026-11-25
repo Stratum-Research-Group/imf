@@ -4,7 +4,7 @@ scripts/serve_openai_compatible_api.py
 
 Drop-in OpenAI-Compatible HTTP REST and Server-Sent Events (SSE) Streaming API
 for the IMF Foundation 1.14B Coprocessor Model (from MODEL_CARD.md),
-with Multi-Agent Sub-Bit Fleet Master Council Debate & Sandbox Protocol.
+with Multi-Agent Sub-Bit Fleet Master Council (Board Speaker & Debate Protocol).
 """
 
 import time
@@ -140,7 +140,8 @@ async def council_debate_endpoint(req: dict):
     from imf.council_orchestrator import SubbitCouncilMaster
     master = SubbitCouncilMaster()
     instruction = req.get("instruction", "Optimize sub-bit fleet co-inference")
-    return master.deliberate(instruction, execute_sandbox=True)
+    board_model = req.get("board_model", "IMF Foundation 1.14B Coprocessor")
+    return master.deliberate(instruction, board_model=board_model, execute_sandbox=True)
 
 if __name__ == "__main__":
     uvicorn.run(app, host="127.0.0.1", port=8091, log_level="warning")
