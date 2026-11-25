@@ -2,7 +2,7 @@
 
 **Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB) | CUDA 12.8, Triton 3.9
 
-**Stratum AI Research Group & IMF Autonomous Systems Initiative**  
+**Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 *Technical Monograph Series — Volume 152*  
 *Hardware Target: NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB)*  
 *Formal Substrate: Lean 4 Core (Zero External Axioms Certified)*

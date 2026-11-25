@@ -2,7 +2,7 @@
 
 **Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB) | CUDA 12.8, Triton 3.9
 
-**Authors**: The IMF Collective & Autonomous Prover Fleet  
+**Author:** Nicholas Charles Mynhardt (Stratum Research Group)
 **Date**: November 2026  
 **Status**: Formal Foundation Monograph Series (Paper 130)  
 **Abstract**: We synthesize the theoretical, algorithmic, and architectural culmination of the Interaction Model Foundations (IMF). We demonstrate how the convergence of high-dimensional discrete polytope root lattices ($\mathrm{E}_8$ Gosset $4_{21}$, Leech $\Lambda_{24}$), continuous Lie-group State-Space Models ($\mathrm{SO}(d)$ and $\mathrm{SU}(d)$), and bidirectional cut-space Monte Carlo tree search realizes an autonomous formal reasoning engine. Grounded by over $18,000,000$ certified deductive steps across 14 formal verification domains (including zero-axiom Lean 4, x86_64, ARM64, and C++20), we establish the equivalence between homological mirror symmetry in Fukaya $A_\infty$-categories and speculative token trajectory pruning. Finally, we detail the physical silicon realization of this algebra in an open-source SkyWater 130nm ASIC SoC verified through multi-corner parasitic extraction (PEX) and Efabless Caravel DRC precheck.

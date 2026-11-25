@@ -4,7 +4,7 @@
 
 **Series**: Phase VII: High-Dimensional & Topological Foundations  
 **Paper Type**: Formal Deductive & Theoretical Monograph  
-**Authors**: Interaction Model Foundations Consortium  
+**Author:** Nicholas Charles Mynhardt (Stratum Research Group)
 **Date**: November 2026  
 **Status**: Certified & Zero-Axiom Formally Verified  
 **Verification Level**: Level 5 (Lean 4 Formal Proof + Empirical Symplectic Flow)

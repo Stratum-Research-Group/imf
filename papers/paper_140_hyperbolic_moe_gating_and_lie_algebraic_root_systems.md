@@ -2,7 +2,7 @@
 
 **Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB) | CUDA 12.8, Triton 3.9
 
-**Authors**: Stratum Research Group & Autonomous Prover Fleet  
+**Author:** Nicholas Charles Mynhardt (Stratum Research Group)
 **Affiliation**: Institute for Mathematical Formalism (IMF)  
 **Date**: November 2026  
 **Classification**: Hyperbolic Geometry, Mixture-of-Experts, Lie Algebras, Root Systems, Triton GPU Kernels  

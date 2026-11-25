@@ -4,7 +4,7 @@
 
 **Series**: Roadmap Specification (Architecture Milestone Specification)  
 **Paper Type**: Grand Capstone Synthesis  
-**Authors**: The IMF Architectural & Formal Methods Consortium  
+**Author:** Nicholas Charles Mynhardt (Stratum Research Group)
 **Date**: November 2026  
 **Status**: Complete Synthesis — Unifies Prior Formal Results & Global System Invariants  
 **Verification Level**: Consolidated Formal Architecture & Complete Mathematical Synthesis  

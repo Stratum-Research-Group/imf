@@ -1,6 +1,8 @@
 # Paper 275: Poincaré Discrete Ostrovsky Oceanic Internal Soliton Flow & Zero-Axiom Lean 4 Certification
 
 **Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB) | CUDA 12.8, Triton 3.9
+**Author:** Nicholas Charles Mynhardt (Stratum Research Group)
+
 
 **Cycle**: 275  
 **Date**: November 2026  

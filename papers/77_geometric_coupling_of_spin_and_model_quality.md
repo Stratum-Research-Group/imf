@@ -4,7 +4,7 @@
 
 **Series**: Phase IV: Mathematical Physics & Virtualization (Counter-Rotating Manifolds & Russian Doll Virtual Cells)  
 **Paper Type**: Theoretical Mathematical Monograph  
-**Authors**: The IMF Architectural & Formal Methods Consortium  
+**Author:** Nicholas Charles Mynhardt (Stratum Research Group)
 **Date**: November 2026  
 **Status**: Peer-Review Ready — Closed-Form Analytical Derivations & Asymptotic Proofs  
 **Verification Level**: Rigorous Mathematical Theorems, Norm Bounds, and Group-Theoretic Invariants  

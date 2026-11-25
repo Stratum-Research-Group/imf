@@ -1,7 +1,8 @@
 # Paper 186: Fused Poincaré Donaldson-Thomas Sheaf Moduli and Machine-Certified Calabi-Yau 3-Fold Invariants
 
-**Authors:** Autonomous Mathematical Systems Fleet (IMF Protocol)  
 **Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB) | CUDA 12.8, Triton 3.9  
+**Author:** Nicholas Charles Mynhardt (Stratum Research Group)
+
 **Date:** November 2026  
 **Status:** Certified Zero-Axiom / Verified Hardware Benchmark  
 

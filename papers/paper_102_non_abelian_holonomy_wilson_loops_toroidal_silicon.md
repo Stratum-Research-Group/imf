@@ -4,7 +4,7 @@
 
 **Series**: Phase VI: Megascale Sharding & Topological Silicon (Toroidal Meshes, Anyons & 1M-Step Formal Discoveries)  
 **Paper Type**: Hardware Architecture & Physical Silicon  
-**Authors**: The IMF Architectural & Formal Methods Consortium  
+**Author:** Nicholas Charles Mynhardt (Stratum Research Group)
 **Date**: November 2026  
 **Status**: Silicon Signoff Complete — Verified Synthesizable Verilog & Physical GDSII Stream  
 **Verification Level**: SkyWater 130nm Multi-Corner PVT PEX Signoff (DRC/LVS Clean, TinyTapeout/Caravel Compliant)  

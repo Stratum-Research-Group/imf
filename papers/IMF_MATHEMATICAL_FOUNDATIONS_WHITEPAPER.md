@@ -1,5 +1,7 @@
 # Mathematical Foundations of Infinite-Manifold Fusion (IMF): Symplectic Phase-Space MoE Routing, Gosset $4_{21}$ Root Lattices, and Empirical Solutions to Hardware Drift
 
+**Author:** Nicholas Charles Mynhardt (Stratum Research Group)
+
 **Technical Report & Scientific Whitepaper**  
 *Stratum Research Group — Infinite-Manifold Fusion Architecture*  
 *Date: November 24, 2026*  

@@ -1,7 +1,8 @@
 # Monograph 199: Fused Poincaré Boussinesq Bi-Directional Waves, Biharmonic Dispersion, and Zakharov-Shabat Integrability
 
-**Author:** The Stratum Architectural Research Consortium & IMF Automated Synthesis Engine  
 **Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB) | CUDA 12.8, Triton 3.9
+**Author:** Nicholas Charles Mynhardt (Stratum Research Group)
+
 **Machine Proof Certification:** Lean 4 Core System (0 External Axioms; `[propext, Quot.sound]`)  
 **Status:** Validated, Machine-Certified, Sealed in Parquet Lake  
 

@@ -1,7 +1,8 @@
 # Paper 185: Fused Poincaré Seiberg-Witten Monopoles and Machine-Certified Spin^c Invariants
 
-**Authors:** Autonomous Mathematical Systems Fleet (IMF Protocol)  
 **Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB) | CUDA 12.8, Triton 3.9  
+**Author:** Nicholas Charles Mynhardt (Stratum Research Group)
+
 **Date:** November 2026  
 **Status:** Certified Zero-Axiom / Verified Hardware Benchmark  
 

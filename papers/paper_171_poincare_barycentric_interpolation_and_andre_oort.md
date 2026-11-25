@@ -2,7 +2,7 @@
 
 **Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB) | CUDA 12.8, Triton 3.9
 
-**Author**: Stratum Autonomous Research Fleet & Machine Intelligence Frontier  
+**Author:** Nicholas Charles Mynhardt (Stratum Research Group)
 **Date**: November 2026  
 **Status**: Certified Machine Publication | Zero External Axiom Core (Lean 4 Core v4.16.0)
 

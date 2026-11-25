@@ -2,7 +2,7 @@
 
 **Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB) | CUDA 12.8, Triton 3.9
 
-**Authors**: The IMF Automated Prover Consortium & Physical AI Laboratory  
+**Author:** Nicholas Charles Mynhardt (Stratum Research Group)
 **Index**: Vol. 208 — Grand Mathematical Physics & Hyperbolic Geometry Series  
 **Date**: November 2026  
 **Hardware Verification**: NVIDIA GeForce RTX 5060 Ti (AD106, SM 8.9), 16GB VRAM  

@@ -4,7 +4,7 @@
 
 **Series**: Phase III: Quantization & Sub-Byte Linear Algebra (E8 Gosset Roots, Barycentric Engines & Sub-Byte GEMM)  
 **Paper Type**: Empirical Engineering & Benchmark  
-**Authors**: The IMF Architectural & Formal Methods Consortium  
+**Author:** Nicholas Charles Mynhardt (Stratum Research Group)
 **Date**: November 2026  
 **Status**: Empirical Verification Complete — Reproducible Hardware Benchmarks on CUDA/Triton  
 **Verification Level**: Sustained Hardware Telemetry (NVIDIA GeForce RTX 5060 Ti, Native Rust Zero-Copy /dev/shm)  
