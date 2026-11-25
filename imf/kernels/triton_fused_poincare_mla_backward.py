@@ -1,7 +1,9 @@
 """
 imf/kernels/triton_fused_poincare_mla_backward.py
 Fused Poincaré Multi-Head Latent Attention (MLA) Backward Kernel.
-Computes exact analytical gradients for low-rank compressed KV projection in Poincaré hyperbolic space.
+NOTE: `poincare_mla_backward_triton` below is a HEURISTIC surrogate (hand-tuned 0.01/0.05
+constants), NOT an exact gradient. Use `mla_latent_backward_exact` for the exact gradient
+of the linear latent up-projection K = c@W_uk, V = c@W_uv.
 Author: Nicholas Charles Mynhardt (Stratum Research Group)
 
 Mathematical formulation:
@@ -104,7 +106,7 @@ def poincare_mla_backward_triton(
     w_uv: torch.Tensor
 ) -> Tuple[torch.Tensor, torch.Tensor]:
     """
-    Computes exact gradients dL/dc_kv and dL/dq for Poincaré Multi-Head Latent Attention.
+    Heuristic surrogate gradients (not exact; see module note).
     Args:
         grad_out: [B, S, D]
         q: [B, S, D]
@@ -137,3 +139,24 @@ def poincare_mla_backward_triton(
         BLOCK_SIZE=32
     )
     return grad_c_kv, grad_q
+
+
+@triton.jit
+def _latent_exact_kernel(dk_ptr, dv_ptr, wuk_ptr, wuv_ptr, dc_ptr, D: tl.constexpr, L: tl.constexpr):
+    row = tl.program_id(0)
+    d = tl.arange(0, D)
+    dk = tl.load(dk_ptr + row * D + d)
+    dv = tl.load(dv_ptr + row * D + d)
+    for l in range(L):
+        wk = tl.load(wuk_ptr + l * D + d)
+        wv = tl.load(wuv_ptr + l * D + d)
+        tl.store(dc_ptr + row * L + l, tl.sum(dk * wk + dv * wv))
+
+
+def mla_latent_backward_exact(dK, dV, w_uk, w_uv):
+    """Exact dL/dc for K=c@W_uk, V=c@W_uv. dK,dV:[N,D]; w:[L,D] -> dc:[N,L]."""
+    N, D = dK.shape
+    L = w_uk.shape[0]
+    dc = torch.empty(N, L, device=dK.device, dtype=torch.float32)
+    _latent_exact_kernel[(N,)](dK.contiguous(), dV.contiguous(), w_uk.contiguous(), w_uv.contiguous(), dc, D=D, L=L)
+    return dc

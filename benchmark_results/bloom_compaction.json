@@ -1,0 +1,12 @@
+{
+  "input_rows": 29999,
+  "output_rows": 29999,
+  "bloom_flagged": 54,
+  "exact_duplicates_dropped": 0,
+  "bloom_false_positives_rescued": 54,
+  "output_distinct": 29999,
+  "bloom_bits": 287542,
+  "bloom_k": 7,
+  "elapsed_s": 0.227,
+  "throughput_MBps": 4.38
+}

@@ -60,6 +60,9 @@ def get_rust_lib():
                         ctypes.POINTER(ctypes.c_float),
                         ctypes.POINTER(ctypes.c_uint32),
                     ]
+                if hasattr(lib, "imf_fast_walsh_hadamard_avx2"):
+                    lib.imf_fast_walsh_hadamard_avx2.restype = ctypes.c_int32
+                    lib.imf_fast_walsh_hadamard_avx2.argtypes = [ctypes.POINTER(ctypes.c_float), ctypes.c_size_t, ctypes.c_size_t]
                 _LIB_IMF_RS = lib
                 return _LIB_IMF_RS
             except Exception as e:
@@ -189,3 +192,17 @@ def rust_polytope_projection_avx2(
     return out_proj, out_indices
 
 
+
+
+def rust_fwht(x: np.ndarray) -> np.ndarray:
+    """Orthonormal Walsh-Hadamard transform of [B, D] (D power of two). Returns a new array."""
+    lib = get_rust_lib()
+    if lib is None or not hasattr(lib, "imf_fast_walsh_hadamard_avx2"):
+        raise RuntimeError("imf_fast_walsh_hadamard_avx2 not found")
+    y = np.array(x, dtype=np.float32, order="C", copy=True)
+    if y.ndim == 1:
+        y = y[None]
+    st = lib.imf_fast_walsh_hadamard_avx2(y.ctypes.data_as(ctypes.POINTER(ctypes.c_float)), y.shape[0], y.shape[1])
+    if st != 0:
+        raise RuntimeError(f"FWHT failed with code {st}")
+    return y

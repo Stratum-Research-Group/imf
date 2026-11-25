@@ -32,6 +32,10 @@ class ContinuousMultimodalCrossAttention(nn.Module):
         self.k_proj = nn.Linear(d_sensory, d_model)
         self.v_proj = nn.Linear(d_sensory, d_model)
         self.out_proj = nn.Linear(d_model, d_model)
+        # Inference-only cache of Cayley rotations keyed by (frame bytes, dt). Disabled under autograd.
+        self.rotation_cache: dict = {}
+        self.cache_hits = 0
+        self.cache_misses = 0
 
     def compute_skew_symmetric_generator(self, sensory_feat: torch.Tensor) -> torch.Tensor:
         """
@@ -55,6 +59,15 @@ class ContinuousMultimodalCrossAttention(nn.Module):
         h_next = h_prev @ R + delta_t * input_proj(sensory_feat)
         """
         B = h_prev.shape[0]
+        use_cache = (not torch.is_grad_enabled()) and B == 1
+        key = None
+        if use_cache:
+            key = (sensory_feat.detach().cpu().numpy().tobytes(), round(float(delta_t), 6))
+            R = self.rotation_cache.get(key)
+            if R is not None:
+                self.cache_hits += 1
+                return torch.bmm(h_prev.unsqueeze(1), R).squeeze(1) + delta_t * self.input_proj(sensory_feat)
+            self.cache_misses += 1
         Omega = self.compute_skew_symmetric_generator(sensory_feat) # [B, D_state, D_state]
         I = torch.eye(self.d_state, device=h_prev.device, dtype=h_prev.dtype).unsqueeze(0).expand(B, -1, -1)
         
@@ -64,6 +77,8 @@ class ContinuousMultimodalCrossAttention(nn.Module):
         # Inversion of (I - A)
         inv_term = torch.linalg.inv(I - A)
         R = torch.bmm(inv_term, I + A) # Orthogonal matrix in SO(d_state)
+        if use_cache:
+            self.rotation_cache[key] = R
         
         # Recurrent state update
         in_inj = delta_t * self.input_proj(sensory_feat) # [B, D_state]

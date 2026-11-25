@@ -308,6 +308,52 @@ pub unsafe extern "C" fn imf_polytope_projection_avx2(
     0
 }
 
+/// In-place orthonormal Fast Walsh-Hadamard Transform on `batch` vectors of length `dim`
+/// (dim must be a power of two). AVX2 for butterfly spans >= 8, scalar otherwise.
+#[no_mangle]
+pub unsafe extern "C" fn imf_fast_walsh_hadamard_avx2(x_ptr: *mut f32, batch: usize, dim: usize) -> i32 {
+    if x_ptr.is_null() || batch == 0 || dim == 0 || (dim & (dim - 1)) != 0 {
+        return -1;
+    }
+    let scale = 1.0f32 / (dim as f32).sqrt();
+    for b in 0..batch {
+        let x = std::slice::from_raw_parts_mut(x_ptr.add(b * dim), dim);
+        let mut h = 1;
+        while h < dim {
+            let mut i = 0;
+            while i < dim {
+                let mut j = i;
+                #[cfg(target_arch = "x86_64")]
+                {
+                    if h >= 8 && is_x86_feature_detected!("avx2") {
+                        use std::arch::x86_64::*;
+                        while j + 8 <= i + h {
+                            let a = _mm256_loadu_ps(x.as_ptr().add(j));
+                            let c = _mm256_loadu_ps(x.as_ptr().add(j + h));
+                            _mm256_storeu_ps(x.as_mut_ptr().add(j), _mm256_add_ps(a, c));
+                            _mm256_storeu_ps(x.as_mut_ptr().add(j + h), _mm256_sub_ps(a, c));
+                            j += 8;
+                        }
+                    }
+                }
+                while j < i + h {
+                    let a = x[j];
+                    let c = x[j + h];
+                    x[j] = a + c;
+                    x[j + h] = a - c;
+                    j += 1;
+                }
+                i += 2 * h;
+            }
+            h *= 2;
+        }
+        for v in x.iter_mut() {
+            *v *= scale;
+        }
+    }
+    0
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
