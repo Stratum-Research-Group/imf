@@ -4,12 +4,12 @@
 
 # IMF: Interaction Primitive Families & Higher-Dimensional Virtual Grid Memory
 
-[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
-[![PyTorch 2.0+](https://img.shields.io/badge/PyTorch-2.0+-ee4c2c.svg)](https://pytorch.org/)
-[![Lean 4](https://img.shields.io/badge/Lean-4-purple.svg)](https://leanprover.github.io/)
+[![Author: Nicholas Charles Mynhardt](https://img.shields.io/badge/Author-Nicholas%20Charles%20Mynhardt-blue.svg)](https://github.com/Stratum-Research-Group)
+[![Organization: Stratum Research Group](https://img.shields.io/badge/Organization-Stratum%20Research%20Group-black.svg)](#ownership--governance)
+[![Hardware: AMD Ryzen 5 7600X | NVIDIA RTX 5060 Ti](https://img.shields.io/badge/Hardware-Ryzen%207600X%20%7C%20RTX%205060%20Ti-76B900.svg)](https://developer.nvidia.com/cuda-zone)
+[![CUDA 12.8 / Triton 3.9](https://img.shields.io/badge/Runtime-CUDA%2012.8%20%7C%20Triton%203.9-green.svg)](https://triton-lang.org/)
+[![Lean 4 Core](https://img.shields.io/badge/Formal%20Verification-Lean%204%20(Zero%20External%20Axioms)-purple.svg)](https://leanprover.github.io/)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
-[![CUDA Accelerated](https://img.shields.io/badge/Hardware-CUDA%20Accelerated-76B900.svg)](https://developer.nvidia.com/cuda-zone)
-[![Organization](https://img.shields.io/badge/Owner-Stratum%20Research%20Group-black.svg)](#ownership--governance)
 
 > **IMF (Interaction Model Foundations)** is a research prototype by **Stratum Research Group (SRG)** exploring continuous sub-quadratic neural memory architectures with formal algebraic structure. It investigates **Symmetric-Antisymmetric Virtual Grid Attention (SAVG)** and **Higher-Dimensional Polytope Landmark Connectors (HDPLC)** (*Enneazetton*, *Decayotton*, and *Hendecaxennon*), designing anti-commutative operators to mitigate directional ambiguity and evaluating geometric regularizers in associative retrieval tasks.
 
@@ -469,18 +469,33 @@ The IMF foundation, empirical scaling laws, speculative decoding, and formal Lea
 
 ---
 
-## 10. Ownership & Governance
+## 10. Authorship, Ownership & Hardware Baseline
 
-IMF is designed, owned, and maintained by **Stratum Research Group (SRG)**. All architectural specifications, formal Lean 4 theorems, and CUDA/Triton memory kernels are governed under the Stratum Research Group research framework.
+- **Principal Investigator & Lead Author:** **Nicholas Charles Mynhardt** (`Stratum Research Group`)
+- **Institution:** **Stratum Research Group (SRG)**
+- **Workstation Hardware Target:**
+  - **CPU:** AMD Ryzen 5 7600X 6-Core Processor (12 Threads, up to 5.46 GHz, AVX-512)
+  - **GPU:** NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB VRAM)
+  - **Runtime Substrate:** Linux x86_64, CUDA 12.8, Triton 3.9, PyTorch 2.15, Lean 4 Core (`propext`, `Quot.sound` only)
+
+All architectural specifications, physical fused Triton soliton kernels, and formally verified Lean 4 theorems are authored and governed under the Stratum Research Group research framework.
 
 ---
 
-## 11. Citation & References
+## 11. Scientific Compendium & Papers Catalog
+
+The complete research dynastic series spans **277 monographs and foundation whitepapers** authored by **Nicholas Charles Mynhardt (Stratum Research Group)**:
+- Complete catalog index: **[`papers/README.md`](papers/README.md)**
+- Architectural foundations: **[`papers/IMF_MATHEMATICAL_FOUNDATIONS_WHITEPAPER.md`](papers/IMF_MATHEMATICAL_FOUNDATIONS_WHITEPAPER.md)**
+
+---
+
+## 12. Citation & References
 
 ```bibtex
-@techreport{imf2026polytope,
-  title={Interaction Primitive Families and Higher-Dimensional Polytope Virtual Grid Memory},
-  author={Stratum Research Group},
+@techreport{mynhardt2026imf,
+  title={Infinite-Manifold Fusion: Lie-Algebraic Memory Splitting, Symplectic Phase-Space MoE Routing, and Zero-Axiom Lean 4 Verification},
+  author={Mynhardt, Nicholas Charles},
   institution={Stratum Research Group},
   number={SRG-IMF-2026-TR01},
   year={2026}
