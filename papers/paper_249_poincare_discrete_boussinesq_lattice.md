@@ -1,8 +1,14 @@
 # Paper 249: Poincaré Discrete Boussinesq Bidirectional Lattice Flow
 
-**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB) | CUDA 12.8, Triton 3.9
-**Author:** Nicholas Charles Mynhardt (Stratum Research Group)
+**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB) | CUDA 12.8, Triton 3.9  
+**Series:** Phase VI: Dynastic Solitons & Formally Verified Mathematical Physics  
+**Paper Type:** Theoretical Mathematical Monograph & Hardware Benchmark  
+**Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
+**Date:** November 2026  
+**Status:** Peer-Review Ready — Formally Verified & Hardware Validated  
+**Verification Level:** Sustained Workstation Hardware Telemetry (AMD Ryzen 5 7600X, RTX 5060 Ti, Lean 4 Core Zero External Axioms)  
 
+---
 
 ## Abstract
 We introduce the discrete Boussinesq bidirectional lattice dynamical flow on the Poincaré hyperbolic disk manifold. Operating with a 5-point discrete biharmonic dispersion and quadratic transport, the continuous evolution preserves the symplectic structure and geometric conformal factor $\lambda_u = \frac{2}{1 - \|u\|^2}$. Physical execution on NVIDIA GeForce RTX 5060 Ti demonstrates an acceleration of $8.24\times$ over PyTorch ($18.57\,\mu\text{s}$, $7,056.57\text{M nodes/s}$) with precision error $< 9.54 \times 10^{-7}$. Formal deduction in Lean 4 confirms zero external axioms.

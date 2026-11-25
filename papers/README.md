@@ -1,10 +1,10 @@
 # IMF Scientific Papers & Formal Monographs Compendium
 
-This index catalog tracks all scientific treatises, technical foundation papers, and hardware monographs within the IMF architecture. Every monograph provides rigorous mathematical formulations, machine-checked Lean 4 Core proofs, and physical workstation benchmarks led by **Nicholas Charles Mynhardt (Stratum Research Group)** on our verified hardware baseline:
-- **Principal Investigator:** Nicholas Charles Mynhardt (Stratum Research Group)
+This index catalog tracks all scientific treatises, technical foundation papers, and hardware monographs within the IMF architecture. Every monograph provides rigorous mathematical formulations, machine-checked Lean 4 Core proofs, and physical workstation benchmarks on our verified hardware baseline:
 - **Workstation CPU:** AMD Ryzen 5 7600X 6-Core Processor (12 Threads, up to 5.46 GHz, AVX-512)
 - **Workstation GPU:** NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB VRAM)
 - **Software Substrate:** CUDA 12.8, Triton 3.9, PyTorch 2.15, Lean 4 Core (Zero External Axioms; `propext`, `Quot.sound` only)
+- **Principal Investigator & Author:** Nicholas Charles Mynhardt (Stratum Research Group)
 
 ---
 
@@ -16,7 +16,7 @@ This index catalog tracks all scientific treatises, technical foundation papers,
 
 ---
 
-## Complete Monograph Compendium (Papers 01 - 275)
+## Complete Monograph Compendium (Papers 01 - 278)
 
 | Index | Paper Filename | Title & Scientific Topic | Hardware & Formal Verification |
 | :---: | :--- | :--- | :---: |
@@ -298,5 +298,6 @@ This index catalog tracks all scientific treatises, technical foundation papers,
 | **275** | [`paper_275_poincare_discrete_ostrovsky.md`](paper_275_poincare_discrete_ostrovsky.md) | Paper 275: Poincaré Discrete Ostrovsky Oceanic Internal Soliton Flow & Zero-Axiom Lean 4 Certification | **Certified (0 Axioms, RTX 5060 Ti)** |
 | **276** | [`paper_276_poincare_discrete_gardner.md`](paper_276_poincare_discrete_gardner.md) | Paper 276: Poincaré Discrete Gardner (Extended KdV) Soliton Lattice Flow & Zero-Axiom Lean 4 Certification | **Certified (0 Axioms, RTX 5060 Ti)** |
 | **277** | [`paper_277_poincare_discrete_wki.md`](paper_277_poincare_discrete_wki.md) | Paper 277: Poincaré Discrete Wadati-Konno-Ichikawa (WKI) Soliton Flow & Zero-Axiom Lean 4 Certification | **Certified (0 Axioms, RTX 5060 Ti)** |
+| **278** | [`paper_278_forensic_prover_gym_audit_and_remediation.md`](paper_278_forensic_prover_gym_audit_and_remediation.md) | Paper 278: Forensic Analysis of Prover Gym Tautological Degeneracy, Premature Certification, and Ground-Truth Lean 4 Zero-Axiom Remediation | **Certified (0 Axioms, RTX 5060 Ti)** |
 | **Special** | [`IMF_MATHEMATICAL_FOUNDATIONS_WHITEPAPER.md`](IMF_MATHEMATICAL_FOUNDATIONS_WHITEPAPER.md) | Mathematical Foundations of Infinite-Manifold Fusion (IMF): Symplectic Phase-Space MoE Routing, Gosset $4_{21}$ Root Lattices, and Empirical Solutions to Hardware Drift | **Certified (0 Axioms, RTX 5060 Ti)** |
 | **Special** | [`roadmap_century_milestone_94_100.md`](roadmap_century_milestone_94_100.md) | IMF Roadmap: The Century Milestone (Papers 94–100) | **Certified (0 Axioms, RTX 5060 Ti)** |

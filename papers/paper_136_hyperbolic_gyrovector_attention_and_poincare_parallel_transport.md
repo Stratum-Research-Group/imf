@@ -1,11 +1,12 @@
 # Technical Monograph 136: Fused Poincaré Gyrovector Operators, Riemannian Exp/Log Maps, and Manifold Metric Invariants
 
-**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB) | CUDA 12.8, Triton 3.9
-
-**Author:** Nicholas Charles Mynhardt (Stratum Research Group)
-**Status**: Certified & Workstation Benchmark Verified (RTX 5060 Ti, CUDA 12.8, Triton 3.9)  
-**Verification**: 100% Zero-Axiom Lean 4 Core `#print axioms` Soundness  
-**Repository**: `papers/paper_136_hyperbolic_gyrovector_attention_and_poincare_parallel_transport.md`
+**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB) | CUDA 12.8, Triton 3.9  
+**Series:** Phase VI: Dynastic Solitons & Formally Verified Mathematical Physics  
+**Paper Type:** Theoretical Mathematical Monograph & Hardware Benchmark  
+**Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
+**Date:** November 2026  
+**Status:** Peer-Review Ready — Formally Verified & Hardware Validated  
+**Verification Level:** Sustained Workstation Hardware Telemetry (AMD Ryzen 5 7600X, RTX 5060 Ti, Lean 4 Core Zero External Axioms)  
 
 ---
 
