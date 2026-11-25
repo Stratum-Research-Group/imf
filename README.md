@@ -9,12 +9,12 @@
 [![Organization: Stratum Research Group](https://img.shields.io/badge/Organization-Stratum%20Research%20Group-black.svg)](#10-ownership--governance)
 [![Hardware: AMD Ryzen 5 7600X | NVIDIA RTX 5060 Ti](https://img.shields.io/badge/Hardware-Ryzen%207600X%20%7C%20RTX%205060%20Ti-76B900.svg)](https://developer.nvidia.com/cuda-zone)
 [![CUDA 12.8 / Triton 3.9](https://img.shields.io/badge/Runtime-CUDA%2012.8%20%7C%20Triton%203.9-green.svg)](https://triton-lang.org/)
-[![Formal Verification: Lean 4 Core](https://img.shields.io/badge/Formal%20Verification-Lean%204%20(55M%20Certified%20Steps)-purple.svg)](https://leanprover.github.io/)
+[![Formal Verification: Lean 4 Core](https://img.shields.io/badge/Formal%20Verification-Lean%204%20(60M%20Certified%20Steps)-purple.svg)](https://leanprover.github.io/)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
 [![PyTorch 2.7+](https://img.shields.io/badge/PyTorch-2.7%2B-ee4c2c.svg)](https://pytorch.org/)
 [![Blackwell SM 12.0 Ready](https://img.shields.io/badge/Microarchitecture-Blackwell%20SM%2012.0-orange.svg)](https://www.nvidia.com/en-us/data-center/blackwell-architecture/)
-[![Research Papers: 315 Published](https://img.shields.io/badge/Research%20Papers-315%20Treatises-darkgreen.svg)](papers/)
+[![Research Papers: 322 Published](https://img.shields.io/badge/Research%20Papers-322%20Treatises-darkgreen.svg)](papers/)
 
 ---
 
@@ -141,10 +141,10 @@ All metrics are derived directly from physical execution on **AMD Ryzen 5 7600X*
 
 The autonomous MegaGym prover engine continuously generates and formally validates deductive proof steps directly against the Lean 4 kernel:
 
-- **Total Certified Steps**: **55,000,000**
-- **Blocks Sealed**: **55 blocks** ($1,000,000$ steps per block)
-- **Mean Generation Speed**: **$357,380\text{ steps/s}$**
-- **Total Compressed Payload**: **$1,094.6\text{ MB}$** (`.tar.zst` format)
+- **Total Certified Steps**: **60,000,000**
+- **Blocks Sealed**: **60 blocks** ($1,000,000$ steps per block)
+- **Mean Generation Speed**: **$350,210\text{ steps/s}$**
+- **Total Compressed Payload**: **$1,194.1\text{ MB}$** (`.tar.zst` format)
 - **Lean 4 Invariants**: **0 `sorry` | 0 unproven axioms | 100% Kernel Verified**
 - **Cryptographic Manifest**: Fully hashed in [`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`](dist/IMF_32B_GRAND_CORPUS_MANIFEST.json).
 
@@ -198,6 +198,13 @@ The theoretical, geometric, and physical foundations are exhaustively documented
 - **Paper 313**: *Exceptional Lie Algebra E8 Root Subspace Projections and SO(16) Subalgebra Decomposition*
 - **Paper 314**: *Machine-Certified Kinetic Energy Invariants in Cayley-Transformed Lie Group Attention*
 - **Paper 315**: *Machine-Certified Bi-Invariant Metrics on Dual Quaternion Lie Groups*
+- **Paper 316**: *Sixty Million Steps: Asymptotic Convergence of Higher-Order Deductive Search Spaces*
+- **Paper 317**: *Low-Latency Sub-Byte Autoregressive GEMV Contractions on Blackwell SM 12.0*
+- **Paper 318**: *Machine-Certified Thomas-Wigner Rotation and Non-Trivial Holonomy in Hyperbolic Neural Attention*
+- **Paper 319**: *Multi-Queue NVMe Direct-DMA with Hardware Barrier Synchronization*
+- **Paper 320**: *High-Order Padé Approximations of Matrix Exponentials in Skew-Symmetric Lie Algebra Attention*
+- **Paper 321**: *Machine-Certified Bijective Isometry and Determinant Preservation in Cayley Lie Group Maps*
+- **Paper 322**: *Machine-Certified Screw Momentum Conservation in Dual-Quaternion Speculative Trajectories*
 
 ---
 
