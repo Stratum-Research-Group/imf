@@ -1,35 +1,35 @@
 {
-  "timestamp": "2026-11-25T12:18:54",
-  "total_partitions": 128,
-  "total_benchmark_time_ms": 87.12,
-  "mean_query_latency_ms": 21.78,
+  "timestamp": "2026-11-25T12:35:53",
+  "total_partitions": 130,
+  "total_benchmark_time_ms": 34.64,
+  "mean_query_latency_ms": 8.66,
   "zero_axioms_verified": true,
   "queries": [
     {
       "query_id": "global_step_count_and_loss",
       "description": "Full-lake scan aggregation over 500k+ records",
-      "latency_ms": 40.17,
+      "latency_ms": 17.3,
       "rows_returned": 1,
-      "sample_output": "[(1280000, 0.125, 1.1330000162124634, 0)]"
+      "sample_output": "[(1300000, 0.125, 1.1330000162124634, 0)]"
     },
     {
       "query_id": "block_by_block_grouping",
       "description": "Group-by aggregation over 50 partitions",
-      "latency_ms": 18.26,
+      "latency_ms": 6.65,
       "rows_returned": 10,
-      "sample_output": "[(128, 10000, 0.125), (127, 10000, 0.125)]"
+      "sample_output": "[(130, 10000, 0.125), (129, 10000, 0.125)]"
     },
     {
       "query_id": "top_loss_filtering",
       "description": "Filter & sort over 500k records",
-      "latency_ms": 15.82,
+      "latency_ms": 6.6,
       "rows_returned": 20,
       "sample_output": "[(1, 'gym_task_0', 0.125), (1, 'gym_task_1', 0.125)]"
     },
     {
       "query_id": "zero_axiom_verification_assert",
       "description": "Assert 100% zero-axiom integrity across full corpus",
-      "latency_ms": 12.52,
+      "latency_ms": 3.86,
       "rows_returned": 1,
       "sample_output": "[(0,)]"
     }

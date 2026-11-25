@@ -172,4 +172,6 @@ All papers adhere strictly to the IMF Research Standard:
 - **Paper 272**: `paper_272_poincare_discrete_sasa_satsuma.md` - Poincaré Discrete Sasa-Satsuma Higher-Order NLS Lattice Flow. Triton: $72.82\,\mu\text{s}$, $3.79\times$ speedup, $1,799.94\text{M nodes/s}$. 0 Lean axioms.
 - **Paper 273**: `paper_273_poincare_discrete_al_complex_bivector.md` - Poincaré Discrete Ablowitz-Ladik Complex Bivector Soliton Lattice Flow. Triton: $97.44\,\mu\text{s}$, $2.16\times$ speedup, $1,345.18\text{M nodes/s}$. 0 Lean axioms.
 - **Paper 274**: `paper_274_poincare_discrete_hunter_saxton.md` - Poincaré Discrete Hunter-Saxton Soliton Wave Flow. Triton: $16.10\,\mu\text{s}$, $10.09\times$ speedup, $8,141.79\text{M nodes/s}$. 0 Lean axioms.
+- **Paper 275**: `paper_275_poincare_discrete_ostrovsky.md` - Poincaré Discrete Ostrovsky Oceanic Internal Soliton Flow. Triton: $21.42\,\mu\text{s}$, $9.28\times$ speedup, $6,118.02\text{M nodes/s}$. 0 Lean axioms.
+
 

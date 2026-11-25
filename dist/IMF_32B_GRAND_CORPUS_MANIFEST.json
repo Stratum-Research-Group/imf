@@ -1,13 +1,13 @@
 {
   "corpus_name": "IMF 32-Billion Step Grand Deductive Corpus",
   "target_steps": 32000000000,
-  "total_certified_theorems": 117000000,
-  "blocks_completed": 117,
+  "total_certified_theorems": 130000000,
+  "blocks_completed": 130,
   "families_count": 32,
   "verification_kernel": "Lean 4 Core v4.16.0",
   "external_axioms": 0,
-  "total_elapsed_seconds": 64944.04,
-  "average_speed_steps_per_sec": 1801.55,
+  "total_elapsed_seconds": 70757.66,
+  "average_speed_steps_per_sec": 1837.26,
   "blocks": [
     {
       "block_idx": 1,
@@ -1178,6 +1178,136 @@
       "archive_file": "dist/gym_32b_corpus/block_00117.tar.zst",
       "archive_size_bytes": 1984913,
       "archive_sha256": "39fac52a74cb31786e238e48ea62b7008780f59b6e45a15e45c5a26f4fe37416"
+    },
+    {
+      "block_idx": 118,
+      "steps": 1000000,
+      "elapsed_seconds": 434.3,
+      "steps_per_sec": 2302.58,
+      "raw_sha256": "b1e97bc36acd5203f82ac9df5797df18844634b05362ab9886f300d8ccbbeaa8",
+      "archive_file": "dist/gym_32b_corpus/block_00118.tar.zst",
+      "archive_size_bytes": 1986687,
+      "archive_sha256": "42f04bbeb99829b6e4e4943319cbfc3ef1f057004e12535cbb1392fcf4b9f6a4"
+    },
+    {
+      "block_idx": 119,
+      "steps": 1000000,
+      "elapsed_seconds": 435.03,
+      "steps_per_sec": 2298.67,
+      "raw_sha256": "c225212dac80901a633aa1af0a87efe9bf43f0aaaf8324d83f36e17037526c8b",
+      "archive_file": "dist/gym_32b_corpus/block_00119.tar.zst",
+      "archive_size_bytes": 1971301,
+      "archive_sha256": "82bb381885d50d815b039cca0eb49db198295c8557f7370781625142853bc709"
+    },
+    {
+      "block_idx": 120,
+      "steps": 1000000,
+      "elapsed_seconds": 436.38,
+      "steps_per_sec": 2291.57,
+      "raw_sha256": "cc3619e5ff41738ca474d256031d1558fe9dd3192ad727181d3b0fbe53933ca6",
+      "archive_file": "dist/gym_32b_corpus/block_00120.tar.zst",
+      "archive_size_bytes": 1996272,
+      "archive_sha256": "d2252d661bb2f3982763007b837adaa57d433f743c5b1b125e08e42ae46932de"
+    },
+    {
+      "block_idx": 121,
+      "steps": 1000000,
+      "elapsed_seconds": 429.39,
+      "steps_per_sec": 2328.89,
+      "raw_sha256": "1986cfcb6a9c1e4ad6a4453593da4dcbb3c5d17fdc93abeee2ba20fbf02e2c4c",
+      "archive_file": "dist/gym_32b_corpus/block_00121.tar.zst",
+      "archive_size_bytes": 1973308,
+      "archive_sha256": "f196f522383f11be937aa07503684642d40e7da5b6a26318d22c2aaa7980502d"
+    },
+    {
+      "block_idx": 122,
+      "steps": 1000000,
+      "elapsed_seconds": 451.51,
+      "steps_per_sec": 2214.8,
+      "raw_sha256": "fa85766f881a2f44b5ca734a23c73361b123099589bb77b7251a025b6b3ab099",
+      "archive_file": "dist/gym_32b_corpus/block_00122.tar.zst",
+      "archive_size_bytes": 2024164,
+      "archive_sha256": "4363c7c067b719023afb8eb275e6db837d05ef843aac9f6e0f76df2705ffe614"
+    },
+    {
+      "block_idx": 123,
+      "steps": 1000000,
+      "elapsed_seconds": 458.45,
+      "steps_per_sec": 2181.25,
+      "raw_sha256": "a4bab4412692992d5474ddda0617afb6a339e9216d41f50ef73a64255f22034d",
+      "archive_file": "dist/gym_32b_corpus/block_00123.tar.zst",
+      "archive_size_bytes": 1964504,
+      "archive_sha256": "593c3b02f85f245b3588e5b7a6e51d866076664b385dd73adfb7a8b950744535"
+    },
+    {
+      "block_idx": 124,
+      "steps": 1000000,
+      "elapsed_seconds": 434.48,
+      "steps_per_sec": 2301.59,
+      "raw_sha256": "0271ffc508f040711ed29d3ad717d75b42bca227119f57ebbe9d1f2ac4a58be5",
+      "archive_file": "dist/gym_32b_corpus/block_00124.tar.zst",
+      "archive_size_bytes": 1950092,
+      "archive_sha256": "196c3f6483d9a7ee01d7212563801fcd71f559f3f17035016a10af44e0255efe"
+    },
+    {
+      "block_idx": 125,
+      "steps": 1000000,
+      "elapsed_seconds": 439.03,
+      "steps_per_sec": 2277.74,
+      "raw_sha256": "ae761979bc8021b9ff73f9cc1948bcfda6f67ceb845552f3ddea93004c5f1b57",
+      "archive_file": "dist/gym_32b_corpus/block_00125.tar.zst",
+      "archive_size_bytes": 1979552,
+      "archive_sha256": "81b6c6e3a117a32d97c96be490e2c46ed21641c86e2ce55b6b7344ed4cbbcd1c"
+    },
+    {
+      "block_idx": 126,
+      "steps": 1000000,
+      "elapsed_seconds": 456.27,
+      "steps_per_sec": 2191.68,
+      "raw_sha256": "60168a5a02d13b337d93bd1249942b59a948ced6eb98fc366625c86ba7105fed",
+      "archive_file": "dist/gym_32b_corpus/block_00126.tar.zst",
+      "archive_size_bytes": 1965154,
+      "archive_sha256": "9fcea7f8816a9aeab6764b5d5bc9580899a3f8b8650d932be766a515819e72f3"
+    },
+    {
+      "block_idx": 127,
+      "steps": 1000000,
+      "elapsed_seconds": 457.41,
+      "steps_per_sec": 2186.25,
+      "raw_sha256": "1a850c391f65d810e1ae02b5af5057bbecc6eb14fb480673b3cf908d56ba019a",
+      "archive_file": "dist/gym_32b_corpus/block_00127.tar.zst",
+      "archive_size_bytes": 1974271,
+      "archive_sha256": "e3d9be9c7070b3aa2870d7f8a775a5645d7fbd56917f1aca16bc10a082728936"
+    },
+    {
+      "block_idx": 128,
+      "steps": 1000000,
+      "elapsed_seconds": 460.74,
+      "steps_per_sec": 2170.44,
+      "raw_sha256": "7403cc1f85bf06200ade4ea22f76341314b80fd279de3a184549ade157fcfffe",
+      "archive_file": "dist/gym_32b_corpus/block_00128.tar.zst",
+      "archive_size_bytes": 1976009,
+      "archive_sha256": "034f18be321c1c3a0d72616645e22d25ec98820a6ea9739e084dd2ecfd98eeae"
+    },
+    {
+      "block_idx": 129,
+      "steps": 1000000,
+      "elapsed_seconds": 460.25,
+      "steps_per_sec": 2172.72,
+      "raw_sha256": "2b0cd525021a200c391bbce271ae22df06657171dfa5128ba346d8eea2a5d633",
+      "archive_file": "dist/gym_32b_corpus/block_00129.tar.zst",
+      "archive_size_bytes": 1963489,
+      "archive_sha256": "bded3ca781db65598a30cc1457cbff306a5903031dd69d4cb82dc5571830af8e"
+    },
+    {
+      "block_idx": 130,
+      "steps": 1000000,
+      "elapsed_seconds": 460.38,
+      "steps_per_sec": 2172.1,
+      "raw_sha256": "fa0e231eba2dd471ef92e1e27743f6d786cc5d67e668333fc1e50a5613db7815",
+      "archive_file": "dist/gym_32b_corpus/block_00130.tar.zst",
+      "archive_size_bytes": 1963445,
+      "archive_sha256": "e25a99800e4b5a5dd38f8313d119046e830325b955605aa47ce53feb27356063"
     }
   ]
 }
