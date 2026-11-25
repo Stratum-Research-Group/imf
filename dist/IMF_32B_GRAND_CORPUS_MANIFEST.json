@@ -6,7 +6,7 @@
   "blocks_completed": 10,
   "grand_target_theorems": 32000000000,
   "completion_percentage": 0.0312,
-  "last_updated": "2026-11-25T18:28:18Z",
+  "last_updated": "2026-11-25T19:55:19+0200",
   "blocks": [
     {
       "block_idx": 1,
@@ -71,38 +71,42 @@
     {
       "block_idx": 7,
       "steps": 1000000,
-      "raw_sha256": "3cb6f6342533cfcc3cecbcd8eb3f70b38d2bc87479617b720ccbeadfb92fa58a",
+      "elapsed_seconds": 1125.5,
+      "steps_per_sec": 888.49,
+      "raw_sha256": "99d5a0f8df4f3bff6acf5ba353a171297f12f988b88040b5171b9108eef2603a",
       "archive_file": "dist/gym_32b_corpus/block_00007.tar.zst",
-      "archive_size_bytes": 31880567,
-      "archive_sha256": "6e2baabbf1af28a12aec130c8dcb498c734389f88c6a075d94893a777d1ca9fe",
-      "sealed_at": "2026-11-25T18:26:21Z"
+      "archive_size_bytes": 25241867,
+      "archive_sha256": "c469c32be760eb3668a2084f631e3045c103a02c8bd566b0a55b717e933a5de0"
     },
     {
       "block_idx": 8,
       "steps": 1000000,
-      "raw_sha256": "c4f764550dae7a372b1dddbf0234528577a3b9edacf25439bbc0c639f439dafa",
+      "elapsed_seconds": 1028.86,
+      "steps_per_sec": 971.95,
+      "raw_sha256": "cda1e27e2553404e7c697e0dda4f32682817358cf69bc59874aa49e7b0d65c1b",
       "archive_file": "dist/gym_32b_corpus/block_00008.tar.zst",
-      "archive_size_bytes": 31871570,
-      "archive_sha256": "563460196ab66bcab23b6c49be3255f2d81404a80cf8493533394f36906d2106",
-      "sealed_at": "2026-11-25T18:27:00Z"
+      "archive_size_bytes": 25227771,
+      "archive_sha256": "2e29be707cde8df20ce4bfa8e79768b8c62239e42a1b85fd9202890e6d8be50a"
     },
     {
       "block_idx": 9,
       "steps": 1000000,
-      "raw_sha256": "f025621d2455baab36bf04af82221552d5c64e62cd4d30d14261dbc70ed33bdf",
+      "elapsed_seconds": 941.29,
+      "steps_per_sec": 1062.37,
+      "raw_sha256": "c5f3327adb1f15b69133e5228002b02140f6f5285050475b0678cfafd29a0d4b",
       "archive_file": "dist/gym_32b_corpus/block_00009.tar.zst",
-      "archive_size_bytes": 31823100,
-      "archive_sha256": "19c5570f924ecfaae4a46eb149f97a74db92fdf6d29fc28faf6ea40e9fd1bfea",
-      "sealed_at": "2026-11-25T18:27:39Z"
+      "archive_size_bytes": 25209045,
+      "archive_sha256": "52991bd956b364b16970d4c4ff9f9fa9d54e72568e837b3a4bedb60356a6b238"
     },
     {
       "block_idx": 10,
       "steps": 1000000,
-      "raw_sha256": "90e1fdd592a961d62a30982670818b93549d7b62e455980784ceeee8ffe03027",
+      "elapsed_seconds": 864.05,
+      "steps_per_sec": 1157.34,
+      "raw_sha256": "359f3468df1d875b8270b05e25fae0b98b3b1dfc7765af2c174c684e7958ce75",
       "archive_file": "dist/gym_32b_corpus/block_00010.tar.zst",
-      "archive_size_bytes": 33017829,
-      "archive_sha256": "9323764401088b69679279329bafb49066d0941da8cc51d5a0e9cf4fad24b533",
-      "sealed_at": "2026-11-25T18:28:18Z"
+      "archive_size_bytes": 26176568,
+      "archive_sha256": "0eb15f7e0b345a31b61c686a9aa056d574a427f92e73025a4ac0707045cb9ff8"
     }
   ]
 }

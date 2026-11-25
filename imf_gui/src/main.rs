@@ -287,7 +287,9 @@ impl IMFApp {
     fn read_active_tasks(tasks_dir: &PathBuf) -> Vec<ActiveTask> {
         let mut tasks = Vec::new();
         if let Ok(dir_entries) = std::fs::read_dir(tasks_dir) {
-            for entry in dir_entries.flatten() {
+            let mut entries: Vec<_> = dir_entries.flatten().collect();
+            entries.sort_by_key(|e| e.metadata().and_then(|m| m.modified()).ok());
+            for entry in entries.into_iter().rev().take(15) {
                 let path = entry.path();
                 if path.extension().and_then(|s| s.to_str()) == Some("log") {
                     let task_id = path.file_stem().unwrap_or_default().to_string_lossy().to_string();
@@ -296,7 +298,7 @@ impl IMFApp {
                     if let Ok(file) = File::open(&path) {
                         let r = BufReader::new(file);
                         if let Some(Ok(last)) = r.lines().last() {
-                            recent_line = last;
+                            recent_line = if last.len() > 160 { last[..160].to_string() } else { last };
                         }
                     }
                     tasks.push(ActiveTask {
