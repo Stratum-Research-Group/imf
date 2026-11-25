@@ -1,0 +1,16 @@
+{
+  "timestamp": "2026-11-25T17:20:49Z",
+  "hardware": "NVIDIA GeForce RTX 5060 Ti",
+  "dataset": "data/real_text_sample.txt",
+  "draft_k": 4,
+  "results": {
+    "rounds_run": 100,
+    "total_tokens_evaluated": 400,
+    "total_tokens_accepted": 301,
+    "mean_alpha": 0.7439,
+    "acceptance_rate": 0.7525,
+    "mean_accepted_per_round": 3.01,
+    "speculative_speedup_factor": 3.01,
+    "time_seconds": 0.9443
+  }
+}

@@ -1,6 +1,6 @@
 {
   "model_id": "Qwen/Qwen2.5-0.5B",
-  "timestamp": "2026-11-25T16:59:46Z",
+  "timestamp": "2026-11-25T17:20:55Z",
   "hardware": "NVIDIA GeForce RTX 5060 Ti",
   "aggregate": {
     "projections_count": 35,
@@ -11,8 +11,8 @@
     "quantized_e8_mb": 27.96,
     "pre_quant_loss": 3.6964,
     "pre_quant_ppl": 40.3,
-    "post_quant_loss": 5.1993,
-    "post_quant_ppl": 181.15
+    "post_quant_loss": 5.1988,
+    "post_quant_ppl": 181.05
   },
   "layer_samples": [
     {
@@ -21,7 +21,7 @@
         896
       ],
       "params": 802816,
-      "rel_frob_err": 0.5456708073616028,
+      "rel_frob_err": 0.545670747756958,
       "cosine_similarity": 0.8511238098144531,
       "comp_ratio": 5.333333333333333,
       "orig_bytes": 1605632,
@@ -36,7 +36,7 @@
       ],
       "params": 114688,
       "rel_frob_err": 0.5487817525863647,
-      "cosine_similarity": 0.8494201302528381,
+      "cosine_similarity": 0.8494201898574829,
       "comp_ratio": 5.333333333333333,
       "orig_bytes": 229376,
       "quant_bytes": 43008,
@@ -78,7 +78,7 @@
       ],
       "params": 4358144,
       "rel_frob_err": 0.5488835573196411,
-      "cosine_similarity": 0.8493648767471313,
+      "cosine_similarity": 0.8493648171424866,
       "comp_ratio": 5.333333333333333,
       "orig_bytes": 8716288,
       "quant_bytes": 1634304,
@@ -91,8 +91,8 @@
         896
       ],
       "params": 4358144,
-      "rel_frob_err": 0.5486854314804077,
-      "cosine_similarity": 0.8494735956192017,
+      "rel_frob_err": 0.5486853718757629,
+      "cosine_similarity": 0.8494736552238464,
       "comp_ratio": 5.333333333333333,
       "orig_bytes": 8716288,
       "quant_bytes": 1634304,
@@ -106,7 +106,7 @@
       ],
       "params": 4358144,
       "rel_frob_err": 0.5472003817558289,
-      "cosine_similarity": 0.8502873182296753,
+      "cosine_similarity": 0.8502874374389648,
       "comp_ratio": 5.333333333333333,
       "orig_bytes": 8716288,
       "quant_bytes": 1634304,
@@ -134,7 +134,7 @@
       ],
       "params": 114688,
       "rel_frob_err": 0.5461846590042114,
-      "cosine_similarity": 0.8508425951004028,
+      "cosine_similarity": 0.8508426547050476,
       "comp_ratio": 5.333333333333333,
       "orig_bytes": 229376,
       "quant_bytes": 43008,

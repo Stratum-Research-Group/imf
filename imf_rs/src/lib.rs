@@ -184,3 +184,39 @@ pub unsafe extern "C" fn imf_rs_infer_step(
     *out_token_id = best_tok;
     0
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_cayley_step_parity_avx2_vs_cpu() {
+        let dim = 64;
+        let x: Vec<f32> = (0..dim).map(|i| (i as f32) * 0.05).collect();
+        let mut a: Vec<f32> = vec![0.0; dim * dim];
+        for i in 0..dim {
+            for j in 0..dim {
+                if i < j {
+                    let v = ((i + j) as f32) * 0.001;
+                    a[i * dim + j] = v;
+                    a[j * dim + i] = -v;
+                }
+            }
+        }
+
+        let mut y_cpu = vec![0.0f32; dim];
+        let mut y_avx2 = vec![0.0f32; dim];
+
+        let ret_cpu = imf_cayley_step_cpu(x.as_ptr(), a.as_ptr(), y_cpu.as_mut_ptr(), dim);
+        let ret_avx2 = imf_cayley_step_avx2(x.as_ptr(), a.as_ptr(), y_avx2.as_mut_ptr(), dim);
+
+        assert_eq!(ret_cpu, 0);
+        assert_eq!(ret_avx2, 0);
+
+        for j in 0..dim {
+            let diff = (y_cpu[j] - y_avx2[j]).abs();
+            assert!(diff < 1e-5, "Mismatch at index {}: cpu={} avx2={}", j, y_cpu[j], y_avx2[j]);
+        }
+    }
+}
+

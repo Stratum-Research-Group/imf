@@ -57,7 +57,7 @@ def cayley_prefill_gemm_kernel(
         a_ptrs = A_ptr + offs_k[:, None] * D + offs_d[None, :]
         a_val = tl.load(a_ptrs, mask=mask_k[:, None] & mask_d[None, :], other=0.0)
 
-        xa_acc += tl.dot(xk_val, a_val)
+        xa_acc += tl.dot(xk_val, a_val, input_precision="ieee")
 
     # Unitary Cayley / Padé approximation: Y ≈ X + X @ A + 0.5 * (X @ A) @ A
     acc += xa_acc

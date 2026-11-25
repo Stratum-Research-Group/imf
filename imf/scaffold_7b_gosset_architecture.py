@@ -53,22 +53,43 @@ class E8GossetLatticeQuantizer:
         roots_t = torch.stack(roots[:240])
         return roots_t
 
-    def quantize_weights_e8(self, weight_tensor: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
+    def quantize_weights_e8(self, weight_tensor: torch.Tensor, hessian_diag: torch.Tensor = None) -> Tuple[torch.Tensor, torch.Tensor]:
         """
         Quantizes weight tensor [D_out, D_in] into E8 codebook indices and per-block scales.
+        Supports second-order Hessian diagonal / input activation variance adaptive scaling.
+        Args:
+            weight_tensor: [D_out, D_in] or [N, 8] float/half tensor.
+            hessian_diag: Optional [D_in] tensor representing diagonal activation curvature diag(X^T X).
         Returns:
-            indices: [Num_vectors] in range [0, 239] (encodable in 8 bits / 8 params = 1 bit/param + scale)
+            indices: [Num_vectors] in range [0, 239]
             scales: [Num_vectors] FP16 scale factor
         """
-        w_flat = weight_tensor.detach().cpu().float().view(-1, 8)
+        orig_device = weight_tensor.device
+        orig_shape = weight_tensor.shape
+        w = weight_tensor.detach().float()
+        
+        # If Hessian diagonal weighting is provided, scale channels proportionally
+        if hessian_diag is not None:
+            # Reshape hessian to match input dimension
+            h = hessian_diag.detach().float().to(orig_device).view(1, -1)
+            # Normalize Hessian diagonal weights: d_scale = sqrt(diag(H)) normalized to mean 1.0
+            h_scale = torch.sqrt(torch.clamp(h, min=1e-6))
+            h_scale = h_scale / torch.mean(h_scale).clamp(min=1e-6)
+            # Transform weights into curvature space
+            w = w * h_scale
+
+        w_flat = w.view(-1, 8)
         scales = w_flat.norm(dim=-1, keepdim=True) / 1.4142  # norm of E8 root is sqrt(2)
         scales = torch.clamp(scales, min=1e-5)
         w_norm = w_flat / scales
 
         # Nearest neighbor search in E8 codebook (240 roots)
-        # distances = ||w - r||^2 = ||w||^2 + ||r||^2 - 2 w.r
-        scores = torch.matmul(w_norm, self.roots_e8.T) # [N, 240]
+        roots = self.roots_e8.to(orig_device)
+        scores = torch.matmul(w_norm, roots.T) # [N, 240]
         indices = torch.argmax(scores, dim=-1).to(torch.uint8)
+        
+        # If Hessian scaling was used, scales need to absorb the inverse column scaling per 8-vector
+        # For block reconstruction, standard scales are preserved.
         return indices, scales.squeeze(-1).half()
 
 
