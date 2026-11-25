@@ -1,10 +1,11 @@
 {
-  "timestamp": "2026-11-25T16:20:31Z",
-  "return_code": 0,
-  "elapsed_seconds": 121.72,
-  "total_tests": 134,
+  "timestamp": "2026-11-25 14:52:40 UTC",
+  "git_commit": "3360f759228c7d04eb4d5d07e88f89e3e257e397",
+  "total_collected": 134,
   "passed": 134,
   "failed": 0,
   "skipped": 0,
-  "hardware": "AMD Ryzen 5 7600X | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB)"
+  "xfailed": 0,
+  "duration_seconds": 139.12,
+  "status": "ALL_TESTS_PASSED"
 }
