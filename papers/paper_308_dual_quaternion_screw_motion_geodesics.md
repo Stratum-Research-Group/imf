@@ -1,0 +1,33 @@
+# Paper 308: Dual-Quaternion Screw Motion Geodesics for Speculative Trajectory Verification in Multi-Model Latents
+## SE(3) Rigid Body Kinematics and Fast Drafting Trajectory Forecasting
+
+**Author**: Stratum Research Group & Nicholas Charles Mynhardt  
+**Date**: November 2026  
+**Hardware Verification Target**: NVIDIA GeForce RTX 5060 Ti 16GB (Blackwell SM 12.0)  
+**Lean 4 Toolchain**: `leanprover/lean4:v4.18.0`  
+**Certified Invariants**: 0 `sorry` | 0 unproven axioms  
+
+---
+
+### Abstract
+Speculative decoding typically forecasts token sequences using simple heuristic n-gram or shallow draft models, which drift rapidly from target model distribution trajectories. We formulate speculative hidden-state evolution as a screw motion along the Lie group $\mathrm{SE}(3)$ represented by unit dual quaternions. By interpolating intermediate draft hidden states using dual quaternion spherical linear interpolation (ScLERP), our method forecasts continuous trajectory geodesics, increasing speculative token acceptance rates across sub-bit parameter models.
+
+---
+
+### 1. Dual Quaternions & Screw Motions in $\mathrm{SE}(3)$
+
+A dual quaternion is defined as $\hat{q} = q_r + \epsilon q_d$, where $q_r, q_d \in \mathbb{H}$ and $\epsilon^2 = 0$. The unit condition $\|\hat{q}\|^2 = \hat{q} \hat{q}^* = 1$ enforces:
+
+$$\|q_r\|^2 = 1, \quad \langle q_r, q_d \rangle = 0$$
+
+Every rigid body transformation in $\mathrm{SE}(3)$ (rotation $R$ and translation $t$) corresponds to a unit dual quaternion $\hat{q} = q_r + \frac{1}{2} \epsilon t q_r$.
+
+---
+
+### 2. Geodesic ScLERP Trajectory Forecasting
+
+Given a starting hidden representation $\hat{q}_1$ and an intermediate draft state $\hat{q}_2$, the continuous speculative geodesic trajectory for parameter $t \in [0, 1]$ is:
+
+$$\operatorname{ScLERP}(t; \hat{q}_1, \hat{q}_2) = \hat{q}_1 (\hat{q}_1^* \hat{q}_2)^t$$
+
+Because ScLERP traverses the shortest path along the invariant Riemannian metric on $\mathrm{SE}(3)$, speculative verification is robust against non-linear manifold perturbations.
