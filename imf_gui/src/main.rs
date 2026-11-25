@@ -339,7 +339,7 @@ impl IMFApp {
                         {"role": "user", "content": user_prompt}
                     ],
                     "temperature": 0.6,
-                    "max_tokens": 256
+                    "max_tokens": 96
                 });
 
                 let res = client.post(format!("{}/v1/chat/completions", base_url))
@@ -363,7 +363,7 @@ impl IMFApp {
                     "stream": false,
                     "options": {
                         "temperature": 0.6,
-                        "num_predict": 512
+                        "num_predict": 96
                     }
                 });
 
