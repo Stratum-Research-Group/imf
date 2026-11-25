@@ -1,0 +1,10 @@
+{
+  "timestamp": "2026-11-25T15:10:10Z",
+  "return_code": 0,
+  "elapsed_seconds": 157.17,
+  "total_tests": 126,
+  "passed": 126,
+  "failed": 0,
+  "skipped": 0,
+  "hardware": "AMD Ryzen 5 7600X | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB)"
+}
