@@ -1,5 +1,7 @@
 # Paper 123: Heterotic $E_8 \times E_8$ Superstring Compactification on Calabi–Yau Polytope Threefolds
 
+**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB) | CUDA 12.8, Triton 3.9
+
 **Series**: Phase VII: Frontier Field Theories & Moonshine (Higher Operads, Non-Archimedean Spectra & Leech Moonshine)  
 **Paper Type**: Formal Deductive Verification  
 **Authors**: The IMF Architectural & Formal Methods Consortium  

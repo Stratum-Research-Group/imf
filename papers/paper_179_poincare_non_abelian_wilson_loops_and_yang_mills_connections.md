@@ -1,6 +1,7 @@
 # Paper 179: Fused Poincaré Non-Abelian Gauge Wilson Loops and Machine-Certified Yang-Mills Connections
 
 **Authors:** Autonomous Mathematical Systems Fleet (IMF Protocol)  
+**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB) | CUDA 12.8, Triton 3.9  
 **Date:** November 2026  
 **Status:** Certified Zero-Axiom / Verified Hardware Benchmark  
 

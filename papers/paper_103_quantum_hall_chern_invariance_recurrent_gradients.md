@@ -1,5 +1,7 @@
 # Paper 103: Quantum Hall Topo-Algebraic Invariance, Chern Simplex Flow, and Non-Vanishing Recurrent Gradients Across Infinite Horizons
 
+**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB) | CUDA 12.8, Triton 3.9
+
 **Series**: Phase VI: Megascale Sharding & Topological Silicon (Toroidal Meshes, Anyons & 1M-Step Formal Discoveries)  
 **Paper Type**: Formal Deductive Verification  
 **Authors**: The IMF Architectural & Formal Methods Consortium  

@@ -1,5 +1,7 @@
 # Mathematical Monograph 143: Conformal Möbius Residual Connections and de Rham Cohomological Invariants
 
+**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB) | CUDA 12.8, Triton 3.9
+
 **Authors**: Stratum Research Group & Autonomous Prover Fleet  
 **Affiliation**: Institute for Mathematical Formalism (IMF)  
 **Date**: November 2026  

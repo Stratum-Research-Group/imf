@@ -1,5 +1,7 @@
 # Paper 89: Algebraic Hodge Cycles, Chern Character Ring Homomorphisms, and Zero-Axiom Lean 4 Manifold Verification
 
+**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB) | CUDA 12.8, Triton 3.9
+
 **Series**: Phase V: Formal Prover Gym & Century Capstone (Millennium Verifiers, Microarchitecture & Complete Theory)  
 **Paper Type**: Formal Deductive Verification  
 **Authors**: The IMF Architectural & Formal Methods Consortium  

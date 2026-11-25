@@ -1,5 +1,7 @@
 # Technical Report 32: Formal ETH Uncrossing, Orthogonal Parallel Partitioning, and Non-Amplifying Energy Bounds
 
+**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB) | CUDA 12.8, Triton 3.9
+
 **Series**: Phase II: Frontier Search & Alignment (Cut-Factorized MCTS, GRPO & Autonomous RSI)  
 **Paper Type**: Theoretical Mathematical Monograph  
 **Authors**: The IMF Architectural & Formal Methods Consortium  

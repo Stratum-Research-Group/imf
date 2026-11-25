@@ -1,5 +1,7 @@
 # Paper 211: Fused Poincaré 14B Mixture of Polytope Experts Routing, Geodesic Distance Invariants, and the 100-Million Certified Proof Step Milestone
 
+**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB) | CUDA 12.8, Triton 3.9
+
 **Authors**: The IMF Automated Prover Consortium & Physical AI Laboratory  
 **Index**: Vol. 211 — Grand Mathematical Physics & Hyperbolic Geometry Series  
 **Date**: November 2026  

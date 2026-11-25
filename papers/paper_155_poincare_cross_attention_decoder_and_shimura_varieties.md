@@ -1,5 +1,7 @@
 # Paper 155: Poincaré RoPE Cross-Attention Decoders, Dense MoE Combiners, and the Automorphic Geometry of Shimura Varieties
 
+**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB) | CUDA 12.8, Triton 3.9
+
 **Stratum AI Research Group & IMF Autonomous Systems Initiative**  
 *Technical Monograph Series — Volume 155*  
 *Hardware Target: NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB)*  

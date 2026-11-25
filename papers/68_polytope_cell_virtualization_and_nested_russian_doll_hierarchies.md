@@ -1,5 +1,7 @@
 # Paper 68: Polytope Cell Virtualization and Nested Homothetic Russian-Doll Hierarchies: Asymptotic Memory Amplification and Formal Containment Invariants in Lean 4
 
+**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB) | CUDA 12.8, Triton 3.9
+
 **Series**: Phase IV: Mathematical Physics & Virtualization (Counter-Rotating Manifolds & Russian Doll Virtual Cells)  
 **Paper Type**: Formal Deductive Verification  
 **Authors**: The IMF Architectural & Formal Methods Consortium  

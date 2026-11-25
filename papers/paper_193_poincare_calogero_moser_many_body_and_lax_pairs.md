@@ -1,7 +1,7 @@
 # Monograph 193: Fused Poincaré Calogero-Moser Many-Body Dynamics, Lax Invariants, and Dunkl Operators
 
 **Author:** The Stratum Architectural Research Consortium & IMF Automated Synthesis Engine  
-**Hardware Verification Target:** NVIDIA GeForce RTX 5060 Ti (SM 8.9, 16GB VRAM, Triton 3.9)  
+**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB) | CUDA 12.8, Triton 3.9
 **Machine Proof Certification:** Lean 4 Core System (0 External Axioms; `[propext, Quot.sound]`)  
 **Status:** Validated, Machine-Certified, Sealed in Parquet Lake  
 

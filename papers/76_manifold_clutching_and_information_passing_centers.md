@@ -1,5 +1,7 @@
 # Paper 76: Manifold Clutching Mechanics and Information-Passing Centers: State Transfer Across Counter-Rotating Lie Coordinates
 
+**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB) | CUDA 12.8, Triton 3.9
+
 **Series**: Phase IV: Mathematical Physics & Virtualization (Counter-Rotating Manifolds & Russian Doll Virtual Cells)  
 **Paper Type**: Theoretical Mathematical Monograph  
 **Authors**: The IMF Architectural & Formal Methods Consortium  

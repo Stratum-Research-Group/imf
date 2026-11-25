@@ -1,5 +1,7 @@
 # The 60-Paper Retrospective: Interaction Model Foundations and The Formal Architecture of Machine Reason
 
+**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB) | CUDA 12.8, Triton 3.9
+
 **Series**: Phase III: Quantization & Sub-Byte Linear Algebra (E8 Gosset Roots, Barycentric Engines & Sub-Byte GEMM)  
 **Paper Type**: Theoretical Mathematical Monograph  
 **Authors**: The IMF Architectural & Formal Methods Consortium  

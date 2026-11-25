@@ -1,5 +1,7 @@
 # Paper 124: M-Theory $G_2$-Manifolds, Associative 3-Cycles, and Exceptional Lie State Spaces
 
+**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB) | CUDA 12.8, Triton 3.9
+
 **Series**: Phase VII: Frontier Field Theories & Moonshine (Higher Operads, Non-Archimedean Spectra & Leech Moonshine)  
 **Paper Type**: Hardware Architecture & Physical Silicon  
 **Authors**: The IMF Architectural & Formal Methods Consortium  

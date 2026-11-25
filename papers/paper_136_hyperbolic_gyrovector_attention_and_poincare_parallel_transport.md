@@ -1,5 +1,7 @@
 # Technical Monograph 136: Fused Poincaré Gyrovector Operators, Riemannian Exp/Log Maps, and Manifold Metric Invariants
 
+**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB) | CUDA 12.8, Triton 3.9
+
 **Authors**: IMF Core Architecture & Formal Mathematics Group  
 **Status**: Certified & Workstation Benchmark Verified (RTX 5060 Ti, CUDA 12.8, Triton 3.9)  
 **Verification**: 100% Zero-Axiom Lean 4 Core `#print axioms` Soundness  

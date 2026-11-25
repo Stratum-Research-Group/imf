@@ -1,5 +1,7 @@
 # Paper 41: Asymptotic Polytope Lattice Scaling: Extreme Geometric Quantization from $10^1$ to $10^6$ Dimensions
 
+**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB) | CUDA 12.8, Triton 3.9
+
 **Series**: Phase III: Quantization & Sub-Byte Linear Algebra (E8 Gosset Roots, Barycentric Engines & Sub-Byte GEMM)  
 **Paper Type**: Theoretical Mathematical Monograph  
 **Authors**: The IMF Architectural & Formal Methods Consortium  

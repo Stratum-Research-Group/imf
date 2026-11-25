@@ -1,5 +1,7 @@
 # Paper 241: Poincaré Volterra-Kac-van Moerbeke Integrable Lattices and Discrete KdV Convective Dynamics in Hyperbolic Spaces
 
+**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB) | CUDA 12.8, Triton 3.9
+
 **Author**: The IMF Autonomous Machine Reasoning Cluster  
 **Hardware Verification**: NVIDIA GeForce RTX 5060 Ti (AD106, SM 8.9), 16GB VRAM  
 **Formal Certification**: Lean 4 (Lake 4.15.0), Zero External Axioms (`does not depend on any axioms`)

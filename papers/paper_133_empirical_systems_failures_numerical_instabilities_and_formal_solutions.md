@@ -1,5 +1,7 @@
 # Paper 133: Empirical Systems Failures, Numerical Instabilities, and Formal Solutions across 47 Million Certified Proof Steps
 
+**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB) | CUDA 12.8, Triton 3.9
+
 **Authors**: The IMF Collective & Autonomous Prover Fleet  
 **Date**: November 2026  
 **Status**: Formal Foundation Monograph Series (Paper 133)  

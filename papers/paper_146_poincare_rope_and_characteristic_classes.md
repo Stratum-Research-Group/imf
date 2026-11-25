@@ -1,5 +1,7 @@
 # Mathematical Monograph 146: Tangent-Space Orthogonal Givens Rotations and Characteristic Classes in Hyperbolic Architectures
 
+**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB) | CUDA 12.8, Triton 3.9
+
 **Authors**: Stratum Research Group & Autonomous Prover Fleet  
 **Affiliation**: Institute for Mathematical Formalism (IMF)  
 **Date**: November 2026  

@@ -1,5 +1,7 @@
 # Paper 218: Fused Poincaré Jimbo-Miwa (3+1)D Integrable Hierarchies, Mixed Fourth-Order Dispersion, and Zero-Axiom Lean 4 Verification
 
+**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB) | CUDA 12.8, Triton 3.9
+
 **Authors**: The IMF Automated Prover Consortium & Physical AI Laboratory  
 **Index**: Vol. 218 — Grand Mathematical Physics & Hyperbolic Geometry Series  
 **Date**: November 2026  
