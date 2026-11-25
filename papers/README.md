@@ -144,3 +144,8 @@ All papers adhere strictly to the IMF Research Standard:
 1. **Mathematical Soundness**: Explicit statements with complete formal proofs.
 2. **Honest Empirical Claims**: All reported latency, throughput, and memory measurements reflect actual workstation hardware (NVIDIA RTX 5060 Ti, Linux x86_64, CUDA 12.8, Triton 3.9); zero synthetic or unverified metrics.
 3. **Formal Machine Checking**: Machine-checked by Lean 4 Core `#print axioms` enforcing zero non-standard axioms.
+
+## High-Order Soliton & Discrete Lattice Dynastic Treatises (Papers 226 - 251)
+- **Paper 249**: `paper_249_poincare_discrete_boussinesq_lattice.md` - Poincaré Discrete Boussinesq Bidirectional Lattice Flow. Triton: $18.57\,\mu\text{s}$, $8.24\times$ speedup, $7,056.57\text{M nodes/s}$. 0 Lean axioms.
+- **Paper 250**: `paper_250_poincare_discrete_nkg_kink.md` - Poincaré Discrete Nonlinear Klein-Gordon Kink Flow. Triton: $11.00\,\mu\text{s}$, $5.65\times$ speedup, $11,911.80\text{M nodes/s}$. 0 Lean axioms.
+- **Paper 251**: `paper_251_poincare_discrete_manakov_vector_soliton.md` - Poincaré Discrete Coupled NLS Manakov Vector Soliton Lattice. Triton: $48.14\,\mu\text{s}$, $2.53\times$ speedup, $2,722.69\text{M nodes/s}$. 0 Lean axioms.
