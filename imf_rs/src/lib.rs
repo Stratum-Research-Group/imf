@@ -229,6 +229,85 @@ pub unsafe extern "C" fn imf_rs_infer_batch(
     0
 }
 
+/// Batched Polytope Projection (AVX2/FMA):
+/// Projects a batch of N vectors of dimension D (e.g. D=8 for E8 Gosset root space)
+/// onto the nearest polytope vertices or computes maximum inner product projection.
+/// x: [N, D], vertices: [V, D], out_proj: [N, D], out_indices: [N]
+#[no_mangle]
+pub unsafe extern "C" fn imf_polytope_projection_avx2(
+    x_ptr: *const f32,
+    vertices_ptr: *const f32,
+    n_vectors: usize,
+    n_vertices: usize,
+    dim: usize,
+    out_proj_ptr: *mut f32,
+    out_indices_ptr: *mut u32,
+) -> i32 {
+    if x_ptr.is_null() || vertices_ptr.is_null() || out_proj_ptr.is_null() || out_indices_ptr.is_null()
+        || n_vectors == 0 || n_vertices == 0 || dim == 0 {
+        return -1;
+    }
+
+    let x_slice = std::slice::from_raw_parts(x_ptr, n_vectors * dim);
+    let v_slice = std::slice::from_raw_parts(vertices_ptr, n_vertices * dim);
+    let out_proj = std::slice::from_raw_parts_mut(out_proj_ptr, n_vectors * dim);
+    let out_indices = std::slice::from_raw_parts_mut(out_indices_ptr, n_vectors);
+
+    for n in 0..n_vectors {
+        let x_vec = &x_slice[n * dim..(n + 1) * dim];
+        let mut max_dot = f32::NEG_INFINITY;
+        let mut best_idx = 0usize;
+
+        for v in 0..n_vertices {
+            let v_vec = &v_slice[v * dim..(v + 1) * dim];
+            let mut dot = 0.0f32;
+
+            #[cfg(target_arch = "x86_64")]
+            {
+                if is_x86_feature_detected!("avx2") && is_x86_feature_detected!("fma") && dim >= 8 {
+                    use std::arch::x86_64::*;
+                    let mut d = 0;
+                    let mut acc = _mm256_setzero_ps();
+                    while d + 8 <= dim {
+                        let xv = _mm256_loadu_ps(x_vec.as_ptr().add(d));
+                        let vv = _mm256_loadu_ps(v_vec.as_ptr().add(d));
+                        acc = _mm256_fmadd_ps(xv, vv, acc);
+                        d += 8;
+                    }
+                    let mut tmp = [0.0f32; 8];
+                    _mm256_storeu_ps(tmp.as_mut_ptr(), acc);
+                    dot += tmp.iter().sum::<f32>();
+                    while d < dim {
+                        dot += x_vec[d] * v_vec[d];
+                        d += 1;
+                    }
+                } else {
+                    for d in 0..dim {
+                        dot += x_vec[d] * v_vec[d];
+                    }
+                }
+            }
+            #[cfg(not(target_arch = "x86_64"))]
+            {
+                for d in 0..dim {
+                    dot += x_vec[d] * v_vec[d];
+                }
+            }
+
+            if dot > max_dot {
+                max_dot = dot;
+                best_idx = v;
+            }
+        }
+
+        out_indices[n] = best_idx as u32;
+        let best_vertex = &v_slice[best_idx * dim..(best_idx + 1) * dim];
+        out_proj[n * dim..(n + 1) * dim].copy_from_slice(best_vertex);
+    }
+
+    0
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -262,5 +341,42 @@ mod tests {
             assert!(diff < 1e-5, "Mismatch at index {}: cpu={} avx2={}", j, y_cpu[j], y_avx2[j]);
         }
     }
+
+    #[test]
+    fn test_polytope_projection_avx2() {
+        let n = 4;
+        let v = 8;
+        let dim = 8;
+        let x = vec![1.0f32; n * dim];
+        let mut vertices = vec![0.0f32; v * dim];
+        // Set vertex 3 to all 2.0 (maximum inner product)
+        for d in 0..dim {
+            vertices[3 * dim + d] = 2.0;
+        }
+
+        let mut out_proj = vec![0.0f32; n * dim];
+        let mut out_indices = vec![0u32; n];
+
+        unsafe {
+            let ret = imf_polytope_projection_avx2(
+                x.as_ptr(),
+                vertices.as_ptr(),
+                n,
+                v,
+                dim,
+                out_proj.as_mut_ptr(),
+                out_indices.as_mut_ptr(),
+            );
+            assert_eq!(ret, 0);
+        }
+
+        for i in 0..n {
+            assert_eq!(out_indices[i], 3);
+            for d in 0..dim {
+                assert_eq!(out_proj[i * dim + d], 2.0);
+            }
+        }
+    }
 }
+
 

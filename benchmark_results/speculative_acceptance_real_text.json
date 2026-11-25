@@ -1,16 +1,16 @@
 {
-  "timestamp": "2026-11-25T18:12:44Z",
+  "timestamp": "2026-11-25T18:33:55Z",
   "hardware": "NVIDIA GeForce RTX 5060 Ti",
   "dataset": "data/real_text_sample.txt",
   "draft_k": 4,
   "results": {
     "rounds_run": 100,
     "total_tokens_evaluated": 400,
-    "total_tokens_accepted": 302,
-    "mean_alpha": 0.7629,
-    "acceptance_rate": 0.755,
-    "mean_accepted_per_round": 3.02,
-    "speculative_speedup_factor": 3.02,
-    "time_seconds": 0.873
+    "total_tokens_accepted": 296,
+    "mean_alpha": 0.7199,
+    "acceptance_rate": 0.74,
+    "mean_accepted_per_round": 2.96,
+    "speculative_speedup_factor": 2.96,
+    "time_seconds": 0.8885
   }
 }

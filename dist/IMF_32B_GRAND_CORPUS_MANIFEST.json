@@ -2,11 +2,11 @@
   "orchestrator": "IMF MegaScale 32-Billion Step Prover Fleet",
   "author": "Nicholas Charles Mynhardt (Stratum Research Group)",
   "hardware_target": "AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9",
-  "total_certified_theorems": 6000000,
-  "blocks_completed": 6,
+  "total_certified_theorems": 10000000,
+  "blocks_completed": 10,
   "grand_target_theorems": 32000000000,
-  "completion_percentage": 0.0187,
-  "last_updated": "2026-11-25T18:05:34+0200",
+  "completion_percentage": 0.0312,
+  "last_updated": "2026-11-25T18:28:18Z",
   "blocks": [
     {
       "block_idx": 1,
@@ -67,6 +67,42 @@
       "archive_file": "dist/gym_32b_corpus/block_00006.tar.zst",
       "archive_size_bytes": 25199844,
       "archive_sha256": "cbfef8eb9b9e8ef77264a88cd13004bfbbb00fa15f2827653f961dcd20180d23"
+    },
+    {
+      "block_idx": 7,
+      "steps": 1000000,
+      "raw_sha256": "3cb6f6342533cfcc3cecbcd8eb3f70b38d2bc87479617b720ccbeadfb92fa58a",
+      "archive_file": "dist/gym_32b_corpus/block_00007.tar.zst",
+      "archive_size_bytes": 31880567,
+      "archive_sha256": "6e2baabbf1af28a12aec130c8dcb498c734389f88c6a075d94893a777d1ca9fe",
+      "sealed_at": "2026-11-25T18:26:21Z"
+    },
+    {
+      "block_idx": 8,
+      "steps": 1000000,
+      "raw_sha256": "c4f764550dae7a372b1dddbf0234528577a3b9edacf25439bbc0c639f439dafa",
+      "archive_file": "dist/gym_32b_corpus/block_00008.tar.zst",
+      "archive_size_bytes": 31871570,
+      "archive_sha256": "563460196ab66bcab23b6c49be3255f2d81404a80cf8493533394f36906d2106",
+      "sealed_at": "2026-11-25T18:27:00Z"
+    },
+    {
+      "block_idx": 9,
+      "steps": 1000000,
+      "raw_sha256": "f025621d2455baab36bf04af82221552d5c64e62cd4d30d14261dbc70ed33bdf",
+      "archive_file": "dist/gym_32b_corpus/block_00009.tar.zst",
+      "archive_size_bytes": 31823100,
+      "archive_sha256": "19c5570f924ecfaae4a46eb149f97a74db92fdf6d29fc28faf6ea40e9fd1bfea",
+      "sealed_at": "2026-11-25T18:27:39Z"
+    },
+    {
+      "block_idx": 10,
+      "steps": 1000000,
+      "raw_sha256": "90e1fdd592a961d62a30982670818b93549d7b62e455980784ceeee8ffe03027",
+      "archive_file": "dist/gym_32b_corpus/block_00010.tar.zst",
+      "archive_size_bytes": 33017829,
+      "archive_sha256": "9323764401088b69679279329bafb49066d0941da8cc51d5a0e9cf4fad24b533",
+      "sealed_at": "2026-11-25T18:28:18Z"
     }
   ]
 }

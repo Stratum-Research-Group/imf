@@ -49,6 +49,17 @@ def get_rust_lib():
                         ctypes.POINTER(ctypes.c_uint32),
                         ctypes.POINTER(ctypes.c_float),
                     ]
+                if hasattr(lib, "imf_polytope_projection_avx2"):
+                    lib.imf_polytope_projection_avx2.restype = ctypes.c_int32
+                    lib.imf_polytope_projection_avx2.argtypes = [
+                        ctypes.POINTER(ctypes.c_float),
+                        ctypes.POINTER(ctypes.c_float),
+                        ctypes.c_size_t,
+                        ctypes.c_size_t,
+                        ctypes.c_size_t,
+                        ctypes.POINTER(ctypes.c_float),
+                        ctypes.POINTER(ctypes.c_uint32),
+                    ]
                 _LIB_IMF_RS = lib
                 return _LIB_IMF_RS
             except Exception as e:
@@ -134,4 +145,47 @@ def rust_infer_batch(
         raise RuntimeError(f"Rust batched inference failed with code {status}")
 
     return states_c, out_tokens, out_drifts
+
+
+def rust_polytope_projection_avx2(
+    vectors: np.ndarray,
+    vertices: np.ndarray
+) -> Tuple[np.ndarray, np.ndarray]:
+    """
+    Batched AVX2/FMA projection of vectors onto polytope vertices.
+    Args:
+        vectors: [N, D] float32 query vectors
+        vertices: [V, D] float32 polytope vertices
+    Returns:
+        projected: [N, D] float32 closest/maximal vertex vectors
+        indices: [N] uint32 indices of chosen vertices
+    """
+    lib = get_rust_lib()
+    if lib is None or not hasattr(lib, "imf_polytope_projection_avx2"):
+        raise RuntimeError("Native Rust polytope projection function `imf_polytope_projection_avx2` not found.")
+
+    v_in = np.ascontiguousarray(vectors, dtype=np.float32)
+    vert_in = np.ascontiguousarray(vertices, dtype=np.float32)
+
+    N, D = v_in.shape
+    V, D2 = vert_in.shape
+    assert D == D2, f"Dimension mismatch: vectors {D} vs vertices {D2}"
+
+    out_proj = np.empty_like(v_in)
+    out_indices = np.zeros(N, dtype=np.uint32)
+
+    status = lib.imf_polytope_projection_avx2(
+        v_in.ctypes.data_as(ctypes.POINTER(ctypes.c_float)),
+        vert_in.ctypes.data_as(ctypes.POINTER(ctypes.c_float)),
+        N,
+        V,
+        D,
+        out_proj.ctypes.data_as(ctypes.POINTER(ctypes.c_float)),
+        out_indices.ctypes.data_as(ctypes.POINTER(ctypes.c_uint32)),
+    )
+    if status != 0:
+        raise RuntimeError(f"Rust polytope projection failed with code {status}")
+
+    return out_proj, out_indices
+
 
