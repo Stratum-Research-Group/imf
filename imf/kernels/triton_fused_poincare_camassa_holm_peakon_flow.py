@@ -1,7 +1,7 @@
 """
 IMF Physical Triton Hardware Benchmark: Fused Poincaré Camassa-Holm Peakon Flow
 ================================================================================
-Hardware: NVIDIA GeForce RTX 5060 Ti (SM 8.9, 16GB VRAM)
+Hardware: NVIDIA GeForce RTX 5060 Ti (SM 12.0, 16GB VRAM)
 Mathematical Formulation:
   The Camassa-Holm (CH) shallow-water wave equation:
     partial_t m + u partial_x m + 2 m partial_x u = 0,   where m = u - partial_x^2 u

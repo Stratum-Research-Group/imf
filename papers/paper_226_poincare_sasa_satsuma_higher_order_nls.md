@@ -1,6 +1,6 @@
 # Paper 226: Poincaré Sasa-Satsuma Higher-Order Nonlinear Schrödinger Soliton Flow in Hyperbolic Metric Space
 
-**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB) | CUDA 12.8, Triton 3.9  
+**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase VI: Dynastic Solitons & Formally Verified Mathematical Physics  
 **Paper Type:** Theoretical Mathematical Monograph & Hardware Benchmark  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
@@ -28,7 +28,7 @@ Integrating the flow with respect to the Riemannian volume measure ensures energ
 
 ---
 
-## 2. Workstation Triton Kernel Performance (SM 8.9)
+## 2. Workstation Triton Kernel Performance (SM 12.0)
 Benchmarked over $N = 131,072$ grid nodes:
 - **PyTorch FP32 Execution Time**: $765.93\,\mu\text{s}$
 - **Triton Fused Kernel Execution Time**: $23.40\,\mu\text{s}$

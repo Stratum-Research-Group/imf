@@ -1,6 +1,6 @@
 # Paper 169: Fused Poincaré Hyperbolic Bessel Convolutions, Spherical Eigenfunctions, and the Kuznetsov Trace Formula
 
-**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB) | CUDA 12.8, Triton 3.9  
+**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase VI: Dynastic Solitons & Formally Verified Mathematical Physics  
 **Paper Type:** Theoretical Mathematical Monograph & Hardware Benchmark  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
@@ -58,7 +58,7 @@ $$\tilde{\phi}(t) = \frac{\pi i}{\sinh(\pi t)} \int_0^\infty (J_{2it}(x) - J_{-2
 
 ## 3. Physical Hardware Benchmarks (RTX 5060 Ti)
 
-- **Device**: NVIDIA GeForce RTX 5060 Ti (16GB VRAM, SM 8.9)
+- **Device**: NVIDIA GeForce RTX 5060 Ti (16GB VRAM, SM 12.0)
 - **Batch Shape**: $[B=16, N=512, D=128]$ ($8,192$ tokens, sliding window radius $R=2$)
 - **Precision**: fp16 coordinates, fp32 radial distance and Bessel accumulators
 

@@ -1,7 +1,7 @@
 """
 IMF Physical Triton Hardware Benchmark: Fused Poincaré Calogero-Moser Many-Body Dynamics
 ================================================================================
-Hardware: NVIDIA GeForce RTX 5060 Ti (SM 8.9, 16GB VRAM)
+Hardware: NVIDIA GeForce RTX 5060 Ti (SM 12.0, 16GB VRAM)
 Mathematical Formulation:
   Completely integrable hyperbolic Calogero-Moser N-body Hamiltonian:
     H = (1/2) sum_{i=1}^N p_i^2 + g^2 sum_{1 <= i < j <= N} (1 / sinh^2(q_i - q_j))

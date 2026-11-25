@@ -475,7 +475,7 @@ The IMF foundation, empirical scaling laws, speculative decoding, and formal Lea
 - **Institution:** **Stratum Research Group (SRG)**
 - **Workstation Hardware Target:**
   - **CPU:** AMD Ryzen 5 7600X 6-Core Processor (12 Threads, up to 5.46 GHz, AVX-512)
-  - **GPU:** NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB VRAM)
+  - **GPU:** NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB VRAM)
   - **Runtime Substrate:** Linux x86_64, CUDA 12.8, Triton 3.9, PyTorch 2.15, Lean 4 Core (`propext`, `Quot.sound` only)
 
 All architectural specifications, physical fused Triton soliton kernels, and formally verified Lean 4 theorems are authored and governed under the Stratum Research Group research framework.

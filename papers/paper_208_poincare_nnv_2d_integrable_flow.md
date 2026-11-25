@@ -1,6 +1,6 @@
 # Paper 208: Fused Poincaré Nizhnik-Novikov-Veselov Integrable Flows, Non-Stationary Schrödinger Spectra, and Zero-Axiom Lean 4 Verification
 
-**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB) | CUDA 12.8, Triton 3.9  
+**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase VI: Dynastic Solitons & Formally Verified Mathematical Physics  
 **Paper Type:** Theoretical Mathematical Monograph & Hardware Benchmark  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
@@ -33,7 +33,7 @@ In `imf/kernels/triton_fused_poincare_nizhnik_novikov_veselov_2d.py`:
 - Third-order derivatives $u_{xxx}$ and $u_{yyy}$ are evaluated using 5-point central stencils loaded directly into register files.
 - The auxiliary field convective flux derivatives $(uv)_x$ and $(uw)_y$ are fused into the same execution pass.
 
-**Workstation Benchmarks (RTX 5060 Ti, SM 8.9)**:
+**Workstation Benchmarks (RTX 5060 Ti, SM 12.0)**:
 - PyTorch Baseline: $328.70\,\mu\text{s}$
 - Triton Fused Kernel: $10.80\,\mu\text{s}$
 - Speedup: **$30.45\times$**

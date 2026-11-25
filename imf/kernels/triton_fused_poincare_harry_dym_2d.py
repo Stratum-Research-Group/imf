@@ -1,6 +1,6 @@
 """
 Physical Workstation Triton Kernel: Fused Poincaré Harry Dym (2+1)D Reciprocal System (Cycle 221)
-Hardware Target: NVIDIA GeForce RTX 5060 Ti (AD106, SM 8.9), 16GB VRAM.
+Hardware Target: NVIDIA GeForce RTX 5060 Ti (AD106, SM 12.0), 16GB VRAM.
 
 The (2+1)D Harry Dym equation is an integrable hodograph-reciprocal system describing cuspon singular dynamics:
     u_t = u^3 u_{xxx} + 3 u^2 u_x v_y

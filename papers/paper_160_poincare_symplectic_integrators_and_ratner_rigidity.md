@@ -1,6 +1,6 @@
 # Paper 160: Fused Poincaré Symplectic Phase-Space Integrators, Geodesic Flows, and Ratner Rigidity
 
-**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB) | CUDA 12.8, Triton 3.9  
+**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase VI: Dynastic Solitons & Formally Verified Mathematical Physics  
 **Paper Type:** Theoretical Mathematical Monograph & Hardware Benchmark  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
@@ -58,7 +58,7 @@ On arithmetic Fuchsian quotients $M = \Gamma \backslash \mathrm{PSL}_2(\mathbb{R
 ## 3. Physical Hardware Triton Kernel Benchmarks
 
 Hardware Setup:
-- **GPU**: NVIDIA GeForce RTX 5060 Ti (16GB VRAM, SM 8.9)
+- **GPU**: NVIDIA GeForce RTX 5060 Ti (16GB VRAM, SM 12.0)
 - **Batch Shape**: $[B=16, N=256, D=128]$ ($4,096$ state tokens)
 - **Precision**: fp16 coordinates & momentum, fp32 intermediate accumulation
 

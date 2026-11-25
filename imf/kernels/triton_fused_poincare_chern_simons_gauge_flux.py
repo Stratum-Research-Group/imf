@@ -1,7 +1,7 @@
 """
 IMF Physical Triton Hardware Benchmark: Fused Poincaré Chern-Simons Gauge Flux
 ================================================================================
-Hardware: NVIDIA GeForce RTX 5060 Ti (SM 8.9, 16GB VRAM)
+Hardware: NVIDIA GeForce RTX 5060 Ti (SM 12.0, 16GB VRAM)
 Mathematical Formulation:
   Non-Abelian SU(2) Chern-Simons gauge connection 1-form on hyperbolic 3-space:
     A = sum_{a=1}^3 A_i^a T_a dx^i

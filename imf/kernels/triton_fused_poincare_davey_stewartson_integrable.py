@@ -1,6 +1,6 @@
 """
 Physical Workstation Triton Kernel: Fused Poincaré Davey-Stewartson Integrable System (Cycle 207)
-Hardware Target: NVIDIA GeForce RTX 5060 Ti (AD106, SM 8.9), 16GB VRAM.
+Hardware Target: NVIDIA GeForce RTX 5060 Ti (AD106, SM 12.0), 16GB VRAM.
 
 The Davey-Stewartson (DS) equations describe 2D modulated nonlinear wave packets:
     i A_t + c0 A_{xx} + A_{yy} = alpha |A|^2 A + beta A Q_x

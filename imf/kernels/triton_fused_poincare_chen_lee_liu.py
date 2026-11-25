@@ -1,6 +1,6 @@
 """
 Physical Workstation Triton Kernel: Fused Poincaré Chen-Lee-Liu Derivative NLS Flow (Cycle 223)
-Hardware Target: NVIDIA GeForce RTX 5060 Ti (AD106, SM 8.9), 16GB VRAM.
+Hardware Target: NVIDIA GeForce RTX 5060 Ti (AD106, SM 12.0), 16GB VRAM.
 
 The Chen-Lee-Liu (CLL) equation is the second canonical member of the derivative NLS hierarchy:
     i u_t + u_{xx} + i |u|^2 u_x = 0

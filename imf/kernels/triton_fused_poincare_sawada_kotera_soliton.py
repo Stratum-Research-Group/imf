@@ -1,7 +1,7 @@
 """
 IMF Physical Triton Hardware Benchmark: Fused Poincaré Sawada-Kotera 5th-Order Soliton
 ================================================================================
-Hardware: NVIDIA GeForce RTX 5060 Ti (SM 8.9, 16GB VRAM)
+Hardware: NVIDIA GeForce RTX 5060 Ti (SM 12.0, 16GB VRAM)
 Mathematical Formulation:
   The completely integrable fifth-order Sawada-Kotera (SK) equation:
     partial_t u + 45 u^2 partial_x u + 15 partial_x u partial_x^2 u + 15 u partial_x^3 u + partial_x^5 u = 0

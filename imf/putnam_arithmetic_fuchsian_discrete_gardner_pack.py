@@ -15,7 +15,7 @@ def get_pack_metadata() -> Dict[str, Any]:
         "axiom_count": 0,
         "external_dependencies": [],
         "lean_version": "Lean 4 Core",
-        "physical_device": "AMD Ryzen 5 7600X | NVIDIA GeForce RTX 5060 Ti (SM 8.9 AD106)",
+        "physical_device": "AMD Ryzen 5 7600X | NVIDIA GeForce RTX 5060 Ti (SM 12.0 GB206)",
         "kernel": "triton_fused_poincare_discrete_gardner",
         "speedup": "9.15x",
         "max_abs_error": 2.38e-7,

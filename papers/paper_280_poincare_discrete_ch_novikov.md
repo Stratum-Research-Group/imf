@@ -1,6 +1,6 @@
 # Paper 280: Poincaré Discrete Camassa-Holm-Novikov Dual Peakon Flow & Zero-Axiom Lean 4 Certification
 
-**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB) | CUDA 12.8, Triton 3.9  
+**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase VI: Dynastic Solitons & Formally Verified Mathematical Physics  
 **Paper Type:** Theoretical Mathematical Monograph & Hardware Benchmark  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
@@ -34,4 +34,4 @@ $$a_{\mathbb{H}} = \frac{dm_n/dt}{\lambda_u^2}, \quad \lambda_u = \frac{2}{1 - \
 ---
 
 ## 4. Conclusion
-The dual peakon lattice flow achieves high register occupancy on the Ada Lovelace SM 8.9 architecture, providing phase-space volume-preserving nonlinear dynamics verified under Lean 4 Core.
+The dual peakon lattice flow achieves high register occupancy on the Blackwell SM 12.0 architecture, providing phase-space volume-preserving nonlinear dynamics verified under Lean 4 Core.

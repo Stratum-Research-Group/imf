@@ -1,6 +1,6 @@
 """
 Physical Workstation Triton Kernel: Fused Poincaré Calogero-Degasperis Integrable Flow (Cycle 220)
-Hardware Target: NVIDIA GeForce RTX 5060 Ti (AD106, SM 8.9), 16GB VRAM.
+Hardware Target: NVIDIA GeForce RTX 5060 Ti (AD106, SM 12.0), 16GB VRAM.
 
 The Calogero-Degasperis equation is a spectral dispersive equation with non-local boundary interactions:
     u_t = 0.25 u_{xxx} - 1.5 u^2 u_x + 0.125 (u_x)^3 / (u^2 + eps)

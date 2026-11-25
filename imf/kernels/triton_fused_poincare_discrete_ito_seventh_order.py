@@ -1,6 +1,6 @@
 """
 Cycle 262: Fused Poincaré Discrete Ito 7th-Order Chiral Lattice Flow Kernel
-Hardware Target: Workstation NVIDIA GeForce RTX 5060 Ti (SM 8.9 AD106)
+Hardware Target: Workstation NVIDIA GeForce RTX 5060 Ti (SM 12.0 GB206)
 
 Evaluates the discrete Ito 7th-order chiral integrable lattice flow:
     d u_n / dt = (u_{n+3} - 3 u_{n+2} + 5 u_{n+1} - 5 u_{n-1} + 3 u_{n-2} - u_{n-3})

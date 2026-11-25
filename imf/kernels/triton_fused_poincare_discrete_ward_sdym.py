@@ -1,6 +1,6 @@
 """
 Cycle 255: Fused Poincaré Discrete Self-Dual Yang-Mills (Ward Lattice) Flow Kernel
-Hardware Target: Workstation NVIDIA GeForce RTX 5060 Ti (SM 8.9 AD106)
+Hardware Target: Workstation NVIDIA GeForce RTX 5060 Ti (SM 12.0 GB206)
 
 Evaluates the discrete Ward chiral integrable flow (2+2 dimensional reduction of SDYM)
 on the Poincaré hyperbolic ball manifold:

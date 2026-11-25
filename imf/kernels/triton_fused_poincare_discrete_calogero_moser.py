@@ -1,6 +1,6 @@
 """
 Cycle 263: Fused Poincaré Discrete Calogero-Moser Many-Body Nearest-Neighbor Flow Kernel
-Hardware Target: Workstation NVIDIA GeForce RTX 5060 Ti (SM 8.9 AD106)
+Hardware Target: Workstation NVIDIA GeForce RTX 5060 Ti (SM 12.0 GB206)
 
 Evaluates the discrete Calogero-Moser lattice interaction:
     d^2 x_n / dt^2 = 2.0 * g^2 * ( 1 / (x_n - x_{n+1} + d0)^3 + 1 / (x_n - x_{n-1} - d0)^3 )

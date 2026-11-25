@@ -1,7 +1,7 @@
 """
 IMF High-Performance Fused Poincare Non-Abelian Gauge Wilson Loop Kernel
 ========================================================================
-Physical Hardware Target: NVIDIA GeForce RTX 5060 Ti (SM 8.9 / Ada Lovelace)
+Physical Hardware Target: NVIDIA GeForce RTX 5060 Ti (SM 12.0 / Blackwell)
 Mathematical Foundation:
   Non-Abelian gauge connection and Wilson loop holonomy on the Poincaré ball (D^d_c, g_c).
   Let a closed loop sequence in D^d_c be represented by tokens (x_0, x_1, ..., x_{T-1})

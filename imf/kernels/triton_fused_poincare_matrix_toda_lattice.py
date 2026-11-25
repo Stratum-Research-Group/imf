@@ -1,7 +1,7 @@
 """
 IMF Physical Triton Hardware Benchmark: Fused Poincaré Toda Lattice Flaschka Flow
 ================================================================================
-Hardware: NVIDIA GeForce RTX 5060 Ti (SM 8.9, 16GB VRAM)
+Hardware: NVIDIA GeForce RTX 5060 Ti (SM 12.0, 16GB VRAM)
 Mathematical Formulation:
   The non-periodic Toda lattice Hamiltonian:
     H = (1/2) sum_{i=1}^N p_i^2 + sum_{i=1}^{N-1} exp(q_i - q_{i+1})

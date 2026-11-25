@@ -1,7 +1,7 @@
 """
 IMF Physical Triton Hardware Benchmark: Fused Poincaré Landau-Lifshitz Spin Wave
 ================================================================================
-Hardware: NVIDIA GeForce RTX 5060 Ti (SM 8.9, 16GB VRAM)
+Hardware: NVIDIA GeForce RTX 5060 Ti (SM 12.0, 16GB VRAM)
 Mathematical Formulation:
   The non-linear Landau-Lifshitz equation for classical anisotropic Heisenberg ferromagnetic spin chains:
     partial_t S = S x partial_x^2 S + S x (J_diag · S) - lambda * S x (S x partial_x^2 S)

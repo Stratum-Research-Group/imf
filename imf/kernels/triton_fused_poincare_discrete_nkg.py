@@ -1,6 +1,6 @@
 """
 Cycle 250: Fused Poincaré Discrete Nonlinear Klein-Gordon Kink Flow Kernel
-Hardware Target: Workstation NVIDIA GeForce RTX 5060 Ti (SM 8.9 AD106)
+Hardware Target: Workstation NVIDIA GeForce RTX 5060 Ti (SM 12.0 GB206)
 
 Evaluates discrete nonlinear Klein-Gordon (NKG) lattice dynamical flow with bistable phi^4 potential:
     d^2 phi_n / dt^2 = C * (phi_{n+1} - 2 phi_n + phi_{n-1}) - (phi_n^3 - phi_n)

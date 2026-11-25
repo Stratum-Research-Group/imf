@@ -13,7 +13,7 @@ def get_pack_metadata() -> Dict[str, Any]:
         "axiom_count": 0,
         "external_dependencies": [],
         "lean_version": "Lean 4 Core",
-        "physical_device": "NVIDIA GeForce RTX 5060 Ti (SM 8.9 AD106)",
+        "physical_device": "NVIDIA GeForce RTX 5060 Ti (SM 12.0 GB206)",
         "kernel": "triton_fused_poincare_discrete_ostrovsky",
         "speedup": "9.28x",
         "max_abs_error": 2.98e-8,

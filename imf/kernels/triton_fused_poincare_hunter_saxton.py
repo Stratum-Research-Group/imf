@@ -1,5 +1,5 @@
 """
-Triton Fused Kernel: Poincaré Hunter-Saxton Liquid Crystal Wave Breaking Flow (SM 8.9)
+Triton Fused Kernel: Poincaré Hunter-Saxton Liquid Crystal Wave Breaking Flow (SM 12.0)
 Cycle 230 Capstone: High-Frequency Energy Conservation, Wave-Breaking Gradient Catastrophe,
 and Poincaré Hyperbolic Regularization.
 
@@ -91,7 +91,7 @@ def poincare_hunter_saxton_pytorch(u: torch.Tensor, dt: float = 0.001):
 def benchmark():
     device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
     print("=" * 70)
-    print("  IMF TRITON POINCARÉ HUNTER-SAXTON FLOW (RTX 5060 Ti SM 8.9)")
+    print("  IMF TRITON POINCARÉ HUNTER-SAXTON FLOW (RTX 5060 Ti SM 12.0)")
     print("=" * 70)
 
     n = 131072

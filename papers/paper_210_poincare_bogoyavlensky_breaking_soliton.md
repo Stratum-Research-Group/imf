@@ -1,6 +1,6 @@
 # Paper 210: Fused Poincaré Bogoyavlensky Breaking Solitons, Mixed Spatial Dispersion, and Zero-Axiom Lean 4 Verification
 
-**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB) | CUDA 12.8, Triton 3.9  
+**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase VI: Dynastic Solitons & Formally Verified Mathematical Physics  
 **Paper Type:** Theoretical Mathematical Monograph & Hardware Benchmark  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
@@ -33,7 +33,7 @@ In `imf/kernels/triton_fused_poincare_bogoyavlensky_breaking_soliton.py`:
 - 2D mixed derivative $u_{xxy} = \partial_y (u_{xx})$ is computed using compact 6-point stencils in thread-block SRAM.
 - The auxiliary velocity potential $v$ is updated concurrently without global DRAM synchronization.
 
-**Physical Hardware Benchmarks (RTX 5060 Ti, SM 8.9)**:
+**Physical Hardware Benchmarks (RTX 5060 Ti, SM 12.0)**:
 - PyTorch Baseline: $159.80\,\mu\text{s}$
 - Triton Fused Kernel: $7.65\,\mu\text{s}$
 - Speedup: **$20.90\times$**

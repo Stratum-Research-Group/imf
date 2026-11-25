@@ -1,6 +1,6 @@
 # Paper 225: Fused Poincaré Wadati-Konno-Ichikawa Integrable Flows, Nonlinear Loop Solitons, and Zero-Axiom Lean 4 Verification
 
-**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB) | CUDA 12.8, Triton 3.9  
+**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase VI: Dynastic Solitons & Formally Verified Mathematical Physics  
 **Paper Type:** Theoretical Mathematical Monograph & Hardware Benchmark  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
@@ -26,7 +26,7 @@ The WKI hierarchy is associated with a generalized $2 \times 2$ AKNS eigenvalue 
 
 ---
 
-### 2. Workstation Hardware Benchmarks (RTX 5060 Ti, SM 8.9)
+### 2. Workstation Hardware Benchmarks (RTX 5060 Ti, SM 12.0)
 
 Tested on 524,288 lattice nodes:
 - Baseline PyTorch Latency: $172.37\,\mu\text{s}$

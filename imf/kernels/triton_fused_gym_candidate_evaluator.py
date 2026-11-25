@@ -1,7 +1,7 @@
 """
 imf/kernels/triton_fused_gym_candidate_evaluator.py
 Fused Triton GPU Accelerator for MegaScale Gym Candidate Verification.
-Hardware Target: AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB) | CUDA 12.8, Triton 3.9
+Hardware Target: AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9
 Author: Nicholas Charles Mynhardt (Stratum Research Group)
 
 Accelerates candidate generation and truth evaluation for:

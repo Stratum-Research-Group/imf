@@ -1,6 +1,6 @@
 """
 Cycle 256: Fused Poincaré Discrete Bogoyavlensky-Sasaki Lattice Flow Kernel
-Hardware Target: Workstation NVIDIA GeForce RTX 5060 Ti (SM 8.9 AD106)
+Hardware Target: Workstation NVIDIA GeForce RTX 5060 Ti (SM 12.0 GB206)
 
 Evaluates the discrete Bogoyavlensky-Sasaki hydrodynamic lattice flow (generalization of discrete KdV):
     d u_n / dt = u_n * ( sum_{k=1}^p u_{n+k} - sum_{k=1}^p u_{n-k} )

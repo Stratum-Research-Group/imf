@@ -1,12 +1,12 @@
 {
   "orchestrator": "IMF MegaScale 32-Billion Step Prover Fleet",
   "author": "Nicholas Charles Mynhardt (Stratum Research Group)",
-  "hardware_target": "AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB) | CUDA 12.8, Triton 3.9",
-  "total_certified_theorems": 1000000,
-  "blocks_completed": 1,
+  "hardware_target": "AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9",
+  "total_certified_theorems": 3000000,
+  "blocks_completed": 3,
   "grand_target_theorems": 32000000000,
-  "completion_percentage": 0.0031,
-  "last_updated": "2026-11-25T13:54:26+0200",
+  "completion_percentage": 0.0094,
+  "last_updated": "2026-11-25T14:52:15+0200",
   "blocks": [
     {
       "block_idx": 1,
@@ -17,6 +17,26 @@
       "archive_file": "dist/gym_32b_corpus/block_00001.tar.zst",
       "archive_size_bytes": 15838346,
       "archive_sha256": "9e98428757c2ba1b9c92ec18e958b76bfa5282fc1406f48f07936113817ba036"
+    },
+    {
+      "block_idx": 2,
+      "steps": 1000000,
+      "elapsed_seconds": 913.81,
+      "steps_per_sec": 1094.32,
+      "raw_sha256": "25bd27b7821a302c738c019fde14a1d8cc814a9fc70b42f9e6d3c640f3b91b64",
+      "archive_file": "dist/gym_32b_corpus/block_00002.tar.zst",
+      "archive_size_bytes": 25258376,
+      "archive_sha256": "74090d2fd44f0a571eedeab9402f0243095a6c20c300b034f75ba9de70f74972"
+    },
+    {
+      "block_idx": 3,
+      "steps": 1000000,
+      "elapsed_seconds": 957.4,
+      "steps_per_sec": 1044.49,
+      "raw_sha256": "7aea50d89f0932664f2d26452d4437caaf664d531b16b772493349311a746796",
+      "archive_file": "dist/gym_32b_corpus/block_00003.tar.zst",
+      "archive_size_bytes": 25193001,
+      "archive_sha256": "d8c7e184655683fcf44c025c3ea613f569e33c2757eb25c039089c51362e91c9"
     }
   ]
 }

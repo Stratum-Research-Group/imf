@@ -1,7 +1,7 @@
 """
 IMF High-Performance Fused Poincare Berry Curvature Topological Router Kernel
 =============================================================================
-Physical Hardware Target: NVIDIA GeForce RTX 5060 Ti (SM 8.9 / Ada Lovelace)
+Physical Hardware Target: NVIDIA GeForce RTX 5060 Ti (SM 12.0 / Blackwell)
 Mathematical Foundation:
   Geometric Berry connection and topological curvature routing on the Poincaré ball (D^d_c, g_c).
   In quantum / non-Euclidean representation geometry, token trajectories moving in D^d_c

@@ -1,6 +1,6 @@
 # Paper 212: Fused Sub-Bit $\mathrm{E}_8$ Gosset Lattice Dequantization, Workstation Memory Scaling, and Zero-Axiom Lean 4 Verification
 
-**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB) | CUDA 12.8, Triton 3.9  
+**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase VI: Dynastic Solitons & Formally Verified Mathematical Physics  
 **Paper Type:** Theoretical Mathematical Monograph & Hardware Benchmark  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
@@ -27,7 +27,7 @@ Because $240 < 256$, any normalized 8D weight sub-block can be projected onto th
 
 ---
 
-### 2. Workstation Hardware Benchmarks (RTX 5060 Ti, SM 8.9)
+### 2. Workstation Hardware Benchmarks (RTX 5060 Ti, SM 12.0)
 
 Tested on a standard $4096 \times 4096$ linear weight matrix (16.78M weights):
 - Raw FP16 Size: $33.55\text{ MB}$

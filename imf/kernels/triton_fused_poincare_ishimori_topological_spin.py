@@ -1,6 +1,6 @@
 """
 Physical Workstation Triton Kernel: Fused Poincaré Ishimori Topological Spin Flow (Cycle 206)
-Hardware Target: NVIDIA GeForce RTX 5060 Ti (AD106, SM 8.9), 16GB VRAM.
+Hardware Target: NVIDIA GeForce RTX 5060 Ti (AD106, SM 12.0), 16GB VRAM.
 
 The Ishimori equation is a 2D integrable generalization of the Heisenberg ferromagnet
 coupled to a scalar potential:

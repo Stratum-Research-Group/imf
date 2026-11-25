@@ -22,7 +22,7 @@ def run_cli_session():
     print("=" * 80)
     print("  IMF INTERACTIVE FORMAL REASONING & PROVER TERMINAL")
     print("  Engine: Distilled 14B MoPE Student Checkpoint + Zero-Axiom Lean 4")
-    print("  Hardware: NVIDIA GeForce RTX 5060 Ti (16GB VRAM, SM 8.9)")
+    print("  Hardware: NVIDIA GeForce RTX 5060 Ti (16GB VRAM, SM 12.0)")
     print("=" * 80)
 
     # Check student checkpoint

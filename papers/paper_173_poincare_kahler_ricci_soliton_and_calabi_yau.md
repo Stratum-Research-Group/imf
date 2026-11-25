@@ -1,6 +1,6 @@
 # Paper 173: Fused Poincaré Kähler-Ricci Soliton Flows and Machine-Certified Calabi-Yau Monge-Ampère Invariants
 
-**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB) | CUDA 12.8, Triton 3.9  
+**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase VI: Dynastic Solitons & Formally Verified Mathematical Physics  
 **Paper Type:** Theoretical Mathematical Monograph & Hardware Benchmark  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
@@ -35,7 +35,7 @@ subject to strict boundary projection $\|z_{t+\Delta t}\|^2 \le (1 - \epsilon)/c
 
 ## 2. Hardware Implementation & Physical Workstation Benchmarks
 
-The kernel was executed and verified directly on physical hardware (NVIDIA GeForce RTX 5060 Ti, SM 8.9).
+The kernel was executed and verified directly on physical hardware (NVIDIA GeForce RTX 5060 Ti, SM 12.0).
 
 | Metric | PyTorch Eager Baseline | Triton Fused Kernel | Performance Gain |
 | :--- | :--- | :--- | :--- |

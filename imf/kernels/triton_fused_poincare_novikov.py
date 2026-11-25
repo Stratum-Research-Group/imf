@@ -1,5 +1,5 @@
 """
-Triton Fused Kernel: Poincaré Novikov Cubic Peakon Hierarchy (SM 8.9)
+Triton Fused Kernel: Poincaré Novikov Cubic Peakon Hierarchy (SM 12.0)
 Cycle 229 Capstone: Cubic Nonlinear Peakons, Quadratic Momentum Coupling, and Hyperbolic Manifold Flow.
 
 Physical Model:
@@ -108,7 +108,7 @@ def poincare_novikov_pytorch(u: torch.Tensor, dt: float = 0.001):
 def benchmark():
     device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
     print("=" * 70)
-    print("  IMF TRITON POINCARÉ NOVIKOV CUBIC PEAKON FLOW (RTX 5060 Ti SM 8.9)")
+    print("  IMF TRITON POINCARÉ NOVIKOV CUBIC PEAKON FLOW (RTX 5060 Ti SM 12.0)")
     print("=" * 70)
 
     n = 131072

@@ -1,6 +1,6 @@
 """
 Cycle 251: Fused Poincaré Discrete Coupled NLS Manakov Vector Soliton Lattice Flow Kernel
-Hardware Target: Workstation NVIDIA GeForce RTX 5060 Ti (SM 8.9 AD106)
+Hardware Target: Workstation NVIDIA GeForce RTX 5060 Ti (SM 12.0 GB206)
 
 Evaluates the 2-component vector discrete nonlinear Schrödinger (Manakov lattice) flow:
     i d psi_{1,n} / dt = (psi_{1,n+1} - 2 psi_{1,n} + psi_{1,n-1}) + gamma * (|psi_{1,n}|^2 + |psi_{2,n}|^2) * (psi_{1,n+1} + psi_{1,n-1})

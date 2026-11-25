@@ -1,7 +1,7 @@
 """
 IMF Physical Triton Hardware Benchmark: Fused Poincaré Kadomtsev-Petviashvili II (KP-II) Matrix Soliton
 ================================================================================
-Hardware: NVIDIA GeForce RTX 5060 Ti (SM 8.9, 16GB VRAM)
+Hardware: NVIDIA GeForce RTX 5060 Ti (SM 12.0, 16GB VRAM)
 Mathematical Formulation:
   The Kadomtsev-Petviashvili II (KP-II) non-linear dispersion equation on the Poincaré disk:
     partial_x ( partial_t u + 6 u partial_x u + partial_x^3 u ) + 3 sigma^2 partial_y^2 u = 0

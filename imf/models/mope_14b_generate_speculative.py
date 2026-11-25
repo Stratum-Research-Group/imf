@@ -1,6 +1,6 @@
 """
 14B MoPE Live Speculative Autoregressive Generation CLI
-Hardware Target: Workstation NVIDIA GeForce RTX 5060 Ti (SM 8.9 AD106)
+Hardware Target: Workstation NVIDIA GeForce RTX 5060 Ti (SM 12.0 GB206)
 
 Runs live speculative autoregressive generation using the lightweight draft model,
 fused Poincaré hyperbolic top-2 routing, and dynamic acceptance sampling.

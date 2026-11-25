@@ -1,6 +1,6 @@
 """
 Physical Workstation Triton Kernel: Fused Poincaré Nizhnik-Novikov-Veselov (NNV) 2D Integrable Flow (Cycle 208)
-Hardware Target: NVIDIA GeForce RTX 5060 Ti (AD106, SM 8.9), 16GB VRAM.
+Hardware Target: NVIDIA GeForce RTX 5060 Ti (AD106, SM 12.0), 16GB VRAM.
 
 The Nizhnik-Novikov-Veselov (NNV) equation is an isotropic 2D generalization of the KdV equation
 associated with the non-stationary 2D Schrödinger spectral problem:

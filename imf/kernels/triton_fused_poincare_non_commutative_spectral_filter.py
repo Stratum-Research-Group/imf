@@ -1,7 +1,7 @@
 """
 IMF High-Performance Fused Poincare Non-Commutative Spectral Filter Kernel
 =========================================================================
-Physical Hardware Target: NVIDIA GeForce RTX 5060 Ti (SM 8.9 / Ada Lovelace)
+Physical Hardware Target: NVIDIA GeForce RTX 5060 Ti (SM 12.0 / Blackwell)
 Mathematical Foundation:
   Non-commutative harmonic analysis and spherical Fourier multiplier on the Poincaré ball (D^d_c, g_c).
   In hyperbolic space, radial eigenfunctions of the Laplace-Beltrami operator are Legendre functions:

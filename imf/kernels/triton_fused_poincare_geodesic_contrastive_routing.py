@@ -1,7 +1,7 @@
 """
 Fused Poincaré Geodesic Contrastive InfoNCE Routing Kernel
 ===========================================================
-Physical Workstation Benchmark: NVIDIA GeForce RTX 5060 Ti (SM 8.9)
+Physical Workstation Benchmark: NVIDIA GeForce RTX 5060 Ti (SM 12.0)
 Hardware Constrained: 16GB VRAM, 101KB Shared Memory Ceiling
 
 Implements an intrinsic hyperbolic InfoNCE contrastive routing kernel on D^d_c.

@@ -1,6 +1,6 @@
 """
 Cycle 264: Fused Poincaré Discrete Toda Lattice Exponential Soliton Flow Kernel
-Hardware Target: Workstation NVIDIA GeForce RTX 5060 Ti (SM 8.9 AD106)
+Hardware Target: Workstation NVIDIA GeForce RTX 5060 Ti (SM 12.0 GB206)
 
 Evaluates the discrete Toda exponential lattice dynamical flow:
     d^2 q_n / dt^2 = exp( - (q_n - q_{n-1}) ) - exp( - (q_{n+1} - q_n) )

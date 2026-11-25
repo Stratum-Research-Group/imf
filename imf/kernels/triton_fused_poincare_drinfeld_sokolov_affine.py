@@ -1,6 +1,6 @@
 """
 Physical Workstation Triton Kernel: Fused Poincaré Drinfeld-Sokolov Affine KdV Flow (Cycle 209)
-Hardware Target: NVIDIA GeForce RTX 5060 Ti (AD106, SM 8.9), 16GB VRAM.
+Hardware Target: NVIDIA GeForce RTX 5060 Ti (AD106, SM 12.0), 16GB VRAM.
 
 The Drinfeld-Sokolov (DS) hierarchy generalizes KdV to arbitrary affine Kac-Moody Lie algebras.
 For the affine Lie algebra A_2^(1), it yields a coupled two-field integrable system:

@@ -1,6 +1,6 @@
 # Paper 222: Fused Poincaré Kaup-Newell Derivative NLS Solitons, Alfven Wave Physics, and Zero-Axiom Lean 4 Verification
 
-**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB) | CUDA 12.8, Triton 3.9  
+**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase VI: Dynastic Solitons & Formally Verified Mathematical Physics  
 **Paper Type:** Theoretical Mathematical Monograph & Hardware Benchmark  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
@@ -29,7 +29,7 @@ Under hyperbolic metric scaling:
 
 ---
 
-### 2. Workstation Hardware Benchmarks (RTX 5060 Ti, SM 8.9)
+### 2. Workstation Hardware Benchmarks (RTX 5060 Ti, SM 12.0)
 
 Tested on 524,288 nodes (1,048,576 real and imaginary field variables):
 - Baseline PyTorch Latency: $287.18\,\mu\text{s}$

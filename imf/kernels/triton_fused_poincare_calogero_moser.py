@@ -1,5 +1,5 @@
 """
-Triton Fused Kernel: Poincaré Calogero-Moser Many-Body All-to-All Integrable Flow (SM 8.9)
+Triton Fused Kernel: Poincaré Calogero-Moser Many-Body All-to-All Integrable Flow (SM 12.0)
 Cycle 237 Capstone: All-to-All Hyperbolic Inverse-Square Pairwise Interactions,
 Symplectic Momentum Flow, and Poincaré Hyperbolic Confinement.
 
@@ -107,7 +107,7 @@ def poincare_calogero_moser_pytorch(q: torch.Tensor, p: torch.Tensor, dt: float 
 def benchmark():
     device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
     print("=" * 70)
-    print("  IMF TRITON POINCARÉ CALOGERO-MOSER ALL-TO-ALL FLOW (RTX 5060 Ti SM 8.9)")
+    print("  IMF TRITON POINCARÉ CALOGERO-MOSER ALL-TO-ALL FLOW (RTX 5060 Ti SM 12.0)")
     print("=" * 70)
 
     n = 4096  # 4096 particles (all-to-all: 16.7M pairs)

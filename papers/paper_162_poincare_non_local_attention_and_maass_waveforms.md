@@ -1,6 +1,6 @@
 # Paper 162: Fused Poincaré Non-Local Attention, Online Geodesic Softmax, and Fuchsian Maass Waveforms
 
-**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB) | CUDA 12.8, Triton 3.9  
+**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase VI: Dynastic Solitons & Formally Verified Mathematical Physics  
 **Paper Type:** Theoretical Mathematical Monograph & Hardware Benchmark  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
@@ -60,7 +60,7 @@ $$K(z, w) = \sum_{j=1}^\infty h(r_j) f_j(z) \overline{f_j(w)} + \frac{1}{4\pi} \
 
 ## 3. Physical Hardware Benchmarks (RTX 5060 Ti)
 
-- **Device**: NVIDIA GeForce RTX 5060 Ti (16GB VRAM, SM 8.9)
+- **Device**: NVIDIA GeForce RTX 5060 Ti (16GB VRAM, SM 12.0)
 - **Shape**: $[B=8, N=512, D=64]$ ($4,096$ tokens)
 - **Precision**: fp16 queries, keys, values; fp32 online accumulation
 

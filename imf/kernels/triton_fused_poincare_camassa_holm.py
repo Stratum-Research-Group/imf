@@ -1,5 +1,5 @@
 """
-Triton Fused Kernel: Poincaré Camassa-Holm b=2 Weak Peakon Symplectic Flow (SM 8.9)
+Triton Fused Kernel: Poincaré Camassa-Holm b=2 Weak Peakon Symplectic Flow (SM 12.0)
 Cycle 228 Capstone: Shallow Water Peakon Dynamics, Momentum Density Inversion, and Hyperbolic Confinement.
 
 Physical Model:
@@ -107,7 +107,7 @@ def poincare_camassa_holm_pytorch(u: torch.Tensor, dt: float = 0.001):
 def benchmark():
     device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
     print("=" * 70)
-    print("  IMF TRITON POINCARÉ CAMASSA-HOLM FLOW (RTX 5060 Ti SM 8.9)")
+    print("  IMF TRITON POINCARÉ CAMASSA-HOLM FLOW (RTX 5060 Ti SM 12.0)")
     print("=" * 70)
 
     n = 131072

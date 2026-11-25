@@ -1,6 +1,6 @@
 """
 Cycle 266: Fused Poincaré Discrete Volterra-Lotka Prey-Predator Lattice Flow Kernel
-Hardware Target: Workstation NVIDIA GeForce RTX 5060 Ti (SM 8.9 AD106)
+Hardware Target: Workstation NVIDIA GeForce RTX 5060 Ti (SM 12.0 GB206)
 
 Evaluates the discrete Volterra-Lotka ecological lattice dynamical flow:
     d N_n / dt = N_n * ( (N_{n+1} - N_{n-1}) + epsilon * N_n * (N_{n+1} + N_{n-1}) )

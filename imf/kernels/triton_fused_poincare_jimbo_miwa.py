@@ -1,6 +1,6 @@
 """
 Physical Workstation Triton Kernel: Fused Poincaré Jimbo-Miwa (3+1)D Flow (Cycle 218)
-Hardware Target: NVIDIA GeForce RTX 5060 Ti (AD106, SM 8.9), 16GB VRAM.
+Hardware Target: NVIDIA GeForce RTX 5060 Ti (AD106, SM 12.0), 16GB VRAM.
 
 The Jimbo-Miwa equation is the second equation in the Kadomtsev-Petviashvili (KP) hierarchy:
     2 u_{yt} - u_{xxxy} - 3 (u_x u_y)_x - 3 u_{zz} = 0

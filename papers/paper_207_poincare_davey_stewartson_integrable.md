@@ -1,6 +1,6 @@
 # Paper 207: Fused Poincaré Davey-Stewartson Integrable Systems, 2D Dromion Solitons, and Zero-Axiom Lean 4 Verification
 
-**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB) | CUDA 12.8, Triton 3.9  
+**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase VI: Dynastic Solitons & Formally Verified Mathematical Physics  
 **Paper Type:** Theoretical Mathematical Monograph & Hardware Benchmark  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
@@ -33,7 +33,7 @@ Implemented in `imf/kernels/triton_fused_poincare_davey_stewartson_integrable.py
 - 2D stencils for $(A_r, A_i)$ and mean flow gradient $Q_x$ are evaluated within local thread blocks.
 - Real and imaginary updates are calculated concurrently in hardware registers without memory stalls.
 
-**Workstation Benchmark Results (RTX 5060 Ti, SM 8.9)**:
+**Workstation Benchmark Results (RTX 5060 Ti, SM 12.0)**:
 - PyTorch Baseline: $377.13\,\mu\text{s}$
 - Triton Fused Kernel: $13.66\,\mu\text{s}$
 - Speedup: **$27.62\times$**

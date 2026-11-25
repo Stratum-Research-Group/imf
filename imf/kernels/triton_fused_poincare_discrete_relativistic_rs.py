@@ -1,6 +1,6 @@
 """
 Cycle 265: Fused Poincaré Discrete Ruijsenaars-Schneider Relativistic Hyperbolic Flow Kernel
-Hardware Target: Workstation NVIDIA GeForce RTX 5060 Ti (SM 8.9 AD106)
+Hardware Target: Workstation NVIDIA GeForce RTX 5060 Ti (SM 12.0 GB206)
 
 Evaluates the discrete Ruijsenaars-Schneider relativistic many-body interaction:
     d q_n / dt = v_n * sqrt( (1 + lambda^2 / (q_n - q_{n+1} + d0)^2) * (1 + lambda^2 / (q_n - q_{n-1} - d0)^2) )

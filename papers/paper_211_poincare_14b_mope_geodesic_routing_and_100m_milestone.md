@@ -1,6 +1,6 @@
 # Paper 211: Fused Poincaré 14B Mixture of Polytope Experts Routing, Geodesic Distance Invariants, and the 100-Million Certified Proof Step Milestone
 
-**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB) | CUDA 12.8, Triton 3.9  
+**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase VI: Dynastic Solitons & Formally Verified Mathematical Physics  
 **Paper Type:** Theoretical Mathematical Monograph & Hardware Benchmark  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
@@ -36,7 +36,7 @@ This provides vast geometric capacity to partition distinct mathematical domains
 
 ---
 
-### 3. Workstation Hardware Benchmarks (RTX 5060 Ti, SM 8.9)
+### 3. Workstation Hardware Benchmarks (RTX 5060 Ti, SM 12.0)
 
 Tested on 4,096 tokens, $D=512$, $E=16$ experts:
 - PyTorch Baseline: $1,486.02\,\mu\text{s}$

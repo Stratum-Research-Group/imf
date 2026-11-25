@@ -1,7 +1,7 @@
 """
 IMF High-Performance Fused Poincare Non-Linear Dirichlet Harmonic Map Kernel
 ===========================================================================
-Physical Hardware Target: NVIDIA GeForce RTX 5060 Ti (SM 8.9 / Ada Lovelace)
+Physical Hardware Target: NVIDIA GeForce RTX 5060 Ti (SM 12.0 / Blackwell)
 Mathematical Foundation:
   Non-linear Dirichlet energy and harmonic map heat flow between Poincaré manifolds:
       u: (D^d_{c_1}, g) -> (D^d_{c_2}, h).

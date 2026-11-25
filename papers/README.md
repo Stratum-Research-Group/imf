@@ -2,7 +2,7 @@
 
 This index catalog tracks all scientific treatises, technical foundation papers, and hardware monographs within the IMF architecture. Every monograph provides rigorous mathematical formulations, machine-checked Lean 4 Core proofs, and physical workstation benchmarks on our verified hardware baseline:
 - **Workstation CPU:** AMD Ryzen 5 7600X 6-Core Processor (12 Threads, up to 5.46 GHz, AVX-512)
-- **Workstation GPU:** NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB VRAM)
+- **Workstation GPU:** NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB VRAM)
 - **Software Substrate:** CUDA 12.8, Triton 3.9, PyTorch 2.15, Lean 4 Core (Zero External Axioms; `propext`, `Quot.sound` only)
 - **Principal Investigator & Author:** Nicholas Charles Mynhardt (Stratum Research Group)
 

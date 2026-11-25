@@ -1,7 +1,7 @@
 """
 IMF High-Performance Fused Poincare Non-Linear Sigma Model Skyrmion Kernel
 ==========================================================================
-Physical Hardware Target: NVIDIA GeForce RTX 5060 Ti (SM 8.9 / Ada Lovelace)
+Physical Hardware Target: NVIDIA GeForce RTX 5060 Ti (SM 12.0 / Blackwell)
 Mathematical Foundation:
   O(3) / Faddeev-Skyrme non-linear sigma model on the Poincaré ball (D^d_c, g_c).
   Given field configuration n(x) in S^2 (unit 3-vector field ||n|| = 1) over manifold points x in D^d_c.

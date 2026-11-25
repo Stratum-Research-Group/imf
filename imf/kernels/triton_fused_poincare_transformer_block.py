@@ -6,7 +6,7 @@ Implements the end-to-end hyperbolic transformer layer partitioned into two fuse
   Stage 2: RMSNorm + SwiGLU FFN + Second Möbius Residual + Final Poincaré Retraction (X_out)
 
 Optimized with Tensor Core float16 intermediate projections for maximum throughput
-and strict shared memory budget adherence on the RTX 5060 Ti (SM 8.9 / 101KB limit).
+and strict shared memory budget adherence on the RTX 5060 Ti (SM 12.0 / 101KB limit).
 """
 
 import math

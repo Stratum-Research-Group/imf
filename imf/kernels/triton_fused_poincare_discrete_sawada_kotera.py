@@ -1,6 +1,6 @@
 """
 Cycle 260: Fused Poincaré Discrete Sawada-Kotera 5th-Order Quintic Flow Kernel
-Hardware Target: Workstation NVIDIA GeForce RTX 5060 Ti (SM 8.9 AD106)
+Hardware Target: Workstation NVIDIA GeForce RTX 5060 Ti (SM 12.0 GB206)
 
 Evaluates the discrete 5th-order Sawada-Kotera integrable dynamical flow:
     d u_n / dt = (u_{n+2} - 2 u_{n+1} + 2 u_{n-1} - u_{n-2}) + 5 u_n * (u_{n+1} - u_{n-1}) * (u_{n+1} + u_n + u_{n-1})

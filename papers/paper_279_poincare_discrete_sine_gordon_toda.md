@@ -1,6 +1,6 @@
 # Paper 279: Poincaré Discrete Sine-Gordon-Toda Hybrid Lattice Soliton Flow & Zero-Axiom Lean 4 Certification
 
-**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB) | CUDA 12.8, Triton 3.9  
+**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase VI: Dynastic Solitons & Formally Verified Mathematical Physics  
 **Paper Type:** Theoretical Mathematical Monograph & Hardware Benchmark  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
@@ -34,4 +34,4 @@ $$\lambda_u = \frac{2}{1 - \min(\|u_n\|^2, 0.99)}, \quad a_{\mathbb{H}} = \frac{
 ---
 
 ## 4. Conclusion
-The Poincaré Discrete Sine-Gordon-Toda hybrid lattice kernel demonstrates efficient registration and acceleration on consumer Ada Lovelace workstation GPUs while preserving formal zero-axiom verification under Lean 4 Core.
+The Poincaré Discrete Sine-Gordon-Toda hybrid lattice kernel demonstrates efficient registration and acceleration on consumer Blackwell workstation GPUs while preserving formal zero-axiom verification under Lean 4 Core.

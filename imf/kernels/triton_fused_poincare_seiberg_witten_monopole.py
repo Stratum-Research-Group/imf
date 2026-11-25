@@ -1,7 +1,7 @@
 """
 IMF High-Performance Fused Poincare Seiberg-Witten Monopole Kernel
 ==================================================================
-Physical Hardware Target: NVIDIA GeForce RTX 5060 Ti (SM 8.9 / Ada Lovelace)
+Physical Hardware Target: NVIDIA GeForce RTX 5060 Ti (SM 12.0 / Blackwell)
 Mathematical Foundation:
   Seiberg-Witten gauge theory and monopole equations on the Poincaré ball (D^d_c, g_c).
   In 4D spin^c geometry on hyperbolic symmetric spaces, a U(1) gauge connection A

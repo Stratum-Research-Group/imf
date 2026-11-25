@@ -1,5 +1,5 @@
 """
-Triton Fused Kernel: Poincaré Blaszak-Marciniak Multi-Field Integrable Lattice (SM 8.9)
+Triton Fused Kernel: Poincaré Blaszak-Marciniak Multi-Field Integrable Lattice (SM 12.0)
 Cycle 244 Capstone: Three-Field Coupled Lattice Flow, Higher-Rank Poisson Tensors,
 and Poincaré Hyperbolic Confinement.
 
@@ -115,7 +115,7 @@ def poincare_blaszak_marciniak_pytorch(a: torch.Tensor, b: torch.Tensor, c: torc
 def benchmark():
     device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
     print("=" * 70)
-    print("  IMF TRITON POINCARÉ BLASZAK-MARCINIAK FLOW (RTX 5060 Ti SM 8.9)")
+    print("  IMF TRITON POINCARÉ BLASZAK-MARCINIAK FLOW (RTX 5060 Ti SM 12.0)")
     print("=" * 70)
 
     n = 131072

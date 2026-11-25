@@ -1,5 +1,5 @@
 """
-Triton Fused Kernel: Poincaré Intermediate Long Wave (ILW) Stratified Fluid Flow (SM 8.9)
+Triton Fused Kernel: Poincaré Intermediate Long Wave (ILW) Stratified Fluid Flow (SM 12.0)
 Cycle 233 Capstone: Finite-Depth Stratified Fluid Dynamics, Singular Cotangent Kernel,
 and Poincaré Hyperbolic Confinement.
 
@@ -118,7 +118,7 @@ def poincare_ilw_pytorch(u: torch.Tensor, dt: float = 0.001, delta: float = 1.0)
 def benchmark():
     device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
     print("=" * 70)
-    print("  IMF TRITON POINCARÉ INTERMEDIATE LONG WAVE FLOW (RTX 5060 Ti SM 8.9)")
+    print("  IMF TRITON POINCARÉ INTERMEDIATE LONG WAVE FLOW (RTX 5060 Ti SM 12.0)")
     print("=" * 70)
 
     n = 131072

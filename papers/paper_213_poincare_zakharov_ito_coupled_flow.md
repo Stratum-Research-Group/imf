@@ -1,6 +1,6 @@
 # Paper 213: Fused Poincaré Zakharov-Ito Multi-Component Soliton Flows, Coupled Mixed Dispersion, and Zero-Axiom Lean 4 Verification
 
-**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB) | CUDA 12.8, Triton 3.9  
+**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase VI: Dynastic Solitons & Formally Verified Mathematical Physics  
 **Paper Type:** Theoretical Mathematical Monograph & Hardware Benchmark  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
@@ -33,7 +33,7 @@ In `imf/kernels/triton_fused_poincare_zakharov_ito.py`:
 - All three field components $(u_r, u_i, v)$ are retained in registers across thread blocks of size 512.
 - The ponderomotive gradient $2(|u|^2)_x$ is evaluated directly from local register stencils without intermediate memory buffers.
 
-**Physical Hardware Benchmarks (RTX 5060 Ti, SM 8.9)**:
+**Physical Hardware Benchmarks (RTX 5060 Ti, SM 12.0)**:
 - PyTorch Baseline Latency: $449.58\,\mu\text{s}$
 - Triton Fused Latency: $13.44\,\mu\text{s}$
 - Speedup: **$33.45\times$**

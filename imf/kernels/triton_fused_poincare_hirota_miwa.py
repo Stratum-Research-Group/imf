@@ -1,5 +1,5 @@
 """
-Triton Fused Kernel: Poincaré Discrete Hirota-Miwa Bilinear System (SM 8.9)
+Triton Fused Kernel: Poincaré Discrete Hirota-Miwa Bilinear System (SM 12.0)
 Cycle 246 Capstone: Master Discrete KP Hirota Bilinear Soliton Dynamics,
 3-Cocycle Bilinear Shifts, and Poincaré Hyperbolic Confinement.
 
@@ -117,7 +117,7 @@ def poincare_hirota_miwa_pytorch(tau: torch.Tensor, alpha1=1.0, alpha2=-0.5, alp
 def benchmark():
     device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
     print("=" * 70)
-    print("  IMF TRITON POINCARÉ HIROTA-MIWA FLOW (RTX 5060 Ti SM 8.9)")
+    print("  IMF TRITON POINCARÉ HIROTA-MIWA FLOW (RTX 5060 Ti SM 12.0)")
     print("=" * 70)
 
     L, M, N = 32, 64, 64  # 131,072 3D lattice points

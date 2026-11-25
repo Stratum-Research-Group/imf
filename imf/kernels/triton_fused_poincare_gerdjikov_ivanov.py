@@ -1,6 +1,6 @@
 """
 Physical Workstation Triton Kernel: Fused Poincaré Gerdjikov-Ivanov Derivative NLS Flow (Cycle 224)
-Hardware Target: NVIDIA GeForce RTX 5060 Ti (AD106, SM 8.9), 16GB VRAM.
+Hardware Target: NVIDIA GeForce RTX 5060 Ti (AD106, SM 12.0), 16GB VRAM.
 
 The Gerdjikov-Ivanov (GI) equation is the third canonical member of the derivative NLS family:
     i u_t + u_{xx} - i u^2 u_x^* + 0.5 |u|^4 u = 0

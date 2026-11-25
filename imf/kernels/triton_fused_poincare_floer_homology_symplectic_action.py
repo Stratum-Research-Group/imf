@@ -1,7 +1,7 @@
 """
 IMF High-Performance Fused Poincare Floer Homology Symplectic Action Kernel
 ==========================================================================
-Physical Hardware Target: NVIDIA GeForce RTX 5060 Ti (SM 8.9 / Ada Lovelace)
+Physical Hardware Target: NVIDIA GeForce RTX 5060 Ti (SM 12.0 / Blackwell)
 Mathematical Foundation:
   Hamiltonian Floer homology and symplectic action gradient trajectories on T*(D^d_c).
   Given a loop trajectory gamma(t) = (q(t), p(t)) in cotangent phase space over the Poincaré ball.

@@ -1,6 +1,6 @@
 # Paper 242: Poincaré Relativistic Toda (Suris) Soliton Hierarchies and Coupled Flaschka Coordinate Dynamics in Hyperbolic Spaces
 
-**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB) | CUDA 12.8, Triton 3.9  
+**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase VI: Dynastic Solitons & Formally Verified Mathematical Physics  
 **Paper Type:** Theoretical Mathematical Monograph & Hardware Benchmark  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
@@ -27,7 +27,7 @@ When the relativistic coupling parameter $g \to 0$, the dynamics degenerates int
 
 ---
 
-## 2. Workstation Triton Kernel Performance (SM 8.9)
+## 2. Workstation Triton Kernel Performance (SM 12.0)
 Benchmarked over $N = 131,072$ lattice nodes:
 - **PyTorch FP32 Execution Time**: $632.98\,\mu\text{s}$
 - **Triton Fused Kernel Execution Time**: $20.98\,\mu\text{s}$

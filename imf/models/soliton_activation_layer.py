@@ -28,14 +28,20 @@ class PoincareSolitonActivation(nn.Module):
         if x.is_cuda:
             # Normalize to unit hyperbolic disk coordinates (-0.95, +0.95)
             u = torch.tanh(flat_x * 0.1)
+            # Feature-wise soliton flow per token (strictly causal across sequence dimension S)
             u_p1 = torch.roll(u, shifts=-1, dims=-1)
             u_m1 = torch.roll(u, shifts=1, dims=-1)
             m = u - self.alpha * (u_p1 - 2.0 * u + u_m1)
 
-            # Fused Triton execution
-            dm, metric = triton_poincare_discrete_camassa_holm(u.reshape(-1), m.reshape(-1), alpha=self.alpha)
-            # Safe bounded residual update
-            dm_bounded = torch.tanh(dm.view(B * S, D) * 0.05)
+            # Pure PyTorch feature-wise step (bounded per token row, strictly preserving token causality)
+            m_p1 = torch.roll(m, shifts=-1, dims=-1)
+            m_m1 = torch.roll(m, shifts=1, dims=-1)
+            dm = - u * (m_p1 - m_m1) - 2.0 * m * (u_p1 - u_m1)
+            u_sq = torch.clamp(u ** 2, max=0.985)
+            conf_metric = 2.0 / (1.0 - u_sq)
+            fused_dm = dm * conf_metric
+
+            dm_bounded = torch.tanh(fused_dm * 0.05)
             updated_x = flat_x + dm_bounded * self.scale
             return updated_x.view(orig_shape)
         else:

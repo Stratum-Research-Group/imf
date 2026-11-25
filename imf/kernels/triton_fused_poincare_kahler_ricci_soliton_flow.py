@@ -1,7 +1,7 @@
 """
 IMF High-Performance Fused Poincare Kahler-Ricci Soliton Flow Kernel
 ===================================================================
-Physical Hardware Target: NVIDIA GeForce RTX 5060 Ti (SM 8.9 / Ada Lovelace)
+Physical Hardware Target: NVIDIA GeForce RTX 5060 Ti (SM 12.0 / Blackwell)
 Mathematical Foundation:
   Kähler-Ricci soliton and metric flow on hyperbolic symmetric spaces / Poincaré ball.
   On (D^d_c, g_c), the Bergman / Poincaré metric tensor is Kähler with potential:

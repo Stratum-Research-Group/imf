@@ -1,6 +1,6 @@
 """
 Physical Workstation Triton Kernel: Fused Poincaré Zakharov-Ito Multi-Component Flow (Cycle 213)
-Hardware Target: NVIDIA GeForce RTX 5060 Ti (AD106, SM 8.9), 16GB VRAM.
+Hardware Target: NVIDIA GeForce RTX 5060 Ti (AD106, SM 12.0), 16GB VRAM.
 
 The Zakharov-Ito system models coupled Langmuir and acoustic wave packets in plasmas:
     i u_t = - u_{xx} + 2 u v

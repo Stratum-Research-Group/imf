@@ -1,7 +1,7 @@
 """
 IMF High-Performance Fused Poincare Non-Linear Dirac Spectral Spinor Kernel
 ===========================================================================
-Physical Hardware Target: NVIDIA GeForce RTX 5060 Ti (SM 8.9 / Ada Lovelace)
+Physical Hardware Target: NVIDIA GeForce RTX 5060 Ti (SM 12.0 / Blackwell)
 Mathematical Foundation:
   Spin geometry and non-linear Dirac equation on the Poincaré ball (D^d_c, g_c).
   On (D^d_c, g_c), the metric is g_x = lambda_x^2 I with inverse vielbein:

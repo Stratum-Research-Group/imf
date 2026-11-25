@@ -1,6 +1,6 @@
 # Paper 26: The IMF Binary Container Specification (.imf): Sub-Byte Factorized Representation, ETH Polytope Uncrossing, and Zero-Copy Serialization
 
-**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB) | CUDA 12.8, Triton 3.9  
+**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase VI: Dynastic Solitons & Formally Verified Mathematical Physics  
 **Paper Type:** Theoretical Mathematical Monograph & Hardware Benchmark  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
@@ -18,7 +18,7 @@ Drawing upon our formal review of *LittleBit-2* (arXiv:2603.00042v2) and Anthrop
 1. A **deterministic 64-byte binary header** with magic signature `0x494D4601`, CRC32 index checksums, and strict 64-byte payload memory alignment;
 2. **Dual-path sub-byte weight decomposition**, packing 1-bit boolean polytopes ($U_b, V_b \in \{-1, +1\}$) alongside rank-$r$ diagonal scale vectors ($h, l, g$), compressing a $2048 \times 8192$ dense projection from $33.55\text{ MB}$ down to $205,056\text{ bytes}$ ($>163.6\times$ compression, $<0.10\text{ bits/weight}$);
 3. **Formal verification in Lean 4**, proving that container boundary invariants, alignment bounds, and byte budgets hold without axioms or admitted lemmas;
-4. **Zero-copy `mmap` kernel runtime**, granting immediate random-access virtual address paging on Linux and NVIDIA Ada Lovelace/Blackwell architectures without host RAM deserialization overhead.
+4. **Zero-copy `mmap` kernel runtime**, granting immediate random-access virtual address paging on Linux and NVIDIA Blackwell/Blackwell architectures without host RAM deserialization overhead.
 
 ---
 

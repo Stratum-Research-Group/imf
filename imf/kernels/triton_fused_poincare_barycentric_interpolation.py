@@ -1,7 +1,7 @@
 """
 Fused Poincaré Fréchet/Karcher Mean Barycentric Interpolation Kernel
 =====================================================================
-Physical Workstation Benchmark: NVIDIA GeForce RTX 5060 Ti (SM 8.9)
+Physical Workstation Benchmark: NVIDIA GeForce RTX 5060 Ti (SM 12.0)
 Hardware Constrained: 16GB VRAM, 101KB Shared Memory Ceiling
 
 Implements an intrinsic Riemannian Fréchet / Karcher mean solver on D^d_c.

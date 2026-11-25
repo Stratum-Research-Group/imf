@@ -1,6 +1,6 @@
 """
 Cycle 252: Fused Poincaré Discrete Sine-Gordon Fluxon Breather Lattice Flow Kernel
-Hardware Target: Workstation NVIDIA GeForce RTX 5060 Ti (SM 8.9 AD106)
+Hardware Target: Workstation NVIDIA GeForce RTX 5060 Ti (SM 12.0 GB206)
 
 Evaluates the discrete sine-Gordon (Frenkel-Kontorova fluxon) lattice dynamical flow:
     d^2 phi_n / dt^2 = C * (phi_{n+1} - 2 phi_n + phi_{n-1}) - omega_0^2 * sin(phi_n)

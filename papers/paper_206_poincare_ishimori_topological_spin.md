@@ -1,6 +1,6 @@
 # Paper 206: Fused Poincaré Ishimori Topological Spin Flows, 2D Vortex Quantization, and Zero-Axiom Lean 4 Verification
 
-**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB) | CUDA 12.8, Triton 3.9  
+**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase VI: Dynastic Solitons & Formally Verified Mathematical Physics  
 **Paper Type:** Theoretical Mathematical Monograph & Hardware Benchmark  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
@@ -31,7 +31,7 @@ Under this scaling, spin vortices are localized and topologically stabilized aga
 
 In `imf/kernels/triton_fused_poincare_ishimori_topological_spin.py`, the 2D spatial grid is mapped directly to 1D tiled thread blocks in shared memory. By maintaining the three spin components $(S_x, S_y, S_z)$ and the potential gradients $(u_x, u_y)$ in register files, the update step and metric projection are evaluated simultaneously without DRAM round-trips.
 
-**Physical Hardware Benchmarks (RTX 5060 Ti, SM 8.9)**:
+**Physical Hardware Benchmarks (RTX 5060 Ti, SM 12.0)**:
 - Baseline PyTorch Latency: $191.20\,\mu\text{s}$
 - Triton Fused Latency: $7.28\,\mu\text{s}$
 - Speedup: **$26.26\times$**

@@ -1,6 +1,6 @@
 """
 Physical Workstation Triton Kernel: Fused Sub-Bit E8 Gosset Lattice Dequantizer (Cycle 212)
-Hardware Target: NVIDIA GeForce RTX 5060 Ti (AD106, SM 8.9), 16GB VRAM.
+Hardware Target: NVIDIA GeForce RTX 5060 Ti (AD106, SM 12.0), 16GB VRAM.
 
 This kernel performs fused dequantization of weights compressed onto the E8 Gosset root lattice
 (240 minimal vectors in R^8, requiring 8 bits per 8-dimensional weight block = 1.0 bit/weight,

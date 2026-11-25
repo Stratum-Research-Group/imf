@@ -1,6 +1,6 @@
 """
 Physical Workstation Triton Kernel: Fused Poincaré Konopelchenko-Dubrovsky (KD) (2+1)D Flow (Cycle 219)
-Hardware Target: NVIDIA GeForce RTX 5060 Ti (AD106, SM 8.9), 16GB VRAM.
+Hardware Target: NVIDIA GeForce RTX 5060 Ti (AD106, SM 12.0), 16GB VRAM.
 
 The Konopelchenko-Dubrovsky (KD) equation is a (2+1)D integrable system combining quadratic and cubic nonlinearities:
     u_t = u_{xxx} - 6 b u u_x + 3 a^2 u^2 u_x - 3 v_y + 3 a u_x v

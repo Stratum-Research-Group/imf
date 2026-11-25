@@ -1,5 +1,5 @@
 """
-Triton Fused Kernel: Poincaré Ruijsenaars-Schneider Relativistic Soliton Flow (SM 8.9)
+Triton Fused Kernel: Poincaré Ruijsenaars-Schneider Relativistic Soliton Flow (SM 12.0)
 Cycle 239 Capstone: Relativistic Calogero-Moser Generalization, Hyperbolic Velocity Saturation,
 and Poincaré Hyperbolic Confinement.
 
@@ -120,7 +120,7 @@ def poincare_ruijsenaars_schneider_pytorch(q: torch.Tensor, p: torch.Tensor, dt:
 def benchmark():
     device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
     print("=" * 70)
-    print("  IMF TRITON POINCARÉ RUIJSENAARS-SCHNEIDER FLOW (RTX 5060 Ti SM 8.9)")
+    print("  IMF TRITON POINCARÉ RUIJSENAARS-SCHNEIDER FLOW (RTX 5060 Ti SM 12.0)")
     print("=" * 70)
 
     n = 131072

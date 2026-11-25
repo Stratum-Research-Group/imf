@@ -1,6 +1,6 @@
 """
 Physical Workstation Triton Kernel: Fused Poincaré Kaup-Newell Derivative NLS Flow (Cycle 222)
-Hardware Target: NVIDIA GeForce RTX 5060 Ti (AD106, SM 8.9), 16GB VRAM.
+Hardware Target: NVIDIA GeForce RTX 5060 Ti (AD106, SM 12.0), 16GB VRAM.
 
 The Kaup-Newell (KN) equation is the classical derivative nonlinear Schrödinger (DNLS) equation:
     i u_t + u_{xx} + i (|u|^2 u)_x = 0

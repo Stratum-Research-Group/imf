@@ -253,7 +253,7 @@ def main():
         manifest_data = {
             "orchestrator": "IMF MegaScale 32-Billion Step Prover Fleet",
             "author": "Nicholas Charles Mynhardt (Stratum Research Group)",
-            "hardware_target": "AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB) | CUDA 12.8, Triton 3.9",
+            "hardware_target": "AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9",
             "total_certified_theorems": len(completed_blocks) * BLOCK_SIZE,
             "blocks_completed": len(completed_blocks),
             "grand_target_theorems": TOTAL_TARGET_STEPS,

@@ -1,6 +1,6 @@
 """
 14B MoPE Chunked Pre-Fill & Speculative Autoregressive Engine
-Hardware Target: Workstation NVIDIA GeForce RTX 5060 Ti (SM 8.9 AD106)
+Hardware Target: Workstation NVIDIA GeForce RTX 5060 Ti (SM 12.0 GB206)
 
 Accelerates prompt ingestion by chunking long prompts (e.g. 512 tokens/chunk)
 into parallel fused non-Euclidean routing passes before seamlessly transitioning

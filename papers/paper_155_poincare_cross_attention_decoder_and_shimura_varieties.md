@@ -1,6 +1,6 @@
 # Paper 155: Poincaré RoPE Cross-Attention Decoders, Dense MoE Combiners, and the Automorphic Geometry of Shimura Varieties
 
-**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB) | CUDA 12.8, Triton 3.9  
+**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase VI: Dynastic Solitons & Formally Verified Mathematical Physics  
 **Paper Type:** Theoretical Mathematical Monograph & Hardware Benchmark  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
@@ -18,7 +18,7 @@ We present the architectural realization of two high-efficiency GPU execution en
 ### 1. Mathematical Formulations
 
 #### 1.1 Hyperbolic Cross-Attention Decoder with Tangent RoPE
-In sequence-to-sequence decoders, queries $Q \in \mathbb{R}^{M_q \times D}$ attend across key-value representations $K, V \in \mathbb{R}^{M_{\text{kv}} \times D}$. To avoid global memory bottlenecks and obey the $101\,\text{KB}$ SRAM limit of Ada Lovelace SM 8.9, key-value contexts are tiled in blocks of size $B_{\text{KV}} = 64$. For each block, origin-tangent RoPE applies Givens rotations:
+In sequence-to-sequence decoders, queries $Q \in \mathbb{R}^{M_q \times D}$ attend across key-value representations $K, V \in \mathbb{R}^{M_{\text{kv}} \times D}$. To avoid global memory bottlenecks and obey the $101\,\text{KB}$ SRAM limit of Blackwell SM 12.0, key-value contexts are tiled in blocks of size $B_{\text{KV}} = 64$. For each block, origin-tangent RoPE applies Givens rotations:
 $$Q_{\text{rot}} = \mathcal{R}_{\Theta, \text{pos}_q}(Q), \quad K_{\text{rot}} = \mathcal{R}_{\Theta, \text{pos}_{\text{kv}}}(K)$$
 Online softmax maintains running row-maxima $m_i$ and normalizers $\ell_i$, computing attention output $\operatorname{acc} / \ell$ without materializing intermediate cross-attention maps. The final representation is retracted to the Poincaré ball:
 $$\exp_0^c(Y_{\text{tangent}}) = \frac{\tanh(\sqrt{c} \|Y_{\text{tangent}}\|)}{\sqrt{c} \|Y_{\text{tangent}}\|} Y_{\text{tangent}}$$

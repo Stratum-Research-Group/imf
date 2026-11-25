@@ -1,5 +1,5 @@
 """
-Triton Fused Kernel: Poincaré Volterra-Kac-van Moerbeke Integrable Lattice (SM 8.9)
+Triton Fused Kernel: Poincaré Volterra-Kac-van Moerbeke Integrable Lattice (SM 12.0)
 Cycle 241 Capstone: Quadratic Nearest-Neighbor Convection, Tridiagonal Lax Flow,
 and Poincaré Hyperbolic Confinement.
 
@@ -77,7 +77,7 @@ def poincare_volterra_lattice_pytorch(u: torch.Tensor, dt: float = 0.001):
 def benchmark():
     device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
     print("=" * 70)
-    print("  IMF TRITON POINCARÉ VOLTERRA LATTICE FLOW (RTX 5060 Ti SM 8.9)")
+    print("  IMF TRITON POINCARÉ VOLTERRA LATTICE FLOW (RTX 5060 Ti SM 12.0)")
     print("=" * 70)
 
     n = 131072

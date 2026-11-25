@@ -1,6 +1,6 @@
 """
 Cycle 276: Fused Poincaré Discrete Gardner (Extended KdV) Lattice Soliton Kernel
-Hardware Target: AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB) | CUDA 12.8, Triton 3.9
+Hardware Target: AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9
 Author: Nicholas Charles Mynhardt (Stratum Research Group)
 
 Evaluates the discrete Gardner (extended KdV) lattice flow:

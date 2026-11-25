@@ -1,7 +1,7 @@
 """
 IMF High-Performance Fused Poincare Donaldson-Thomas Sheaf Counting Kernel
 ==========================================================================
-Physical Hardware Target: NVIDIA GeForce RTX 5060 Ti (SM 8.9 / Ada Lovelace)
+Physical Hardware Target: NVIDIA GeForce RTX 5060 Ti (SM 12.0 / Blackwell)
 Mathematical Foundation:
   Donaldson-Thomas invariants and coherent sheaf moduli counting on Calabi-Yau 3-folds
   fibered over the Poincaré ball (D^d_c, g_c).

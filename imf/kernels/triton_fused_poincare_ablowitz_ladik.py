@@ -1,5 +1,5 @@
 """
-Triton Fused Kernel: Poincaré Ablowitz-Ladik Discrete Integrable Soliton Lattice (SM 8.9)
+Triton Fused Kernel: Poincaré Ablowitz-Ladik Discrete Integrable Soliton Lattice (SM 12.0)
 Cycle 240 Capstone: Canonical Discrete NLS Integrability, Complex-Valued Pairwise Coupling,
 and Poincaré Hyperbolic Confinement.
 
@@ -128,7 +128,7 @@ def poincare_ablowitz_ladik_pytorch(u: torch.Tensor, v: torch.Tensor, dt: float 
 def benchmark():
     device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
     print("=" * 70)
-    print("  IMF TRITON POINCARÉ ABLOWITZ-LADIK FLOW (RTX 5060 Ti SM 8.9)")
+    print("  IMF TRITON POINCARÉ ABLOWITZ-LADIK FLOW (RTX 5060 Ti SM 12.0)")
     print("=" * 70)
 
     n = 131072  # 128k lattice nodes

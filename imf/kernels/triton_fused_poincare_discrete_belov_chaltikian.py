@@ -1,6 +1,6 @@
 """
 Cycle 267: Fused Poincaré Discrete Belov-Chaltikian Lattice Flow Kernel
-Hardware Target: Workstation NVIDIA GeForce RTX 5060 Ti (SM 8.9 AD106)
+Hardware Target: Workstation NVIDIA GeForce RTX 5060 Ti (SM 12.0 GB206)
 
 Evaluates the discrete Belov-Chaltikian 2-component lattice dynamical flow:
     d u_n / dt = u_n * (u_{n+1} - u_{n-1}) + v_{n+1} - v_n

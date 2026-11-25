@@ -1,6 +1,6 @@
 # Paper 237: Poincaré Calogero-Moser Many-Body All-to-All Integrable Flows and Pairwise Hyperbolic Invariants
 
-**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB) | CUDA 12.8, Triton 3.9  
+**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase VI: Dynastic Solitons & Formally Verified Mathematical Physics  
 **Paper Type:** Theoretical Mathematical Monograph & Hardware Benchmark  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
@@ -28,7 +28,7 @@ admit a Lax pair $\dot{L} = [M, L]$ with $L_{jk} = p_j \delta_{jk} + i g \mu (1 
 
 ---
 
-## 2. Workstation Triton Kernel Performance (SM 8.9)
+## 2. Workstation Triton Kernel Performance (SM 12.0)
 Benchmarked over $N = 4,096$ particles ($16,777,216$ pairs):
 - **PyTorch FP32 Execution Time**: $3.03\text{ ms}$
 - **Triton Fused Kernel Execution Time**: $0.17\text{ ms}$ ($172.50\,\mu\text{s}$)

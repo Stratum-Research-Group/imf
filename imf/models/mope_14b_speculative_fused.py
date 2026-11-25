@@ -1,6 +1,6 @@
 """
 14B MoPE Speculative Engine with Fused Triton KV Gather & Non-Euclidean Routing
-Hardware Target: NVIDIA GeForce RTX 5060 Ti (SM 8.9 AD106)
+Hardware Target: NVIDIA GeForce RTX 5060 Ti (SM 12.0 GB206)
 
 Accelerates speculative decoding by fusing draft verification KV cache projections
 and hyperbolic routing into a continuous Triton execution flow.

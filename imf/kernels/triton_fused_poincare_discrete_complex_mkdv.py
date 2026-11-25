@@ -1,5 +1,5 @@
 """
-Triton Fused Kernel: Poincaré Discrete Complex mKdV (Hirota) Lattice Soliton Flow (SM 8.9)
+Triton Fused Kernel: Poincaré Discrete Complex mKdV (Hirota) Lattice Soliton Flow (SM 12.0)
 Cycle 248 Capstone: Complex-Valued Discrete Integrable Flow, Unitary Phase Dynamics,
 and Poincaré Hyperbolic Confinement.
 
@@ -108,7 +108,7 @@ def poincare_discrete_complex_mkdv_pytorch(u: torch.Tensor, v: torch.Tensor, dt:
 def benchmark():
     device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
     print("=" * 70)
-    print("  IMF TRITON POINCARÉ DISCRETE COMPLEX MKDV FLOW (RTX 5060 Ti SM 8.9)")
+    print("  IMF TRITON POINCARÉ DISCRETE COMPLEX MKDV FLOW (RTX 5060 Ti SM 12.0)")
     print("=" * 70)
 
     n = 131072

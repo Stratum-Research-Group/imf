@@ -1,6 +1,6 @@
 """
 14B MoPE Hyperbolic Speculative Acceptance-Rejection Sampler
-Hardware Target: Workstation NVIDIA GeForce RTX 5060 Ti (SM 8.9 AD106)
+Hardware Target: Workstation NVIDIA GeForce RTX 5060 Ti (SM 12.0 GB206)
 
 Implements dynamic non-Euclidean speculative acceptance-rejection test:
     alpha = min(1, (P_verifier / P_draft) * exp(- d_H(x_draft, c_centroid)))

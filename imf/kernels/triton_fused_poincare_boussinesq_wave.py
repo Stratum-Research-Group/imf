@@ -1,7 +1,7 @@
 """
 IMF Physical Triton Hardware Benchmark: Fused Poincaré Boussinesq Bi-Directional Wave
 ================================================================================
-Hardware: NVIDIA GeForce RTX 5060 Ti (SM 8.9, 16GB VRAM)
+Hardware: NVIDIA GeForce RTX 5060 Ti (SM 12.0, 16GB VRAM)
 Mathematical Formulation:
   The completely integrable Boussinesq bi-directional wave equation on the Poincaré disk:
     partial_t^2 u - Delta_H u - 3 Delta_H (u^2) - alpha * Delta_H^2 u = 0

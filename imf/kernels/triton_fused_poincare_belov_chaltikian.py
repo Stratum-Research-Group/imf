@@ -1,5 +1,5 @@
 """
-Triton Fused Kernel: Poincaré Belov-Chaltikian Lattice Soliton Hierarchy (SM 8.9)
+Triton Fused Kernel: Poincaré Belov-Chaltikian Lattice Soliton Hierarchy (SM 12.0)
 Cycle 243 Capstone: Two-Component Hamiltonian Discrete KdV Extension,
 Non-Local Cross-Field Convection, and Poincaré Hyperbolic Confinement.
 
@@ -102,7 +102,7 @@ def poincare_belov_chaltikian_pytorch(u: torch.Tensor, v: torch.Tensor, dt: floa
 def benchmark():
     device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
     print("=" * 70)
-    print("  IMF TRITON POINCARÉ BELOV-CHALTIKIAN FLOW (RTX 5060 Ti SM 8.9)")
+    print("  IMF TRITON POINCARÉ BELOV-CHALTIKIAN FLOW (RTX 5060 Ti SM 12.0)")
     print("=" * 70)
 
     n = 131072

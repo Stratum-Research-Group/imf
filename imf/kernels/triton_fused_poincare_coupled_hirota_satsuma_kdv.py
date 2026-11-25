@@ -1,7 +1,7 @@
 """
 IMF Physical Triton Hardware Benchmark: Fused Poincaré Coupled Hirota-Satsuma KdV
 ================================================================================
-Hardware: NVIDIA GeForce RTX 5060 Ti (SM 8.9, 16GB VRAM)
+Hardware: NVIDIA GeForce RTX 5060 Ti (SM 12.0, 16GB VRAM)
 Mathematical Formulation:
   The coupled Hirota-Satsuma KdV system for interacting shallow-water waves (u, v):
     partial_t u = (1/2) partial_x^3 u + 3 u partial_x u - 6 v partial_x v

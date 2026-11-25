@@ -1,7 +1,7 @@
 """
 IMF Physical Triton Hardware Benchmark: Fused Poincaré Sine-Gordon Kink Collision
 ================================================================================
-Hardware: NVIDIA GeForce RTX 5060 Ti (SM 8.9, 16GB VRAM)
+Hardware: NVIDIA GeForce RTX 5060 Ti (SM 12.0, 16GB VRAM)
 Mathematical Formulation:
   Non-linear relativistic 2D Sine-Gordon equation coupled to Poincaré hyperbolic metric:
     partial_t^2 phi - Delta_H phi + m^2 sin(phi) = 0

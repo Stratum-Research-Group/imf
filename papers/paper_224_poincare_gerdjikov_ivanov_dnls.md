@@ -1,6 +1,6 @@
 # Paper 224: Fused Poincaré Gerdjikov-Ivanov Derivative NLS Solitons, Quintic Focusing, and Zero-Axiom Lean 4 Verification
 
-**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB) | CUDA 12.8, Triton 3.9  
+**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase VI: Dynastic Solitons & Formally Verified Mathematical Physics  
 **Paper Type:** Theoretical Mathematical Monograph & Hardware Benchmark  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
@@ -27,7 +27,7 @@ Under hyperbolic metric scaling, all three hierarchies maintain finite $L^2$ nor
 
 ---
 
-### 2. Workstation Hardware Benchmarks (RTX 5060 Ti, SM 8.9)
+### 2. Workstation Hardware Benchmarks (RTX 5060 Ti, SM 12.0)
 
 Tested on 524,288 lattice nodes (1,048,576 real and imaginary variables):
 - Baseline PyTorch Latency: $375.26\,\mu\text{s}$

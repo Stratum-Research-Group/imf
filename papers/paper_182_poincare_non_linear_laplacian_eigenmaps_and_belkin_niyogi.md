@@ -1,6 +1,6 @@
 # Paper 182: Fused Poincaré Non-Linear Laplacian Eigenmaps and Machine-Certified Belkin-Niyogi Spectral Convergence
 
-**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB) | CUDA 12.8, Triton 3.9  
+**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase VI: Dynastic Solitons & Formally Verified Mathematical Physics  
 **Paper Type:** Theoretical Mathematical Monograph & Hardware Benchmark  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
@@ -36,7 +36,7 @@ converging to the eigenfunctions of $-\Delta_{LB}$ as $B \to \infty$ and $t \to 
 
 ## 2. Hardware Implementation & Physical Workstation Benchmarks
 
-Physical execution on an NVIDIA GeForce RTX 5060 Ti GPU (SM 8.9) with $B = 2,048$ and $D = 128$:
+Physical execution on an NVIDIA GeForce RTX 5060 Ti GPU (SM 12.0) with $B = 2,048$ and $D = 128$:
 
 | Metric | PyTorch Eager Baseline | Triton Fused Kernel | Performance Gain |
 | :--- | :--- | :--- | :--- |

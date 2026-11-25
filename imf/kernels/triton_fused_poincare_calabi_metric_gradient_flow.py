@@ -1,7 +1,7 @@
 """
 IMF High-Performance Fused Poincare Calabi Metric Gradient Flow Kernel
 ======================================================================
-Physical Hardware Target: NVIDIA GeForce RTX 5060 Ti (SM 8.9 / Ada Lovelace)
+Physical Hardware Target: NVIDIA GeForce RTX 5060 Ti (SM 12.0 / Blackwell)
 Mathematical Foundation:
   Calabi flow of the scalar curvature functional on Kähler hyperbolic manifolds (D^d_c, g_c).
   The Calabi energy of a metric g in Kähler class [\omega] is:

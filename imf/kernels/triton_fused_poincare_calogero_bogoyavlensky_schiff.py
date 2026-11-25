@@ -1,6 +1,6 @@
 """
 Physical Workstation Triton Kernel: Fused Poincaré Calogero-Bogoyavlensky-Schiff (CBS) (2+1)D Flow (Cycle 214)
-Hardware Target: NVIDIA GeForce RTX 5060 Ti (AD106, SM 8.9), 16GB VRAM.
+Hardware Target: NVIDIA GeForce RTX 5060 Ti (AD106, SM 12.0), 16GB VRAM.
 
 The Calogero-Bogoyavlensky-Schiff (CBS) equation is an integrable (2+1)D extension of KdV:
     u_t = u_{xxy} + 4 u u_y + 2 u_x v

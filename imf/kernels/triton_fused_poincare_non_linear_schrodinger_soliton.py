@@ -1,7 +1,7 @@
 """
 IMF High-Performance Fused Poincare Non-Linear Schrodinger Soliton Kernel
 ========================================================================
-Physical Hardware Target: NVIDIA GeForce RTX 5060 Ti (SM 8.9 / Ada Lovelace)
+Physical Hardware Target: NVIDIA GeForce RTX 5060 Ti (SM 12.0 / Blackwell)
 Mathematical Foundation:
   Non-Linear Schrödinger (NLS) / Gross-Pitaevskii solitary wave propagation on
   the Poincaré ball manifold (D^d_c, g_c).

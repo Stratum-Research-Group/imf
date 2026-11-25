@@ -1,6 +1,6 @@
 """
 Physical Workstation Triton Kernel: Fused Poincaré Broer-Kaup Dispersive Flow (Cycle 217)
-Hardware Target: NVIDIA GeForce RTX 5060 Ti (AD106, SM 8.9), 16GB VRAM.
+Hardware Target: NVIDIA GeForce RTX 5060 Ti (AD106, SM 12.0), 16GB VRAM.
 
 The Broer-Kaup system models bidirectional shallow water waves with surface tension and dispersion:
     u_t = - u u_x - v_x + 0.5 u_{xx}

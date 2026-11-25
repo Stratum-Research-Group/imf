@@ -1,5 +1,5 @@
 """
-Triton Fused Kernel: Poincaré Relativistic Toda (Suris) Soliton Hierarchy (SM 8.9)
+Triton Fused Kernel: Poincaré Relativistic Toda (Suris) Soliton Hierarchy (SM 12.0)
 Cycle 242 Capstone: Relativistic Lattice Deformation, Coupled Coordinate-Momentum Flaschka Flow,
 and Poincaré Hyperbolic Confinement.
 
@@ -104,7 +104,7 @@ def poincare_relativistic_toda_pytorch(a: torch.Tensor, b: torch.Tensor, dt: flo
 def benchmark():
     device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
     print("=" * 70)
-    print("  IMF TRITON POINCARÉ RELATIVISTIC TODA FLOW (RTX 5060 Ti SM 8.9)")
+    print("  IMF TRITON POINCARÉ RELATIVISTIC TODA FLOW (RTX 5060 Ti SM 12.0)")
     print("=" * 70)
 
     n = 131072

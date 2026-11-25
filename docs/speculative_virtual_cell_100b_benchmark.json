@@ -114,5 +114,7 @@
       "acceptance_rate": 0.724,
       "device": "cuda"
     }
-  ]
+  ],
+  "kind": "simulation_scaffold",
+  "simulation_note": "Simulated partition topology on consumer hardware; not a physical 100B checkpoint."
 }

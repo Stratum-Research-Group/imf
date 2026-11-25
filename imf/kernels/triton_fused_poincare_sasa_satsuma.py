@@ -1,5 +1,5 @@
 """
-Triton Fused Kernel: Poincaré Sasa-Satsuma Higher-Order Nonlinear Schrödinger Flow (SM 8.9)
+Triton Fused Kernel: Poincaré Sasa-Satsuma Higher-Order Nonlinear Schrödinger Flow (SM 12.0)
 Cycle 226 Capstone: Higher-Order Dispersion, Self-Steepening, and Raman Self-Frequency Shift
 on Hyperbolic Poincaré Geodesic Manifold.
 
@@ -191,7 +191,7 @@ def poincare_sasa_satsuma_pytorch(ur: torch.Tensor, ui: torch.Tensor, dt: float 
 def benchmark():
     device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
     print("=" * 70)
-    print("  IMF TRITON POINCARÉ SASA-SATSUMA FLOW (RTX 5060 Ti SM 8.9)")
+    print("  IMF TRITON POINCARÉ SASA-SATSUMA FLOW (RTX 5060 Ti SM 12.0)")
     print("=" * 70)
 
     n = 131072  # 128k spatial grid points

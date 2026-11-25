@@ -1,6 +1,6 @@
 """
 Cycle 275: Fused Poincaré Discrete Ostrovsky Oceanic Internal Soliton Flow Kernel
-Hardware Target: Workstation NVIDIA GeForce RTX 5060 Ti (SM 8.9 AD106)
+Hardware Target: Workstation NVIDIA GeForce RTX 5060 Ti (SM 12.0 GB206)
 
 Evaluates the discrete Ostrovsky ocean lattice dynamical flow:
     (u_t + c_0 u_x + alpha u u_x + beta u_{xxx})_x = gamma u

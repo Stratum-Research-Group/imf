@@ -1,6 +1,6 @@
 # Paper 166: Fused Poincaré Conformal Geodesic Metric Flows, Yamabe Regularization, and Arithmetic Fuchsian Uniformization
 
-**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB) | CUDA 12.8, Triton 3.9  
+**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase VI: Dynastic Solitons & Formally Verified Mathematical Physics  
 **Paper Type:** Theoretical Mathematical Monograph & Hardware Benchmark  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
@@ -60,7 +60,7 @@ is strictly minimized by this uniform hyperbolic metric.
 
 ## 3. Physical Hardware Benchmarks (RTX 5060 Ti)
 
-- **Device**: NVIDIA GeForce RTX 5060 Ti (16GB VRAM, SM 8.9)
+- **Device**: NVIDIA GeForce RTX 5060 Ti (16GB VRAM, SM 12.0)
 - **Batch Shape**: $[B=16, N=512, D=128]$ ($8,192$ tokens per invocation)
 - **Precision**: fp16 coordinates, fp32 curvature accumulators
 

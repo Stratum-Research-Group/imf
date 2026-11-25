@@ -48,5 +48,7 @@
       "total_resident_vram_mb": 14240.0,
       "status": "EXCEEDS 16GB"
     }
-  ]
+  ],
+  "kind": "simulation_scaffold",
+  "simulation_note": "Simulated partition topology on consumer hardware; not a physical 100B checkpoint."
 }

@@ -1,6 +1,6 @@
 """
 Cycle 274: Fused Poincaré Discrete Hunter-Saxton Liquid Crystal Flow Kernel
-Hardware Target: Workstation NVIDIA GeForce RTX 5060 Ti (SM 8.9 AD106)
+Hardware Target: Workstation NVIDIA GeForce RTX 5060 Ti (SM 12.0 GB206)
 
 Evaluates the discrete Hunter-Saxton rod-director lattice dynamical flow:
     (u_{n+1} - 2 u_n + u_{n-1})_t = - u_n * (u_{n+1} - u_{n-1}) + 1/2 * (u_{n+1} - u_{n-1})^2

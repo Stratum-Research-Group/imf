@@ -1,5 +1,5 @@
 """
-Triton Fused Kernel: Poincaré Ito Seventh-Order Integrable Soliton Hierarchy (SM 8.9)
+Triton Fused Kernel: Poincaré Ito Seventh-Order Integrable Soliton Hierarchy (SM 12.0)
 Cycle 236 Capstone: Ultra-High Dispersive Order, Multi-Convective Stencil Balance,
 and Poincaré Hyperbolic Confinement.
 
@@ -123,7 +123,7 @@ def poincare_ito_seventh_order_pytorch(u: torch.Tensor, dt: float = 0.00001):
 def benchmark():
     device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
     print("=" * 70)
-    print("  IMF TRITON POINCARÉ ITO SEVENTH-ORDER FLOW (RTX 5060 Ti SM 8.9)")
+    print("  IMF TRITON POINCARÉ ITO SEVENTH-ORDER FLOW (RTX 5060 Ti SM 12.0)")
     print("=" * 70)
 
     n = 131072

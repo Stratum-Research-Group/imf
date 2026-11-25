@@ -1,6 +1,6 @@
 """
 14B MoPE Speculative Verification Engine with Real Vocabulary Projection & Rejection Sampling
-Hardware Target: Workstation NVIDIA GeForce RTX 5060 Ti (SM 8.9 AD106)
+Hardware Target: Workstation NVIDIA GeForce RTX 5060 Ti (SM 12.0 GB206)
 
 Replaces synthetic stubs with:
 1. Real vocabulary projection head (D=4096 -> V=32000).

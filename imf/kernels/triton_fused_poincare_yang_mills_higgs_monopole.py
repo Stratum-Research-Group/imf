@@ -1,7 +1,7 @@
 """
 IMF High-Performance Fused Poincare Yang-Mills-Higgs Monopole Kernel
 ===================================================================
-Physical Hardware Target: NVIDIA GeForce RTX 5060 Ti (SM 8.9 / Ada Lovelace)
+Physical Hardware Target: NVIDIA GeForce RTX 5060 Ti (SM 12.0 / Blackwell)
 Mathematical Foundation:
   Bogomolny Prasad-Sommerfield (BPS) Yang-Mills-Higgs monopoles on the Poincaré ball (D^d_c, g_c).
   In non-Abelian gauge theory on hyperbolic symmetric spaces, an SU(2) gauge connection A

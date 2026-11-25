@@ -1,7 +1,7 @@
 """
 IMF Physical Triton Hardware Benchmark: Fused Poincaré Magnetic Skyrmion Lattice
 ================================================================================
-Hardware: NVIDIA GeForce RTX 5060 Ti (SM 8.9, 16GB VRAM)
+Hardware: NVIDIA GeForce RTX 5060 Ti (SM 12.0, 16GB VRAM)
 Mathematical Formulation:
   Curved hyperbolic ferromagnetic lattice Hamiltonian:
     H = -J sum_{<i,j>} m_i · m_j - D · sum_{<i,j>} (m_i × m_j) - B · sum_i m_i

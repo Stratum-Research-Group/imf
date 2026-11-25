@@ -1,7 +1,7 @@
 """
 IMF High-Performance Fused Poincare Geodesic Riemannian Score Matching Kernel
 =============================================================================
-Physical Hardware Target: NVIDIA GeForce RTX 5060 Ti (SM 8.9 / Ada Lovelace)
+Physical Hardware Target: NVIDIA GeForce RTX 5060 Ti (SM 12.0 / Blackwell)
 Mathematical Foundation:
   Score-based generative modeling and diffusion on Riemannian manifolds (Poincare Ball (D^d_c, g_c)).
   Given coordinate x in D^d_c with conformal metric g_x = lambda_x^2 I, where lambda_x = 2 / (1 - c ||x||^2).

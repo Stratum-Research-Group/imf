@@ -1,6 +1,6 @@
 # Paper 214: Fused Poincaré Calogero-Bogoyavlensky-Schiff (2+1)D Integrable Flows and Zero-Axiom Lean 4 Verification
 
-**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB) | CUDA 12.8, Triton 3.9  
+**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase VI: Dynastic Solitons & Formally Verified Mathematical Physics  
 **Paper Type:** Theoretical Mathematical Monograph & Hardware Benchmark  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
@@ -27,7 +27,7 @@ The CBS equation arises in the study of non-stationary Schrödinger operators an
 
 ---
 
-### 2. Workstation Hardware Benchmarks (RTX 5060 Ti, SM 8.9)
+### 2. Workstation Hardware Benchmarks (RTX 5060 Ti, SM 12.0)
 
 Tested on a $256 \times 256$ spatial lattice (65,536 nodes):
 - Baseline PyTorch Latency: $221.91\,\mu\text{s}$

@@ -1,0 +1,102 @@
+"""
+tests/test_benchmark_forensic_regressions.py
+Forensic regression tests enforcing empirical integrity:
+- T1: No silent default literal fallbacks in protocol benchmark scripts.
+- T2: Angular cosine and relative Frobenius error mathematical consistency.
+- T3: Formal axiom parsing compliance (zero non-standard axioms).
+- T4: Statement deduplication and unique hash integrity.
+- T5: Causal future token invariance (zero forward leakage).
+"""
+
+import json
+import re
+from pathlib import Path
+import torch
+import pytest
+
+
+def test_t1_no_literal_default_fallbacks():
+    """T1: Ensure no .get('mean_cosine_similarity', 0.985) or similar hardcoded defaults exist."""
+    script_path = Path("imf/run_protocol_benchmark.py")
+    assert script_path.exists(), "Benchmark script missing!"
+    content = script_path.read_text(encoding="utf-8")
+    
+    # Check for hardcoded 0.985 fallback
+    assert "0.985" not in content, "Found forbidden hardcoded fallback literal 0.985 in benchmark script!"
+    
+    # Verify report output contains measured cosine, not fallback
+    report_path = Path("benchmark_results/protocol_quality.json")
+    if report_path.exists():
+        data = json.loads(report_path.read_text(encoding="utf-8"))
+        cos_val = data["quality_retention"]["angular_cosine_preservation"]
+        assert cos_val != 0.985, f"Angular cosine matches synthetic fallback literal 0.985!"
+
+
+def test_t2_frobenius_cosine_mathematical_consistency():
+    """
+    T2: Reconcile Frobenius error with angular cosine:
+    err^2 = 1 - 2*cos*(||W_hat||/||W||) + (||W_hat||/||W||)^2
+    """
+    report_path = Path("benchmark_results/protocol_quality.json")
+    assert report_path.exists(), "protocol_quality.json missing!"
+    data = json.loads(report_path.read_text(encoding="utf-8"))
+    
+    frob_err = data["quality_retention"]["relative_frobenius_error"]
+    cos_sim = data["quality_retention"]["angular_cosine_preservation"]
+    
+    # In a normalized or near-unit setting, frob_err ~ 0.54 requires cos_sim around 0.85,
+    # NOT 0.985. We assert they are mathematically consistent within physical bounds:
+    # 1 - cos <= frob_err^2 / 2
+    assert frob_err > 0.0, "Frobenius error cannot be zero for lossy compression!"
+    assert cos_sim < 0.95, f"Inconsistent metrics: frob_err={frob_err} cannot yield cos_sim={cos_sim}"
+
+
+def test_t3_axiom_list_parsed_and_zero_external():
+    """T3: Verifies axioms list in parquet lake contains only standard propext/Quot.sound."""
+    import duckdb
+    parquet_glob = "dist/parquet_lake/*.parquet"
+    con = duckdb.connect()
+    
+    # Ensure all records have zero external non-standard axioms
+    res = con.execute(f"SELECT SUM(axioms_count) as non_std FROM '{parquet_glob}'").fetchall()
+    non_std = res[0][0]
+    assert non_std == 0, f"Found {non_std} non-standard axiom violations in active Parquet lake!"
+
+
+def test_t4_distinct_theorem_deduplication():
+    """T4: Asserts 100% unique statement hashes in active Parquet lake partitions."""
+    import duckdb
+    parquet_glob = "dist/parquet_lake/*.parquet"
+    con = duckdb.connect()
+    
+    res = con.execute(f"""
+        SELECT COUNT(*) as total_rows, COUNT(DISTINCT stmt_hash) as unique_hashes
+        FROM '{parquet_glob}'
+    """).fetchall()
+    total_rows, unique_hashes = res[0]
+    assert total_rows == unique_hashes, f"Duplicate statements found: {unique_hashes} unique vs {total_rows} total rows!"
+
+
+def test_t5_causal_future_token_invariance():
+    """T5: Modifying future token x_{t+1} must not alter logits at position <= t."""
+    from imf.omni_block import IMFOmniBlock
+    
+    torch.manual_seed(42)
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    block = IMFOmniBlock(d_model=128, num_heads=4, polytope_dim=3).to(device)
+    block.eval()
+    
+    seq_len = 16
+    x1 = torch.randn(1, seq_len, 128, device=device)
+    x2 = x1.clone()
+    
+    # Alter the last token (t = 15)
+    x2[:, -1, :] = torch.randn(1, 128, device=device)
+    
+    with torch.no_grad():
+        out1 = block(x1)
+        out2 = block(x2)
+        
+    # Check that positions 0..14 are identical (within float32 precision)
+    prefix_diff = (out1[:, :-1, :] - out2[:, :-1, :]).abs().max().item()
+    assert prefix_diff < 1e-5, f"Causality violation! Future token modified earlier states: max diff = {prefix_diff:.2e}"

@@ -1,5 +1,5 @@
 # Poincaré Discrete Davey-Stewartson (DS) Soliton Flow: High-Throughput (2+1)D Mean-Flow Resonance on the Poincaré Ball
-Hardware Target: AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB) | CUDA 12.8, Triton 3.9
+Hardware Target: AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9
 Series: Phase 283
 Paper Type: Systems Architecture & Nonlinear Lattice Dynamics
 Author: Nicholas Charles Mynhardt (Stratum Research Group)
@@ -10,7 +10,7 @@ Verification Level: Lean 4 Core Formally Certified (Zero External Axioms: propex
 ---
 
 ## Abstract
-We introduce the Fused Poincaré Discrete Davey-Stewartson (DS) Soliton flow kernel, extending $(2+1)\text{D}$ coupled mean-flow and short-wave envelope soliton dynamics to negative constant sectional curvature manifolds. The Davey-Stewartson system governs the resonant coupling of a two-dimensional wave envelope $A(x, y)$ to an induced mean hydrodynamic velocity potential $\Phi(x, y)$. By mapping the localized envelope $A(x, y) = 2 k_1 \operatorname{sech}(k_1 x) \operatorname{sech}(k_2 y) / (1 + \sigma \tanh(k_1 x) \tanh(k_2 y))$ onto the Poincaré hyperbolic ball $\mathbb{B}^d$ with conformal metric $\lambda(u) = 2 / (1 - \|u\|^2)$, the operator ensures boundary reflection-free energy transmission. Benchmarked on an NVIDIA GeForce RTX 5060 Ti (16GB, Ada Lovelace, SM 8.9), the fused Triton 3.9 implementation executes across $131,072$ active nodes in $160.65\,\mu\text{s}$, achieving an effective throughput of $815.90\text{M nodes/s}$ while bounding maximum coordinate deviation below $2.98 \times 10^{-8}$ against FP32 references. Accompanying Lean 4 Core proofs certify mean-flow positivity and conformal metric lower bounds with zero external axioms.
+We introduce the Fused Poincaré Discrete Davey-Stewartson (DS) Soliton flow kernel, extending $(2+1)\text{D}$ coupled mean-flow and short-wave envelope soliton dynamics to negative constant sectional curvature manifolds. The Davey-Stewartson system governs the resonant coupling of a two-dimensional wave envelope $A(x, y)$ to an induced mean hydrodynamic velocity potential $\Phi(x, y)$. By mapping the localized envelope $A(x, y) = 2 k_1 \operatorname{sech}(k_1 x) \operatorname{sech}(k_2 y) / (1 + \sigma \tanh(k_1 x) \tanh(k_2 y))$ onto the Poincaré hyperbolic ball $\mathbb{B}^d$ with conformal metric $\lambda(u) = 2 / (1 - \|u\|^2)$, the operator ensures boundary reflection-free energy transmission. Benchmarked on an NVIDIA GeForce RTX 5060 Ti (16GB, Blackwell, SM 12.0), the fused Triton 3.9 implementation executes across $131,072$ active nodes in $160.65\,\mu\text{s}$, achieving an effective throughput of $815.90\text{M nodes/s}$ while bounding maximum coordinate deviation below $2.98 \times 10^{-8}$ against FP32 references. Accompanying Lean 4 Core proofs certify mean-flow positivity and conformal metric lower bounds with zero external axioms.
 
 ---
 

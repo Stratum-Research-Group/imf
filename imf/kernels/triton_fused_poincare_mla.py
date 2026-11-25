@@ -1,6 +1,6 @@
 """
 Physical Workstation Triton Kernel: Fused Poincaré Multi-Head Latent Attention (MLA) Kernel (Cycle 215)
-Hardware Target: NVIDIA GeForce RTX 5060 Ti (AD106, SM 8.9), 16GB VRAM.
+Hardware Target: NVIDIA GeForce RTX 5060 Ti (AD106, SM 12.0), 16GB VRAM.
 
 Optimized MLA execution: pre-project Query head into compressed latent space [B, H_Q, D_C]
 once per step, and then evaluate fused GEMV against cached tokens across the sequence length S.

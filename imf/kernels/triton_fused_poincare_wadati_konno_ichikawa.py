@@ -1,6 +1,6 @@
 """
 Physical Workstation Triton Kernel: Fused Poincaré Wadati-Konno-Ichikawa (WKI) Integrable Flow (Cycle 225)
-Hardware Target: NVIDIA GeForce RTX 5060 Ti (AD106, SM 8.9), 16GB VRAM.
+Hardware Target: NVIDIA GeForce RTX 5060 Ti (AD106, SM 12.0), 16GB VRAM.
 
 The Wadati-Konno-Ichikawa (WKI) equation describes nonlinear loop soliton dynamics in elastic media:
     u_t + ( u_{xx} / (1 + u_x^2)^{3/2} )_x = 0

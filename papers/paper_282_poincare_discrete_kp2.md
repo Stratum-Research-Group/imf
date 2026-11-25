@@ -1,5 +1,5 @@
 # Poincaré Discrete Kadomtsev-Petviashvili II (KP-II) Soliton Grid Flow: High-Throughput (2+1)D Wave Dynamics on the Poincaré Ball
-Hardware Target: AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB) | CUDA 12.8, Triton 3.9
+Hardware Target: AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9
 Series: Phase 282
 Paper Type: Systems Architecture & Nonlinear Lattice Dynamics
 Author: Nicholas Charles Mynhardt (Stratum Research Group)
@@ -10,7 +10,7 @@ Verification Level: Lean 4 Core Formally Certified (Zero External Axioms: propex
 ---
 
 ## Abstract
-We introduce the Fused Poincaré Discrete Kadomtsev-Petviashvili II (KP-II) Soliton Grid flow kernel, establishing high-throughput $(2+1)\text{D}$ quasi-one-dimensional wave interaction dynamics on negative-curvature manifolds. In $(2+1)$ dimensions, the KP-II equation governs weakly dispersive transverse line solitons with positive dispersion, forming intersecting planar webs. By mapping the continuous profile $u_{\text{KP2}} = 2 k_1^2 \operatorname{sech}^2(k_1 x + k_2 y)$ into the conformal Riemannian metric $\lambda(u) = 2 / (1 - \|u\|^2)$ on the open Poincaré unit ball $\mathbb{B}^d$, the kernel routes localized wave packets without numerical boundary distortion. Benchmarked on an NVIDIA GeForce RTX 5060 Ti (16GB, Ada Lovelace, SM 8.9), the fused Triton 3.9 implementation executes across $131,072$ active lattice nodes in $160.32\,\mu\text{s}$, sustaining an effective throughput of $817.56\text{M nodes/s}$ with maximum coordinate error below $2.98 \times 10^{-8}$ against FP32 references. Formal Lean 4 Core proofs verify energy positivity and transverse monotonicity with zero external axioms.
+We introduce the Fused Poincaré Discrete Kadomtsev-Petviashvili II (KP-II) Soliton Grid flow kernel, establishing high-throughput $(2+1)\text{D}$ quasi-one-dimensional wave interaction dynamics on negative-curvature manifolds. In $(2+1)$ dimensions, the KP-II equation governs weakly dispersive transverse line solitons with positive dispersion, forming intersecting planar webs. By mapping the continuous profile $u_{\text{KP2}} = 2 k_1^2 \operatorname{sech}^2(k_1 x + k_2 y)$ into the conformal Riemannian metric $\lambda(u) = 2 / (1 - \|u\|^2)$ on the open Poincaré unit ball $\mathbb{B}^d$, the kernel routes localized wave packets without numerical boundary distortion. Benchmarked on an NVIDIA GeForce RTX 5060 Ti (16GB, Blackwell, SM 12.0), the fused Triton 3.9 implementation executes across $131,072$ active lattice nodes in $160.32\,\mu\text{s}$, sustaining an effective throughput of $817.56\text{M nodes/s}$ with maximum coordinate error below $2.98 \times 10^{-8}$ against FP32 references. Formal Lean 4 Core proofs verify energy positivity and transverse monotonicity with zero external axioms.
 
 ---
 

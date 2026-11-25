@@ -1,5 +1,5 @@
 # Poincaré Discrete Calogero-Bogoyavlensky-Schiff (CBS) Soliton Flow: High-Throughput (2+1)D Breaking Solitons on the Poincaré Ball
-Hardware Target: AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB) | CUDA 12.8, Triton 3.9
+Hardware Target: AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9
 Series: Phase 285
 Paper Type: Systems Architecture & Nonlinear Lattice Dynamics
 Author: Nicholas Charles Mynhardt (Stratum Research Group)
@@ -10,7 +10,7 @@ Verification Level: Lean 4 Core Formally Certified (Zero External Axioms: propex
 ---
 
 ## Abstract
-We present the Fused Poincaré Discrete Calogero-Bogoyavlensky-Schiff (CBS) Soliton flow kernel, introducing $(2+1)\text{D}$ breaking soliton dynamics and nonlinear Riemann wave steepening to deep geometric representations on Riemannian manifolds of negative sectional curvature. The CBS equation models the interaction of longitudinal Riemann wave breaking with transverse dispersive stabilization. By projecting the breaking soliton profile $u_{\text{CBS}}(x, y) = k^2 \operatorname{sech}^2(k x + l y)$ onto the Poincaré hyperbolic unit ball $\mathbb{B}^d$ equipped with the conformal metric $\lambda(u) = 2 / (1 - \|u\|^2)$, the operator suppresses unphysical boundary shocks while retaining coherent non-linear wave steepening in multi-dimensional latent spaces. Benchmarked on an NVIDIA GeForce RTX 5060 Ti (16GB, Ada Lovelace, SM 8.9), the fused Triton 3.9 kernel processes $131,072$ active lattice nodes in $152.93\,\mu\text{s}$, achieving an effective throughput of $857.05\text{M nodes/s}$ while maintaining maximum coordinate deviation below $2.98 \times 10^{-8}$ against FP32 references. Formal Lean 4 Core proofs certify steepening energy positivity and monotonicity with zero external axioms.
+We present the Fused Poincaré Discrete Calogero-Bogoyavlensky-Schiff (CBS) Soliton flow kernel, introducing $(2+1)\text{D}$ breaking soliton dynamics and nonlinear Riemann wave steepening to deep geometric representations on Riemannian manifolds of negative sectional curvature. The CBS equation models the interaction of longitudinal Riemann wave breaking with transverse dispersive stabilization. By projecting the breaking soliton profile $u_{\text{CBS}}(x, y) = k^2 \operatorname{sech}^2(k x + l y)$ onto the Poincaré hyperbolic unit ball $\mathbb{B}^d$ equipped with the conformal metric $\lambda(u) = 2 / (1 - \|u\|^2)$, the operator suppresses unphysical boundary shocks while retaining coherent non-linear wave steepening in multi-dimensional latent spaces. Benchmarked on an NVIDIA GeForce RTX 5060 Ti (16GB, Blackwell, SM 12.0), the fused Triton 3.9 kernel processes $131,072$ active lattice nodes in $152.93\,\mu\text{s}$, achieving an effective throughput of $857.05\text{M nodes/s}$ while maintaining maximum coordinate deviation below $2.98 \times 10^{-8}$ against FP32 references. Formal Lean 4 Core proofs certify steepening energy positivity and monotonicity with zero external axioms.
 
 ---
 

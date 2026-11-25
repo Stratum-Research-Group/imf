@@ -1,6 +1,6 @@
 """
 Physical Workstation Triton Kernel: Fused Poincaré Boiti-Leon-Pempinelli (BLP) Integrable Flow (Cycle 216)
-Hardware Target: NVIDIA GeForce RTX 5060 Ti (AD106, SM 8.9), 16GB VRAM.
+Hardware Target: NVIDIA GeForce RTX 5060 Ti (AD106, SM 12.0), 16GB VRAM.
 
 The Boiti-Leon-Pempinelli (BLP) system is an integrable 2D extension of the sine-Gordon and KdV systems:
     u_t = u_{xxy} - 4 u^2 u_y - 2 u_x v

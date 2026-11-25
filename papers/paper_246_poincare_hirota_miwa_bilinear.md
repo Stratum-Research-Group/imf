@@ -1,6 +1,6 @@
 # Paper 246: Poincaré Discrete Hirota-Miwa Bilinear Hierarchies and 3D Discrete KP Tau-Functions in Hyperbolic Spaces
 
-**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB) | CUDA 12.8, Triton 3.9  
+**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase VI: Dynastic Solitons & Formally Verified Mathematical Physics  
 **Paper Type:** Theoretical Mathematical Monograph & Hardware Benchmark  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
@@ -24,7 +24,7 @@ where $\alpha_1 + \alpha_2 + \alpha_3 = 0$. Under the Miwa transformation from c
 
 ---
 
-## 2. Workstation Triton Kernel Performance (SM 8.9)
+## 2. Workstation Triton Kernel Performance (SM 12.0)
 Benchmarked over $L \times M \times N = 32 \times 64 \times 64 = 131,072$ lattice nodes:
 - **PyTorch FP32 Execution Time**: $471.62\,\mu\text{s}$
 - **Triton Fused Kernel Execution Time**: $20.22\,\mu\text{s}$

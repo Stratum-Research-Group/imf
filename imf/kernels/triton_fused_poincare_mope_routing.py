@@ -1,6 +1,6 @@
 """
 Physical Workstation Triton Kernel: Fused Poincaré 14B MoPE Geodesic Centroid Router (Cycle 211)
-Hardware Target: NVIDIA GeForce RTX 5060 Ti (AD106, SM 8.9), 16GB VRAM.
+Hardware Target: NVIDIA GeForce RTX 5060 Ti (AD106, SM 12.0), 16GB VRAM.
 
 This kernel evaluates non-Euclidean geodesic routing on the Poincaré ball B^d for a 14B MoPE
 (Mixture of Polytope Experts) architecture with E = 16 experts.

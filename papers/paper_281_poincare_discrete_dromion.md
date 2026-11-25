@@ -1,5 +1,5 @@
 # Poincaré Discrete Dromion Lattice Flow: High-Throughput (2+1)D Localized Boundary Solitons on the Poincaré Ball
-Hardware Target: AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB) | CUDA 12.8, Triton 3.9
+Hardware Target: AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9
 Series: Phase 281
 Paper Type: Systems Architecture & Nonlinear Lattice Dynamics
 Author: Nicholas Charles Mynhardt (Stratum Research Group)
@@ -10,7 +10,7 @@ Verification Level: Lean 4 Core Formally Certified (Zero External Axioms: propex
 ---
 
 ## Abstract
-We introduce the Fused Poincaré Discrete Dromion Lattice flow kernel, an operator that maps boundary-driven localized $(2+1)\text{D}$ dromion excitations into Riemannian manifolds with negative constant sectional curvature. By coupling spatial cross-derivatives of asymptotic line solitons to the conformal metric $\lambda(u) = 2 / (1 - \|u\|^2)$ on the open Poincaré unit ball $\mathbb{B}^d$, the kernel preserves localized soliton energy gradients without artificial coordinate boundary reflections. Benchmarked on an NVIDIA GeForce RTX 5060 Ti (16GB, Ada Lovelace, SM 8.9), the fused Triton 3.9 implementation executes across $131,072$ lattice nodes in $156.09\,\mu\text{s}$, achieving an effective throughput of $839.70\text{M nodes/s}$ while maintaining peak absolute coordinate error below $2.98 \times 10^{-8}$ against double-precision references. Accompanying Lean 4 Core proofs verify Lyapunov energy positivity and metric non-degeneracy with zero non-standard axioms.
+We introduce the Fused Poincaré Discrete Dromion Lattice flow kernel, an operator that maps boundary-driven localized $(2+1)\text{D}$ dromion excitations into Riemannian manifolds with negative constant sectional curvature. By coupling spatial cross-derivatives of asymptotic line solitons to the conformal metric $\lambda(u) = 2 / (1 - \|u\|^2)$ on the open Poincaré unit ball $\mathbb{B}^d$, the kernel preserves localized soliton energy gradients without artificial coordinate boundary reflections. Benchmarked on an NVIDIA GeForce RTX 5060 Ti (16GB, Blackwell, SM 12.0), the fused Triton 3.9 implementation executes across $131,072$ lattice nodes in $156.09\,\mu\text{s}$, achieving an effective throughput of $839.70\text{M nodes/s}$ while maintaining peak absolute coordinate error below $2.98 \times 10^{-8}$ against double-precision references. Accompanying Lean 4 Core proofs verify Lyapunov energy positivity and metric non-degeneracy with zero non-standard axioms.
 
 ---
 

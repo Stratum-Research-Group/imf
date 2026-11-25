@@ -1,6 +1,6 @@
 """
 Physical Workstation Triton Kernel: Fused Poincaré Bogoyavlensky Breaking Soliton Flow (Cycle 210)
-Hardware Target: NVIDIA GeForce RTX 5060 Ti (AD106, SM 8.9), 16GB VRAM.
+Hardware Target: NVIDIA GeForce RTX 5060 Ti (AD106, SM 12.0), 16GB VRAM.
 
 The Bogoyavlensky breaking soliton equation in 2D is:
     u_t = 4 u u_y + 2 u_x v - u_{xxy}

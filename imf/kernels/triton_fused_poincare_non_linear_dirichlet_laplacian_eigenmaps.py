@@ -1,7 +1,7 @@
 """
 IMF High-Performance Fused Poincare Non-Linear Laplacian Eigenmaps Kernel
 ========================================================================
-Physical Hardware Target: NVIDIA GeForce RTX 5060 Ti (SM 8.9 / Ada Lovelace)
+Physical Hardware Target: NVIDIA GeForce RTX 5060 Ti (SM 12.0 / Blackwell)
 Mathematical Foundation:
   Hyperbolic Laplacian Eigenmaps and spectral manifold embedding on (D^d_c, g_c).
   Given a sequence of token representations X in R^{B x D} in the Poincaré ball.

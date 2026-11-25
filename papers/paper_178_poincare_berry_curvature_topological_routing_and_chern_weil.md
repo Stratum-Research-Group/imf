@@ -1,6 +1,6 @@
 # Paper 178: Fused Poincaré Berry Curvature Topological Routing and Machine-Certified Chern-Weil Invariants
 
-**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB) | CUDA 12.8, Triton 3.9  
+**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase VI: Dynastic Solitons & Formally Verified Mathematical Physics  
 **Paper Type:** Theoretical Mathematical Monograph & Hardware Benchmark  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
@@ -37,7 +37,7 @@ $$p_e(x) = \frac{\exp(\operatorname{logit}_e(x))}{\sum_{e'=1}^E \exp(\operatorna
 
 ## 2. Hardware Implementation & Physical Workstation Benchmarks
 
-Physical execution on an NVIDIA GeForce RTX 5060 Ti GPU (SM 8.9) with $B = 8,192$, $E = 16$, and $D = 128$:
+Physical execution on an NVIDIA GeForce RTX 5060 Ti GPU (SM 12.0) with $B = 8,192$, $E = 16$, and $D = 128$:
 
 | Metric | PyTorch Eager Baseline | Triton Fused Kernel | Performance Level |
 | :--- | :--- | :--- | :--- |

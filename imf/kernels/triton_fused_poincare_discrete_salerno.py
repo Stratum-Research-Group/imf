@@ -1,6 +1,6 @@
 """
 Cycle 253: Fused Poincaré Discrete Salerno Polariton Flow Kernel
-Hardware Target: Workstation NVIDIA GeForce RTX 5060 Ti (SM 8.9 AD106)
+Hardware Target: Workstation NVIDIA GeForce RTX 5060 Ti (SM 12.0 GB206)
 
 Evaluates the discrete Salerno equation interpolating between standard discrete NLS (DNLS) and integrable Ablowitz-Ladik (AL):
     i d psi_n / dt = (psi_{n+1} - 2 psi_n + psi_{n-1}) + (mu * |psi_n|^2 * (psi_{n+1} + psi_{n-1})) + (gamma * |psi_n|^2 * psi_n)

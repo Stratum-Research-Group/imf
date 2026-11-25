@@ -16,15 +16,15 @@
     "compression_ratio_fp16_to_e8": 12.238095238095237
   },
   "performance": {
-    "startup_cold_load_ms": 0.178,
-    "first_token_latency_fp16_ms": 611.649,
-    "first_token_latency_e8_ms": 10.974,
-    "decode_throughput_tok_sec": 561.5,
-    "peak_host_ram_mb": 1553.2,
+    "startup_cold_load_ms": 0.194,
+    "first_token_latency_fp16_ms": 407.978,
+    "first_token_latency_e8_ms": 7.969,
+    "decode_throughput_tok_sec": 895.3,
+    "peak_host_ram_mb": 1565.1,
     "peak_device_vram_mb": 40.2
   },
   "quality_retention": {
     "relative_frobenius_error": 0.54166,
-    "angular_cosine_preservation": 0.985
+    "angular_cosine_preservation": 0.8533
   }
 }

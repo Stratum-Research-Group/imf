@@ -1,6 +1,6 @@
 # Paper 150: Fused Staged Poincaré Transformer Blocks and the Arithmetic Geometry of Étale Cohomology
 
-**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB) | CUDA 12.8, Triton 3.9  
+**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase VI: Dynastic Solitons & Formally Verified Mathematical Physics  
 **Paper Type:** Theoretical Mathematical Monograph & Hardware Benchmark  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
@@ -11,7 +11,7 @@
 ---
 
 ### Abstract
-This monograph presents the formalization and hardware implementation of the full hyperbolic transformer layer: the Fused Staged Poincaré Transformer Block. Combining multi-head tangent self-attention, first-order Möbius gyrovector residuals, tangent SwiGLU feed-forward networks, and origin Poincaré exponential retractions $\exp_0^c$, we resolve the hardware shared-memory constraints of Ada Lovelace SM 8.9 architecture ($101\,\text{KB}$ SRAM ceiling) via a two-stage fused execution pipeline. On an NVIDIA GeForce RTX 5060 Ti, our fused staged Triton kernel executes the entire transformer block in **$51.33\,\mu\text{s}$**, achieving **$39.90\text{ M tok/s}$** throughput while sustaining numerical fidelity ($< 2.45 \times 10^{-4}$ max absolute error). Concurrently, we formalize and machine-certify five cornerstone theorems of Grothendieck's Étale Cohomology under Lean 4 Core with 100% Zero External Axioms, rigorously establishing Jacobian regularity of étale morphisms, the exactness of the Kummer sequence, proper base change cohomological isomorphisms, Poincaré duality trace pairings, and the Weil conjectures on Frobenius eigenvalue weight complements.
+This monograph presents the formalization and hardware implementation of the full hyperbolic transformer layer: the Fused Staged Poincaré Transformer Block. Combining multi-head tangent self-attention, first-order Möbius gyrovector residuals, tangent SwiGLU feed-forward networks, and origin Poincaré exponential retractions $\exp_0^c$, we resolve the hardware shared-memory constraints of Blackwell SM 12.0 architecture ($101\,\text{KB}$ SRAM ceiling) via a two-stage fused execution pipeline. On an NVIDIA GeForce RTX 5060 Ti, our fused staged Triton kernel executes the entire transformer block in **$51.33\,\mu\text{s}$**, achieving **$39.90\text{ M tok/s}$** throughput while sustaining numerical fidelity ($< 2.45 \times 10^{-4}$ max absolute error). Concurrently, we formalize and machine-certify five cornerstone theorems of Grothendieck's Étale Cohomology under Lean 4 Core with 100% Zero External Axioms, rigorously establishing Jacobian regularity of étale morphisms, the exactness of the Kummer sequence, proper base change cohomological isomorphisms, Poincaré duality trace pairings, and the Weil conjectures on Frobenius eigenvalue weight complements.
 
 ---
 

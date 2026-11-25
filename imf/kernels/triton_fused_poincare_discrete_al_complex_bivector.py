@@ -1,6 +1,6 @@
 """
 Cycle 273: Fused Poincaré Discrete Ablowitz-Ladik Complex Bivector Flow Kernel
-Hardware Target: Workstation NVIDIA GeForce RTX 5060 Ti (SM 8.9 AD106)
+Hardware Target: Workstation NVIDIA GeForce RTX 5060 Ti (SM 12.0 GB206)
 
 Evaluates the discrete Ablowitz-Ladik complex bivector dynamical flow:
     i d u_n / dt = (u_{n+1} - 2 u_n + u_{n-1}) + (u_n u^*_n + v_n v^*_n) * (u_{n+1} + u_{n-1})

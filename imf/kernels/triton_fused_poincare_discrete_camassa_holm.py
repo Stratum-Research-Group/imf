@@ -1,6 +1,6 @@
 """
 Cycle 269: Fused Poincaré Discrete Camassa-Holm Peakon Lattice Flow Kernel
-Hardware Target: Workstation NVIDIA GeForce RTX 5060 Ti (SM 8.9 AD106)
+Hardware Target: Workstation NVIDIA GeForce RTX 5060 Ti (SM 12.0 GB206)
 
 Evaluates the discrete Camassa-Holm shallow-water peakon lattice flow:
     m_n = u_n - alpha * (u_{n+1} - 2 u_n + u_{n-1})

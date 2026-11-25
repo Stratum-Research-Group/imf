@@ -1,6 +1,6 @@
 # Paper 171: Fused Poincaré Fréchet Mean Barycentric Interpolation, Diophantine Geometry, and the André-Oort Conjecture
 
-**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB) | CUDA 12.8, Triton 3.9  
+**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase VI: Dynastic Solitons & Formally Verified Mathematical Physics  
 **Paper Type:** Theoretical Mathematical Monograph & Hardware Benchmark  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
@@ -65,7 +65,7 @@ The proof relies on the **Pila-Zannier strategy**, combining:
 
 ## 3. Physical Hardware Benchmarks (RTX 5060 Ti)
 
-- **Device**: NVIDIA GeForce RTX 5060 Ti (16GB VRAM, SM 8.9)
+- **Device**: NVIDIA GeForce RTX 5060 Ti (16GB VRAM, SM 12.0)
 - **Batch Shape**: $[B=16, N=512, D=128, K=8]$ ($8,192$ barycentric interpolations across $8$ centroids, unrolled $T=4$ iterations)
 - **Precision**: fp16 centroids and weights, fp32 tangent space accumulators
 

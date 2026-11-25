@@ -1,6 +1,6 @@
 """
 Cycle 268: Fused Poincaré Discrete Blaszak-Marciniak 3-Field Lattice Flow Kernel
-Hardware Target: Workstation NVIDIA GeForce RTX 5060 Ti (SM 8.9 AD106)
+Hardware Target: Workstation NVIDIA GeForce RTX 5060 Ti (SM 12.0 GB206)
 
 Evaluates the discrete Blaszak-Marciniak 3-field coupled lattice dynamical flow:
     d u_n / dt = v_{n+1} - v_n

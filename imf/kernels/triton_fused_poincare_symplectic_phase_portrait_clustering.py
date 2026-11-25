@@ -1,7 +1,7 @@
 """
 IMF High-Performance Fused Poincare Symplectic Phase Portrait Clustering Kernel
 ==============================================================================
-Physical Hardware Target: NVIDIA GeForce RTX 5060 Ti (SM 8.9 / Ada Lovelace)
+Physical Hardware Target: NVIDIA GeForce RTX 5060 Ti (SM 12.0 / Blackwell)
 Mathematical Foundation:
   Clustering and representation quantization in the cotangent bundle T*(D^d_c)
   over the Poincaré ball (D^d_c, g_c).

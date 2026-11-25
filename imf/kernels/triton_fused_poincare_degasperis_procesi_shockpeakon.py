@@ -1,7 +1,7 @@
 """
 IMF Physical Triton Hardware Benchmark: Fused Poincaré Degasperis-Procesi Shockpeakon
 ================================================================================
-Hardware: NVIDIA GeForce RTX 5060 Ti (SM 8.9, 16GB VRAM)
+Hardware: NVIDIA GeForce RTX 5060 Ti (SM 12.0, 16GB VRAM)
 Mathematical Formulation:
   The Degasperis-Procesi (DP) equation for shallow water waves:
     partial_t m + u partial_x m + 3 m partial_x u = 0,   where m = u - partial_x^2 u

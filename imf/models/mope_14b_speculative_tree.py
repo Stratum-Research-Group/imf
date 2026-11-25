@@ -1,6 +1,6 @@
 """
 14B MoPE Multi-Token Tree Speculative Decoding Engine
-Hardware Target: Workstation NVIDIA GeForce RTX 5060 Ti (SM 8.9 AD106)
+Hardware Target: Workstation NVIDIA GeForce RTX 5060 Ti (SM 12.0 GB206)
 
 Upgrades speculative decoding with tree candidate branches (K=8 parallel draft tokens)
 evaluated concurrently against the 14B MoPE architecture and Poincaré non-Euclidean routing.

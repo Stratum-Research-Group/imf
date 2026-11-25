@@ -16,5 +16,7 @@
   "uncompressed_fp16_gb": 200.0,
   "target_imf_container_gb": 31.25,
   "alignment_bytes": 64,
-  "single_80gb_gpu_safe": true
+  "single_80gb_gpu_safe": true,
+  "kind": "simulation_scaffold",
+  "simulation_note": "Simulated partition topology on consumer hardware; not a physical 100B checkpoint."
 }

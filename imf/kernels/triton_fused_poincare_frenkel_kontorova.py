@@ -1,5 +1,5 @@
 """
-Triton Fused Kernel: Poincaré Discrete Sine-Gordon (Frenkel-Kontorova) Dislocation Flow (SM 8.9)
+Triton Fused Kernel: Poincaré Discrete Sine-Gordon (Frenkel-Kontorova) Dislocation Flow (SM 12.0)
 Cycle 245 Capstone: Topological Kink Solitons, Periodic Peierls-Nabarro Barrier,
 and Poincaré Hyperbolic Confinement.
 
@@ -100,7 +100,7 @@ def poincare_frenkel_kontorova_pytorch(phi: torch.Tensor, p: torch.Tensor, dt: f
 def benchmark():
     device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
     print("=" * 70)
-    print("  IMF TRITON POINCARÉ FRENKEL-KONTOROVA FLOW (RTX 5060 Ti SM 8.9)")
+    print("  IMF TRITON POINCARÉ FRENKEL-KONTOROVA FLOW (RTX 5060 Ti SM 12.0)")
     print("=" * 70)
 
     n = 131072

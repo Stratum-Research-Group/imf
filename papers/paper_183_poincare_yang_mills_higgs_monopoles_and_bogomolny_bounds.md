@@ -1,6 +1,6 @@
 # Paper 183: Fused Poincaré Yang-Mills-Higgs Monopoles and Machine-Certified Bogomolny Bounds
 
-**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB) | CUDA 12.8, Triton 3.9  
+**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase VI: Dynastic Solitons & Formally Verified Mathematical Physics  
 **Paper Type:** Theoretical Mathematical Monograph & Hardware Benchmark  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
@@ -35,7 +35,7 @@ $$M = \int_{\mathbb{D}^d_c} m(x) \, d\mu_g \in \mathbb{Z}, \quad E_{\text{tot}} 
 
 ## 2. Hardware Implementation & Physical Workstation Benchmarks
 
-Physical execution on an NVIDIA GeForce RTX 5060 Ti GPU (SM 8.9) with $B = 8,192$ and $D = 128$:
+Physical execution on an NVIDIA GeForce RTX 5060 Ti GPU (SM 12.0) with $B = 8,192$ and $D = 128$:
 
 | Metric | PyTorch Eager Baseline | Triton Fused Kernel | Performance Gain |
 | :--- | :--- | :--- | :--- |

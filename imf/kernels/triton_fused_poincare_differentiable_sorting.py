@@ -1,7 +1,7 @@
 """
 Fused Poincaré Differentiable Sorting and Quantile Routing Kernel
 ===================================================================
-Physical Workstation Benchmark: NVIDIA GeForce RTX 5060 Ti (SM 8.9)
+Physical Workstation Benchmark: NVIDIA GeForce RTX 5060 Ti (SM 12.0)
 Hardware Constrained: 16GB VRAM, 101KB Shared Memory Ceiling
 
 Implements continuous differentiable hyperbolic sorting and quantile routing

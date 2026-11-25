@@ -110,8 +110,12 @@ def run_benchmark_protocol(device_str: str = "cuda" if torch.cuda.is_available()
         # Step 7: Memory & Retention Measurements
         vram_mb = torch.cuda.max_memory_allocated() / (1024**2) if device.type == "cuda" else 0.0
         ram_mb = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024.0
-        rel_frob_err = (rec_e8_weight.float() - base_fp16.weight.float()).norm() / base_fp16.weight.float().norm()
+        orig_w_flat = base_fp16.weight.float().view(-1)
+        rec_w_flat = rec_e8_weight.float().view(-1)
+        rel_frob_err = (rec_w_flat - orig_w_flat).norm() / orig_w_flat.norm()
+        actual_cosine = torch.nn.functional.cosine_similarity(orig_w_flat, rec_w_flat, dim=0).item()
 
+        # Enforce no silent fallback: compute and verify actual tensor quality metrics
         report = {
             "pinned_revision": git_rev,
             "license": license_id,
@@ -133,7 +137,7 @@ def run_benchmark_protocol(device_str: str = "cuda" if torch.cuda.is_available()
             },
             "quality_retention": {
                 "relative_frobenius_error": float(f"{rel_frob_err.item():.4e}"),
-                "angular_cosine_preservation": float(f"{plq_stats.get('mean_cosine_similarity', 0.985):.4f}"),
+                "angular_cosine_preservation": float(f"{actual_cosine:.4f}"),
             }
         }
 
