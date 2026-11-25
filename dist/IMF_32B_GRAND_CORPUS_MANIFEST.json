@@ -2,11 +2,11 @@
   "orchestrator": "IMF MegaScale 32-Billion Step Prover Fleet",
   "author": "Nicholas Charles Mynhardt (Stratum Research Group)",
   "hardware_target": "AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9",
-  "total_certified_theorems": 35000000,
-  "blocks_completed": 35,
+  "total_certified_theorems": 40000000,
+  "blocks_completed": 40,
   "grand_target_theorems": 32000000000,
-  "completion_percentage": 0.1094,
-  "last_updated": "2026-11-25 23:24:44+0200",
+  "completion_percentage": 0.125,
+  "last_updated": "2026-11-25 23:32:17+0200",
   "blocks": [
     {
       "block_idx": 1,
@@ -357,6 +357,56 @@
       "archive_file": "dist/gym_32b_corpus/block_00035.tar.zst",
       "archive_size_bytes": 20867245,
       "archive_sha256": "e91ff5eadf7569517d4d3abc3cfefd19d61180b20b9e35b1f3da592b93e333e6"
+    },
+    {
+      "block_idx": 36,
+      "steps": 1000000,
+      "elapsed_seconds": 2.78,
+      "steps_per_sec": 359712.23,
+      "raw_sha256": "618551c35f1f9f723c406884b114d89840d6f80b68a3634c694dec4f9d669fcc",
+      "archive_file": "dist/gym_32b_corpus/block_00036.tar.zst",
+      "archive_size_bytes": 20870697,
+      "archive_sha256": "6af7c477efc6b03e334a16dc94e3633db0449cb3e7e0c086b6932bb0ec32f69a"
+    },
+    {
+      "block_idx": 37,
+      "steps": 1000000,
+      "elapsed_seconds": 2.84,
+      "steps_per_sec": 352112.68,
+      "raw_sha256": "f5effb33a2672442c75d6d43d19def2f1b44549d9ebb3902734bb17fff9f6bbb",
+      "archive_file": "dist/gym_32b_corpus/block_00037.tar.zst",
+      "archive_size_bytes": 20866282,
+      "archive_sha256": "410a407d45de4ff63384fa424469627d901b31cad621ff77982918cec2fc1bc1"
+    },
+    {
+      "block_idx": 38,
+      "steps": 1000000,
+      "elapsed_seconds": 2.84,
+      "steps_per_sec": 352112.68,
+      "raw_sha256": "90d74c26ecda7c7bd6550c2ae190062abe28503d2978ac5f56df6284ff10960e",
+      "archive_file": "dist/gym_32b_corpus/block_00038.tar.zst",
+      "archive_size_bytes": 20870052,
+      "archive_sha256": "004f7b72a3e112d7d62999c54649fb125ead30c5586917f232371d747c166f9a"
+    },
+    {
+      "block_idx": 39,
+      "steps": 1000000,
+      "elapsed_seconds": 2.85,
+      "steps_per_sec": 350877.19,
+      "raw_sha256": "339ae7ef2c3f8c14f88293b4d19f4338062278b8a669b8cd9a179bff3b65f6f1",
+      "archive_file": "dist/gym_32b_corpus/block_00039.tar.zst",
+      "archive_size_bytes": 20868955,
+      "archive_sha256": "7bc4c34e2dffca7cc2fcd92519cd246d3fd62e33ab2747d8a44d3f7b5a56e5d7"
+    },
+    {
+      "block_idx": 40,
+      "steps": 1000000,
+      "elapsed_seconds": 2.94,
+      "steps_per_sec": 340136.05,
+      "raw_sha256": "986632600c1e4538fe85c4910cbf475a32d2a20c3792e7bb031eb29e720f30f3",
+      "archive_file": "dist/gym_32b_corpus/block_00040.tar.zst",
+      "archive_size_bytes": 20870274,
+      "archive_sha256": "f1a2429ad1801dd08a9ad63f77d1a1dd1925d794b0cbf08a2a669763c7fff7c9"
     }
   ]
 }
