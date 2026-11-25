@@ -1,6 +1,6 @@
 {
   "model_id": "Qwen/Qwen2.5-0.5B",
-  "timestamp": "2026-11-25T17:37:19Z",
+  "timestamp": "2026-11-25T18:12:49Z",
   "hardware": "NVIDIA GeForce RTX 5060 Ti",
   "aggregate": {
     "projections_count": 35,

@@ -1,15 +1,15 @@
 {
-  "git_commit": "b6561590b56eb66d127613d090e26b0e31e58b73",
-  "timestamp": "2026-11-25 15:37:10 UTC",
+  "git_commit": "0c75918fc0fc74cb252a50d98783866d47bdc835",
+  "timestamp": "2026-11-25 16:12:40 UTC",
   "hardware": "NVIDIA GeForce RTX 5060 Ti",
   "tokens_per_frame": 64,
   "num_frames": 150,
   "total_tokens": 9600,
-  "throughput_fps": 84.41,
-  "throughput_tokens_per_sec": 5402.1,
-  "mean_latency_ms": 11.82,
-  "std_latency_ms": 0.98,
-  "p95_latency_ms": 13.76,
+  "throughput_fps": 86.9,
+  "throughput_tokens_per_sec": 5561.69,
+  "mean_latency_ms": 11.48,
+  "std_latency_ms": 0.32,
+  "p95_latency_ms": 12.16,
   "peak_vram_mb": 37.84,
   "realtime_satisfied": true
 }

@@ -1,27 +1,27 @@
 {
-  "timestamp": "2026-11-25T17:34:39Z",
-  "git_commit": "b6561590b56eb66d127613d090e26b0e31e58b73",
+  "timestamp": "2026-11-25T18:10:14Z",
+  "git_commit": "0c75918fc0fc74cb252a50d98783866d47bdc835",
   "hardware": "NVIDIA GeForce RTX 5060 Ti (Blackwell SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9",
   "tests": {
-    "total_collected": 161,
-    "passed": 161,
+    "total_collected": 165,
+    "passed": 165,
     "failed": 0,
-    "duration_seconds": 141.75
+    "duration_seconds": 136.78
   },
   "benchmarks": {
     "cold_start_ttft": {
-      "cold_ttft_ms": 436.79,
-      "warm_mean_ttft_ms": 10.06,
-      "ratio": 43.42
+      "cold_ttft_ms": 450.67,
+      "warm_mean_ttft_ms": 9.72,
+      "ratio": 46.39
     },
     "streaming_multimodal": {
-      "fps": 84.41,
-      "tokens_per_second": 5402.1,
-      "mean_latency_ms": 11.82,
+      "fps": 86.9,
+      "tokens_per_second": 5561.69,
+      "mean_latency_ms": 11.48,
       "peak_vram_mb": 37.84
     },
     "speculative_real_text": {
-      "mean_alpha": 0.7359,
+      "mean_alpha": 0.7629,
       "acceptance_rate": 0.755,
       "speedup_factor": 3.02
     },

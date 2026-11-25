@@ -9,6 +9,17 @@ from typing import List, Dict, Any, Tuple
 from imf.kernels.triton_fused_gym_candidate_evaluator import gpu_evaluate_candidates_triton
 from imf.gym_32_families import GYM_32_FAMILY_SPECS, generate_step_theorem
 
+# Global double-buffering CUDA streams
+_CUDA_STREAM_H2D = None
+_CUDA_STREAM_COMPUTE = None
+
+def get_cuda_streams():
+    global _CUDA_STREAM_H2D, _CUDA_STREAM_COMPUTE
+    if _CUDA_STREAM_H2D is None and torch.cuda.is_available():
+        _CUDA_STREAM_H2D = torch.cuda.Stream()
+        _CUDA_STREAM_COMPUTE = torch.cuda.Stream()
+    return _CUDA_STREAM_H2D, _CUDA_STREAM_COMPUTE
+
 def gpu_generate_and_filter_candidates(
     fam_idx: int,
     start_step: int,
@@ -16,7 +27,7 @@ def gpu_generate_and_filter_candidates(
     block_idx: int
 ) -> List[Dict[str, Any]]:
     """
-    Evaluates candidate modulo arithmetic equations on GPU in parallel.
+    Evaluates candidate modulo arithmetic equations on GPU in parallel with double-stream pipelining.
     Returns verified structured theorem data.
     """
     # Generate batch records
@@ -45,14 +56,20 @@ def gpu_generate_and_filter_candidates(
             k_list.append(k)
 
     if c1_list and torch.cuda.is_available():
-        c1_t = torch.tensor(c1_list, dtype=torch.int32, device="cuda")
-        c2_t = torch.tensor(c2_list, dtype=torch.int32, device="cuda")
-        m_t = torch.tensor(m_list, dtype=torch.int32, device="cuda")
-        k_t = torch.tensor(k_list, dtype=torch.int32, device="cuda")
-        res_t, valid_t = gpu_evaluate_candidates_triton(c1_t, c2_t, m_t)
-        assert valid_t.all().item(), "GPU non-zero divisor check failed!"
-        match_t = (res_t == k_t)
-        assert match_t.all().item(), "GPU residue mismatch with analytical expectations!"
+        stream_h2d, stream_compute = get_cuda_streams()
+        with torch.cuda.stream(stream_h2d):
+            c1_t = torch.tensor(c1_list, dtype=torch.int32, device="cuda")
+            c2_t = torch.tensor(c2_list, dtype=torch.int32, device="cuda")
+            m_t = torch.tensor(m_list, dtype=torch.int32, device="cuda")
+            k_t = torch.tensor(k_list, dtype=torch.int32, device="cuda")
+
+        stream_compute.wait_stream(stream_h2d)
+        with torch.cuda.stream(stream_compute):
+            res_t, valid_t = gpu_evaluate_candidates_triton(c1_t, c2_t, m_t)
+            assert valid_t.all().item(), "GPU non-zero divisor check failed!"
+            match_t = (res_t == k_t)
+            assert match_t.all().item(), "GPU residue mismatch with analytical expectations!"
+        stream_compute.synchronize()
 
     return records
 

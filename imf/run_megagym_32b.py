@@ -33,6 +33,7 @@ from pathlib import Path
 from typing import Dict, Any, List, Tuple
 
 from imf.gym_32_families import GYM_32_FAMILY_SPECS, generate_step_theorem
+from imf.gpu_accelerated_candidate_generator import gpu_generate_and_filter_candidates
 
 TOTAL_TARGET_STEPS = 32_000_000_000
 BLOCK_SIZE = 1_000_000
@@ -140,15 +141,17 @@ def run_single_block(block_idx: int, num_workers: int = DEFAULT_WORKERS) -> Dict
         count_this_fam = steps_per_family + (1 if fam_idx < remainder else 0)
 
         for start_idx in range(0, count_this_fam, BATCH_SIZE):
-            batch_records = []
-            combined_lean = []
-            chunk_end = min(start_idx + BATCH_SIZE, count_this_fam)
+            chunk_size = min(BATCH_SIZE, count_this_fam - start_idx)
+            global_start = base_offset + fam_idx * steps_per_family + start_idx + 1
 
-            for i in range(start_idx, chunk_end):
-                global_step = base_offset + fam_idx * steps_per_family + i + 1
-                thm_data = generate_step_theorem(fam_idx, global_step, block_idx)
-                combined_lean.append(thm_data["code"])
-                batch_records.append(thm_data)
+            # Use GPU Triton Candidate Evaluator kernel to generate & filter candidates in parallel
+            batch_records = gpu_generate_and_filter_candidates(
+                fam_idx=fam_idx,
+                start_step=global_start,
+                batch_size=chunk_size,
+                block_idx=block_idx
+            )
+            combined_lean = [r["code"] for r in batch_records]
 
             full_batch_code = "\n".join(combined_lean)
             batches.append((batch_counter, full_batch_code, batch_records))
