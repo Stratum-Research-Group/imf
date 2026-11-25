@@ -3,6 +3,7 @@ use serde_json::Value;
 use std::fs::{self, File};
 use std::io::{BufRead, BufReader, Seek, SeekFrom};
 use std::path::PathBuf;
+use std::process::Command;
 use std::sync::mpsc::{channel, Receiver, Sender};
 use std::thread;
 use std::time::Instant;
@@ -29,6 +30,12 @@ struct UserMessage {
     timestamp: String,
 }
 
+#[derive(Clone, PartialEq)]
+enum ModelBackend {
+    Ollama(String),
+    HuggingFace(String),
+}
+
 pub struct ImfApp {
     prompt_input: String,
     chat_input: String,
@@ -38,7 +45,7 @@ pub struct ImfApp {
     user_chat_history: Vec<UserMessage>,
     generated_items_dir: PathBuf,
     selected_family: String,
-    selected_model: String,
+    selected_model: ModelBackend,
     temperature: f32,
     output_count: usize,
     last_refresh: Instant,
@@ -61,13 +68,13 @@ impl Default for ImfApp {
             chat_entries: Vec::new(),
             running_tasks: Vec::new(),
             user_chat_history: vec![UserMessage {
-                sender: String::from("🤖 IMF Assistant"),
-                text: String::from("Hello! I am connected to your local model engine (Ollama/Qwen & IMF Coprocessor). You can chat with me about general topics, coding, reasoning, or math. What would you like to explore?"),
+                sender: String::from("🤖 IMF Unified Assistant"),
+                text: String::from("Hello! You can now select across all local models: Ollama (Qwen 27B / 14B / 7B-VL) and Hugging Face local checkpoints (Qwen-0.5B, DeepSeek-R1-1.5B, Coder, etc.). What would you like to explore?"),
                 timestamp: chrono::Local::now().format("%H:%M:%S").to_string(),
             }],
             generated_items_dir: dir,
             selected_family: String::from("General Reasoning & Coding"),
-            selected_model: String::from("qwen3.8-27b:latest"),
+            selected_model: ModelBackend::Ollama(String::from("qwen3.8-27b:latest")),
             temperature: 0.7,
             output_count: 0,
             last_refresh: Instant::now(),
@@ -200,7 +207,7 @@ impl ImfApp {
         self.chat_input.clear();
         self.is_generating = true;
 
-        let model = self.selected_model.clone();
+        let model_choice = self.selected_model.clone();
         let prompt = text.clone();
         let tx = self.tx.clone();
         let out_dir = self.generated_items_dir.clone();
@@ -209,45 +216,92 @@ impl ImfApp {
         let count = self.output_count;
 
         thread::spawn(move || {
-            let client = reqwest::blocking::Client::builder()
-                .timeout(std::time::Duration::from_secs(60))
-                .build()
-                .unwrap();
+            let (model_tag, reply_text) = match model_choice {
+                ModelBackend::Ollama(ref m) => {
+                    let client = reqwest::blocking::Client::builder()
+                        .timeout(std::time::Duration::from_secs(60))
+                        .build()
+                        .unwrap();
 
-            let payload = serde_json::json!({
-                "model": model,
-                "prompt": prompt,
-                "stream": false
-            });
+                    let payload = serde_json::json!({
+                        "model": m,
+                        "prompt": prompt,
+                        "stream": false
+                    });
 
-            let resp = client
-                .post("http://127.0.0.1:11434/api/generate")
-                .json(&payload)
-                .send();
+                    let resp = client
+                        .post("http://127.0.0.1:11434/api/generate")
+                        .json(&payload)
+                        .send();
 
-            let reply_text = match resp {
-                Ok(r) => {
-                    if let Ok(json_val) = r.json::<Value>() {
-                        json_val
-                            .get("response")
-                            .and_then(|res| res.as_str())
-                            .unwrap_or("No response text found.")
-                            .to_string()
-                    } else {
-                        String::from("[Error: Unable to parse model response]")
-                    }
+                    let text = match resp {
+                        Ok(r) => {
+                            if let Ok(json_val) = r.json::<Value>() {
+                                json_val
+                                    .get("response")
+                                    .and_then(|res| res.as_str())
+                                    .unwrap_or("No response text found.")
+                                    .to_string()
+                            } else {
+                                String::from("[Error: Unable to parse Ollama response]")
+                            }
+                        }
+                        Err(e) => format!("[Ollama Error: {}. Is Ollama serving?]", e),
+                    };
+                    (m.clone(), text)
                 }
-                Err(e) => {
-                    format!("[Ollama Error: {}. Is Ollama serving on 11434?]", e)
+                ModelBackend::HuggingFace(ref hf_tag) => {
+                    let output = Command::new("uv")
+                        .args([
+                            "run",
+                            "python",
+                            "scripts/imf_model_cli_infer.py",
+                            "--engine",
+                            "hf",
+                            "--target",
+                            hf_tag,
+                            "--prompt",
+                            &prompt,
+                            "--max_tokens",
+                            "64",
+                        ])
+                        .output();
+
+                    let text = match output {
+                        Ok(o) => {
+                            if o.status.success() {
+                                let stdout = String::from_utf8_lossy(&o.stdout);
+                                if let Ok(val) = serde_json::from_str::<Value>(&stdout) {
+                                    val.get("response")
+                                        .and_then(|r| r.as_str())
+                                        .unwrap_or("Empty response")
+                                        .to_string()
+                                } else {
+                                    stdout.to_string()
+                                }
+                            } else {
+                                format!(
+                                    "[Error running HF model: {}]",
+                                    String::from_utf8_lossy(&o.stderr)
+                                )
+                            }
+                        }
+                        Err(e) => format!("[Execution Error: {}]", e),
+                    };
+                    (hf_tag.clone(), text)
                 }
             };
 
             // Save conversation turn into generated_items folder
             let now = chrono::Local::now();
-            let out_file = out_dir.join(format!("chat_turn_{:04}_{}.json", count, now.format("%Y%m%d_%H%M%S")));
+            let out_file = out_dir.join(format!(
+                "chat_turn_{:04}_{}.json",
+                count,
+                now.format("%Y%m%d_%H%M%S")
+            ));
             let log_payload = serde_json::json!({
                 "id": count,
-                "model": model,
+                "model": model_tag,
                 "timestamp": now.to_rfc3339(),
                 "user_prompt": prompt,
                 "response": reply_text
@@ -255,7 +309,7 @@ impl ImfApp {
             let _ = fs::write(out_file, serde_json::to_string_pretty(&log_payload).unwrap());
 
             let _ = tx.send(UserMessage {
-                sender: format!("🤖 {}", model),
+                sender: format!("🤖 {}", model_tag),
                 text: reply_text,
                 timestamp: now.format("%H:%M:%S").to_string(),
             });
@@ -317,7 +371,7 @@ impl eframe::App for ImfApp {
             ui.separator();
 
             ui.horizontal(|ui| {
-                ui.selectable_value(&mut self.selected_tab, 1, "💬 General LLM Chat");
+                ui.selectable_value(&mut self.selected_tab, 1, "💬 Multi-Model Interactive Chat");
                 ui.selectable_value(&mut self.selected_tab, 0, "📡 Antigravity Live Logs & Tasks");
                 ui.selectable_value(&mut self.selected_tab, 2, "📐 Formal Math & Lean Studio");
             });
@@ -327,24 +381,53 @@ impl eframe::App for ImfApp {
             if self.selected_tab == 1 {
                 // TAB 1: General LLM Interactive Chat
                 ui.horizontal(|ui| {
-                    ui.label("Selected Local Model:");
+                    ui.label("Selected Engine & Model:");
+                    let current_label = match &self.selected_model {
+                        ModelBackend::Ollama(m) => format!("Ollama: {}", m),
+                        ModelBackend::HuggingFace(hf) => format!("HF/Local: {}", hf),
+                    };
+
                     egui::ComboBox::from_label("")
-                        .selected_text(&self.selected_model)
+                        .selected_text(current_label)
                         .show_ui(ui, |ui| {
+                            ui.heading("Ollama Models");
                             ui.selectable_value(
                                 &mut self.selected_model,
-                                String::from("qwen3.8-27b:latest"),
+                                ModelBackend::Ollama(String::from("qwen3.8-27b:latest")),
                                 "qwen3.8-27b:latest (27B General Reasoning)",
                             );
                             ui.selectable_value(
                                 &mut self.selected_model,
-                                String::from("qwen2.5:14b"),
+                                ModelBackend::Ollama(String::from("qwen2.5:14b")),
                                 "qwen2.5:14b (14B Coding & Analysis)",
                             );
                             ui.selectable_value(
                                 &mut self.selected_model,
-                                String::from("qwen2.5vl:7b"),
+                                ModelBackend::Ollama(String::from("qwen2.5vl:7b")),
                                 "qwen2.5vl:7b (7B Vision-Language)",
+                            );
+
+                            ui.separator();
+                            ui.heading("Hugging Face / Local Checkpoints");
+                            ui.selectable_value(
+                                &mut self.selected_model,
+                                ModelBackend::HuggingFace(String::from("Qwen/Qwen2.5-0.5B")),
+                                "Qwen/Qwen2.5-0.5B (Fast PyTorch Inference)",
+                            );
+                            ui.selectable_value(
+                                &mut self.selected_model,
+                                ModelBackend::HuggingFace(String::from("Qwen/Qwen2.5-Coder-0.5B")),
+                                "Qwen/Qwen2.5-Coder-0.5B (Code Generation)",
+                            );
+                            ui.selectable_value(
+                                &mut self.selected_model,
+                                ModelBackend::HuggingFace(String::from("deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B")),
+                                "DeepSeek-R1-Distill-Qwen-1.5B (Reasoning Model)",
+                            );
+                            ui.selectable_value(
+                                &mut self.selected_model,
+                                ModelBackend::HuggingFace(String::from("google/gemma-2b")),
+                                "google/gemma-2b (Lightweight Foundation)",
                             );
                         });
 
