@@ -1,11 +1,11 @@
 {
-  "timestamp": "2026-11-25T12:51:19",
+  "timestamp": "2026-11-25T13:55:48",
   "lake_path": "dist/parquet_lake",
-  "total_parquet_files": 131,
-  "sampled_records": 1310000,
+  "total_parquet_files": 1,
+  "sampled_records": 10000,
   "average_loss": 0.125,
   "total_axioms": 0,
   "recently_synced": [
-    "block_00131"
+    "block_00001"
   ]
 }

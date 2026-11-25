@@ -26,16 +26,18 @@ class PoincareSolitonActivation(nn.Module):
         flat_x = x.view(-1, D)
 
         if x.is_cuda:
-            # Flattened token batch: process each token feature vector through soliton lattice flow
-            # m = u - alpha * Delta u
-            u_p1 = torch.roll(flat_x, shifts=-1, dims=-1)
-            u_m1 = torch.roll(flat_x, shifts=1, dims=-1)
-            m = flat_x - self.alpha * (u_p1 - 2.0 * flat_x + u_m1)
+            # Normalize to unit hyperbolic disk coordinates (-0.95, +0.95)
+            u = torch.tanh(flat_x * 0.1)
+            u_p1 = torch.roll(u, shifts=-1, dims=-1)
+            u_m1 = torch.roll(u, shifts=1, dims=-1)
+            m = u - self.alpha * (u_p1 - 2.0 * u + u_m1)
 
             # Fused Triton execution
-            dm, metric = triton_poincare_discrete_camassa_holm(flat_x.reshape(-1), m.reshape(-1), alpha=self.alpha)
-            updated_u = flat_x + (dm.view(B * S, D) * self.scale) * 0.01
-            return updated_u.view(orig_shape)
+            dm, metric = triton_poincare_discrete_camassa_holm(u.reshape(-1), m.reshape(-1), alpha=self.alpha)
+            # Safe bounded residual update
+            dm_bounded = torch.tanh(dm.view(B * S, D) * 0.05)
+            updated_x = flat_x + dm_bounded * self.scale
+            return updated_x.view(orig_shape)
         else:
             return x
 

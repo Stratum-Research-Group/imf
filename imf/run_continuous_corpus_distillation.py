@@ -41,8 +41,8 @@ def run_distillation_cycle(max_micro_batches: int = 5):
             batch_buffer = []
 
             optimizer.zero_grad()
-            logits, recon_loss, _ = student(inputs)
-            loss = criterion(logits.reshape(-1, 4096), targets.reshape(-1)) + 0.1 * recon_loss.mean()
+            pred_logits, recon_logits, metrics = student(inputs, targets=targets)
+            loss = metrics["total_loss"]
             loss.backward()
             optimizer.step()
 

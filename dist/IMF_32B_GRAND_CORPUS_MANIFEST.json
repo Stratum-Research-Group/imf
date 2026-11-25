@@ -2,10 +2,21 @@
   "orchestrator": "IMF MegaScale 32-Billion Step Prover Fleet",
   "author": "Nicholas Charles Mynhardt (Stratum Research Group)",
   "hardware_target": "AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Ada Lovelace / SM 8.9 / 16GB) | CUDA 12.8, Triton 3.9",
-  "total_certified_theorems": 0,
-  "blocks_completed": 0,
+  "total_certified_theorems": 1000000,
+  "blocks_completed": 1,
   "grand_target_theorems": 32000000000,
-  "completion_percentage": 0.0,
-  "last_updated": "2026-11-25T13:36:30+0200",
-  "blocks": []
+  "completion_percentage": 0.0031,
+  "last_updated": "2026-11-25T13:54:26+0200",
+  "blocks": [
+    {
+      "block_idx": 1,
+      "steps": 1000000,
+      "elapsed_seconds": 904.23,
+      "steps_per_sec": 1105.91,
+      "raw_sha256": "00495807b3454a9be6f2a5d918eb7f01e5b8d5074fccd86feeca8b838e62b050",
+      "archive_file": "dist/gym_32b_corpus/block_00001.tar.zst",
+      "archive_size_bytes": 15838346,
+      "archive_sha256": "9e98428757c2ba1b9c92ec18e958b76bfa5282fc1406f48f07936113817ba036"
+    }
+  ]
 }

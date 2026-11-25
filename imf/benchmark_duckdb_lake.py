@@ -38,7 +38,7 @@ def run_duckdb_stress_benchmark():
         ),
         (
             "top_loss_filtering",
-            f"SELECT block_id, task_id, loss FROM '{parquet_glob}' WHERE loss > 0.120 ORDER BY loss DESC LIMIT 20",
+            f"SELECT block_id, theorem, loss FROM '{parquet_glob}' WHERE loss > 0.120 ORDER BY loss DESC LIMIT 20",
             "Filter & sort over 500k records"
         ),
         (
