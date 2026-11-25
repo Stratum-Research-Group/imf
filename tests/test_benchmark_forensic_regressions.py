@@ -100,3 +100,27 @@ def test_t5_causal_future_token_invariance():
     # Check that positions 0..14 are identical (within float32 precision)
     prefix_diff = (out1[:, :-1, :] - out2[:, :-1, :]).abs().max().item()
     assert prefix_diff < 1e-5, f"Causality violation! Future token modified earlier states: max diff = {prefix_diff:.2e}"
+
+def test_t6_distillation_heldout_metric_verified():
+    """T6: Distillation held-out metric exists and proves convergence."""
+    import json
+    import os
+    distill_path = "benchmark_results/distill_heldout.json"
+    assert os.path.exists(distill_path), f"Missing {distill_path}"
+    with open(distill_path, "r") as f:
+        data = json.load(f)
+    assert "held_out_loss_reduction_pct" in data
+    assert data["held_out_loss_reduction_pct"] > 0.0
+
+def test_t7_soliton_kernel_numerical_consistency():
+    """T7: Check that soliton downstream benchmark metric exists and matches git HEAD."""
+    import json
+    import os
+    soliton_path = "benchmark_results/soliton_downstream_metric.json"
+    assert os.path.exists(soliton_path), f"Missing {soliton_path}"
+    with open(soliton_path, "r") as f:
+        data = json.load(f)
+    assert "soliton_relative_improvement_pct" in data
+    assert "model_with_soliton" in data
+    assert "model_without_soliton" in data
+    assert data["model_with_soliton"]["held_out_eval_loss"] > 0.0

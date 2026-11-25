@@ -1,0 +1,14 @@
+{
+  "git_commit": "196ab253b89bb247ed3190ea0655042496e2a737",
+  "timestamp": "2026-11-25 13:45:44 UTC",
+  "task": "Student-Teacher Cross-Entropy & KL Divergence Knowledge Distillation",
+  "device": "cuda",
+  "steps": 200,
+  "batch_size": 8,
+  "seq_len": 128,
+  "wall_clock_seconds": 0.6726717948913574,
+  "initial_held_out_loss": 6.400502475102742,
+  "final_held_out_loss": 6.29345882733663,
+  "held_out_loss_reduction_pct": 1.6724256913031574,
+  "verdict": "Distillation verified with empirical held-out loss reduction"
+}
