@@ -136,7 +136,7 @@ class IMFOmniBlock(nn.Module):
         k = self.ssm.k_proj(x_norm).view(B, T, H, d_h).transpose(1, 2).contiguous()
         v = self.ssm.v_proj(x_norm).view(B, T, H, d_h).transpose(1, 2).contiguous()
 
-        U = self.ssm.get_orthogonal_rotator() # [H, d_h, d_h]
+        U = self.ssm.get_orthogonal_rotator(precision=torch.float32) # [H, d_h, d_h] in float32 for exact isometry
 
         if self.use_triton_ssm and x_norm.is_cuda and (d_h in (8, 16, 32, 64)) and not torch.is_grad_enabled() and initial_state is None and not return_final_state:
             # Fast inference path via register-tiled Triton kernel
@@ -145,31 +145,35 @@ class IMFOmniBlock(nn.Module):
             return self.ssm.out_proj(out_ssm)
         else:
             # Training / autograd / CPU path via PyTorch scan with state threading
-            U_exp = U.unsqueeze(0)             # [1, H, d_h, d_h]
-            U_T_exp = U.transpose(-1, -2).unsqueeze(0)
+            # Numerical integrity note: State rotation is performed in float32 to preserve exact
+            # Lie group unitarity (||U M U^T||_F = ||M||_F) over arbitrarily long contexts (>32k),
+            # avoiding BF16/FP16 low-precision drift.
+            orig_dtype = x_norm.dtype
+            U_exp = U.unsqueeze(0).float()             # [1, H, d_h, d_h]
+            U_T_exp = U.transpose(-1, -2).unsqueeze(0).float()
 
             if initial_state is not None:
-                M = initial_state.clone()
+                M = initial_state.clone().float()
             else:
-                M = torch.zeros(B, H, d_h, d_h, device=x_norm.device, dtype=x_norm.dtype)
+                M = torch.zeros(B, H, d_h, d_h, device=x_norm.device, dtype=torch.float32)
             outputs = []
 
             for t in range(T):
-                q_t = q[:, :, t, :].unsqueeze(-1)  # [B, H, d_h, 1]
-                k_t = k[:, :, t, :].unsqueeze(-1)
-                v_t = v[:, :, t, :].unsqueeze(-1)
+                q_t = q[:, :, t, :].unsqueeze(-1).float()  # [B, H, d_h, 1]
+                k_t = k[:, :, t, :].unsqueeze(-1).float()
+                v_t = v[:, :, t, :].unsqueeze(-1).float()
 
                 W_t = torch.matmul(v_t, k_t.transpose(-1, -2)) - torch.matmul(k_t, v_t.transpose(-1, -2))
                 M = torch.matmul(torch.matmul(U_exp, M), U_T_exp) + W_t
 
-                y_t = torch.matmul(M, q_t).squeeze(-1) # [B, H, d_h]
+                y_t = torch.matmul(M, q_t).squeeze(-1).to(orig_dtype) # [B, H, d_h]
                 outputs.append(y_t)
 
             out_seq = torch.stack(outputs, dim=2)  # [B, H, T, d_h]
             out_seq = out_seq.transpose(1, 2).contiguous().view(B, T, D)
             out = self.ssm.out_proj(out_seq)
             if return_final_state:
-                return out, M
+                return out, M.to(orig_dtype)
             return out
 
     def _inner_forward(

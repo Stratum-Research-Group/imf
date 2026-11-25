@@ -1,7 +1,8 @@
 {
-  "git_commit": "e98d008e43dd4130e4d18a4c931387fec21ea85b",
-  "timestamp": "2026-11-25 14:02:34 UTC",
-  "task": "Next-Token Real Text Language Modeling (3 Seeds)",
+  "git_commit": "bbfa83e45379ba1dd499200e0719e482a3075425",
+  "timestamp": "2026-11-25 14:33:01 UTC",
+  "task": "Next-Token Real Text Language Modeling (3 Seeds, Multi-Epoch)",
+  "training_steps": 200,
   "seeds": [
     42,
     1337,
@@ -9,20 +10,20 @@
   ],
   "model_with_soliton": {
     "losses": [
-      3.051433265209198,
-      3.130689263343811,
-      3.085128426551819
+      2.3373444080352783,
+      2.3430739641189575,
+      2.3123401403427124
     ],
-    "mean_loss": 3.089083651701609
+    "mean_loss": 2.3309195041656494
   },
   "model_without_soliton": {
     "losses": [
-      3.0516690015792847,
-      3.130536437034607,
-      3.085138201713562
+      2.3381590843200684,
+      2.342462480068207,
+      2.3140151500701904
     ],
-    "mean_loss": 3.089114546775818
+    "mean_loss": 2.331545571486155
   },
-  "soliton_relative_improvement_pct": 0.0010001271801646666,
-  "verdict": "Soliton activation yields +0.00% loss delta across 3 seeds"
+  "soliton_relative_improvement_pct": 0.026852030179558836,
+  "verdict": "No effect shown: Soliton activation yields negligible +0.027% loss delta across 3 seeds (within noise)"
 }

@@ -52,36 +52,38 @@ class ContinuousLieGroupSSM(nn.Module):
         self.v_proj = nn.Linear(d_model, d_model, bias=False)
         self.out_proj = nn.Linear(d_model, d_model, bias=False)
 
-    def get_orthogonal_rotator(self) -> torch.Tensor:
+    def get_orthogonal_rotator(self, precision: Optional[torch.dtype] = None) -> torch.Tensor:
         """
         Computes the exact SO(d_h) unitary transition operator U = exp(Delta_t * A_so).
         Includes strict spectral normalization and log_delta clamping to guarantee
-        exact numerical stability in bfloat16 / fp16 and prevent gradient explosion.
+        exact numerical stability and prevent gradient explosion.
+        Computed in float32 for exact isometry; returns in specified precision or self.raw_generator.dtype.
         """
         # Exact skew-symmetric projection onto so(d_h): A_so = 1/2 (A - A^T)
-        A_so = 0.5 * (self.raw_generator - self.raw_generator.transpose(-1, -2))
+        raw_f32 = self.raw_generator.to(torch.float32)
+        A_so = 0.5 * (raw_f32 - raw_f32.transpose(-1, -2))
         
         # Spectral Frobenius norm bounding per head: scale to bounded operator norm <= 1.0
         f_norm = torch.linalg.norm(A_so, ord="fro", dim=(-1, -2), keepdim=True) + 1e-6
         A_so_normalized = A_so / torch.clamp(f_norm, min=1.0)
         
         # Clamp log_delta to safe continuous step interval [exp(-4.0), exp(1.5)] -> [0.018, 4.48]
-        clamped_log_delta = torch.clamp(self.log_delta, min=-4.0, max=1.5)
+        clamped_log_delta = torch.clamp(self.log_delta.to(torch.float32), min=-4.0, max=1.5)
         delta = torch.exp(clamped_log_delta).view(self.num_heads, 1, 1)
         
-        # Compute unitary matrix exponential in float32 for maximum precision, then cast
-        arg = (delta * A_so_normalized).to(torch.float32)
+        # Compute unitary matrix exponential in float32 for maximum precision
+        arg = delta * A_so_normalized
         U = torch.matrix_exp(arg)
 
         # Runtime Cayley/Stiefel retraction gating: guarantee exact isometry ||U^T U - I|| <= eps
         if self.runtime_orthogonalization:
             # Polar decomposition / UV factor projection: U = U (U^T U)^{-1/2}
             # via one-step Newton-Schulz iteration: U_k+1 = 1.5 * U_k - 0.5 * U_k @ U_k^T @ U_k
-            U_f32 = U.to(torch.float32)
-            U_next = 1.5 * U_f32 - 0.5 * torch.matmul(U_f32, torch.matmul(U_f32.transpose(-1, -2), U_f32))
+            U_next = 1.5 * U - 0.5 * torch.matmul(U, torch.matmul(U.transpose(-1, -2), U))
             U = U_next
 
-        return U.to(self.raw_generator.dtype)  # [num_heads, head_dim, head_dim]
+        target_dtype = precision if precision is not None else self.raw_generator.dtype
+        return U.to(target_dtype)  # [num_heads, head_dim, head_dim]
 
     def verify_energy_preservation(self, tolerance: float = 1e-4) -> Tuple[bool, torch.Tensor]:
         """

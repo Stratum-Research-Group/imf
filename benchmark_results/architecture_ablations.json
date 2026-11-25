@@ -1,7 +1,8 @@
 {
-  "git_commit": "e98d008e43dd4130e4d18a4c931387fec21ea85b",
-  "timestamp": "2026-11-25 14:03:09 UTC",
-  "task": "Discrete In-Context Sequence Copy & Recall Benchmark",
+  "git_commit": "bbfa83e45379ba1dd499200e0719e482a3075425",
+  "timestamp": "2026-11-25 14:42:39 UTC",
+  "task": "Content-Addressed Multi-Query Associative Recall (MQAR) Benchmark",
+  "description": "Models parameter-matched within \u00b10.5% (approx 98.9k params) evaluated across 3 random seeds",
   "seeds": [
     42,
     1337,
@@ -11,144 +12,144 @@
     {
       "model": "standard_transformer",
       "seed": 42,
-      "params": 43776,
-      "eval_ce_loss": 1.8322281980514525,
-      "eval_copy_recall_accuracy": 0.999921875
+      "params": 98920,
+      "eval_ce_loss": 0.04932680197060108,
+      "eval_mqar_accuracy": 0.98875
     },
     {
       "model": "standard_transformer",
       "seed": 1337,
-      "params": 43776,
-      "eval_ce_loss": 1.8351137781143187,
-      "eval_copy_recall_accuracy": 0.999921875
+      "params": 98920,
+      "eval_ce_loss": 0.011534651983529329,
+      "eval_mqar_accuracy": 0.9984375
     },
     {
       "model": "standard_transformer",
       "seed": 2026,
-      "params": 43776,
-      "eval_ce_loss": 1.8459467935562133,
-      "eval_copy_recall_accuracy": 0.999765625
+      "params": 98920,
+      "eval_ce_loss": 0.01652124036103487,
+      "eval_mqar_accuracy": 0.9978125
     },
     {
       "model": "plain_linear_attention",
       "seed": 42,
-      "params": 26944,
-      "eval_ce_loss": 3.253640947341919,
-      "eval_copy_recall_accuracy": 0.40421875
+      "params": 98920,
+      "eval_ce_loss": 1.7778591537475585,
+      "eval_mqar_accuracy": 0.2959375
     },
     {
       "model": "plain_linear_attention",
       "seed": 1337,
-      "params": 26944,
-      "eval_ce_loss": 3.252502498626709,
-      "eval_copy_recall_accuracy": 0.404375
+      "params": 98920,
+      "eval_ce_loss": 1.773700132369995,
+      "eval_mqar_accuracy": 0.2953125
     },
     {
       "model": "plain_linear_attention",
       "seed": 2026,
-      "params": 26944,
-      "eval_ce_loss": 3.2780707836151124,
-      "eval_copy_recall_accuracy": 0.40625
+      "params": 98920,
+      "eval_ce_loss": 1.768670506477356,
+      "eval_mqar_accuracy": 0.3003125
     },
     {
-      "model": "sym2_only",
+      "model": "sym2_tensor_attention",
       "seed": 42,
-      "params": 18624,
-      "eval_ce_loss": 3.8757138061523437,
-      "eval_copy_recall_accuracy": 0.015
+      "params": 98924,
+      "eval_ce_loss": 1.8518186140060424,
+      "eval_mqar_accuracy": 0.3003125
     },
     {
-      "model": "sym2_only",
+      "model": "sym2_tensor_attention",
       "seed": 1337,
-      "params": 18624,
-      "eval_ce_loss": 3.875338230133057,
-      "eval_copy_recall_accuracy": 0.01640625
+      "params": 98924,
+      "eval_ce_loss": 1.901972255706787,
+      "eval_mqar_accuracy": 0.29375
     },
     {
-      "model": "sym2_only",
+      "model": "sym2_tensor_attention",
       "seed": 2026,
-      "params": 18624,
-      "eval_ce_loss": 3.8766189575195313,
-      "eval_copy_recall_accuracy": 0.016015625
+      "params": 98924,
+      "eval_ce_loss": 1.8882207584381103,
+      "eval_mqar_accuracy": 0.2946875
     },
     {
-      "model": "wedge2_only",
+      "model": "wedge2_tensor_attention",
       "seed": 42,
-      "params": 22784,
-      "eval_ce_loss": 3.8764305782318114,
-      "eval_copy_recall_accuracy": 0.0146875
+      "params": 98924,
+      "eval_ce_loss": 1.8437434244155884,
+      "eval_mqar_accuracy": 0.3
     },
     {
-      "model": "wedge2_only",
+      "model": "wedge2_tensor_attention",
       "seed": 1337,
-      "params": 22784,
-      "eval_ce_loss": 3.8759354877471925,
-      "eval_copy_recall_accuracy": 0.016171875
+      "params": 98924,
+      "eval_ce_loss": 1.8727679347991943,
+      "eval_mqar_accuracy": 0.3046875
     },
     {
-      "model": "wedge2_only",
+      "model": "wedge2_tensor_attention",
       "seed": 2026,
-      "params": 22784,
-      "eval_ce_loss": 3.8773013401031493,
-      "eval_copy_recall_accuracy": 0.01703125
+      "params": 98924,
+      "eval_ce_loss": 1.8250104331970214,
+      "eval_mqar_accuracy": 0.3125
     },
     {
       "model": "full_imf_omniblock",
       "seed": 42,
       "params": 98920,
-      "eval_ce_loss": 1.9473907995223998,
-      "eval_copy_recall_accuracy": 0.924609375
+      "eval_ce_loss": 1.8541428995132447,
+      "eval_mqar_accuracy": 0.288125
     },
     {
       "model": "full_imf_omniblock",
       "seed": 1337,
       "params": 98920,
-      "eval_ce_loss": 1.9333304500579833,
-      "eval_copy_recall_accuracy": 0.93109375
+      "eval_ce_loss": 1.8721488332748413,
+      "eval_mqar_accuracy": 0.288125
     },
     {
       "model": "full_imf_omniblock",
       "seed": 2026,
       "params": 98920,
-      "eval_ce_loss": 1.9291817331314087,
-      "eval_copy_recall_accuracy": 0.933515625
+      "eval_ce_loss": 1.8339113330841064,
+      "eval_mqar_accuracy": 0.286875
     }
   ],
   "aggregated_summary": {
     "standard_transformer": {
-      "params": 43776,
-      "mean_loss": 1.8377629232406616,
-      "std_loss": 0.005905559137012605,
-      "mean_accuracy": 0.9998697916666667,
-      "std_accuracy": 7.365695637358405e-05
+      "params": 98920,
+      "mean_loss": 0.025794231438388427,
+      "std_loss": 0.016764106951099242,
+      "mean_accuracy": 0.995,
+      "std_accuracy": 0.004426776950182437
     },
     "plain_linear_attention": {
-      "params": 26944,
-      "mean_loss": 3.2614047431945803,
-      "std_loss": 0.011793831547138018,
-      "mean_accuracy": 0.4049479166666667,
-      "std_accuracy": 0.0009229190180556944
+      "params": 98920,
+      "mean_loss": 1.77340993086497,
+      "std_loss": 0.00375685793797505,
+      "mean_accuracy": 0.2971875,
+      "std_accuracy": 0.0022243913025065173
     },
-    "sym2_only": {
-      "params": 18624,
-      "mean_loss": 3.8758903312683106,
-      "std_loss": 0.000537547825495139,
-      "mean_accuracy": 0.015807291666666667,
-      "std_accuracy": 0.0005926982644135963
+    "sym2_tensor_attention": {
+      "params": 98924,
+      "mean_loss": 1.8806705427169799,
+      "std_loss": 0.021159730024086974,
+      "mean_accuracy": 0.29624999999999996,
+      "std_accuracy": 0.0028980057798423976
     },
-    "wedge2_only": {
-      "params": 22784,
-      "mean_loss": 3.8765558020273843,
-      "std_loss": 0.0005645936083009621,
-      "mean_accuracy": 0.015963541666666668,
-      "std_accuracy": 0.0009681057445542249
+    "wedge2_tensor_attention": {
+      "params": 98924,
+      "mean_loss": 1.8471739308039348,
+      "std_loss": 0.01964723933755498,
+      "mean_accuracy": 0.30572916666666666,
+      "std_accuracy": 0.0051559869461519124
     },
     "full_imf_omniblock": {
       "params": 98920,
-      "mean_loss": 1.9366343275705973,
-      "std_loss": 0.0077922709429129105,
-      "mean_accuracy": 0.9297395833333333,
-      "std_accuracy": 0.003759933313810985
+      "mean_loss": 1.8534010219573975,
+      "std_loss": 0.015619205953782573,
+      "mean_accuracy": 0.28770833333333334,
+      "std_accuracy": 0.0005892556509888032
     }
   }
 }

@@ -2,6 +2,7 @@ import os
 import sys
 import json
 import time
+import math
 import subprocess
 import torch
 import torch.nn as nn
@@ -17,14 +18,14 @@ def get_text_tokens(device, vocab_size=256):
     split_idx = int(len(tokens) * 0.8)
     return tokens[:split_idx], tokens[split_idx:]
 
-def make_batches(tokens, batch_size=8, seq_len=128):
+def make_batches(tokens, batch_size=16, seq_len=128):
     n_batches = (len(tokens) - 1) // (batch_size * seq_len)
     total_tokens = n_batches * batch_size * seq_len
     x_flat = tokens[:total_tokens]
     y_flat = tokens[1:total_tokens + 1]
     return x_flat.view(n_batches, batch_size, seq_len), y_flat.view(n_batches, batch_size, seq_len)
 
-def evaluate_seed(seed, use_soliton, train_x, train_y, held_x, held_y, device):
+def evaluate_seed(seed, use_soliton, train_x, train_y, held_x, held_y, device, total_steps=200):
     torch.manual_seed(seed)
     vocab_size = 256
     dim = 64
@@ -42,10 +43,11 @@ def evaluate_seed(seed, use_soliton, train_x, train_y, held_x, held_y, device):
     
     opt = torch.optim.AdamW(model.parameters(), lr=2e-3)
     model.train()
-    steps = min(80, len(train_x))
-    for s in range(steps):
-        logits = model(train_x[s])
-        loss = F.cross_entropy(logits.view(-1, vocab_size), train_y[s].view(-1))
+    num_train_batches = len(train_x)
+    for s in range(total_steps):
+        b_idx = s % num_train_batches
+        logits = model(train_x[b_idx])
+        loss = F.cross_entropy(logits.view(-1, vocab_size), train_y[b_idx].view(-1))
         opt.zero_grad()
         loss.backward()
         opt.step()
@@ -67,13 +69,14 @@ def main():
     held_x, held_y = make_batches(held_tok, batch_size=16, seq_len=128)
     
     seeds = [42, 1337, 2026]
+    total_steps = 200
     losses_with = []
     losses_without = []
     
     t0 = time.time()
     for s in seeds:
-        lw = evaluate_seed(s, True, train_x, train_y, held_x, held_y, device)
-        lwo = evaluate_seed(s, False, train_x, train_y, held_x, held_y, device)
+        lw = evaluate_seed(s, True, train_x, train_y, held_x, held_y, device, total_steps=total_steps)
+        lwo = evaluate_seed(s, False, train_x, train_y, held_x, held_y, device, total_steps=total_steps)
         losses_with.append(lw)
         losses_without.append(lwo)
         print(f"Seed {s}: With Soliton={lw:.4f} | Without={lwo:.4f} (Delta={((lwo-lw)/lwo)*100:+.2f}%)")
@@ -83,12 +86,18 @@ def main():
     mean_wo = sum(losses_without) / len(losses_without)
     
     delta = (mean_wo - mean_w) / mean_wo * 100.0
-    verdict = f"Soliton activation yields {delta:+.2f}% loss delta across 3 seeds"
+    if abs(delta) < 0.1:
+        verdict = f"No effect shown: Soliton activation yields negligible {delta:+.3f}% loss delta across 3 seeds (within noise)"
+    elif delta > 0.1:
+        verdict = f"Soliton activation yields {delta:+.2f}% loss reduction across 3 seeds"
+    else:
+        verdict = f"Soliton activation yields {delta:+.2f}% delta across 3 seeds"
     
     results = {
         "git_commit": git_rev,
         "timestamp": time.strftime("%Y-%m-%d %H:%M:%S UTC", time.gmtime()),
-        "task": "Next-Token Real Text Language Modeling (3 Seeds)",
+        "task": "Next-Token Real Text Language Modeling (3 Seeds, Multi-Epoch)",
+        "training_steps": total_steps,
         "seeds": seeds,
         "model_with_soliton": {
             "losses": losses_with,
@@ -105,7 +114,8 @@ def main():
     out_path = "benchmark_results/soliton_downstream_metric.json"
     with open(out_path, "w") as f:
         json.dump(results, f, indent=2)
-    print(f"Summary: Mean With={mean_w:.4f} vs Without={mean_wo:.4f} -> Delta={delta:+.2f}% ({dur:.1f}s)")
+    print(f"Summary: Mean With={mean_w:.4f} vs Without={mean_wo:.4f} -> Delta={delta:+.3f}% ({dur:.1f}s)")
+    print(f"Verdict: {verdict}")
     print(f"Saved to {out_path}")
 
 if __name__ == '__main__':

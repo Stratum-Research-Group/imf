@@ -13,7 +13,7 @@ import torch
 import torch.nn.functional as F
 from pathlib import Path
 from dataclasses import dataclass, asdict
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional
 
 from imf.scaffold_100b_leech_mope import LeechPolytopeMoPERouter
 
@@ -22,7 +22,7 @@ from imf.scaffold_100b_leech_mope import LeechPolytopeMoPERouter
 class LongContextBenchmarkResult:
     context_length: int
     num_needles: int
-    retrieval_accuracy: float
+    retrieval_accuracy: Optional[float]
     routing_latency_ms: float
     kv_cache_vram_mb: float
     total_resident_vram_mb: float
@@ -84,7 +84,7 @@ def run_long_context_mqar_benchmark() -> Dict[str, Any]:
         results.append(LongContextBenchmarkResult(
             context_length=ctx_len,
             num_needles=num_needles,
-            retrieval_accuracy=0.0,
+            retrieval_accuracy=None,
             routing_latency_ms=latency_ms,
             kv_cache_vram_mb=kv_cache_mb,
             total_resident_vram_mb=total_vram_mb,

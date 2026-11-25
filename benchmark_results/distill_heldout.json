@@ -1,14 +1,20 @@
 {
-  "git_commit": "e98d008e43dd4130e4d18a4c931387fec21ea85b",
-  "timestamp": "2026-11-25 14:02:00 UTC",
+  "git_commit": "bbfa83e45379ba1dd499200e0719e482a3075425",
+  "timestamp": "2026-11-25 14:30:26 UTC",
   "task": "Next-Token Knowledge Distillation on Real Text Stream (TinyShakespeare / ASCII)",
   "dataset": "real_text_sample.txt (50,000 chars)",
+  "training_steps": 200,
+  "train_batches_per_epoch": 19,
+  "epochs_trained": 10.53,
+  "uniform_random_loss_baseline": 5.545177444479562,
   "teacher_params": 273760,
   "student_params": 43792,
-  "teacher_held_out_loss": 2.9348936676979065,
+  "teacher_held_out_loss": 2.39975106716156,
   "student_initial_held_out_loss": 5.703136682510376,
-  "student_final_held_out_loss": 3.3994762301445007,
-  "held_out_loss_reduction_pct": 40.39286765527532,
-  "duration_seconds": 0.0554506778717041,
-  "verdict": "Distillation verified with significant held-out loss reduction"
+  "student_ce_only_control_loss": 2.4336305260658264,
+  "student_distilled_held_out_loss": 2.4792014360427856,
+  "held_out_loss_reduction_pct": 56.52915975789827,
+  "distillation_gain_vs_ce_control_pct": -1.8725484205126457,
+  "duration_seconds": 0.5101480484008789,
+  "verdict": "CE-only control outperformed distillation (delta -1.87%)"
 }
