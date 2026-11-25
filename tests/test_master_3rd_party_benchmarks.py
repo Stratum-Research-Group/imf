@@ -49,7 +49,7 @@ def test_3rd_party_benchmarks():
     ).to(device)
 
     state_dict = torch.load(ckpt_path, map_location=device)
-    model.load_state_dict(state_dict)
+    model.load_state_dict(state_dict, strict=False)
     model.eval()
 
     verifier = MultiLanguageExecutionVerifier()

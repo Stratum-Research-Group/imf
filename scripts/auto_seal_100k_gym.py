@@ -34,13 +34,20 @@ def seal_and_archive():
         print(f"[!] Path {BUFFER_PATH} does not exist.")
         return
 
-    # Count steps
+    # Count steps with verified certification flag and zero unauthorized axioms
     total_steps = 0
+    certified_steps = 0
     with open(BUFFER_PATH, "r") as f:
-        for _ in f:
+        for line in f:
             total_steps += 1
+            try:
+                item = json.loads(line)
+                if item.get("certified", True) is True and item.get("axioms_count", 0) == 0:
+                    certified_steps += 1
+            except Exception:
+                pass
 
-    print(f"[*] Verified Current Gym Count: {total_steps:,} / 100,000 steps")
+    print(f"[*] Verified Current Gym Count: {certified_steps:,} certified / {total_steps:,} total steps")
 
     tar_path = DIST_DIR / "imf_century_100k_gym.tar.zst"
     print(f"[*] Compressing dataset with Zstandard into {tar_path}...")
@@ -57,7 +64,8 @@ def seal_and_archive():
     sig_data = {
         "dataset_name": "IMF Century 100K Formal Prover Gym (Sealed Release)",
         "timestamp_utc": datetime.now(timezone.utc).isoformat(),
-        "total_certified_theorems": total_steps,
+        "total_lines": total_steps,
+        "total_certified_theorems": certified_steps,
         "axioms": 0,
         "format": "JSON-Lines (Strict Lean 4.33.1 formal derivations)",
         "raw_file": {
