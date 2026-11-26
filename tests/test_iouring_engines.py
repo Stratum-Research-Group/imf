@@ -1293,6 +1293,57 @@ def test_iouring_epoll_eventfd_ring_correctness():
         os.close(efd)
 
 
+def test_iouring_bpf_memtrace_correctness():
+    so_path = "csrc/libfused_iouring_bpf_memtrace_ring.so"
+    if not os.path.exists(so_path):
+        so_path = "csrc/fused_iouring_bpf_memtrace_ring.so"
+    if not os.path.exists(so_path):
+        pytest.skip("bpf memtrace ring so not found")
+
+    lib = ctypes.CDLL(so_path)
+    lib.iouring_bpf_memtrace_init.argtypes = [ctypes.c_uint32]
+    lib.iouring_bpf_memtrace_init.restype = ctypes.c_void_p
+
+    lib.iouring_bpf_memtrace_log_event.argtypes = [
+        ctypes.c_void_p, ctypes.c_uint32, ctypes.c_uint64, ctypes.c_uint64, ctypes.c_uint64
+    ]
+    lib.iouring_bpf_memtrace_log_event.restype = ctypes.c_int
+
+    lib.iouring_bpf_memtrace_get_summary.argtypes = [
+        ctypes.c_void_p, ctypes.POINTER(ctypes.c_uint64),
+        ctypes.POINTER(ctypes.c_uint64), ctypes.POINTER(ctypes.c_uint64)
+    ]
+    lib.iouring_bpf_memtrace_get_summary.restype = ctypes.c_int
+
+    lib.iouring_bpf_memtrace_free.argtypes = [ctypes.c_void_p]
+    lib.iouring_bpf_memtrace_free.restype = None
+
+    eng = lib.iouring_bpf_memtrace_init(128)
+    assert eng is not None
+
+    try:
+        # Log 3 events
+        ret1 = lib.iouring_bpf_memtrace_log_event(eng, 1, 0x1000, 4096, 250)
+        ret2 = lib.iouring_bpf_memtrace_log_event(eng, 2, 0x2000, 8192, 350)
+        ret3 = lib.iouring_bpf_memtrace_log_event(eng, 1, 0x3000, 4096, 300)
+        assert ret1 == 0 and ret2 == 0 and ret3 == 0
+
+        tot_ev = ctypes.c_uint64(0)
+        tot_bytes = ctypes.c_uint64(0)
+        avg_lat = ctypes.c_uint64(0)
+
+        s_ret = lib.iouring_bpf_memtrace_get_summary(
+            eng, ctypes.byref(tot_ev), ctypes.byref(tot_bytes), ctypes.byref(avg_lat)
+        )
+        assert s_ret == 0
+        assert tot_ev.value == 3
+        assert tot_bytes.value == (4096 + 8192 + 4096)
+        assert avg_lat.value == ((250 + 350 + 300) // 3)
+    finally:
+        lib.iouring_bpf_memtrace_free(eng)
+
+
+
 
 
 

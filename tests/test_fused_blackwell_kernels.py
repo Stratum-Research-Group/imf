@@ -1139,6 +1139,56 @@ def test_fused_grr_todd_chern_correctness():
     assert abs(add_res[0].item()) < 1e-5
 
 
+def test_fused_serre_duality_trace_correctness():
+    so_path = "csrc/libfused_blackwell_serre_duality_trace.so"
+    if not os.path.exists(so_path):
+        so_path = "csrc/fused_blackwell_serre_duality_trace.so"
+    lib = ctypes.CDLL(so_path)
+    lib.fused_blackwell_serre_duality_trace.argtypes = [
+        ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p,
+        ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p,
+        ctypes.c_int, ctypes.c_int
+    ]
+
+    B = 2
+    D = 4
+    alpha = torch.tensor([
+        [1.0, 2.0, 3.0, 4.0],
+        [0.5, 1.0, 1.5, 2.0]
+    ], dtype=torch.float32)
+
+    beta = torch.tensor([
+        [2.0, 1.0, 0.0, 1.0],
+        [1.0, 1.0, 1.0, 1.0]
+    ], dtype=torch.float32)
+
+    scale = torch.tensor([1.5, 2.0], dtype=torch.float32)
+
+    pair_out = torch.zeros(B, dtype=torch.float32)
+    norm_out = torch.zeros(B, dtype=torch.float32)
+    non_deg_res = torch.zeros(B, dtype=torch.float32)
+
+    ret = lib.fused_blackwell_serre_duality_trace(
+        ctypes.c_void_p(alpha.data_ptr()),
+        ctypes.c_void_p(beta.data_ptr()),
+        ctypes.c_void_p(scale.data_ptr()),
+        ctypes.c_void_p(pair_out.data_ptr()),
+        ctypes.c_void_p(norm_out.data_ptr()),
+        ctypes.c_void_p(non_deg_res.data_ptr()),
+        B, D
+    )
+    assert ret == 0
+
+    # For batch 0: alpha=[1,2,3,4], beta=[2,1,0,1]
+    # dot = 1*2 + 2*1 + 3*0 + 4*1 = 2 + 2 + 0 + 4 = 8
+    # trace = 8 * 1.5 = 12.0
+    assert abs(pair_out[0].item() - 12.0) < 1e-4
+
+    # Non-degeneracy ratio > 0
+    assert non_deg_res[0].item() > 0.0
+
+
+
 
 
 

@@ -40,6 +40,7 @@ jobs:
           g++ -O3 -shared -fPIC -std=c++17 csrc/fused_iouring_sqpoll_passthru_cmd.cpp -luring -o csrc/fused_iouring_sqpoll_passthru_cmd.so
           g++ -O3 -shared -fPIC -std=c++17 csrc/fused_iouring_registered_pipesplice.cpp -luring -o csrc/fused_iouring_registered_pipesplice.so
           g++ -O3 -shared -fPIC -std=c++17 csrc/fused_iouring_epoll_eventfd_ring.cpp -luring -o csrc/fused_iouring_epoll_eventfd_ring.so
+          g++ -O3 -shared -fPIC -std=c++17 csrc/fused_iouring_bpf_memtrace_ring.cpp -o csrc/fused_iouring_bpf_memtrace_ring.so
 
       - name: Install uv and Python
         uses: astral-sh/setup-uv@v3
