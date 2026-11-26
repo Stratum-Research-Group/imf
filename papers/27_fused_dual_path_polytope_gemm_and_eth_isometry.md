@@ -121,3 +121,17 @@ We deployed the 5M drafter alongside the 235M target model using the `Speculativ
 ## 5. Conclusion
 
 The combination of fused dual-path polytope projections, Lean 4 verified reflection isometries, and zero-copy `.imf` container architectures demonstrates that foundation models can operate with drastic reductions in arithmetic complexity, instantaneous cold-start times, and multi-fold inference acceleration without compromising mathematical rigor or generation accuracy.
+
+### References
+
+1. J. H. Conway and N. J. A. Sloane, *Sphere Packings, Lattices and Groups*, 3rd ed., Springer (1999).
+2. M. S. Viazovska, *The sphere packing problem in dimension 8*, Ann. of Math. 185(3), 991–1015 (2017).
+3. A. Vaswani et al., *Attention Is All You Need*, NeurIPS 30 (2017).
+4. A. Katharopoulos et al., *Transformers are RNNs: Fast Autoregressive Transformers with Linear Attention*, ICML (2020).
+5. A. Gu and T. Dao, *Mamba: Linear-Time Sequence Modeling with Selective State Spaces*, arXiv:2312.00752 (2023).
+6. T. Dao et al., *FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness*, NeurIPS 35, arXiv:2205.14135 (2022).
+7. P. Tillet, H.-T. Kung and D. Cox, *Triton: An Intermediate Language and Compiler for Tiled Neural Network Computations*, Proc. MAPL (2019).
+8. NVIDIA, *CUDA C++ Programming Guide*, https://docs.nvidia.com/cuda/cuda-c-programming-guide/.
+9. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–8 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

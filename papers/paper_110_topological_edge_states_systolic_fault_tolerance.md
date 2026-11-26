@@ -62,3 +62,11 @@ where $W$ is the array width and $\xi$ is the magnetic penetration depth, the ba
 ## 3. Lean 4 Formal Verification (Zero Axioms)
 
 The core algebraic foundations of chiral edge velocity non-zero propagation ($v > 0$), topological defect orthogonality ($\langle L | V | R \rangle = 0$), and bulk-boundary invariant integer conservation are formally certified in Lean 4 with strictly zero axioms in `imf/topological_edge_pipeline.py`.
+
+### References
+
+1. L. de Moura and S. Ullrich, *The Lean 4 Theorem Prover and Programming Language*, CADE-28, LNCS 12699, 625–635 (2021).
+2. The mathlib Community, *The Lean Mathematical Library*, Proc. CPP 2020, 367–381 (2020).
+3. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–2 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

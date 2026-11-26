@@ -109,3 +109,16 @@ The SLERP kernel is utilized in:
 
 ### 5. Conclusion
 `fused_blackwell_bit_rotor_slerp` establishes a new standard for Lie-group geometric computing on Blackwell hardware, delivering over 42x acceleration and single-microsecond geodesic routing for cognitive manifolds.
+
+### References
+
+1. D. Hestenes and G. Sobczyk, *Clifford Algebra to Geometric Calculus*, Reidel (1984).
+2. E. Frantar et al., *GPTQ: Accurate Post-Training Quantization for Generative Pre-trained Transformers*, arXiv:2210.17323 (2022).
+3. S. Ma et al., *The Era of 1-bit LLMs: All Large Language Models are in 1.58 Bits*, arXiv:2402.17764 (2024).
+4. A. Tseng et al., *QuIP#: Even Better LLM Quantization with Hadamard Incoherence and Lattice Codebooks*, arXiv:2402.04396 (2024).
+5. T. Dao et al., *FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness*, NeurIPS 35, arXiv:2205.14135 (2022).
+6. P. Tillet, H.-T. Kung and D. Cox, *Triton: An Intermediate Language and Compiler for Tiled Neural Network Computations*, Proc. MAPL (2019).
+7. NVIDIA, *CUDA C++ Programming Guide*, https://docs.nvidia.com/cuda/cuda-c-programming-guide/.
+8. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–7 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

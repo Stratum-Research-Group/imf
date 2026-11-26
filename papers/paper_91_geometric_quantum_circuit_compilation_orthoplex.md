@@ -53,3 +53,14 @@ All proofs compile under `#print axioms` without `sorry` or `admit`.
 
 ### 4. Empirical Synthesis & Latency
 Compiling random 3-qubit unitaries via Leech polytope root quantization reduces circuit $T$-depth by $41.3\%$ relative to standard gridsynth Solovay–Kitaev baselines, while the native TinyTapeout SkyWater 130nm orthoplex accelerator computes the coordinate routing in under $20\,\text{ns}$ per gate.
+
+### References
+
+1. D. Hestenes and G. Sobczyk, *Clifford Algebra to Geometric Calculus*, Reidel (1984).
+2. J. H. Conway and N. J. A. Sloane, *Sphere Packings, Lattices and Groups*, 3rd ed., Springer (1999).
+3. M. S. Viazovska, *The sphere packing problem in dimension 8*, Ann. of Math. 185(3), 991–1015 (2017).
+4. L. de Moura and S. Ullrich, *The Lean 4 Theorem Prover and Programming Language*, CADE-28, LNCS 12699, 625–635 (2021).
+5. The mathlib Community, *The Lean Mathematical Library*, Proc. CPP 2020, 367–381 (2020).
+6. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–5 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

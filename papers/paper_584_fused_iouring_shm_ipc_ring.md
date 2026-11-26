@@ -30,3 +30,14 @@ The `FusedIOUringShmIpcRing` maps a 64-slot circular ring directly into shared m
 | Unix Domain Socket | `sendmsg` / `recvmsg` | $4.2\ \mu\text{s}$ | 2 per message |
 | POSIX Message Queue | `mq_send` / `mq_receive` | $2.8\ \mu\text{s}$ | 2 per message |
 | **IMF Fused io_uring SHM Ring** | **Zero-Copy Lock-Free SHM** | **$0.048\ \mu\text{s}$** | **Zero (SQPOLL)** |
+
+### References
+
+1. T. Dao et al., *FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness*, NeurIPS 35, arXiv:2205.14135 (2022).
+2. P. Tillet, H.-T. Kung and D. Cox, *Triton: An Intermediate Language and Compiler for Tiled Neural Network Computations*, Proc. MAPL (2019).
+3. NVIDIA, *CUDA C++ Programming Guide*, https://docs.nvidia.com/cuda/cuda-c-programming-guide/.
+4. J. Axboe, *Efficient IO with io_uring* (2019), https://kernel.dk/io_uring.pdf.
+5. *io_uring_setup(2)*, Linux Programmer's Manual.
+6. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–5 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

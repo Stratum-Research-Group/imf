@@ -35,3 +35,17 @@ In `csrc/fused_blackwell_bit_krylov_schur.cu`:
 - Subspace vectors $V_0, \dots, V_7$ reside in thread registers.
 - Full Gram-Schmidt reorthogonalization is unrolled across registers.
 - Execution delivers a $19.4\times$ speedup over cuBLAS/cuSOLVER iterative multi-kernel solvers.
+
+### References
+
+1. T. Dao et al., *FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness*, NeurIPS 35, arXiv:2205.14135 (2022).
+2. P. Tillet, H.-T. Kung and D. Cox, *Triton: An Intermediate Language and Compiler for Tiled Neural Network Computations*, Proc. MAPL (2019).
+3. NVIDIA, *CUDA C++ Programming Guide*, https://docs.nvidia.com/cuda/cuda-c-programming-guide/.
+4. M. R. Hestenes, *Inversion of matrices by biorthogonalization and related results*, J. SIAM 6(1), 51–90 (1958).
+5. J. Demmel and K. Veselić, *Jacobi's method is more accurate than QR*, SIAM J. Matrix Anal. Appl. 13(4), 1204–1245 (1992).
+6. G. H. Golub and C. F. Van Loan, *Matrix Computations*, 4th ed., Johns Hopkins Univ. Press (2013).
+7. S. Lang, *Algebra*, Springer GTM 211 (2002).
+8. M. F. Atiyah and I. G. Macdonald, *Introduction to Commutative Algebra*, Addison-Wesley (1969).
+9. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–8 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

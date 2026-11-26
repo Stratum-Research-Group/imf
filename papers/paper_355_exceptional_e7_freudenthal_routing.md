@@ -36,3 +36,15 @@ guarantees that high-dimensional token representations are routed into non-inter
 
 ### 3. Conclusion
 $E_7$ Freudenthal routing provides a mathematically rigorous, exceptional geometric foundation for ultra-wide MoPE architectures.
+
+### References
+
+1. J. E. Humphreys, *Introduction to Lie Algebras and Representation Theory*, Springer GTM 9 (1972).
+2. B. C. Hall, *Lie Groups, Lie Algebras, and Representations: An Elementary Introduction*, Springer GTM 222 (2015).
+3. J. C. Baez, *The Octonions*, Bull. Amer. Math. Soc. 39(2), 145–205 (2002).
+4. J. F. Adams, *Lectures on Exceptional Lie Groups*, Univ. of Chicago Press (1996).
+5. L. de Moura and S. Ullrich, *The Lean 4 Theorem Prover and Programming Language*, CADE-28, LNCS 12699, 625–635 (2021).
+6. The mathlib Community, *The Lean Mathematical Library*, Proc. CPP 2020, 367–381 (2020).
+7. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–6 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

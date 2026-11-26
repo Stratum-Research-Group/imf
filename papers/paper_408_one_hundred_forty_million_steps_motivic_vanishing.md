@@ -42,3 +42,16 @@ This confirms that recursive self-improvement proof loops do not introduce ghost
 
 ### 3. Conclusion
 The 140M milestone establishes that formal mathematical reasoning under motivic geometric constraints preserves deductive soundness and complete algorithmic tractability on consumer silicon.
+
+### References
+
+1. R. Hartshorne, *Algebraic Geometry*, Springer GTM 52 (1977).
+2. J. S. Milne, *Étale Cohomology*, Princeton Univ. Press (1980).
+3. P. Deligne, *La conjecture de Weil I*, Publ. Math. IHÉS 43, 273–307 (1974).
+4. A. Hatcher, *Algebraic Topology*, Cambridge Univ. Press (2002).
+5. R. Bott and L. W. Tu, *Differential Forms in Algebraic Topology*, Springer GTM 82 (1982).
+6. L. de Moura and S. Ullrich, *The Lean 4 Theorem Prover and Programming Language*, CADE-28, LNCS 12699, 625–635 (2021).
+7. The mathlib Community, *The Lean Mathematical Library*, Proc. CPP 2020, 367–381 (2020).
+8. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–7 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

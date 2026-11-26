@@ -31,3 +31,14 @@ Tested on a physical PCIe 4.0 NVMe SSD (Samsung 990 Pro / Kingston KC3000):
 - Queue depth: 64 entries in flight.
 - Checkpoint commit latency: $8.4\ \mu\text{s}$ per 64KB block submission.
 - Inference GPU stall time: $0.000\text{ ms}$ (100% background overlap).
+
+### References
+
+1. T. Dao et al., *FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness*, NeurIPS 35, arXiv:2205.14135 (2022).
+2. P. Tillet, H.-T. Kung and D. Cox, *Triton: An Intermediate Language and Compiler for Tiled Neural Network Computations*, Proc. MAPL (2019).
+3. NVIDIA, *CUDA C++ Programming Guide*, https://docs.nvidia.com/cuda/cuda-c-programming-guide/.
+4. J. Axboe, *Efficient IO with io_uring* (2019), https://kernel.dk/io_uring.pdf.
+5. *io_uring_setup(2)*, Linux Programmer's Manual.
+6. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–5 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

@@ -63,3 +63,12 @@ Across 70 foundational papers, IMF resolves the Reversal Curse, representation d
 With the empirical verification of **Paper 69** (Virtualized Cell Traversal & Step 1000 Convergence) and the complete compendium synthesis of **Paper 70**, the Interaction Model Foundations consortium officially tags and releases **`v1.2.0-imf-virtual-polytope`**.
 
 All artifacts, Lean 4 proofs, PyTorch kernels, and publication preprints are preserved under version control and verified across dual Git remotes.
+
+### References
+
+1. R. T. Q. Chen et al., *Neural Ordinary Differential Equations*, NeurIPS 31, arXiv:1806.07366 (2018).
+2. L. de Moura and S. Ullrich, *The Lean 4 Theorem Prover and Programming Language*, CADE-28, LNCS 12699, 625–635 (2021).
+3. The mathlib Community, *The Lean Mathematical Library*, Proc. CPP 2020, 367–381 (2020).
+4. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–3 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

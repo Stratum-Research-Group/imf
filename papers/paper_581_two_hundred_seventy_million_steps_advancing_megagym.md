@@ -40,3 +40,11 @@ Blocks 261 to 270 added 10,000,000 certified inference steps to the IMF grand co
 ### 2. Mathematical Consistency and Verification Guarantees
 
 Every step in the $270\text{M}$ corpus was verified against the internal formal kernel, yielding zero `sorry` clauses and zero unproven axioms. The corpus manifest is permanently tracked in `dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`.
+
+### References
+
+1. L. de Moura and S. Ullrich, *The Lean 4 Theorem Prover and Programming Language*, CADE-28, LNCS 12699, 625–635 (2021).
+2. The mathlib Community, *The Lean Mathematical Library*, Proc. CPP 2020, 367–381 (2020).
+3. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–2 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

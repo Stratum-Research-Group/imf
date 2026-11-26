@@ -65,3 +65,17 @@ Axiom audit via `#print axioms` verified dependency strictly upon standard core 
 
 - Continued execution of Wave 10 Prover Fleet background task `task-10653`.
 - Dual-remote push maintained across GitHub (`github/main`) and GitLab (`origin/main`).
+
+### References
+
+1. J. E. Humphreys, *Introduction to Lie Algebras and Representation Theory*, Springer GTM 9 (1972).
+2. B. C. Hall, *Lie Groups, Lie Algebras, and Representations: An Elementary Introduction*, Springer GTM 222 (2015).
+3. A. A. Ungar, *Analytic Hyperbolic Geometry and Albert Einstein's Special Theory of Relativity*, World Scientific (2008).
+4. M. Nickel and D. Kiela, *Poincaré Embeddings for Learning Hierarchical Representations*, NeurIPS 30 (2017).
+5. T. Dao et al., *FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness*, NeurIPS 35, arXiv:2205.14135 (2022).
+6. P. Tillet, H.-T. Kung and D. Cox, *Triton: An Intermediate Language and Compiler for Tiled Neural Network Computations*, Proc. MAPL (2019).
+7. NVIDIA, *CUDA C++ Programming Guide*, https://docs.nvidia.com/cuda/cuda-c-programming-guide/.
+8. M. V. Berry, *Quantal phase factors accompanying adiabatic changes*, Proc. R. Soc. Lond. A 392, 45–57 (1984).
+9. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–8 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

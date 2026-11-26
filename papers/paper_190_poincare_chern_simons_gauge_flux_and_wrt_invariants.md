@@ -75,3 +75,17 @@ Axiom check confirms strictly foundational standard axioms:
 
 ## 5. Summary
 Cycle 190 introduces topological gauge theory into the IMF high-performance library, delivering a $15.18\times$ hardware acceleration while guaranteeing topological invariance through verified Lean 4 arithmetic.
+
+### References
+
+1. J. E. Humphreys, *Introduction to Lie Algebras and Representation Theory*, Springer GTM 9 (1972).
+2. B. C. Hall, *Lie Groups, Lie Algebras, and Representations: An Elementary Introduction*, Springer GTM 222 (2015).
+3. A. A. Ungar, *Analytic Hyperbolic Geometry and Albert Einstein's Special Theory of Relativity*, World Scientific (2008).
+4. M. Nickel and D. Kiela, *Poincaré Embeddings for Learning Hierarchical Representations*, NeurIPS 30 (2017).
+5. T. Dao et al., *FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness*, NeurIPS 35, arXiv:2205.14135 (2022).
+6. P. Tillet, H.-T. Kung and D. Cox, *Triton: An Intermediate Language and Compiler for Tiled Neural Network Computations*, Proc. MAPL (2019).
+7. NVIDIA, *CUDA C++ Programming Guide*, https://docs.nvidia.com/cuda/cuda-c-programming-guide/.
+8. C. Voisin, *Hodge Theory and Complex Algebraic Geometry I*, Cambridge Univ. Press (2002).
+9. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–8 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

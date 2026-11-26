@@ -32,3 +32,15 @@ In `csrc/fused_blackwell_bit_berry_phase.cu`:
 - Spinor coordinates are decomposed into real and imaginary float bitplanes.
 - Complex multiplications and overlap summations execute with zero shared-memory overhead.
 - Throughput reaches $8.9 \times 10^8\text{ loop evaluations/s}$ on the local RTX 5060 Ti.
+
+### References
+
+1. J. E. Humphreys, *Introduction to Lie Algebras and Representation Theory*, Springer GTM 9 (1972).
+2. B. C. Hall, *Lie Groups, Lie Algebras, and Representations: An Elementary Introduction*, Springer GTM 222 (2015).
+3. T. Dao et al., *FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness*, NeurIPS 35, arXiv:2205.14135 (2022).
+4. P. Tillet, H.-T. Kung and D. Cox, *Triton: An Intermediate Language and Compiler for Tiled Neural Network Computations*, Proc. MAPL (2019).
+5. NVIDIA, *CUDA C++ Programming Guide*, https://docs.nvidia.com/cuda/cuda-c-programming-guide/.
+6. M. V. Berry, *Quantal phase factors accompanying adiabatic changes*, Proc. R. Soc. Lond. A 392, 45–57 (1984).
+7. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–6 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

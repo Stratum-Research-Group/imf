@@ -141,3 +141,17 @@ omega = 5.00           0.54190            16.92              59.3%              
 Manifold spin is fundamentally linked to model quality. Far from being a passive mathematical artifact, continuous Lie vorticity provides a physical gyroscopic stiffness that actively restrains quantization degradation. By tuning models to their optimal spin resonance ($\omega^* \approx 1.25\text{ rad/s}$), foundation models achieve uncompromised FP16-equivalent reasoning capabilities within compact sub-byte representations.
 
 ---
+
+### References
+
+1. J. E. Humphreys, *Introduction to Lie Algebras and Representation Theory*, Springer GTM 9 (1972).
+2. B. C. Hall, *Lie Groups, Lie Algebras, and Representations: An Elementary Introduction*, Springer GTM 222 (2015).
+3. E. Frantar et al., *GPTQ: Accurate Post-Training Quantization for Generative Pre-trained Transformers*, arXiv:2210.17323 (2022).
+4. S. Ma et al., *The Era of 1-bit LLMs: All Large Language Models are in 1.58 Bits*, arXiv:2402.17764 (2024).
+5. A. Tseng et al., *QuIP#: Even Better LLM Quantization with Hadamard Incoherence and Lattice Codebooks*, arXiv:2402.04396 (2024).
+6. R. T. Q. Chen et al., *Neural Ordinary Differential Equations*, NeurIPS 31, arXiv:1806.07366 (2018).
+7. L. de Moura and S. Ullrich, *The Lean 4 Theorem Prover and Programming Language*, CADE-28, LNCS 12699, 625–635 (2021).
+8. The mathlib Community, *The Lean Mathematical Library*, Proc. CPP 2020, 367–381 (2020).
+9. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–8 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

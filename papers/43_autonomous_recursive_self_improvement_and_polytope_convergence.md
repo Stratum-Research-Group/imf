@@ -101,3 +101,13 @@ Across 43 research monographs, empirical evaluations confirm the structural adva
 ## 5. Conclusion: The Horizon of Polytope Intelligence
 
 Interaction Model Foundations demonstrates that large-scale artificial intelligence does not require massive datacenter power walls or uncontrolled parameter expansion. By grounding intelligence in the fundamental symmetries of Lie algebra, the dense sphere packings of exceptional lattices, hardware-fused register execution, and formal machine proofs, IMF establishes a complete, robust, and mathematically verified foundation for the next generation of autonomous cognitive computing.
+
+### References
+
+1. J. H. Conway and N. J. A. Sloane, *Sphere Packings, Lattices and Groups*, 3rd ed., Springer (1999).
+2. M. S. Viazovska, *The sphere packing problem in dimension 8*, Ann. of Math. 185(3), 991–1015 (2017).
+3. L. de Moura and S. Ullrich, *The Lean 4 Theorem Prover and Programming Language*, CADE-28, LNCS 12699, 625–635 (2021).
+4. The mathlib Community, *The Lean Mathematical Library*, Proc. CPP 2020, 367–381 (2020).
+5. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–4 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

@@ -65,3 +65,15 @@ The fundamental algebraic invariants:
 2. Dirac spectral gap zero-density invariance ($\rho(0) = 0$),
 3. Parity partner energy degeneracy ($E_+ - E_- = 0$),
 are strictly certified in Lean 4 with zero non-standard axioms in `imf/qcd_chiral_restoration_pipeline.py`.
+
+### References
+
+1. J. E. Humphreys, *Introduction to Lie Algebras and Representation Theory*, Springer GTM 9 (1972).
+2. B. C. Hall, *Lie Groups, Lie Algebras, and Representations: An Elementary Introduction*, Springer GTM 222 (2015).
+3. A. Hatcher, *Algebraic Topology*, Cambridge Univ. Press (2002).
+4. R. Bott and L. W. Tu, *Differential Forms in Algebraic Topology*, Springer GTM 82 (1982).
+5. L. de Moura and S. Ullrich, *The Lean 4 Theorem Prover and Programming Language*, CADE-28, LNCS 12699, 625–635 (2021).
+6. The mathlib Community, *The Lean Mathematical Library*, Proc. CPP 2020, 367–381 (2020).
+7. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–6 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

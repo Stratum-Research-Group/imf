@@ -95,3 +95,14 @@ Certified with `#print axioms` confirming **0 non-standard axioms** and **0 exte
 ## 5. Conclusion
 
 Symplectic phase-space routing replaces heuristic regularization with exact geometric conservation laws. By grounding MoE routing in Liouville's theorem, IMF achieves stable, high-throughput expert dispatch across 1.14B parameters with mathematical guarantees against representation collapse.
+
+### References
+
+1. N. Shazeer et al., *Outrageously Large Neural Networks: The Sparsely-Gated Mixture-of-Experts Layer*, arXiv:1701.06538 (2017).
+2. E. Hairer, C. Lubich and G. Wanner, *Geometric Numerical Integration*, 2nd ed., Springer (2006).
+3. H. Yoshida, *Construction of higher order symplectic integrators*, Phys. Lett. A 150, 262–268 (1990).
+4. L. de Moura and S. Ullrich, *The Lean 4 Theorem Prover and Programming Language*, CADE-28, LNCS 12699, 625–635 (2021).
+5. The mathlib Community, *The Lean Mathematical Library*, Proc. CPP 2020, 367–381 (2020).
+6. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–5 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

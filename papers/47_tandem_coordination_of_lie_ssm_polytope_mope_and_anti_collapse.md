@@ -135,3 +135,17 @@ To verify that these three systems cooperate without mutual interference, we ben
 ## 5. Conclusion
 
 The tandem synchronization of continuous Lie group SSMs, Polytope MoPE sparse dispatch, and joint state reconstruction establishes a unified foundation architecture that delivers sub-quadratic constant memory execution without sacrificing the deep non-linear specialization necessary for formal reasoning and algorithmic generation.
+
+### References
+
+1. J. E. Humphreys, *Introduction to Lie Algebras and Representation Theory*, Springer GTM 9 (1972).
+2. B. C. Hall, *Lie Groups, Lie Algebras, and Representations: An Elementary Introduction*, Springer GTM 222 (2015).
+3. J. H. Conway and N. J. A. Sloane, *Sphere Packings, Lattices and Groups*, 3rd ed., Springer (1999).
+4. M. S. Viazovska, *The sphere packing problem in dimension 8*, Ann. of Math. 185(3), 991–1015 (2017).
+5. A. Vaswani et al., *Attention Is All You Need*, NeurIPS 30 (2017).
+6. A. Katharopoulos et al., *Transformers are RNNs: Fast Autoregressive Transformers with Linear Attention*, ICML (2020).
+7. A. Gu and T. Dao, *Mamba: Linear-Time Sequence Modeling with Selective State Spaces*, arXiv:2312.00752 (2023).
+8. L. de Moura and S. Ullrich, *The Lean 4 Theorem Prover and Programming Language*, CADE-28, LNCS 12699, 625–635 (2021).
+9. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–8 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

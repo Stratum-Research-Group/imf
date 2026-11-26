@@ -28,3 +28,11 @@ Scaling automated formal deduction across sixty consecutive million-step blocks 
 | **Blocks 51–60** | **50,000,001 to 60,000,000** | **350,210 steps/s** | **199.0 MB** | **Certified (0 sorry)** |
 
 Total certified payload across 60 blocks comprises $1,194.1\text{ MB}$ of deduplicated formal proofs.
+
+### References
+
+1. L. de Moura and S. Ullrich, *The Lean 4 Theorem Prover and Programming Language*, CADE-28, LNCS 12699, 625–635 (2021).
+2. The mathlib Community, *The Lean Mathematical Library*, Proc. CPP 2020, 367–381 (2020).
+3. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–2 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

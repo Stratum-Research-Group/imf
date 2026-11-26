@@ -33,3 +33,15 @@ In `csrc/fused_blackwell_bit_polar_svd.cu`:
 - The matrix elements $A_{i,j}$ and accumulated right singular vectors $V_{i,j}$ reside exclusively in thread registers.
 - Inner products and trigonometric rotations execute via single-cycle hardware instructions without shared memory bank conflicts.
 - Latency benchmarks on the RTX 5060 Ti demonstrate an $18.4\times$ speedup over cuSOLVER `gesvd` routines.
+
+### References
+
+1. T. Dao et al., *FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness*, NeurIPS 35, arXiv:2205.14135 (2022).
+2. P. Tillet, H.-T. Kung and D. Cox, *Triton: An Intermediate Language and Compiler for Tiled Neural Network Computations*, Proc. MAPL (2019).
+3. NVIDIA, *CUDA C++ Programming Guide*, https://docs.nvidia.com/cuda/cuda-c-programming-guide/.
+4. M. R. Hestenes, *Inversion of matrices by biorthogonalization and related results*, J. SIAM 6(1), 51–90 (1958).
+5. J. Demmel and K. Veselić, *Jacobi's method is more accurate than QR*, SIAM J. Matrix Anal. Appl. 13(4), 1204–1245 (1992).
+6. G. H. Golub and C. F. Van Loan, *Matrix Computations*, 4th ed., Johns Hopkins Univ. Press (2013).
+7. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–6 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

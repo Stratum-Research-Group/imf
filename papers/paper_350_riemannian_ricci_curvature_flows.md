@@ -37,3 +37,11 @@ penalizes regions of high sectional curvature, driving the parameter metric towa
 
 ### 3. Conclusion
 Ricci curvature flows provide an intrinsic geometric mechanism for regularizing parameter metrics, preventing loss landscape degeneration during long-horizon continuous learning.
+
+### References
+
+1. L. de Moura and S. Ullrich, *The Lean 4 Theorem Prover and Programming Language*, CADE-28, LNCS 12699, 625–635 (2021).
+2. The mathlib Community, *The Lean Mathematical Library*, Proc. CPP 2020, 367–381 (2020).
+3. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–2 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

@@ -71,3 +71,11 @@ Empirical verification confirms:
 - **MCTS Asymptotic Factorization**: Reduces test-time compute by $128.0\times$ at $k=8$ while achieving verified ground-truth Lean 4 closure.
 - **Top-$k$ Simplex Triangulation**: At $k=4$ active experts on a $d=5$ polytope, validation perplexity reaches $1.00$ with uniform barycentric allocation ($w \approx 0.25$).
 - **Test-Time Recovery**: The Agentic Self-Correction Loop recovers $100\%$ valid execution on rejected candidate syntax across Python, Rust, C17, eBPF, and Lean 4.
+
+### References
+
+1. L. de Moura and S. Ullrich, *The Lean 4 Theorem Prover and Programming Language*, CADE-28, LNCS 12699, 625–635 (2021).
+2. The mathlib Community, *The Lean Mathematical Library*, Proc. CPP 2020, 367–381 (2020).
+3. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–2 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

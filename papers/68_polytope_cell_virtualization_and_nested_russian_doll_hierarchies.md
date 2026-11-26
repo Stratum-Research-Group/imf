@@ -113,3 +113,16 @@ We simulated a 10-level nested Russian-doll virtual hierarchy in PyTorch on an N
 ## 6. Conclusion
 
 Polytope Cell Virtualization breaks the physical memory wall of deep learning. By storing a single unit base cell and recursively navigating homothetic Russian-doll address paths, artificial intelligence architectures can instantiate astronomical state capacities ($\sim 10^{24}$) within a microscopic hardware footprint ($32\text{ bytes}$) with machine-checked mathematical soundness.
+
+### References
+
+1. J. H. Conway and N. J. A. Sloane, *Sphere Packings, Lattices and Groups*, 3rd ed., Springer (1999).
+2. M. S. Viazovska, *The sphere packing problem in dimension 8*, Ann. of Math. 185(3), 991–1015 (2017).
+3. M. J. Ablowitz and P. A. Clarkson, *Solitons, Nonlinear Evolution Equations and Inverse Scattering*, Cambridge Univ. Press (1991).
+4. R. Hirota, *The Direct Method in Soliton Theory*, Cambridge Univ. Press (2004).
+5. L. D. Faddeev and L. A. Takhtajan, *Hamiltonian Methods in the Theory of Solitons*, Springer (1987).
+6. L. de Moura and S. Ullrich, *The Lean 4 Theorem Prover and Programming Language*, CADE-28, LNCS 12699, 625–635 (2021).
+7. The mathlib Community, *The Lean Mathematical Library*, Proc. CPP 2020, 367–381 (2020).
+8. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–7 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

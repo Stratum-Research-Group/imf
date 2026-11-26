@@ -64,3 +64,14 @@ The IMF architecture stands as a proof-of-concept for the future of synthetic in
 
 ### 5. Conclusion
 With the sealing of Treatise 600 and the certification of 280 million steps, the foundational phase of the Infinite Mathematical Foundations architecture reaches completion. The platform is primed for autonomous, continuous mathematical discovery at planetary scale.
+
+### References
+
+1. T. Dao et al., *FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness*, NeurIPS 35, arXiv:2205.14135 (2022).
+2. P. Tillet, H.-T. Kung and D. Cox, *Triton: An Intermediate Language and Compiler for Tiled Neural Network Computations*, Proc. MAPL (2019).
+3. NVIDIA, *CUDA C++ Programming Guide*, https://docs.nvidia.com/cuda/cuda-c-programming-guide/.
+4. L. de Moura and S. Ullrich, *The Lean 4 Theorem Prover and Programming Language*, CADE-28, LNCS 12699, 625–635 (2021).
+5. The mathlib Community, *The Lean Mathematical Library*, Proc. CPP 2020, 367–381 (2020).
+6. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–5 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

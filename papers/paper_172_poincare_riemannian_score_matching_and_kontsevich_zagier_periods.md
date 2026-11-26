@@ -66,3 +66,17 @@ Axiom verification via `#print axioms` verified dependency strictly upon:
 - **Parquet Lake Synchronization**: Ingested Block 00079 into `dist/parquet_lake/block_00079.parquet` ($10,000$ columnar records, total lake size: $790,000$ records).
 - **Continuous Student Distillation**: Streamed micro-batches through `imf/run_continuous_corpus_distillation.py`, reducing distillation loss from $3.1686$ to $0.1336$ ($95.78\%$ loss reduction) and updating `checkpoints/imf_student_live_distilled.pt`.
 - **Prover Fleet Wave 10**: Scaled background execution via `imf/run_megagym_32b.py --blocks 7`, advancing proof steps toward $86,000,000$.
+
+### References
+
+1. A. A. Ungar, *Analytic Hyperbolic Geometry and Albert Einstein's Special Theory of Relativity*, World Scientific (2008).
+2. M. Nickel and D. Kiela, *Poincaré Embeddings for Learning Hierarchical Representations*, NeurIPS 30 (2017).
+3. T. Dao et al., *FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness*, NeurIPS 35, arXiv:2205.14135 (2022).
+4. P. Tillet, H.-T. Kung and D. Cox, *Triton: An Intermediate Language and Compiler for Tiled Neural Network Computations*, Proc. MAPL (2019).
+5. NVIDIA, *CUDA C++ Programming Guide*, https://docs.nvidia.com/cuda/cuda-c-programming-guide/.
+6. R. T. Q. Chen et al., *Neural Ordinary Differential Equations*, NeurIPS 31, arXiv:1806.07366 (2018).
+7. L. de Moura and S. Ullrich, *The Lean 4 Theorem Prover and Programming Language*, CADE-28, LNCS 12699, 625–635 (2021).
+8. The mathlib Community, *The Lean Mathematical Library*, Proc. CPP 2020, 367–381 (2020).
+9. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–8 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

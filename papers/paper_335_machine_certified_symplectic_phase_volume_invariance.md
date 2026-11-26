@@ -42,3 +42,14 @@ This machine proof confirms that speculative rollouts do not introduce artificia
 
 ### 3. Conclusion
 Formally certified symplectic volume invariance ensures that multi-step speculative lookahead preserves the thermodynamic fidelity of the underlying cognitive manifold.
+
+### References
+
+1. D. Hestenes and G. Sobczyk, *Clifford Algebra to Geometric Calculus*, Reidel (1984).
+2. E. Hairer, C. Lubich and G. Wanner, *Geometric Numerical Integration*, 2nd ed., Springer (2006).
+3. H. Yoshida, *Construction of higher order symplectic integrators*, Phys. Lett. A 150, 262–268 (1990).
+4. L. de Moura and S. Ullrich, *The Lean 4 Theorem Prover and Programming Language*, CADE-28, LNCS 12699, 625–635 (2021).
+5. The mathlib Community, *The Lean Mathematical Library*, Proc. CPP 2020, 367–381 (2020).
+6. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–5 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

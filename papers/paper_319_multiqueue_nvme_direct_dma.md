@@ -15,3 +15,13 @@
 
 ### Abstract
 We investigate multi-queue Direct-DMA architectures where independent NVMe completion queues interface with asynchronous CUDA hardware barriers. By partitioning sub-bit layer transfers across multiple hardware channels, our swapper eliminates head-of-line blocking on the PCIe bus, achieving sustained multi-channel streaming throughput of $13.20\text{ GB/s}$ and ensuring that layer prefetching is completely masked by preceding compute.
+
+### References
+
+1. J. Axboe, *Efficient IO with io_uring* (2019), https://kernel.dk/io_uring.pdf.
+2. *io_uring_setup(2)*, Linux Programmer's Manual.
+3. L. de Moura and S. Ullrich, *The Lean 4 Theorem Prover and Programming Language*, CADE-28, LNCS 12699, 625–635 (2021).
+4. The mathlib Community, *The Lean Mathematical Library*, Proc. CPP 2020, 367–381 (2020).
+5. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–4 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

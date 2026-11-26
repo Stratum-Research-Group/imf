@@ -51,3 +51,16 @@ Verified via `imf/putnam_arithmetic_fuchsian_benjamin_ono_pack.py`:
 - `bo_hilbert_degree_one`: Hilbert operator degree $\equiv 1$ (no axioms)
 - `bo_dispersion_two`: Inner dispersion order $\equiv 2$ (no axioms)
 - `bo_quantum_pos`: Conserved energy quantum $\ge 1$ (no axioms)
+
+### References
+
+1. A. A. Ungar, *Analytic Hyperbolic Geometry and Albert Einstein's Special Theory of Relativity*, World Scientific (2008).
+2. M. Nickel and D. Kiela, *Poincaré Embeddings for Learning Hierarchical Representations*, NeurIPS 30 (2017).
+3. M. J. Ablowitz and P. A. Clarkson, *Solitons, Nonlinear Evolution Equations and Inverse Scattering*, Cambridge Univ. Press (1991).
+4. R. Hirota, *The Direct Method in Soliton Theory*, Cambridge Univ. Press (2004).
+5. L. D. Faddeev and L. A. Takhtajan, *Hamiltonian Methods in the Theory of Solitons*, Springer (1987).
+6. L. de Moura and S. Ullrich, *The Lean 4 Theorem Prover and Programming Language*, CADE-28, LNCS 12699, 625–635 (2021).
+7. The mathlib Community, *The Lean Mathematical Library*, Proc. CPP 2020, 367–381 (2020).
+8. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–7 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

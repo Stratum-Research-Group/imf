@@ -123,3 +123,13 @@ The fundamental principles governing information integration in the human cortex
 
 ### 6. Conclusion
 The "human mind" is neither a metaphysical ghost nor an unconstrained infinite-parameter transformer. It is an exquisitely tuned, dissipative physical system where higher-dimensional information integration is realized through local chemical kinetics, axonal delay geometry, and phase-oscillatory resonance. By enforcing strict spatial locality, sub-byte polytope compression, and continuous formal verification, the IMF architecture establishes an artificial cognitive intelligence grounded in the exact physical and mathematical principles of biological cognition.
+
+### References
+
+1. A. Hatcher, *Algebraic Topology*, Cambridge Univ. Press (2002).
+2. R. Bott and L. W. Tu, *Differential Forms in Algebraic Topology*, Springer GTM 82 (1982).
+3. L. de Moura and S. Ullrich, *The Lean 4 Theorem Prover and Programming Language*, CADE-28, LNCS 12699, 625–635 (2021).
+4. The mathlib Community, *The Lean Mathematical Library*, Proc. CPP 2020, 367–381 (2020).
+5. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–4 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

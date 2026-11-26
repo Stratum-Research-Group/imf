@@ -30,3 +30,11 @@ The `fused_iouring_dmabuf_vram` engine exports NVMe submission queues to file de
 | Standard `pread` + `cudaMemcpy` | 2 (Disk $\to$ Host $\to$ GPU) | $3.8\text{ GB/s}$ | 38% single-core |
 | Pinned `cudaHostAlloc` + Async D2D | 1.5 (Disk $\to$ Pinned Host $\to$ GPU) | $6.2\text{ GB/s}$ | 19% single-core |
 | **IMF Fused DMA-BUF io_uring** | **1 (Direct NVMe $\to$ GPU VRAM)** | **$11.8\text{ GB/s}$** | **$< 1.5\%$ single-core** |
+
+### References
+
+1. J. Axboe, *Efficient IO with io_uring* (2019), https://kernel.dk/io_uring.pdf.
+2. *io_uring_setup(2)*, Linux Programmer's Manual.
+3. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–2 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

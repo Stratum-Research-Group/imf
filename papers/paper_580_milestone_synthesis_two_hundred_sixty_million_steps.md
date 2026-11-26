@@ -61,3 +61,17 @@ The roadmap toward the **300 Million Steps Milestone** encompasses:
 1. Extension of the Lanczos tridiagonalizer into a full Krylov-Schur eigenvalue deflation engine.
 2. Formalization of Serre's GAGA theorems (relating algebraic varieties to complex analytic spaces).
 3. Integration of hardware-accelerated Clifford geometric neural network layers into active inference agents.
+
+### References
+
+1. R. Hartshorne, *Algebraic Geometry*, Springer GTM 52 (1977).
+2. J. S. Milne, *Étale Cohomology*, Princeton Univ. Press (1980).
+3. P. Deligne, *La conjecture de Weil I*, Publ. Math. IHÉS 43, 273–307 (1974).
+4. S. Lang, *Algebra*, Springer GTM 211 (2002).
+5. M. F. Atiyah and I. G. Macdonald, *Introduction to Commutative Algebra*, Addison-Wesley (1969).
+6. D. Eisenbud, *Commutative Algebra with a View Toward Algebraic Geometry*, Springer GTM 150 (1995).
+7. E. Hairer, C. Lubich and G. Wanner, *Geometric Numerical Integration*, 2nd ed., Springer (2006).
+8. H. Yoshida, *Construction of higher order symplectic integrators*, Phys. Lett. A 150, 262–268 (1990).
+9. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–8 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

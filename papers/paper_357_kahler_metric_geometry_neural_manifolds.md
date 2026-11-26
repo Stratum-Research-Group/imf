@@ -39,3 +39,15 @@ guarantees that attention scores automatically satisfy the complex symplectic id
 
 ### 3. Conclusion
 Kähler metric geometry bridges symplectic mechanics and complex associative memory, establishing a unified geometric foundation for next-generation neural architectures.
+
+### References
+
+1. C. Voisin, *Hodge Theory and Complex Algebraic Geometry I*, Cambridge Univ. Press (2002).
+2. P. Griffiths and J. Harris, *Principles of Algebraic Geometry*, Wiley (1978).
+3. E. Hairer, C. Lubich and G. Wanner, *Geometric Numerical Integration*, 2nd ed., Springer (2006).
+4. H. Yoshida, *Construction of higher order symplectic integrators*, Phys. Lett. A 150, 262–268 (1990).
+5. L. de Moura and S. Ullrich, *The Lean 4 Theorem Prover and Programming Language*, CADE-28, LNCS 12699, 625–635 (2021).
+6. The mathlib Community, *The Lean Mathematical Library*, Proc. CPP 2020, 367–381 (2020).
+7. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–6 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

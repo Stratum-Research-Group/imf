@@ -45,3 +45,12 @@ The machine proof certifies that speculative trajectory steering cannot accumula
 
 ### 3. Conclusion
 Formally verified Pontryagin control principles establish that speculative rollouts in IMF select strictly optimal parameter paths under constrained computational budgets.
+
+### References
+
+1. R. T. Q. Chen et al., *Neural Ordinary Differential Equations*, NeurIPS 31, arXiv:1806.07366 (2018).
+2. L. de Moura and S. Ullrich, *The Lean 4 Theorem Prover and Programming Language*, CADE-28, LNCS 12699, 625–635 (2021).
+3. The mathlib Community, *The Lean Mathematical Library*, Proc. CPP 2020, 367–381 (2020).
+4. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–3 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

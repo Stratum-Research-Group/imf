@@ -56,3 +56,16 @@ The algebraic stability of the KP-II Hamiltonian was certified in Lean 4 Core:
 
 ### 5. Conclusion
 The Fused Poincaré Discrete KP-II Soliton Grid flow kernel extends localized $(2+1)\text{D}$ integrable soliton dynamics to deep representations. Sustaining $817.56\text{M nodes/s}$ on the RTX 5060 Ti with formal zero-axiom certification, the kernel provides stable transverse wavefront propagation for high-order multimodal representations.
+
+### References
+
+1. A. A. Ungar, *Analytic Hyperbolic Geometry and Albert Einstein's Special Theory of Relativity*, World Scientific (2008).
+2. M. Nickel and D. Kiela, *Poincaré Embeddings for Learning Hierarchical Representations*, NeurIPS 30 (2017).
+3. M. J. Ablowitz and P. A. Clarkson, *Solitons, Nonlinear Evolution Equations and Inverse Scattering*, Cambridge Univ. Press (1991).
+4. R. Hirota, *The Direct Method in Soliton Theory*, Cambridge Univ. Press (2004).
+5. L. D. Faddeev and L. A. Takhtajan, *Hamiltonian Methods in the Theory of Solitons*, Springer (1987).
+6. L. de Moura and S. Ullrich, *The Lean 4 Theorem Prover and Programming Language*, CADE-28, LNCS 12699, 625–635 (2021).
+7. The mathlib Community, *The Lean Mathematical Library*, Proc. CPP 2020, 367–381 (2020).
+8. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–7 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

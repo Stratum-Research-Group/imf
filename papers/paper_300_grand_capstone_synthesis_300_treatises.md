@@ -37,3 +37,14 @@ Tokens are embedded in continuous Lie-algebraic manifolds, factorized into discr
 - **Grand Deductive Corpus**: 45,000,000 steps sealed across 45 blocks ($895.6\text{ MB}$, SHA-256 verified).
 - **Inference Efficiency**: 100B Leech MoPE running at $8.28\text{ ms}$ per layer block within a $112\text{ MB}$ active footprint.
 - **Epistemic Invariance**: Zero unproven heuristics; every theoretical proposition is machine-checked by the Lean 4 proof assistant.
+
+### References
+
+1. E. Frantar et al., *GPTQ: Accurate Post-Training Quantization for Generative Pre-trained Transformers*, arXiv:2210.17323 (2022).
+2. S. Ma et al., *The Era of 1-bit LLMs: All Large Language Models are in 1.58 Bits*, arXiv:2402.17764 (2024).
+3. A. Tseng et al., *QuIP#: Even Better LLM Quantization with Hadamard Incoherence and Lattice Codebooks*, arXiv:2402.04396 (2024).
+4. L. de Moura and S. Ullrich, *The Lean 4 Theorem Prover and Programming Language*, CADE-28, LNCS 12699, 625–635 (2021).
+5. The mathlib Community, *The Lean Mathematical Library*, Proc. CPP 2020, 367–381 (2020).
+6. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–5 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

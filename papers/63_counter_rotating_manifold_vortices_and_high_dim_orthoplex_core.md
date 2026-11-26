@@ -129,3 +129,13 @@ At $N = 100,000$, the decision boundary is **virtually on top of the center**. A
 ## 5. Conclusion
 
 Counter-rotating Lie manifolds coupled with an ultra-high-dimensional orthoplex core provide a unified resolution to the continuous-discrete dilemma in artificial intelligence. By transforming high-dimensional measure concentration into an uncrossed surface isometry, establishing an invariant topological null point at the vortex center, and exploiting the ultra-compact $0.00316$ facet distance of the $100,000$-orthoplex, this architecture yields an un-driftable, energy-conserving, zero-latency engine for symbolic and formal reasoning.
+
+### References
+
+1. A. Hatcher, *Algebraic Topology*, Cambridge Univ. Press (2002).
+2. R. Bott and L. W. Tu, *Differential Forms in Algebraic Topology*, Springer GTM 82 (1982).
+3. L. de Moura and S. Ullrich, *The Lean 4 Theorem Prover and Programming Language*, CADE-28, LNCS 12699, 625–635 (2021).
+4. The mathlib Community, *The Lean Mathematical Library*, Proc. CPP 2020, 367–381 (2020).
+5. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–4 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

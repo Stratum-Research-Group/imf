@@ -92,3 +92,11 @@ The top-level TinyTapeout tile (`tt_um_imf_orthoplex_tile.v`) integrating the 8-
 By uniting the formal zero-axiom certification of the Riemann Hypothesis zero-free region with an ultra-compact SkyWater 130nm tape-out layout requiring only $14.39\%$ of a single TinyTapeout tile ($24\text{ }\mu\text{W}$ at $50\text{ MHz}$), we demonstrate that Interaction Model Foundations delivers both epistemic mathematical truth and ultra-low-power physical silicon.
 
 ---
+
+### References
+
+1. L. de Moura and S. Ullrich, *The Lean 4 Theorem Prover and Programming Language*, CADE-28, LNCS 12699, 625–635 (2021).
+2. The mathlib Community, *The Lean Mathematical Library*, Proc. CPP 2020, 367–381 (2020).
+3. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–2 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

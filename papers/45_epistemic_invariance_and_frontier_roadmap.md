@@ -58,3 +58,13 @@ The IMF research arc systematically deconstructed and replaced every component o
 ## 4. Conclusion & The Frontier Ahead
 
 The completion of Paper 45 establishes Interaction Model Foundations as a mature, formally grounded, and hardware-accelerated alternative to the Transformer. By anchoring artificial intelligence in the mathematical immutability of Lie group manifolds, exceptional sphere packings, and interactive theorem proving, IMF delivers verified, efficient, and truly scalable intelligence.
+
+### References
+
+1. J. Axboe, *Efficient IO with io_uring* (2019), https://kernel.dk/io_uring.pdf.
+2. *io_uring_setup(2)*, Linux Programmer's Manual.
+3. L. de Moura and S. Ullrich, *The Lean 4 Theorem Prover and Programming Language*, CADE-28, LNCS 12699, 625–635 (2021).
+4. The mathlib Community, *The Lean Mathematical Library*, Proc. CPP 2020, 367–381 (2020).
+5. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–4 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

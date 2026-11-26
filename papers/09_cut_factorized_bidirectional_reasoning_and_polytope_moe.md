@@ -132,3 +132,14 @@ Evaluated zero-shot/held-out test streams across domain experts:
 
 ## 5. Conclusion
 By reframing the ETH crossing identity from a discrete retrieval heuristic into a continuous bidirectional cut-factorization mechanism, IMF resolves the exponential deduction collapse of standard autoregressive transformers. Together with Polytope Mixture-of-Experts and joint backward state reconstruction, this provides a mathematically verified foundation for multi-lingual code, formal mathematics, and long-horizon symbolic reasoning.
+
+### References
+
+1. J. H. Conway and N. J. A. Sloane, *Sphere Packings, Lattices and Groups*, 3rd ed., Springer (1999).
+2. M. S. Viazovska, *The sphere packing problem in dimension 8*, Ann. of Math. 185(3), 991–1015 (2017).
+3. N. Shazeer et al., *Outrageously Large Neural Networks: The Sparsely-Gated Mixture-of-Experts Layer*, arXiv:1701.06538 (2017).
+4. L. de Moura and S. Ullrich, *The Lean 4 Theorem Prover and Programming Language*, CADE-28, LNCS 12699, 625–635 (2021).
+5. The mathlib Community, *The Lean Mathematical Library*, Proc. CPP 2020, 367–381 (2020).
+6. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–5 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

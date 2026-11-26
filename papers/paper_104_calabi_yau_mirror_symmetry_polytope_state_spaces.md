@@ -43,3 +43,15 @@ All algebraic mirror invariants are certified with Strict Zero Axioms in Lean 4.
 - `MIRROR-01-HODGE-SWAP`: $h^{1,1}(X) = h^{2,1}(Y)$ reflection invariance.
 - `MIRROR-02-EULER-INVERSION`: $\chi(X) + \chi(Y) = 0$ topological sum cancellation.
 - `MIRROR-03-YUKAWA-CONSERVATION`: Metric volume conservation under complex-to-Kähler moduli translation.
+
+### References
+
+1. J. H. Conway and N. J. A. Sloane, *Sphere Packings, Lattices and Groups*, 3rd ed., Springer (1999).
+2. M. S. Viazovska, *The sphere packing problem in dimension 8*, Ann. of Math. 185(3), 991–1015 (2017).
+3. C. Voisin, *Hodge Theory and Complex Algebraic Geometry I*, Cambridge Univ. Press (2002).
+4. P. Griffiths and J. Harris, *Principles of Algebraic Geometry*, Wiley (1978).
+5. L. de Moura and S. Ullrich, *The Lean 4 Theorem Prover and Programming Language*, CADE-28, LNCS 12699, 625–635 (2021).
+6. The mathlib Community, *The Lean Mathematical Library*, Proc. CPP 2020, 367–381 (2020).
+7. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–6 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

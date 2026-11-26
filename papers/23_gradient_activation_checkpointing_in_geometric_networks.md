@@ -56,3 +56,11 @@ $$\text{Peak Activation VRAM} = O(B \cdot T \cdot D) + \max_l \operatorname{Inte
 | **IMF-1.1B (16 Layers, $T=128$)** | $> 24.0\text{ GB}$ (**CUDA OOM**) | **$4.8\text{ GB}$** | **Enables Scaling** | $1.42\text{s}$ (Stable) |
 
 Activation checkpointing introduces a modest computational recomputation overhead ($\sim 15\%$) while eliminating the memory bottleneck entirely, allowing models up to 1.1 Billion parameters to be trained on a single 16GB GPU.
+
+### References
+
+1. L. de Moura and S. Ullrich, *The Lean 4 Theorem Prover and Programming Language*, CADE-28, LNCS 12699, 625–635 (2021).
+2. The mathlib Community, *The Lean Mathematical Library*, Proc. CPP 2020, 367–381 (2020).
+3. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–2 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

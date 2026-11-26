@@ -47,3 +47,17 @@ The verification certifies that screw velocity fields generate valid Hamiltonian
 
 ### 3. Conclusion
 Machine-certified Jacobi identity compliance validates that dual-quaternion speculative rollouts preserve symplectic phase space volume across multi-step forecasting horizons.
+
+### References
+
+1. J. E. Humphreys, *Introduction to Lie Algebras and Representation Theory*, Springer GTM 9 (1972).
+2. B. C. Hall, *Lie Groups, Lie Algebras, and Representations: An Elementary Introduction*, Springer GTM 222 (2015).
+3. D. Hestenes and G. Sobczyk, *Clifford Algebra to Geometric Calculus*, Reidel (1984).
+4. M. R. Hestenes, *Inversion of matrices by biorthogonalization and related results*, J. SIAM 6(1), 51–90 (1958).
+5. J. Demmel and K. Veselić, *Jacobi's method is more accurate than QR*, SIAM J. Matrix Anal. Appl. 13(4), 1204–1245 (1992).
+6. G. H. Golub and C. F. Van Loan, *Matrix Computations*, 4th ed., Johns Hopkins Univ. Press (2013).
+7. L. de Moura and S. Ullrich, *The Lean 4 Theorem Prover and Programming Language*, CADE-28, LNCS 12699, 625–635 (2021).
+8. The mathlib Community, *The Lean Mathematical Library*, Proc. CPP 2020, 367–381 (2020).
+9. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–8 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

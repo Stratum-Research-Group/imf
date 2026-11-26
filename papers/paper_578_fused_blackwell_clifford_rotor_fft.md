@@ -31,3 +31,13 @@ In `csrc/fused_blackwell_bit_clifford_fft.cu`:
 - Butterfly stages execute radix-2 Cooley-Tukey decimation-in-time across 4 stages ($N = 16$).
 - Data is permuted using the hardware `__brev` bit-reversal intrinsic.
 - Execution reaches $1.32\ \mu\text{s}$ per 2,048 multivectors, representing an $18.2\times$ acceleration over scalar CPU FFT pipelines.
+
+### References
+
+1. D. Hestenes and G. Sobczyk, *Clifford Algebra to Geometric Calculus*, Reidel (1984).
+2. T. Dao et al., *FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness*, NeurIPS 35, arXiv:2205.14135 (2022).
+3. P. Tillet, H.-T. Kung and D. Cox, *Triton: An Intermediate Language and Compiler for Tiled Neural Network Computations*, Proc. MAPL (2019).
+4. NVIDIA, *CUDA C++ Programming Guide*, https://docs.nvidia.com/cuda/cuda-c-programming-guide/.
+5. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–4 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

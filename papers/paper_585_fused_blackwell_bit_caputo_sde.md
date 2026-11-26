@@ -34,3 +34,13 @@ In `csrc/fused_blackwell_bit_caputo_sde.cu`:
 - The vector state $y \in \mathbb{R}^{16}$ and history accumulator $H \in \mathbb{R}^{16}$ reside in thread registers.
 - Neural drift $W \tanh(y)$ is evaluated using shared memory caching for $W \in \mathbb{R}^{16 \times 16}$.
 - Global DRAM traffic is eliminated during time integration, yielding a $28\times$ acceleration over naive CPU/GPU history-convolution solvers.
+
+### References
+
+1. T. Dao et al., *FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness*, NeurIPS 35, arXiv:2205.14135 (2022).
+2. P. Tillet, H.-T. Kung and D. Cox, *Triton: An Intermediate Language and Compiler for Tiled Neural Network Computations*, Proc. MAPL (2019).
+3. NVIDIA, *CUDA C++ Programming Guide*, https://docs.nvidia.com/cuda/cuda-c-programming-guide/.
+4. R. T. Q. Chen et al., *Neural Ordinary Differential Equations*, NeurIPS 31, arXiv:1806.07366 (2018).
+5. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–4 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

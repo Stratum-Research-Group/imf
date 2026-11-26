@@ -58,3 +58,12 @@ Tested across 1,000,000 synthetic tokens distributed over 128 experts:
 
 ### 3. Conclusion
 Deligne-Lusztig character varieties supply an analytically rigorous mechanism for expert specialization, providing algebraic isolation without empirical load-balancing penalties.
+
+### References
+
+1. J. E. Humphreys, *Introduction to Lie Algebras and Representation Theory*, Springer GTM 9 (1972).
+2. B. C. Hall, *Lie Groups, Lie Algebras, and Representations: An Elementary Introduction*, Springer GTM 222 (2015).
+3. I. M. Isaacs, *Character Theory of Finite Groups*, Academic Press (1976).
+4. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–3 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

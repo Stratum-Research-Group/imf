@@ -31,3 +31,14 @@ In `csrc/fused_blackwell_bit_lorentz_add.cu`:
 - Inner products $\langle u, v \rangle$, $\|u\|^2$, and $\|v\|^2$ are evaluated with single-cycle fused multiply-accumulate operations.
 - Denominator evaluation $1 + 2\langle u, v \rangle + \|u\|^2 \|v\|^2$ is protected against boundary singularities via numerical clamping.
 - Benchmarked on NVIDIA RTX 5060 Ti 16GB, the kernel achieves over $4.8 \times 10^9\text{ additions/sec}$.
+
+### References
+
+1. A. A. Ungar, *Analytic Hyperbolic Geometry and Albert Einstein's Special Theory of Relativity*, World Scientific (2008).
+2. M. Nickel and D. Kiela, *Poincaré Embeddings for Learning Hierarchical Representations*, NeurIPS 30 (2017).
+3. T. Dao et al., *FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness*, NeurIPS 35, arXiv:2205.14135 (2022).
+4. P. Tillet, H.-T. Kung and D. Cox, *Triton: An Intermediate Language and Compiler for Tiled Neural Network Computations*, Proc. MAPL (2019).
+5. NVIDIA, *CUDA C++ Programming Guide*, https://docs.nvidia.com/cuda/cuda-c-programming-guide/.
+6. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–5 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

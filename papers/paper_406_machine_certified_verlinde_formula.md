@@ -79,3 +79,11 @@ The formal proof compiled with exit code 0 using the core Lean 4 compiler with 0
 
 ### 3. Application to Tensor Network Contractions
 The Verlinde formula ensures that decomposing multi-head attention into topological fusion channels preserves global norm conservation and eliminates vanishing/exploding gradients during deep recursive reasoning.
+
+### References
+
+1. L. de Moura and S. Ullrich, *The Lean 4 Theorem Prover and Programming Language*, CADE-28, LNCS 12699, 625–635 (2021).
+2. The mathlib Community, *The Lean Mathematical Library*, Proc. CPP 2020, 367–381 (2020).
+3. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–2 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

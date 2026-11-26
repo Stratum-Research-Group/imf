@@ -86,3 +86,11 @@ By establishing the continuous Parquet synchronization pipeline (`imf/daemon_par
 ## 5. Conclusion & The Road to 100M Steps
 
 The completion of 50,000,000 certified deductive proof steps demonstrates that autonomous machine reasoning can be scaled continuously without catastrophic drift, representation collapse, or logical corruption. With 100% zero-axiom verification enforced by Lean 4 Core, the IMF architecture establishes an open, verifiable foundation for autonomous self-improving intelligence.
+
+### References
+
+1. L. de Moura and S. Ullrich, *The Lean 4 Theorem Prover and Programming Language*, CADE-28, LNCS 12699, 625–635 (2021).
+2. The mathlib Community, *The Lean Mathematical Library*, Proc. CPP 2020, 367–381 (2020).
+3. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–2 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

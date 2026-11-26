@@ -73,3 +73,16 @@ Zero `sorry` or `admit` tokens exist anywhere in the pipeline.
 
 ### 4. Conclusion
 Paper 89 completes the formalization of Hodge cycle orthogonal splitting and Grothendieck Chern character ring homomorphisms within the IMF formal reasoning substrate, bridging foundational algebraic geometry with autonomous verified theorem proving.
+
+### References
+
+1. C. Voisin, *Hodge Theory and Complex Algebraic Geometry I*, Cambridge Univ. Press (2002).
+2. P. Griffiths and J. Harris, *Principles of Algebraic Geometry*, Wiley (1978).
+3. A. Hatcher, *Algebraic Topology*, Cambridge Univ. Press (2002).
+4. R. Bott and L. W. Tu, *Differential Forms in Algebraic Topology*, Springer GTM 82 (1982).
+5. I. M. Isaacs, *Character Theory of Finite Groups*, Academic Press (1976).
+6. L. de Moura and S. Ullrich, *The Lean 4 Theorem Prover and Programming Language*, CADE-28, LNCS 12699, 625–635 (2021).
+7. The mathlib Community, *The Lean Mathematical Library*, Proc. CPP 2020, 367–381 (2020).
+8. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–7 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

@@ -101,3 +101,13 @@ The signature $(1, h^{1,1} - 1)$ enforces hyperbolic geometry on the projectiviz
 $$\mathcal{C}_X = \left\{ [D] \in \mathbb{P}(\operatorname{NS}(X)_{\mathbb{R}}) \;\middle|\; D^2 > 0 \right\}$$
 
 This hyperbolic space guarantees that gradient descents on polyhedral neural energy surfaces converge to unique geodesic minima without limit cycles.
+
+### References
+
+1. C. Voisin, *Hodge Theory and Complex Algebraic Geometry I*, Cambridge Univ. Press (2002).
+2. P. Griffiths and J. Harris, *Principles of Algebraic Geometry*, Wiley (1978).
+3. L. de Moura and S. Ullrich, *The Lean 4 Theorem Prover and Programming Language*, CADE-28, LNCS 12699, 625–635 (2021).
+4. The mathlib Community, *The Lean Mathematical Library*, Proc. CPP 2020, 367–381 (2020).
+5. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–4 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

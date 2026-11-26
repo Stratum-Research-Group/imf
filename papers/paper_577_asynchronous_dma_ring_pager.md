@@ -29,3 +29,11 @@ The `FusedDmaAsyncPager` employs a lock-free submission ring buffer of capacity 
 - **`FLUSH`**: Triggers hardware barrier sync (`fsync`).
 
 Empirical benchmarks demonstrate zero page faults and constant sub-microsecond submission overhead.
+
+### References
+
+1. J. Axboe, *Efficient IO with io_uring* (2019), https://kernel.dk/io_uring.pdf.
+2. *io_uring_setup(2)*, Linux Programmer's Manual.
+3. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–2 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

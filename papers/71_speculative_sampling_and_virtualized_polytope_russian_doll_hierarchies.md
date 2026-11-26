@@ -118,3 +118,16 @@ All benchmarks were executed on an actual single **NVIDIA GeForce RTX 5060 Ti** 
 By uniting Virtualized Polytope Russian-Doll hierarchies ($3.98 \times 10^{11}\times$ procedural compression) with Leech $\Lambda_{24}$ MoPE speculative drafting ($57.2\text{ tok/s}$ on consumer hardware), the Interaction Model Foundations eliminate the hardware divide between planetary compute clusters and local edge workstations. Large 100B parameter intelligence is now formally verifiable, computationally tractable, and fully runnable on standard 16 GB silicon.
 
 ---
+
+### References
+
+1. J. H. Conway and N. J. A. Sloane, *Sphere Packings, Lattices and Groups*, 3rd ed., Springer (1999).
+2. M. S. Viazovska, *The sphere packing problem in dimension 8*, Ann. of Math. 185(3), 991–1015 (2017).
+3. M. J. Ablowitz and P. A. Clarkson, *Solitons, Nonlinear Evolution Equations and Inverse Scattering*, Cambridge Univ. Press (1991).
+4. R. Hirota, *The Direct Method in Soliton Theory*, Cambridge Univ. Press (2004).
+5. L. D. Faddeev and L. A. Takhtajan, *Hamiltonian Methods in the Theory of Solitons*, Springer (1987).
+6. L. de Moura and S. Ullrich, *The Lean 4 Theorem Prover and Programming Language*, CADE-28, LNCS 12699, 625–635 (2021).
+7. The mathlib Community, *The Lean Mathematical Library*, Proc. CPP 2020, 367–381 (2020).
+8. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–7 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

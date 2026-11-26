@@ -99,3 +99,13 @@ Paper 79 and the accompanying register-transfer level (RTL) specifications trans
 The completion of the eightieth research monograph marks the closure of the foundational research epoch and the beginning of autonomous silicon-level realization. By harmonizing non-commutative Lie algebras, high-dimensional discrete lattice geometry, machine-checked epistemic soundness, and native orthoplex microarchitecture, the Interaction Model Foundations demonstrate that sustainable, unbounded artificial intelligence does not require gigawatt datacenters. It requires geometric truth, mathematical discipline, and a sovereign substrate that improves itself uninterrupted.
 
 ---
+
+### References
+
+1. J. E. Humphreys, *Introduction to Lie Algebras and Representation Theory*, Springer GTM 9 (1972).
+2. B. C. Hall, *Lie Groups, Lie Algebras, and Representations: An Elementary Introduction*, Springer GTM 222 (2015).
+3. L. de Moura and S. Ullrich, *The Lean 4 Theorem Prover and Programming Language*, CADE-28, LNCS 12699, 625–635 (2021).
+4. The mathlib Community, *The Lean Mathematical Library*, Proc. CPP 2020, 367–381 (2020).
+5. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–4 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

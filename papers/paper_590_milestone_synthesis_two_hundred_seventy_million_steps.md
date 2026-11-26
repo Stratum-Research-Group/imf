@@ -62,3 +62,17 @@ With 270M certified steps and 590 treatises sealed, the upcoming objectives focu
 1. Scaling MegaGym to the milestone of 300,000,000 certified steps (Blocks 271–300).
 2. Machine formalization of Grothendieck's Étale Cohomology and the Weil Conjectures in Lean 4.
 3. Multi-node NVLink peer synchronization across distributed dual-socket workstations.
+
+### References
+
+1. M. R. Hestenes, *Inversion of matrices by biorthogonalization and related results*, J. SIAM 6(1), 51–90 (1958).
+2. J. Demmel and K. Veselić, *Jacobi's method is more accurate than QR*, SIAM J. Matrix Anal. Appl. 13(4), 1204–1245 (1992).
+3. G. H. Golub and C. F. Van Loan, *Matrix Computations*, 4th ed., Johns Hopkins Univ. Press (2013).
+4. R. Hartshorne, *Algebraic Geometry*, Springer GTM 52 (1977).
+5. J. S. Milne, *Étale Cohomology*, Princeton Univ. Press (1980).
+6. P. Deligne, *La conjecture de Weil I*, Publ. Math. IHÉS 43, 273–307 (1974).
+7. S. Lang, *Algebra*, Springer GTM 211 (2002).
+8. M. F. Atiyah and I. G. Macdonald, *Introduction to Commutative Algebra*, Addison-Wesley (1969).
+9. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–8 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

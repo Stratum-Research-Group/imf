@@ -66,3 +66,11 @@ Benchmarked on an AMD Ryzen 5 7600X (Linux 6.18, NUMA node 0) with a pool of 1,0
 | **IMF Fused DMA NUMA Pool** | **$0.042\ \mu\text{s}$** | **$0.038\ \mu\text{s}$** | **Zero ($< 0.005\ \mu\text{s}$)** |
 
 The allocator achieves over **$400\times$ faster allocation** compared to CUDA host memory allocation routines while guaranteeing zero NUMA interconnect hopping.
+
+### References
+
+1. J. Axboe, *Efficient IO with io_uring* (2019), https://kernel.dk/io_uring.pdf.
+2. *io_uring_setup(2)*, Linux Programmer's Manual.
+3. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–2 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

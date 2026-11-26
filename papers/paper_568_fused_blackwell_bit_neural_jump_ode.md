@@ -54,3 +54,13 @@ Evaluated on NVIDIA RTX 5060 Ti 16GB (Blackwell SM 12.0) across a batch size of 
 | **IMF Fused Blackwell Jump-ODE** | **$8.82\ \mu\text{s}$** | **Zero DRAM (Registers)** | **$1.86 \times 10^6$** |
 
 The fused Blackwell kernel delivers a **$24.4\times$ speedup** over naive multi-kernel implementations and **$208\times$ speedup** over PyTorch `torchdiffeq`.
+
+### References
+
+1. T. Dao et al., *FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness*, NeurIPS 35, arXiv:2205.14135 (2022).
+2. P. Tillet, H.-T. Kung and D. Cox, *Triton: An Intermediate Language and Compiler for Tiled Neural Network Computations*, Proc. MAPL (2019).
+3. NVIDIA, *CUDA C++ Programming Guide*, https://docs.nvidia.com/cuda/cuda-c-programming-guide/.
+4. R. T. Q. Chen et al., *Neural Ordinary Differential Equations*, NeurIPS 31, arXiv:1806.07366 (2018).
+5. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–4 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

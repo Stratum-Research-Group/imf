@@ -35,3 +35,13 @@ Given a starting hidden representation $\hat{q}_1$ and an intermediate draft sta
 $$\operatorname{ScLERP}(t; \hat{q}_1, \hat{q}_2) = \hat{q}_1 (\hat{q}_1^* \hat{q}_2)^t$$
 
 Because ScLERP traverses the shortest path along the invariant Riemannian metric on $\mathrm{SE}(3)$, speculative verification is robust against non-linear manifold perturbations.
+
+### References
+
+1. D. Hestenes and G. Sobczyk, *Clifford Algebra to Geometric Calculus*, Reidel (1984).
+2. R. T. Q. Chen et al., *Neural Ordinary Differential Equations*, NeurIPS 31, arXiv:1806.07366 (2018).
+3. L. de Moura and S. Ullrich, *The Lean 4 Theorem Prover and Programming Language*, CADE-28, LNCS 12699, 625–635 (2021).
+4. The mathlib Community, *The Lean Mathematical Library*, Proc. CPP 2020, 367–381 (2020).
+5. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–4 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

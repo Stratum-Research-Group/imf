@@ -94,3 +94,11 @@ Instead of storing independent moments per parameter, we project gradients onto 
 - **For Production Pretraining (RTX 5060 Ti / H100)**: **Cut-RSI 8-Bit AdamW + LieRiemannianAdamW** (Report 21 & 22) provides the optimal balance: exactly 2 bytes/param ($2.0\text{ GB}$ for 1B), zero convergence loss, and lossless $SO(d)$ rotation geometry.
 - **For Extreme Memory Constrained Environments (16MB Limit)**: **Kronecker-Factorized AdamW** compresses state to **$12.4\text{ MB}$** for 1B parameters with minimal perplexity degradation.
 - **For Edge Microcontrollers (16KB Limit)**: **Nested Hypercube Shared Basis Optimization** achieves $4\text{ KB}$ to $16\text{ KB}$ global state by routing gradients into shared geometric cells.
+
+### References
+
+1. L. de Moura and S. Ullrich, *The Lean 4 Theorem Prover and Programming Language*, CADE-28, LNCS 12699, 625–635 (2021).
+2. The mathlib Community, *The Lean Mathematical Library*, Proc. CPP 2020, 367–381 (2020).
+3. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–2 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

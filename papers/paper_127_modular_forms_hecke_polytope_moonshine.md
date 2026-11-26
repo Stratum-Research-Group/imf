@@ -97,3 +97,13 @@ In `imf/modular_moonshine_pipeline.py`:
 - **Shell Symmetry**: Evaluated across 196,560 minimal vectors, the angular separation between any pair of nearest neighbors is strictly $\arccos(1/2) = \pi/3$ or $\arccos(0) = \pi/2$.
 - **Entropy Bound**: Modular Hecke dispatch achieves Shannon entropy $H = 17.58\text{ bits}$, exactly matching the theoretical limit $\log_2(196560) \approx 17.584$.
 - **Lean 4 Proof**: Certified with strictly 0 axioms.
+
+### References
+
+1. J. H. Conway and N. J. A. Sloane, *Sphere Packings, Lattices and Groups*, 3rd ed., Springer (1999).
+2. M. S. Viazovska, *The sphere packing problem in dimension 8*, Ann. of Math. 185(3), 991–1015 (2017).
+3. L. de Moura and S. Ullrich, *The Lean 4 Theorem Prover and Programming Language*, CADE-28, LNCS 12699, 625–635 (2021).
+4. The mathlib Community, *The Lean Mathematical Library*, Proc. CPP 2020, 367–381 (2020).
+5. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–4 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

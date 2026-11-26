@@ -62,3 +62,17 @@ All foundational theorems governing Čech complex nilpotence, sheaf gluing uniqu
 - `sheaf_03_sheaf_laplacian_harmonic_consensus`: Certified ($619.0\text{ ms}$).
 - `sheaf_04_zeroth_cohomology_consensus`: Certified ($214.1\text{ ms}$).
 - `sheaf_05_first_cohomology_obstruction_bound`: Certified ($550.3\text{ ms}$).
+
+### References
+
+1. N. Shazeer et al., *Outrageously Large Neural Networks: The Sparsely-Gated Mixture-of-Experts Layer*, arXiv:1701.06538 (2017).
+2. R. Hartshorne, *Algebraic Geometry*, Springer GTM 52 (1977).
+3. J. S. Milne, *Étale Cohomology*, Princeton Univ. Press (1980).
+4. P. Deligne, *La conjecture de Weil I*, Publ. Math. IHÉS 43, 273–307 (1974).
+5. A. Hatcher, *Algebraic Topology*, Cambridge Univ. Press (2002).
+6. R. Bott and L. W. Tu, *Differential Forms in Algebraic Topology*, Springer GTM 82 (1982).
+7. L. de Moura and S. Ullrich, *The Lean 4 Theorem Prover and Programming Language*, CADE-28, LNCS 12699, 625–635 (2021).
+8. The mathlib Community, *The Lean Mathematical Library*, Proc. CPP 2020, 367–381 (2020).
+9. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–8 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

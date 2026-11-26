@@ -143,3 +143,11 @@ When tested against proofs with injected `sorry` or ungrounded assertions (`test
 ## 6. Conclusion
 
 Cut-RSI (AETHER) demonstrates that Recursive Self-Improvement is not a speculative philosophical concept, but an actionable, mathematically grounded architecture. By binding candidate generation to an unforgiving compiler and decomposing exponential search trees across intermediate ETH cuts, systems can autonomously generate, verify, and incorporate capability enhancements with mathematical certainty.
+
+### References
+
+1. L. de Moura and S. Ullrich, *The Lean 4 Theorem Prover and Programming Language*, CADE-28, LNCS 12699, 625–635 (2021).
+2. The mathlib Community, *The Lean Mathematical Library*, Proc. CPP 2020, 367–381 (2020).
+3. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–2 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

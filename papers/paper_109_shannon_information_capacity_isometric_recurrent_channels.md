@@ -77,3 +77,17 @@ This mathematical identity guarantees that the capacity of the recurrent memory 
 ## 3. Lean 4 Formal Verification (Zero Axioms)
 
 The core identities of differential entropy volume preservation ($|\det R| = 1$), power preservation ($R^T R = I$), and SNR non-decay are certified in Lean 4 under strict `#print axioms` validation in `imf/shannon_capacity_pipeline.py`.
+
+### References
+
+1. A. Vaswani et al., *Attention Is All You Need*, NeurIPS 30 (2017).
+2. A. Katharopoulos et al., *Transformers are RNNs: Fast Autoregressive Transformers with Linear Attention*, ICML (2020).
+3. A. Gu and T. Dao, *Mamba: Linear-Time Sequence Modeling with Selective State Spaces*, arXiv:2312.00752 (2023).
+4. A. Hatcher, *Algebraic Topology*, Cambridge Univ. Press (2002).
+5. R. Bott and L. W. Tu, *Differential Forms in Algebraic Topology*, Springer GTM 82 (1982).
+6. R. Landauer, *Irreversibility and heat generation in the computing process*, IBM J. Res. Dev. 5(3), 183–191 (1961).
+7. L. de Moura and S. Ullrich, *The Lean 4 Theorem Prover and Programming Language*, CADE-28, LNCS 12699, 625–635 (2021).
+8. The mathlib Community, *The Lean Mathematical Library*, Proc. CPP 2020, 367–381 (2020).
+9. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–8 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

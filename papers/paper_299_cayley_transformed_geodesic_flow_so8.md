@@ -26,3 +26,15 @@ In `csrc/fused_geodesic_flow.cu`, this transform is implemented using unrolled s
 $$R \approx I - 2\Omega + 2\Omega^2$$
 
 This guarantees exact orthogonality $R^T R = I$ and unit determinant $\det(R) = 1$ to single-precision floating point limits, ensuring energy conservation during token sequence processing.
+
+### References
+
+1. A. Vaswani et al., *Attention Is All You Need*, NeurIPS 30 (2017).
+2. A. Katharopoulos et al., *Transformers are RNNs: Fast Autoregressive Transformers with Linear Attention*, ICML (2020).
+3. A. Gu and T. Dao, *Mamba: Linear-Time Sequence Modeling with Selective State Spaces*, arXiv:2312.00752 (2023).
+4. A. Hatcher, *Algebraic Topology*, Cambridge Univ. Press (2002).
+5. R. Bott and L. W. Tu, *Differential Forms in Algebraic Topology*, Springer GTM 82 (1982).
+6. R. T. Q. Chen et al., *Neural Ordinary Differential Equations*, NeurIPS 31, arXiv:1806.07366 (2018).
+7. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–6 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

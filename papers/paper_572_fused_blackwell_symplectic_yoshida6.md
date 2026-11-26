@@ -35,3 +35,14 @@ In `csrc/fused_blackwell_bit_yoshida6.cu`, the 16 coordinate pairs $(q_d, p_d)$ 
 | Standard Runge-Kutta 4th (RK4) | 4th Order | Non-zero ($O(t \cdot \Delta t^4)$) | $4.85\ \mu\text{s}$ |
 | 2nd-Order Leapfrog Verlet | 2nd Order | Zero ($O(1)$ oscillation) | $1.12\ \mu\text{s}$ |
 | **IMF Fused Blackwell Yoshida 6** | **6th Order Symplectic** | **Zero ($< 10^{-12}$ energy drift)** | **$1.74\ \mu\text{s}$** |
+
+### References
+
+1. T. Dao et al., *FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness*, NeurIPS 35, arXiv:2205.14135 (2022).
+2. P. Tillet, H.-T. Kung and D. Cox, *Triton: An Intermediate Language and Compiler for Tiled Neural Network Computations*, Proc. MAPL (2019).
+3. NVIDIA, *CUDA C++ Programming Guide*, https://docs.nvidia.com/cuda/cuda-c-programming-guide/.
+4. E. Hairer, C. Lubich and G. Wanner, *Geometric Numerical Integration*, 2nd ed., Springer (2006).
+5. H. Yoshida, *Construction of higher order symplectic integrators*, Phys. Lett. A 150, 262–268 (1990).
+6. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–5 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

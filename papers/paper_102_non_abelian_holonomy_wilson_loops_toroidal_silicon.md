@@ -49,3 +49,12 @@ All gauge invariance lemmas are certified with Strict Zero Axioms in Lean 4.33.1
 - `GAUGE-01-WILSON-IDENTITY`: For zero-curvature connections, $W_{\square} = \operatorname{Tr}(I) = N$.
 - `GAUGE-02-HOLONOMY-INVOLUTION`: Reverse loop traversal satisfies $U_{C^{-1}} = U_C^{-1} = U_C^T$.
 - `GAUGE-03-TOPOLOGICAL-WINDING`: Homotopic loops have identical holonomies.
+
+### References
+
+1. M. V. Berry, *Quantal phase factors accompanying adiabatic changes*, Proc. R. Soc. Lond. A 392, 45–57 (1984).
+2. L. de Moura and S. Ullrich, *The Lean 4 Theorem Prover and Programming Language*, CADE-28, LNCS 12699, 625–635 (2021).
+3. The mathlib Community, *The Lean Mathematical Library*, Proc. CPP 2020, 367–381 (2020).
+4. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–3 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

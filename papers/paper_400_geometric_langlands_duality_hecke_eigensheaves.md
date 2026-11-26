@@ -67,3 +67,11 @@ Treatise 400 marks a foundational milestone in the mathematical formalization of
 - **Total Treatises Published**: 400 formal peer-reviewed mathematical monographs.
 - **Certified Steps**: 130,000,000 steps ($0$ `sorry`, $0$ unproven axioms in Lean 4).
 - **Physical Kernels**: Fully realized on Blackwell SM 12.0 and Linux kernel-bypass DMA.
+
+### References
+
+1. L. de Moura and S. Ullrich, *The Lean 4 Theorem Prover and Programming Language*, CADE-28, LNCS 12699, 625–635 (2021).
+2. The mathlib Community, *The Lean Mathematical Library*, Proc. CPP 2020, 367–381 (2020).
+3. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–2 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

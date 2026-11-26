@@ -71,3 +71,14 @@ theorem topological_phase_periodicity (w : Int) (k : Int) :
 ## 4. Hardware Realization in SkyWater 130nm
 
 When mapped to physical layout, the closed toroidal routing tracks act as discrete microwave resonators whose modes are locked to anyonic braid representations. Multi-corner PVT signoff confirms that even under extreme slow-slow ($1.62\text{V}, 125^\circ\text{C}$) conditions, the topological phase boundary prevents crosstalk-induced clock skew beyond $24.8\text{ ps}$.
+
+### References
+
+1. C. Voisin, *Hodge Theory and Complex Algebraic Geometry I*, Cambridge Univ. Press (2002).
+2. P. Griffiths and J. Harris, *Principles of Algebraic Geometry*, Wiley (1978).
+3. I. M. Isaacs, *Character Theory of Finite Groups*, Academic Press (1976).
+4. L. de Moura and S. Ullrich, *The Lean 4 Theorem Prover and Programming Language*, CADE-28, LNCS 12699, 625–635 (2021).
+5. The mathlib Community, *The Lean Mathematical Library*, Proc. CPP 2020, 367–381 (2020).
+6. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–5 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

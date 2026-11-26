@@ -59,3 +59,14 @@ Evaluated on 1,000,000 synthetic tokens distributed across 128 experts:
 
 ### 3. Conclusion
 Kazhdan-Lusztig cell representations provide an algebraic foundation for expert clustering, mapping the deep representation theory of Hecke algebras into optimal neural routing paths.
+
+### References
+
+1. J. E. Humphreys, *Introduction to Lie Algebras and Representation Theory*, Springer GTM 9 (1972).
+2. B. C. Hall, *Lie Groups, Lie Algebras, and Representations: An Elementary Introduction*, Springer GTM 222 (2015).
+3. A. Vaswani et al., *Attention Is All You Need*, NeurIPS 30 (2017).
+4. A. Katharopoulos et al., *Transformers are RNNs: Fast Autoregressive Transformers with Linear Attention*, ICML (2020).
+5. A. Gu and T. Dao, *Mamba: Linear-Time Sequence Modeling with Selective State Spaces*, arXiv:2312.00752 (2023).
+6. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–5 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

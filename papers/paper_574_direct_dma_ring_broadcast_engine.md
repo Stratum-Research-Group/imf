@@ -30,3 +30,11 @@ The `FusedDmaRingBroadcastEngine` maps a cacheline-aligned `BroadcastRing` conta
 | Unix Domain Sockets | OS Kernel IPC | $8.4\ \mu\text{s}$ | 22% CPU core |
 | POSIX Message Queues | `mq_timedsend` | $5.1\ \mu\text{s}$ | 14% CPU core |
 | **IMF Fused Direct-DMA Ring** | **Lock-Free POSIX SHM** | **$0.076\ \mu\text{s}$** | **$< 0.5\%$ CPU core** |
+
+### References
+
+1. J. Axboe, *Efficient IO with io_uring* (2019), https://kernel.dk/io_uring.pdf.
+2. *io_uring_setup(2)*, Linux Programmer's Manual.
+3. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–2 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

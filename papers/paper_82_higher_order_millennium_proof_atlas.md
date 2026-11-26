@@ -124,3 +124,11 @@ All seven Tier-2 theorems were compiled and verified against the standalone Lean
 The Millennium Deep Atlas demonstrates that formal mathematical grounding can scale systematically from primary definitions to deep structural lemmas across the most formidable domains of mathematics. Grounded in Lean 4 and reinforced by continuous RSI experience logging, IMF continues to bridge abstract algebraic topology with autonomous artificial intelligence.
 
 ---
+
+### References
+
+1. L. de Moura and S. Ullrich, *The Lean 4 Theorem Prover and Programming Language*, CADE-28, LNCS 12699, 625–635 (2021).
+2. The mathlib Community, *The Lean Mathematical Library*, Proc. CPP 2020, 367–381 (2020).
+3. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–2 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

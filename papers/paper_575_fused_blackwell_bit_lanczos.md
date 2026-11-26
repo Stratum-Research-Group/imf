@@ -32,3 +32,12 @@ Benchmarked on NVIDIA RTX 5060 Ti 16GB (Blackwell SM 12.0) across 512 matrices:
 - **cuBLAS / cuSOLVER Multi-Pass**: $44.1\ \mu\text{s}$
 - **IMF In-Register Lanczos**: **$2.15\ \mu\text{s}$** ($20.5\times$ speedup)
 - **Spectral Radius Relative Error**: $< 10^{-6}$
+
+### References
+
+1. M. R. Hestenes, *Inversion of matrices by biorthogonalization and related results*, J. SIAM 6(1), 51–90 (1958).
+2. J. Demmel and K. Veselić, *Jacobi's method is more accurate than QR*, SIAM J. Matrix Anal. Appl. 13(4), 1204–1245 (1992).
+3. G. H. Golub and C. F. Van Loan, *Matrix Computations*, 4th ed., Johns Hopkins Univ. Press (2013).
+4. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–3 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

@@ -35,3 +35,11 @@ Total certified payload across 50 blocks comprises $995.1\text{ MB}$ of deduplic
 ### 2. Empirical Deductive Saturation Dynamics
 
 As theorem volume expands toward $50\times 10^6$ steps, the syntactic branching factor of the proof search tree contracts from $\bar{b} \approx 4.2$ at Block 01 to $\bar{b} \approx 1.15$ at Block 50, reflecting high contextual reuse of proven lemma structures.
+
+### References
+
+1. L. de Moura and S. Ullrich, *The Lean 4 Theorem Prover and Programming Language*, CADE-28, LNCS 12699, 625–635 (2021).
+2. The mathlib Community, *The Lean Mathematical Library*, Proc. CPP 2020, 367–381 (2020).
+3. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–2 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

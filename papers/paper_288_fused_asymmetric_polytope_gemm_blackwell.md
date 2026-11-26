@@ -41,3 +41,14 @@ The kernel was compiled into a native Linux shared object using NVIDIA CUDA 12.8
 - **Optimization Flags**: `-O3 -shared -Xcompiler -fPIC`
 - **Output Binary**: `csrc/fused_blackwell_plq_gemm.so` ($1.1\text{ MB}$)
 - **Hardware Latency**: $8.285\text{ ms}$ for 100B layer swaps, delivering $13.20\text{ GB/s}$ sustained effective dequantization bandwidth while respecting the $8,192\text{ MB}$ strict VRAM ceiling.
+
+### References
+
+1. J. H. Conway and N. J. A. Sloane, *Sphere Packings, Lattices and Groups*, 3rd ed., Springer (1999).
+2. M. S. Viazovska, *The sphere packing problem in dimension 8*, Ann. of Math. 185(3), 991–1015 (2017).
+3. T. Dao et al., *FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness*, NeurIPS 35, arXiv:2205.14135 (2022).
+4. P. Tillet, H.-T. Kung and D. Cox, *Triton: An Intermediate Language and Compiler for Tiled Neural Network Computations*, Proc. MAPL (2019).
+5. NVIDIA, *CUDA C++ Programming Guide*, https://docs.nvidia.com/cuda/cuda-c-programming-guide/.
+6. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–5 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

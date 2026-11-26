@@ -75,3 +75,12 @@ The proof compiles cleanly in core Lean 4 with zero unproven axioms.
 
 ### 3. Application to Stable Neural Routing Orbits
 Representing token state trajectories as flat connections over fundamental group loops guarantees that optimization trajectories are contractible to unitary representation orbits, preventing explosive parameter drift.
+
+### References
+
+1. M. V. Berry, *Quantal phase factors accompanying adiabatic changes*, Proc. R. Soc. Lond. A 392, 45–57 (1984).
+2. L. de Moura and S. Ullrich, *The Lean 4 Theorem Prover and Programming Language*, CADE-28, LNCS 12699, 625–635 (2021).
+3. The mathlib Community, *The Lean Mathematical Library*, Proc. CPP 2020, 367–381 (2020).
+4. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–3 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

@@ -102,3 +102,16 @@ The 4-simplex coordinate bounds and reflection antisymmetry were certified in `l
 ## 6. Conclusion
 
 By integrating Grassmann tri-vector pseudoscalars, $\mathrm{SL}(D)$ dynamic manifold re-meshing, and quaternary simplicial bindings, IMF establishes an algebraically exact, stereochemically complete, and volume-invariant foundation for geometric deep learning and language modeling.
+
+### References
+
+1. J. H. Conway and N. J. A. Sloane, *Sphere Packings, Lattices and Groups*, 3rd ed., Springer (1999).
+2. M. S. Viazovska, *The sphere packing problem in dimension 8*, Ann. of Math. 185(3), 991–1015 (2017).
+3. A. Vaswani et al., *Attention Is All You Need*, NeurIPS 30 (2017).
+4. A. Katharopoulos et al., *Transformers are RNNs: Fast Autoregressive Transformers with Linear Attention*, ICML (2020).
+5. A. Gu and T. Dao, *Mamba: Linear-Time Sequence Modeling with Selective State Spaces*, arXiv:2312.00752 (2023).
+6. L. de Moura and S. Ullrich, *The Lean 4 Theorem Prover and Programming Language*, CADE-28, LNCS 12699, 625–635 (2021).
+7. The mathlib Community, *The Lean Mathematical Library*, Proc. CPP 2020, 367–381 (2020).
+8. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–7 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

@@ -66,3 +66,12 @@ The core thermodynamic conservation laws:
 2. Information bijection invertibility ($R^{-1} = R^T \implies \text{ker}(R) = \{0\}$),
 3. Zero entropy erasure ($S_{t+1} - S_t = 0$),
 are strictly verified in Lean 4 without non-standard axioms in `imf/thermodynamic_reversible_pipeline.py`.
+
+### References
+
+1. R. Landauer, *Irreversibility and heat generation in the computing process*, IBM J. Res. Dev. 5(3), 183–191 (1961).
+2. L. de Moura and S. Ullrich, *The Lean 4 Theorem Prover and Programming Language*, CADE-28, LNCS 12699, 625–635 (2021).
+3. The mathlib Community, *The Lean Mathematical Library*, Proc. CPP 2020, 367–381 (2020).
+4. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–3 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

@@ -74,3 +74,17 @@ All 5 theorems compiled with clean `#print axioms` confirming $0$ external axiom
 ## 4. Conclusion & Scaling
 
 With Block 00058 sealed at $58,000,000$ steps and partitioned into the Parquet telemetry lake, the IMF infrastructure maintains complete continuous distillation and verifiable mathematical soundness across both physical GPU hardware execution and interactive Lean 4 formal deduction.
+
+### References
+
+1. R. Hartshorne, *Algebraic Geometry*, Springer GTM 52 (1977).
+2. J. S. Milne, *Étale Cohomology*, Princeton Univ. Press (1980).
+3. P. Deligne, *La conjecture de Weil I*, Publ. Math. IHÉS 43, 273–307 (1974).
+4. S. Lang, *Algebra*, Springer GTM 211 (2002).
+5. M. F. Atiyah and I. G. Macdonald, *Introduction to Commutative Algebra*, Addison-Wesley (1969).
+6. D. Eisenbud, *Commutative Algebra with a View Toward Algebraic Geometry*, Springer GTM 150 (1995).
+7. L. de Moura and S. Ullrich, *The Lean 4 Theorem Prover and Programming Language*, CADE-28, LNCS 12699, 625–635 (2021).
+8. The mathlib Community, *The Lean Mathematical Library*, Proc. CPP 2020, 367–381 (2020).
+9. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–8 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

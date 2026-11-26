@@ -57,3 +57,17 @@ theorem etale_poincare_betti_zero (X : EtaleVarietyProfile) :
 ```
 
 The proof compiles cleanly under Lean `v4.18.0`.
+
+### References
+
+1. A. A. Ungar, *Analytic Hyperbolic Geometry and Albert Einstein's Special Theory of Relativity*, World Scientific (2008).
+2. M. Nickel and D. Kiela, *Poincaré Embeddings for Learning Hierarchical Representations*, NeurIPS 30 (2017).
+3. R. Hartshorne, *Algebraic Geometry*, Springer GTM 52 (1977).
+4. J. S. Milne, *Étale Cohomology*, Princeton Univ. Press (1980).
+5. P. Deligne, *La conjecture de Weil I*, Publ. Math. IHÉS 43, 273–307 (1974).
+6. A. Hatcher, *Algebraic Topology*, Cambridge Univ. Press (2002).
+7. R. Bott and L. W. Tu, *Differential Forms in Algebraic Topology*, Springer GTM 82 (1982).
+8. L. de Moura and S. Ullrich, *The Lean 4 Theorem Prover and Programming Language*, CADE-28, LNCS 12699, 625–635 (2021).
+9. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–8 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

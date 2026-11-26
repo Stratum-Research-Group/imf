@@ -69,3 +69,11 @@ Total 1,000-step training duration was **$23.17\text{ seconds}$** ($23.2\text{ m
 ## 3. Conclusion
 
 Virtualized Russian-doll polytope cells provide an empirical breakthrough in representational scaling: yielding astronomical state spaces without memory expansion, while accelerating 7B student distillation to sub-1.5 loss on consumer workstations.
+
+### References
+
+1. J. H. Conway and N. J. A. Sloane, *Sphere Packings, Lattices and Groups*, 3rd ed., Springer (1999).
+2. M. S. Viazovska, *The sphere packing problem in dimension 8*, Ann. of Math. 185(3), 991–1015 (2017).
+3. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–2 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

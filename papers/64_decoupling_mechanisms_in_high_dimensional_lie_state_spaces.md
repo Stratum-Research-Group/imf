@@ -96,3 +96,13 @@ We validated the three decoupling regimes on an 8-dimensional Lie group subspace
 ## 4. Conclusion
 
 Decoupling a spinning Lie manifold converts an untractable, chaotic high-dimensional rotation into a modular, energy-conserving collection of orthogonal clockwork mechanisms. By combining Cartan 2-plane diagonalization with direct-sum subalgebra splitting, foundation models can process non-commutative temporal structures while maintaining strict spatial and semantic isolation.
+
+### References
+
+1. J. E. Humphreys, *Introduction to Lie Algebras and Representation Theory*, Springer GTM 9 (1972).
+2. B. C. Hall, *Lie Groups, Lie Algebras, and Representations: An Elementary Introduction*, Springer GTM 222 (2015).
+3. L. de Moura and S. Ullrich, *The Lean 4 Theorem Prover and Programming Language*, CADE-28, LNCS 12699, 625–635 (2021).
+4. The mathlib Community, *The Lean Mathematical Library*, Proc. CPP 2020, 367–381 (2020).
+5. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–4 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

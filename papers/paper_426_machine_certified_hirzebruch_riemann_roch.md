@@ -89,3 +89,12 @@ For a smooth complex surface $S$ ($n = 2$), HRR reduces to the classical Noether
 $$\chi(S, \mathcal{O}_S) = \frac{c_1(T_S)^2 + c_2(T_S)}{12} = \frac{K_S^2 + e(S)}{12}$$
 
 This certified invariant governs the dimension of polyhedral moduli spaces in our high-dimensional neural representations.
+
+### References
+
+1. I. M. Isaacs, *Character Theory of Finite Groups*, Academic Press (1976).
+2. L. de Moura and S. Ullrich, *The Lean 4 Theorem Prover and Programming Language*, CADE-28, LNCS 12699, 625–635 (2021).
+3. The mathlib Community, *The Lean Mathematical Library*, Proc. CPP 2020, 367–381 (2020).
+4. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–3 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

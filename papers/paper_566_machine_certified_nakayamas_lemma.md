@@ -78,3 +78,14 @@ In the IMF cognitive manifold:
 - Modulations of internal weights and state activations are bounded by the radical of the representation ring.
 - Nakayama's Lemma guarantees that if an internal representation drifts into a regime spanned entirely by its contractive radical, the error energy decays strictly to zero.
 - This prevents recursive hallucination loops in long-horizon autonomous theorem proving.
+
+### References
+
+1. S. Lang, *Algebra*, Springer GTM 211 (2002).
+2. M. F. Atiyah and I. G. Macdonald, *Introduction to Commutative Algebra*, Addison-Wesley (1969).
+3. D. Eisenbud, *Commutative Algebra with a View Toward Algebraic Geometry*, Springer GTM 150 (1995).
+4. L. de Moura and S. Ullrich, *The Lean 4 Theorem Prover and Programming Language*, CADE-28, LNCS 12699, 625–635 (2021).
+5. The mathlib Community, *The Lean Mathematical Library*, Proc. CPP 2020, 367–381 (2020).
+6. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–5 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

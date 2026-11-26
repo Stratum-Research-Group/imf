@@ -93,3 +93,13 @@ In the IMF 32B Grand Corpus and distributed multi-agent inference fleets, the Do
 1. **Topological Compression**: Multi-agent working memory graphs are mapped onto Calabi-Yau 3-fold simplicial complexes.
 2. **Deformation Resilience**: Intermediate scratchpad reparameterizations correspond to continuous complex structure deformations, leaving the global semantic invariant $\chi(\mathcal{M}, \nu_M)$ rigorously untouched.
 3. **Formal Convergence**: Guarantees zero drift across multi-step planning loops.
+
+### References
+
+1. C. Voisin, *Hodge Theory and Complex Algebraic Geometry I*, Cambridge Univ. Press (2002).
+2. P. Griffiths and J. Harris, *Principles of Algebraic Geometry*, Wiley (1978).
+3. L. de Moura and S. Ullrich, *The Lean 4 Theorem Prover and Programming Language*, CADE-28, LNCS 12699, 625–635 (2021).
+4. The mathlib Community, *The Lean Mathematical Library*, Proc. CPP 2020, 367–381 (2020).
+5. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–4 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

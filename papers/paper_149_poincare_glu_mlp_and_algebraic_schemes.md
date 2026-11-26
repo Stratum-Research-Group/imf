@@ -93,3 +93,17 @@ All 5 proofs verified with execution times under $380\,\text{ms}$ each (total ru
 
 ### 4. Conclusion
 The integration of fused Poincaré SwiGLU MLP layers enables end-to-end Riemannian geometric networks to match and surpass standard Euclidean FFN throughputs, achieving $70.84\text{ M tok/s}$ at $4.72\times$ acceleration while establishing absolute formal soundness through zero-axiom machine certification.
+
+### References
+
+1. A. A. Ungar, *Analytic Hyperbolic Geometry and Albert Einstein's Special Theory of Relativity*, World Scientific (2008).
+2. M. Nickel and D. Kiela, *Poincaré Embeddings for Learning Hierarchical Representations*, NeurIPS 30 (2017).
+3. T. Dao et al., *FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness*, NeurIPS 35, arXiv:2205.14135 (2022).
+4. P. Tillet, H.-T. Kung and D. Cox, *Triton: An Intermediate Language and Compiler for Tiled Neural Network Computations*, Proc. MAPL (2019).
+5. NVIDIA, *CUDA C++ Programming Guide*, https://docs.nvidia.com/cuda/cuda-c-programming-guide/.
+6. R. Hartshorne, *Algebraic Geometry*, Springer GTM 52 (1977).
+7. J. S. Milne, *Étale Cohomology*, Princeton Univ. Press (1980).
+8. P. Deligne, *La conjecture de Weil I*, Publ. Math. IHÉS 43, 273–307 (1974).
+9. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–8 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

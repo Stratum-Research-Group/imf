@@ -69,3 +69,16 @@ Milestone 160M establishes two foundational results in core Lean 4:
 ### 4. Conclusion & The Path to 170M Steps
 
 Milestone 160M completes the unification of discrete bitplane attention primitives with classical projective algebraic geometry. Future scaling towards 170M steps will target distributed tensor-parallelism over InfiniBand/RoCE, non-commutative deformation quantization, and higher-order spectral invariants.
+
+### References
+
+1. A. Vaswani et al., *Attention Is All You Need*, NeurIPS 30 (2017).
+2. A. Katharopoulos et al., *Transformers are RNNs: Fast Autoregressive Transformers with Linear Attention*, ICML (2020).
+3. A. Gu and T. Dao, *Mamba: Linear-Time Sequence Modeling with Selective State Spaces*, arXiv:2312.00752 (2023).
+4. A. Hatcher, *Algebraic Topology*, Cambridge Univ. Press (2002).
+5. R. Bott and L. W. Tu, *Differential Forms in Algebraic Topology*, Springer GTM 82 (1982).
+6. L. de Moura and S. Ullrich, *The Lean 4 Theorem Prover and Programming Language*, CADE-28, LNCS 12699, 625–635 (2021).
+7. The mathlib Community, *The Lean Mathematical Library*, Proc. CPP 2020, 367–381 (2020).
+8. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–7 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

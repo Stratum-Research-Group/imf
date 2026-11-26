@@ -57,3 +57,14 @@ We decompose the structural invariants into five machine-certified lemmas in Lea
 5. **Hyperkähler Metric Rotation Invariance**: Realization of complex structures $I, J, K$ satisfying $I^2 = J^2 = K^2 = IJK = -1$.
 
 All proofs compile under `#print axioms` strictly empty.
+
+### References
+
+1. M. J. Ablowitz and P. A. Clarkson, *Solitons, Nonlinear Evolution Equations and Inverse Scattering*, Cambridge Univ. Press (1991).
+2. R. Hirota, *The Direct Method in Soliton Theory*, Cambridge Univ. Press (2004).
+3. L. D. Faddeev and L. A. Takhtajan, *Hamiltonian Methods in the Theory of Solitons*, Springer (1987).
+4. L. de Moura and S. Ullrich, *The Lean 4 Theorem Prover and Programming Language*, CADE-28, LNCS 12699, 625–635 (2021).
+5. The mathlib Community, *The Lean Mathematical Library*, Proc. CPP 2020, 367–381 (2020).
+6. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–5 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

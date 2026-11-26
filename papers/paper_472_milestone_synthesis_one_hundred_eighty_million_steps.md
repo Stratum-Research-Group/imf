@@ -72,3 +72,13 @@ Milestone 180M brings the framework to within $20\text{M}$ steps of the grand do
 1. Non-commutative spectral geometry and Connes cyclic homology.
 2. Distributed tensor-parallelism over InfiniBand RDMA.
 3. Higher-order algebraic cobordism rings in automated lemma synthesis.
+
+### References
+
+1. A. Hatcher, *Algebraic Topology*, Cambridge Univ. Press (2002).
+2. R. Bott and L. W. Tu, *Differential Forms in Algebraic Topology*, Springer GTM 82 (1982).
+3. L. de Moura and S. Ullrich, *The Lean 4 Theorem Prover and Programming Language*, CADE-28, LNCS 12699, 625–635 (2021).
+4. The mathlib Community, *The Lean Mathematical Library*, Proc. CPP 2020, 367–381 (2020).
+5. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–4 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

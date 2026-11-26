@@ -64,3 +64,10 @@ We tested the McKay ADE routing kernel against a standard top-$k$ linear router 
 
 ### 4. Conclusion
 The McKay correspondence provides an algebraically invariant topology for MoE expert coordination, mapping deep symmetries of 3D reflection groups into optimal neural routing paths.
+
+### References
+
+1. N. Shazeer et al., *Outrageously Large Neural Networks: The Sparsely-Gated Mixture-of-Experts Layer*, arXiv:1701.06538 (2017).
+2. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–1 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

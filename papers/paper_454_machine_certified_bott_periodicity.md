@@ -85,3 +85,13 @@ $ lean lean/BottPeriodicityProof.lean
 ### 3. Application to Clifford Lattice Invariance
 
 In our 8-dimensional Gosset $E_8$ and 24-dimensional Leech $\Lambda_{24}$ lattice quantizations, the mod-8 Bott periodicity guarantees that higher-dimensional coordinate projections maintain metric isometry, preventing dimensional distortion when embedding 100B-parameter models into sub-bit registers.
+
+### References
+
+1. A. Hatcher, *Algebraic Topology*, Cambridge Univ. Press (2002).
+2. R. Bott and L. W. Tu, *Differential Forms in Algebraic Topology*, Springer GTM 82 (1982).
+3. L. de Moura and S. Ullrich, *The Lean 4 Theorem Prover and Programming Language*, CADE-28, LNCS 12699, 625–635 (2021).
+4. The mathlib Community, *The Lean Mathematical Library*, Proc. CPP 2020, 367–381 (2020).
+5. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–4 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

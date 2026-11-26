@@ -108,3 +108,14 @@ Speculative decoding increases token generation throughput by **$4.85\times$**, 
 Paper 34 establishes that speculative decoding can be rigorously combined with higher-dimensional polytopic manifold architectures. By uniting Lean 4 formal distribution invariance with a high-performance native LibTorch C++20 runtime, the IMF foundation model achieves production-grade inference latency ($127+\text{ tok/s}$) on consumer hardware with verified mathematical soundness.
 
 ---
+
+### References
+
+1. A. Vaswani et al., *Attention Is All You Need*, NeurIPS 30 (2017).
+2. A. Katharopoulos et al., *Transformers are RNNs: Fast Autoregressive Transformers with Linear Attention*, ICML (2020).
+3. A. Gu and T. Dao, *Mamba: Linear-Time Sequence Modeling with Selective State Spaces*, arXiv:2312.00752 (2023).
+4. L. de Moura and S. Ullrich, *The Lean 4 Theorem Prover and Programming Language*, CADE-28, LNCS 12699, 625–635 (2021).
+5. The mathlib Community, *The Lean Mathematical Library*, Proc. CPP 2020, 367–381 (2020).
+6. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–5 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

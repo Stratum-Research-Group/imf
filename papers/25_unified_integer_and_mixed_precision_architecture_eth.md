@@ -90,3 +90,11 @@ We evaluated reconstruction fidelity, throughput, and memory scaling across all 
 1. **$8\times$ Weight Compression**: An entire 1.14B parameter foundation model compresses into **$570\text{ MB}$** of VRAM in INT4 format.
 2. **Sub-Byte Execution in SRAM**: Fused Triton unpacking avoids intermediate DRAM round-trips, achieving a **$4.12\times$ GEMM speedup** over FP32 baselines.
 3. **Formal Geometric Preservation**: Because weights sit on regular polytope lattice points, directional angle preservation remains $>98.4\%$, eliminating catastrophic precision collapse.
+
+### References
+
+1. L. de Moura and S. Ullrich, *The Lean 4 Theorem Prover and Programming Language*, CADE-28, LNCS 12699, 625–635 (2021).
+2. The mathlib Community, *The Lean Mathematical Library*, Proc. CPP 2020, 367–381 (2020).
+3. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–2 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

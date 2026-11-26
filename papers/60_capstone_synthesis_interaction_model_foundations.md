@@ -91,3 +91,12 @@ With the architectural foundation proven, the IMF project enters Phase 4:
 - Because the reward signal is governed exclusively by mathematical ground truth, this recursive self-improvement loop can continue indefinitely without human annotation, without reward gaming, and without model collapse.
 
 The 60-paper Interaction Model Foundations library stands as the formal bedrock for this evolutionary leap.
+
+### References
+
+1. R. T. Q. Chen et al., *Neural Ordinary Differential Equations*, NeurIPS 31, arXiv:1806.07366 (2018).
+2. L. de Moura and S. Ullrich, *The Lean 4 Theorem Prover and Programming Language*, CADE-28, LNCS 12699, 625–635 (2021).
+3. The mathlib Community, *The Lean Mathematical Library*, Proc. CPP 2020, 367–381 (2020).
+4. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–3 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

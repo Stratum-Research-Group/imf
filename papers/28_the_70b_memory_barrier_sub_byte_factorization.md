@@ -103,3 +103,15 @@ Rather than sequential chain drafting ($\gamma=4$ tokens sequentially), the Poly
 ## 5. Conclusion
 
 By coupling LittleBit-2 dual-path polytope factorization with the `.imf` container standard, native LibTorch C++ runtimes, and multi-token tree-speculative decoding, the 70-billion-parameter memory barrier is decisively resolved. Foundation models at 70B scale can run entirely within the 16 GB VRAM budget of a single consumer GPU, opening unprecedented frontiers for edge intelligence and autonomous reasoning.
+
+### References
+
+1. A. Vaswani et al., *Attention Is All You Need*, NeurIPS 30 (2017).
+2. A. Katharopoulos et al., *Transformers are RNNs: Fast Autoregressive Transformers with Linear Attention*, ICML (2020).
+3. A. Gu and T. Dao, *Mamba: Linear-Time Sequence Modeling with Selective State Spaces*, arXiv:2312.00752 (2023).
+4. E. Frantar et al., *GPTQ: Accurate Post-Training Quantization for Generative Pre-trained Transformers*, arXiv:2210.17323 (2022).
+5. S. Ma et al., *The Era of 1-bit LLMs: All Large Language Models are in 1.58 Bits*, arXiv:2402.17764 (2024).
+6. A. Tseng et al., *QuIP#: Even Better LLM Quantization with Hadamard Incoherence and Lattice Codebooks*, arXiv:2402.04396 (2024).
+7. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–6 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

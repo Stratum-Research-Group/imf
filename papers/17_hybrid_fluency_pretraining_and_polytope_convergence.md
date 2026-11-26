@@ -89,3 +89,16 @@ The model demonstrates strong emergent capitalization, grammatical syntax, docst
 ## 5. Conclusion
 
 By scaling vocabulary resolution to 4,096 BPE tokens and training across an 11.6M-token hybrid corpus, the IMF architecture reconciles non-Euclidean Lie group geometric representations with fluent, free-form natural language and programmatic reasoning. This foundation enables seamless instruction-tuning and speculative acceleration across cognitive agents.
+
+### References
+
+1. J. H. Conway and N. J. A. Sloane, *Sphere Packings, Lattices and Groups*, 3rd ed., Springer (1999).
+2. M. S. Viazovska, *The sphere packing problem in dimension 8*, Ann. of Math. 185(3), 991–1015 (2017).
+3. N. Shazeer et al., *Outrageously Large Neural Networks: The Sparsely-Gated Mixture-of-Experts Layer*, arXiv:1701.06538 (2017).
+4. A. Hatcher, *Algebraic Topology*, Cambridge Univ. Press (2002).
+5. R. Bott and L. W. Tu, *Differential Forms in Algebraic Topology*, Springer GTM 82 (1982).
+6. L. de Moura and S. Ullrich, *The Lean 4 Theorem Prover and Programming Language*, CADE-28, LNCS 12699, 625–635 (2021).
+7. The mathlib Community, *The Lean Mathematical Library*, Proc. CPP 2020, 367–381 (2020).
+8. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–7 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

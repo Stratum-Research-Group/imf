@@ -69,3 +69,16 @@ Milestone 165M is grounded in two machine-verified proofs in core Lean 4:
 ### 4. Conclusion & The Path to 170M Steps
 
 The completion of Milestone 165M firmly cements discrete bitplane attention and kernel-bypass I/O as the state-of-the-art paradigm for sub-bit machine intelligence. Future development towards 170M steps will focus on non-abelian gauge theory in neural state spaces, distributed tensor-parallelism over InfiniBand, and higher-order algebraic K-theory.
+
+### References
+
+1. E. Frantar et al., *GPTQ: Accurate Post-Training Quantization for Generative Pre-trained Transformers*, arXiv:2210.17323 (2022).
+2. S. Ma et al., *The Era of 1-bit LLMs: All Large Language Models are in 1.58 Bits*, arXiv:2402.17764 (2024).
+3. A. Tseng et al., *QuIP#: Even Better LLM Quantization with Hadamard Incoherence and Lattice Codebooks*, arXiv:2402.04396 (2024).
+4. C. Voisin, *Hodge Theory and Complex Algebraic Geometry I*, Cambridge Univ. Press (2002).
+5. P. Griffiths and J. Harris, *Principles of Algebraic Geometry*, Wiley (1978).
+6. L. de Moura and S. Ullrich, *The Lean 4 Theorem Prover and Programming Language*, CADE-28, LNCS 12699, 625–635 (2021).
+7. The mathlib Community, *The Lean Mathematical Library*, Proc. CPP 2020, 367–381 (2020).
+8. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–7 are standard background literature for the topic; they are not claimed to establish this paper's own results.*

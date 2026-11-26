@@ -44,3 +44,17 @@ The machine proof confirms that topological invariants synthesized during contin
 
 ### 3. Conclusion
 Formally verified Chern-Weil characteristic classes provide a mathematically rigorous guarantee of gauge invariance in geometric parameter representations.
+
+### References
+
+1. J. E. Humphreys, *Introduction to Lie Algebras and Representation Theory*, Springer GTM 9 (1972).
+2. B. C. Hall, *Lie Groups, Lie Algebras, and Representations: An Elementary Introduction*, Springer GTM 222 (2015).
+3. R. Hartshorne, *Algebraic Geometry*, Springer GTM 52 (1977).
+4. J. S. Milne, *Étale Cohomology*, Princeton Univ. Press (1980).
+5. P. Deligne, *La conjecture de Weil I*, Publ. Math. IHÉS 43, 273–307 (1974).
+6. C. Voisin, *Hodge Theory and Complex Algebraic Geometry I*, Cambridge Univ. Press (2002).
+7. P. Griffiths and J. Harris, *Principles of Algebraic Geometry*, Wiley (1978).
+8. I. M. Isaacs, *Character Theory of Finite Groups*, Academic Press (1976).
+9. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
+
+*Note: items 1–8 are standard background literature for the topic; they are not claimed to establish this paper's own results.*
