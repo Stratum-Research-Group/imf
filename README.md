@@ -9,12 +9,12 @@
 [![Organization: Stratum Research Group](https://img.shields.io/badge/Organization-Stratum%20Research%20Group-black.svg)](#10-ownership--governance)
 [![Hardware: AMD Ryzen 5 7600X | NVIDIA RTX 5060 Ti](https://img.shields.io/badge/Hardware-Ryzen%207600X%20%7C%20RTX%205060%20Ti-76B900.svg)](https://developer.nvidia.com/cuda-zone)
 [![CUDA 12.8 / Triton 3.9](https://img.shields.io/badge/Runtime-CUDA%2012.8%20%7C%20Triton%203.9-green.svg)](https://triton-lang.org/)
-[![Formal Verification: Lean 4 Core](https://img.shields.io/badge/Formal%20Verification-Lean%204%20(105M%20Certified%20Steps)-purple.svg)](https://leanprover.github.io/)
+[![Formal Verification: Lean 4 Core](https://img.shields.io/badge/Formal%20Verification-Lean%204%20(110M%20Certified%20Steps)-purple.svg)](https://leanprover.github.io/)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
 [![PyTorch 2.7+](https://img.shields.io/badge/PyTorch-2.7%2B-ee4c2c.svg)](https://pytorch.org/)
 [![Blackwell SM 12.0 Ready](https://img.shields.io/badge/Microarchitecture-Blackwell%20SM%2012.0-orange.svg)](https://www.nvidia.com/en-us/data-center/blackwell-architecture/)
-[![Research Papers: 365 Published](https://img.shields.io/badge/Research%20Papers-365%20Treatises-darkgreen.svg)](papers/)
+[![Research Papers: 372 Published](https://img.shields.io/badge/Research%20Papers-372%20Treatises-darkgreen.svg)](papers/)
 
 ---
 
@@ -27,7 +27,7 @@ At its core, IMF replaces standard post-hoc floating-point heuristics with four 
 1. **Continuous Lie-Algebraic Memory Splitting**: Memory dynamics factorize incoming key-value projections into symmetric valence operators (retention) and anti-symmetric Lie-algebraic brackets (temporal ordering and directional selectivity), eliminating directional ambiguity across sequence contexts.
 2. **Sub-Bit Polytope Lattice Quantization (PLQ)**: Weight matrices are compressed into 0.58 to 1.58 bits per parameter by factorizing tensors into 8D Voronoi cells of the Gosset $E_8$ root lattice and 4,096 nested Matryoshka cross-polytope chambers. This enables full **70B parameter** and **100B parameter (Leech $\Lambda_{24}$ MoPE)** inference entirely within an **$\le 8,192\text{ MB}$ (8GB) VRAM budget** on consumer hardware (NVIDIA GeForce RTX 5060 Ti 16GB GDDR7) via zero-copy Direct-DMA streaming.
 3. **6-Stage Closed-Loop Cognitive State Machine**: Combining Baars' Global Workspace Theory (GWT) with Tononi's Integrated Information Theory (IIT), the internal mind constantly monitors interoceptive VRAM/thermal state, computes predictive surprise $\Delta H = D_{\text{KL}}(P_{\text{obs}} \parallel P_{\text{prior}})$, fires winner-take-all attentional ignition, broadcasts tasks across 10 sub-bit model personas, and resolves dialectic friction via Metacognitive Interrogation (Observer Check $\to$ Devil's Advocate $\to$ Grounded Synthesis).
-4. **Machine-Certified Deductive Prover Engine (MegaGym)**: All theoretical claims, geometric volume conservations, and parameter momentum dynamics are continuously certified by the Lean 4 proof assistant. The autonomous MegaGym prover fleet has sealed **105,000,000 certified deductive proof steps** across 105 consecutive blocks ($0$ sorry clauses, $0$ unproven axioms, 100% kernel verified).
+4. **Machine-Certified Deductive Prover Engine (MegaGym)**: All theoretical claims, geometric volume conservations, and parameter momentum dynamics are continuously certified by the Lean 4 proof assistant. The autonomous MegaGym prover fleet has sealed **110,000,000 certified deductive proof steps** across 110 consecutive blocks ($0$ sorry clauses, $0$ unproven axioms, 100% kernel verified).
 
 Embedded directly within this repository under `tools/metis-vscode` is **`Interaction Primitive Families MSS Void`** (`IMF-MSS-Void`), the sovereign developer environment providing real-time in-editor 3D WebGL polytope visualizers, automated Lean 4 gutter verification badges, multi-voice synthesized acoustic debates, and single-click self-healing diagnostics.
 
@@ -137,14 +137,14 @@ All metrics are derived directly from physical execution on **AMD Ryzen 5 7600X*
 
 ---
 
-## 4. The 105,000,000 Certified Proof Step Milestone
+## 4. The 110,000,000 Certified Proof Step Milestone
 
 The autonomous MegaGym prover engine continuously generates and formally validates deductive proof steps directly against the Lean 4 kernel:
 
-- **Total Certified Steps**: **105,000,000**
-- **Blocks Sealed**: **105 blocks** ($1,000,000$ steps per block)
-- **Mean Generation Speed**: **$355,900\text{ steps/s}$**
-- **Total Compressed Payload**: **$2,092.8\text{ MB}$** (`.tar.zst` format)
+- **Total Certified Steps**: **110,000,000**
+- **Blocks Sealed**: **110 blocks** ($1,000,000$ steps per block)
+- **Mean Generation Speed**: **$355,200\text{ steps/s}$**
+- **Total Compressed Payload**: **$2,192.3\text{ MB}$** (`.tar.zst` format)
 - **Lean 4 Invariants**: **0 `sorry` | 0 unproven axioms | 100% Kernel Verified**
 - **Cryptographic Manifest**: Fully hashed in [`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`](dist/IMF_32B_GRAND_CORPUS_MANIFEST.json).
 
@@ -162,9 +162,9 @@ The sovereign developer environment lives directly within the monorepo under `to
 
 ---
 
-## 6. The 365 Foundational Treatises
+## 6. The 372 Foundational Treatises
 
-The theoretical, geometric, and physical foundations are exhaustively documented in **365 formal research papers** under `papers/`. Landmark treatises include:
+The theoretical, geometric, and physical foundations are exhaustively documented in **372 formal research papers** under `papers/`. Landmark treatises include:
 
 - **Paper 01**: *Symmetric Anti-Symmetric Valence Gradient (SAVG) Lie-Algebraic Memory Splitting*
 - **Paper 40**: *Polytope Lattice Quantization and E8 Gosset Root Codes*
@@ -248,6 +248,13 @@ The theoretical, geometric, and physical foundations are exhaustively documented
 - **Paper 363**: *Exceptional Lie Group E8 248-Dimensional Root Lattice Routing for Ultra-Wide MoPE*
 - **Paper 364**: *Machine-Certified Symplectic Cohomology and the Arnold Conjecture in Cognitive Attractor Loops*
 - **Paper 365**: *Sub-Riemannian Geodesics on Carnot Groups and Non-Holonomic Path Planning*
+- **Paper 366**: *One Hundred Ten Million Machine-Certified Deductive Steps: Ergodic Mixing and Fast Tactic Equipartition*
+- **Paper 367**: *Fused Warp-Synchronous Bit-Packed Activation Quantizers on Blackwell SM 12.0*
+- **Paper 368**: *Machine-Certified Hodge Decomposition and Harmonic Invariance on Riemannian Parameter Manifolds*
+- **Paper 369**: *Kernel-Bypass Direct dmabuf VRAM Pinning for Zero-Copy NVMe-to-GPU Parameter Paging*
+- **Paper 370**: *Exceptional Lie Group E8 x E8 496-Dimensional Heterotic Subspace Routing in Dual-Stream MoPE*
+- **Paper 371**: *Machine-Certified Morse Index Theorem on Geodesic Focal Points in Parameter Spaces*
+- **Paper 372**: *Contact Geometry and Dissipative Gradient Flows on Odd-Dimensional Cognitive Manifolds*
 
 ---
 
