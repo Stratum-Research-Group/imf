@@ -1,7 +1,7 @@
 # Paper 278: Forensic Analysis of Prover Gym Tautological Degeneracy, Premature Certification, and Ground-Truth Lean 4 Zero-Axiom Remediation
 
 **Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
-**Series:** Phase VI: Dynastic Solitons & Formally Verified Mathematical Physics  
+**Series:** Phase IV: Integrable Soliton Hierarchies (Discrete Poincaré Flows)  
 **Paper Type:** Empirical Engineering, Forensic Audit & Architecture Rectification  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Date:** November 2026  

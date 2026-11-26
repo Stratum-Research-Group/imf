@@ -1,10 +1,12 @@
 # Paper 600: Grand Capstone Synthesis: The 600-Treatise Corpus, 280 Million Certified Steps, and the Blackwell Microarchitectural Epoch
 
-**Hardware Target:** NVIDIA Blackwell SM 12.0 / Linux Kernel 6.18 io_uring / Lean 4 Formal Kernel  
-**Author:** Cognitive Architecture & Microarchitectural Foundations Group  
-**Status:** Certified / Production Ready  
+**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
+**Series:** Phase VI: Blackwell Kernels, Algebraic Theorems & Direct-DMA Engines  
+**Paper Type:** Milestone Synthesis & Scaling Report  
+**Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Date:** November 2026  
-**Classification:** Grand Architecture / Systems Engineering / Epistemic Synthesis  
+**Status:** Peer-Review Ready — Formally Verified & Hardware Validated  
+**Verification Level:** Sustained Workstation Hardware Telemetry (AMD Ryzen 5 7600X, RTX 5060 Ti, Lean 4 Core Zero External Axioms)  
 
 ---
 

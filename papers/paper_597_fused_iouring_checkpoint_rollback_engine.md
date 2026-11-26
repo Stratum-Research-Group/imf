@@ -1,10 +1,12 @@
 # Paper 597: Fused io_uring Zero-Copy Checkpoint and Rollback Engine for Multi-Gigabyte Epistemic State Management
 
-**Hardware Target:** Linux Kernel 6.18+ / NVMe PCIe Gen5 SSDs / POSIX DMA  
-**Author:** Cognitive Architecture & Microarchitectural Foundations Group  
-**Status:** Certified / Production Ready  
+**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
+**Series:** Phase VI: Blackwell Kernels, Algebraic Theorems & Direct-DMA Engines  
+**Paper Type:** Systems Engineering: Kernel-Bypass I/O Engine  
+**Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Date:** November 2026  
-**Classification:** Systems Architecture / Kernel Subsystems / High-Performance Storage  
+**Status:** Peer-Review Ready — Formally Verified & Hardware Validated  
+**Verification Level:** Sustained Workstation Hardware Telemetry (AMD Ryzen 5 7600X, RTX 5060 Ti, Lean 4 Core Zero External Axioms)  
 
 ---
 

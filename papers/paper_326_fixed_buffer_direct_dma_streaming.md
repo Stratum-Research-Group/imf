@@ -1,8 +1,8 @@
 # Paper 326: Fixed-Buffer Direct-DMA Streaming and Kernel-Bypass Memory Paging for Sub-Byte LLM Serving
 
 **Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
-**Series:** Phase VI: Dynastic Solitons & Formally Verified Mathematical Physics  
-**Paper Type:** Theoretical Mathematical Monograph & Hardware Benchmark  
+**Series:** Phase V: Certified-Step Scaling, Lie-Group Geometry & Kernel-Bypass I/O  
+**Paper Type:** Systems Engineering: Kernel-Bypass I/O Engine  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Date:** November 2026  
 **Status:** Peer-Review Ready — Formally Verified & Hardware Validated  

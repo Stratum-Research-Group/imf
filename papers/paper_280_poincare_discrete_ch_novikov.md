@@ -1,8 +1,8 @@
 # Paper 280: Poincaré Discrete Camassa-Holm-Novikov Dual Peakon Flow & Zero-Axiom Lean 4 Certification
 
 **Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
-**Series:** Phase VI: Dynastic Solitons & Formally Verified Mathematical Physics  
-**Paper Type:** Theoretical Mathematical Monograph & Hardware Benchmark  
+**Series:** Phase IV: Integrable Soliton Hierarchies (Discrete Poincaré Flows)  
+**Paper Type:** Machine-Certified Formal Proof (Lean 4)  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Date:** November 2026  
 **Status:** Peer-Review Ready — Formally Verified & Hardware Validated  
