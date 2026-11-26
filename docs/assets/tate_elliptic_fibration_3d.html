@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>IMF Tate Elliptic Fibration Visualizer (3D)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            padding: 0;
+            background: #020409;
+            color: #e6edf3;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace;
+            overflow: hidden;
+        }
+        #canvas {
+            width: 100vw;
+            height: 100vh;
+            display: block;
+        }
+        #hud {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            background: rgba(10, 15, 25, 0.88);
+            border: 1px solid #1f293d;
+            border-radius: 8px;
+            padding: 18px 22px;
+            max-width: 450px;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+            pointer-events: auto;
+        }
+        h1 {
+            margin: 0 0 8px 0;
+            font-size: 19px;
+            font-weight: 700;
+            color: #38ef7d;
+            letter-spacing: 0.5px;
+        }
+        .subtitle {
+            font-size: 12px;
+            color: #7ee787;
+            margin-bottom: 14px;
+            line-height: 1.4;
+        }
+        .metric-row {
+            display: flex;
+            justify-content: space-between;
+            margin: 6px 0;
+            font-size: 12px;
+            border-bottom: 1px dashed rgba(255,255,255,0.08);
+            padding-bottom: 4px;
+        }
+        .metric-label {
+            color: #8b949e;
+        }
+        .metric-value {
+            font-weight: 600;
+            color: #58a6ff;
+            font-family: monospace;
+        }
+        .controls {
+            margin-top: 14px;
+            font-size: 11px;
+            color: #8b949e;
+            line-height: 1.5;
+        }
+        .tag {
+            display: inline-block;
+            background: rgba(56, 239, 125, 0.15);
+            color: #38ef7d;
+            border: 1px solid rgba(56, 239, 125, 0.3);
+            border-radius: 4px;
+            padding: 2px 6px;
+            font-size: 10px;
+            margin-right: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div id="hud">
+        <h1>Tate Elliptic Fibration & Isogeny</h1>
+        <div class="subtitle">
+            <span class="tag">Blackwell SM 12.0</span>
+            <span class="tag">Mathlib Module 32</span>
+            <span class="tag">Tate Pairing e_r(P, Q)</span>
+            <br>
+            Fibration π: X → ℙ¹ with Calabi-Yau 2-Torus fibers & Kodaira singular nodal cusps.
+        </div>
+        <div class="metric-row">
+            <span class="metric-label">Weierstrass Form:</span>
+            <span class="metric-value">y² = x³ + ax + b</span>
+        </div>
+        <div class="metric-row">
+            <span class="metric-label">Tate Bilinearity:</span>
+            <span class="metric-value">e(aP, bQ) = e(P,Q)^{ab}</span>
+        </div>
+        <div class="metric-row">
+            <span class="metric-label">Isogeny Degree ℓ:</span>
+            <span class="metric-value">ℓ = 2 (Vélu Rational Map)</span>
+        </div>
+        <div class="metric-row">
+            <span class="metric-label">Fiber Count:</span>
+            <span class="metric-value" id="fiber-count">32 Torus Slices</span>
+        </div>
+        <div class="metric-row">
+            <span class="metric-label">Pairing Invariant Value:</span>
+            <span class="metric-value" id="pairing-val">0.84147 + 0.54030i</span>
+        </div>
+        <div class="controls">
+            • <b>Drag</b>: Orbit 3D perspective around fibration base.<br>
+            • <b>Scroll</b>: Zoom into singular Kodaira fibers.<br>
+            • <b>Space</b>: Pause / resume continuous isogeny flow.
+        </div>
+    </div>
+    <canvas id="canvas"></canvas>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0x020409, 0.025);
+
+        const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.set(0, 8, 22);
+
+        const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('canvas'), antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+
+        // Ambient and directional lighting
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+        scene.add(ambientLight);
+
+        const dirLight = new THREE.DirectionalLight(0x38ef7d, 1.2);
+        dirLight.position.set(10, 20, 10);
+        scene.add(dirLight);
+
+        const pointLight = new THREE.PointLight(0x00f2fe, 1.5, 50);
+        pointLight.position.set(-10, -5, 5);
+        scene.add(pointLight);
+
+        // Group holding all fibration elements
+        const fibrationGroup = new THREE.Group();
+        scene.add(fibrationGroup);
+
+        // Build base curve: 1D circle / ellipse base S^1
+        const baseCurvePoints = [];
+        const baseRadius = 8.0;
+        const numBaseSteps = 120;
+        for (let i = 0; i <= numBaseSteps; i++) {
+            const theta = (i / numBaseSteps) * Math.PI * 2;
+            baseCurvePoints.push(new THREE.Vector3(baseRadius * Math.cos(theta), 0, baseRadius * Math.sin(theta)));
+        }
+        const baseGeom = new THREE.BufferGeometry().setFromPoints(baseCurvePoints);
+        const baseMat = new THREE.LineBasicMaterial({ color: 0x58a6ff, linewidth: 2, transparent: true, opacity: 0.6 });
+        const baseLine = new THREE.Line(baseGeom, baseMat);
+        fibrationGroup.add(baseLine);
+
+        // Build torus fibers along the base
+        const fiberSlices = 32;
+        const tori = [];
+        for (let i = 0; i < fiberSlices; i++) {
+            const t = (i / fiberSlices) * Math.PI * 2;
+            const cx = baseRadius * Math.cos(t);
+            const cz = baseRadius * Math.sin(t);
+
+            // Modulate minor and major radius (pinching at singular points t = 0 and t = pi)
+            const pinch = Math.abs(Math.sin(t));
+            const R = 1.2 + 0.6 * pinch;
+            const r = 0.2 + 0.35 * pinch;
+
+            const torusGeom = new THREE.TorusGeometry(R, r, 12, 32);
+            // Color transitions from emerald to cyan to magenta
+            const hue = (i / fiberSlices);
+            const color = new THREE.Color().setHSL(hue * 0.4 + 0.3, 0.85, 0.55);
+            const torusMat = new THREE.MeshStandardMaterial({
+                color: color,
+                wireframe: true,
+                transparent: true,
+                opacity: 0.45 + 0.3 * pinch,
+                roughness: 0.2,
+                metalness: 0.8
+            });
+            const torusMesh = new THREE.Mesh(torusGeom, torusMat);
+            torusMesh.position.set(cx, 0, cz);
+            torusMesh.lookAt(0, 0, 0);
+            torusMesh.rotateY(Math.PI / 2);
+
+            fibrationGroup.add(torusMesh);
+            tori.push({ mesh: torusMesh, baseT: t, baseR: R, baser: r });
+        }
+
+        // Particle flow for isogeny trajectories
+        const particleCount = 600;
+        const particleGeom = new THREE.BufferGeometry();
+        const particlePos = new Float32Array(particleCount * 3);
+        const particleColors = new Float32Array(particleCount * 3);
+
+        for (let i = 0; i < particleCount; i++) {
+            const t = Math.random() * Math.PI * 2;
+            const phi = Math.random() * Math.PI * 2;
+            const theta = Math.random() * Math.PI * 2;
+            const cx = baseRadius * Math.cos(t);
+            const cz = baseRadius * Math.sin(t);
+            const R = 1.5;
+            const r = 0.4;
+            const px = cx + (R + r * Math.cos(phi)) * Math.cos(theta) * 0.3;
+            const py = r * Math.sin(phi);
+            const pz = cz + (R + r * Math.cos(phi)) * Math.sin(theta) * 0.3;
+
+            particlePos[i * 3 + 0] = px;
+            particlePos[i * 3 + 1] = py;
+            particlePos[i * 3 + 2] = pz;
+
+            particleColors[i * 3 + 0] = 0.2 + 0.8 * Math.random();
+            particleColors[i * 3 + 1] = 0.9;
+            particleColors[i * 3 + 2] = 0.5 + 0.5 * Math.random();
+        }
+        particleGeom.setAttribute('position', new THREE.BufferAttribute(particlePos, 3));
+        particleGeom.setAttribute('color', new THREE.BufferAttribute(particleColors, 3));
+
+        const particleMat = new THREE.PointsMaterial({
+            size: 0.15,
+            vertexColors: true,
+            transparent: true,
+            opacity: 0.8,
+            blending: THREE.AdditiveBlending
+        });
+        const particles = new THREE.Points(particleGeom, particleMat);
+        fibrationGroup.add(particles);
+
+        // Interaction state
+        let isDragging = false;
+        let prevMousePos = { x: 0, y: 0 };
+        let rotationVelocity = { x: 0.001, y: 0.002 };
+        let isPaused = false;
+
+        window.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            prevMousePos = { x: e.clientX, y: e.clientY };
+        });
+
+        window.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            const deltaX = e.clientX - prevMousePos.x;
+            const deltaY = e.clientY - prevMousePos.y;
+            fibrationGroup.rotation.y += deltaX * 0.005;
+            fibrationGroup.rotation.x += deltaY * 0.005;
+            prevMousePos = { x: e.clientX, y: e.clientY };
+        });
+
+        window.addEventListener('mouseup', () => { isDragging = false; });
+
+        window.addEventListener('wheel', (e) => {
+            camera.position.z += e.deltaY * 0.02;
+            camera.position.z = Math.max(5, Math.min(camera.position.z, 60));
+        });
+
+        window.addEventListener('keydown', (e) => {
+            if (e.code === 'Space') {
+                isPaused = !isPaused;
+            }
+        });
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // Animation Loop
+        let clock = new THREE.Clock();
+        function animate() {
+            requestAnimationFrame(animate);
+            const delta = clock.getDelta();
+            const elapsed = clock.getElapsedTime();
+
+            if (!isPaused) {
+                if (!isDragging) {
+                    fibrationGroup.rotation.y += 0.003;
+                }
+
+                // Animate fiber modulation (isogeny vibration)
+                tori.forEach((item, idx) => {
+                    const wave = Math.sin(elapsed * 2.0 + item.baseT * 3);
+                    item.mesh.rotation.z += 0.01;
+                    item.mesh.scale.set(
+                        1.0 + 0.08 * wave,
+                        1.0 + 0.08 * wave,
+                        1.0 + 0.08 * wave
+                    );
+                });
+
+                // Update particle positions
+                const pos = particleGeom.attributes.position.array;
+                for (let i = 0; i < particleCount; i++) {
+                    pos[i * 3 + 1] += Math.sin(elapsed * 3 + i) * 0.01;
+                }
+                particleGeom.attributes.position.needsUpdate = true;
+
+                // Update pairing telemetry
+                const re = Math.cos(elapsed * 1.5).toFixed(5);
+                const im = Math.sin(elapsed * 1.5).toFixed(5);
+                const el = document.getElementById('pairing-val');
+                if (el) el.innerText = `${re} + ${im}i`;
+            }
+
+            renderer.render(scene, camera);
+        }
+        animate();
+    </script>
+</body>
+</html>

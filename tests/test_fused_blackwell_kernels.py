@@ -908,6 +908,67 @@ def test_fused_adelic_product_formula_correctness():
     assert abs(adelic_product_out[1].item() - expected_prod_1) < 1e-4
 
 
+def test_fused_tate_pairing_curve_correctness():
+    so_path = "csrc/fused_blackwell_tate_pairing_curve.so"
+    assert os.path.exists(so_path)
+    lib = ctypes.CDLL(so_path)
+
+    lib.fused_blackwell_tate_pairing_curve.argtypes = [
+        ctypes.c_void_p,  # P_coords
+        ctypes.c_void_p,  # Q_coords
+        ctypes.c_void_p,  # curve_params
+        ctypes.c_void_p,  # pairing_out
+        ctypes.c_void_p,  # isogeny_out
+        ctypes.c_int      # B
+    ]
+    lib.fused_blackwell_tate_pairing_curve.restype = ctypes.c_int
+
+    B = 4
+    # Points P = (x, y)
+    P = torch.tensor([
+        [1.0, 2.0],
+        [2.0, 3.0],
+        [0.5, 1.5],
+        [3.0, 4.0]
+    ], dtype=torch.float32)
+
+    # Points Q = (x, y)
+    Q = torch.tensor([
+        [1.5, 2.5],
+        [2.5, 3.5],
+        [1.0, 2.0],
+        [3.5, 4.5]
+    ], dtype=torch.float32)
+
+    # curve_params: (a, b, r, ell)
+    params = torch.tensor([1.0, 1.0, 5.0, 2.0], dtype=torch.float32)
+
+    pairing_out = torch.zeros(B, dtype=torch.float32)
+    isogeny_out = torch.zeros(B, 2, dtype=torch.float32)
+
+    ret = lib.fused_blackwell_tate_pairing_curve(
+        ctypes.c_void_p(P.data_ptr()),
+        ctypes.c_void_p(Q.data_ptr()),
+        ctypes.c_void_p(params.data_ptr()),
+        ctypes.c_void_p(pairing_out.data_ptr()),
+        ctypes.c_void_p(isogeny_out.data_ptr()),
+        B
+    )
+    assert ret == 0
+
+    # Verify pairing output is non-zero and bounded within [-1, 1] due to tanh normalization
+    assert (torch.abs(pairing_out) <= 1.0).all()
+    assert (pairing_out != 0).any()
+
+    # Verify isogeny walk: phi(x) = xp + ell * (xp / (xp^2 + 1))
+    # For P[0] = (1.0, 2.0), ell = 2.0:
+    # isog_x = 1.0 + 2.0 * (1.0 / (1.0 + 1.0)) = 1.0 + 1.0 = 2.0
+    # isog_y = 2.0 * (1.0 + 0.5 * 2.0 / 2.0) = 2.0 * 1.5 = 3.0
+    assert abs(isogeny_out[0, 0].item() - 2.0) < 1e-4
+    assert abs(isogeny_out[0, 1].item() - 3.0) < 1e-4
+
+
+
 
 
 

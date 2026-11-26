@@ -1032,6 +1032,93 @@ def test_iouring_multishot_read_ringbuf_correctness():
         sock_receiver.close()
 
 
+def test_iouring_fixed_dma_nvme_correctness():
+    so_path = "csrc/fused_iouring_fixed_dma_buf_nvme_passthru.so"
+    assert os.path.exists(so_path)
+    lib = ctypes.CDLL(so_path)
+
+    lib.iouring_fixed_dma_nvme_init.argtypes = [ctypes.c_uint, ctypes.c_uint, ctypes.c_uint]
+    lib.iouring_fixed_dma_nvme_init.restype = ctypes.c_void_p
+
+    lib.iouring_fixed_dma_nvme_submit_read.argtypes = [
+        ctypes.c_void_p, ctypes.c_int, ctypes.c_uint64, ctypes.c_uint, ctypes.c_uint
+    ]
+    lib.iouring_fixed_dma_nvme_submit_read.restype = ctypes.c_int
+
+    lib.iouring_fixed_dma_nvme_submit_write.argtypes = [
+        ctypes.c_void_p, ctypes.c_int, ctypes.c_uint64, ctypes.c_uint, ctypes.c_uint
+    ]
+    lib.iouring_fixed_dma_nvme_submit_write.restype = ctypes.c_int
+
+    lib.iouring_fixed_dma_nvme_wait_complete.argtypes = [
+        ctypes.c_void_p, ctypes.POINTER(ctypes.c_int64), ctypes.POINTER(ctypes.c_uint)
+    ]
+    lib.iouring_fixed_dma_nvme_wait_complete.restype = ctypes.c_int
+
+    lib.iouring_fixed_dma_nvme_get_buffer.argtypes = [ctypes.c_void_p, ctypes.c_uint]
+    lib.iouring_fixed_dma_nvme_get_buffer.restype = ctypes.c_void_p
+
+    lib.iouring_fixed_dma_nvme_destroy.argtypes = [ctypes.c_void_p]
+    lib.iouring_fixed_dma_nvme_destroy.restype = None
+
+    buf_size = 4096
+    eng = lib.iouring_fixed_dma_nvme_init(16, buf_size, 2)
+    assert eng is not None
+
+    payload = b"FIXED_DMA_BUF_NVME_PASSTHROUGH_VERIFIED_ZERO_SYSCALL_480M" * 10
+    with tempfile.NamedTemporaryFile(delete=False) as tf:
+        tf.write(payload)
+        tf.flush()
+        tpath = tf.name
+
+    try:
+        fd = os.open(tpath, os.O_RDWR)
+        # Test fixed DMA read into buffer 0
+        ret = lib.iouring_fixed_dma_nvme_submit_read(eng, fd, 0, len(payload), 0)
+        assert ret == 0
+
+        bytes_transferred = ctypes.c_int64(0)
+        completed_buf = ctypes.c_uint(99)
+        ret_wait = lib.iouring_fixed_dma_nvme_wait_complete(
+            eng, ctypes.byref(bytes_transferred), ctypes.byref(completed_buf)
+        )
+        assert ret_wait == 0
+        assert bytes_transferred.value == len(payload)
+        assert completed_buf.value == 0
+
+        buf0_ptr = lib.iouring_fixed_dma_nvme_get_buffer(eng, 0)
+        assert buf0_ptr is not None
+        read_data = ctypes.string_at(buf0_ptr, len(payload))
+        assert read_data == payload
+
+        # Test fixed DMA write from buffer 1
+        write_payload = b"OVERWRITTEN_VIA_DMA_BUF_1_SUCCESSFUL"
+        buf1_ptr = lib.iouring_fixed_dma_nvme_get_buffer(eng, 1)
+        assert buf1_ptr is not None
+        ctypes.memmove(buf1_ptr, write_payload, len(write_payload))
+
+        ret_write = lib.iouring_fixed_dma_nvme_submit_write(eng, fd, 0, len(write_payload), 1)
+        assert ret_write == 0
+
+        ret_wait2 = lib.iouring_fixed_dma_nvme_wait_complete(
+            eng, ctypes.byref(bytes_transferred), ctypes.byref(completed_buf)
+        )
+        assert ret_wait2 == 0
+        assert bytes_transferred.value == len(write_payload)
+        assert completed_buf.value == 1
+
+        os.close(fd)
+        with open(tpath, "rb") as f:
+            disk_content = f.read()
+        assert disk_content.startswith(write_payload)
+
+    finally:
+        lib.iouring_fixed_dma_nvme_destroy(eng)
+        if os.path.exists(tpath):
+            os.unlink(tpath)
+
+
+
 
 
 
