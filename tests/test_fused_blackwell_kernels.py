@@ -861,6 +861,54 @@ def test_fused_bruhat_tits_walk_correctness():
     assert abs(v_out[1, 0].item() - 0.1) < 1e-4
 
 
+def test_fused_adelic_product_formula_correctness():
+    so_path = "csrc/fused_blackwell_adelic_product_formula.so"
+    assert os.path.exists(so_path)
+    lib = ctypes.CDLL(so_path)
+    lib.fused_blackwell_adelic_product_formula.argtypes = [
+        ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p,
+        ctypes.c_int, ctypes.c_int
+    ]
+
+    B = 2
+    D = 4
+    x_in = torch.tensor([[6.0, 8.0, 0.0, 0.0],
+                         [3.0, 4.0, 0.0, 0.0]], dtype=torch.float32)
+    tokens_in = torch.tensor([12, 50], dtype=torch.int32)
+
+    arch_norm_out = torch.zeros(B, dtype=torch.float32)
+    padic_norms_out = torch.zeros(B, 4, dtype=torch.float32)
+    adelic_product_out = torch.zeros(B, dtype=torch.float32)
+
+    ret = lib.fused_blackwell_adelic_product_formula(
+        ctypes.c_void_p(x_in.data_ptr()),
+        ctypes.c_void_p(tokens_in.data_ptr()),
+        ctypes.c_void_p(arch_norm_out.data_ptr()),
+        ctypes.c_void_p(padic_norms_out.data_ptr()),
+        ctypes.c_void_p(adelic_product_out.data_ptr()),
+        B, D
+    )
+    assert ret == 0
+
+    # Token 12: |12|_2 = 0.25, |12|_3 = 1/3, |12|_5 = 1.0, |12|_7 = 1.0
+    assert abs(arch_norm_out[0].item() - 10.0) < 1e-4
+    assert abs(padic_norms_out[0, 0].item() - 0.25) < 1e-4
+    assert abs(padic_norms_out[0, 1].item() - 1.0 / 3.0) < 1e-4
+    assert abs(padic_norms_out[0, 2].item() - 1.0) < 1e-4
+    assert abs(padic_norms_out[0, 3].item() - 1.0) < 1e-4
+    expected_prod_0 = 10.0 * 0.25 * (1.0 / 3.0)
+    assert abs(adelic_product_out[0].item() - expected_prod_0) < 1e-4
+
+    # Token 50 = 2 * 5^2: |50|_2 = 0.5, |50|_3 = 1.0, |50|_5 = 1/25 = 0.04, |50|_7 = 1.0
+    assert abs(arch_norm_out[1].item() - 5.0) < 1e-4
+    assert abs(padic_norms_out[1, 0].item() - 0.5) < 1e-4
+    assert abs(padic_norms_out[1, 1].item() - 1.0) < 1e-4
+    assert abs(padic_norms_out[1, 2].item() - 0.04) < 1e-4
+    expected_prod_1 = 5.0 * 0.5 * 0.04
+    assert abs(adelic_product_out[1].item() - expected_prod_1) < 1e-4
+
+
+
 
 
 

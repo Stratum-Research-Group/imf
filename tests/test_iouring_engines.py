@@ -956,6 +956,83 @@ def test_iouring_direct_splice_socket_to_pipe_correctness():
         sock_receiver.close()
 
 
+def test_iouring_multishot_read_ringbuf_correctness():
+    so_path = "csrc/fused_iouring_multishot_read_ringbuf.so"
+    assert os.path.exists(so_path)
+    lib = ctypes.CDLL(so_path)
+
+    lib.iouring_ringbuf_engine_init.argtypes = [
+        ctypes.c_uint, ctypes.c_uint, ctypes.c_uint, ctypes.c_int
+    ]
+    lib.iouring_ringbuf_engine_init.restype = ctypes.c_void_p
+
+    lib.iouring_ringbuf_engine_submit_recv_multishot.argtypes = [
+        ctypes.c_void_p, ctypes.c_int, ctypes.c_uint64
+    ]
+    lib.iouring_ringbuf_engine_submit_recv_multishot.restype = ctypes.c_int
+
+    lib.iouring_ringbuf_engine_submit.argtypes = [ctypes.c_void_p]
+    lib.iouring_ringbuf_engine_submit.restype = ctypes.c_int
+
+    lib.iouring_ringbuf_engine_wait_cqe.argtypes = [
+        ctypes.c_void_p, ctypes.POINTER(ctypes.c_int), ctypes.POINTER(ctypes.c_uint32),
+        ctypes.POINTER(ctypes.c_uint64), ctypes.POINTER(ctypes.c_int)
+    ]
+    lib.iouring_ringbuf_engine_wait_cqe.restype = ctypes.c_int
+
+    lib.iouring_ringbuf_engine_get_buf.argtypes = [ctypes.c_void_p, ctypes.c_int]
+    lib.iouring_ringbuf_engine_get_buf.restype = ctypes.c_void_p
+
+    lib.iouring_ringbuf_engine_recycle_buf.argtypes = [ctypes.c_void_p, ctypes.c_int]
+    lib.iouring_ringbuf_engine_recycle_buf.restype = None
+
+    lib.iouring_ringbuf_engine_destroy.argtypes = [ctypes.c_void_p]
+    lib.iouring_ringbuf_engine_destroy.restype = None
+
+    eng = lib.iouring_ringbuf_engine_init(16, 8, 256, 2)
+    assert eng is not None
+
+    sock_sender, sock_receiver = socket.socketpair(socket.AF_UNIX, socket.SOCK_STREAM)
+    test_payload = b"ADELIC_MULTISHOT_RINGBUF_TEST_12345"
+
+    try:
+        ret = lib.iouring_ringbuf_engine_submit_recv_multishot(eng, sock_receiver.fileno(), 0x9999)
+        assert ret == 0
+
+        submitted = lib.iouring_ringbuf_engine_submit(eng)
+        assert submitted == 1
+
+        sock_sender.sendall(test_payload)
+
+        out_res = ctypes.c_int(0)
+        out_flags = ctypes.c_uint32(0)
+        out_ud = ctypes.c_uint64(0)
+        out_bid = ctypes.c_int(-1)
+
+        w = lib.iouring_ringbuf_engine_wait_cqe(
+            eng, ctypes.byref(out_res), ctypes.byref(out_flags), ctypes.byref(out_ud), ctypes.byref(out_bid)
+        )
+        assert w == 0
+        assert out_ud.value == 0x9999
+        assert out_res.value == len(test_payload)
+        assert out_bid.value >= 0
+
+        buf_ptr = lib.iouring_ringbuf_engine_get_buf(eng, out_bid.value)
+        assert buf_ptr is not None
+
+        content = ctypes.string_at(buf_ptr, len(test_payload))
+        assert content == test_payload
+
+        # Recycle buffer
+        lib.iouring_ringbuf_engine_recycle_buf(eng, out_bid.value)
+
+        lib.iouring_ringbuf_engine_destroy(eng)
+    finally:
+        sock_sender.close()
+        sock_receiver.close()
+
+
+
 
 
 
