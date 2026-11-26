@@ -13,3 +13,5 @@ import Pilot.KillingForm
 import Pilot.SymplecticBilinear
 import Pilot.CasimirInvariant
 import Pilot.GrassmannExterior
+import Pilot.HodgeStarDuality
+import Pilot.YangMillsCurvature

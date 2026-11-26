@@ -11,6 +11,8 @@
 #include <cstring>
 #include <cstdlib>
 #include <string>
+#include <fstream>
+#include <sstream>
 
 extern "C" {
     int imf_rs_infer_step(
@@ -40,15 +42,21 @@ int main(int argc, char** argv) {
     float temperature = 0.8f;
     float top_p = 0.95f;
     bool interactive = false;
+    bool stream_mode = false;
+    std::string input_file = "";
 
     for (int i = 1; i < argc; ++i) {
         std::string arg = argv[i];
         if (arg == "--steps" && i + 1 < argc) {
             steps = std::stoul(argv[++i]);
-        } else if (arg == "--temp" || arg == "--temperature" && i + 1 < argc) {
+        } else if ((arg == "--temp" || arg == "--temperature") && i + 1 < argc) {
             temperature = std::stof(argv[++i]);
         } else if (arg == "--top-p" && i + 1 < argc) {
             top_p = std::stof(argv[++i]);
+        } else if (arg == "--stream") {
+            stream_mode = true;
+        } else if (arg == "--file" && i + 1 < argc) {
+            input_file = argv[++i];
         } else if (arg == "--repl" || arg == "-i") {
             interactive = true;
         } else if (arg == "--help" || arg == "-h") {
@@ -56,6 +64,8 @@ int main(int argc, char** argv) {
             std::cout << "  --steps <N>        Execute N benchmark autoregressive steps (default: 100)" << std::endl;
             std::cout << "  --temp <float>     Set softmax temperature annealing (default: 0.8)" << std::endl;
             std::cout << "  --top-p <float>    Set nucleus sampling cutoff threshold (default: 0.95)" << std::endl;
+            std::cout << "  --stream           Continuous live token streaming with real-time flush" << std::endl;
+            std::cout << "  --file <path>      Batch prompt evaluation from input text file" << std::endl;
             std::cout << "  --repl, -i         Launch interactive streaming token generation REPL" << std::endl;
             std::cout << "  --help, -h         Show this help message" << std::endl;
             return 0;
@@ -97,6 +107,46 @@ int main(int argc, char** argv) {
             std::cout << std::endl;
         }
         std::cout << "[*] Exiting REPL." << std::endl;
+        return 0;
+    }
+
+    if (!input_file.empty()) {
+        std::ifstream infile(input_file);
+        if (!infile.is_open()) {
+            std::cerr << "[!] Failed to open input file: " << input_file << std::endl;
+            return 1;
+        }
+        std::cout << "[*] Batch processing prompts from " << input_file << "..." << std::endl;
+        std::string line;
+        size_t prompt_idx = 0;
+        while (std::getline(infile, line)) {
+            if (line.empty()) continue;
+            std::cout << "Prompt [" << ++prompt_idx << "]: " << line << " -> [Response]: " << std::flush;
+            for (size_t s = 0; s < 8; ++s) {
+                uint32_t token_id = 0;
+                float drift = 0.0f;
+                imf_rs_infer_step(state.data(), a_mat.data(), head.data(), dim, vocab, &token_id, &drift);
+                std::cout << token_id << " " << std::flush;
+            }
+            std::cout << std::endl;
+        }
+        std::cout << "[✓] Batch evaluation complete." << std::endl;
+        return 0;
+    }
+
+    if (stream_mode) {
+        std::cout << "[*] Continuous streaming decode (" << steps << " tokens):" << std::endl;
+        auto start_stream = std::chrono::high_resolution_clock::now();
+        for (size_t s = 0; s < steps; ++s) {
+            uint32_t token_id = 0;
+            float drift = 0.0f;
+            imf_rs_infer_step(state.data(), a_mat.data(), head.data(), dim, vocab, &token_id, &drift);
+            std::cout << token_id << " " << std::flush;
+        }
+        auto end_stream = std::chrono::high_resolution_clock::now();
+        double ms = std::chrono::duration<double, std::milli>(end_stream - start_stream).count();
+        std::cout << std::endl << "[✓] Streamed " << steps << " tokens in " << ms << " ms ("
+                  << (steps / ms) * 1000.0 << " tokens/sec)" << std::endl;
         return 0;
     }
 

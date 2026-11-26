@@ -291,4 +291,67 @@ def test_rmsnorm_residual_correctness():
     assert diff_res < 1e-5, f"Residual diff: {diff_res}"
     assert diff_out < 1e-4, f"RMSNorm out diff: {diff_out}"
 
+@pytest.mark.skipif(not torch.cuda.is_available(), reason="CUDA device required")
+def test_sliding_window_attn_correctness():
+    so_path = "csrc/fused_blackwell_sliding_window_attn.so"
+    lib = ctypes.CDLL(so_path)
+    lib.launch_fused_blackwell_sliding_window_attn.argtypes = [
+        ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p,
+        ctypes.c_int, ctypes.c_int, ctypes.c_int, ctypes.c_int,
+        ctypes.c_int, ctypes.c_float, ctypes.c_float, ctypes.c_void_p
+    ]
+
+    batch = 2
+    num_heads = 4
+    seq_len = 16
+    head_dim = 64
+    window_size = 4
+    scale = 1.0 / math.sqrt(head_dim)
+    rotary_base = 10000.0
+
+    q = torch.randn(batch, num_heads, seq_len, head_dim, device='cuda', dtype=torch.float32)
+    k = torch.randn(batch, num_heads, seq_len, head_dim, device='cuda', dtype=torch.float32)
+    v = torch.randn(batch, num_heads, seq_len, head_dim, device='cuda', dtype=torch.float32)
+    out = torch.zeros_like(q)
+
+    lib.launch_fused_blackwell_sliding_window_attn(
+        ctypes.c_void_p(q.data_ptr()),
+        ctypes.c_void_p(k.data_ptr()),
+        ctypes.c_void_p(v.data_ptr()),
+        ctypes.c_void_p(out.data_ptr()),
+        batch, num_heads, seq_len, head_dim, window_size, scale, rotary_base, None
+    )
+    torch.cuda.synchronize()
+
+    # Analytical reference with manual RoPE and causal sliding window masking
+    pos = torch.arange(seq_len, device='cuda', dtype=torch.float32)
+    dim_idx = torch.arange(0, head_dim, 2, device='cuda', dtype=torch.float32)
+    inv_freq = 1.0 / (rotary_base ** (dim_idx / head_dim))
+    angles = torch.einsum('i,j->ij', pos, inv_freq)
+    cos_a = torch.cos(angles)
+    sin_a = torch.sin(angles)
+
+    def apply_rotary(x):
+        x0 = x[..., 0::2]
+        x1 = x[..., 1::2]
+        r0 = x0 * cos_a - x1 * sin_a
+        r1 = x0 * sin_a + x1 * cos_a
+        return torch.stack([r0, r1], dim=-1).flatten(-2)
+
+    q_rot = apply_rotary(q)
+    k_rot = apply_rotary(k)
+
+    scores = torch.matmul(q_rot, k_rot.transpose(-1, -2)) * scale
+    mask = torch.ones(seq_len, seq_len, device='cuda', dtype=torch.bool)
+    for i in range(seq_len):
+        start = max(0, i - window_size + 1)
+        mask[i, start:i+1] = False
+    scores.masked_fill_(mask, -1e30)
+    attn = torch.softmax(scores, dim=-1)
+    ref_out = torch.matmul(attn, v)
+
+    diff = torch.norm(out - ref_out).item() / (batch * num_heads * seq_len * head_dim)
+    assert diff < 1e-4, f"SWA diff: {diff}"
+
+
 

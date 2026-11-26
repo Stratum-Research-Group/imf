@@ -275,4 +275,67 @@ def test_iouring_splice_roundtrip():
     os.unlink(src_path)
     os.unlink(dst_path)
 
+def test_iouring_multishot_poll_basic():
+    so_path = "csrc/fused_iouring_multishot_poll.so"
+    lib = ctypes.CDLL(so_path)
+
+    lib.init_multishot_poll_engine.argtypes = [ctypes.c_int]
+    lib.init_multishot_poll_engine.restype = ctypes.c_void_p
+
+    lib.arm_multishot_poll.argtypes = [ctypes.c_void_p, ctypes.c_int, ctypes.c_uint, ctypes.c_uint64]
+    lib.arm_multishot_poll.restype = ctypes.c_int
+
+    lib.wait_and_drain_poll_events.argtypes = [
+        ctypes.c_void_p,
+        ctypes.POINTER(ctypes.c_uint64),
+        ctypes.POINTER(ctypes.c_int),
+        ctypes.c_int,
+        ctypes.c_int
+    ]
+    lib.wait_and_drain_poll_events.restype = ctypes.c_int
+
+    lib.free_multishot_poll_engine.argtypes = [ctypes.c_void_p]
+    lib.free_multishot_poll_engine.restype = None
+
+    r_fd, w_fd = os.pipe()
+    eng = lib.init_multishot_poll_engine(16)
+    assert eng is not None
+
+    user_tag = 0x42A1
+    poll_in = 0x0001 # POLLIN
+
+    ret = lib.arm_multishot_poll(eng, r_fd, poll_in, user_tag)
+    assert ret == 0
+
+    # Trigger 1: Write first message
+    os.write(w_fd, b"HELLO_MULTISHOT_1\n")
+
+    out_tags = (ctypes.c_uint64 * 8)()
+    out_revents = (ctypes.c_int * 8)()
+
+    count1 = lib.wait_and_drain_poll_events(eng, out_tags, out_revents, 8, 500)
+    assert count1 >= 1
+    assert out_tags[0] == user_tag
+    assert (out_revents[0] & poll_in) != 0
+
+    # Read the data to reset readiness
+    msg1 = os.read(r_fd, 64)
+    assert msg1 == b"HELLO_MULTISHOT_1\n"
+
+    # Trigger 2: Write second message WITHOUT re-arming (proving multi-shot persistence)
+    os.write(w_fd, b"HELLO_MULTISHOT_2\n")
+
+    count2 = lib.wait_and_drain_poll_events(eng, out_tags, out_revents, 8, 500)
+    assert count2 >= 1
+    assert out_tags[0] == user_tag
+    assert (out_revents[0] & poll_in) != 0
+
+    msg2 = os.read(r_fd, 64)
+    assert msg2 == b"HELLO_MULTISHOT_2\n"
+
+    lib.free_multishot_poll_engine(eng)
+    os.close(r_fd)
+    os.close(w_fd)
+
+
 
