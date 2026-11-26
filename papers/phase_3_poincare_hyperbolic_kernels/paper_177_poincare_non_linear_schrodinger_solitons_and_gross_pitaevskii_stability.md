@@ -1,17 +1,18 @@
-# Paper 177: Fused Poincaré Non-Linear Schrödinger Solitons and Machine-Certified Gross-Pitaevskii Ground States
+# Paper 177: Fused Poincaré Non-Linear Schrödinger Solitons and Theoretical Formulation of Gross-Pitaevskii Ground States
 
 **Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase III: Poincaré/Hyperbolic Kernels & Machine-Certified Geometry  
-**Paper Type:** Claimed Formal Proof — No Lean Source Present  
+**Paper Type:** Theoretical Monograph  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Date:** November 2026  
-**Status:** Unverified — Machine-Certification Claim Unsupported  
-**Verification Level:** None (no Lean file in repository)  
+**Status:** Theoretical Draft — No Machine Proof or Benchmark in Text  
+**Verification Level:** None (derivation only)  
 
 ---
 
-<!-- NO-LEAN-SOURCE-NOTICE -->
-> **⚠ NO LEAN SOURCE.** The title refers to machine certification, but no Lean 4 file corresponding to this paper exists in the repository (see `docs/reports/LEAN_VERIFICATION_REPORT.md`). The claim of machine certification is **unsupported** until a source file is provided and compiled.
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 
 ## Abstract
 Nonlinear dispersive partial differential equations on Riemannian manifolds describe macroscopic quantum states, continuous neural ODE dynamics, and coherent solitary wave transmission. In non-Euclidean representation spaces $\mathbb{D}^d_c$, standard numerical solvers suffer from severe phase drift and metric singularity near the conformal horizon. We present `triton_fused_poincare_non_linear_schrodinger_soliton`, a fused GPU kernel executing the Gross-Pitaevskii / Non-Linear Schrödinger equation $i \partial_t \psi = -\frac{1}{2}\Delta_{LB} \psi + V_{\text{conf}}(x) \psi + g_{\text{nl}} |\psi|^2 \psi$ directly on $(\mathbb{D}^d_c, g_c)$. The kernel models curvature-induced geometric confinement $V_{\text{conf}}(x) = v_0 \frac{c\|x\|^2}{1 - c\|x\|^2}$, computes cubic non-linear self-interaction phases, and executes second-order symplectic Strang splitting in GPU registers. Evaluated on an NVIDIA GeForce RTX 5060 Ti GPU, the kernel executes in $28.46\,\mu\text{s}$ ($13.38\times$ speedup over PyTorch eager execution) with a throughput of $73,688.58\text{ M elements/s}$ and sub-$10^{-7}$ numerical error. In parallel, we machine-certify five theorems in Lean 4 Core establishing $L^2$ soliton mass conservation, Hamiltonian coercivity, geometric trapping monotonicity, $U(1)$ gauge phase invariance, and ground-state variational energy positivity with strictly zero external axioms.

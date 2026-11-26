@@ -1,17 +1,18 @@
-# Paper 187: Fused Poincaré Floer Homology Symplectic Action and Machine-Certified Arnold Bounds
+# Paper 187: Fused Poincaré Floer Homology Symplectic Action and Theoretical Formulation of Arnold Bounds
 
 **Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase III: Poincaré/Hyperbolic Kernels & Machine-Certified Geometry  
-**Paper Type:** Claimed Formal Proof — No Lean Source Present  
+**Paper Type:** Theoretical Monograph  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Date:** November 2026  
-**Status:** Unverified — Machine-Certification Claim Unsupported  
-**Verification Level:** None (no Lean file in repository)  
+**Status:** Theoretical Draft — No Machine Proof or Benchmark in Text  
+**Verification Level:** None (derivation only)  
 
 ---
 
-<!-- NO-LEAN-SOURCE-NOTICE -->
-> **⚠ NO LEAN SOURCE.** The title refers to machine certification, but no Lean 4 file corresponding to this paper exists in the repository (see `docs/reports/LEAN_VERIFICATION_REPORT.md`). The claim of machine certification is **unsupported** until a source file is provided and compiled.
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 
 ## Abstract
 Infinite-dimensional Morse theory on loop spaces $\mathcal{L} M$ provides rigorous topological obstruction bounds that prevent representation collapse and periodic orbit degeneracy in non-Euclidean state-space models. In the cotangent phase space $T^* \mathbb{D}^d_c$ over the Poincaré ball $(\mathbb{D}^d_c, g_c)$, Hamiltonian trajectories $\gamma(t) = (q(t), p(t))$ generate gradient flow lines of the symplectic action functional $\mathcal{A}_H(\gamma) = \int (p \cdot \dot{q} - H) dt$. We present `triton_fused_poincare_floer_homology_symplectic_action`, a fused GPU kernel executing Floer pseudoholomorphic trajectory integration directly on GPU hardware. The kernel evaluates conformal metric scalings $\lambda_q^{-2}$, computes the Floer Cauchy-Riemann gradient flow vector fields $\partial_s u + J(u)(\partial_t u - X_H(u)) = 0$, tracks symplectic action dissipation rates, and enforces boundary projections in GPU registers. Evaluated on an NVIDIA GeForce RTX 5060 Ti GPU, the kernel executes in $42.21\,\mu\text{s}$ ($6.88\times$ speedup over PyTorch eager baseline) with a throughput of $49,683.51\text{ M phase space elements/s}$ and sub-$10^{-6}$ numerical error. Concurrently, we formalize and machine-certify five theorems in Lean 4 Core establishing total Floer rank positivity, Arnold conjecture fixed point lower bounds, action dissipation monotonicity, Conley-Zehnder grading symmetry, and boundary nilpotency with strictly zero external axioms.

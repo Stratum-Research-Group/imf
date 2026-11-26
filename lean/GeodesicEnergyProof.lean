@@ -21,7 +21,6 @@ theorem rotation_preserves_kinetic_energy (v : ℝ × ℝ) :
   rfl
 
 /-- Zero sorry state: Formal verification gate passed -/
-theorem geodesic_energy_certified : True := by
-  trivial
+-- Note: Removed tautological `geodesic_energy_certified : True` placeholder
 
 end IMF.GeodesicEnergy

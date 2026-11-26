@@ -27,7 +27,6 @@ theorem triality_transitive (a b c : ℝ) (h1 : triality_isometry a b) (h2 : tri
   rw [h1, h2]
 
 /-- Zero sorry state: Formal verification gate passed -/
-theorem triality_zero_sorry_certified : True := by
-  trivial
+-- Note: Removed tautological `triality_zero_sorry_certified : True` placeholder
 
 end IMF.Triality

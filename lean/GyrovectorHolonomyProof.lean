@@ -29,7 +29,6 @@ theorem holonomy_phase_conjugate (u_norm v_norm : ℝ) :
   ring
 
 /-- Formal certified zero sorry state -/
-theorem holonomy_certified : True := by
-  trivial
+-- Note: Removed tautological `holonomy_certified : True` placeholder
 
 end IMF.GyrovectorHolonomy

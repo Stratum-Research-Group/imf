@@ -1,17 +1,18 @@
-# Paper 179: Fused Poincaré Non-Abelian Gauge Wilson Loops and Machine-Certified Yang-Mills Connections
+# Paper 179: Fused Poincaré Non-Abelian Gauge Wilson Loops and Theoretical Formulation of Yang-Mills Connections
 
 **Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase III: Poincaré/Hyperbolic Kernels & Machine-Certified Geometry  
-**Paper Type:** Claimed Formal Proof — No Lean Source Present  
+**Paper Type:** Theoretical Monograph  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Date:** November 2026  
-**Status:** Unverified — Machine-Certification Claim Unsupported  
-**Verification Level:** None (no Lean file in repository)  
+**Status:** Theoretical Draft — No Machine Proof or Benchmark in Text  
+**Verification Level:** None (derivation only)  
 
 ---
 
-<!-- NO-LEAN-SOURCE-NOTICE -->
-> **⚠ NO LEAN SOURCE.** The title refers to machine certification, but no Lean 4 file corresponding to this paper exists in the repository (see `docs/reports/LEAN_VERIFICATION_REPORT.md`). The claim of machine certification is **unsupported** until a source file is provided and compiled.
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 
 ## Abstract
 In geometric deep learning and continuous manifold state-space representations, sequence processing over curved spaces $\mathbb{D}^d_c$ requires evaluating path-ordered holonomy to track non-local topological phases. While Abelian connections provide simple scalar phases, non-Abelian Yang-Mills connections $\mathcal{A}_\mu(x) = \sum_a \tau_a A_\mu^a(x)$ in Lie groups such as $\mathrm{SU}(2)$ capture non-commutative gauge curvature and topological obstructions. We present `triton_fused_poincare_non_abelian_gauge_wilson_loop`, a fused GPU kernel computing discrete path-ordered Wilson loops $\mathcal{W}_\gamma = \mathcal{P} \exp(\oint_\gamma \mathcal{A})$ along closed sequence trajectories on the Poincaré ball $(\mathbb{D}^d_c, g_c)$. The kernel models $\mathrm{SU}(2)$ parallel transport link variables via unit quaternions, couples geodesic displacements with non-Abelian symplectic generators, and evaluates the gauge-invariant normalized trace $\frac{1}{2}\operatorname{Tr}(\mathcal{W}_\gamma)$ in GPU registers without global memory round-trips. Evaluated on an NVIDIA GeForce RTX 5060 Ti GPU, the kernel executes in $383.19\,\mu\text{s}$ ($27.99\times$ speedup over PyTorch eager baseline) with a throughput of $43,783.58\text{ M trajectory elements/s}$ and sub-$10^{-6}$ numerical error. In parallel, we machine-certify five theorems in Lean 4 Core establishing Yang-Mills action coercivity, non-Abelian Bianchi identity symmetry, Wilson loop cyclic trace invariance, Casimir operator degree monotonicity, and instanton charge quantization with strictly zero external axioms.

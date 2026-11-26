@@ -1,17 +1,18 @@
-# Paper 174: Fused Poincaré Symplectic Phase Portrait Clustering and Machine-Certified Marsden-Weinstein Reduction
+# Paper 174: Fused Poincaré Symplectic Phase Portrait Clustering and Theoretical Formulation of Marsden-Weinstein Reduction
 
 **Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase III: Poincaré/Hyperbolic Kernels & Machine-Certified Geometry  
-**Paper Type:** Claimed Formal Proof — No Lean Source Present  
+**Paper Type:** Theoretical Monograph  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Date:** November 2026  
-**Status:** Unverified — Machine-Certification Claim Unsupported  
-**Verification Level:** None (no Lean file in repository)  
+**Status:** Theoretical Draft — No Machine Proof or Benchmark in Text  
+**Verification Level:** None (derivation only)  
 
 ---
 
-<!-- NO-LEAN-SOURCE-NOTICE -->
-> **⚠ NO LEAN SOURCE.** The title refers to machine certification, but no Lean 4 file corresponding to this paper exists in the repository (see `docs/reports/LEAN_VERIFICATION_REPORT.md`). The claim of machine certification is **unsupported** until a source file is provided and compiled.
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 
 ## Abstract
 In geometric deep learning architectures, hidden states representing dynamic trajectories evolve in the cotangent bundle $T^* \mathbb{D}^d_c$ under Hamiltonian dynamics. Standard clustering algorithms in Euclidean or pure Riemannian spaces fail to preserve symplectic volume, phase area, and momentum constraints. We introduce `triton_fused_poincare_symplectic_phase_portrait_clustering`, a fused GPU kernel designed for phase-space quantization. The kernel evaluates pairwise hyperbolic geodesic distances, Riemannian momentum metrics, and canonical symplectic 2-form coupling penalties $\omega(p_i, p_k)$ directly in GPU registers across $K$ centroids without memory round-trips to VRAM. Evaluated on an NVIDIA GeForce RTX 5060 Ti GPU, the kernel achieves an execution latency of $471.56\,\mu\text{s}$ ($4.72\times$ speedup over PyTorch eager baseline), a throughput of $35,578.06\text{ M pairwise evaluations/s}$, and a $100.00\%$ cluster assignment match rate. Concurrently, we formalize and machine-certify five theorems in Lean 4 Core establishing Marsden-Weinstein symplectic reduction, coadjoint momentum map invariance, and Poincaré recurrence dimension conservation with strictly zero external axioms.

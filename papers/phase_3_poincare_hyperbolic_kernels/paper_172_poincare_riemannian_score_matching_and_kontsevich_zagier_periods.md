@@ -1,17 +1,18 @@
-# Paper 172: Fused Poincaré Geodesic Riemannian Score Matching and Machine-Certified Kontsevich-Zagier Motivic Periods
+# Paper 172: Fused Poincaré Geodesic Riemannian Score Matching and Theoretical Formulation of Kontsevich-Zagier Motivic Periods
 
 **Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase III: Poincaré/Hyperbolic Kernels & Machine-Certified Geometry  
-**Paper Type:** Claimed Formal Proof — No Lean Source Present  
+**Paper Type:** Theoretical Monograph  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Date:** November 2026  
-**Status:** Unverified — Machine-Certification Claim Unsupported  
-**Verification Level:** None (no Lean file in repository)  
+**Status:** Theoretical Draft — No Machine Proof or Benchmark in Text  
+**Verification Level:** None (derivation only)  
 
 ---
 
-<!-- NO-LEAN-SOURCE-NOTICE -->
-> **⚠ NO LEAN SOURCE.** The title refers to machine certification, but no Lean 4 file corresponding to this paper exists in the repository (see `docs/reports/LEAN_VERIFICATION_REPORT.md`). The claim of machine certification is **unsupported** until a source file is provided and compiled.
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 
 ## Abstract
 Generative modeling and score-based diffusion on non-Euclidean manifolds require evaluating vector fields that respect the intrinsic Riemannian metric tensor $g_x$. In hyperbolic spaces $\mathbb{D}^d_c$, naive ambient score updates cause catastrophic metric collapse and numerical divergence near the ideal boundary $\partial \mathbb{D}^d_c$. We introduce a physical GPU kernel, `triton_fused_poincare_geodesic_riemannian_score_matching`, that computes the inverse Riemannian metric tensor $g_x^{-1} = \lambda_x^{-2} I$, maps ambient Euclidean score predictions into the intrinsic tangent bundle $T_x \mathbb{D}^d_c$, and performs a closed-form Möbius retraction in a single fused thread-block pass. Implemented on an NVIDIA GeForce RTX 5060 Ti GPU, this kernel executes in $30.25\,\mu\text{s}$ ($10.42\times$ speedup over PyTorch eager execution) with an ultra-high coordinate accuracy ($2.98 \times 10^{-8}$ maximum error). In parallel, we machine-certify five core theorems formalizing Kontsevich-Zagier periods, algebraic de Rham comparison isomorphisms, Stokes duality, and iterated integral shuffle algebras under Lean 4 Core with strictly zero external axioms.

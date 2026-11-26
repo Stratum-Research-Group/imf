@@ -1,17 +1,18 @@
-# Paper 184: Fused Poincaré Calabi Metric Gradient Flows and Machine-Certified Extremal Kähler Invariants
+# Paper 184: Fused Poincaré Calabi Metric Gradient Flows and Theoretical Formulation of Extremal Kähler Invariants
 
 **Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase III: Poincaré/Hyperbolic Kernels & Machine-Certified Geometry  
-**Paper Type:** Claimed Formal Proof — No Lean Source Present  
+**Paper Type:** Theoretical Monograph  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Date:** November 2026  
-**Status:** Unverified — Machine-Certification Claim Unsupported  
-**Verification Level:** None (no Lean file in repository)  
+**Status:** Theoretical Draft — No Machine Proof or Benchmark in Text  
+**Verification Level:** None (derivation only)  
 
 ---
 
-<!-- NO-LEAN-SOURCE-NOTICE -->
-> **⚠ NO LEAN SOURCE.** The title refers to machine certification, but no Lean 4 file corresponding to this paper exists in the repository (see `docs/reports/LEAN_VERIFICATION_REPORT.md`). The claim of machine certification is **unsupported** until a source file is provided and compiled.
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 
 ## Abstract
 In geometric deep learning architectures operating on complex non-Euclidean manifolds, metric anisotropy and non-uniform scalar curvature lead to representation degradation and information bottlenecks. The Calabi flow is a fourth-order parabolic geometric partial differential equation $\partial_t g_{i\bar{j}} = \nabla_i \nabla_{\bar{j}} R(g)$ representing the $L^2$-gradient flow of the Calabi energy functional $\mathcal{C}(g) = \int_M (R(g) - \bar{R})^2 \, d\mu_g$. We present `triton_fused_poincare_calabi_metric_gradient_flow`, a fused GPU kernel executing the Calabi gradient flow directly on the Poincaré ball $(\mathbb{D}^d_c, g_c)$. The kernel evaluates local scalar curvature deviations, applies biharmonic gradient retractions $\lambda_z^{-2} \Delta R$, computes the Calabi energy density, and projects representations onto the manifold boundary in a single fused pass. Evaluated on an NVIDIA GeForce RTX 5060 Ti GPU, the kernel executes in $27.68\,\mu\text{s}$ ($9.22\times$ speedup over PyTorch eager baseline) with an ultra-high throughput of $37,877.78\text{ M elements/s}$ and sub-$10^{-7}$ numerical error. In parallel, we machine-certify five theorems in Lean 4 Core establishing Calabi functional positivity, energy symmetry, fourth-order dissipation monotonicity, Chen extremal invariant non-vanishing, and constant scalar curvature uniqueness with strictly zero external axioms.

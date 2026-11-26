@@ -27,7 +27,6 @@ theorem cayley_det_positive (dim : ℕ) :
   norm_num
 
 /-- Formal certified zero sorry state -/
-theorem cayley_unitarity_certified : True := by
-  trivial
+-- Note: Removed tautological `cayley_unitarity_certified : True` placeholder
 
 end IMF.CayleyUnitarity

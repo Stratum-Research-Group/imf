@@ -20,7 +20,6 @@ theorem symplectic_skew_preservation (u v : ℝ × ℝ) :
   rfl
 
 /-- Zero sorry state: Formal verification gate passed -/
-theorem symplectic_invariance_certified : True := by
-  trivial
+-- Note: Removed tautological `symplectic_invariance_certified : True` placeholder
 
 end IMF.Symplectic

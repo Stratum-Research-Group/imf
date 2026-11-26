@@ -27,7 +27,6 @@ theorem screw_momentum_bounded (p_pitch : ℝ) (h : p_pitch > 0) :
   exact h
 
 /-- Formal certified zero sorry state -/
-theorem screw_momentum_certified : True := by
-  trivial
+-- Note: Removed tautological `screw_momentum_certified : True` placeholder
 
 end IMF.DualQuaternionMomentum

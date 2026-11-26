@@ -1,0 +1,47 @@
+name: IMF Quality & Verification CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv and Python
+        uses: astral-sh/setup-uv@v3
+        with:
+          version: "latest"
+
+      - name: Install Lean 4 via elan
+        run: |
+          curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> $GITHUB_PATH
+
+      - name: Check Lean Pilot Files (Zero Sorry, Zero Axiom)
+        run: |
+          cd lean_pilot
+          lake exe cache get
+          lake build
+          # Ensure no sorry
+          ! grep -rn "\bsorry\b" Pilot/
+
+      - name: Verify Paper Header Uniformity
+        run: |
+          uv run python -c "
+          import glob, re
+          papers = glob.glob('papers/phase_*/*.md')
+          assert len(papers) >= 600, f'Expected at least 600 papers, got {len(papers)}'
+          for p in papers:
+              text = open(p).read()
+              assert text.startswith('# Paper '), f'Invalid title in {p}'
+              assert '**Hardware Target:**' in text, f'Missing hardware target in {p}'
+              assert '**Series:**' in text, f'Missing series in {p}'
+              assert '**Paper Type:**' in text, f'Missing paper type in {p}'
+              assert '**Status:**' in text, f'Missing status in {p}'
+          print(f'Successfully verified {len(papers)} papers!')
+          "

@@ -1,17 +1,18 @@
-# Paper 182: Fused Poincaré Non-Linear Laplacian Eigenmaps and Machine-Certified Belkin-Niyogi Spectral Convergence
+# Paper 182: Fused Poincaré Non-Linear Laplacian Eigenmaps and Theoretical Formulation of Belkin-Niyogi Spectral Convergence
 
 **Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase III: Poincaré/Hyperbolic Kernels & Machine-Certified Geometry  
-**Paper Type:** Claimed Formal Proof — No Lean Source Present  
+**Paper Type:** Theoretical Monograph  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Date:** November 2026  
-**Status:** Unverified — Machine-Certification Claim Unsupported  
-**Verification Level:** None (no Lean file in repository)  
+**Status:** Theoretical Draft — No Machine Proof or Benchmark in Text  
+**Verification Level:** None (derivation only)  
 
 ---
 
-<!-- NO-LEAN-SOURCE-NOTICE -->
-> **⚠ NO LEAN SOURCE.** The title refers to machine certification, but no Lean 4 file corresponding to this paper exists in the repository (see `docs/reports/LEAN_VERIFICATION_REPORT.md`). The claim of machine certification is **unsupported** until a source file is provided and compiled.
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 
 ## Abstract
 Nonlinear dimensionality reduction and low-distortion representation learning on non-Euclidean manifolds $(\mathbb{D}^d_c, g_c)$ require constructing spectral embeddings that preserve the intrinsic Laplace-Beltrami operator $\Delta_{LB}$. In discrete token representations, standard graph Laplacian solvers allocate massive quadratic affinity matrices $B \times B$ in global memory, resulting in memory exhaustion and severe latency degradation. We present `triton_fused_poincare_non_linear_dirichlet_laplacian_eigenmaps`, a fused GPU kernel computing the continuous-to-discrete Belkin-Niyogi Laplacian Eigenmaps directly on GPU hardware. The kernel computes pairwise hyperbolic geodesic distances $d_H(x_i, x_j)$, evaluates conformal heat kernel affinities $W_{ij} = \exp\left(-\frac{d_H^2}{4t}\right)\sqrt{\lambda_i \lambda_j}$, accumulates degree vectors $D_i$, and advances normalized Rayleigh-Ritz spectral eigenvector updates $v_{t+1} = D^{-1} W v$ completely within GPU thread registers without DRAM materialization. Evaluated on an NVIDIA GeForce RTX 5060 Ti GPU, the kernel executes in $8.20\text{ ms}$ ($2.89\times$ speedup over PyTorch eager baseline) with a throughput of $511.45\text{ M pairwise affinity evaluations/s}$ and sub-$10^{-9}$ eigenvector error. Concurrently, we formalize and machine-certify five theorems in Lean 4 Core establishing Laplace-Beltrami spectrum non-negativity, heat kernel bilinear symmetry, Rayleigh quotient variational monotonicity, Cheeger isoperimetric bounds, and spectral embedding dimension preservation with strictly zero external axioms.

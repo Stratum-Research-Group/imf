@@ -29,7 +29,6 @@ theorem cell_volume_positive (dim : ℕ) (r : ℝ) (hr : r > 0) :
   exact mul_pos h2 hr_pow
 
 /-- Zero sorry state: Formal verification gate passed -/
-theorem formal_zero_sorry_certified : True := by
-  trivial
+-- Note: Removed tautological `formal_zero_sorry_certified : True` placeholder
 
 end IMF.Matryoshka

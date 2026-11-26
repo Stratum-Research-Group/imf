@@ -26,7 +26,6 @@ theorem antipodal_pair_zero_mean (x c : ℝ) :
   ring
 
 /-- Formal certified zero sorry state -/
-theorem unbiased_expectation_certified : True := by
-  trivial
+-- Note: Removed tautological `unbiased_expectation_certified : True` placeholder
 
 end IMF.UnbiasedQuantization

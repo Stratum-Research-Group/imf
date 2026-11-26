@@ -1,0 +1,57 @@
+{
+  "device": "NVIDIA GeForce RTX 5060 Ti",
+  "polar_svd": {
+    "128": {
+      "latency_us": 487.07,
+      "throughput_mops": 0.26
+    },
+    "512": {
+      "latency_us": 630.13,
+      "throughput_mops": 0.81
+    },
+    "1024": {
+      "latency_us": 618.93,
+      "throughput_mops": 1.65
+    },
+    "4096": {
+      "latency_us": 705.73,
+      "throughput_mops": 5.8
+    }
+  },
+  "berry_phase": {
+    "256": {
+      "latency_us": 27.81,
+      "throughput_mops": 9.21
+    },
+    "1024": {
+      "latency_us": 26.82,
+      "throughput_mops": 38.18
+    },
+    "4096": {
+      "latency_us": 26.06,
+      "throughput_mops": 157.16
+    },
+    "16384": {
+      "latency_us": 102.72,
+      "throughput_mops": 159.51
+    }
+  },
+  "rotor_slerp": {
+    "1024": {
+      "latency_us": 2.44,
+      "throughput_mops": 420.51
+    },
+    "4096": {
+      "latency_us": 2.38,
+      "throughput_mops": 1717.72
+    },
+    "16384": {
+      "latency_us": 2.46,
+      "throughput_mops": 6670.22
+    },
+    "65536": {
+      "latency_us": 2.4,
+      "throughput_mops": 27302.23
+    }
+  }
+}

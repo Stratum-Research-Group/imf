@@ -31,7 +31,6 @@ theorem curvature_bounded_below (kappa : ℝ) (h1 : kappa > 0) (h2 : kappa ≤ 1
   linarith
 
 /-- Formal certified zero sorry state -/
-theorem gyro_curvature_certified : True := by
-  trivial
+-- Note: Removed tautological `gyro_curvature_certified : True` placeholder
 
 end IMF.GyrovectorCurvature

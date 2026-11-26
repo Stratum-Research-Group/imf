@@ -1,17 +1,18 @@
-# Paper 176: Fused Poincaré Non-Linear Dirac Spectral Spinors and Machine-Certified Atiyah-Singer Index Theorems
+# Paper 176: Fused Poincaré Non-Linear Dirac Spectral Spinors and Theoretical Formulation of Atiyah-Singer Index Theorems
 
 **Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase III: Poincaré/Hyperbolic Kernels & Machine-Certified Geometry  
-**Paper Type:** Claimed Formal Proof — No Lean Source Present  
+**Paper Type:** Theoretical Monograph  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Date:** November 2026  
-**Status:** Unverified — Machine-Certification Claim Unsupported  
-**Verification Level:** None (no Lean file in repository)  
+**Status:** Theoretical Draft — No Machine Proof or Benchmark in Text  
+**Verification Level:** None (derivation only)  
 
 ---
 
-<!-- NO-LEAN-SOURCE-NOTICE -->
-> **⚠ NO LEAN SOURCE.** The title refers to machine certification, but no Lean 4 file corresponding to this paper exists in the repository (see `docs/reports/LEAN_VERIFICATION_REPORT.md`). The claim of machine certification is **unsupported** until a source file is provided and compiled.
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 
 ## Abstract
 Spin geometry on Riemannian and pseudo-Riemannian manifolds provides a canonical framework for fermionic representations, chiral decomposition, and invariant phase dynamics. In hyperbolic geometric deep learning, representations traversing $\mathbb{D}^d_c$ must preserve Clifford module actions and spin connection curvature. We introduce `triton_fused_poincare_non_linear_dirac_spectral_spinor`, a fused GPU kernel executing Soler non-linear Dirac dynamics $\mathcal{D} \psi + m \psi - g (\bar{\psi} \psi) \psi = 0$ on the Poincaré ball $(\mathbb{D}^d_c, g_c)$. The kernel computes the hyperbolic inverse vielbein $e_a^\mu = \frac{1 - c\|x\|^2}{2} \delta_a^\mu$, evaluates the spinor scalar invariant $\rho_\psi = \|\psi\|^2$, executes Clifford algebra $\gamma$-matrix contractions, and advances unitary spinor phase rotations in a single fused pass. Evaluated on an NVIDIA GeForce RTX 5060 Ti GPU, the kernel achieves an execution latency of $32.38\,\mu\text{s}$ ($10.32\times$ speedup over PyTorch eager execution) with an ultra-high throughput of $64,771.68\text{ M elements/s}$ and sub-$10^{-7}$ numerical error. Concurrently, we formalize and machine-certify five theorems in Lean 4 Core establishing the Atiyah-Singer index theorem for Dirac operators, $\widehat{A}$-genus characteristic integrality, Lichnerowicz harmonic vanishing, and spin structure parity with strictly zero external axioms.

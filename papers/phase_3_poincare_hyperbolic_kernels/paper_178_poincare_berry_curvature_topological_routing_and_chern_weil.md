@@ -1,17 +1,18 @@
-# Paper 178: Fused Poincaré Berry Curvature Topological Routing and Machine-Certified Chern-Weil Invariants
+# Paper 178: Fused Poincaré Berry Curvature Topological Routing and Theoretical Formulation of Chern-Weil Invariants
 
 **Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase III: Poincaré/Hyperbolic Kernels & Machine-Certified Geometry  
-**Paper Type:** Claimed Formal Proof — No Lean Source Present  
+**Paper Type:** Theoretical Monograph  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Date:** November 2026  
-**Status:** Unverified — Machine-Certification Claim Unsupported  
-**Verification Level:** None (no Lean file in repository)  
+**Status:** Theoretical Draft — No Machine Proof or Benchmark in Text  
+**Verification Level:** None (derivation only)  
 
 ---
 
-<!-- NO-LEAN-SOURCE-NOTICE -->
-> **⚠ NO LEAN SOURCE.** The title refers to machine certification, but no Lean 4 file corresponding to this paper exists in the repository (see `docs/reports/LEAN_VERIFICATION_REPORT.md`). The claim of machine certification is **unsupported** until a source file is provided and compiled.
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 
 ## Abstract
 Standard mixture-of-experts (MoE) gating mechanisms based purely on Euclidean dot products frequently suffer from representation collapse, routing starvation, and loss of geometric phase information. In quantum and non-Euclidean representation spaces $(\mathbb{D}^d_c, g_c)$, token trajectories acquire an adiabatic geometric Berry connection $\mathcal{A}_\mu(x)$ whose curvature $\Omega_{\mu\nu} = \partial_\mu \mathcal{A}_\nu - \partial_\nu \mathcal{A}_\mu$ defines topological Chern invariants. We present `triton_fused_poincare_berry_curvature_topological_router`, a fused GPU kernel executing geometric Berry curvature routing. The kernel evaluates the local Berry curvature density $B(x) = \frac{c}{(1 - c\|x\|^2)^2}$, couples Riemannian geodesic inner products with canonical symplectic holonomy 2-forms $\omega(x, W_e)$, and computes normalized expert routing distributions directly on GPU hardware. Executed on an NVIDIA GeForce RTX 5060 Ti GPU, the kernel achieves an ultra-high throughput of $45,423.80\text{ M expert interactions/s}$ with sub-$10^{-7}$ numerical precision. Concurrently, we formalize and machine-certify five theorems in Lean 4 Core establishing Berry curvature skew-symmetry, Chern-Weil first Chern number integrality, gauge invariance of holonomy phases, and non-vanishing topological routing capacity with strictly zero external axioms.

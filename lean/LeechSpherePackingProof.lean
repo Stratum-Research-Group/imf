@@ -26,7 +26,6 @@ theorem leech_orthogonal_isolation (d_sq : ℝ) (h : d_sq ≥ leech_minimal_norm
   exact h
 
 /-- Zero sorry state: Formal verification gate passed -/
-theorem leech_packing_certified : True := by
-  trivial
+-- Note: Removed tautological `leech_packing_certified : True` placeholder
 
 end IMF.LeechSpherePacking
