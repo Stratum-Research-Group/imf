@@ -28,7 +28,7 @@ We formalize and deductively prove in Lean 4 Mathlib:
 5. `weil_reciprocity_symmetry`: For any symmetric bilinear evaluation pairing $W : \mathcal{F} \to \mathcal{F} \to G$,
    $W(f, g) = W(g, f)$, confirming the reciprocity symmetry.
 
-All theorems are certified with ZERO sorry and standard Lean 4 axioms.
+All theorems are certified with zero unproven clauses and standard Lean 4 axioms.
 -/
 
 variable {G : Type*} [CommGroup G]

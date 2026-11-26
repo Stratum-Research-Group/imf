@@ -1031,6 +1031,58 @@ def test_fused_weil_reciprocity_divisor_correctness():
     assert abs(diff_out[1].item()) < 1e-5
 
 
+def test_fused_arakelov_intersection_correctness():
+    so_path = "csrc/libfused_blackwell_arakelov_intersection.so"
+    if not os.path.exists(so_path):
+        so_path = "csrc/fused_blackwell_arakelov_intersection.so"
+    lib = ctypes.CDLL(so_path)
+    lib.fused_blackwell_arakelov_intersection.argtypes = [
+        ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p,
+        ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p,
+        ctypes.c_int
+    ]
+
+    B = 2
+    D1 = torch.tensor([
+        [1.0, 2.0],
+        [3.0, 4.0]
+    ], dtype=torch.float32)
+
+    D2 = torch.tensor([
+        [2.0, 1.0],
+        [1.0, 1.0]
+    ], dtype=torch.float32)
+
+    fin = torch.tensor([1.5, 2.0], dtype=torch.float32)
+    params = torch.tensor([0.5, 1e-4], dtype=torch.float32)
+
+    g_pq = torch.zeros(B, dtype=torch.float32)
+    g_qp = torch.zeros(B, dtype=torch.float32)
+    arakelov = torch.zeros(B, dtype=torch.float32)
+    sym_diff = torch.zeros(B, dtype=torch.float32)
+
+    ret = lib.fused_blackwell_arakelov_intersection(
+        ctypes.c_void_p(D1.data_ptr()),
+        ctypes.c_void_p(D2.data_ptr()),
+        ctypes.c_void_p(fin.data_ptr()),
+        ctypes.c_void_p(params.data_ptr()),
+        ctypes.c_void_p(g_pq.data_ptr()),
+        ctypes.c_void_p(g_qp.data_ptr()),
+        ctypes.c_void_p(arakelov.data_ptr()),
+        ctypes.c_void_p(sym_diff.data_ptr()),
+        B
+    )
+    assert ret == 0
+
+    # Symmetry check g_infty(P, Q) == g_infty(Q, P)
+    for i in range(B):
+        assert abs(g_pq[i].item() - g_qp[i].item()) < 1e-5
+        assert sym_diff[i].item() < 1e-5
+        # Arithmetic intersection is sum of finite + archimedean
+        assert abs(arakelov[i].item() - (fin[i].item() + g_pq[i].item())) < 1e-5
+
+
+
 
 
 

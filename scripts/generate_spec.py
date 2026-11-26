@@ -34,7 +34,7 @@ def inspect_file(filepath):
 lines = []
 lines.append('# Interaction Primitive Families (IMF): Grand Microarchitectural Specification & Hardware Catalog')
 lines.append('')
-lines.append('> **Current Status**: Complete, Verified Microarchitectural Register across 130 Components (85 CUDA Kernels, 45 C++ Engines, 117 Native Shared Objects).')
+lines.append(f'> **Current Status**: Complete, Verified Microarchitectural Register across {len(cu_files) + len(cpp_files)} Components ({len(cu_files)} CUDA Kernels, {len(cpp_files)} C++ Engines, {len(so_files)} Native Shared Objects).')
 lines.append('> **Hardware Targets**: NVIDIA Blackwell SM 12.0 (RTX 5060 Ti 16GB GDDR7 / GB200), AMD Ryzen 5 7600X, Linux Kernel-Bypass Direct-DMA, POSIX NUMA Node 0.')
 lines.append('')
 lines.append('---')
@@ -51,7 +51,7 @@ lines.append(f'| **Compiled Native Libraries** | {len(so_files)} `.so` Modules |
 lines.append('')
 lines.append('---')
 lines.append('')
-lines.append('## I. Complete CUDA GPU Microarchitectural Kernels (85 Components)')
+lines.append(f'## I. Complete CUDA GPU Microarchitectural Kernels ({len(cu_files)} Components)')
 lines.append('')
 lines.append('| # | Kernel Name | Microarchitectural Description | Entry Points | Shared Object |')
 lines.append('| :--- | :--- | :--- | :--- | :--- |')

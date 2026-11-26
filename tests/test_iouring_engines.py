@@ -1182,6 +1182,71 @@ def test_iouring_sqpoll_passthru_correctness():
             os.unlink(tpath)
 
 
+def test_iouring_registered_pipesplice_correctness():
+    so_path = "csrc/libfused_iouring_registered_pipesplice.so"
+    if not os.path.exists(so_path):
+        so_path = "csrc/fused_iouring_registered_pipesplice.so"
+    if not os.path.exists(so_path):
+        pytest.skip("registered pipesplice so not found")
+
+    lib = ctypes.CDLL(so_path)
+    lib.iouring_registered_pipesplice_init.argtypes = [ctypes.c_uint32]
+    lib.iouring_registered_pipesplice_init.restype = ctypes.c_void_p
+
+    lib.iouring_registered_pipesplice_prep_splice.argtypes = [
+        ctypes.c_void_p, ctypes.c_int, ctypes.c_int64,
+        ctypes.c_int, ctypes.c_int64, ctypes.c_uint,
+        ctypes.c_uint, ctypes.c_uint64
+    ]
+    lib.iouring_registered_pipesplice_prep_splice.restype = ctypes.c_int
+
+    lib.iouring_registered_pipesplice_submit.argtypes = [ctypes.c_void_p]
+    lib.iouring_registered_pipesplice_submit.restype = ctypes.c_int
+
+    lib.iouring_registered_pipesplice_reap.argtypes = [
+        ctypes.c_void_p, ctypes.POINTER(ctypes.c_int), ctypes.POINTER(ctypes.c_uint64)
+    ]
+    lib.iouring_registered_pipesplice_reap.restype = ctypes.c_int
+
+    lib.iouring_registered_pipesplice_free.argtypes = [ctypes.c_void_p]
+    lib.iouring_registered_pipesplice_free.restype = None
+
+    eng = lib.iouring_registered_pipesplice_init(16)
+    assert eng is not None
+
+    p1_r, p1_w = os.pipe()
+    p2_r, p2_w = os.pipe()
+
+    payload = b"REGISTERED_PIPE_SPLICE_ZERO_SYSCALL_500M_BENCHMARK" * 4
+    os.write(p1_w, payload)
+
+    try:
+        prep_ret = lib.iouring_registered_pipesplice_prep_splice(
+            eng, p1_r, -1, p2_w, -1, len(payload), 0, 0x500500
+        )
+        assert prep_ret == 0
+
+        sub_ret = lib.iouring_registered_pipesplice_submit(eng)
+        assert sub_ret >= 0
+
+        res = ctypes.c_int(0)
+        ud = ctypes.c_uint64(0)
+        reap_ret = lib.iouring_registered_pipesplice_reap(eng, ctypes.byref(res), ctypes.byref(ud))
+        assert reap_ret == 0
+        assert res.value == len(payload)
+        assert ud.value == 0x500500
+
+        received = os.read(p2_r, len(payload))
+        assert received == payload
+    finally:
+        os.close(p1_r)
+        os.close(p1_w)
+        os.close(p2_r)
+        os.close(p2_w)
+        lib.iouring_registered_pipesplice_free(eng)
+
+
+
 
 
 

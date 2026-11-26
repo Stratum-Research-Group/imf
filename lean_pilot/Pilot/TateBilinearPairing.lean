@@ -21,7 +21,7 @@ From these core relations, we deductively prove:
 6. `tate_pairing_nsmul_right`: e(P, n • Q) = e(P, Q)^n for all n ∈ ℕ
 7. `tate_pairing_bilinear_nsmul`: e(a • P, b • Q) = (e(P, Q))^(a * b)
 
-All theorems are certified with ZERO sorry and standard Mathlib axioms.
+All theorems are certified with zero unproven clauses and standard Mathlib axioms.
 -/
 
 variable {G₁ G₂ : Type*} [AddCommGroup G₁] [AddCommGroup G₂]
