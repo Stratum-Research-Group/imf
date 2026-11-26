@@ -1082,6 +1082,64 @@ def test_fused_arakelov_intersection_correctness():
         assert abs(arakelov[i].item() - (fin[i].item() + g_pq[i].item())) < 1e-5
 
 
+def test_fused_grr_todd_chern_correctness():
+    so_path = "csrc/libfused_blackwell_grr_todd_chern.so"
+    if not os.path.exists(so_path):
+        so_path = "csrc/fused_blackwell_grr_todd_chern.so"
+    lib = ctypes.CDLL(so_path)
+    lib.fused_blackwell_grr_todd_chern.argtypes = [
+        ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p,
+        ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p,
+        ctypes.c_int
+    ]
+
+    B = 2
+    # sheaf_params: rank, c1_e, c2_e
+    sheaf = torch.tensor([
+        [2.0, 3.0, 1.0],
+        [1.0, 0.0, 0.0]
+    ], dtype=torch.float32)
+
+    # manifold_params: c1_x, c2_x
+    manifold = torch.tensor([
+        [1.0, 2.0],
+        [2.0, 4.0]
+    ], dtype=torch.float32)
+
+    ch_out = torch.zeros(B, 3, dtype=torch.float32)
+    td_out = torch.zeros(B, 3, dtype=torch.float32)
+    chi_out = torch.zeros(B, dtype=torch.float32)
+    add_res = torch.zeros(B, dtype=torch.float32)
+
+    ret = lib.fused_blackwell_grr_todd_chern(
+        ctypes.c_void_p(sheaf.data_ptr()),
+        ctypes.c_void_p(manifold.data_ptr()),
+        ctypes.c_void_p(ch_out.data_ptr()),
+        ctypes.c_void_p(td_out.data_ptr()),
+        ctypes.c_void_p(chi_out.data_ptr()),
+        ctypes.c_void_p(add_res.data_ptr()),
+        B
+    )
+    assert ret == 0
+
+    # Sheaf 0: rank=2, c1=3, c2=1. ch0=2, ch1=3, ch2=0.5*(9 - 2)=3.5
+    assert abs(ch_out[0, 0].item() - 2.0) < 1e-5
+    assert abs(ch_out[0, 1].item() - 3.0) < 1e-5
+    assert abs(ch_out[0, 2].item() - 3.5) < 1e-5
+
+    # td0=1, td1=0.5*1=0.5, td2=(1+2)/12 = 0.25
+    assert abs(td_out[0, 0].item() - 1.0) < 1e-5
+    assert abs(td_out[0, 1].item() - 0.5) < 1e-5
+    assert abs(td_out[0, 2].item() - 0.25) < 1e-5
+
+    # chi = ch2*1 + ch1*td1 + ch0*td2 = 3.5*1 + 3*0.5 + 2*0.25 = 3.5 + 1.5 + 0.5 = 5.5
+    assert abs(chi_out[0].item() - 5.5) < 1e-4
+
+    # Additivity residual == 0
+    assert abs(add_res[0].item()) < 1e-5
+
+
+
 
 
 

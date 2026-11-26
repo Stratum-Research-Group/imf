@@ -32,3 +32,4 @@ import Pilot.AdelicProductFormula
 import Pilot.TateBilinearPairing
 import Pilot.WeilReciprocity
 import Pilot.ArakelovIntersection
+import Pilot.GrothendieckRiemannRoch

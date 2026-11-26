@@ -1246,6 +1246,54 @@ def test_iouring_registered_pipesplice_correctness():
         lib.iouring_registered_pipesplice_free(eng)
 
 
+def test_iouring_epoll_eventfd_ring_correctness():
+    so_path = "csrc/libfused_iouring_epoll_eventfd_ring.so"
+    if not os.path.exists(so_path):
+        so_path = "csrc/fused_iouring_epoll_eventfd_ring.so"
+    if not os.path.exists(so_path):
+        pytest.skip("eventfd ring so not found")
+
+    lib = ctypes.CDLL(so_path)
+    lib.iouring_eventfd_ring_init.argtypes = [ctypes.c_uint32, ctypes.c_int]
+    lib.iouring_eventfd_ring_init.restype = ctypes.c_void_p
+
+    lib.iouring_eventfd_ring_submit_nop.argtypes = [ctypes.c_void_p, ctypes.c_uint64]
+    lib.iouring_eventfd_ring_submit_nop.restype = ctypes.c_int
+
+    lib.iouring_eventfd_ring_reap.argtypes = [
+        ctypes.c_void_p, ctypes.POINTER(ctypes.c_int), ctypes.POINTER(ctypes.c_uint64)
+    ]
+    lib.iouring_eventfd_ring_reap.restype = ctypes.c_int
+
+    lib.iouring_eventfd_ring_free.argtypes = [ctypes.c_void_p]
+    lib.iouring_eventfd_ring_free.restype = None
+
+    import struct
+    efd = os.eventfd(0, os.EFD_NONBLOCK)
+    eng = lib.iouring_eventfd_ring_init(16, efd)
+    assert eng is not None
+
+    try:
+        sub_ret = lib.iouring_eventfd_ring_submit_nop(eng, 0x8888)
+        assert sub_ret == 0
+
+        res = ctypes.c_int(-1)
+        ud = ctypes.c_uint64(0)
+        reap_ret = lib.iouring_eventfd_ring_reap(eng, ctypes.byref(res), ctypes.byref(ud))
+        assert reap_ret == 0
+        assert res.value == 0
+        assert ud.value == 0x8888
+
+        # Verify kernel signaled eventfd
+        val_bytes = os.read(efd, 8)
+        val = struct.unpack("Q", val_bytes)[0]
+        assert val >= 1
+    finally:
+        lib.iouring_eventfd_ring_free(eng)
+        os.close(efd)
+
+
+
 
 
 
