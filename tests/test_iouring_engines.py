@@ -1118,6 +1118,71 @@ def test_iouring_fixed_dma_nvme_correctness():
             os.unlink(tpath)
 
 
+def test_iouring_sqpoll_passthru_correctness():
+    so_path = "csrc/fused_iouring_sqpoll_passthru_cmd.so"
+    assert os.path.exists(so_path)
+    lib = ctypes.CDLL(so_path)
+
+    lib.iouring_sqpoll_passthru_init.argtypes = [ctypes.c_uint, ctypes.c_uint]
+    lib.iouring_sqpoll_passthru_init.restype = ctypes.c_void_p
+
+    lib.iouring_sqpoll_passthru_submit_cmd.argtypes = [
+        ctypes.c_void_p, ctypes.c_int, ctypes.c_void_p, ctypes.c_size_t, ctypes.c_uint64, ctypes.c_uint64
+    ]
+    lib.iouring_sqpoll_passthru_submit_cmd.restype = ctypes.c_int
+
+    lib.iouring_sqpoll_passthru_submit_write.argtypes = [
+        ctypes.c_void_p, ctypes.c_int, ctypes.c_void_p, ctypes.c_size_t, ctypes.c_uint64, ctypes.c_uint64
+    ]
+    lib.iouring_sqpoll_passthru_submit_write.restype = ctypes.c_int
+
+    lib.iouring_sqpoll_passthru_reap_completion.argtypes = [
+        ctypes.c_void_p, ctypes.POINTER(ctypes.c_int64), ctypes.POINTER(ctypes.c_uint64), ctypes.c_int
+    ]
+    lib.iouring_sqpoll_passthru_reap_completion.restype = ctypes.c_int
+
+    lib.iouring_sqpoll_passthru_is_sqpoll.argtypes = [ctypes.c_void_p]
+    lib.iouring_sqpoll_passthru_is_sqpoll.restype = ctypes.c_int
+
+    lib.iouring_sqpoll_passthru_destroy.argtypes = [ctypes.c_void_p]
+    lib.iouring_sqpoll_passthru_destroy.restype = None
+
+    eng = lib.iouring_sqpoll_passthru_init(32, 1000)
+    assert eng is not None
+
+    payload = b"SQPOLL_PASSTHROUGH_KERNEL_THREAD_VERIFIED_490M" * 8
+    with tempfile.NamedTemporaryFile(delete=False) as tf:
+        tf.write(payload)
+        tf.flush()
+        tpath = tf.name
+
+    try:
+        fd = os.open(tpath, os.O_RDWR)
+        read_buf = (ctypes.c_char * len(payload))()
+
+        ret = lib.iouring_sqpoll_passthru_submit_cmd(
+            eng, fd, read_buf, len(payload), 0, 0x1234
+        )
+        assert ret == 0
+
+        bytes_reaped = ctypes.c_int64(0)
+        user_data = ctypes.c_uint64(0)
+        reap_ret = lib.iouring_sqpoll_passthru_reap_completion(
+            eng, ctypes.byref(bytes_reaped), ctypes.byref(user_data), 1000
+        )
+        assert reap_ret == 0
+        assert bytes_reaped.value == len(payload)
+        assert user_data.value == 0x1234
+        assert read_buf.raw == payload
+
+        os.close(fd)
+    finally:
+        lib.iouring_sqpoll_passthru_destroy(eng)
+        if os.path.exists(tpath):
+            os.unlink(tpath)
+
+
+
 
 
 

@@ -37,6 +37,7 @@ jobs:
           g++ -O3 -shared -fPIC -std=c++17 csrc/fused_iouring_direct_splice_socket_to_pipe.cpp -luring -o csrc/fused_iouring_direct_splice_socket_to_pipe.so
           g++ -O3 -shared -fPIC -std=c++17 csrc/fused_iouring_multishot_read_ringbuf.cpp -luring -o csrc/fused_iouring_multishot_read_ringbuf.so
           g++ -O3 -shared -fPIC -std=c++17 csrc/fused_iouring_fixed_dma_buf_nvme_passthru.cpp -luring -o csrc/fused_iouring_fixed_dma_buf_nvme_passthru.so
+          g++ -O3 -shared -fPIC -std=c++17 csrc/fused_iouring_sqpoll_passthru_cmd.cpp -luring -o csrc/fused_iouring_sqpoll_passthru_cmd.so
 
       - name: Install uv and Python
         uses: astral-sh/setup-uv@v3

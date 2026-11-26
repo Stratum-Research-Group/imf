@@ -30,3 +30,4 @@ import Pilot.CoxeterReflectionInvariance
 import Pilot.BruhatTitsInvariance
 import Pilot.AdelicProductFormula
 import Pilot.TateBilinearPairing
+import Pilot.WeilReciprocity

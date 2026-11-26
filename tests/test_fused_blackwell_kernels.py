@@ -968,6 +968,70 @@ def test_fused_tate_pairing_curve_correctness():
     assert abs(isogeny_out[0, 1].item() - 3.0) < 1e-4
 
 
+def test_fused_weil_reciprocity_divisor_correctness():
+    so_path = "csrc/fused_blackwell_weil_reciprocity_divisor.so"
+    assert os.path.exists(so_path)
+    lib = ctypes.CDLL(so_path)
+
+    lib.fused_blackwell_weil_reciprocity_divisor.argtypes = [
+        ctypes.c_void_p,  # P_points
+        ctypes.c_void_p,  # Q_points
+        ctypes.c_void_p,  # curve_params
+        ctypes.c_void_p,  # f_div_g_out
+        ctypes.c_void_p,  # g_div_f_out
+        ctypes.c_void_p,  # reciprocity_diff
+        ctypes.c_int      # B
+    ]
+    lib.fused_blackwell_weil_reciprocity_divisor.restype = ctypes.c_int
+
+    B = 2
+    # Construct points P and Q such that f(Q) == g(P) (exact reciprocity)
+    # P = (xp, yp) = (2.0, 3.0)
+    # Q = (xq, yq) = (3.0, 2.0)
+    # params: a = 1.0, b = 0.0, c = 1.0, d = 0.0
+    # f(Q) = (3^2 + 1*2 + 1) / (3^2 + 1) = (9 + 2 + 1) / 10 = 12 / 10 = 1.2
+    # g(P) = (3^2 + 1*2 + 1) / (3^2 + 1) = (9 + 2 + 1) / 10 = 12 / 10 = 1.2
+    # reciprocity diff = |1.2 - 1.2| = 0.0
+    P = torch.tensor([
+        [2.0, 3.0],
+        [1.0, 1.0]
+    ], dtype=torch.float32)
+
+    Q = torch.tensor([
+        [3.0, 2.0],
+        [1.0, 1.0]
+    ], dtype=torch.float32)
+
+    params = torch.tensor([1.0, 0.0, 1.0, 0.0], dtype=torch.float32)
+
+    f_out = torch.zeros(B, dtype=torch.float32)
+    g_out = torch.zeros(B, dtype=torch.float32)
+    diff_out = torch.zeros(B, dtype=torch.float32)
+
+    ret = lib.fused_blackwell_weil_reciprocity_divisor(
+        ctypes.c_void_p(P.data_ptr()),
+        ctypes.c_void_p(Q.data_ptr()),
+        ctypes.c_void_p(params.data_ptr()),
+        ctypes.c_void_p(f_out.data_ptr()),
+        ctypes.c_void_p(g_out.data_ptr()),
+        ctypes.c_void_p(diff_out.data_ptr()),
+        B
+    )
+    assert ret == 0
+
+    assert abs(f_out[0].item() - 1.2) < 1e-4
+    assert abs(g_out[0].item() - 1.2) < 1e-4
+    assert abs(diff_out[0].item()) < 1e-5
+
+    # For P[1] = (1, 1), Q[1] = (1, 1):
+    # f(Q) = (1 + 1 + 1) / (1 + 1) = 3/2 = 1.5
+    # g(P) = (1 + 1 + 1) / (1 + 1) = 3/2 = 1.5
+    assert abs(f_out[1].item() - 1.5) < 1e-4
+    assert abs(g_out[1].item() - 1.5) < 1e-4
+    assert abs(diff_out[1].item()) < 1e-5
+
+
+
 
 
 
