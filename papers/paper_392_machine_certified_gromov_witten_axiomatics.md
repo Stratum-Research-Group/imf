@@ -1,5 +1,11 @@
-# Treatises of the Institute for Molecular Frameworks (IMF)
-## Treatise 392: Machine-Certified Gromov-Witten Axiomatics and Quantum Cohomology Rings
+# Paper 392: Machine-Certified Gromov-Witten Axiomatics and Quantum Cohomology Rings
+
+**Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
+**Target Hardware:** Consumer Heterogeneous Workstation (AMD Ryzen 5 7600X, NVIDIA RTX 5060 Ti)  
+**Execution Stack:** CUDA 12.8, Triton 3.9, Lean 4 (v4.18.0)  
+**Date:** November 2026  
+
+---
 
 ### Abstract
 Gromov-Witten (GW) invariants $\langle \tau_{d_1}(\gamma_1) \dots \tau_{d_n}(\gamma_n) \rangle_{g, n, \beta}^X$ rigorously capture the enumerative geometry of pseudoholomorphic curves on symplectic manifolds and smooth projective varieties $X$. Kontsevich and Manin established that any consistent family of GW invariants must satisfy a set of foundational axioms: the Point Property, Fundamental Class Axiom, Divisor Axiom, Mapping to a Point, and the WDVV (Witten-Dijkgraaf-Verlinde-Verlinde) associativity equation for quantum cohomology. In this treatise, we present the formal verification in Lean 4 of the fundamental Kontsevich-Manin Gromov-Witten axioms (`lean/GromovWittenAxiomsProof.lean`). We prove that the associative quantum product $\star$ on $H^*(X, \mathbb{C}) \otimes \mathbb{C}[[q]]$ preserves commutativity and identity under all curve degree classes $\beta \ge 0$.

@@ -1,5 +1,11 @@
-# Treatises of the Institute for Molecular Frameworks (IMF)
-## Treatise 393: Calabi-Yau Mirror Symmetry and Symplectic Dual State Spaces
+# Paper 393: Calabi-Yau Mirror Symmetry and Symplectic Dual State Spaces
+
+**Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
+**Target Hardware:** Consumer Heterogeneous Workstation (AMD Ryzen 5 7600X, NVIDIA RTX 5060 Ti)  
+**Execution Stack:** CUDA 12.8, Triton 3.9, Lean 4 (v4.18.0)  
+**Date:** November 2026  
+
+---
 
 ### Abstract
 Mirror symmetry establishes an exact mathematical duality between the complex geometry of a Calabi-Yau 3-fold $X$ and the symplectic geometry of its mirror pair $W$. Under this correspondence, the variation of complex structures (B-model) on $X$, governed by Picard-Fuchs differential systems and period integrals, is isomorphic to the quantum cohomology and Gromov-Witten curve-counting invariants (A-model) on $W$. In this treatise, we formulate the structural duality mapping between B-model Yukawa couplings and A-model instanton expansions, verifying the exact numerical mirror map for the quintic threefold $X \subset \mathbb{P}^4$ and its Greene-Plesser mirror $W$. We demonstrate how mirror duality provides an optimal, numerically stable parameterization for high-dimensional latent state spaces in neural models.

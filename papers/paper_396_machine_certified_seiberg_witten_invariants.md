@@ -1,5 +1,11 @@
-# Treatises of the Institute for Molecular Frameworks (IMF)
-## Treatise 396: Machine-Certified Seiberg-Witten Invariants on Smooth 4-Manifolds
+# Paper 396: Machine-Certified Seiberg-Witten Invariants on Smooth 4-Manifolds
+
+**Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
+**Target Hardware:** Consumer Heterogeneous Workstation (AMD Ryzen 5 7600X, NVIDIA RTX 5060 Ti)  
+**Execution Stack:** CUDA 12.8, Triton 3.9, Lean 4 (v4.18.0)  
+**Date:** November 2026  
+
+---
 
 ### Abstract
 Seiberg-Witten (SW) invariants provide a differential-topological framework for distinguishing exotic smooth structures on compact 4-manifolds. Defined via the moduli spaces of solutions to the non-linear U(1) monopole equations, SW invariants remain strictly independent of the Riemannian metric $g$ whenever the second Betti number satisfies $b_2^+(X) > 1$. In this treatise, we present the machine certification in Lean 4 of the metric invariance and chamber-wall crossing stability of Seiberg-Witten invariants (`lean/SeibergWittenProof.lean`). We establish that for any Spin$^c$ structure $\mathfrak{s}$ over a 4-manifold $X$ with $b_2^+(X) > 1$, metric perturbations induce zero wall-crossing jump, formally verifying smooth structural invariants under 0 `sorry` and 0 unproven axioms.

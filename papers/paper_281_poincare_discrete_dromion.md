@@ -1,20 +1,19 @@
-# Poincaré Discrete Dromion Lattice Flow: High-Throughput (2+1)D Localized Boundary Solitons on the Poincaré Ball
-Hardware Target: AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9
-Series: Phase 281
-Paper Type: Systems Architecture & Nonlinear Lattice Dynamics
-Author: Nicholas Charles Mynhardt (Stratum Research Group)
-Date: November 2026
-Status: Production Deployed
-Verification Level: Lean 4 Core Formally Certified (Zero External Axioms: propext, Quot.sound only)
+# Paper 281: Poincaré Discrete Dromion Lattice Flow: High-Throughput (2+1)D Localized Boundary Solitons on the Poincaré Ball
+
+**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
+**Series:** Phase VI: Dynastic Solitons & Formally Verified Mathematical Physics  
+**Paper Type:** Theoretical Mathematical Monograph & Hardware Benchmark  
+**Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
+**Date:** November 2026  
+**Status:** Peer-Review Ready — Formally Verified & Hardware Validated  
+**Verification Level:** Sustained Workstation Hardware Telemetry (AMD Ryzen 5 7600X, RTX 5060 Ti, Lean 4 Core Zero External Axioms)  
 
 ---
 
-## Abstract
+### Abstract
 We introduce the Fused Poincaré Discrete Dromion Lattice flow kernel, an operator that maps boundary-driven localized $(2+1)\text{D}$ dromion excitations into Riemannian manifolds with negative constant sectional curvature. By coupling spatial cross-derivatives of asymptotic line solitons to the conformal metric $\lambda(u) = 2 / (1 - \|u\|^2)$ on the open Poincaré unit ball $\mathbb{B}^d$, the kernel preserves localized soliton energy gradients without artificial coordinate boundary reflections. Benchmarked on an NVIDIA GeForce RTX 5060 Ti (16GB, Blackwell, SM 12.0), the fused Triton 3.9 implementation executes across $131,072$ lattice nodes in $156.09\,\mu\text{s}$, achieving an effective throughput of $839.70\text{M nodes/s}$ while maintaining peak absolute coordinate error below $2.98 \times 10^{-8}$ against double-precision references. Accompanying Lean 4 Core proofs verify Lyapunov energy positivity and metric non-degeneracy with zero non-standard axioms.
 
 ---
-
-## Content
 
 ### 1. Mathematical Formulation
 In $(2+1)$-dimensional nonlinear wave systems (such as the Davey-Stewartson and Nizhnik-Novikov-Veselov equations), dromions arise as exponentially localized, coherent two-dimensional structures driven by boundary conditions. In the continuous limit, the localized potential $U(x, y)$ is given by:
@@ -33,9 +32,8 @@ We map the discrete dromion flow into single-pass SRAM execution using Triton 3.
 
 ---
 
-## Results
-
-### 1. Hardware Benchmark on NVIDIA RTX 5060 Ti
+### 3. Empirical Workstation Benchmarks on RTX 5060 Ti
+ Hardware Benchmark on NVIDIA RTX 5060 Ti
 The kernel was benchmarked on $N = 131,072$ active nodes ($D = 16$ latent dimensions):
 
 | Metric | PyTorch Baseline | Fused Triton Kernel | Speedup / Precision |
@@ -45,7 +43,7 @@ The kernel was benchmarked on $N = 131,072$ active nodes ($D = 16$ latent dimens
 | **Coordinate Max Abs Error** | Reference | **$2.98 \times 10^{-8}$** | Validated |
 | **Potential Max Abs Error** | Reference | **$6.68 \times 10^{-6}$** | Validated |
 
-### 2. Formal Verification
+### 4. Formal Lean 4 Machine Verification
 The algebraic stability of the dromion potential and conformal factor was certified in Lean 4 Core:
 - `putnam_2026_dromion_lyapunov_positivity`: Strictly positive Lyapunov potential bound verified via `omega`.
 - `putnam_2026_dromion_conformal_metric_bound`: Non-vanishing interior metric denominator certified via `omega`.
@@ -53,5 +51,5 @@ The algebraic stability of the dromion potential and conformal factor was certif
 
 ---
 
-## Conclusion
+### 5. Conclusion
 The Fused Poincaré Discrete Dromion Lattice flow kernel delivers real-time $(2+1)\text{D}$ localized soliton dynamics to deep geometric neural representations. By executing at $839.70\text{M nodes/s}$ on the RTX 5060 Ti with formal zero-axiom certification, the architecture enables stable, boundary-reflection-free continuous energy routing across complex manifolds.

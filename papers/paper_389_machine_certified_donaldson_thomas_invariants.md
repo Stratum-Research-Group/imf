@@ -1,5 +1,11 @@
-# Treatises of the Institute for Molecular Frameworks (IMF)
-## Treatise 389: Machine-Certified Donaldson-Thomas Invariants on Calabi-Yau 3-Folds
+# Paper 389: Machine-Certified Donaldson-Thomas Invariants on Calabi-Yau 3-Folds
+
+**Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
+**Target Hardware:** Consumer Heterogeneous Workstation (AMD Ryzen 5 7600X, NVIDIA RTX 5060 Ti)  
+**Execution Stack:** CUDA 12.8, Triton 3.9, Lean 4 (v4.18.0)  
+**Date:** November 2026  
+
+---
 
 ### Abstract
 Donaldson-Thomas (DT) invariants provide a rigorous enumeration of ideal sheaves and curves on Calabi-Yau 3-folds $X$, serving as a holomorphic counterpart to Casson invariants in gauge theory and Gromov-Witten invariants in A-model topological string theory. In this treatise, we present the formal machine verification in Lean 4 of the foundational Donaldson-Thomas deformation invariance under path-connected complex structure moduli variations $\partial_t \mathcal{M}_X = 0$. By representing the virtual fundamental class $[I_n(X, \beta)]^{\text{vir}}$ via Kuranishi obstruction theories with symmetric obstruction complexes $E^\bullet \cong (E^\bullet)^\vee[1]$, we prove that the weighted Euler characteristic $\chi(\mathcal{M}, \nu_M)$ remains strictly invariant across continuous deformations of the underlying algebraic scheme.

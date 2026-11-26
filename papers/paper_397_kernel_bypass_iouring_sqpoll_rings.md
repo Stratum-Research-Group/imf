@@ -1,5 +1,11 @@
-# Treatises of the Institute for Molecular Frameworks (IMF)
-## Treatise 397: Kernel-Bypass io_uring Direct SQPOLL Threaded Rings for Zero-Syscall Parameter Streaming
+# Paper 397: Kernel-Bypass io_uring Direct SQPOLL Threaded Rings for Zero-Syscall Parameter Streaming
+
+**Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
+**Target Hardware:** Consumer Heterogeneous Workstation (AMD Ryzen 5 7600X, NVIDIA RTX 5060 Ti)  
+**Execution Stack:** CUDA 12.8, Triton 3.9, Lean 4 (v4.18.0)  
+**Date:** November 2026  
+
+---
 
 ### Abstract
 In continuous sub-byte model serving, the traditional `io_uring_enter` system call—though significantly more efficient than POSIX synchronous I/O—still incurs context-switching penalties and cache eviction overhead on latency-critical token generations. In this treatise, we present the design and empirical evaluation of a kernel-side polled submission queue architecture (`csrc/fused_iouring_sqpoll_ring.cpp`) utilizing `IORING_SETUP_SQPOLL`. By delegating ring polling to a dedicated kernel thread (`io_uring-sq`), applications submit weight chunk read requests purely through lockless memory writes to the shared submission queue, eliminating user-to-kernel context switches entirely and achieving sub-microsecond roundtrip parameter streaming latencies.

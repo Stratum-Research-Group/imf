@@ -1,5 +1,11 @@
-# Treatises of the Institute for Molecular Frameworks (IMF)
-## Treatise 390: Kernel-Bypass io_uring Scatter-Gather DMA for Dispersed Weights
+# Paper 390: Kernel-Bypass io_uring Scatter-Gather DMA for Dispersed Weights
+
+**Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
+**Target Hardware:** Consumer Heterogeneous Workstation (AMD Ryzen 5 7600X, NVIDIA RTX 5060 Ti)  
+**Execution Stack:** CUDA 12.8, Triton 3.9, Lean 4 (v4.18.0)  
+**Date:** November 2026  
+
+---
 
 ### Abstract
 Modern ultra-large parameter models (100B–1T parameter topologies) running on commodity edge-class nodes face severe I/O serialization bottlenecks when gathering dispersed bitplane tensors across multi-tier storage (NVMe SSDs, persistent page caches, and PCIe BAR spaces). Standard POSIX `preadv` introduces non-trivial system call overheads, user-kernel context switching, and pipeline stalls. In this treatise, we present the design and empirical validation of a fused kernel-bypass `io_uring` scatter-gather direct memory access (DMA) engine (`csrc/fused_iouring_scatter_gather.cpp`). Utilizing vectorized submission queue entries (`IORING_OP_READV`), non-contiguous weight matrices are assembled into unified pinned host memory buffers in a single system call submission, achieving sustained I/O throughputs of 14.8 GB/s on PCIe 4.0 NVMe arrays with sub-microsecond submission latencies.

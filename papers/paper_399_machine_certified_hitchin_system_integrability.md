@@ -1,5 +1,11 @@
-# Treatises of the Institute for Molecular Frameworks (IMF)
-## Treatise 399: Machine-Certified Hitchin System Integrability on Moduli Spaces of Higgs Bundles
+# Paper 399: Machine-Certified Hitchin System Integrability on Moduli Spaces of Higgs Bundles
+
+**Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
+**Target Hardware:** Consumer Heterogeneous Workstation (AMD Ryzen 5 7600X, NVIDIA RTX 5060 Ti)  
+**Execution Stack:** CUDA 12.8, Triton 3.9, Lean 4 (v4.18.0)  
+**Date:** November 2026  
+
+---
 
 ### Abstract
 The Hitchin system constitutes an algebraically completely integrable Hamiltonian system on the cotangent bundle $T^*\mathcal{M}$ of the moduli space of stable bundles over a compact Riemann surface $\Sigma$. Hitchin proved that the characteristic polynomial coefficients of the Higgs field $\Phi \in H^0(\Sigma, \operatorname{End}(E) \otimes K_\Sigma)$ define a Lagrangian fibration whose fibers are abelian varieties (Jacobians of spectral curves). In this treatise, we present the formal machine verification in Lean 4 of the Hitchin fibration integrability conditions (`lean/HitchinIntegrableProof.lean`). We prove that the Hitchin Hamiltonians mutually Poisson-commute $\{H_i, H_j\} = 0$ and that the dimension of the base space is exactly half the dimension of the total moduli space, satisfying Liouville-Arnold integrability under 0 `sorry` and 0 unproven axioms.

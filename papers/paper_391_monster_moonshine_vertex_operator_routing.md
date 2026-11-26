@@ -1,5 +1,11 @@
-# Treatises of the Institute for Molecular Frameworks (IMF)
-## Treatise 391: Monster Moonshine Vertex Operator Algebra Routing for Discrete Latent Spaces
+# Paper 391: Monster Moonshine Vertex Operator Algebra Routing for Discrete Latent Spaces
+
+**Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
+**Target Hardware:** Consumer Heterogeneous Workstation (AMD Ryzen 5 7600X, NVIDIA RTX 5060 Ti)  
+**Execution Stack:** CUDA 12.8, Triton 3.9, Lean 4 (v4.18.0)  
+**Date:** November 2026  
+
+---
 
 ### Abstract
 Routing tokens across massive discrete latent spaces in Mixture-of-Experts (MoE) and associative memory banks requires high-order algebraic symmetries to prevent expert collapse and preserve global isometric representations. Conway, Norton, and Frenkel-Lepowsky-Meurman established the deep connection between the Monster simple group $\mathbb{M}$ and modular invariants via the Moonshine module vertex operator algebra $V^\natural = \bigoplus_{n=0}^\infty V_n$. In this treatise, we present the mathematical formulation and CUDA kernel realization of a Monster Moonshine VOA routing engine (`csrc/fused_monster_moonshine_routing.cu`). By mapping 196,884-dimensional graded representations into modular graded eigenspaces indexed by Klein's $j$-invariant $j(\tau) - 744$, the routing kernel achieves optimal token dispersion with zero expert collapse on Blackwell SM 12.0 architectures.

@@ -1,5 +1,11 @@
-# Treatises of the Institute for Molecular Frameworks (IMF)
-## Treatise 398: McKay Correspondence ADE Quiver Routing for High-Dimensional Mixture-of-Experts
+# Paper 398: McKay Correspondence ADE Quiver Routing for High-Dimensional Mixture-of-Experts
+
+**Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
+**Target Hardware:** Consumer Heterogeneous Workstation (AMD Ryzen 5 7600X, NVIDIA RTX 5060 Ti)  
+**Execution Stack:** CUDA 12.8, Triton 3.9, Lean 4 (v4.18.0)  
+**Date:** November 2026  
+
+---
 
 ### Abstract
 Mixture-of-Experts (MoE) architectures frequently suffer from representation collapse when routing tokens among homogeneous expert clusters. In this treatise, we present the theoretical derivation and CUDA kernel implementation of a structured routing topology based on the McKay correspondence (`csrc/fused_mckay_quiver_routing.cu`). John McKay established a bijection between finite subgroups $\Gamma \subset SU(2)$ and the simply-laced ADE Dynkin diagrams ($A_n, D_n, E_6, E_7, E_8$). By structuring expert connections along the representation quivers of the binary tetrahedral, octahedral, and icosahedral groups, token affinity is modulated by the affine Cartan matrix, enforcing geometric clustering and completely preventing expert collapse across Blackwell SM 12.0 architectures.

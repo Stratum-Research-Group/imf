@@ -1,5 +1,11 @@
-# Treatises of the Institute for Molecular Frameworks (IMF)
-## Treatise 395: Fused Blackwell Warp-Synchronous Bit-Level Softmax on Packed Bitplanes
+# Paper 395: Fused Blackwell Warp-Synchronous Bit-Level Softmax on Packed Bitplanes
+
+**Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
+**Target Hardware:** Consumer Heterogeneous Workstation (AMD Ryzen 5 7600X, NVIDIA RTX 5060 Ti)  
+**Execution Stack:** CUDA 12.8, Triton 3.9, Lean 4 (v4.18.0)  
+**Date:** November 2026  
+
+---
 
 ### Abstract
 Sub-byte quantized inference engines operate predominantly on packed bitplane tensors where integer popcounts quantify raw activation excitations. Converting these bitplanes into single-precision floating-point arrays merely to apply numerical softmax introduces massive memory bandwidth inflation and kernel execution serialization. In this treatise, we present the formulation and implementation of a fused warp-synchronous bit-level softmax kernel (`csrc/fused_blackwell_bit_softmax.cu`). Executing directly within the 32-lane warp registers of Blackwell SM 12.0 architectures, the kernel uses `__popc`, logarithmic normalizations, and `__shfl_xor_sync` butterflies to calculate exact softmax probabilities with zero global memory spills.
