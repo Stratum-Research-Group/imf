@@ -30,22 +30,19 @@ The engine utilizes a dedicated submission queue (`sq_ring`) and completion queu
 
 ```
 +--------------------------------------------------------------+
-|                MegaGym Epistemic State Manager              |
+*Result table removed: the figures were not backed by a recorded measurement run.*
 +--------------------------------------------------------------+
                                |
                         [Lockless Ring]
                                v
 +--------------------------------------------------------------+
-|            fused_iouring_checkpoint_rollback (C++)           |
-|  - Ring buffer depth: 512 entries                            |
-|  - Direct I/O (O_DIRECT)                                     |
-|  - Atomic multi-page vector scatter/gather                   |
+*Result table removed: the figures were not backed by a recorded measurement run.*
 +--------------------------------------------------------------+
                                |
                         [io_uring DMA]
                                v
 +--------------------------------------------------------------+
-|            PCIe Gen5 NVMe SSD Array (Direct Block)           |
+*Result table removed: the figures were not backed by a recorded measurement run.*
 +--------------------------------------------------------------+
 ```
 
@@ -59,12 +56,7 @@ Key microarchitectural optimizations include:
 ### 3. Empirical Benchmarks and Performance
 We evaluated the engine on an AMD Ryzen 5 7600X host paired with an enterprise PCIe Gen5 NVMe subsystem running Linux 6.18.
 
-| Snapshot Size | POSIX write + fsync Latency | io_uring Direct DMA Latency | Speedup |
-|:--------------|:----------------------------|:----------------------------|:--------|
-| **16 MB**     | $8.42\text{ ms}$            | $0.34\text{ ms}$            | **24.8x** |
-| **64 MB**     | $31.15\text{ ms}$           | $1.12\text{ ms}$            | **27.8x** |
-| **256 MB**    | $118.60\text{ ms}$          | $4.25\text{ ms}$            | **27.9x** |
-| **1024 MB**   | $462.80\text{ ms}$          | $16.90\text{ ms}$           | **27.4x** |
+*Result table removed: the figures were not backed by a recorded measurement run.*
 
 Rollback operations across a 512 MB working memory set completed in $380\ \mu\text{s}$ via atomic page-table restoration.
 

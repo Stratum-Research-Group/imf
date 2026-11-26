@@ -1,3 +1,4 @@
+import Mathlib.Tactic
 import Mathlib.Analysis.InnerProductSpace.Basic
 import Mathlib.Topology.MetricSpace.Basic
 
@@ -11,7 +12,7 @@ curved parameter manifolds under sub-bit quantization boundaries.
 
 namespace IMF.Gyrovector
 
-/-- Poincare ball parameter manifold curvature parameter (kappa > 0) -/
+-- Poincare ball parameter manifold curvature parameter (kappa > 0)
 variable (κ : ℝ) (hκ : κ > 0)
 
 /-- Gyrovector addition in hyperbolic space -/

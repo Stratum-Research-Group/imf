@@ -2,13 +2,16 @@
 
 **Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase III: Poincaré/Hyperbolic Kernels & Machine-Certified Geometry  
-**Paper Type:** GPU Kernel Design + Machine-Certified Proof  
+**Paper Type:** Claimed Formal Proof — No Lean Source Present  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Date:** November 2026  
-**Status:** Evidence Included — Not Independently Reviewed  
-**Verification Level:** benchmark figures or kernel source reported (AMD Ryzen 5 7600X, RTX 5060 Ti)  
+**Status:** Unverified — Machine-Certification Claim Unsupported  
+**Verification Level:** None (no Lean file in repository)  
 
 ---
+
+<!-- NO-LEAN-SOURCE-NOTICE -->
+> **⚠ NO LEAN SOURCE.** The title refers to machine certification, but no Lean 4 file corresponding to this paper exists in the repository (see `docs/reports/LEAN_VERIFICATION_REPORT.md`). The claim of machine certification is **unsupported** until a source file is provided and compiled.
 
 ## Abstract
 Geometric deep learning architectures grounded in non-Euclidean representation spaces frequently experience metric degradation and representation drift under long context sequences. We present `triton_fused_poincare_kahler_ricci_soliton_flow`, a fused GPU kernel that models normalized Kähler-Ricci soliton metric evolution $\partial_t g = - \operatorname{Ric}(g) - c g + \mathcal{L}_V g$ directly on the Poincaré unit ball $\mathbb{D}^d_c$. The kernel evaluates the Bergman/Poincaré Kähler potential $K(z, \bar{z}) = -\frac{2}{c}\log(1 - c\|z\|^2)$, computes conformal metric factor updates $\lambda_z$, integrates soliton potential drift fields $V \propto (1 - c\|z\|^2)\nabla f$, and applies implicit radial metric boundary confinement in a single fused pass. Evaluated on an NVIDIA GeForce RTX 5060 Ti GPU, the kernel achieves an execution latency of $28.10\,\mu\text{s}$ ($7.47\times$ speedup over PyTorch eager baseline) with a throughput of $37,321.79\text{ M elements/s}$ and sub-$10^{-7}$ numerical error. In conjunction, we machine-certify five theorems in Lean 4 Core establishing the non-degeneracy of total scalar curvature, Calabi-Yau Ricci-flatness conditions under vanishing first Chern class $c_1 = 0$, Monge-Ampère volume conservation, and Yau metric existence indices with strictly zero external axioms.

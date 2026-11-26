@@ -2,13 +2,16 @@
 
 **Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase III: Poincaré/Hyperbolic Kernels & Machine-Certified Geometry  
-**Paper Type:** GPU Kernel Design + Machine-Certified Proof  
+**Paper Type:** Claimed Formal Proof — No Lean Source Present  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Date:** November 2026  
-**Status:** Evidence Included — Not Independently Reviewed  
-**Verification Level:** benchmark figures or kernel source reported (AMD Ryzen 5 7600X, RTX 5060 Ti)  
+**Status:** Unverified — Machine-Certification Claim Unsupported  
+**Verification Level:** None (no Lean file in repository)  
 
 ---
+
+<!-- NO-LEAN-SOURCE-NOTICE -->
+> **⚠ NO LEAN SOURCE.** The title refers to machine certification, but no Lean 4 file corresponding to this paper exists in the repository (see `docs/reports/LEAN_VERIFICATION_REPORT.md`). The claim of machine certification is **unsupported** until a source file is provided and compiled.
 
 ## Abstract
 Convolutional and attention-based operations in geometric deep learning frequently operate under flat Euclidean Fourier assumptions, distorting global harmonic invariants on Riemannian manifolds. On the Poincaré unit disk $\mathbb{D}^d_c \cong \mathrm{SU}(1, 1)/\mathrm{SO}(2)$, the natural harmonic basis consists of eigenfunctions of the Laplace-Beltrami operator governed by Harish-Chandra spherical functions $\varphi_\lambda(x)$. We present `triton_fused_poincare_non_commutative_spectral_filter`, a fused GPU kernel executing non-commutative spherical spectral convolutions directly on $(\mathbb{D}^d_c, g_c)$. The kernel evaluates intrinsic hyperbolic radii $r = \frac{1}{\sqrt{c}} \operatorname{arcosh}(1 + \frac{2c\|x\|^2}{1 - c\|x\|^2})$, computes spherical Legendre wave expansions across $K$ modes, modulates coordinates via learned spectral multipliers, and enforces strict boundary projections in GPU registers. Benchmarked on an NVIDIA GeForce RTX 5060 Ti GPU, the kernel achieves an execution latency of $99.03\,\mu\text{s}$ ($10.32\times$ speedup over PyTorch eager execution) with a throughput of $10,588.72\text{ M elements/s}$ and sub-$10^{-7}$ numerical error. In tandem, we machine-certify five theorems in Lean 4 Core establishing the Harish-Chandra Plancherel theorem, Weyl reflection involution, spectral measure positivity, and discrete series formal degree invariance with strictly zero external axioms.

@@ -2,13 +2,16 @@
 
 **Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase III: Poincaré/Hyperbolic Kernels & Machine-Certified Geometry  
-**Paper Type:** GPU Kernel Design + Machine-Certified Proof  
+**Paper Type:** Claimed Formal Proof — No Lean Source Present  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Date:** November 2026  
-**Status:** Evidence Included — Not Independently Reviewed  
-**Verification Level:** benchmark figures or kernel source reported (AMD Ryzen 5 7600X, RTX 5060 Ti)  
+**Status:** Unverified — Machine-Certification Claim Unsupported  
+**Verification Level:** None (no Lean file in repository)  
 
 ---
+
+<!-- NO-LEAN-SOURCE-NOTICE -->
+> **⚠ NO LEAN SOURCE.** The title refers to machine certification, but no Lean 4 file corresponding to this paper exists in the repository (see `docs/reports/LEAN_VERIFICATION_REPORT.md`). The claim of machine certification is **unsupported** until a source file is provided and compiled.
 
 ## Abstract
 Non-Euclidean deep learning and geometric foundation models frequently transfer representations across disparate manifold geometries. In such mappings $u: (\mathbb{D}^d_{c_1}, g) \to (\mathbb{D}^d_{c_2}, h)$, naive linear transformations violate Riemannian metric invariants, creating severe geometric distortion and representation collapse. We present `triton_fused_poincare_non_linear_dirichlet_harmonic_map`, a fused GPU kernel executing non-linear Dirichlet energy minimization and Eells-Sampson harmonic map heat flow $\partial_t u = \tau(u)$ directly on hyperbolic symmetric spaces. The kernel computes the pull-back metric $u^* h$, evaluates the Christoffel tension vector field $\tau(u) = \Delta_g u + \Gamma^h(u)(\nabla u, \nabla u)$, computes the exact Dirichlet energy density $e(u) = \frac{1}{2} \lambda_x^{-2} \lambda_u^2 \|\nabla u\|_F^2$, and executes geodesic retraction updates completely in GPU registers in a single pass. Evaluated on an NVIDIA GeForce RTX 5060 Ti GPU, the kernel executes in $34.51\,\mu\text{s}$ ($7.47\times$ speedup over PyTorch eager baseline) with a throughput of $30,383.67\text{ M elements/s}$ and sub-$10^{-7}$ numerical error. Concurrently, we formalize and machine-certify five theorems in Lean 4 Core establishing Dirichlet energy coercivity, tension field vanishing at critical harmonic immersions, heat flow energy dissipation monotonicity, and harmonic map uniqueness with strictly zero external axioms.

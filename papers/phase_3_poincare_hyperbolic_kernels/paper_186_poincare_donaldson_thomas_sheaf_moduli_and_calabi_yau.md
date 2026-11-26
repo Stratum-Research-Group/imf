@@ -2,13 +2,16 @@
 
 **Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase III: Poincaré/Hyperbolic Kernels & Machine-Certified Geometry  
-**Paper Type:** GPU Kernel Design + Machine-Certified Proof  
+**Paper Type:** Claimed Formal Proof — No Lean Source Present  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Date:** November 2026  
-**Status:** Evidence Included — Not Independently Reviewed  
-**Verification Level:** benchmark figures or kernel source reported (AMD Ryzen 5 7600X, RTX 5060 Ti)  
+**Status:** Unverified — Machine-Certification Claim Unsupported  
+**Verification Level:** None (no Lean file in repository)  
 
 ---
+
+<!-- NO-LEAN-SOURCE-NOTICE -->
+> **⚠ NO LEAN SOURCE.** The title refers to machine certification, but no Lean 4 file corresponding to this paper exists in the repository (see `docs/reports/LEAN_VERIFICATION_REPORT.md`). The claim of machine certification is **unsupported** until a source file is provided and compiled.
 
 ## Abstract
 Coherent sheaf counting on Calabi-Yau 3-folds $X$ provides non-perturbative enumerative invariants that underlie homological mirror symmetry and high-order geometric representations. In geometric foundation models over the Poincaré ball $(\mathbb{D}^d_c, g_c)$, connection fields $A \in \Omega^{0, 1}(X, \operatorname{End}(E))$ are governed by the holomorphic Chern-Simons functional and symmetric obstruction theory. We present `triton_fused_poincare_donaldson_thomas_sheaf_counting`, a fused GPU kernel executing Donaldson-Thomas enumerative calculations directly on GPU hardware. The kernel evaluates conformal metric inverse factors $\lambda_x^{-2}$, computes the holomorphic Chern-Simons cubic density $\operatorname{Tr}(A_1 [A_2, A_3])$, evaluates the virtual obstruction norm $\|\operatorname{Obs}(A)\|^2$, evaluates the Behrend micro-local function weight $\nu(A) \approx \exp(-\frac{1}{2}\|\operatorname{Obs}(A)\|^2)$, and extracts the virtual DT counting density in thread registers in a single pass. Evaluated on an NVIDIA GeForce RTX 5060 Ti GPU, the kernel executes in $33.92\,\mu\text{s}$ ($5.04\times$ speedup over PyTorch eager baseline) with a throughput of $30,915.45\text{ M elements/s}$ and sub-$10^{-6}$ numerical error. Concurrently, we formalize and machine-certify five theorems in Lean 4 Core establishing DT moduli index positivity, Behrend Euler characteristic pairing symmetry, MacMahon 3D partition weight monotonicity, DT/GW correspondence rank balance, and virtual cycle degree positivity with strictly zero external axioms.

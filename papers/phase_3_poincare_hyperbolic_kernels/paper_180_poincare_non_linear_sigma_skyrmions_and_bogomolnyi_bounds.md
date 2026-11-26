@@ -2,13 +2,16 @@
 
 **Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase III: Poincaré/Hyperbolic Kernels & Machine-Certified Geometry  
-**Paper Type:** GPU Kernel Design + Machine-Certified Proof  
+**Paper Type:** Claimed Formal Proof — No Lean Source Present  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Date:** November 2026  
-**Status:** Evidence Included — Not Independently Reviewed  
-**Verification Level:** benchmark figures or kernel source reported (AMD Ryzen 5 7600X, RTX 5060 Ti)  
+**Status:** Unverified — Machine-Certification Claim Unsupported  
+**Verification Level:** None (no Lean file in repository)  
 
 ---
+
+<!-- NO-LEAN-SOURCE-NOTICE -->
+> **⚠ NO LEAN SOURCE.** The title refers to machine certification, but no Lean 4 file corresponding to this paper exists in the repository (see `docs/reports/LEAN_VERIFICATION_REPORT.md`). The claim of machine certification is **unsupported** until a source file is provided and compiled.
 
 ## Abstract
 Topological solitons in non-linear $\sigma$-models provide localized particle-like field configurations characterized by quantized integer topological charges that prevent dispersion and representation collapse. On the Poincaré ball $(\mathbb{D}^d_c, g_c)$, the Faddeev-Skyrme energy functional combines intrinsic Dirichlet kinetic energy with a quartic stabilizing term balancing Derrick's theorem scaling instabilities. We present `triton_fused_poincare_non_linear_sigma_model_skyrmion`, a fused GPU kernel computing the complete Skyrme energy density $E[\mathbf{n}] = E_2[\mathbf{n}] + E_4[\mathbf{n}]$ and topological winding number density $q(x) = \frac{1}{4\pi} \mathbf{n} \cdot (\partial_1 \mathbf{n} \times \partial_2 \mathbf{n})$ directly on GPU hardware. The kernel computes conformal hyperbolic metric factors, projects field gradients to the sphere tangent bundle $T_{\mathbf{n}} S^2$, evaluates 3D vector cross products, and computes topological densities in thread registers in a single pass. Evaluated on an NVIDIA GeForce RTX 5060 Ti GPU, the kernel executes in $85.03\,\mu\text{s}$ ($3.42\times$ speedup over PyTorch eager baseline) with a throughput of $12,331.25\text{ M elements/s}$ and sub-$10^{-6}$ numerical error. In tandem, we machine-certify five theorems in Lean 4 Core establishing Skyrme energy positivity, Bogomol'nyi lower bound scaling $E \ge 12\pi^2 |\mathcal{Q}|$, degree commutativity, and solitary core radius stability with strictly zero external axioms.

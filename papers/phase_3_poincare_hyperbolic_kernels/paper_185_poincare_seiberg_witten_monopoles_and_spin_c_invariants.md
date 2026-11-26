@@ -2,13 +2,16 @@
 
 **Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase III: Poincaré/Hyperbolic Kernels & Machine-Certified Geometry  
-**Paper Type:** GPU Kernel Design + Machine-Certified Proof  
+**Paper Type:** Claimed Formal Proof — No Lean Source Present  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Date:** November 2026  
-**Status:** Evidence Included — Not Independently Reviewed  
-**Verification Level:** benchmark figures or kernel source reported (AMD Ryzen 5 7600X, RTX 5060 Ti)  
+**Status:** Unverified — Machine-Certification Claim Unsupported  
+**Verification Level:** None (no Lean file in repository)  
 
 ---
+
+<!-- NO-LEAN-SOURCE-NOTICE -->
+> **⚠ NO LEAN SOURCE.** The title refers to machine certification, but no Lean 4 file corresponding to this paper exists in the repository (see `docs/reports/LEAN_VERIFICATION_REPORT.md`). The claim of machine certification is **unsupported** until a source file is provided and compiled.
 
 ## Abstract
 Topological invariants and non-perturbative gauge configurations on 4D Riemannian and non-Euclidean manifolds provide foundational stability guarantees for deep geometric representations. In $\text{Spin}^c$ geometry over the Poincaré ball $(\mathbb{D}^d_c, g_c)$, a $\mathrm{U}(1)$ gauge connection $A$ and a positive chiral spinor field $\psi \in \mathbb{C}^2$ are governed by the Seiberg-Witten monopole equations: $\mathcal{D}_A \psi = 0$ and $F_A^+ = \sigma(\psi, \psi)$, where $\sigma(\psi, \psi)$ is the quadratic spinor map into imaginary self-dual 2-forms. We present `triton_fused_poincare_seiberg_witten_monopole`, a fused GPU kernel executing Seiberg-Witten monopole computations directly on GPU hardware. The kernel computes conformal hyperbolic metric factors $\lambda_x^{-2}$, evaluates the quadratic spinor map $\mu = \sigma(\psi, \psi)$ with $\|\sigma(\psi)\|^2 = |\psi|^4$, calculates the self-dual curvature deviation $\|F_A^+ - \sigma(\psi)\|^2$, evaluates the Seiberg-Witten Hamiltonian energy density, and extracts the topological monopole invariant in a single fused pass. Evaluated on an NVIDIA GeForce RTX 5060 Ti GPU, the kernel executes in $22.90\,\mu\text{s}$ ($15.55\times$ speedup over PyTorch eager baseline) with a throughput of $45,792.41\text{ M elements/s}$ and sub-$10^{-6}$ numerical error. Concurrently, we formalize and machine-certify five theorems in Lean 4 Core establishing Seiberg-Witten index non-degeneracy, quadratic spinor norm symmetry, Weitzenböck curvature bounds, moduli virtual dimension preservation, and polynomial invariant non-vanishing with strictly zero external axioms.

@@ -1,5 +1,5 @@
+import Mathlib.Tactic
 import Mathlib.Data.Real.Basic
-import Mathlib.LinearAlgebra.Basic
 
 /-!
 # Machine-Certified Spin(8) Triality Invariants in Higher-Dimensional Attention Networks

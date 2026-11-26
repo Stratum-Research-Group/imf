@@ -2,13 +2,16 @@
 
 **Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase III: Poincaré/Hyperbolic Kernels & Machine-Certified Geometry  
-**Paper Type:** GPU Kernel Design + Machine-Certified Proof  
+**Paper Type:** Claimed Formal Proof — No Lean Source Present  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Date:** November 2026  
-**Status:** Evidence Included — Not Independently Reviewed  
-**Verification Level:** benchmark figures or kernel source reported (AMD Ryzen 5 7600X, RTX 5060 Ti)  
+**Status:** Unverified — Machine-Certification Claim Unsupported  
+**Verification Level:** None (no Lean file in repository)  
 
 ---
+
+<!-- NO-LEAN-SOURCE-NOTICE -->
+> **⚠ NO LEAN SOURCE.** The title refers to machine certification, but no Lean 4 file corresponding to this paper exists in the repository (see `docs/reports/LEAN_VERIFICATION_REPORT.md`). The claim of machine certification is **unsupported** until a source file is provided and compiled.
 
 ## Abstract
 Topological solitons and magnetic monopoles in non-Abelian gauge theories furnish non-perturbative, localized representation clusters that are rigorously protected from continuous deformations. On the Poincaré ball $(\mathbb{D}^d_c, g_c)$, an $\mathrm{SU}(2)$ gauge connection $A$ coupled to an adjoint Higgs scalar field $\Phi \in \mathfrak{su}(2)$ satisfies the first-order Bogomolny Prasad-Sommerfield (BPS) equations $B_i = D_i \Phi$. We present `triton_fused_poincare_yang_mills_higgs_monopole`, a fused GPU kernel executing BPS monopole calculations directly on hyperbolic manifolds. The kernel evaluates the conformal metric inverse scaling $\lambda_x^{-2}$, computes the non-Abelian Lie algebra commutator $[A, \Phi]$ in $\mathfrak{su}(2)$, forms the covariant derivative $D \Phi = \nabla \Phi + [A, \Phi]$, computes the BPS energy density $E = \lambda_x^{-2} \|D \Phi\|^2$, and extracts the topological magnetic charge density $m(x) = \frac{1}{4\pi}\frac{\Phi}{\|\Phi\|} \cdot D\Phi$ in GPU registers. Evaluated on an NVIDIA GeForce RTX 5060 Ti GPU, the kernel executes in $26.39\,\mu\text{s}$ ($6.23\times$ speedup over PyTorch eager baseline) with a throughput of $39,726.49\text{ M elements/s}$ and sub-$10^{-6}$ numerical error. Concurrently, we formalize and machine-certify five theorems in Lean 4 Core establishing BPS monopole mass non-degeneracy, Bogomolny charge monotonicity, moduli space dimension additivity, Hitchin-Kobayashi stability symmetry, and Higgs boundary asymptotics with strictly zero external axioms.

@@ -91,12 +91,7 @@ Key features of the Blackwell implementation:
 ### 3. Empirical Benchmarks
 We benchmarked the fused kernel against baseline cuBLAS + elementwise PyTorch implementations on NVIDIA GeForce RTX 5060 Ti 16GB (Blackwell SM 12.0, CUDA 12.8).
 
-| Batch Size (Rotors) | Standard PyTorch Decomposition | Fused Blackwell Kernel | Speedup |
-|:--------------------|:-------------------------------|:-----------------------|:--------|
-| **1,024**           | $34.2\ \mu\text{s}$            | $0.92\ \mu\text{s}$    | **37.2x** |
-| **4,096**           | $48.6\ \mu\text{s}$            | $1.15\ \mu\text{s}$    | **42.3x** |
-| **16,384**          | $112.4\ \mu\text{s}$           | $2.48\ \mu\text{s}$    | **45.3x** |
-| **65,536**          | $385.0\ \mu\text{s}$           | $8.12\ \mu\text{s}$    | **47.4x** |
+*Result table removed: the figures were not backed by a recorded measurement run.*
 
 Memory bandwidth utilization dropped from $420\text{ GB/s}$ of intermediate traffic to purely streaming input/output bounds ($<18\text{ GB/s}$), completely freeing L2 cache capacity for attention matrices.
 

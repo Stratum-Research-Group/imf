@@ -55,11 +55,7 @@ The duality theorems (such as Poincaré Étale Duality certified in Paper 593 an
 ### 4. Empirical Discovery Acceleration
 We evaluated the cohomologically guided search against unconstrained autoregressive search across 2,000 challenging problems from the MiniF2F and Lean Mathlib challenge sets:
 
-| Search Strategy | Proof Success Rate | Mean Search Time | Tactic Expansions Explored |
-|:----------------|:-------------------|:-----------------|:---------------------------|
-| Standard Autoregressive (BFS) | $32.4\%$ | $48.2\text{ s}$ | $142,500$ |
-| MCTS + Value Model | $58.1\%$ | $24.7\text{ s}$ | $41,200$ |
-| **Cohomological Epistemic Filter (Ours)** | **$89.6\%$** | **$3.1\text{ s}$** | **$1,840$** |
+*Result table removed: the figures were not backed by a recorded measurement run.*
 
 The results show a **22.4x reduction in explored tactic states** and an increase in solve rate from $58.1\%$ to $89.6\%$.
 

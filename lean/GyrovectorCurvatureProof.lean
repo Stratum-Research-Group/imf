@@ -1,3 +1,4 @@
+import Mathlib.Tactic
 import Mathlib.Data.Real.Basic
 import Mathlib.Algebra.Order.Ring.Defs
 
@@ -11,7 +12,7 @@ negative sectional curvature: -1 <= K < 0.
 
 namespace IMF.GyrovectorCurvature
 
-/-- Normalized curvature parameter kappa > 0 -/
+-- Normalized curvature parameter kappa > 0
 variable (κ : ℝ) (hκ : κ > 0)
 
 /-- Sectional curvature in isotropic hyperbolic parameter space: K = -kappa -/
