@@ -2,56 +2,56 @@
   "device": "NVIDIA GeForce RTX 5060 Ti",
   "polar_svd": {
     "128": {
-      "latency_us": 487.07,
+      "latency_us": 487.41,
       "throughput_mops": 0.26
     },
     "512": {
-      "latency_us": 630.13,
-      "throughput_mops": 0.81
+      "latency_us": 607.29,
+      "throughput_mops": 0.84
     },
     "1024": {
-      "latency_us": 618.93,
-      "throughput_mops": 1.65
+      "latency_us": 615.59,
+      "throughput_mops": 1.66
     },
     "4096": {
-      "latency_us": 705.73,
-      "throughput_mops": 5.8
+      "latency_us": 690.95,
+      "throughput_mops": 5.93
     }
   },
   "berry_phase": {
     "256": {
-      "latency_us": 27.81,
-      "throughput_mops": 9.21
+      "latency_us": 25.47,
+      "throughput_mops": 10.05
     },
     "1024": {
-      "latency_us": 26.82,
-      "throughput_mops": 38.18
+      "latency_us": 25.68,
+      "throughput_mops": 39.87
     },
     "4096": {
-      "latency_us": 26.06,
-      "throughput_mops": 157.16
+      "latency_us": 27.32,
+      "throughput_mops": 149.95
     },
     "16384": {
-      "latency_us": 102.72,
-      "throughput_mops": 159.51
+      "latency_us": 103.51,
+      "throughput_mops": 158.29
     }
   },
   "rotor_slerp": {
     "1024": {
-      "latency_us": 2.44,
-      "throughput_mops": 420.51
+      "latency_us": 2.49,
+      "throughput_mops": 411.71
     },
     "4096": {
-      "latency_us": 2.38,
-      "throughput_mops": 1717.72
+      "latency_us": 2.58,
+      "throughput_mops": 1585.05
     },
     "16384": {
-      "latency_us": 2.46,
-      "throughput_mops": 6670.22
+      "latency_us": 2.38,
+      "throughput_mops": 6889.39
     },
     "65536": {
       "latency_us": 2.4,
-      "throughput_mops": 27302.23
+      "throughput_mops": 27293.13
     }
   }
 }

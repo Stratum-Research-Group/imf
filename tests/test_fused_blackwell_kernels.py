@@ -127,3 +127,48 @@ def test_fused_attention_causal():
 
     diff = torch.norm(Out - ref_out).item() / (batch * seq_len * head_dim)
     assert diff < 1e-4, f"Attention output divergence: {diff}"
+
+@pytest.mark.skipif(not torch.cuda.is_available(), reason="CUDA not available")
+def test_dequant_gemv_correctness():
+    so_path = "csrc/fused_blackwell_bit_dequant_gemv.so"
+    lib = ctypes.CDLL(so_path)
+    lib.launch_fused_blackwell_bit_dequant_gemv.argtypes = [
+        ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p,
+        ctypes.c_void_p, ctypes.c_int, ctypes.c_int, ctypes.c_void_p
+    ]
+
+    M = 64
+    K = 128
+    half_K = K // 2
+
+    # Packed nibbles
+    W_packed = torch.randint(0, 256, (M, half_K), device='cuda', dtype=torch.uint8)
+    X = torch.randn(K, device='cuda', dtype=torch.float32)
+    scales = torch.ones(M, device='cuda', dtype=torch.float32) * 0.1
+    biases = torch.zeros(M, device='cuda', dtype=torch.float32)
+    Y = torch.zeros(M, device='cuda', dtype=torch.float32)
+
+    lib.launch_fused_blackwell_bit_dequant_gemv(
+        ctypes.c_void_p(W_packed.data_ptr()),
+        ctypes.c_void_p(X.data_ptr()),
+        ctypes.c_void_p(scales.data_ptr()),
+        ctypes.c_void_p(biases.data_ptr()),
+        ctypes.c_void_p(Y.data_ptr()),
+        M, K, None
+    )
+    torch.cuda.synchronize()
+
+    # Reference dequantization in PyTorch
+    w_cpu = W_packed.cpu().numpy()
+    W_unpacked = torch.zeros(M, K, dtype=torch.float32)
+    for i in range(M):
+        for j in range(half_K):
+            byte_v = int(w_cpu[i, j])
+            w0 = float((byte_v & 0x0F) - 8) * 0.1
+            w1 = float(((byte_v >> 4) & 0x0F) - 8) * 0.1
+            W_unpacked[i, j * 2] = w0
+            W_unpacked[i, j * 2 + 1] = w1
+
+    ref_Y = torch.mv(W_unpacked.cuda(), X)
+    diff = torch.norm(Y - ref_Y).item() / M
+    assert diff < 1e-4, f"Dequant GEMV diff: {diff}"

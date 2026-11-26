@@ -70,3 +70,44 @@ def test_iouring_checkpoint_rollback_basic():
 
     lib.close_checkpoint_rollback_engine(eng)
     os.unlink(temp_path)
+
+def test_iouring_multi_descriptor_stress():
+    so_path = "csrc/fused_iouring_checkpoint_rollback.so"
+    lib = ctypes.CDLL(so_path)
+
+    lib.init_checkpoint_rollback_engine.argtypes = [ctypes.c_char_p, ctypes.c_int]
+    lib.init_checkpoint_rollback_engine.restype = ctypes.c_void_p
+
+    lib.submit_checkpoint_rollback_read.argtypes = [ctypes.c_void_p, ctypes.c_void_p, ctypes.c_size_t, ctypes.c_longlong]
+    lib.submit_checkpoint_rollback_read.restype = ctypes.c_int
+
+    lib.reap_checkpoint_rollback_completions.argtypes = [ctypes.c_void_p, ctypes.c_int]
+    lib.reap_checkpoint_rollback_completions.restype = ctypes.c_int
+
+    lib.close_checkpoint_rollback_engine.argtypes = [ctypes.c_void_p]
+    lib.close_checkpoint_rollback_engine.restype = None
+
+    size_bytes = 16 * 1024
+    with tempfile.NamedTemporaryFile(delete=False) as tf:
+        tf.write(b"K" * size_bytes)
+        tf.flush()
+        tpath = tf.name
+
+    eng = lib.init_checkpoint_rollback_engine(tpath.encode('utf-8'), 32)
+    assert eng is not None
+
+    buf1 = (ctypes.c_char * size_bytes)()
+    buf2 = (ctypes.c_char * size_bytes)()
+
+    # Submit 2 in-flight requests simultaneously
+    ret1 = lib.submit_checkpoint_rollback_read(eng, buf1, size_bytes, 0)
+    ret2 = lib.submit_checkpoint_rollback_read(eng, buf2, size_bytes, 0)
+    assert ret1 > 0 and ret2 > 0
+
+    reaped = lib.reap_checkpoint_rollback_completions(eng, 2)
+    assert reaped >= 2
+    assert buf1.value[:5] == b"KKKKK"
+    assert buf2.value[:5] == b"KKKKK"
+
+    lib.close_checkpoint_rollback_engine(eng)
+    os.unlink(tpath)

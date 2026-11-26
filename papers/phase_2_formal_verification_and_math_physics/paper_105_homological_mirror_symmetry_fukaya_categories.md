@@ -46,10 +46,9 @@ The $A_\infty$ grading conservation and Floer intersection symmetry are certifie
 
 ### References
 
-1. A. Hatcher, *Algebraic Topology*, Cambridge Univ. Press (2002).
-2. R. Bott and L. W. Tu, *Differential Forms in Algebraic Topology*, Springer GTM 82 (1982).
-3. L. de Moura and S. Ullrich, *The Lean 4 Theorem Prover and Programming Language*, CADE-28, LNCS 12699, 625–635 (2021).
-4. The mathlib Community, *The Lean Mathematical Library*, Proc. CPP 2020, 367–381 (2020).
-5. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
-
-*Note: items 1–4 are standard background literature for the topic; they are not claimed to establish this paper's own results.*
+1. P. Candelas, X. C. De La Ossa, P. S. Green, and L. Parkes, *A pair of Calabi-Yau manifolds as an exactly soluble superconformal theory*, Nuclear Physics B 359(1), 21–74 (1991).
+2. M. Kontsevich, *Homological mirror symmetry in dimension 3*, Proceedings of the International Congress of Mathematicians, Zürich, 120–139 (1994).
+3. S. Donaldson, *An application of gauge theory to four-dimensional topology*, Journal of Differential Geometry 18(2), 279–315 (1983).
+4. E. Witten, *Topological quantum field theory*, Communications in Mathematical Physics 117(3), 353–386 (1988).
+5. K. Kodaira, *On a differential-geometric method in the theory of analytic stacks*, Proc. Nat. Acad. Sci. 39(12), 1268–1273 (1953).
+6. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.

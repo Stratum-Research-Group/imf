@@ -5,3 +5,5 @@ import Pilot.LieJacobiBCH
 import Pilot.GroupInvariants
 import Pilot.SpectralSymmetric
 import Pilot.PadeExponential
+import Pilot.LieDerivation
+import Pilot.SolvableLieGroup
