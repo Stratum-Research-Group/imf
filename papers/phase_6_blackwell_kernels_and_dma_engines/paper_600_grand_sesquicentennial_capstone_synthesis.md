@@ -5,10 +5,13 @@
 **Paper Type:** Milestone Synthesis & Scaling Report  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Date:** November 2026  
-**Status:** Theoretical Draft — No Machine Proof or Benchmark in Text  
+**Status:** Unverified Figures — Not Independently Reviewed  
 **Verification Level:** None (derivation only)  
 
 ---
+
+<!-- UNMEASURED-FIGURES-NOTICE -->
+> **⚠ UNVERIFIED FIGURES.** Numerical performance, latency, speedup and success-rate figures in this paper were not produced by a recorded measurement run in this repository and are **not** reproducible from committed data. Treat them as illustrative placeholders, not results.
 
 <!-- THEORETICAL-DRAFT-NOTICE -->
 > **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.

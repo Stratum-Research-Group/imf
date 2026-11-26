@@ -5,10 +5,13 @@
 **Paper Type:** Systems Engineering: Kernel-Bypass I/O Engine  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Date:** November 2026  
-**Status:** Evidence Included — Not Independently Reviewed  
+**Status:** Unverified Figures — Not Independently Reviewed  
 **Verification Level:** benchmark figures or kernel source reported (AMD Ryzen 5 7600X, RTX 5060 Ti)  
 
 ---
+
+<!-- UNMEASURED-FIGURES-NOTICE -->
+> **⚠ UNVERIFIED FIGURES.** Numerical performance, latency, speedup and success-rate figures in this paper were not produced by a recorded measurement run in this repository and are **not** reproducible from committed data. Treat them as illustrative placeholders, not results.
 
 ### Abstract
 We present `csrc/fused_iouring_gather_scatter.cpp`, a Linux kernel-bypass vectorized direct-DMA gather-scatter engine designed for fragmented sub-bit polytope parameter slabs. Leveraging asynchronous `readv` and `writev` ring submissions via `io_uring` with pre-registered fixed buffers, the engine aggregates non-contiguous memory segments into contiguous 2MB hugepage blocks, sustaining $10.6\text{ GB/s}$ throughput with zero CPU memory copying.

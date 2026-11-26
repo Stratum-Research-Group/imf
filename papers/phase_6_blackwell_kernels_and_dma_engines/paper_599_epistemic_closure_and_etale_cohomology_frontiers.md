@@ -5,10 +5,13 @@
 **Paper Type:** Theoretical Monograph  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Date:** November 2026  
-**Status:** Theoretical Draft — No Machine Proof or Benchmark in Text  
+**Status:** Unverified Figures — Not Independently Reviewed  
 **Verification Level:** None (derivation only)  
 
 ---
+
+<!-- UNMEASURED-FIGURES-NOTICE -->
+> **⚠ UNVERIFIED FIGURES.** Numerical performance, latency, speedup and success-rate figures in this paper were not produced by a recorded measurement run in this repository and are **not** reproducible from committed data. Treat them as illustrative placeholders, not results.
 
 <!-- THEORETICAL-DRAFT-NOTICE -->
 > **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
@@ -45,7 +48,7 @@ We integrate these arithmetic constraints directly into the MegaGym search loops
 - **Phase II (Categorical Lifting):** Passing candidates are translated into Lean 4 tactic scripts.
 - **Phase III (Machine Certification):** The Lean 4 kernel validates the formal deduction with 0 axioms and 0 sorry steps.
 
-The duality theorems (such as Poincaré Étale Duality certified in Paper 593 and the Hodge Index Theorem certified in Paper 596) act as conservation laws on the search space, ensuring that inductive steps preserve symplectic volume.
+The duality theorems (such as Poincaré Étale Duality certified in Paper 593 and the linear-algebra core of the Hodge Index Theorem verified in Paper 596 (scope-limited), and Poincaré Étale Duality in Paper 593 is an abstract-model check only) act as conservation laws on the search space, ensuring that inductive steps preserve symplectic volume.
 
 ---
 

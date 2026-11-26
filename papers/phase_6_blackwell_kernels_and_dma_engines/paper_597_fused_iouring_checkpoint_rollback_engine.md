@@ -5,10 +5,13 @@
 **Paper Type:** Systems Engineering: Kernel-Bypass I/O Engine  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Date:** November 2026  
-**Status:** Evidence Included — Not Independently Reviewed  
+**Status:** Unverified Figures — Not Independently Reviewed  
 **Verification Level:** benchmark figures or kernel source reported (AMD Ryzen 5 7600X, RTX 5060 Ti)  
 
 ---
+
+<!-- UNMEASURED-FIGURES-NOTICE -->
+> **⚠ UNVERIFIED FIGURES.** Numerical performance, latency, speedup and success-rate figures in this paper were not produced by a recorded measurement run in this repository and are **not** reproducible from committed data. Treat them as illustrative placeholders, not results.
 
 ### Abstract
 We present the architecture and empirical verification of a fused, zero-copy checkpoint and rollback engine engineered using Linux `io_uring` direct submission queues and memory-mapped copy-on-write (CoW) page snapshots. When orchestrating 32B+ parameter cognitive architectures and large-scale formal theorem discovery engines across 280,000,000 training steps, state rollback latency under exploratory search deadlocks dominates wall-clock training time. Our asynchronous engine achieves sub-millisecond full-state checkpoint commits and sub-$500\ \mu\text{s}$ atomic rollbacks on PCIe Gen5 NVMe storage arrays by bypassing the VFS buffer cache with `IORING_OP_WRITEV` and direct unmapped DMA ring buffers.

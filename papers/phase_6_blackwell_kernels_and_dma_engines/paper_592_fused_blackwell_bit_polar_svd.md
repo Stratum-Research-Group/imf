@@ -5,10 +5,13 @@
 **Paper Type:** GPU Kernel Design & Microbenchmark  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Date:** November 2026  
-**Status:** Evidence Included — Not Independently Reviewed  
+**Status:** Unverified Figures — Not Independently Reviewed  
 **Verification Level:** benchmark figures or kernel source reported (AMD Ryzen 5 7600X, RTX 5060 Ti)  
 
 ---
+
+<!-- UNMEASURED-FIGURES-NOTICE -->
+> **⚠ UNVERIFIED FIGURES.** Numerical performance, latency, speedup and success-rate figures in this paper were not produced by a recorded measurement run in this repository and are **not** reproducible from committed data. Treat them as illustrative placeholders, not results.
 
 ### Abstract
 We present the architectural formulation and microarchitectural implementation of `fused_blackwell_bit_polar_svd.cu`, an in-register polar SVD decomposition kernel engineered for NVIDIA Blackwell SM 12.0. By executing one-sided Hestenes-Stiefel Jacobi orthogonalization sweeps directly within GPU warp registers, the kernel computes both the polar factorization $A = U H$ and full singular value decomposition $A = U \Sigma V^T$ for $16 \times 16$ state transition matrices with a latency of $1.92\ \mu\text{s}$ per batch of 256 operators.

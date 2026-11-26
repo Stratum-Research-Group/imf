@@ -5,10 +5,13 @@
 **Paper Type:** GPU Kernel Design & Microbenchmark  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Date:** November 2026  
-**Status:** Evidence Included — Not Independently Reviewed  
+**Status:** Unverified Figures — Not Independently Reviewed  
 **Verification Level:** benchmark figures or kernel source reported (AMD Ryzen 5 7600X, RTX 5060 Ti)  
 
 ---
+
+<!-- UNMEASURED-FIGURES-NOTICE -->
+> **⚠ UNVERIFIED FIGURES.** Numerical performance, latency, speedup and success-rate figures in this paper were not produced by a recorded measurement run in this repository and are **not** reproducible from committed data. Treat them as illustrative placeholders, not results.
 
 ### Abstract
 We introduce `fused_blackwell_bit_berry_phase.cu`, a specialized GPU kernel computing geometric Berry phase holonomies across closed loops in 16-dimensional complex spinor parameter spaces targeting NVIDIA Blackwell SM 12.0. By evaluating Pancharatnam geometric phases and discrete holonomy products $\prod_{n} \langle \psi_n | \psi_{n+1} \rangle$ entirely within GPU warp registers, the kernel determines topological winding invariants with an execution latency of $1.15\ \mu\text{s}$ per batch of 1,024 closed loops, eliminating phase drift in cyclic reasoning trajectories.

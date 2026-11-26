@@ -5,10 +5,13 @@
 **Paper Type:** GPU Kernel Design & Microbenchmark  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Date:** November 2026  
-**Status:** Evidence Included — Not Independently Reviewed  
+**Status:** Unverified Figures — Not Independently Reviewed  
 **Verification Level:** benchmark figures or kernel source reported (AMD Ryzen 5 7600X, RTX 5060 Ti)  
 
 ---
+
+<!-- UNMEASURED-FIGURES-NOTICE -->
+> **⚠ UNVERIFIED FIGURES.** Numerical performance, latency, speedup and success-rate figures in this paper were not produced by a recorded measurement run in this repository and are **not** reproducible from committed data. Treat them as illustrative placeholders, not results.
 
 ### Abstract
 We present the implementation and validation of `fused_blackwell_bit_rotor_slerp`, a warp-synchronous GPU kernel executing Spherical Linear Interpolation (SLERP) across Clifford bivector rotors and quaternionic rotation operators in $\mathcal{C}\ell(3, 0)$ and $\mathcal{C}\ell(4, 0)$. Implemented directly for NVIDIA Blackwell SM 12.0 architectures, the kernel fuses dot-product inner products, trigonometric angular evaluation ($\arccos$, $\sin$), warp-level shuffle broadcasting, and bit-level scale-accumulate operations into a single continuous pipeline without intermediate register-to-memory roundtrips. Our kernel achieves a sustained dispatch latency of $1.15\ \mu\text{s}$ for batches of 4,096 concurrent rotor interpolations, providing continuous geodesic trajectories for high-dimensional latent space transformations.
