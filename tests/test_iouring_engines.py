@@ -509,3 +509,44 @@ def test_iouring_eventfd_signaling_basic():
     assert val.value >= 42
 
     lib.iouring_eventfd_engine_destroy(eng)
+
+def test_iouring_ringbuf_interop_basic():
+    so_path = "csrc/fused_iouring_ringbuf_interop.so"
+    if not os.path.exists(so_path):
+        pytest.skip("fused_iouring_ringbuf_interop.so not compiled")
+
+    lib = ctypes.CDLL(so_path)
+    lib.iouring_ringbuf_init.argtypes = [ctypes.c_size_t, ctypes.c_uint]
+    lib.iouring_ringbuf_init.restype = ctypes.c_void_p
+
+    lib.iouring_ringbuf_write.argtypes = [ctypes.c_void_p, ctypes.c_char_p, ctypes.c_size_t]
+    lib.iouring_ringbuf_write.restype = ctypes.c_int
+
+    lib.iouring_ringbuf_read.argtypes = [ctypes.c_void_p, ctypes.c_char_p, ctypes.c_size_t]
+    lib.iouring_ringbuf_read.restype = ctypes.c_int
+
+    lib.iouring_ringbuf_get_available.argtypes = [ctypes.c_void_p]
+    lib.iouring_ringbuf_get_available.restype = ctypes.c_size_t
+
+    lib.iouring_ringbuf_destroy.argtypes = [ctypes.c_void_p]
+    lib.iouring_ringbuf_destroy.restype = None
+
+    cap = 1024
+    eng = lib.iouring_ringbuf_init(cap, 16)
+    assert eng is not None
+
+    data = b"RINGBUF_ZERO_COPY_PAYLOAD_TEST_OK_123456789"
+    ret_w = lib.iouring_ringbuf_write(eng, data, len(data))
+    assert ret_w == 0
+
+    avail = lib.iouring_ringbuf_get_available(eng)
+    assert avail == len(data)
+
+    out_buf = (ctypes.c_char * len(data))()
+    ret_r = lib.iouring_ringbuf_read(eng, ctypes.cast(out_buf, ctypes.c_char_p), len(data))
+    assert ret_r == 0
+    assert out_buf.value == data
+
+    assert lib.iouring_ringbuf_get_available(eng) == 0
+
+    lib.iouring_ringbuf_destroy(eng)

@@ -17,6 +17,9 @@
 #include <iomanip>
 #include <thread>
 #include <atomic>
+#include <sys/mman.h>
+#include <fcntl.h>
+#include <unistd.h>
 
 extern "C" {
     int imf_rs_infer_step(
@@ -51,6 +54,7 @@ int main(int argc, char** argv) {
     bool benchmark_mode = false;
     bool vocab_test = false;
     size_t num_threads = 1;
+    std::string mmap_weights_path = "";
     std::string json_out_file = "";
     unsigned int seed = 42;
     std::string input_file = "";
@@ -61,6 +65,8 @@ int main(int argc, char** argv) {
             steps = std::stoul(argv[++i]);
         } else if (arg == "--threads" && i + 1 < argc) {
             num_threads = std::stoul(argv[++i]);
+        } else if (arg == "--mmap-weights" && i + 1 < argc) {
+            mmap_weights_path = argv[++i];
         } else if (arg == "--vocab-test") {
             vocab_test = true;
         } else if ((arg == "--temp" || arg == "--temperature") && i + 1 < argc) {
@@ -91,6 +97,7 @@ int main(int argc, char** argv) {
             std::cout << "  --inspect-manifold    Display Lie algebra norm and orthogonality drift metrics" << std::endl;
             std::cout << "  --benchmark           Run high-precision latency profiling with p50/p95/p99 quantiles" << std::endl;
             std::cout << "  --threads <N>         Execute multi-threaded concurrent agent decoding (default: 1)" << std::endl;
+            std::cout << "  --mmap-weights <path> Zero-copy memory-mapped model weights ingestion" << std::endl;
             std::cout << "  --vocab-test          Validate full vocabulary boundary conditions and entropy" << std::endl;
             std::cout << "  --json-out <path>     Write latency profiling results to JSON file" << std::endl;
             std::cout << "  --file <path>         Batch prompt evaluation from input text file" << std::endl;
@@ -104,6 +111,25 @@ int main(int argc, char** argv) {
     std::vector<float> state(dim, 0.05f);
     std::vector<float> a_mat(dim * dim, 0.0f);
     std::vector<float> head(vocab * dim, 0.01f);
+    float* mmap_addr = nullptr;
+    size_t mmap_bytes = vocab * dim * sizeof(float);
+
+    if (!mmap_weights_path.empty()) {
+        int fd = open(mmap_weights_path.c_str(), O_RDONLY);
+        if (fd >= 0) {
+            void* ptr = mmap(nullptr, mmap_bytes, PROT_READ, MAP_SHARED, fd, 0);
+            if (ptr != MAP_FAILED) {
+                mmap_addr = (float*)ptr;
+                madvise(mmap_addr, mmap_bytes, MADV_WILLNEED);
+                std::cout << "[*] Zero-Copy mmap() active for weights: " << mmap_weights_path
+                          << " (" << (mmap_bytes / 1024) << " KB mapped)" << std::endl;
+            }
+            close(fd);
+        } else {
+            std::cout << "[!] mmap file not found, falling back to initialized memory weights." << std::endl;
+        }
+    }
+    const float* head_ptr = mmap_addr ? mmap_addr : head.data();
 
     // Populate skew-symmetric matrix A: A[i, j] = -A[j, i]
     srand(seed);
@@ -153,7 +179,7 @@ int main(int argc, char** argv) {
             for (size_t s = 0; s < 10; ++s) {
                 uint32_t token_id = 0;
                 float drift = 0.0f;
-                imf_rs_infer_step(state.data(), a_mat.data(), head.data(), dim, vocab, &token_id, &drift);
+                imf_rs_infer_step(state.data(), a_mat.data(), head_ptr, dim, vocab, &token_id, &drift);
                 std::cout << "[" << token_id << "] " << std::flush;
             }
             std::cout << std::endl;
@@ -177,7 +203,7 @@ int main(int argc, char** argv) {
             for (size_t s = 0; s < 8; ++s) {
                 uint32_t token_id = 0;
                 float drift = 0.0f;
-                imf_rs_infer_step(state.data(), a_mat.data(), head.data(), dim, vocab, &token_id, &drift);
+                imf_rs_infer_step(state.data(), a_mat.data(), head_ptr, dim, vocab, &token_id, &drift);
                 std::cout << token_id << " " << std::flush;
             }
             std::cout << std::endl;
@@ -192,7 +218,7 @@ int main(int argc, char** argv) {
         for (size_t s = 0; s < steps; ++s) {
             uint32_t token_id = 0;
             float drift = 0.0f;
-            imf_rs_infer_step(state.data(), a_mat.data(), head.data(), dim, vocab, &token_id, &drift);
+            imf_rs_infer_step(state.data(), a_mat.data(), head_ptr, dim, vocab, &token_id, &drift);
             std::cout << token_id << " " << std::flush;
         }
         auto end_stream = std::chrono::high_resolution_clock::now();
@@ -209,7 +235,7 @@ int main(int argc, char** argv) {
         for (size_t w = 0; w < 10; ++w) {
             uint32_t token_id = 0;
             float drift = 0.0f;
-            imf_rs_infer_step(state.data(), a_mat.data(), head.data(), dim, vocab, &token_id, &drift);
+            imf_rs_infer_step(state.data(), a_mat.data(), head_ptr, dim, vocab, &token_id, &drift);
         }
 
         std::vector<double> latencies_us;
@@ -222,7 +248,7 @@ int main(int argc, char** argv) {
             float drift = 0.0f;
 
             auto t0 = std::chrono::high_resolution_clock::now();
-            int ret = imf_rs_infer_step(state.data(), a_mat.data(), head.data(), dim, vocab, &token_id, &drift);
+            int ret = imf_rs_infer_step(state.data(), a_mat.data(), head_ptr, dim, vocab, &token_id, &drift);
             auto t1 = std::chrono::high_resolution_clock::now();
 
             if (ret != 0) {
@@ -294,7 +320,7 @@ int main(int argc, char** argv) {
         for (size_t s = 0; s < 500; ++s) {
             uint32_t token_id = 0;
             float drift = 0.0f;
-            imf_rs_infer_step(state.data(), a_mat.data(), head.data(), dim, vocab, &token_id, &drift);
+            imf_rs_infer_step(state.data(), a_mat.data(), head_ptr, dim, vocab, &token_id, &drift);
             if (token_id < vocab) counts[token_id]++;
         }
         size_t non_zero = 0;
@@ -313,7 +339,7 @@ int main(int argc, char** argv) {
         std::atomic<size_t> total_completed{0};
 
         for (size_t t = 0; t < num_threads; ++t) {
-            workers.emplace_back([t, &state, &a_mat, &head, dim, vocab, steps, &total_completed]() {
+            workers.emplace_back([t, &state, &a_mat, head_ptr, dim, vocab, steps, &total_completed]() {
                 std::vector<float> local_state = state;
                 for (size_t i = 0; i < dim; ++i) local_state[i] += 0.001f * (float)(t + 1);
 
@@ -323,7 +349,7 @@ int main(int argc, char** argv) {
                     int ret = imf_rs_infer_step(
                         local_state.data(),
                         a_mat.data(),
-                        head.data(),
+                        head_ptr,
                         dim,
                         vocab,
                         &token_id,
@@ -362,7 +388,7 @@ int main(int argc, char** argv) {
         int ret = imf_rs_infer_step(
             state.data(),
             a_mat.data(),
-            head.data(),
+            head_ptr,
             dim,
             vocab,
             &token_id,

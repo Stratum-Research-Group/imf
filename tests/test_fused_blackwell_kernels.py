@@ -490,3 +490,45 @@ def test_fused_cross_entropy_correctness():
     ref_loss.sum().backward()
     grad_diff = torch.max(torch.abs(grad_out - logits.grad)).item()
     assert grad_diff < 1e-4, f"Grad mismatch: {grad_diff}"
+
+@pytest.mark.skipif(not torch.cuda.is_available(), reason="CUDA not available")
+def test_chunked_ssm_correctness():
+    so_path = "csrc/fused_blackwell_chunked_ssm.so"
+    lib = ctypes.CDLL(so_path)
+    lib.launch_fused_blackwell_chunked_ssm.argtypes = [
+        ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p,
+        ctypes.c_int, ctypes.c_int, ctypes.c_int, ctypes.c_float, ctypes.c_void_p
+    ]
+
+    batch = 4
+    seq_len = 32
+    dim = 64
+    delta = 0.05
+
+    X = torch.randn(batch, seq_len, dim, device='cuda', dtype=torch.float32)
+    A_diag = -torch.rand(dim, device='cuda', dtype=torch.float32) - 0.1
+    B_vec = torch.randn(dim, device='cuda', dtype=torch.float32)
+    C_vec = torch.randn(dim, device='cuda', dtype=torch.float32)
+    Y_out = torch.zeros_like(X)
+
+    lib.launch_fused_blackwell_chunked_ssm(
+        ctypes.c_void_p(X.data_ptr()),
+        ctypes.c_void_p(A_diag.data_ptr()),
+        ctypes.c_void_p(B_vec.data_ptr()),
+        ctypes.c_void_p(C_vec.data_ptr()),
+        ctypes.c_void_p(Y_out.data_ptr()),
+        batch, seq_len, dim, delta, None
+    )
+    torch.cuda.synchronize()
+
+    # Analytical CPU reference
+    a_bar = torch.exp(delta * A_diag)
+    b_bar = delta * B_vec
+    ref_Y = torch.zeros_like(X)
+    h = torch.zeros(batch, dim, device='cuda', dtype=torch.float32)
+    for t in range(seq_len):
+        h = a_bar * h + b_bar * X[:, t, :]
+        ref_Y[:, t, :] = C_vec * h
+
+    diff = torch.max(torch.abs(Y_out - ref_Y)).item()
+    assert diff < 1e-4, f"SSM output diff too large: {diff}"
