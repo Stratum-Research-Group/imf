@@ -625,4 +625,38 @@ def test_bit_linear_residual_correctness():
     diff = torch.max(torch.abs(y_out - ref_y)).item()
     assert diff < 1e-4, f"Bit-linear output diff: {diff}"
 
+@pytest.mark.skipif(not torch.cuda.is_available(), reason="CUDA not available")
+def test_fused_swiglu_mlp_correctness():
+    so_path = "csrc/fused_blackwell_swiglu_mlp.so"
+    lib = ctypes.CDLL(so_path)
+    lib.launch_fused_blackwell_swiglu_mlp.argtypes = [
+        ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p,
+        ctypes.c_int, ctypes.c_int, ctypes.c_float, ctypes.c_void_p
+    ]
+
+    batch_size = 16
+    hidden_dim = 128
+    beta = 1.0
+
+    gate = torch.randn(batch_size, hidden_dim, device='cuda', dtype=torch.float32)
+    up = torch.randn(batch_size, hidden_dim, device='cuda', dtype=torch.float32)
+    residual = torch.randn(batch_size, hidden_dim, device='cuda', dtype=torch.float32)
+    y_out = torch.zeros(batch_size, hidden_dim, device='cuda', dtype=torch.float32)
+
+    ret = lib.launch_fused_blackwell_swiglu_mlp(
+        ctypes.c_void_p(gate.data_ptr()),
+        ctypes.c_void_p(up.data_ptr()),
+        ctypes.c_void_p(residual.data_ptr()),
+        ctypes.c_void_p(y_out.data_ptr()),
+        batch_size, hidden_dim, beta, None
+    )
+    torch.cuda.synchronize()
+    assert ret == 0
+
+    # PyTorch reference: silu(gate) * up + residual
+    ref_y = (gate * torch.sigmoid(beta * gate)) * up + residual
+    diff = torch.max(torch.abs(y_out - ref_y)).item()
+    assert diff < 1e-4, f"SwiGLU output diff: {diff}"
+
+
 

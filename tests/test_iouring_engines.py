@@ -656,4 +656,53 @@ def test_iouring_socket_recv_basic():
     s_send.close()
     lib.iouring_socket_recv_close(eng)
 
+def test_iouring_multishot_accept_basic():
+    so_path = "csrc/fused_iouring_multishot_accept.so"
+    if not os.path.exists(so_path):
+        pytest.skip("fused_iouring_multishot_accept.so not compiled")
+
+    lib = ctypes.CDLL(so_path)
+    lib.iouring_multishot_accept_init.argtypes = [ctypes.c_uint]
+    lib.iouring_multishot_accept_init.restype = ctypes.c_void_p
+
+    lib.iouring_multishot_accept_start.argtypes = [ctypes.c_void_p, ctypes.c_int, ctypes.c_uint64]
+    lib.iouring_multishot_accept_start.restype = ctypes.c_int
+
+    lib.iouring_multishot_accept_next.argtypes = [
+        ctypes.c_void_p, ctypes.POINTER(ctypes.c_int), ctypes.POINTER(ctypes.c_uint64)
+    ]
+    lib.iouring_multishot_accept_next.restype = ctypes.c_int
+
+    lib.iouring_multishot_accept_close.argtypes = [ctypes.c_void_p]
+    lib.iouring_multishot_accept_close.restype = None
+
+    eng = lib.iouring_multishot_accept_init(16)
+    assert eng is not None
+
+    server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    server.bind(('127.0.0.1', 0))
+    server.listen(5)
+    server_port = server.getsockname()[1]
+
+    ret = lib.iouring_multishot_accept_start(eng, server.fileno(), 0x1234)
+    assert ret == 0
+
+    client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    client.connect(('127.0.0.1', server_port))
+
+    client_fd = ctypes.c_int(-1)
+    user_data = ctypes.c_uint64(0)
+    wait_ret = lib.iouring_multishot_accept_next(eng, ctypes.byref(client_fd), ctypes.byref(user_data))
+    assert wait_ret == 0
+    assert client_fd.value >= 0
+    assert user_data.value == 0x1234
+
+    # Close accepted socket in kernel
+    os.close(client_fd.value)
+    client.close()
+    server.close()
+    lib.iouring_multishot_accept_close(eng)
+
+
 
