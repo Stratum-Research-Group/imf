@@ -550,3 +550,57 @@ def test_iouring_ringbuf_interop_basic():
     assert lib.iouring_ringbuf_get_available(eng) == 0
 
     lib.iouring_ringbuf_destroy(eng)
+
+def test_iouring_splice_gateway_basic():
+    so_path = "csrc/fused_iouring_splice_socket.so"
+    if not os.path.exists(so_path):
+        pytest.skip("fused_iouring_splice_socket.so not compiled")
+
+    lib = ctypes.CDLL(so_path)
+    lib.iouring_splice_gateway_init.argtypes = [ctypes.c_uint]
+    lib.iouring_splice_gateway_init.restype = ctypes.c_void_p
+
+    lib.iouring_splice_gateway_submit.argtypes = [
+        ctypes.c_void_p, ctypes.c_int, ctypes.c_int64,
+        ctypes.c_int, ctypes.c_int64, ctypes.c_uint, ctypes.c_uint, ctypes.c_uint64
+    ]
+    lib.iouring_splice_gateway_submit.restype = ctypes.c_int
+
+    lib.iouring_splice_gateway_wait.argtypes = [
+        ctypes.c_void_p, ctypes.POINTER(ctypes.c_int), ctypes.POINTER(ctypes.c_uint64)
+    ]
+    lib.iouring_splice_gateway_wait.restype = ctypes.c_int
+
+    lib.iouring_splice_gateway_close.argtypes = [ctypes.c_void_p]
+    lib.iouring_splice_gateway_close.restype = None
+
+    gw = lib.iouring_splice_gateway_init(16)
+    assert gw is not None
+
+    p1_r, p1_w = os.pipe()
+    p2_r, p2_w = os.pipe()
+
+    test_payload = b"SPLICE_ZERO_COPY_PACKET_TEST_PAYLOAD_5678"
+    os.write(p1_w, test_payload)
+
+    ret = lib.iouring_splice_gateway_submit(
+        gw, p1_r, -1, p2_w, -1, len(test_payload), 0, 0xABC
+    )
+    assert ret == 0
+
+    res_bytes = ctypes.c_int(0)
+    user_data = ctypes.c_uint64(0)
+    wait_ret = lib.iouring_splice_gateway_wait(gw, ctypes.byref(res_bytes), ctypes.byref(user_data))
+    assert wait_ret == 0
+    assert res_bytes.value == len(test_payload)
+    assert user_data.value == 0xABC
+
+    received = os.read(p2_r, len(test_payload))
+    assert received == test_payload
+
+    os.close(p1_r)
+    os.close(p1_w)
+    os.close(p2_r)
+    os.close(p2_w)
+    lib.iouring_splice_gateway_close(gw)
+

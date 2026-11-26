@@ -532,3 +532,49 @@ def test_chunked_ssm_correctness():
 
     diff = torch.max(torch.abs(Y_out - ref_Y)).item()
     assert diff < 1e-4, f"SSM output diff too large: {diff}"
+
+@pytest.mark.skipif(not torch.cuda.is_available(), reason="CUDA not available")
+def test_mope_router_correctness():
+    so_path = "csrc/fused_blackwell_mope_router.so"
+    lib = ctypes.CDLL(so_path)
+    lib.launch_fused_blackwell_mope_router.argtypes = [
+        ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p,
+        ctypes.c_int, ctypes.c_int, ctypes.c_int, ctypes.c_int,
+        ctypes.c_float, ctypes.c_void_p
+    ]
+
+    batch_size = 16
+    dim = 64
+    num_experts = 32
+    top_k = 4
+    temperature = 1.0
+
+    tokens = torch.randn(batch_size, dim, device='cuda', dtype=torch.float32)
+    polytope_centroids = torch.randn(num_experts, dim, device='cuda', dtype=torch.float32)
+    # Normalize centroids to lie on sphere
+    polytope_centroids = polytope_centroids / torch.norm(polytope_centroids, dim=-1, keepdim=True)
+
+    selected_experts = torch.zeros(batch_size, top_k, device='cuda', dtype=torch.int32)
+    routing_weights = torch.zeros(batch_size, top_k, device='cuda', dtype=torch.float32)
+
+    ret = lib.launch_fused_blackwell_mope_router(
+        ctypes.c_void_p(tokens.data_ptr()),
+        ctypes.c_void_p(polytope_centroids.data_ptr()),
+        ctypes.c_void_p(selected_experts.data_ptr()),
+        ctypes.c_void_p(routing_weights.data_ptr()),
+        batch_size, dim, num_experts, top_k, temperature, None
+    )
+    torch.cuda.synchronize()
+    assert ret == 0
+
+    # Verify with PyTorch reference
+    scores = torch.matmul(tokens, polytope_centroids.T) / temperature
+    ref_weights, ref_indices = torch.topk(scores, top_k, dim=-1)
+    ref_probs = torch.softmax(ref_weights, dim=-1)
+
+    # Check top indices match
+    assert torch.equal(selected_experts, ref_indices.to(torch.int32))
+    # Check softmax weights match
+    weight_diff = torch.max(torch.abs(routing_weights - ref_probs)).item()
+    assert weight_diff < 1e-4, f"Routing weights diff: {weight_diff}"
+
