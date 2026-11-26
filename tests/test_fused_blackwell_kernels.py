@@ -89,3 +89,41 @@ def test_berry_phase_zero_loop():
     torch.cuda.synchronize()
 
     assert (torch.abs(out) < 1e-5).all()
+
+@pytest.mark.skipif(not torch.cuda.is_available(), reason="CUDA not available")
+def test_fused_attention_causal():
+    so_path = "csrc/fused_blackwell_bit_attention.so"
+    lib = ctypes.CDLL(so_path)
+    lib.launch_fused_blackwell_bit_attention.argtypes = [
+        ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p,
+        ctypes.c_float, ctypes.c_int, ctypes.c_int, ctypes.c_void_p
+    ]
+
+    batch = 2
+    seq_len = 64
+    head_dim = 32
+    scale = 1.0 / math.sqrt(head_dim)
+
+    Q = torch.randn(batch, seq_len, head_dim, device='cuda', dtype=torch.float32)
+    K = torch.randn(batch, seq_len, head_dim, device='cuda', dtype=torch.float32)
+    V = torch.randn(batch, seq_len, head_dim, device='cuda', dtype=torch.float32)
+    Out = torch.zeros(batch, seq_len, head_dim, device='cuda', dtype=torch.float32)
+
+    lib.launch_fused_blackwell_bit_attention(
+        ctypes.c_void_p(Q.data_ptr()),
+        ctypes.c_void_p(K.data_ptr()),
+        ctypes.c_void_p(V.data_ptr()),
+        ctypes.c_void_p(Out.data_ptr()),
+        scale, seq_len, batch, None
+    )
+    torch.cuda.synchronize()
+
+    # Reference PyTorch causal attention
+    scores = torch.bmm(Q, K.transpose(1, 2)) * scale
+    mask = torch.triu(torch.full((seq_len, seq_len), float('-inf'), device='cuda'), diagonal=1)
+    scores = scores + mask
+    attn_weights = torch.softmax(scores, dim=-1)
+    ref_out = torch.bmm(attn_weights, V)
+
+    diff = torch.norm(Out - ref_out).item() / (batch * seq_len * head_dim)
+    assert diff < 1e-4, f"Attention output divergence: {diff}"

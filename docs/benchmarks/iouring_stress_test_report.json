@@ -1,0 +1,8 @@
+{
+  "iterations": 2000,
+  "chunk_size_bytes": 65536,
+  "p50_us": 8.04,
+  "p95_us": 8.5,
+  "p99_us": 10.34,
+  "max_us": 56.77
+}

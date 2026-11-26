@@ -17,6 +17,11 @@ jobs:
         with:
           version: "latest"
 
+      - name: Install Dependencies
+        run: |
+          uv sync --extra dev || true
+          uv pip install pytest numpy || true
+
       - name: Install Lean 4 via elan
         run: |
           curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh -s -- -y --default-toolchain none
@@ -27,8 +32,11 @@ jobs:
           cd lean_pilot
           lake exe cache get
           lake build
-          # Ensure no sorry
           ! grep -rn "\bsorry\b" Pilot/
+
+      - name: Run Pytest Test Suites
+        run: |
+          uv run pytest tests/test_iouring_engines.py -v
 
       - name: Verify Paper Header Uniformity
         run: |

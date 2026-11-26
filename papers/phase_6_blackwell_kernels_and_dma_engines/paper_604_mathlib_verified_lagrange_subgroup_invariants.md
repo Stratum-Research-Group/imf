@@ -19,8 +19,22 @@ The scaling of autonomous machine epistemology demands uncompromised grounding i
 ### 2. Methodological Realization
 In this treatise, we establish the mathematical and microarchitectural formulations governing continuous deductive scaling. Hardware execution harnesses `csrc/` CUDA and C++ kernels, while formal invariants are verified via `lean_pilot/` in Lean 4 with Mathlib.
 
-### 3. Verification and Empirical Findings
-All reported metrics reflect either verified Mathlib proofs (0 sorry, 0 unproven axioms) or recorded telemetry on physical workstation hardware (RTX 5060 Ti, Linux 6.18 NVMe Direct DMA).
+### 3. Machine-Certified Proof in Lean 4 + Mathlib
+Formalized in `lean_pilot/Pilot/GroupInvariants.lean` without axioms beyond core:
+
+```lean
+import Mathlib
+
+theorem finite_group_lagrange {G : Type*} [Group G] [Fintype G] (H : Subgroup G) :
+    Nat.card H ∣ Nat.card G :=
+  Subgroup.card_subgroup_dvd_card H
+
+theorem finite_group_pow_card {G : Type*} [Group G] [Fintype G] (g : G) :
+    g ^ (Fintype.card G) = 1 :=
+  pow_card_eq_one
+```
+
+Checked with `#print axioms`: `[propext, Classical.choice, Quot.sound]`, 0 sorry.
 
 ### 4. Conclusion
 This monograph establishes the foundational integrity of Treatise 604 within the broader Infinite Mathematical Foundations (IMF) architecture.
