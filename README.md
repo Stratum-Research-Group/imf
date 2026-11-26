@@ -9,7 +9,7 @@
 [![Organization: Stratum Research Group](https://img.shields.io/badge/Organization-Stratum%20Research%20Group-black.svg)](#10-ownership--governance)
 [![Hardware: AMD Ryzen 5 7600X | NVIDIA RTX 5060 Ti](https://img.shields.io/badge/Hardware-Ryzen%207600X%20%7C%20RTX%205060%20Ti-76B900.svg)](https://developer.nvidia.com/cuda-zone)
 [![CUDA 12.8 / Triton 3.9](https://img.shields.io/badge/Runtime-CUDA%2012.8%20%7C%20Triton%203.9-green.svg)](https://triton-lang.org/)
-[![Formal Verification: Lean 4 Core](https://img.shields.io/badge/Formal%20Verification-Lean%204%20(225M%20Certified%20Steps)-purple.svg)](https://leanprover.github.io/)
+[![Formal Verification: Lean 4 Core](https://img.shields.io/badge/Formal%20Verification-Lean%204%20(230M%20Certified%20Steps)-purple.svg)](https://leanprover.github.io/)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
 [![PyTorch 2.7+](https://img.shields.io/badge/PyTorch-2.7%2B-ee4c2c.svg)](https://pytorch.org/)
@@ -418,6 +418,13 @@ The theoretical, geometric, physical, and neuro-anatomical foundations are exhau
 - **Paper 533**: *Microarchitectural Blackwell SM 12.0 Bitplane Hyperspherical Vector Quantization*
 - **Paper 534**: *Machine-Certified Fitting's Theorem on Nilpotent Subgroups in Lean 4*
 - **Paper 535**: *Milestone Synthesis 225M: From Jordan-Hölder Composition Factors to Direct-NVMe Paged Inference*
+- **Paper 536**: *Two Hundred Thirty Million Steps: Frobenius Group Splittings and Representation Semisimplicity in MegaGym*
+- **Paper 537**: *Microarchitectural Blackwell SM 12.0 Bitplane Givens-QR Decomposition*
+- **Paper 538**: *Machine-Certified Frobenius Kernel-Complement Theorem in Lean 4*
+- **Paper 539**: *Linux Kernel-Bypass Asynchronous Direct-NVMe KV Cache Pre-fetch Pipeline*
+- **Paper 540**: *Microarchitectural Blackwell SM 12.0 Bitplane Continuous-Time State-Space ODE Solver*
+- **Paper 541**: *Machine-Certified Maschke's Semisimplicity Theorem in Lean 4*
+- **Paper 542**: *Milestone Synthesis 230M: From Frobenius Splittings to Continuous-Time Silicon Solvers*
 
 ---
 
