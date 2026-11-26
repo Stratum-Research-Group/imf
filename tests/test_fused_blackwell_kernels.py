@@ -1187,6 +1187,73 @@ def test_fused_serre_duality_trace_correctness():
     # Non-degeneracy ratio > 0
     assert non_deg_res[0].item() > 0.0
 
+def test_fused_kodaira_vanishing_filter_correctness():
+    so_path = "csrc/fused_blackwell_kodaira_vanishing_filter.so"
+    assert os.path.exists(so_path), "Shared library does not exist"
+    lib = ctypes.CDLL(so_path)
+
+    lib.fused_blackwell_kodaira_vanishing_filter.argtypes = [
+        ctypes.c_void_p,
+        ctypes.c_void_p,
+        ctypes.c_void_p,
+        ctypes.c_void_p,
+        ctypes.c_void_p,
+        ctypes.c_void_p,
+        ctypes.c_void_p,
+        ctypes.c_int,
+        ctypes.c_int,
+        ctypes.c_int
+    ]
+    lib.fused_blackwell_kodaira_vanishing_filter.restype = ctypes.c_int
+
+    B = 4
+    D = 4
+    n_dim = 2
+
+    # Cohomological modes
+    modes = torch.ones(B, D, dtype=torch.float32)
+    # p degrees: [1, 2, 0, 2]
+    # q degrees: [2, 1, 1, 0]
+    # p+q:       [3, 3, 1, 2]
+    # Since n_dim = 2:
+    # Batch 0: p+q = 3 > 2 -> should vanish (if c1 > 0)
+    # Batch 1: p+q = 3 > 2 -> should vanish
+    # Batch 2: p+q = 1 <= 2 -> should NOT vanish
+    # Batch 3: p+q = 2 <= 2 -> should NOT vanish
+    p_deg = torch.tensor([1, 2, 0, 2], dtype=torch.int32)
+    q_deg = torch.tensor([2, 1, 1, 0], dtype=torch.int32)
+    c1 = torch.tensor([1.0, 2.5, 1.0, 0.5], dtype=torch.float32)
+
+    filtered = torch.zeros(B, D, dtype=torch.float32)
+    vanishing_flag = torch.zeros(B, dtype=torch.float32)
+    res_energy = torch.zeros(B, dtype=torch.float32)
+
+    ret = lib.fused_blackwell_kodaira_vanishing_filter(
+        ctypes.c_void_p(modes.data_ptr()),
+        ctypes.c_void_p(p_deg.data_ptr()),
+        ctypes.c_void_p(q_deg.data_ptr()),
+        ctypes.c_void_p(c1.data_ptr()),
+        ctypes.c_void_p(filtered.data_ptr()),
+        ctypes.c_void_p(vanishing_flag.data_ptr()),
+        ctypes.c_void_p(res_energy.data_ptr()),
+        B, D, n_dim
+    )
+    assert ret == 0
+
+    # Check vanishing
+    assert vanishing_flag[0].item() == 1.0
+    assert vanishing_flag[1].item() == 1.0
+    assert vanishing_flag[2].item() == 0.0
+    assert vanishing_flag[3].item() == 0.0
+
+    # Filtered modes for batch 0 and 1 must be exactly zero
+    assert torch.all(filtered[0] == 0.0)
+    assert torch.all(filtered[1] == 0.0)
+    # Filtered modes for batch 2 and 3 must be intact (ones)
+    assert torch.all(filtered[2] == 1.0)
+    assert torch.all(filtered[3] == 1.0)
+
+
 
 
 

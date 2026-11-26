@@ -1342,6 +1342,70 @@ def test_iouring_bpf_memtrace_correctness():
     finally:
         lib.iouring_bpf_memtrace_free(eng)
 
+def test_iouring_dmabuf_ring_correctness():
+    so_path = "csrc/fused_iouring_dmabuf_ring.so"
+    assert os.path.exists(so_path), "Shared library does not exist"
+    lib = ctypes.CDLL(so_path)
+
+    lib.iouring_dmabuf_ring_init.argtypes = [ctypes.c_uint32]
+    lib.iouring_dmabuf_ring_init.restype = ctypes.c_void_p
+
+    lib.iouring_dmabuf_ring_register_buf.argtypes = [
+        ctypes.c_void_p,
+        ctypes.c_uint32,
+        ctypes.c_int,
+        ctypes.c_uint64,
+        ctypes.c_uint64,
+        ctypes.c_uint32
+    ]
+    lib.iouring_dmabuf_ring_register_buf.restype = ctypes.c_int
+
+    lib.iouring_dmabuf_ring_submit_transfer.argtypes = [
+        ctypes.c_void_p,
+        ctypes.c_uint32,
+        ctypes.c_uint64,
+        ctypes.c_uint64
+    ]
+    lib.iouring_dmabuf_ring_submit_transfer.restype = ctypes.c_int
+
+    lib.iouring_dmabuf_ring_get_stats.argtypes = [
+        ctypes.c_void_p,
+        ctypes.POINTER(ctypes.c_uint64),
+        ctypes.POINTER(ctypes.c_uint64),
+        ctypes.POINTER(ctypes.c_uint64)
+    ]
+    lib.iouring_dmabuf_ring_get_stats.restype = ctypes.c_int
+
+    lib.iouring_dmabuf_ring_free.argtypes = [ctypes.c_void_p]
+    lib.iouring_dmabuf_ring_free.restype = None
+
+    eng = lib.iouring_dmabuf_ring_init(64)
+    assert eng is not None
+
+    try:
+        # Register buffer at slot 0
+        r_ret = lib.iouring_dmabuf_ring_register_buf(eng, 0, 10, 0, 1048576, 1)
+        assert r_ret == 0
+
+        # Submit transfer: 1MB in 100,000 ns (0.0001 sec) -> ~10,000 MB/s
+        t_ret = lib.iouring_dmabuf_ring_submit_transfer(eng, 0, 1048576, 100000)
+        assert t_ret == 0
+
+        tot_trans = ctypes.c_uint64(0)
+        tot_bytes = ctypes.c_uint64(0)
+        peak_bw = ctypes.c_uint64(0)
+
+        s_ret = lib.iouring_dmabuf_ring_get_stats(
+            eng, ctypes.byref(tot_trans), ctypes.byref(tot_bytes), ctypes.byref(peak_bw)
+        )
+        assert s_ret == 0
+        assert tot_trans.value == 1
+        assert tot_bytes.value == 1048576
+        assert peak_bw.value >= 9000
+    finally:
+        lib.iouring_dmabuf_ring_free(eng)
+
+
 
 
 
