@@ -749,6 +749,61 @@ def test_fused_padic_tree_routing_correctness():
     assert best_branch[0].item() == 2
     assert min_dist[0].item() < 1e-4
 
+def test_fused_coxeter_billiards_correctness():
+    so_path = "csrc/fused_blackwell_hyperbolic_coxeter_billiards.so"
+    assert os.path.exists(so_path), "Shared library does not exist"
+    lib = ctypes.CDLL(so_path)
+
+    lib.fused_blackwell_hyperbolic_coxeter_billiards_forward.argtypes = [
+        ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p,
+        ctypes.c_void_p, ctypes.c_void_p, ctypes.c_int, ctypes.c_int, ctypes.c_int, ctypes.c_float
+    ]
+
+    B = 4
+    D = 8
+    K = 2
+    dt = 0.1
+
+    # Simple root along axis 0
+    roots = torch.zeros(K, D, dtype=torch.float32)
+    roots[0, 0] = 1.0 # Hyperplane x_0 = 0
+    roots[1, 1] = 1.0 # Hyperplane x_1 = 0
+    root_sq = torch.sum(roots * roots, dim=1)
+
+    # Particle moving towards hyperplane x_0 = 0 from positive to negative
+    x_in = torch.tensor([[0.05, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+                         [0.50, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+                         [1.00, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+                         [2.00, 2.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]], dtype=torch.float32)
+    v_in = torch.tensor([[-1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+                         [-0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+                         [ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+                         [ 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]], dtype=torch.float32)
+
+    x_out = torch.zeros_like(x_in)
+    v_out = torch.zeros_like(v_in)
+
+    ret = lib.fused_blackwell_hyperbolic_coxeter_billiards_forward(
+        ctypes.c_void_p(x_in.data_ptr()),
+        ctypes.c_void_p(v_in.data_ptr()),
+        ctypes.c_void_p(roots.data_ptr()),
+        ctypes.c_void_p(root_sq.data_ptr()),
+        ctypes.c_void_p(x_out.data_ptr()),
+        ctypes.c_void_p(v_out.data_ptr()),
+        B, D, K, dt
+    )
+    assert ret == 0
+
+    # Particle 0: initial x=0.05, v=-1.0, dt=0.1 -> unreflected x = -0.05 < 0.
+    # Reflected: v_0 should flip sign to +1.0, x_0 should flip sign to +0.05!
+    assert abs(v_out[0, 0].item() - 1.0) < 1e-4
+    assert abs(x_out[0, 0].item() - 0.05) < 1e-4
+
+    # Particle 1: x=0.50, v=-0.1, dt=0.1 -> x = 0.49 > 0 (no collision), v stays -0.1
+    assert abs(v_out[1, 0].item() - (-0.1)) < 1e-4
+    assert abs(x_out[1, 0].item() - 0.49) < 1e-4
+
+
 
 
 

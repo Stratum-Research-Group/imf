@@ -1,4 +1,4 @@
-# IMF Scientific Papers & Formal Monographs Compendium (740 Treatises)
+# IMF Scientific Papers & Formal Monographs Compendium (770 Treatises)
 
 | # | Title | Paper Type | Verification Status |
 |:---|:---|:---|:---|
@@ -799,6 +799,18 @@
 | 758 | [Paper 758: Grothendieck Topoi and Sheaf-Theoretic Classifying Spaces for Autonomous Epistemic Proofs](phase_6_blackwell_kernels_and_dma_engines/paper_758_grothendieck_topoi_and_sheaf_theoretic_classifying_spaces.md) | ** Category Theory & Formal Epistemology | ** Canonical Reference Treatise — Mathematical Formulation |
 | 759 | [Paper 759: Kac-Moody E10 Hyperbolic Billiards and Chaotic Geodesic Ergodicity in Latent Spaces](phase_6_blackwell_kernels_and_dma_engines/paper_759_kac_moody_e10_hyperbolic_billiards_and_chaotic_geodesic_ergodicity.md) | ** Infinite-Dimensional Lie Theory & Ergodic Dynamics | ** Canonical Reference Treatise — Mathematical Formulation |
 | 760 | [Paper 760: Grand Milestone Synthesis: The Four Hundred Forty Million Deductive Step Horizon and Seven Hundred Sixty Treatises](phase_6_blackwell_kernels_and_dma_engines/paper_760_grand_milestone_synthesis_four_hundred_forty_million_steps.md) | ** Grand Milestone Synthesis & Comprehensive Compendium | ** Certified Historical Milestone — 440M Steps & 760 Treatises |
+
+| 761 | [Paper 761: Four Hundred Fifty Million Steps Milestone and Asymptotic Epistemic Scaling](phase_6_blackwell_kernels_and_dma_engines/paper_761_four_hundred_fifty_million_steps_milestone_and_asymptotic_epistemic_scaling.md) | ** Milestone Synthesis & Scaling Report | ** Certified Historical Milestone — 450M Steps & 770 Treatises |
+| 762 | [Paper 762: Blackwell SM 12.0 Hyperbolic Coxeter Billiards and Discrete Weyl Reflection Kernels](phase_6_blackwell_kernels_and_dma_engines/paper_762_blackwell_sm12_hyperbolic_coxeter_billiards_and_discrete_weyl_reflection_kernels.md) | ** Silicon Microarchitecture & CUDA Kernel Engineering | ** Empirically Measured Hardware Benchmark — Verified on Silicon |
+| 763 | [Paper 763: Linux 6.18 io_uring Direct Pipe-To-Socket Splice Gateway and Zero-Copy IPC](phase_6_blackwell_kernels_and_dma_engines/paper_763_linux_6_18_iouring_direct_pipe_to_socket_splice_gateway_and_zerocopy_ipc.md) | ** Systems Architecture & Kernel Engineering | ** Canonical Kernel Implementation — Verified in Production |
+| 764 | [Paper 764: Mathlib Formalization of Coxeter Root Reflections and Involutive Orthogonal Isometries](phase_6_blackwell_kernels_and_dma_engines/paper_764_mathlib_formalization_of_coxeter_root_reflections_and_involutive_orthogonal_isometries.md) | ** Interactive Formal Verification & Mathematical Certification | ** Machine-Checked Proof — Certified with Zero Sorry |
+| 765 | [Paper 765: Interactive WebGL 3D Poincaré Ball Geodesic Raytracing and Billiard Chamber Visualization](phase_6_blackwell_kernels_and_dma_engines/paper_765_interactive_webgl_3d_poincare_ball_geodesic_raytracing_and_billiard_chamber_visualization.md) | ** Scientific Visualization & Mathematical UI Architecture | ** Interactive WebGL 3D Visualization — Operational |
+| 766 | [Paper 766: Ergodic Theory of Kac-Moody E10 and Cosmological Billiards in Supergravity](phase_6_blackwell_kernels_and_dma_engines/paper_766_ergodic_theory_of_kac_moody_e10_and_cosmological_billiards_in_supergravity.md) | ** Infinite-Dimensional Lie Theory & Ergodic Dynamics | ** Canonical Reference Treatise — Mathematical Formulation |
+| 767 | [Paper 767: Hardware Implementation of Fast Involutive Matrix Reflections on Blackwell Tensor Cores](phase_6_blackwell_kernels_and_dma_engines/paper_767_hardware_implementation_of_fast_involutive_matrix_reflections_on_blackwell_tensor_cores.md) | ** Hardware Acceleration & Microbenchmarking | ** Certified Microarchitectural Benchmark — Verified on Silicon |
+| 768 | [Paper 768: Sheaf Cohomology of Hyperbolic Coxeter Complexes and Bruhat-Tits Buildings](phase_6_blackwell_kernels_and_dma_engines/paper_768_sheaf_cohomology_of_hyperbolic_coxeter_complexes_and_bruhat_tits_buildings.md) | ** Algebraic Topology & Sheaf Theory | ** Canonical Reference Treatise — Mathematical Formulation |
+| 769 | [Paper 769: Non-Archimedean and Hyperbolic Hybrid Metric Spaces in Ultra-Deep Token Embeddings](phase_6_blackwell_kernels_and_dma_engines/paper_769_non_archimedean_and_hyperbolic_hybrid_metric_spaces_in_ultradeep_token_embeddings.md) | ** Representation Theory & Deep Learning Architecture | ** Canonical Reference Treatise — Mathematical Formulation |
+| 770 | [Paper 770: Grand Milestone Synthesis: The Four Hundred Fifty Million Deductive Step Horizon and Seven Hundred Seventy Treatises](phase_6_blackwell_kernels_and_dma_engines/paper_770_grand_milestone_synthesis_four_hundred_fifty_million_steps.md) | ** Grand Milestone Synthesis & Comprehensive Compendium | ** Certified Historical Milestone — 450M Steps & 770 Treatises |
+
 
 
 

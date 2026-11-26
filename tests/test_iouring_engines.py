@@ -837,6 +837,66 @@ def test_iouring_cooperative_task_work_correctness():
         os.close(fd)
         os.unlink(f_name)
 
+def test_iouring_direct_splice_pipe_to_socket_correctness():
+    so_path = "csrc/fused_iouring_direct_splice_pipe_to_socket.so"
+    assert os.path.exists(so_path), "Shared library does not exist"
+    lib = ctypes.CDLL(so_path)
+
+    lib.iouring_splice_gateway_init.argtypes = [ctypes.c_uint]
+    lib.iouring_splice_gateway_init.restype = ctypes.c_void_p
+
+    lib.iouring_splice_pipe_to_socket.argtypes = [
+        ctypes.c_void_p, ctypes.c_int, ctypes.c_int, ctypes.c_uint, ctypes.c_uint64
+    ]
+    lib.iouring_splice_pipe_to_socket.restype = ctypes.c_int
+
+    lib.iouring_splice_gateway_submit.argtypes = [ctypes.c_void_p]
+    lib.iouring_splice_gateway_submit.restype = ctypes.c_int
+
+    lib.iouring_splice_gateway_wait_cqe.argtypes = [
+        ctypes.c_void_p, ctypes.POINTER(ctypes.c_uint64), ctypes.POINTER(ctypes.c_int)
+    ]
+    lib.iouring_splice_gateway_wait_cqe.restype = ctypes.c_int
+
+    lib.iouring_splice_gateway_destroy.argtypes = [ctypes.c_void_p]
+    lib.iouring_splice_gateway_destroy.restype = None
+
+    gw = lib.iouring_splice_gateway_init(16)
+    assert gw is not None
+
+    r_pipe, w_pipe = os.pipe()
+    # Create connected socketpair
+    sock_server, sock_client = socket.socketpair(socket.AF_UNIX, socket.SOCK_STREAM)
+
+    test_payload = b"IMF_ZERO_COPY_SPLICE_TOKEN_STREAM_0123456789"
+    os.write(w_pipe, test_payload)
+
+    try:
+        ret = lib.iouring_splice_pipe_to_socket(gw, r_pipe, sock_server.fileno(), len(test_payload), 0x7777)
+        assert ret == 0
+
+        submitted = lib.iouring_splice_gateway_submit(gw)
+        assert submitted == 1
+
+        out_ud = ctypes.c_uint64(0)
+        out_res = ctypes.c_int(0)
+        w = lib.iouring_splice_gateway_wait_cqe(gw, ctypes.byref(out_ud), ctypes.byref(out_res))
+        assert w == 0
+        assert out_ud.value == 0x7777
+        assert out_res.value == len(test_payload)
+
+        # Receive from client socket
+        received = sock_client.recv(1024)
+        assert received == test_payload
+
+        lib.iouring_splice_gateway_destroy(gw)
+    finally:
+        os.close(r_pipe)
+        os.close(w_pipe)
+        sock_server.close()
+        sock_client.close()
+
+
 
 
 
