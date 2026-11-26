@@ -5,8 +5,8 @@
 **Paper Type:** GPU Kernel Design & Microbenchmark  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Date:** November 2026  
-**Status:** Peer-Review Ready — Formally Verified & Hardware Validated  
-**Verification Level:** Sustained Workstation Hardware Telemetry (AMD Ryzen 5 7600X, RTX 5060 Ti, Lean 4 Core Zero External Axioms)  
+**Status:** Evidence Included — Not Independently Reviewed  
+**Verification Level:** benchmark figures or kernel source reported (AMD Ryzen 5 7600X, RTX 5060 Ti)  
 
 ---
 
