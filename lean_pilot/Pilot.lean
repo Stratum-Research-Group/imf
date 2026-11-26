@@ -7,3 +7,5 @@ import Pilot.SpectralSymmetric
 import Pilot.PadeExponential
 import Pilot.LieDerivation
 import Pilot.SolvableLieGroup
+import Pilot.OrthogonalProjector
+import Pilot.TraceIdempotent

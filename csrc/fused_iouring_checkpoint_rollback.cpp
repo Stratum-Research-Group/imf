@@ -22,9 +22,9 @@ extern "C" struct checkpoint_rollback_engine* init_checkpoint_rollback_engine(co
     if (!eng) return NULL;
     memset(eng, 0, sizeof(*eng));
 
-    eng->checkpoint_fd = open(checkpoint_path, O_RDONLY | O_DIRECT);
+    eng->checkpoint_fd = open(checkpoint_path, O_RDWR | O_DIRECT);
     if (eng->checkpoint_fd < 0) {
-        eng->checkpoint_fd = open(checkpoint_path, O_RDONLY);
+        eng->checkpoint_fd = open(checkpoint_path, O_RDWR);
         if (eng->checkpoint_fd < 0) {
             free(eng);
             return NULL;
@@ -106,4 +106,20 @@ extern "C" void close_checkpoint_rollback_engine(struct checkpoint_rollback_engi
     close(eng->checkpoint_fd);
     io_uring_queue_exit(&eng->ring);
     free(eng);
+}
+
+extern "C" int submit_checkpoint_rollback_write(struct checkpoint_rollback_engine* eng, const void* src_buf, size_t length, off_t file_offset) {
+    if (!eng || !src_buf || length == 0) return -1;
+
+    struct io_uring_sqe* sqe = io_uring_get_sqe(&eng->ring);
+    if (!sqe) return -2;
+
+    io_uring_prep_write(sqe, eng->checkpoint_fd, src_buf, length, file_offset);
+    io_uring_sqe_set_data(sqe, (void*)src_buf);
+
+    int ret = io_uring_submit(&eng->ring);
+    if (ret > 0) {
+        eng->in_flight++;
+    }
+    return ret;
 }

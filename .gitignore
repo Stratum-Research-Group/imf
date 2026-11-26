@@ -60,3 +60,6 @@ tests/3rdparty/benchmarks/gsm8k/.git
 imf_rs/target/
 data/rsi_experience_buffer/
 models/
+
+data/cognitive_state/
+imf_gui/generated_items/

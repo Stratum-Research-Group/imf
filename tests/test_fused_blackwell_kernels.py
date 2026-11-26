@@ -172,3 +172,46 @@ def test_dequant_gemv_correctness():
     ref_Y = torch.mv(W_unpacked.cuda(), X)
     diff = torch.norm(Y - ref_Y).item() / M
     assert diff < 1e-4, f"Dequant GEMV diff: {diff}"
+
+@pytest.mark.skipif(not torch.cuda.is_available(), reason="CUDA not available")
+def test_rope_correctness():
+    so_path = "csrc/fused_blackwell_bit_rope.so"
+    lib = ctypes.CDLL(so_path)
+    lib.launch_fused_blackwell_bit_rope.argtypes = [
+        ctypes.c_void_p, ctypes.c_void_p, ctypes.c_int, ctypes.c_int,
+        ctypes.c_int, ctypes.c_int, ctypes.c_float, ctypes.c_void_p
+    ]
+
+    batch = 2
+    seq_len = 16
+    num_heads = 4
+    head_dim = 32
+    base_theta = 10000.0
+
+    x = torch.randn(batch, seq_len, num_heads, head_dim, device='cuda', dtype=torch.float32)
+    out = torch.zeros_like(x)
+
+    lib.launch_fused_blackwell_bit_rope(
+        ctypes.c_void_p(x.data_ptr()),
+        ctypes.c_void_p(out.data_ptr()),
+        seq_len, num_heads, head_dim, batch, base_theta, None
+    )
+    torch.cuda.synchronize()
+
+    # Analytical PyTorch RoPE reference
+    half_dim = head_dim // 2
+    i = torch.arange(half_dim, device='cuda', dtype=torch.float32)
+    inv_freq = 1.0 / (base_theta ** (2 * i / head_dim))
+    pos = torch.arange(seq_len, device='cuda', dtype=torch.float32)
+    sinusoid_inp = torch.einsum("i,j->ij", pos, inv_freq)
+    sin = sinusoid_inp.sin().unsqueeze(0).unsqueeze(2)  # [1, seq_len, 1, half_dim]
+    cos = sinusoid_inp.cos().unsqueeze(0).unsqueeze(2)
+
+    x0 = x[..., :half_dim]
+    x1 = x[..., half_dim:]
+    ref_x0 = x0 * cos - x1 * sin
+    ref_x1 = x0 * sin + x1 * cos
+    ref_out = torch.cat([ref_x0, ref_x1], dim=-1)
+
+    diff = torch.norm(out - ref_out).item() / (batch * seq_len * num_heads * head_dim)
+    assert diff < 1e-4, f"RoPE diff: {diff}"

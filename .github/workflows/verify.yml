@@ -12,6 +12,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Install liburing development libraries
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y liburing-dev
+
+      - name: Recompile Native Shared Objects on Runner
+        run: |
+          g++ -O3 -shared -fPIC -std=c++17 csrc/fused_iouring_gather_scatter.cpp -luring -o csrc/fused_iouring_gather_scatter.so
+          g++ -O3 -shared -fPIC -std=c++17 csrc/fused_iouring_checkpoint_rollback.cpp -luring -o csrc/fused_iouring_checkpoint_rollback.so
+
       - name: Install uv and Python
         uses: astral-sh/setup-uv@v3
         with:
@@ -37,6 +47,18 @@ jobs:
       - name: Run Pytest Test Suites
         run: |
           uv run pytest tests/test_iouring_engines.py -v
+
+      - name: Run io_uring Benchmark & Assert Regression Bounds
+        run: |
+          uv run python scripts/benchmark_iouring_hardware.py
+          uv run python -c "
+          import json
+          with open('docs/benchmarks/reproducible_iouring_hardware_benchmark.json') as f:
+              data = json.load(f)
+          lat = data['gather_scatter_engine']['16_vecs_4KB']['latency_us']
+          assert lat < 500.0, f'Regression: gather/scatter latency exceeded threshold: {lat} us'
+          print(f'io_uring performance verified: {lat} us (threshold < 500.0 us)')
+          "
 
       - name: Verify Paper Header Uniformity
         run: |

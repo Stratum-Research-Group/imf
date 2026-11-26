@@ -60,9 +60,9 @@ The Fused Poincaré Discrete CBS Soliton flow kernel introduces high-throughput 
 
 ### References
 
-1. R. Hirota, *The Direct Method in Soliton Theory*, Cambridge University Press (2004).
-2. M. J. Ablowitz and P. A. Clarkson, *Solitons, Nonlinear Evolution Equations and Inverse Scattering*, Cambridge University Press (1991).
-3. L. D. Faddeev and L. A. Takhtajan, *Hamiltonian Methods in the Theory of Solitons*, Springer (1987).
-4. V. E. Zakharov and A. B. Shabat, *Exact theory of two-dimensional self-focusing and one-dimensional self-modulation of waves in nonlinear media*, Soviet Physics JETP 34, 62–69 (1972).
-5. D. J. Kaup and A. C. Newell, *An exact solution for a derivative nonlinear Schrödinger equation*, J. Math. Phys. 19, 798–801 (1978).
+1. H. Flaschka, *The Toda lattice. II. Existence of integrals*, Physical Review B 9(4), 1924–1925 (1974).
+2. S. V. Manakov, *Complete integrability and stochastization of discrete dynamical systems*, Soviet Physics JETP 40(2), 269–274 (1975).
+3. R. Camassa and D. D. Holm, *An integrable shallow water equation with peaked solitons*, Physical Review Letters 71(11), 1661–1664 (1993).
+4. M. J. Ablowitz, D. J. Kaup, A. C. Newell, and H. Segur, *The inverse scattering transform-Fourier analysis for nonlinear problems*, Studies in Applied Mathematics 53(4), 249–315 (1974).
+5. E. Date, M. Jimbo, M. Kashiwara, and T. Miwa, *Transformation groups for soliton equations*, Proceedings of the RIMS 18(3), 1077–1110 (1982).
 6. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
