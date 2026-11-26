@@ -63,3 +63,8 @@ models/
 
 data/cognitive_state/
 imf_gui/generated_items/
+
+# Local user commands & overrides
+cmd.md
+*.cmd.md
+
