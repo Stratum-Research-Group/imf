@@ -2,13 +2,16 @@
 
 **Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase VI: Blackwell Kernels, Algebraic Theorems & Direct-DMA Engines  
-**Paper Type:** Machine-Certified Formal Proof (Lean 4)  
+**Paper Type:** Abstract-Model Formal Check (Lean 4, core only)  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Date:** November 2026  
 **Status:** Evidence Included — Not Independently Reviewed  
-**Verification Level:** Lean 4 source shown or referenced in text  
+**Verification Level:** Lean 4 abstract-model check (core Lean, no Mathlib)  
 
 ---
+
+<!-- FORMALIZATION-SCOPE-NOTICE -->
+> **ℹ FORMALIZATION SCOPE.** The Lean 4 files referenced by this paper contain no `sorry`, but they import core Lean only (no Mathlib definitions of the objects named in the title). They check statements about a simplified, abstract model; they do **not** establish the full classical theorem or physical claim named in the title.
 
 ### Abstract
 We present a formal machine verification of the Novikov Additivity Theorem for manifold signatures in Lean 4 (`lean/NovikovAdditivityProof.lean`). Novikov additivity states that when two oriented $4k$-dimensional manifolds $M_1$ and $M_2$ with boundary are glued along an orientation-reversing diffeomorphism of their common boundary $N = \partial M_1 = -\partial M_2$, the signature of the resulting closed manifold satisfies $\sigma(M_1 \cup_N M_2) = \sigma(M_1) + \sigma(M_2)$. In this paper, we connect this result to the rigorous formalization philosophies pioneered by Kevin Buzzard, showing how machine-verified surgery theory guarantees that modular parameter sub-networks can be merged along shared interface boundaries without perturbing topological invariant signatures.

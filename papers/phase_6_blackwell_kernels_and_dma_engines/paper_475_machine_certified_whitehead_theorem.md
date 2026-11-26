@@ -2,13 +2,16 @@
 
 **Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase VI: Blackwell Kernels, Algebraic Theorems & Direct-DMA Engines  
-**Paper Type:** Machine-Certified Formal Proof (Lean 4)  
+**Paper Type:** Abstract-Model Formal Check (Lean 4, core only)  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Date:** November 2026  
 **Status:** Evidence Included — Not Independently Reviewed  
-**Verification Level:** Lean 4 source shown or referenced in text  
+**Verification Level:** Lean 4 abstract-model check (core Lean, no Mathlib)  
 
 ---
+
+<!-- FORMALIZATION-SCOPE-NOTICE -->
+> **ℹ FORMALIZATION SCOPE.** The Lean 4 files referenced by this paper contain no `sorry`, but they import core Lean only (no Mathlib definitions of the objects named in the title). They check statements about a simplified, abstract model; they do **not** establish the full classical theorem or physical claim named in the title.
 
 ### Abstract
 We present a formal machine verification of Whitehead's Theorem on homotopy equivalences within the Lean 4 interactive theorem proving environment (`lean/WhiteheadTheoremProof.lean`). The theorem guarantees that for connected CW complexes, a continuous map inducing isomorphisms across all homotopy groups $\pi_n(f): \pi_n(X) \xrightarrow{\cong} \pi_n(Y)$ is a weak homotopy equivalence, and furthermore that cellular dimension bounds restrict the verification to a finite set of skeletal spheres.

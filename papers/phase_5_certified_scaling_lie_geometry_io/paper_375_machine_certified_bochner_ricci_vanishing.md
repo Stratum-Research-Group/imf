@@ -2,13 +2,16 @@
 
 **Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase V: Certified-Step Scaling, Lie-Group Geometry & Kernel-Bypass I/O  
-**Paper Type:** Machine-Certified Formal Proof (Lean 4)  
+**Paper Type:** Abstract-Model Formal Check (Lean 4, core only)  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Date:** November 2026  
 **Status:** Evidence Included — Not Independently Reviewed  
-**Verification Level:** Lean 4 source shown or referenced in text  
+**Verification Level:** Lean 4 abstract-model check (core Lean, no Mathlib)  
 
 ---
+
+<!-- FORMALIZATION-SCOPE-NOTICE -->
+> **ℹ FORMALIZATION SCOPE.** The Lean 4 files referenced by this paper contain no `sorry`, but they import core Lean only (no Mathlib definitions of the objects named in the title). They check statements about a simplified, abstract model; they do **not** establish the full classical theorem or physical claim named in the title.
 
 ### Abstract
 In Riemannian geometry, the Bochner technique establishes deep links between curvature and the topology of differential forms. The Bochner-Weitzenböck identity relates the Hodge Laplacian $\Delta$ to the rough Laplacian $\nabla^*\nabla$ and the Ricci curvature tensor: $\frac{1}{2}\Delta\|\omega\|^2 = \|\nabla\omega\|^2 + \operatorname{Ric}(\omega, \omega)$. We present a formal machine-verified proof in Lean 4 verifying this identity and proving Bochner's vanishing theorem: on a compact manifold with strictly positive Ricci curvature ($\operatorname{Ric} > 0$), all harmonic 1-forms vanish identically ($H^1(M) = 0$).

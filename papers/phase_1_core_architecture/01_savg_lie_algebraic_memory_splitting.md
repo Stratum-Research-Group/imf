@@ -6,9 +6,12 @@
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Date:** November 2026  
 **Status:** Evidence Included — Not Independently Reviewed  
-**Verification Level:** Lean 4 source shown or referenced in text; benchmark figures or kernel source reported (AMD Ryzen 5 7600X, RTX 5060 Ti)  
+**Verification Level:** Lean 4 abstract-model check (core Lean, no Mathlib); benchmark figures or kernel source reported (AMD Ryzen 5 7600X, RTX 5060 Ti)  
 
 ---
+
+<!-- FORMALIZATION-SCOPE-NOTICE -->
+> **ℹ FORMALIZATION SCOPE.** The Lean 4 files referenced by this paper contain no `sorry`, but they import core Lean only (no Mathlib definitions of the objects named in the title). They check statements about a simplified, abstract model; they do **not** establish the full classical theorem or physical claim named in the title.
 
 ## Abstract
 

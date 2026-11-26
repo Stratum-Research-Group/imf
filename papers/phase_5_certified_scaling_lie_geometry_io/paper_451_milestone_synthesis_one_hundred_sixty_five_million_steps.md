@@ -6,9 +6,12 @@
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Date:** November 2026  
 **Status:** Evidence Included — Not Independently Reviewed  
-**Verification Level:** Lean 4 source shown or referenced in text; benchmark figures or kernel source reported (AMD Ryzen 5 7600X, RTX 5060 Ti)  
+**Verification Level:** Lean 4 abstract-model check (core Lean, no Mathlib); benchmark figures or kernel source reported (AMD Ryzen 5 7600X, RTX 5060 Ti)  
 
 ---
+
+<!-- FORMALIZATION-SCOPE-NOTICE -->
+> **ℹ FORMALIZATION SCOPE.** The Lean 4 files referenced by this paper contain no `sorry`, but they import core Lean only (no Mathlib definitions of the objects named in the title). They check statements about a simplified, abstract model; they do **not** establish the full classical theorem or physical claim named in the title.
 
 ### Abstract
 This milestone treatise marks the formal attainment and verification of Milestone 165M in the Infinite Math Framework (IMF). Across 165 sealed 1M-step theorem blocks ($165,000,000$ machine-certified deductive proof transitions, $3,321.0\text{ MB}$ compressed payload), 62 hardware-accelerated kernels, and 451 research treatises, the framework establishes a continuous bridge between differential topology, harmonic analysis, and discrete sub-bit silicon computing. In this milestone paper, we synthesize the four foundational breakthroughs of the 165M cycle: (1) fused Blackwell in-register sliding-window attention scaling to $1,048,576$ tokens, (2) in-register speculative decoding verification with zero host synchronization, (3) kernel-bypass zero-copy network socket DMA delivering $96.8\text{ Gbps}$ sharded streaming, and (4) formal machine verifications of the Hard Lefschetz and Hodge Decomposition theorems in core Lean 4.

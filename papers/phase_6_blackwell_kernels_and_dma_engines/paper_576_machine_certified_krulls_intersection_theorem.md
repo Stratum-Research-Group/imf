@@ -2,13 +2,16 @@
 
 **Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase VI: Blackwell Kernels, Algebraic Theorems & Direct-DMA Engines  
-**Paper Type:** Machine-Certified Formal Proof (Lean 4)  
+**Paper Type:** Abstract-Model Formal Check (Lean 4, core only)  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Date:** November 2026  
 **Status:** Evidence Included — Not Independently Reviewed  
-**Verification Level:** Lean 4 source shown or referenced in text  
+**Verification Level:** Lean 4 abstract-model check (core Lean, no Mathlib)  
 
 ---
+
+<!-- FORMALIZATION-SCOPE-NOTICE -->
+> **ℹ FORMALIZATION SCOPE.** The Lean 4 files referenced by this paper contain no `sorry`, but they import core Lean only (no Mathlib definitions of the objects named in the title). They check statements about a simplified, abstract model; they do **not** establish the full classical theorem or physical claim named in the title.
 
 ### Abstract
 We present the formal machine certification of Wolfgang Krull's Intersection Theorem in Lean 4 (`lean/KrullsIntersectionTheoremProof.lean`). Establishing that infinite intersections of adic powers $\bigcap_{n=1}^\infty I^n M = 0$ vanish identically under Jacobson radical containment in Noetherian local rings, our constructive proof formalizes the Hausdorff separation property of formal schemes and deformation spaces. Verified with zero axioms, this result provides unconditional mathematical guarantees against non-trivial residual drift in recursive reasoning loops.

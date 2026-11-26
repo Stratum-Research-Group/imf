@@ -2,13 +2,16 @@
 
 **Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase VI: Blackwell Kernels, Algebraic Theorems & Direct-DMA Engines  
-**Paper Type:** Machine-Certified Formal Proof (Lean 4)  
+**Paper Type:** Abstract-Model Formal Check (Lean 4, core only)  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Date:** November 2026  
 **Status:** Evidence Included — Not Independently Reviewed  
-**Verification Level:** Lean 4 source shown or referenced in text  
+**Verification Level:** Lean 4 abstract-model check (core Lean, no Mathlib)  
 
 ---
+
+<!-- FORMALIZATION-SCOPE-NOTICE -->
+> **ℹ FORMALIZATION SCOPE.** The Lean 4 files referenced by this paper contain no `sorry`, but they import core Lean only (no Mathlib definitions of the objects named in the title). They check statements about a simplified, abstract model; they do **not** establish the full classical theorem or physical claim named in the title.
 
 ### Abstract
 We present the formal machine certification of Alfred H. Clifford's fundamental theorem on the restriction of irreducible group representations to normal subgroups in Lean 4 without unproven axioms (`0 sorry, 0 unproven axioms`). Motivated by Kevin Buzzard's research program on formalized modern representation theory and category theory, we formally verify that when an irreducible representation $V$ is restricted to a normal subgroup $N \trianglelefteq G$, it decomposes as a direct sum of irreducible representations of $N$ whose components form a single transitive orbit under $G$-conjugation, with constant multiplicity $e$ and exact dimension identity $\dim(V) = k \cdot e \cdot \dim(W_1)$.

@@ -1,14 +1,17 @@
-# Paper 593: Machine-Certified Alexander Grothendieck's Étale Poincaré Duality in Lean 4
+# Paper 593: Abstract-Model Formal Check of Alexander Grothendieck's Étale Poincaré Duality in Lean 4
 
 **Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase VI: Blackwell Kernels, Algebraic Theorems & Direct-DMA Engines  
-**Paper Type:** Machine-Certified Formal Proof (Lean 4)  
+**Paper Type:** Abstract-Model Formal Check (Lean 4, core only)  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Date:** November 2026  
 **Status:** Evidence Included — Not Independently Reviewed  
-**Verification Level:** Lean 4 source shown or referenced in text  
+**Verification Level:** Lean 4 abstract-model check (core Lean, no Mathlib)  
 
 ---
+
+<!-- FORMALIZATION-SCOPE-NOTICE -->
+> **ℹ FORMALIZATION SCOPE.** The Lean 4 files referenced by this paper contain no `sorry`, but they import core Lean only (no Mathlib definitions of the objects named in the title). They check statements about a simplified, abstract model; they do **not** establish the full classical theorem or physical claim named in the title.
 
 ### Abstract
 We present the formal machine certification of Alexander Grothendieck's Étale Poincaré Duality in Lean 4 (`lean/GrothendieckEtaleDualityProof.lean`). Establishing trace non-degeneracy, top-degree cohomology isomorphism, and Betti number mirror symmetry $b_i(X) = b_{2n-i}(X)$ on smooth projective varieties over separably closed fields, our constructive proof formalizes the cohomological foundation underpinning Deligne's proof of the Weil Conjectures and Kevin Buzzard's formalization of modular deformation theory. Verified with zero axioms and zero `sorry` placeholders, this provides formal assurance for topological representations in synthetic cognitive architectures.

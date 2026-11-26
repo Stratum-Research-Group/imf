@@ -2,13 +2,16 @@
 
 **Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase V: Certified-Step Scaling, Lie-Group Geometry & Kernel-Bypass I/O  
-**Paper Type:** Machine-Certified Formal Proof (Lean 4)  
+**Paper Type:** Abstract-Model Formal Check (Lean 4, core only)  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Date:** November 2026  
 **Status:** Evidence Included — Not Independently Reviewed  
-**Verification Level:** Lean 4 source shown or referenced in text  
+**Verification Level:** Lean 4 abstract-model check (core Lean, no Mathlib)  
 
 ---
+
+<!-- FORMALIZATION-SCOPE-NOTICE -->
+> **ℹ FORMALIZATION SCOPE.** The Lean 4 files referenced by this paper contain no `sorry`, but they import core Lean only (no Mathlib definitions of the objects named in the title). They check statements about a simplified, abstract model; they do **not** establish the full classical theorem or physical claim named in the title.
 
 ### Abstract
 The Kodaira Vanishing Theorem is a cornerstone of modern complex algebraic geometry, asserting that the higher cohomology groups of the canonical bundle twisted by an ample line bundle on a smooth complex projective variety vanish identically. In this paper, we document the formal machine verification of the Kodaira Vanishing Theorem in core Lean 4 (`lean/KodairaVanishingProof.lean`). We formalize complex projective varieties $X$, holomorphic line bundles, ample curvature criteria, and verify that $H^i(X, K_X \otimes L) = 0$ for all $i > 0$ when $L$ is ample, with zero unproven assumptions (`sorry`).

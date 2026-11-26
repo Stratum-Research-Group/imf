@@ -2,13 +2,16 @@
 
 **Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase V: Certified-Step Scaling, Lie-Group Geometry & Kernel-Bypass I/O  
-**Paper Type:** Machine-Certified Formal Proof (Lean 4)  
+**Paper Type:** Abstract-Model Formal Check (Lean 4, core only)  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Date:** November 2026  
 **Status:** Evidence Included — Not Independently Reviewed  
-**Verification Level:** Lean 4 source shown or referenced in text  
+**Verification Level:** Lean 4 abstract-model check (core Lean, no Mathlib)  
 
 ---
+
+<!-- FORMALIZATION-SCOPE-NOTICE -->
+> **ℹ FORMALIZATION SCOPE.** The Lean 4 files referenced by this paper contain no `sorry`, but they import core Lean only (no Mathlib definitions of the objects named in the title). They check statements about a simplified, abstract model; they do **not** establish the full classical theorem or physical claim named in the title.
 
 ### Abstract
 In continuous Lie-algebraic parameter spaces, gauge-invariant quantities must be immune to the arbitrary choice of local coordinate frames or affine connections. The Chern-Weil homomorphism proves that evaluating an invariant polynomial $P \in I^k(\mathfrak{g})$ on the curvature 2-form $\Omega$ of a principal bundle $P(M, G)$ yields a closed differential form whose de Rham cohomology class $[P(\Omega)] \in H^{2k}(M)$ is strictly independent of the connection $A$. We present a formal machine-verified proof in Lean 4 verifying connection independence and topological integer quantization.

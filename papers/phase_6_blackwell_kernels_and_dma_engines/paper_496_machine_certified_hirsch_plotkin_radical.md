@@ -2,13 +2,16 @@
 
 **Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase VI: Blackwell Kernels, Algebraic Theorems & Direct-DMA Engines  
-**Paper Type:** Machine-Certified Formal Proof (Lean 4)  
+**Paper Type:** Abstract-Model Formal Check (Lean 4, core only)  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Date:** November 2026  
 **Status:** Evidence Included — Not Independently Reviewed  
-**Verification Level:** Lean 4 source shown or referenced in text  
+**Verification Level:** Lean 4 abstract-model check (core Lean, no Mathlib)  
 
 ---
+
+<!-- FORMALIZATION-SCOPE-NOTICE -->
+> **ℹ FORMALIZATION SCOPE.** The Lean 4 files referenced by this paper contain no `sorry`, but they import core Lean only (no Mathlib definitions of the objects named in the title). They check statements about a simplified, abstract model; they do **not** establish the full classical theorem or physical claim named in the title.
 
 ### Abstract
 We present a formal machine verification of the Hirsch-Plotkin Radical Theorem in group theory within Lean 4 (`lean/HirschPlotkinRadicalProof.lean`). The theorem guarantees that every group $G$ contains a unique maximal locally nilpotent normal subgroup $\text{HP}(G)$, termed the Hirsch-Plotkin radical, and that the product of any family of locally nilpotent normal subgroups remains locally nilpotent. In this paper, we ground our formalization in the algebraic formalization principles articulated by Kevin Buzzard, demonstrating how formal interactive proof assistants certify the absence of structural anomalies in non-abelian symmetry groups.

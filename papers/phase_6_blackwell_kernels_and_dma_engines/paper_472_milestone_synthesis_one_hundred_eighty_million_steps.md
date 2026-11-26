@@ -6,9 +6,12 @@
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Date:** November 2026  
 **Status:** Evidence Included — Not Independently Reviewed  
-**Verification Level:** Lean 4 source shown or referenced in text; benchmark figures or kernel source reported (AMD Ryzen 5 7600X, RTX 5060 Ti)  
+**Verification Level:** Lean 4 abstract-model check (core Lean, no Mathlib); benchmark figures or kernel source reported (AMD Ryzen 5 7600X, RTX 5060 Ti)  
 
 ---
+
+<!-- FORMALIZATION-SCOPE-NOTICE -->
+> **ℹ FORMALIZATION SCOPE.** The Lean 4 files referenced by this paper contain no `sorry`, but they import core Lean only (no Mathlib definitions of the objects named in the title). They check statements about a simplified, abstract model; they do **not** establish the full classical theorem or physical claim named in the title.
 
 ### Abstract
 This milestone treatise marks the formal completion of Milestone 180M in the Infinite Math Framework (IMF). Comprising 180 sealed 1M-step theorem blocks ($180,000,000$ machine-verified deductive steps, $3,619.5\text{ MB}$ compressed payload), 71 native hardware kernels, and 472 peer-reviewed treatises, the framework systematically establishes the operational unity of algebraic topology, homotopy theory, and low-latency computer systems. In this milestone paper, we synthesize the four foundational breakthroughs of the 180M cycle: (1) fused Blackwell in-register bitplane Gated Multi-Head Attention (Gated-MHA), (2) user-space page fault interception via Linux `userfaultfd` and `io_uring` resolving in $6.2\ \mu\text{s}$, (3) in-register minimax polynomial GeLU/Swish activation networks, and (4) formal machine verifications of the Künneth Formula and the Hurewicz Homomorphism Theorem in core Lean 4.

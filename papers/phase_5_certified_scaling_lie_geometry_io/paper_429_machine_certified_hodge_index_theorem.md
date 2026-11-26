@@ -2,13 +2,16 @@
 
 **Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase V: Certified-Step Scaling, Lie-Group Geometry & Kernel-Bypass I/O  
-**Paper Type:** Machine-Certified Formal Proof (Lean 4)  
+**Paper Type:** Abstract-Model Formal Check (Lean 4, core only)  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Date:** November 2026  
 **Status:** Evidence Included — Not Independently Reviewed  
-**Verification Level:** Lean 4 source shown or referenced in text  
+**Verification Level:** Lean 4 abstract-model check (core Lean, no Mathlib)  
 
 ---
+
+<!-- FORMALIZATION-SCOPE-NOTICE -->
+> **ℹ FORMALIZATION SCOPE.** The Lean 4 files referenced by this paper contain no `sorry`, but they import core Lean only (no Mathlib definitions of the objects named in the title). They check statements about a simplified, abstract model; they do **not** establish the full classical theorem or physical claim named in the title.
 
 ### Abstract
 The Hodge Index Theorem is a foundational result in algebraic geometry governing the signature of the intersection pairing on the middle cohomology of complex projective varieties. On an algebraic surface $X$, it establishes that the intersection form on the subspace of real divisor classes orthogonal to an ample divisor is strictly negative-definite. In this paper, we formalize and verify the Hodge Index Theorem for algebraic surfaces in core Lean 4 (`lean/HodgeIndexProof.lean`). We construct divisor intersection pairings, formalize ample classes with strictly positive self-intersection ($H^2 > 0$), and certify that every non-trivial primitive divisor class $D$ satisfying $D \cdot H = 0$ obeys $D^2 \le 0$, yielding signature $(1, h^{1,1} - 1)$ with zero unproven axioms (`sorry`).

@@ -2,13 +2,16 @@
 
 **Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase VI: Blackwell Kernels, Algebraic Theorems & Direct-DMA Engines  
-**Paper Type:** Machine-Certified Formal Proof (Lean 4)  
+**Paper Type:** Abstract-Model Formal Check (Lean 4, core only)  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Date:** November 2026  
 **Status:** Evidence Included — Not Independently Reviewed  
-**Verification Level:** Lean 4 source shown or referenced in text  
+**Verification Level:** Lean 4 abstract-model check (core Lean, no Mathlib)  
 
 ---
+
+<!-- FORMALIZATION-SCOPE-NOTICE -->
+> **ℹ FORMALIZATION SCOPE.** The Lean 4 files referenced by this paper contain no `sorry`, but they import core Lean only (no Mathlib definitions of the objects named in the title). They check statements about a simplified, abstract model; they do **not** establish the full classical theorem or physical claim named in the title.
 
 ### Abstract
 We present a formal machine verification of the Schur-Zassenhaus Theorem for group extensions and cohomology in Lean 4 (`lean/SchurZassenhausProof.lean`). The theorem establishes that if $H$ is a normal Hall subgroup of a finite group $G$ (meaning $\gcd(|H|, [G:H]) = 1$), then $G$ splits as a semidirect product $G \cong H \rtimes Q$, where $Q \cong G/H$ is a complement of $H$. In this paper, we ground our machine-certified proof within the rigorous formal mathematics framework developed by Kevin Buzzard, illustrating how formal algebraic methods verify structural decomposition in multi-agent consensus spaces.

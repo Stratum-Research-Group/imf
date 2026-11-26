@@ -2,13 +2,16 @@
 
 **Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase V: Certified-Step Scaling, Lie-Group Geometry & Kernel-Bypass I/O  
-**Paper Type:** Machine-Certified Formal Proof (Lean 4)  
+**Paper Type:** Abstract-Model Formal Check (Lean 4, core only)  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Date:** November 2026  
 **Status:** Evidence Included — Not Independently Reviewed  
-**Verification Level:** Lean 4 source shown or referenced in text  
+**Verification Level:** Lean 4 abstract-model check (core Lean, no Mathlib)  
 
 ---
+
+<!-- FORMALIZATION-SCOPE-NOTICE -->
+> **ℹ FORMALIZATION SCOPE.** The Lean 4 files referenced by this paper contain no `sorry`, but they import core Lean only (no Mathlib definitions of the objects named in the title). They check statements about a simplified, abstract model; they do **not** establish the full classical theorem or physical claim named in the title.
 
 ### Abstract
 The Hard Lefschetz Theorem is one of the deepest structural results in complex differential geometry, establishing that the Lefschetz wedge operator $L = [ \cdot \smile \omega ]$ induces an isomorphism between complementary cohomology groups of a compact Kähler manifold. In this paper, we document the formal machine verification of the Hard Lefschetz Theorem and its primitive cohomology decomposition in core Lean 4 (`lean/HardLefschetzProof.lean`). We formalize compact Kähler manifolds of dimension $n$, degree conservation $k + 2(n - k) = 2n - k$, the Lefschetz isomorphism $L^{n-k}: H^k(X, \mathbb{R}) \cong H^{2n-k}(X, \mathbb{R})$, and certify primitive cohomology dimension identities with zero unproven assumptions (`sorry`).

@@ -2,13 +2,16 @@
 
 **Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase V: Certified-Step Scaling, Lie-Group Geometry & Kernel-Bypass I/O  
-**Paper Type:** Machine-Certified Formal Proof (Lean 4)  
+**Paper Type:** Abstract-Model Formal Check (Lean 4, core only)  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Date:** November 2026  
 **Status:** Evidence Included — Not Independently Reviewed  
-**Verification Level:** Lean 4 source shown or referenced in text  
+**Verification Level:** Lean 4 abstract-model check (core Lean, no Mathlib)  
 
 ---
+
+<!-- FORMALIZATION-SCOPE-NOTICE -->
+> **ℹ FORMALIZATION SCOPE.** The Lean 4 files referenced by this paper contain no `sorry`, but they import core Lean only (no Mathlib definitions of the objects named in the title). They check statements about a simplified, abstract model; they do **not** establish the full classical theorem or physical claim named in the title.
 
 ### Abstract
 Gromov-Witten (GW) invariants $\langle \tau_{d_1}(\gamma_1) \dots \tau_{d_n}(\gamma_n) \rangle_{g, n, \beta}^X$ rigorously capture the enumerative geometry of pseudoholomorphic curves on symplectic manifolds and smooth projective varieties $X$. Kontsevich and Manin established that any consistent family of GW invariants must satisfy a set of foundational axioms: the Point Property, Fundamental Class Axiom, Divisor Axiom, Mapping to a Point, and the WDVV (Witten-Dijkgraaf-Verlinde-Verlinde) associativity equation for quantum cohomology. In this treatise, we present the formal verification in Lean 4 of the fundamental Kontsevich-Manin Gromov-Witten axioms (`lean/GromovWittenAxiomsProof.lean`). We prove that the associative quantum product $\star$ on $H^*(X, \mathbb{C}) \otimes \mathbb{C}[[q]]$ preserves commutativity and identity under all curve degree classes $\beta \ge 0$.

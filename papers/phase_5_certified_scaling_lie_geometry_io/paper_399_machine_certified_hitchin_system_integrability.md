@@ -2,13 +2,16 @@
 
 **Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase V: Certified-Step Scaling, Lie-Group Geometry & Kernel-Bypass I/O  
-**Paper Type:** Machine-Certified Formal Proof (Lean 4)  
+**Paper Type:** Abstract-Model Formal Check (Lean 4, core only)  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Date:** November 2026  
 **Status:** Evidence Included — Not Independently Reviewed  
-**Verification Level:** Lean 4 source shown or referenced in text  
+**Verification Level:** Lean 4 abstract-model check (core Lean, no Mathlib)  
 
 ---
+
+<!-- FORMALIZATION-SCOPE-NOTICE -->
+> **ℹ FORMALIZATION SCOPE.** The Lean 4 files referenced by this paper contain no `sorry`, but they import core Lean only (no Mathlib definitions of the objects named in the title). They check statements about a simplified, abstract model; they do **not** establish the full classical theorem or physical claim named in the title.
 
 ### Abstract
 The Hitchin system constitutes an algebraically completely integrable Hamiltonian system on the cotangent bundle $T^*\mathcal{M}$ of the moduli space of stable bundles over a compact Riemann surface $\Sigma$. Hitchin proved that the characteristic polynomial coefficients of the Higgs field $\Phi \in H^0(\Sigma, \operatorname{End}(E) \otimes K_\Sigma)$ define a Lagrangian fibration whose fibers are abelian varieties (Jacobians of spectral curves). In this treatise, we present the formal machine verification in Lean 4 of the Hitchin fibration integrability conditions (`lean/HitchinIntegrableProof.lean`). We prove that the Hitchin Hamiltonians mutually Poisson-commute $\{H_i, H_j\} = 0$ and that the dimension of the base space is exactly half the dimension of the total moduli space, satisfying Liouville-Arnold integrability under 0 `sorry` and 0 unproven axioms.

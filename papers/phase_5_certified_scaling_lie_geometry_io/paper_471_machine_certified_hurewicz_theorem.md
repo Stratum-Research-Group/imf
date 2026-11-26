@@ -2,13 +2,16 @@
 
 **Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase V: Certified-Step Scaling, Lie-Group Geometry & Kernel-Bypass I/O  
-**Paper Type:** Machine-Certified Formal Proof (Lean 4)  
+**Paper Type:** Abstract-Model Formal Check (Lean 4, core only)  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Date:** November 2026  
 **Status:** Evidence Included — Not Independently Reviewed  
-**Verification Level:** Lean 4 source shown or referenced in text  
+**Verification Level:** Lean 4 abstract-model check (core Lean, no Mathlib)  
 
 ---
+
+<!-- FORMALIZATION-SCOPE-NOTICE -->
+> **ℹ FORMALIZATION SCOPE.** The Lean 4 files referenced by this paper contain no `sorry`, but they import core Lean only (no Mathlib definitions of the objects named in the title). They check statements about a simplified, abstract model; they do **not** establish the full classical theorem or physical claim named in the title.
 
 ### Abstract
 The Hurewicz Theorem is one of the most celebrated bridges in algebraic topology, establishing that for an $(n-1)$-connected space, the first non-vanishing higher homotopy group is canonically isomorphic to the first non-vanishing homology group. In this paper, we document the formal machine verification of the Hurewicz Homomorphism Theorem in core Lean 4 (`lean/HurewiczTheoremProof.lean`). We formalize $(n-1)$-connected topological spaces, certify the vanishing of lower homotopy groups $\pi_k(X) = 0$ for $k < n$, prove the Hurewicz isomorphism $h_*: \pi_n(X) \cong H_n(X, \mathbb{Z})$ for $n \ge 2$, and formalize the abelianization isomorphism for $n = 1$ with zero unproven assumptions (`sorry`).

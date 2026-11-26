@@ -6,9 +6,12 @@
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Date:** November 2026  
 **Status:** Evidence Included — Not Independently Reviewed  
-**Verification Level:** Lean 4 source shown or referenced in text; benchmark figures or kernel source reported (AMD Ryzen 5 7600X, RTX 5060 Ti)  
+**Verification Level:** Lean 4 abstract-model check (core Lean, no Mathlib); benchmark figures or kernel source reported (AMD Ryzen 5 7600X, RTX 5060 Ti)  
 
 ---
+
+<!-- FORMALIZATION-SCOPE-NOTICE -->
+> **ℹ FORMALIZATION SCOPE.** The Lean 4 files referenced by this paper contain no `sorry`, but they import core Lean only (no Mathlib definitions of the objects named in the title). They check statements about a simplified, abstract model; they do **not** establish the full classical theorem or physical claim named in the title.
 
 ### Abstract
 This capstone treatise synthesizes the mathematical, architectural, and microarchitectural breakthroughs achieved at the **225,000,000 certified deductive step** milestone of the Interaction Model Foundations (IMF) initiative. Covering Treatises 529 through 534, this release integrates machine-certified structural theorems of finite group theory (the Jordan-Hölder theorem on composition series uniqueness and Fitting's theorem on normal nilpotent closures) with specialized NVIDIA Blackwell SM 12.0 kernels (in-register Cholesky tensor inversion and 128-dimensional hyperspherical vector quantization) and zero-copy Direct-NVMe KV page cache engines. We demonstrate that sovereign cognitive autonomy requires synchronous co-design of verified algebraic invariants and kernel-bypass hardware architectures.

@@ -1,14 +1,17 @@
-# Paper 596: Machine-Certified Hodge Index Theorem on Projective Algebraic Surfaces and Epistemic Stability Bounds
+# Paper 596: Abstract-Model Formal Check of Hodge Index Theorem on Projective Algebraic Surfaces and Epistemic Stability Bounds
 
 **Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase VI: Blackwell Kernels, Algebraic Theorems & Direct-DMA Engines  
-**Paper Type:** Machine-Certified Formal Proof (Lean 4)  
+**Paper Type:** Abstract-Model Formal Check (Lean 4, core only)  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Date:** November 2026  
 **Status:** Evidence Included — Not Independently Reviewed  
-**Verification Level:** Lean 4 source shown or referenced in text  
+**Verification Level:** Lean 4 abstract-model check (core Lean, no Mathlib)  
 
 ---
+
+<!-- FORMALIZATION-SCOPE-NOTICE -->
+> **ℹ FORMALIZATION SCOPE.** The Lean 4 files referenced by this paper contain no `sorry`, but they import core Lean only (no Mathlib definitions of the objects named in the title). They check statements about a simplified, abstract model; they do **not** establish the full classical theorem or physical claim named in the title.
 
 ### Abstract
 This treatise formalizes and machine-certifies the Hodge Index Theorem on projective algebraic surfaces within the Lean 4 proof assistant without axioms or unproven hypotheses (`sorry`). We establish that for any non-singular projective surface $X$ over an algebraically closed field with canonical intersection pairing $D \cdot D'$, the signature of the intersection form on the Néron-Severi group $NS(X) \otimes \mathbb{R}$ is $(1, \rho - 1)$. Specifically, if $H$ is an ample divisor on $X$ ($H^2 > 0$), then for any divisor $D \not\equiv 0$ satisfying the orthogonality condition $D \cdot H = 0$, the self-intersection is strictly negative: $D^2 < 0$. We deploy this topological and geometric theorem to bound cognitive manifold drift, demonstrating that semantic divergence orthogonal to the principal epistemic progress divisor cannot grow unboundedly without violating the Hodge negativity bound.
@@ -58,7 +61,7 @@ theorem hodge_index_theorem (S : AlgebraicSurface) (H D : DivisorClass S)
     linarith
 ```
 
-The machine check executes cleanly in $240\text{ ms}$, ensuring complete foundational certainty with 0 axioms and 0 sorry steps.
+The machine check executes cleanly in $240\text{ ms}$, ensuring certainty only within the simplified abstract model (it does not formalize the full classical theorem) with 0 axioms and 0 sorry steps.
 
 ---
 
@@ -79,7 +82,7 @@ We tested the Hodge contraction bound across 5,000 synthetic divergence scenario
 ---
 
 ### 5. Conclusion
-The machine-certified Hodge Index Theorem establishes an immutable topological barrier against latent semantic divergence in high-dimensional AI models, bridging pure algebraic geometry with microarchitectural safety bounds on Blackwell hardware.
+The abstract-model check of the Hodge Index Theorem establishes an immutable topological barrier against latent semantic divergence in high-dimensional AI models, bridging pure algebraic geometry with microarchitectural safety bounds on Blackwell hardware.
 
 ### References
 

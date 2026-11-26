@@ -2,13 +2,16 @@
 
 **Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase V: Certified-Step Scaling, Lie-Group Geometry & Kernel-Bypass I/O  
-**Paper Type:** Machine-Certified Formal Proof (Lean 4)  
+**Paper Type:** Abstract-Model Formal Check (Lean 4, core only)  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Date:** November 2026  
 **Status:** Evidence Included — Not Independently Reviewed  
-**Verification Level:** Lean 4 source shown or referenced in text  
+**Verification Level:** Lean 4 abstract-model check (core Lean, no Mathlib)  
 
 ---
+
+<!-- FORMALIZATION-SCOPE-NOTICE -->
+> **ℹ FORMALIZATION SCOPE.** The Lean 4 files referenced by this paper contain no `sorry`, but they import core Lean only (no Mathlib definitions of the objects named in the title). They check statements about a simplified, abstract model; they do **not** establish the full classical theorem or physical claim named in the title.
 
 ### Abstract
 Kodaira-Spencer deformation theory establishes the differential-geometric foundations governing smooth variations of complex structures on algebraic manifolds. For Calabi-Yau 3-folds, the Bogomolov-Tian-Todorov (BTT) theorem asserts that all infinitesimal deformations parameterized by $H^1(X, T_X)$ are unobstructed, meaning the Kuranishi moduli space is smooth and of dimension $h^{2, 1}(X)$. In this treatise, we present the formal machine verification in Lean 4 of the Kodaira-Spencer deformation invariance and the vanishing of obstruction classes in $H^2(X, T_X)$ (`lean/KodairaSpencerProof.lean`). We prove that the differential graded Lie algebra Maurer-Cartan equation $\bar{\partial} \phi + \frac{1}{2}[\phi, \phi] = 0$ is unobstructed under 0 `sorry` and 0 unproven axioms.

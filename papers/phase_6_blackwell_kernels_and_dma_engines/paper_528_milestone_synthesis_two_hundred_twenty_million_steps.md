@@ -6,9 +6,12 @@
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Date:** November 2026  
 **Status:** Evidence Included — Not Independently Reviewed  
-**Verification Level:** Lean 4 source shown or referenced in text; benchmark figures or kernel source reported (AMD Ryzen 5 7600X, RTX 5060 Ti)  
+**Verification Level:** Lean 4 abstract-model check (core Lean, no Mathlib); benchmark figures or kernel source reported (AMD Ryzen 5 7600X, RTX 5060 Ti)  
 
 ---
+
+<!-- FORMALIZATION-SCOPE-NOTICE -->
+> **ℹ FORMALIZATION SCOPE.** The Lean 4 files referenced by this paper contain no `sorry`, but they import core Lean only (no Mathlib definitions of the objects named in the title). They check statements about a simplified, abstract model; they do **not** establish the full classical theorem or physical claim named in the title.
 
 ### Abstract
 This capstone treatise synthesizes the mathematical, architectural, and microarchitectural breakthroughs achieved at the **220,000,000 certified deductive step** milestone of the Interaction Model Foundations (IMF) initiative. Covering Treatises 522 through 527, this release integrates machine-certified group-theoretic splitting theorems (Philip Hall's theorem on solvable subgroups and the Schur-Zassenhaus theorem on semidirect extensions) with custom NVIDIA Blackwell SM 12.0 kernels (in-register bitplane associative scans and partition-free flash-sigmoid attention) and direct-to-memory kernel-bypass RDMA transport fabrics. We establish that formal cognitive autonomy requires synchronous co-design of certified algebraic structures and microarchitectural hardware primitives.

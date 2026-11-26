@@ -6,9 +6,12 @@
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Date:** November 2026  
 **Status:** Evidence Included — Not Independently Reviewed  
-**Verification Level:** Lean 4 source shown or referenced in text; benchmark figures or kernel source reported (AMD Ryzen 5 7600X, RTX 5060 Ti)  
+**Verification Level:** Lean 4 abstract-model check (core Lean, no Mathlib); benchmark figures or kernel source reported (AMD Ryzen 5 7600X, RTX 5060 Ti)  
 
 ---
+
+<!-- FORMALIZATION-SCOPE-NOTICE -->
+> **ℹ FORMALIZATION SCOPE.** The Lean 4 files referenced by this paper contain no `sorry`, but they import core Lean only (no Mathlib definitions of the objects named in the title). They check statements about a simplified, abstract model; they do **not** establish the full classical theorem or physical claim named in the title.
 
 ### Abstract
 This Grand Capstone Synthesis marks the definitive attainment of Milestone 150M in the Infinite Math Framework (IMF) autonomous deductive synthesis architecture. Across 430 continuous research treatises, 150 cryptographically sealed 1M-step theorem blocks ($150,000,000$ certified steps, $3,022.5\text{ MB}$ compressed payload), and 53 hardware-accelerated C++/CUDA kernels, the framework unifies differential geometry, algebraic topology, quantum groups, and Blackwell silicon execution into a coherent mathematical foundation. In this milestone paper, we synthesize the three core technological advances of the 150M epoch: (1) hardware-native bitplane self-attention with in-register popcount contractions, (2) zero-copy kernel-bypass NVMe fixed-buffer DMA, and (3) representation-invariant expert routing governed by Lusztig canonical crystal bases at the $q \to 0$ absolute zero limit.

@@ -6,9 +6,12 @@
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Date:** November 2026  
 **Status:** Evidence Included — Not Independently Reviewed  
-**Verification Level:** Lean 4 source shown or referenced in text; benchmark figures or kernel source reported (AMD Ryzen 5 7600X, RTX 5060 Ti)  
+**Verification Level:** Lean 4 abstract-model check (core Lean, no Mathlib); benchmark figures or kernel source reported (AMD Ryzen 5 7600X, RTX 5060 Ti)  
 
 ---
+
+<!-- FORMALIZATION-SCOPE-NOTICE -->
+> **ℹ FORMALIZATION SCOPE.** The Lean 4 files referenced by this paper contain no `sorry`, but they import core Lean only (no Mathlib definitions of the objects named in the title). They check statements about a simplified, abstract model; they do **not** establish the full classical theorem or physical claim named in the title.
 
 ### Abstract
 We synthesize the mathematical, algorithmic, and microarchitectural developments realized at the **270 Million Certified Deductive Steps Milestone** of the IMF project. Encompassing 590 peer-review grade scientific treatises, 132 registered microarchitectural components, and an extensive machine-verified Lean 4 mathematical foundation spanning algebraic geometry and scheme theory, this milestone marks the transition from local operator optimization to global geometric consistency. We review our newly implemented in-register Krylov-Schur deflation solvers, zero-copy io_uring inter-process rings, fractional Caputo SDEs, DMA-BUF direct VRAM pipelines, and formal proofs of Serre's normality criterion, Chevalley-Warning varieties, and Zariski's Main Theorem.

@@ -6,9 +6,12 @@
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Date:** November 2026  
 **Status:** Evidence Included — Not Independently Reviewed  
-**Verification Level:** Lean 4 source shown or referenced in text  
+**Verification Level:** Lean 4 abstract-model check (core Lean, no Mathlib)  
 
 ---
+
+<!-- FORMALIZATION-SCOPE-NOTICE -->
+> **ℹ FORMALIZATION SCOPE.** The Lean 4 files referenced by this paper contain no `sorry`, but they import core Lean only (no Mathlib definitions of the objects named in the title). They check statements about a simplified, abstract model; they do **not** establish the full classical theorem or physical claim named in the title.
 
 ### Abstract
 In hyperbolic deep learning, parameter trajectories evolve over negatively curved manifolds where standard vector addition fails to be associative. We formalize the gyroassociative bracket identity $(a \boxplus b) \boxplus c = a \boxplus (b \boxplus \operatorname{gyr}[a, b]c)$, proving that non-associativity is completely governed by Thomas-Wigner rotation automorphisms. We provide a machine-certified proof in Lean 4 verifying metric and bracket invariance under continuous geodesic flow.

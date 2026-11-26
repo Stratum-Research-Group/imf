@@ -2,13 +2,16 @@
 
 **Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase VI: Blackwell Kernels, Algebraic Theorems & Direct-DMA Engines  
-**Paper Type:** GPU Kernel Design + Machine-Certified Proof  
+**Paper Type:** GPU Kernel Design + Abstract-Model Formal Check  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Date:** November 2026  
 **Status:** Evidence Included — Not Independently Reviewed  
-**Verification Level:** Lean 4 source shown or referenced in text  
+**Verification Level:** Lean 4 abstract-model check (core Lean, no Mathlib)  
 
 ---
+
+<!-- FORMALIZATION-SCOPE-NOTICE -->
+> **ℹ FORMALIZATION SCOPE.** The Lean 4 files referenced by this paper contain no `sorry`, but they import core Lean only (no Mathlib definitions of the objects named in the title). They check statements about a simplified, abstract model; they do **not** establish the full classical theorem or physical claim named in the title.
 
 ### Abstract
 We present the formal machine certification of Ferdinand Georg Frobenius' theorem on the structure of finite Frobenius groups in Lean 4 with zero unproven axioms (`0 sorry, 0 unproven axioms`). Motivated by Kevin Buzzard's research program on the formalization of representation theory and finite groups, we machine-certify that the order of the Frobenius kernel divides the total group order, the quotient index $[G : H]$ identically matches the kernel order $|K|$, and the total group splits as a semidirect product $G \cong K \rtimes H$.

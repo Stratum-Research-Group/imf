@@ -6,9 +6,12 @@
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Date:** November 2026  
 **Status:** Evidence Included — Not Independently Reviewed  
-**Verification Level:** Lean 4 source shown or referenced in text; benchmark figures or kernel source reported (AMD Ryzen 5 7600X, RTX 5060 Ti)  
+**Verification Level:** Lean 4 abstract-model check (core Lean, no Mathlib); benchmark figures or kernel source reported (AMD Ryzen 5 7600X, RTX 5060 Ti)  
 
 ---
+
+<!-- FORMALIZATION-SCOPE-NOTICE -->
+> **ℹ FORMALIZATION SCOPE.** The Lean 4 files referenced by this paper contain no `sorry`, but they import core Lean only (no Mathlib definitions of the objects named in the title). They check statements about a simplified, abstract model; they do **not** establish the full classical theorem or physical claim named in the title.
 
 ### Abstract
 This milestone document marks the formal completion of Milestone 160M in the Infinite Math Framework (IMF). Encompassing 160 cryptographically authenticated 1M-step theorem blocks ($160,000,000$ machine-verified deductive steps, $3,221.5\text{ MB}$ compressed payload), 59 native C++/CUDA hardware kernels, and 444 research treatises, the framework bridges projective algebraic geometry, homological algebra, and modern sub-bit computer systems. In this milestone paper, we synthesize the core architectural advances of the 160M cycle: (1) fused Blackwell in-register bitplane cross-attention, (2) fused bitplane Grouped-Query Attention (GQA) with shared KV warp registers, (3) kernel-bypass `io_uring` vectorized gather-scatter storage streaming, and (4) formal machine verifications of the Kodaira Vanishing and Serre Duality theorems in core Lean 4.

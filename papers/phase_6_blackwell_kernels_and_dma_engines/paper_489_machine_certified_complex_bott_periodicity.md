@@ -2,13 +2,16 @@
 
 **Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase VI: Blackwell Kernels, Algebraic Theorems & Direct-DMA Engines  
-**Paper Type:** Machine-Certified Formal Proof (Lean 4)  
+**Paper Type:** Abstract-Model Formal Check (Lean 4, core only)  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Date:** November 2026  
 **Status:** Evidence Included — Not Independently Reviewed  
-**Verification Level:** Lean 4 source shown or referenced in text  
+**Verification Level:** Lean 4 abstract-model check (core Lean, no Mathlib)  
 
 ---
+
+<!-- FORMALIZATION-SCOPE-NOTICE -->
+> **ℹ FORMALIZATION SCOPE.** The Lean 4 files referenced by this paper contain no `sorry`, but they import core Lean only (no Mathlib definitions of the objects named in the title). They check statements about a simplified, abstract model; they do **not** establish the full classical theorem or physical claim named in the title.
 
 ### Abstract
 We present a formal machine verification of the Bott Periodicity Theorem and double suspension isomorphisms in complex topological K-theory in Lean 4 (`lean/ComplexBottPeriodicityProof.lean`). Bott's classical theorem asserts that the homotopy groups of the stable unitary group are 2-periodic: $\pi_k(U) \cong \pi_{k+2}(U)$, and that reduced complex K-theory satisfies $\widetilde{K}(X) \cong \widetilde{K}(\Sigma^2 X)$. In this treatise, we frame the formalization within the broader landscape of modern interactive theorem proving, drawing direct connections to Kevin Buzzard's formalization methodology in Lean (e.g., the Xena project and formal scheme theory), which emphasizes elimination of informal hand-waving in foundational algebraic geometry and algebraic topology.

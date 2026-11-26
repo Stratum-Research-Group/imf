@@ -6,9 +6,12 @@
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Date:** November 2026  
 **Status:** Evidence Included — Not Independently Reviewed  
-**Verification Level:** Lean 4 source shown or referenced in text; benchmark figures or kernel source reported (AMD Ryzen 5 7600X, RTX 5060 Ti)  
+**Verification Level:** Lean 4 abstract-model check (core Lean, no Mathlib); benchmark figures or kernel source reported (AMD Ryzen 5 7600X, RTX 5060 Ti)  
 
 ---
+
+<!-- FORMALIZATION-SCOPE-NOTICE -->
+> **ℹ FORMALIZATION SCOPE.** The Lean 4 files referenced by this paper contain no `sorry`, but they import core Lean only (no Mathlib definitions of the objects named in the title). They check statements about a simplified, abstract model; they do **not** establish the full classical theorem or physical claim named in the title.
 
 ### Abstract
 This capstone treatise synthesizes the mathematical, architectural, and microarchitectural breakthroughs achieved at the **245,000,000 certified deductive step** milestone of the Interaction Model Foundations (IMF) initiative. Covering Treatises 557 through 562, this release integrates machine-certified structural theorems of rings and representation theory (the Wedderburn-Artin structure theorem and Schur's lemma on module rigidity) with custom NVIDIA Blackwell SM 12.0 kernels (in-register upper Hessenberg reductions and continuous Neural ODE adjoint backward integrators) and zero-copy Direct-DMA shared-memory work-stealing queues. We establish that formal cognitive scaling requires simultaneous co-design of verified algebraic structures and hardware execution substrates.

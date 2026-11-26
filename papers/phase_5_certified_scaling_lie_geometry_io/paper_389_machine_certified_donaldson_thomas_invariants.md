@@ -2,13 +2,16 @@
 
 **Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase V: Certified-Step Scaling, Lie-Group Geometry & Kernel-Bypass I/O  
-**Paper Type:** Machine-Certified Formal Proof (Lean 4)  
+**Paper Type:** Abstract-Model Formal Check (Lean 4, core only)  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Date:** November 2026  
 **Status:** Evidence Included — Not Independently Reviewed  
-**Verification Level:** Lean 4 source shown or referenced in text  
+**Verification Level:** Lean 4 abstract-model check (core Lean, no Mathlib)  
 
 ---
+
+<!-- FORMALIZATION-SCOPE-NOTICE -->
+> **ℹ FORMALIZATION SCOPE.** The Lean 4 files referenced by this paper contain no `sorry`, but they import core Lean only (no Mathlib definitions of the objects named in the title). They check statements about a simplified, abstract model; they do **not** establish the full classical theorem or physical claim named in the title.
 
 ### Abstract
 Donaldson-Thomas (DT) invariants provide a rigorous enumeration of ideal sheaves and curves on Calabi-Yau 3-folds $X$, serving as a holomorphic counterpart to Casson invariants in gauge theory and Gromov-Witten invariants in A-model topological string theory. In this treatise, we present the formal machine verification in Lean 4 of the foundational Donaldson-Thomas deformation invariance under path-connected complex structure moduli variations $\partial_t \mathcal{M}_X = 0$. By representing the virtual fundamental class $[I_n(X, \beta)]^{\text{vir}}$ via Kuranishi obstruction theories with symmetric obstruction complexes $E^\bullet \cong (E^\bullet)^\vee[1]$, we prove that the weighted Euler characteristic $\chi(\mathcal{M}, \nu_M)$ remains strictly invariant across continuous deformations of the underlying algebraic scheme.

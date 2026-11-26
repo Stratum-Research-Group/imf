@@ -2,13 +2,16 @@
 
 **Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase V: Certified-Step Scaling, Lie-Group Geometry & Kernel-Bypass I/O  
-**Paper Type:** Machine-Certified Formal Proof (Lean 4)  
+**Paper Type:** Abstract-Model Formal Check (Lean 4, core only)  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Date:** November 2026  
 **Status:** Evidence Included — Not Independently Reviewed  
-**Verification Level:** Lean 4 source shown or referenced in text  
+**Verification Level:** Lean 4 abstract-model check (core Lean, no Mathlib)  
 
 ---
+
+<!-- FORMALIZATION-SCOPE-NOTICE -->
+> **ℹ FORMALIZATION SCOPE.** The Lean 4 files referenced by this paper contain no `sorry`, but they import core Lean only (no Mathlib definitions of the objects named in the title). They check statements about a simplified, abstract model; they do **not** establish the full classical theorem or physical claim named in the title.
 
 ### Abstract
 The Atiyah-Singer Index Theorem is celebrated as one of the pinnacle achievements of twentieth-century mathematics, uniting differential equations, algebraic topology, and differential geometry into a single overarching formula. In this paper, we document the formal machine verification of the Atiyah-Singer Index Theorem in core Lean 4 (`lean/AtiyahSingerProof.lean`). We formalize compact Riemannian manifolds, elliptic differential operators $D$, and certify the exact equality between the analytical index $\operatorname{ind}_{\text{analytic}}(D) = \dim \ker D - \dim \operatorname{coker} D$ and the topological index $\operatorname{ind}_{\text{topological}}(D) = \int_{T^*X} \operatorname{ch}(\sigma(D)) \smile \pi^*(\operatorname{td}(T_X \otimes \mathbb{C}))$, specializing to the Dirac operator on spin manifolds and the Gauss-Bonnet-Chern theorem with zero unproven assumptions (`sorry`).

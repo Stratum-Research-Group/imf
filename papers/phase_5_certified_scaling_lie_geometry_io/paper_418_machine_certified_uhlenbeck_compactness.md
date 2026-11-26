@@ -2,13 +2,16 @@
 
 **Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase V: Certified-Step Scaling, Lie-Group Geometry & Kernel-Bypass I/O  
-**Paper Type:** Machine-Certified Formal Proof (Lean 4)  
+**Paper Type:** Abstract-Model Formal Check (Lean 4, core only)  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Date:** November 2026  
 **Status:** Evidence Included — Not Independently Reviewed  
-**Verification Level:** Lean 4 source shown or referenced in text  
+**Verification Level:** Lean 4 abstract-model check (core Lean, no Mathlib)  
 
 ---
+
+<!-- FORMALIZATION-SCOPE-NOTICE -->
+> **ℹ FORMALIZATION SCOPE.** The Lean 4 files referenced by this paper contain no `sorry`, but they import core Lean only (no Mathlib definitions of the objects named in the title). They check statements about a simplified, abstract model; they do **not** establish the full classical theorem or physical claim named in the title.
 
 ### Abstract
 Karen Uhlenbeck's gauge compactness theorem provides the cornerstone of modern geometric analysis and gauge theory, establishing that any sequence of connections over a compact Riemannian 4-manifold with uniformly bounded Yang-Mills curvature energy $\int_M \|F_A\|^2 dV \le C$ contains a subsequence that converges, modulo gauge transformations, to a smooth connection outside a finite set of bubbling points of codimension at least 4. In this treatise, we present the formal machine verification in Lean 4 of the Uhlenbeck compactness theorem and the codimension-4 energy concentration vanishing bound (`lean/UhlenbeckCompactnessProof.lean`). We prove that the moduli space of Yang-Mills instantons is sequentially compact under 0 `sorry` and 0 unproven axioms.

@@ -6,9 +6,12 @@
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Date:** November 2026  
 **Status:** Evidence Included — Not Independently Reviewed  
-**Verification Level:** Lean 4 source shown or referenced in text; benchmark figures or kernel source reported (AMD Ryzen 5 7600X, RTX 5060 Ti)  
+**Verification Level:** Lean 4 abstract-model check (core Lean, no Mathlib); benchmark figures or kernel source reported (AMD Ryzen 5 7600X, RTX 5060 Ti)  
 
 ---
+
+<!-- FORMALIZATION-SCOPE-NOTICE -->
+> **ℹ FORMALIZATION SCOPE.** The Lean 4 files referenced by this paper contain no `sorry`, but they import core Lean only (no Mathlib definitions of the objects named in the title). They check statements about a simplified, abstract model; they do **not** establish the full classical theorem or physical claim named in the title.
 
 ### Abstract
 This milestone treatise marks the formal attainment and verification of Milestone 175M in the Infinite Math Framework (IMF). Comprising 175 sealed 1M-step theorem blocks ($175,000,000$ machine-verified deductive steps, $3,520.0\text{ MB}$ compressed payload), 68 hardware-accelerated kernels, and 465 research treatises, the framework systematically establishes the unity of algebraic topology, differential geometry, and sub-bit computer systems. In this milestone paper, we synthesize the four foundational technological breakthroughs of the 175M cycle: (1) fused Blackwell in-register residual RMSNorm and quantization, (2) single-pass joint RoPE permutation and bitplane attention, (3) kernel-bypass `io_uring` direct-drained memory barriers, and (4) formal machine verifications of the Thom Isomorphism and Poincaré Duality theorems in core Lean 4.

@@ -6,9 +6,12 @@
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Date:** November 2026  
 **Status:** Evidence Included — Not Independently Reviewed  
-**Verification Level:** Lean 4 source shown or referenced in text; benchmark figures or kernel source reported (AMD Ryzen 5 7600X, RTX 5060 Ti)  
+**Verification Level:** Lean 4 abstract-model check (core Lean, no Mathlib); benchmark figures or kernel source reported (AMD Ryzen 5 7600X, RTX 5060 Ti)  
 
 ---
+
+<!-- FORMALIZATION-SCOPE-NOTICE -->
+> **ℹ FORMALIZATION SCOPE.** The Lean 4 files referenced by this paper contain no `sorry`, but they import core Lean only (no Mathlib definitions of the objects named in the title). They check statements about a simplified, abstract model; they do **not** establish the full classical theorem or physical claim named in the title.
 
 ### Abstract
 This synthesis document marks the successful certification of Milestone 155M in the Infinite Math Framework (IMF). Comprising 155 sealed 1M-step theorem blocks ($155,000,000$ deductive transitions, $3,122.0\text{ MB}$ compressed payload), 56 native hardware kernels, and 437 peer-reviewed treatises, the framework systematically establishes the unity of algebraic geometry, non-commutative topology, and modern silicon computing. In this milestone paper, we synthesize: (1) fused Blackwell in-register bitplane FeedForward networks with zero HBM spills, (2) kernel-bypass polled `io_uring` DMA delivering $3.4\ \mu\text{s}$ storage latency, (3) multi-accelerator NVLink peer-to-peer polytope slicing, and (4) core Lean 4 machine certifications of the relative Grothendieck-Riemann-Roch and Lefschetz Hyperplane theorems.

@@ -6,9 +6,12 @@
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Date:** November 2026  
 **Status:** Evidence Included — Not Independently Reviewed  
-**Verification Level:** Lean 4 source shown or referenced in text; benchmark figures or kernel source reported (AMD Ryzen 5 7600X, RTX 5060 Ti)  
+**Verification Level:** Lean 4 abstract-model check (core Lean, no Mathlib); benchmark figures or kernel source reported (AMD Ryzen 5 7600X, RTX 5060 Ti)  
 
 ---
+
+<!-- FORMALIZATION-SCOPE-NOTICE -->
+> **ℹ FORMALIZATION SCOPE.** The Lean 4 files referenced by this paper contain no `sorry`, but they import core Lean only (no Mathlib definitions of the objects named in the title). They check statements about a simplified, abstract model; they do **not** establish the full classical theorem or physical claim named in the title.
 
 ### Abstract
 We synthesize the mathematical, algorithmic, and empirical achievements realized at the **260 Million Certified Deductive Steps Milestone** of the IMF project. Integrating 580 comprehensive research treatises, 128 registered microarchitectural hardware components, and a verified formal corpus spanning algebraic geometry and symplectic mechanics in Lean 4, this milestone establishes that machine-checked deductive reasoning can operate symbiotically with low-level GPU kernels and kernel-bypass DMA engines. We survey our latest additions—including Yoshida 6th-order symplectic integrators, Artin-Rees filtration stability, in-register Lanczos solvers, and Hilbert's Nullstellensatz—charting the trajectory toward the 300M milestone.

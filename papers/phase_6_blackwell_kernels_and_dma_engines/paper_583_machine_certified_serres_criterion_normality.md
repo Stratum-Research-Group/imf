@@ -2,13 +2,16 @@
 
 **Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase VI: Blackwell Kernels, Algebraic Theorems & Direct-DMA Engines  
-**Paper Type:** Machine-Certified Formal Proof (Lean 4)  
+**Paper Type:** Abstract-Model Formal Check (Lean 4, core only)  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Date:** November 2026  
 **Status:** Evidence Included — Not Independently Reviewed  
-**Verification Level:** Lean 4 source shown or referenced in text  
+**Verification Level:** Lean 4 abstract-model check (core Lean, no Mathlib)  
 
 ---
+
+<!-- FORMALIZATION-SCOPE-NOTICE -->
+> **ℹ FORMALIZATION SCOPE.** The Lean 4 files referenced by this paper contain no `sorry`, but they import core Lean only (no Mathlib definitions of the objects named in the title). They check statements about a simplified, abstract model; they do **not** establish the full classical theorem or physical claim named in the title.
 
 ### Abstract
 We present the formal machine certification of Jean-Pierre Serre's Criterion for Normality in Lean 4 (`lean/SerresCriterionNormalityProof.lean`). Establishing that a Noetherian ring is normal if and only if it satisfies regularity in codimension one ($R_1$) and the Serre depth condition ($S_2$), our constructive proof confirms the algebraic foundations required for the construction of normal integral models of modular curves in Kevin Buzzard's formalization initiatives. Verified with zero unproven axioms and zero `sorry` placeholders, this result establishes formal topological extension guarantees for high-dimensional cognitive manifolds.

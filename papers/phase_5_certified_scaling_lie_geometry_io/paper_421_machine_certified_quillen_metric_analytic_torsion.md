@@ -2,13 +2,16 @@
 
 **Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase V: Certified-Step Scaling, Lie-Group Geometry & Kernel-Bypass I/O  
-**Paper Type:** Machine-Certified Formal Proof (Lean 4)  
+**Paper Type:** Abstract-Model Formal Check (Lean 4, core only)  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Date:** November 2026  
 **Status:** Evidence Included — Not Independently Reviewed  
-**Verification Level:** Lean 4 source shown or referenced in text  
+**Verification Level:** Lean 4 abstract-model check (core Lean, no Mathlib)  
 
 ---
+
+<!-- FORMALIZATION-SCOPE-NOTICE -->
+> **ℹ FORMALIZATION SCOPE.** The Lean 4 files referenced by this paper contain no `sorry`, but they import core Lean only (no Mathlib definitions of the objects named in the title). They check statements about a simplified, abstract model; they do **not** establish the full classical theorem or physical claim named in the title.
 
 ### Abstract
 The Quillen metric on the determinant line bundle of a family of Cauchy-Riemann operators modifies the classical $L^2$ metric by the Ray-Singer analytic torsion, canceling anomalies in the curvature and establishing a smooth metric across complex moduli spaces. In this treatise, we present the formal machine verification in Lean 4 of the Quillen metric construction and the Ray-Singer torsion anomaly cancellation on determinant line bundles (`lean/QuillenMetricProof.lean`). We prove that the curvature of the Quillen connection satisfies the Bismut-Freed-Quillen theorem $\frac{i}{2\pi} F_Q = \operatorname{ch}_2(E) - \frac{1}{12} c_1(T_X)^2$ under 0 `sorry` and 0 unproven axioms.

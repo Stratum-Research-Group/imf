@@ -6,9 +6,12 @@
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Date:** November 2026  
 **Status:** Evidence Included — Not Independently Reviewed  
-**Verification Level:** Lean 4 source shown or referenced in text; benchmark figures or kernel source reported (AMD Ryzen 5 7600X, RTX 5060 Ti)  
+**Verification Level:** Lean 4 abstract-model check (core Lean, no Mathlib); benchmark figures or kernel source reported (AMD Ryzen 5 7600X, RTX 5060 Ti)  
 
 ---
+
+<!-- FORMALIZATION-SCOPE-NOTICE -->
+> **ℹ FORMALIZATION SCOPE.** The Lean 4 files referenced by this paper contain no `sorry`, but they import core Lean only (no Mathlib definitions of the objects named in the title). They check statements about a simplified, abstract model; they do **not** establish the full classical theorem or physical claim named in the title.
 
 ### Abstract
 This milestone synthesis marks the definitive achievement and verification of Milestone 170M in the Infinite Math Framework (IMF). Across 170 cryptographically authenticated 1M-step theorem blocks ($170,000,000$ machine-certified deductive proof steps, $3,420.5\text{ MB}$ compressed payload), 65 native hardware kernels, and 458 research treatises, the framework unifies higher-order index theory, topological K-theory, and consumer silicon execution. In this milestone paper, we synthesize the four foundational technological pillars of the 170M cycle: (1) fused Blackwell in-register bitplane Multi-Query Attention (MQA) achieving $0.062\text{ ms}$ latency, (2) in-place 1-bit KV-cache quantization delivering a $16\times$ compression factor, (3) kernel-bypass `io_uring` asynchronous file hole punching for dynamic sparse weight pruning, and (4) formal machine verifications of the Bott Periodicity and Atiyah-Singer Index theorems in core Lean 4.

@@ -2,13 +2,16 @@
 
 **Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase V: Certified-Step Scaling, Lie-Group Geometry & Kernel-Bypass I/O  
-**Paper Type:** Machine-Certified Formal Proof (Lean 4)  
+**Paper Type:** Abstract-Model Formal Check (Lean 4, core only)  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Date:** November 2026  
 **Status:** Evidence Included — Not Independently Reviewed  
-**Verification Level:** Lean 4 source shown or referenced in text  
+**Verification Level:** Lean 4 abstract-model check (core Lean, no Mathlib)  
 
 ---
+
+<!-- FORMALIZATION-SCOPE-NOTICE -->
+> **ℹ FORMALIZATION SCOPE.** The Lean 4 files referenced by this paper contain no `sorry`, but they import core Lean only (no Mathlib definitions of the objects named in the title). They check statements about a simplified, abstract model; they do **not** establish the full classical theorem or physical claim named in the title.
 
 ### Abstract
 The Lefschetz Hyperplane Theorem is a central result in algebraic topology and complex algebraic geometry, establishing that the topology of a smooth complex projective variety is faithfully captured by its hyperplane sections up to the middle dimension. In this paper, we document the machine-certified verification of the Lefschetz Hyperplane Theorem in core Lean 4 (`lean/LefschetzHyperplaneProof.lean`). We formalize complex projective varieties $X \subset \mathbb{P}^N$ of dimension $n$, smooth hyperplane sections $Y = X \cap H$, and certify the homological isomorphism $H_k(Y, \mathbb{Z}) \cong H_k(X, \mathbb{Z})$ for all degrees $k < n - 1$, together with the surjectivity of the map in degree $k = n - 1$, with zero unproven assumptions (`sorry`).

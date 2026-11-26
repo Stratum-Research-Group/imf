@@ -6,9 +6,12 @@
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Date:** November 2026  
 **Status:** Evidence Included — Not Independently Reviewed  
-**Verification Level:** Lean 4 source shown or referenced in text  
+**Verification Level:** Lean 4 abstract-model check (core Lean, no Mathlib)  
 
 ---
+
+<!-- FORMALIZATION-SCOPE-NOTICE -->
+> **ℹ FORMALIZATION SCOPE.** The Lean 4 files referenced by this paper contain no `sorry`, but they import core Lean only (no Mathlib definitions of the objects named in the title). They check statements about a simplified, abstract model; they do **not** establish the full classical theorem or physical claim named in the title.
 
 ## Abstract
 Standard geometric neural architectures project latent token representations onto flat Euclidean surfaces ($\mathbb{R}^d$) or compact spherical manifolds ($\mathbb{S}^{d-1}$). However, symbolic reasoning, grammatical phrase syntax, and deductive premise networks exhibit intrinsic tree-like hierarchical branching. In Euclidean space, the metric volume of a ball scales polynomially $V_{\mathbb{E}}(r) \propto r^d$, leading to severe crowd-out distortion when embedding trees of branching factor $b > 1$, whose volume expands exponentially $V_{\text{tree}}(r) \propto b^r$.
