@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>IMF Spinning Polytopes & Counter-Rotating Clutch Manifolds (3D WebGL)</title>
+    <style>
+        body { margin: 0; background: #02020a; color: #eee; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace; overflow: hidden; }
+        #canvas { width: 100vw; height: 100vh; display: block; }
+        #overlay { position: absolute; top: 16px; left: 16px; background: rgba(5,8,25,0.92); padding: 18px; border-radius: 8px; border: 1px solid #00e5ff; max-width: 500px; box-shadow: 0 4px 24px rgba(0,0,0,0.85); backdrop-filter: blur(8px); }
+        h1 { margin: 0 0 8px 0; font-size: 16px; color: #18ffff; letter-spacing: 0.5px; }
+        p { margin: 4px 0; font-size: 12.5px; color: #b0bec5; line-height: 1.4; }
+        .control-group { margin-top: 10px; }
+        label { display: block; font-size: 12px; color: #cfd8dc; margin-bottom: 3px; }
+        input[type=range] { width: 100%; accent-color: #00e5ff; }
+        .badge { display: inline-block; padding: 2px 6px; border-radius: 4px; font-size: 11px; background: #006064; color: #84ffff; margin-top: 8px; margin-right: 6px; }
+        .clutch-status { color: #ffd600; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div id="overlay">
+        <h1>Spinning Polytopes & Counter-Rotating Clutch Manifolds</h1>
+        <p><strong>Dynamics:</strong> Dual concentric polytope codebooks undergoing continuous Lie-algebraic rotation $\dot{h} = \Omega h$ on $SO(D)$ manifolds. Outer shell (Emerald $E_7$) and inner shell (Gold $24$-Cell) counter-rotate with relative angular velocity $\Delta \Omega$.</p>
+        <p><strong>Torque Impulse:</strong> External token interactions apply wedge torque $\tau = x \wedge h \in \mathfrak{so}(D)$, imparting angular momentum without expanding the KV-cache.</p>
+        <p><strong>Clutch Gating:</strong> Manifold clutch engagement $k \in [0, 1]$ couples counter-rotating orbits, synchronizing resonant geodesic transitions into the Ultrametric boundary.</p>
+        
+        <div class="control-group">
+            <label id="clutch-label">Clutch Engagement Ratio: 0.70 <span class="clutch-status">(Gated Resonance)</span></label>
+            <input type="range" id="clutch-slider" min="0" max="1" step="0.02" value="0.70">
+        </div>
+        <div class="control-group">
+            <label id="speed-label">Relative Spin Frequency ΔΩ: 1.25 rad/s</label>
+            <input type="range" id="speed-slider" min="0.1" max="3.0" step="0.05" value="1.25">
+        </div>
+        <div class="control-group">
+            <label id="torque-label">Torque Impulse Strength η: 0.45</label>
+            <input type="range" id="torque-slider" min="0.0" max="1.0" step="0.05" value="0.45">
+        </div>
+        <div>
+            <span class="badge">SO(D) Manifold</span>
+            <span class="badge">Dual Counter-Rotation</span>
+            <span class="badge">Symplectic Conservation</span>
+            <span class="badge">Ultrametric Transition</span>
+        </div>
+    </div>
+    <canvas id="canvas"></canvas>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
+        camera.position.set(0, 0, 7.5);
+
+        // Ambient & Directional Lights
+        scene.add(new THREE.AmbientLight(0x223344));
+        const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
+        dirLight.position.set(5, 8, 10);
+        scene.add(dirLight);
+
+        // Outer Polytope Shell (Emerald/Cyan 48 Vertices)
+        const outerGroup = new THREE.Group();
+        const innerGroup = new THREE.Group();
+        const torqueGroup = new THREE.Group();
+        scene.add(outerGroup);
+        scene.add(innerGroup);
+        scene.add(torqueGroup);
+
+        // Generate 4D 24-cell projected vertices for inner shell
+        const innerVertices = [];
+        // 8 vertices: (±1, 0, 0, 0) permutations
+        for (let i = 0; i < 4; i++) {
+            for (let s of [-1, 1]) {
+                let v = [0, 0, 0, 0];
+                v[i] = s;
+                innerVertices.push(v);
+            }
+        }
+        // 16 vertices: (±0.5, ±0.5, ±0.5, ±0.5)
+        for (let s1 of [-0.5, 0.5]) {
+            for (let s2 of [-0.5, 0.5]) {
+                for (let s3 of [-0.5, 0.5]) {
+                    for (let s4 of [-0.5, 0.5]) {
+                        innerVertices.push([s1, s2, s3, s4]);
+                    }
+                }
+            }
+        }
+
+        // Inner Shell Mesh (Gold)
+        const innerRadius = 1.35;
+        const innerGeom = new THREE.BufferGeometry();
+        const innerPositions = [];
+        const innerEdges = [];
+
+        innerVertices.forEach(v => {
+            // Stereographic projection from 4D to 3D
+            const denom = 2.0 - v[3];
+            innerPositions.push(v[0] / denom * innerRadius, v[1] / denom * innerRadius, v[2] / denom * innerRadius);
+        });
+
+        // Compute edges (distance ~ 1.0 in 4D)
+        for (let i = 0; i < innerVertices.length; i++) {
+            for (let j = i + 1; j < innerVertices.length; j++) {
+                let d2 = 0;
+                for (let k = 0; k < 4; k++) d2 += Math.pow(innerVertices[i][k] - innerVertices[j][k], 2);
+                if (Math.abs(d2 - 1.0) < 0.05 || Math.abs(d2 - 2.0) < 0.05) {
+                    innerEdges.push(i, j);
+                }
+            }
+        }
+
+        const innerNodeGeom = new THREE.SphereGeometry(0.045, 12, 12);
+        const innerNodeMat = new THREE.MeshBasicMaterial({ color: 0xffd700 });
+        for (let i = 0; i < innerPositions.length; i += 3) {
+            const node = new THREE.Mesh(innerNodeGeom, innerNodeMat);
+            node.position.set(innerPositions[i], innerPositions[i+1], innerPositions[i+2]);
+            innerGroup.add(node);
+        }
+
+        const innerLinePositions = [];
+        for (let k = 0; k < innerEdges.length; k += 2) {
+            const i = innerEdges[k];
+            const j = innerEdges[k+1];
+            innerLinePositions.push(innerPositions[3*i], innerPositions[3*i+1], innerPositions[3*i+2]);
+            innerLinePositions.push(innerPositions[3*j], innerPositions[3*j+1], innerPositions[3*j+2]);
+        }
+        const innerLineGeom = new THREE.BufferGeometry();
+        innerLineGeom.setAttribute('position', new THREE.Float32BufferAttribute(innerLinePositions, 3));
+        const innerLineMat = new THREE.LineBasicMaterial({ color: 0xffab00, transparent: true, opacity: 0.65 });
+        const innerLines = new THREE.LineSegments(innerLineGeom, innerLineMat);
+        innerGroup.add(innerLines);
+
+        // Outer Polytope Shell (Emerald/Cyan 48 Vertices)
+        const outerRadius = 2.45;
+        const outerGroupNodes = [];
+        const outerPositions = [];
+        const outerNodeGeom = new THREE.SphereGeometry(0.055, 12, 12);
+        const outerNodeMat = new THREE.MeshBasicMaterial({ color: 0x00e5ff });
+
+        // Fibonacci sphere distribution for outer polytope geodesic shell
+        const numOuter = 48;
+        const phi = (1 + Math.sqrt(5)) / 2;
+        for (let i = 0; i < numOuter; i++) {
+            const theta = 2 * Math.PI * i / phi;
+            const y = 1 - (i / (numOuter - 1)) * 2;
+            const r = Math.sqrt(1 - y * y);
+            const x = Math.cos(theta) * r;
+            const z = Math.sin(theta) * r;
+            const px = x * outerRadius;
+            const py = y * outerRadius;
+            const pz = z * outerRadius;
+            outerPositions.push(px, py, pz);
+
+            const node = new THREE.Mesh(outerNodeGeom, outerNodeMat);
+            node.position.set(px, py, pz);
+            outerGroup.add(node);
+        }
+
+        // Outer shell edge lattice
+        const outerLinePositions = [];
+        for (let i = 0; i < numOuter; i++) {
+            for (let j = i + 1; j < numOuter; j++) {
+                const dx = outerPositions[3*i] - outerPositions[3*j];
+                const dy = outerPositions[3*i+1] - outerPositions[3*j+1];
+                const dz = outerPositions[3*i+2] - outerPositions[3*j+2];
+                const d = Math.sqrt(dx*dx + dy*dy + dz*dz);
+                if (d < 1.35) {
+                    outerLinePositions.push(outerPositions[3*i], outerPositions[3*i+1], outerPositions[3*i+2]);
+                    outerLinePositions.push(outerPositions[3*j], outerPositions[3*j+1], outerPositions[3*j+2]);
+                }
+            }
+        }
+        const outerLineGeom = new THREE.BufferGeometry();
+        outerLineGeom.setAttribute('position', new THREE.Float32BufferAttribute(outerLinePositions, 3));
+        const outerLineMat = new THREE.LineBasicMaterial({ color: 0x00b0ff, transparent: true, opacity: 0.45 });
+        const outerLines = new THREE.LineSegments(outerLineGeom, outerLineMat);
+        outerGroup.add(outerLines);
+
+        // Dynamic Clutch Coupling Fibers (connecting inner and outer shells)
+        const clutchLinesGeom = new THREE.BufferGeometry();
+        const clutchLinePositions = new Float32Array(numOuter * 6);
+        clutchLinesGeom.setAttribute('position', new THREE.BufferAttribute(clutchLinePositions, 3));
+        const clutchLineMat = new THREE.LineBasicMaterial({ color: 0xff4081, transparent: true, opacity: 0.5 });
+        const clutchLines = new THREE.LineSegments(clutchLinesGeom, clutchLineMat);
+        scene.add(clutchLines);
+
+        // UI Controls
+        const clutchSlider = document.getElementById('clutch-slider');
+        const speedSlider = document.getElementById('speed-slider');
+        const torqueSlider = document.getElementById('torque-slider');
+
+        let clutchVal = parseFloat(clutchSlider.value);
+        let speedVal = parseFloat(speedSlider.value);
+        let torqueVal = parseFloat(torqueSlider.value);
+
+        clutchSlider.addEventListener('input', (e) => {
+            clutchVal = parseFloat(e.target.value);
+            const status = clutchVal > 0.8 ? "(Locked Resonant Phase)" : (clutchVal > 0.3 ? "(Gated Resonance)" : "(Free Counter-Spin)");
+            document.getElementById('clutch-label').innerHTML = `Clutch Engagement Ratio: ${clutchVal.toFixed(2)} <span class="clutch-status">${status}</span>`;
+            clutchLineMat.opacity = 0.2 + clutchVal * 0.6;
+        });
+
+        speedSlider.addEventListener('input', (e) => {
+            speedVal = parseFloat(e.target.value);
+            document.getElementById('speed-label').textContent = `Relative Spin Frequency ΔΩ: ${speedVal.toFixed(2)} rad/s`;
+        });
+
+        torqueSlider.addEventListener('input', (e) => {
+            torqueVal = parseFloat(e.target.value);
+            document.getElementById('torque-label').textContent = `Torque Impulse Strength η: ${torqueVal.toFixed(2)}`;
+        });
+
+        // Animation Loop
+        let clock = new THREE.Clock();
+        function animate() {
+            requestAnimationFrame(animate);
+            const delta = clock.getDelta();
+            const time = clock.getElapsedTime();
+
+            // Inner shell rotates positive (counter-clockwise)
+            // When clutch engages (clutchVal -> 1), rotation velocities synchronize
+            const effectiveInnerSpeed = speedVal * (1.0 - 0.5 * clutchVal);
+            const effectiveOuterSpeed = -speedVal * (1.0 - 0.5 * clutchVal);
+
+            innerGroup.rotation.y += effectiveInnerSpeed * delta;
+            innerGroup.rotation.x += effectiveInnerSpeed * 0.4 * delta;
+
+            outerGroup.rotation.y += effectiveOuterSpeed * delta;
+            outerGroup.rotation.z += effectiveOuterSpeed * 0.3 * delta;
+
+            // Update Clutch coupling fibers between inner and outer nodes
+            const positions = clutchLinesGeom.attributes.position.array;
+            const innerWorldPos = new THREE.Vector3();
+            const outerWorldPos = new THREE.Vector3();
+
+            for (let i = 0; i < Math.min(numOuter, innerPositions.length / 3); i++) {
+                // Inner node pos transformed
+                innerWorldPos.set(innerPositions[3*i], innerPositions[3*i+1], innerPositions[3*i+2]);
+                innerWorldPos.applyEuler(innerGroup.rotation);
+
+                // Outer node pos transformed
+                outerWorldPos.set(outerPositions[3*i], outerPositions[3*i+1], outerPositions[3*i+2]);
+                outerWorldPos.applyEuler(outerGroup.rotation);
+
+                const base = i * 6;
+                positions[base] = innerWorldPos.x;
+                positions[base+1] = innerWorldPos.y;
+                positions[base+2] = innerWorldPos.z;
+                positions[base+3] = outerWorldPos.x;
+                positions[base+4] = outerWorldPos.y;
+                positions[base+5] = outerWorldPos.z;
+            }
+            clutchLinesGeom.attributes.position.needsUpdate = true;
+
+            // Camera subtle floating
+            camera.position.x = Math.sin(time * 0.2) * 0.4;
+            camera.position.y = Math.cos(time * 0.15) * 0.3;
+            camera.lookAt(0, 0, 0);
+
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>

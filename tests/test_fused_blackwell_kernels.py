@@ -2,6 +2,7 @@ import pytest
 import torch
 import ctypes
 import math
+import os
 
 @pytest.mark.skipif(not torch.cuda.is_available(), reason="CUDA not available")
 def test_polar_svd_correctness():
@@ -657,6 +658,62 @@ def test_fused_swiglu_mlp_correctness():
     ref_y = (gate * torch.sigmoid(beta * gate)) * up + residual
     diff = torch.max(torch.abs(y_out - ref_y)).item()
     assert diff < 1e-4, f"SwiGLU output diff: {diff}"
+
+def test_fused_spinning_polytope_torque_correctness():
+    so_path = "csrc/fused_blackwell_spinning_polytope_torque.so"
+    assert os.path.exists(so_path), "Shared library does not exist"
+    lib = ctypes.CDLL(so_path)
+    lib.fused_blackwell_spinning_polytope_torque_forward.argtypes = [
+        ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p,
+        ctypes.c_int, ctypes.c_int, ctypes.c_float, ctypes.c_float
+    ]
+
+    B = 4
+    D = 16
+    eta = 0.05
+    dt = 0.01
+
+    # Use CPU tensors for broad compatibility and verification
+    torch.manual_seed(42)
+    x = torch.randn(B, D, dtype=torch.float32)
+    h_in = torch.randn(B, D, dtype=torch.float32)
+    omega = torch.zeros(B, D, D, dtype=torch.float32)
+    h_out = torch.zeros(B, D, dtype=torch.float32)
+
+    ret = lib.fused_blackwell_spinning_polytope_torque_forward(
+        ctypes.c_void_p(x.data_ptr()),
+        ctypes.c_void_p(h_in.data_ptr()),
+        ctypes.c_void_p(omega.data_ptr()),
+        ctypes.c_void_p(h_out.data_ptr()),
+        B, D, eta, dt
+    )
+    assert ret == 0
+
+    # Reference Python/PyTorch computation
+    # tau = x.unsqueeze(2) @ h_in.unsqueeze(1) - h_in.unsqueeze(2) @ x.unsqueeze(1)
+    ref_omega = torch.zeros(B, D, D, dtype=torch.float32)
+    for b in range(B):
+        tau = torch.outer(x[b], h_in[b]) - torch.outer(h_in[b], x[b])
+        ref_omega[b] += eta * tau
+
+    diff_omega = torch.max(torch.abs(omega - ref_omega)).item()
+    assert diff_omega < 1e-5, f"Omega torque diff: {diff_omega}"
+
+    # Verify skew-symmetry: omega + omega.T == 0
+    for b in range(B):
+        skew_err = torch.max(torch.abs(omega[b] + omega[b].T)).item()
+        assert skew_err < 1e-5, f"Skew-symmetry violation: {skew_err}"
+
+    # Verify h_out: h + dt * Omega @ h + 0.5 * dt^2 * Omega @ Omega @ h
+    ref_h_out = torch.zeros(B, D, dtype=torch.float32)
+    for b in range(B):
+        v1 = torch.mv(ref_omega[b], h_in[b])
+        v2 = torch.mv(ref_omega[b], v1)
+        ref_h_out[b] = h_in[b] + dt * v1 + 0.5 * dt * dt * v2
+
+    diff_h = torch.max(torch.abs(h_out - ref_h_out)).item()
+    assert diff_h < 1e-5, f"Rotated state diff: {diff_h}"
+
 
 
 

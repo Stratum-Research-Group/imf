@@ -704,5 +704,84 @@ def test_iouring_multishot_accept_basic():
     server.close()
     lib.iouring_multishot_accept_close(eng)
 
+def test_iouring_fixed_file_table_correctness():
+    so_path = "csrc/fused_iouring_fixed_file_table.so"
+    assert os.path.exists(so_path), "Shared library does not exist"
+    lib = ctypes.CDLL(so_path)
+
+    lib.iouring_fixed_file_engine_init.argtypes = [
+        ctypes.c_uint, ctypes.POINTER(ctypes.c_int), ctypes.c_uint
+    ]
+    lib.iouring_fixed_file_engine_init.restype = ctypes.c_void_p
+
+    lib.iouring_fixed_file_read.argtypes = [
+        ctypes.c_void_p, ctypes.c_uint, ctypes.c_void_p, ctypes.c_uint, ctypes.c_uint64, ctypes.c_uint64
+    ]
+    lib.iouring_fixed_file_read.restype = ctypes.c_int
+
+    lib.iouring_fixed_file_submit.argtypes = [ctypes.c_void_p]
+    lib.iouring_fixed_file_submit.restype = ctypes.c_int
+
+    lib.iouring_fixed_file_wait_cqe.argtypes = [
+        ctypes.c_void_p, ctypes.POINTER(ctypes.c_uint64), ctypes.POINTER(ctypes.c_int)
+    ]
+    lib.iouring_fixed_file_wait_cqe.restype = ctypes.c_int
+
+    lib.iouring_fixed_file_engine_destroy.argtypes = [ctypes.c_void_p]
+    lib.iouring_fixed_file_engine_destroy.restype = None
+
+    # Create temporary files for testing direct table registration
+    with tempfile.NamedTemporaryFile(mode='wb', delete=False) as f1, tempfile.NamedTemporaryFile(mode='wb', delete=False) as f2:
+        test_payload1 = b"IMF_BLACKWELL_TENSOR_SHARD_001"
+        test_payload2 = b"SPINNING_POLYTOPE_CLUTCH_MANIFOLD_002"
+        f1.write(test_payload1)
+        f1.flush()
+        f2.write(test_payload2)
+        f2.flush()
+        p1, p2 = f1.name, f2.name
+
+    fd1 = os.open(p1, os.O_RDONLY)
+    fd2 = os.open(p2, os.O_RDONLY)
+    fds_array = (ctypes.c_int * 2)(fd1, fd2)
+
+    try:
+        eng = lib.iouring_fixed_file_engine_init(32, fds_array, 2)
+        assert eng is not None
+
+        buf1 = ctypes.create_string_buffer(len(test_payload1))
+        buf2 = ctypes.create_string_buffer(len(test_payload2))
+
+        # Queue reads via fixed file indices 0 and 1
+        r1 = lib.iouring_fixed_file_read(eng, 0, buf1, len(test_payload1), 0, 0xAA)
+        assert r1 == 0
+        r2 = lib.iouring_fixed_file_read(eng, 1, buf2, len(test_payload2), 0, 0xBB)
+        assert r2 == 0
+
+        submitted = lib.iouring_fixed_file_submit(eng)
+        assert submitted == 2
+
+        # Harvest completions
+        for _ in range(2):
+            out_ud = ctypes.c_uint64(0)
+            out_res = ctypes.c_int(0)
+            w = lib.iouring_fixed_file_wait_cqe(eng, ctypes.byref(out_ud), ctypes.byref(out_res))
+            assert w == 0
+            if out_ud.value == 0xAA:
+                assert out_res.value == len(test_payload1)
+                assert buf1.raw == test_payload1
+            elif out_ud.value == 0xBB:
+                assert out_res.value == len(test_payload2)
+                assert buf2.raw == test_payload2
+            else:
+                pytest.fail(f"Unexpected user data: {hex(out_ud.value)}")
+
+        lib.iouring_fixed_file_engine_destroy(eng)
+    finally:
+        os.close(fd1)
+        os.close(fd2)
+        os.unlink(p1)
+        os.unlink(p2)
+
+
 
 
