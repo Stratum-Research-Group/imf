@@ -1,4 +1,4 @@
-# Technical Monograph 137: Riemannian AdamW Optimization, Geodesic Retraction, and Metric Confinement on Poincaré Manifolds
+# Paper 137: Technical Monograph 137: Riemannian AdamW Optimization, Geodesic Retraction, and Metric Confinement on Poincaré Manifolds
 
 **Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase VI: Dynastic Solitons & Formally Verified Mathematical Physics  

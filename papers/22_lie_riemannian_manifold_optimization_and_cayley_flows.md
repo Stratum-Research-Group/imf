@@ -1,4 +1,4 @@
-# IMF Technical Report 22: Lie-Riemannian Manifold Optimization, Cayley Geodesic Flows, and Zero-Drift Unitary Memory
+# Paper 22: Lie-Riemannian Manifold Optimization, Cayley Geodesic Flows, and Zero-Drift Unitary Memory
 
 **Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase VI: Dynastic Solitons & Formally Verified Mathematical Physics  

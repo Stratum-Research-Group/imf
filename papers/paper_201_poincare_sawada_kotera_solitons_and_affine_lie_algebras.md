@@ -1,4 +1,4 @@
-# Monograph 201: Fused Poincaré Sawada-Kotera 5th-Order Solitons, A2 Affine Lie Algebras, and Hirota Forms
+# Paper 201: Fused Poincaré Sawada-Kotera 5th-Order Solitons, A2 Affine Lie Algebras, and Hirota Forms
 
 **Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase VI: Dynastic Solitons & Formally Verified Mathematical Physics  

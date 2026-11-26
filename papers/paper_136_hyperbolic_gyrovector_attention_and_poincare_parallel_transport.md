@@ -1,4 +1,4 @@
-# Technical Monograph 136: Fused Poincaré Gyrovector Operators, Riemannian Exp/Log Maps, and Manifold Metric Invariants
+# Paper 136: Technical Monograph 136: Fused Poincaré Gyrovector Operators, Riemannian Exp/Log Maps, and Manifold Metric Invariants
 
 **Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase VI: Dynastic Solitons & Formally Verified Mathematical Physics  

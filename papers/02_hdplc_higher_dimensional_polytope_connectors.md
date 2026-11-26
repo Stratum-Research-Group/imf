@@ -1,4 +1,4 @@
-# Higher-Dimensional Polytope Landmark Connectors (HDPLC): Barycentric Simplex Frames, Orthoplex Antipodal Pairs, and Multi-Hop Knowledge Topology
+# Paper 2: Higher-Dimensional Polytope Landmark Connectors (HDPLC): Barycentric Simplex Frames, Orthoplex Antipodal Pairs, and Multi-Hop Knowledge Topology
 
 **Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
 **Series:** Phase VI: Dynastic Solitons & Formally Verified Mathematical Physics  
