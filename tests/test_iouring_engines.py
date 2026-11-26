@@ -457,3 +457,55 @@ def test_iouring_socket_sendmsg_basic():
 
 
 
+
+def test_iouring_eventfd_signaling_basic():
+    so_path = "csrc/fused_iouring_eventfd_signaling.so"
+    if not os.path.exists(so_path):
+        pytest.skip("fused_iouring_eventfd_signaling.so not compiled")
+
+    lib = ctypes.CDLL(so_path)
+    lib.iouring_eventfd_engine_init.argtypes = [ctypes.c_uint]
+    lib.iouring_eventfd_engine_init.restype = ctypes.c_void_p
+
+    lib.iouring_eventfd_engine_get_fd.argtypes = [ctypes.c_void_p]
+    lib.iouring_eventfd_engine_get_fd.restype = ctypes.c_int
+
+    lib.iouring_eventfd_submit_signal.argtypes = [ctypes.c_void_p, ctypes.c_uint64]
+    lib.iouring_eventfd_submit_signal.restype = ctypes.c_int
+
+    lib.iouring_eventfd_submit_poll.argtypes = [ctypes.c_void_p]
+    lib.iouring_eventfd_submit_poll.restype = ctypes.c_int
+
+    lib.iouring_eventfd_wait_ack.argtypes = [ctypes.c_void_p, ctypes.POINTER(ctypes.c_uint64), ctypes.c_int]
+    lib.iouring_eventfd_wait_ack.restype = ctypes.c_int
+
+    lib.iouring_eventfd_engine_destroy.argtypes = [ctypes.c_void_p]
+    lib.iouring_eventfd_engine_destroy.restype = None
+
+    eng = lib.iouring_eventfd_engine_init(16)
+    assert eng is not None
+
+    efd = lib.iouring_eventfd_engine_get_fd(eng)
+    assert efd >= 0
+
+    # Submit poll on eventfd
+    ret_p = lib.iouring_eventfd_submit_poll(eng)
+    assert ret_p == 0
+
+    # Submit signal (value 42)
+    ret_s = lib.iouring_eventfd_submit_signal(eng, 42)
+    assert ret_s == 0
+
+    # Wait and acknowledge
+    val = ctypes.c_uint64(0)
+    ret_w = lib.iouring_eventfd_wait_ack(eng, ctypes.byref(val), 500)
+    assert ret_w == 0
+    # Wait for second completion or verify eventfd read
+    if val.value == 0:
+        # Acknowledge again for poll or write CQE
+        ret_w2 = lib.iouring_eventfd_wait_ack(eng, ctypes.byref(val), 500)
+        assert ret_w2 == 0
+
+    assert val.value >= 42
+
+    lib.iouring_eventfd_engine_destroy(eng)

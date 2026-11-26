@@ -454,3 +454,39 @@ def test_chunked_linear_attn_correctness():
 
 
 
+
+@pytest.mark.skipif(not torch.cuda.is_available(), reason="CUDA not available")
+def test_fused_cross_entropy_correctness():
+    so_path = "csrc/fused_blackwell_cross_entropy.so"
+    lib = ctypes.CDLL(so_path)
+    lib.launch_fused_blackwell_cross_entropy.argtypes = [
+        ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p,
+        ctypes.c_int, ctypes.c_int, ctypes.c_float, ctypes.c_void_p
+    ]
+
+    N = 32
+    V = 128
+    logits = torch.randn(N, V, device='cuda', dtype=torch.float32, requires_grad=True)
+    targets = torch.randint(0, V, (N,), device='cuda', dtype=torch.int32)
+
+    loss_out = torch.zeros(N, device='cuda', dtype=torch.float32)
+    grad_out = torch.zeros(N, V, device='cuda', dtype=torch.float32)
+
+    lib.launch_fused_blackwell_cross_entropy(
+        ctypes.c_void_p(logits.data_ptr()),
+        ctypes.c_void_p(targets.data_ptr()),
+        ctypes.c_void_p(loss_out.data_ptr()),
+        ctypes.c_void_p(grad_out.data_ptr()),
+        N, V, 0.0, None
+    )
+    torch.cuda.synchronize()
+
+    # PyTorch reference
+    ref_loss = torch.nn.functional.cross_entropy(logits, targets.long(), reduction='none')
+    loss_diff = torch.max(torch.abs(loss_out - ref_loss)).item()
+    assert loss_diff < 1e-4, f"Loss mismatch: {loss_diff}"
+
+    # Verify gradients
+    ref_loss.sum().backward()
+    grad_diff = torch.max(torch.abs(grad_out - logits.grad)).item()
+    assert grad_diff < 1e-4, f"Grad mismatch: {grad_diff}"

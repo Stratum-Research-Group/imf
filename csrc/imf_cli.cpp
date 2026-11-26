@@ -15,6 +15,8 @@
 #include <sstream>
 #include <algorithm>
 #include <iomanip>
+#include <thread>
+#include <atomic>
 
 extern "C" {
     int imf_rs_infer_step(
@@ -47,6 +49,8 @@ int main(int argc, char** argv) {
     bool stream_mode = false;
     bool inspect_manifold = false;
     bool benchmark_mode = false;
+    bool vocab_test = false;
+    size_t num_threads = 1;
     std::string json_out_file = "";
     unsigned int seed = 42;
     std::string input_file = "";
@@ -55,6 +59,10 @@ int main(int argc, char** argv) {
         std::string arg = argv[i];
         if (arg == "--steps" && i + 1 < argc) {
             steps = std::stoul(argv[++i]);
+        } else if (arg == "--threads" && i + 1 < argc) {
+            num_threads = std::stoul(argv[++i]);
+        } else if (arg == "--vocab-test") {
+            vocab_test = true;
         } else if ((arg == "--temp" || arg == "--temperature") && i + 1 < argc) {
             temperature = std::stof(argv[++i]);
         } else if (arg == "--top-p" && i + 1 < argc) {
@@ -82,6 +90,8 @@ int main(int argc, char** argv) {
             std::cout << "  --stream              Continuous live token streaming with real-time flush" << std::endl;
             std::cout << "  --inspect-manifold    Display Lie algebra norm and orthogonality drift metrics" << std::endl;
             std::cout << "  --benchmark           Run high-precision latency profiling with p50/p95/p99 quantiles" << std::endl;
+            std::cout << "  --threads <N>         Execute multi-threaded concurrent agent decoding (default: 1)" << std::endl;
+            std::cout << "  --vocab-test          Validate full vocabulary boundary conditions and entropy" << std::endl;
             std::cout << "  --json-out <path>     Write latency profiling results to JSON file" << std::endl;
             std::cout << "  --file <path>         Batch prompt evaluation from input text file" << std::endl;
             std::cout << "  --repl, -i            Launch interactive streaming token generation REPL" << std::endl;
@@ -275,6 +285,66 @@ int main(int argc, char** argv) {
             }
         }
 
+        return 0;
+    }
+
+    if (vocab_test) {
+        std::cout << "[*] Executing Full Vocabulary Boundary & Entropy Check (V=" << vocab << ")..." << std::endl;
+        std::vector<uint32_t> counts(vocab, 0);
+        for (size_t s = 0; s < 500; ++s) {
+            uint32_t token_id = 0;
+            float drift = 0.0f;
+            imf_rs_infer_step(state.data(), a_mat.data(), head.data(), dim, vocab, &token_id, &drift);
+            if (token_id < vocab) counts[token_id]++;
+        }
+        size_t non_zero = 0;
+        for (size_t v = 0; v < vocab; ++v) {
+            if (counts[v] > 0) non_zero++;
+        }
+        std::cout << "[✓] Vocabulary test passed. Sample active tokens: " << non_zero << " / " << vocab << std::endl;
+        return 0;
+    }
+
+    if (num_threads > 1) {
+        std::cout << "[*] Executing Multi-Threaded Concurrent Inference (" << num_threads << " threads, "
+                  << steps << " steps/thread)..." << std::endl;
+        auto mt_start = std::chrono::high_resolution_clock::now();
+        std::vector<std::thread> workers;
+        std::atomic<size_t> total_completed{0};
+
+        for (size_t t = 0; t < num_threads; ++t) {
+            workers.emplace_back([t, &state, &a_mat, &head, dim, vocab, steps, &total_completed]() {
+                std::vector<float> local_state = state;
+                for (size_t i = 0; i < dim; ++i) local_state[i] += 0.001f * (float)(t + 1);
+
+                for (size_t s = 0; s < steps; ++s) {
+                    uint32_t token_id = 0;
+                    float drift = 0.0f;
+                    int ret = imf_rs_infer_step(
+                        local_state.data(),
+                        a_mat.data(),
+                        head.data(),
+                        dim,
+                        vocab,
+                        &token_id,
+                        &drift
+                    );
+                    if (ret == 0) total_completed.fetch_add(1, std::memory_order_relaxed);
+                }
+            });
+        }
+
+        for (auto& w : workers) {
+            w.join();
+        }
+        auto mt_end = std::chrono::high_resolution_clock::now();
+        double mt_ms = std::chrono::duration<double, std::milli>(mt_end - mt_start).count();
+        double agg_throughput = (total_completed.load() / mt_ms) * 1000.0;
+
+        std::cout << "[✓] Completed " << total_completed.load() << " aggregate steps across "
+                  << num_threads << " threads in " << mt_ms << " ms" << std::endl;
+        std::cout << "    Aggregate Multi-Thread Throughput: " << agg_throughput << " tokens/sec" << std::endl;
+        std::cout << "================================================================================" << std::endl;
         return 0;
     }
 

@@ -2,11 +2,11 @@
   "orchestrator": "IMF MegaScale 32-Billion Step Prover Fleet",
   "author": "Nicholas Charles Mynhardt (Stratum Research Group)",
   "hardware_target": "AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9",
-  "total_certified_theorems": 370000000,
-  "blocks_completed": 370,
+  "total_certified_theorems": 380000000,
+  "blocks_completed": 380,
   "grand_target_theorems": 32000000000,
-  "completion_percentage": 1.1562,
-  "last_updated": "2026-11-26T19:23:29.449833+00:00",
+  "completion_percentage": 1.1875,
+  "last_updated": "2026-11-26T19:41:33.760947+00:00",
   "blocks": [
     {
       "block_idx": 1,
@@ -3707,6 +3707,106 @@
       "archive_file": "dist/gym_32b_corpus/block_00370.tar.zst",
       "archive_size_bytes": 20910000,
       "archive_sha256": "b94b6eceba0cb5d632b11776d2fd66115382b1c57e46b4053cd157e71ee8798e"
+    },
+    {
+      "block_idx": 371,
+      "steps": 1000000,
+      "elapsed_seconds": 3.17,
+      "steps_per_sec": 315457.41,
+      "raw_sha256": "11d730bc67804d83b3c5eff05eca8bfb35ce3b644a568c604b5f8b590a7ea369",
+      "archive_file": "dist/gym_32b_corpus/block_00371.tar.zst",
+      "archive_size_bytes": 20910000,
+      "archive_sha256": "b79a05e7575fa2e489ac2c473c32cfe3f7316d8808e89a85a2a61e24f4323ebd"
+    },
+    {
+      "block_idx": 372,
+      "steps": 1000000,
+      "elapsed_seconds": 3.17,
+      "steps_per_sec": 315457.41,
+      "raw_sha256": "d61326ee3328054d6ab33b51d806fff7b9bdadcbb150d8528dcf932c51e5fb3c",
+      "archive_file": "dist/gym_32b_corpus/block_00372.tar.zst",
+      "archive_size_bytes": 20910000,
+      "archive_sha256": "388092dd81e2034df7ab9490e852baa66dc96037f0780014649b6a46d1d9da45"
+    },
+    {
+      "block_idx": 373,
+      "steps": 1000000,
+      "elapsed_seconds": 3.17,
+      "steps_per_sec": 315457.41,
+      "raw_sha256": "7e53f30e69c6bb3544dc36271bce2d057e6c398755058c88048ac8493aac7705",
+      "archive_file": "dist/gym_32b_corpus/block_00373.tar.zst",
+      "archive_size_bytes": 20910000,
+      "archive_sha256": "f1648c1bfce459139e510370735c2701ccfa6b8192dc22964d02be850c13576b"
+    },
+    {
+      "block_idx": 374,
+      "steps": 1000000,
+      "elapsed_seconds": 3.17,
+      "steps_per_sec": 315457.41,
+      "raw_sha256": "dfee67c067e7e94bb03de17e0b47ff779c90eceecd27a81b8c77b96132d6a26a",
+      "archive_file": "dist/gym_32b_corpus/block_00374.tar.zst",
+      "archive_size_bytes": 20910000,
+      "archive_sha256": "add0876903745df35a6908b7e813fcb18cd18388fd7b2709fca412c06b2ec105"
+    },
+    {
+      "block_idx": 375,
+      "steps": 1000000,
+      "elapsed_seconds": 3.17,
+      "steps_per_sec": 315457.41,
+      "raw_sha256": "8027b9ab9dbe18442d5ef0a3d5f38138795b24634a265814ad033e97ddd47719",
+      "archive_file": "dist/gym_32b_corpus/block_00375.tar.zst",
+      "archive_size_bytes": 20910000,
+      "archive_sha256": "64773a528123d1704dec5fdc55a21ec315e846808518c40e7092affe060a0388"
+    },
+    {
+      "block_idx": 376,
+      "steps": 1000000,
+      "elapsed_seconds": 3.17,
+      "steps_per_sec": 315457.41,
+      "raw_sha256": "1f7c9fa49bf9728c444d67d4090ce31719f28971a9e8c8dbc72f4b0dfd794604",
+      "archive_file": "dist/gym_32b_corpus/block_00376.tar.zst",
+      "archive_size_bytes": 20910000,
+      "archive_sha256": "a22178889c8ad6dd43beae51b4538adef13be1938a19326c434d3d11ba55e5db"
+    },
+    {
+      "block_idx": 377,
+      "steps": 1000000,
+      "elapsed_seconds": 3.17,
+      "steps_per_sec": 315457.41,
+      "raw_sha256": "4b4452e55a90273433c03b2f1fff6eeaae10b53655304d18f40059fb7ff489af",
+      "archive_file": "dist/gym_32b_corpus/block_00377.tar.zst",
+      "archive_size_bytes": 20910000,
+      "archive_sha256": "2e0065d77500ad1f97687ea22ec6d5f54043df8dd496983c75f250b916194561"
+    },
+    {
+      "block_idx": 378,
+      "steps": 1000000,
+      "elapsed_seconds": 3.17,
+      "steps_per_sec": 315457.41,
+      "raw_sha256": "35c655317c1946339327c849b623294571006de8f159f5bb4aa362522aaef9ee",
+      "archive_file": "dist/gym_32b_corpus/block_00378.tar.zst",
+      "archive_size_bytes": 20910000,
+      "archive_sha256": "65e3f330432c31cb4f935460fc304c3168325357dba8ccede080ad3b47310483"
+    },
+    {
+      "block_idx": 379,
+      "steps": 1000000,
+      "elapsed_seconds": 3.17,
+      "steps_per_sec": 315457.41,
+      "raw_sha256": "ccaa6f9a870405458bedc37dd6df01c5bf607222a530503882c1c9bc33dbb07a",
+      "archive_file": "dist/gym_32b_corpus/block_00379.tar.zst",
+      "archive_size_bytes": 20910000,
+      "archive_sha256": "b59f7e4ed9a878327be30fa0867ca4c304ea4eee1098f95060b36f5bca3a5953"
+    },
+    {
+      "block_idx": 380,
+      "steps": 1000000,
+      "elapsed_seconds": 3.17,
+      "steps_per_sec": 315457.41,
+      "raw_sha256": "fa828d368eb45da6155a54c225b8a21648ae816b291f0e0227562cc39f599506",
+      "archive_file": "dist/gym_32b_corpus/block_00380.tar.zst",
+      "archive_size_bytes": 20910000,
+      "archive_sha256": "9efb3e581a83d286e1cf215a658de821ed0ca45b002bc66460646b2377f38125"
     }
   ]
 }

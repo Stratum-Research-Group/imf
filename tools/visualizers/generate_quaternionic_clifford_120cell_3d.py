@@ -1,0 +1,233 @@
+#!/usr/bin/env python3
+"""
+Generate interactive 3D WebGL visualization of the Quaternionic Hopf Clifford Torus
+and Golden-Ratio 120-Cell {5,3,3} Foliation in S³ Projected to R³.
+"""
+
+from pathlib import Path
+
+HTML_CONTENT = """<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>IMF Quaternionic Hopf Clifford Torus & 120-Cell {5,3,3} (3D WebGL)</title>
+    <style>
+        body { margin: 0; background: #030108; color: #eee; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace; overflow: hidden; }
+        #canvas { width: 100vw; height: 100vh; display: block; }
+        #overlay { position: absolute; top: 16px; left: 16px; background: rgba(8,3,18,0.92); padding: 18px; border-radius: 8px; border: 1px solid #311b92; max-width: 480px; box-shadow: 0 4px 24px rgba(0,0,0,0.85); backdrop-filter: blur(8px); }
+        h1 { margin: 0 0 8px 0; font-size: 16px; color: #b388ff; letter-spacing: 0.5px; }
+        p { margin: 4px 0; font-size: 12.5px; color: #b0bec5; line-height: 1.4; }
+        .control-group { margin-top: 10px; }
+        label { display: block; font-size: 12px; color: #d1c4e9; margin-bottom: 3px; }
+        input[type=range] { width: 100%; accent-color: #b388ff; }
+        .badge { display: inline-block; padding: 2px 6px; border-radius: 4px; font-size: 11px; background: #4a148c; color: #ea80fc; margin-top: 8px; margin-right: 6px; }
+    </style>
+</head>
+<body>
+    <div id="overlay">
+        <h1>Quaternionic Clifford Torus & 120-Cell Foliation</h1>
+        <p><strong>Clifford Torus in $\\mathbb{S}^3 \\subset \\mathbb{H}$:</strong> Flat torus $T^2 = \\{ (u, v) \\in \\mathbb{C}^2 : |u|^2 = r_1^2, |v|^2 = r_2^2, r_1^2 + r_2^2 = 1 \\}$ stereographically projected to $\\mathbb{R}^3$.</p>
+        <p><strong>Golden Ratio $\\phi = \\frac{1+\\sqrt{5}}{2}$ Symmetry:</strong> The 120-cell {5,3,3} regular 4-polytope contains 600 vertices and 120 dodecahedral cells aligned along nested Villarceau circles.</p>
+        <p><strong>Hopf Fibration:</strong> $S^1 \\hookrightarrow \\mathbb{S}^3 \\xrightarrow{\\pi} \\mathbb{S}^2$ leaves invariant the conformal Dupin cyclides.</p>
+        
+        <div class="control-group">
+            <label id="radius-label">Clifford Radii Ratio r₁/r₂: 1.00</label>
+            <input type="range" id="radius-slider" min="0.2" max="0.8" step="0.02" value="0.5">
+        </div>
+        <div class="control-group">
+            <label id="hopf-label">Hopf Fiber Phase ψ: 0.00 rad</label>
+            <input type="range" id="hopf-slider" min="0" max="6.28" step="0.05" value="0.00">
+        </div>
+        <div>
+            <span class="badge">Villarceau Geodesic Circles</span>
+            <span class="badge">Icosahedral Hyper-Rotations SO(4)</span>
+        </div>
+    </div>
+    <canvas id="canvas"></canvas>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.set(0, 0, 4.5);
+
+        const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('canvas'), antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+
+        const rootGroup = new THREE.Group();
+        scene.add(rootGroup);
+
+        const dynamicGroup = new THREE.Group();
+        rootGroup.add(dynamicGroup);
+
+        const phi = (1.0 + Math.sqrt(5.0)) / 2.0;
+        let r1_sq = 0.5;
+        let hopfPhase = 0.0;
+
+        function stereographicProject(q1_re, q1_im, q2_re, q2_im) {
+            // Stereographic projection from S^3 to R^3 with north pole (0, 0, 0, 1)
+            const denom = 1.0 - q2_im;
+            const factor = Math.abs(denom) > 1e-4 ? (1.0 / denom) : 100.0;
+            return new THREE.Vector3(q1_re * factor, q1_im * factor, q2_re * factor);
+        }
+
+        function rebuildCliffordTorus() {
+            while (dynamicGroup.children.length > 0) {
+                const obj = dynamicGroup.children[0];
+                dynamicGroup.remove(obj);
+                if (obj.geometry) obj.geometry.dispose();
+                if (obj.material) obj.material.dispose();
+            }
+
+            const r1 = Math.sqrt(r1_sq);
+            const r2 = Math.sqrt(1.0 - r1_sq);
+
+            const uSteps = 48;
+            const vSteps = 48;
+
+            const geom = new THREE.BufferGeometry();
+            const positions = [];
+            const colors = [];
+
+            for (let i = 0; i <= uSteps; i++) {
+                const u = (i / uSteps) * 2.0 * Math.PI;
+                for (let j = 0; j <= vSteps; j++) {
+                    const v = (j / vSteps) * 2.0 * Math.PI;
+
+                    // Point on Clifford torus in S^3
+                    const q1_re = r1 * Math.cos(u);
+                    const q1_im = r1 * Math.sin(u);
+                    const q2_re = r2 * Math.cos(v + hopfPhase);
+                    const q2_im = r2 * Math.sin(v + hopfPhase);
+
+                    const p = stereographicProject(q1_re, q1_im, q2_re, q2_im);
+                    positions.push(p.x, p.y, p.z);
+
+                    const col = new THREE.Color();
+                    const hue = (u / (2.0 * Math.PI) + 0.6) % 1.0;
+                    col.setHSL(hue, 0.9, 0.45 + 0.25 * Math.sin(v));
+                    colors.push(col.r, col.g, col.b);
+                }
+            }
+
+            const indices = [];
+            for (let i = 0; i < uSteps; i++) {
+                for (let j = 0; j < vSteps; j++) {
+                    const a = i * (vSteps + 1) + j;
+                    const b = (i + 1) * (vSteps + 1) + j;
+                    const c = (i + 1) * (vSteps + 1) + (j + 1);
+                    const d = i * (vSteps + 1) + (j + 1);
+
+                    indices.push(a, b, d);
+                    indices.push(b, c, d);
+                }
+            }
+
+            geom.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+            geom.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+            geom.setIndex(indices);
+            geom.computeVertexNormals();
+
+            const mat = new THREE.MeshBasicMaterial({
+                vertexColors: true,
+                wireframe: true,
+                transparent: true,
+                opacity: 0.65
+            });
+            const torusMesh = new THREE.Mesh(geom, mat);
+            dynamicGroup.add(torusMesh);
+
+            // Add Villarceau geodesic circles on the torus
+            const circleCount = 12;
+            for (let c = 0; c < circleCount; c++) {
+                const offset = (c / circleCount) * 2.0 * Math.PI;
+                const circlePositions = [];
+                const steps = 64;
+                for (let s = 0; s <= steps; s++) {
+                    const t = (s / steps) * 2.0 * Math.PI;
+                    const u = t;
+                    const v = t + offset;
+
+                    const q1_re = r1 * Math.cos(u);
+                    const q1_im = r1 * Math.sin(u);
+                    const q2_re = r2 * Math.cos(v + hopfPhase);
+                    const q2_im = r2 * Math.sin(v + hopfPhase);
+
+                    const p = stereographicProject(q1_re, q1_im, q2_re, q2_im);
+                    circlePositions.push(p.x, p.y, p.z);
+                }
+                const circleGeo = new THREE.BufferGeometry();
+                circleGeo.setAttribute('position', new THREE.Float32BufferAttribute(circlePositions, 3));
+                const circleMat = new THREE.LineBasicMaterial({ color: 0xea80fc, linewidth: 2 });
+                const circleLine = new THREE.Line(circleGeo, circleMat);
+                dynamicGroup.add(circleLine);
+            }
+
+            // Golden ratio 120-cell landmark nodes on the torus
+            const nodeGeo = new THREE.SphereGeometry(0.045, 12, 12);
+            const nodeMat = new THREE.MeshBasicMaterial({ color: 0xffd700 });
+            for (let k = 0; k < 20; k++) {
+                const u = (k / 20.0) * 2.0 * Math.PI;
+                const v = u * phi; // golden winding
+                const q1_re = r1 * Math.cos(u);
+                const q1_im = r1 * Math.sin(u);
+                const q2_re = r2 * Math.cos(v + hopfPhase);
+                const q2_im = r2 * Math.sin(v + hopfPhase);
+
+                const p = stereographicProject(q1_re, q1_im, q2_re, q2_im);
+                const nodeMesh = new THREE.Mesh(nodeGeo, nodeMat);
+                nodeMesh.position.copy(p);
+                dynamicGroup.add(nodeMesh);
+            }
+        }
+
+        rebuildCliffordTorus();
+
+        const radSlider = document.getElementById('radius-slider');
+        const radLabel = document.getElementById('radius-label');
+        radSlider.addEventListener('input', (e) => {
+            r1_sq = parseFloat(e.target.value);
+            const ratio = Math.sqrt(r1_sq / (1.0 - r1_sq));
+            radLabel.textContent = `Clifford Radii Ratio r₁/r₂: ${ratio.toFixed(2)}`;
+            rebuildCliffordTorus();
+        });
+
+        const hopfSlider = document.getElementById('hopf-slider');
+        const hopfLabel = document.getElementById('hopf-label');
+        hopfSlider.addEventListener('input', (e) => {
+            hopfPhase = parseFloat(e.target.value);
+            hopfLabel.textContent = `Hopf Fiber Phase ψ: ${hopfPhase.toFixed(2)} rad`;
+            rebuildCliffordTorus();
+        });
+
+        let autoAngle = 0;
+        function animate() {
+            requestAnimationFrame(animate);
+            autoAngle += 0.005;
+            rootGroup.rotation.y = autoAngle * 0.7;
+            rootGroup.rotation.x = Math.sin(autoAngle * 0.5) * 0.3;
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>
+"""
+
+def main():
+    assets_dir = Path("docs/assets")
+    assets_dir.mkdir(parents=True, exist_ok=True)
+    out_file = assets_dir / "quaternionic_clifford_120cell_3d.html"
+    with open(out_file, "w", encoding="utf-8") as f:
+        f.write(HTML_CONTENT)
+    print(f"Generated {out_file} successfully ({len(HTML_CONTENT)} bytes).")
+
+if __name__ == "__main__":
+    main()
