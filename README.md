@@ -9,7 +9,7 @@
 [![Organization: Stratum Research Group](https://img.shields.io/badge/Organization-Stratum%20Research%20Group-black.svg)](#10-ownership--governance)
 [![Hardware: AMD Ryzen 5 7600X | NVIDIA RTX 5060 Ti](https://img.shields.io/badge/Hardware-Ryzen%207600X%20%7C%20RTX%205060%20Ti-76B900.svg)](https://developer.nvidia.com/cuda-zone)
 [![CUDA 12.8 / Triton 3.9](https://img.shields.io/badge/Runtime-CUDA%2012.8%20%7C%20Triton%203.9-green.svg)](https://triton-lang.org/)
-[![Formal Verification: Lean 4 Core](https://img.shields.io/badge/Formal%20Verification-Lean%204%20(215M%20Certified%20Steps)-purple.svg)](https://leanprover.github.io/)
+[![Formal Verification: Lean 4 Core](https://img.shields.io/badge/Formal%20Verification-Lean%204%20(220M%20Certified%20Steps)-purple.svg)](https://leanprover.github.io/)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
 [![PyTorch 2.7+](https://img.shields.io/badge/PyTorch-2.7%2B-ee4c2c.svg)](https://pytorch.org/)
@@ -404,6 +404,13 @@ The theoretical, geometric, physical, and neuro-anatomical foundations are exhau
 - **Paper 519**: *Fused Blackwell In-Register Bitplane Multi-Query Top-K Routing for Hyperspherical MoPE Networks*
 - **Paper 520**: *Machine-Certified Burnside's p^a q^b Solvability Theorem in Lean 4*
 - **Paper 521**: *Milestone Synthesis 215M: From Solvable Matrix Foliations to Kernel-Bypass Direct-DMA Prover Fabric*
+- **Paper 522**: *Two Hundred Twenty Million Steps: Hall Subgroups and Coprime Extensions in Sovereign Prover Scaling*
+- **Paper 523**: *Microarchitectural Blackwell SM 12.0 Bitplane Associative Memory Scan*
+- **Paper 524**: *Machine-Certified Hall's Theorem on Solvable Subgroups in Lean 4*
+- **Paper 525**: *Kernel-Bypass Direct-GPU RDMA Transport Engine for Sovereign Multi-Agent State Synchronization*
+- **Paper 526**: *Microarchitectural Blackwell SM 12.0 Bitplane Flash-Sigmoid Attention*
+- **Paper 527**: *Machine-Certified Schur-Zassenhaus Theorem on Semidirect Complements in Lean 4*
+- **Paper 528**: *Milestone Synthesis 220M: From Coprime Subgroup Splittings to Lock-Free RDMA Verification Fabrics*
 
 ---
 
