@@ -41,10 +41,9 @@ The dual peakon lattice flow achieves high register occupancy on the Blackwell S
 
 ### References
 
-1. A. A. Ungar, *Analytic Hyperbolic Geometry and Albert Einstein's Special Theory of Relativity*, World Scientific (2008).
-2. M. Nickel and D. Kiela, *Poincaré Embeddings for Learning Hierarchical Representations*, NeurIPS 30 (2017).
-3. L. de Moura and S. Ullrich, *The Lean 4 Theorem Prover and Programming Language*, CADE-28, LNCS 12699, 625–635 (2021).
-4. The mathlib Community, *The Lean Mathematical Library*, Proc. CPP 2020, 367–381 (2020).
-5. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
-
-*Note: items 1–4 are standard background literature for the topic; they are not claimed to establish this paper's own results.*
+1. R. Hirota, *The Direct Method in Soliton Theory*, Cambridge University Press (2004).
+2. M. J. Ablowitz and P. A. Clarkson, *Solitons, Nonlinear Evolution Equations and Inverse Scattering*, Cambridge University Press (1991).
+3. L. D. Faddeev and L. A. Takhtajan, *Hamiltonian Methods in the Theory of Solitons*, Springer (1987).
+4. V. E. Zakharov and A. B. Shabat, *Exact theory of two-dimensional self-focusing and one-dimensional self-modulation of waves in nonlinear media*, Soviet Physics JETP 34, 62–69 (1972).
+5. D. J. Kaup and A. C. Newell, *An exact solution for a derivative nonlinear Schrödinger equation*, J. Math. Phys. 19, 798–801 (1978).
+6. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.

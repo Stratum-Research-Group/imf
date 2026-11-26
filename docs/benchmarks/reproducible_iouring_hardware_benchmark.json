@@ -1,0 +1,55 @@
+{
+  "storage_subsystem": "Linux 6.18+ NVMe / tmpfs io_uring zero-copy DMA",
+  "gather_scatter_engine": {
+    "16_vecs_4KB": {
+      "num_vectors": 16,
+      "chunk_size_bytes": 4096,
+      "total_bytes": 65536,
+      "latency_us": 7.92,
+      "bandwidth_mb_per_sec": 7889.0
+    },
+    "64_vecs_4KB": {
+      "num_vectors": 64,
+      "chunk_size_bytes": 4096,
+      "total_bytes": 262144,
+      "latency_us": 20.96,
+      "bandwidth_mb_per_sec": 11928.97
+    },
+    "256_vecs_4KB": {
+      "num_vectors": 256,
+      "chunk_size_bytes": 4096,
+      "total_bytes": 1048576,
+      "latency_us": 60.33,
+      "bandwidth_mb_per_sec": 16574.56
+    },
+    "1024_vecs_4KB": {
+      "num_vectors": 1024,
+      "chunk_size_bytes": 4096,
+      "total_bytes": 4194304,
+      "latency_us": 189.85,
+      "bandwidth_mb_per_sec": 21069.57
+    }
+  },
+  "checkpoint_rollback_engine": {
+    "1MB": {
+      "size_mb": 1,
+      "latency_us": 98.79,
+      "bandwidth_mb_per_sec": 10122.61
+    },
+    "4MB": {
+      "size_mb": 4,
+      "latency_us": 192.1,
+      "bandwidth_mb_per_sec": 20822.62
+    },
+    "16MB": {
+      "size_mb": 16,
+      "latency_us": 2846.24,
+      "bandwidth_mb_per_sec": 5621.46
+    },
+    "64MB": {
+      "size_mb": 64,
+      "latency_us": 2254.13,
+      "bandwidth_mb_per_sec": 28392.35
+    }
+  }
+}

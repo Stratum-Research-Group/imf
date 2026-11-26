@@ -10,3 +10,5 @@ Axioms checked with `#print axioms`: only `propext`, `Classical.choice`, `Quot.s
 | `Pilot/CayleyOrthogonal.lean` | `cayley_orthogonal` (+ `one_add_skew_isUnit`, `skew_quadratic_zero`) | For real skew A: 1+A invertible and the Cayley transform is orthogonal. |
 
 Status: pilot of 4 results (Hodge-index core, exp skew, Cayley orthogonal + lemmas). Paper 596 is rebuilt on these.
+| `Pilot/LieJacobiBCH.lean` | `matrix_bracket_jacobi`, `skew_bracket_trace_zero` | Jacobi Identity for matrix commutator bracket [A, [B, C]] + [B, [C, A]] + [C, [A, B]] = 0, and trace-zero preservation. |
+| `Pilot/GroupInvariants.lean` | `finite_group_lagrange`, `finite_group_pow_card` | Lagrange's subgroup order divisibility theorem, and order exponentiation identity g^|G| = 1. |

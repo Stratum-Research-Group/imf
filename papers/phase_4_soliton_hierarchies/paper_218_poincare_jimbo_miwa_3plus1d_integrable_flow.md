@@ -52,5 +52,10 @@ Compilation confirmed **0 external axioms**.
 ---
 
 ### References
-1. M. Jimbo and T. Miwa, *Solitons and infinite dimensional Lie algebras*, Publ. Res. Inst. Math. Sci. 19, 943–1001 (1983).
-2. The IMF Machine-Certified Proof Corpus, Blocks 00001–00103 (2026).
+
+1. R. Hirota, *The Direct Method in Soliton Theory*, Cambridge University Press (2004).
+2. M. J. Ablowitz and P. A. Clarkson, *Solitons, Nonlinear Evolution Equations and Inverse Scattering*, Cambridge University Press (1991).
+3. L. D. Faddeev and L. A. Takhtajan, *Hamiltonian Methods in the Theory of Solitons*, Springer (1987).
+4. V. E. Zakharov and A. B. Shabat, *Exact theory of two-dimensional self-focusing and one-dimensional self-modulation of waves in nonlinear media*, Soviet Physics JETP 34, 62–69 (1972).
+5. D. J. Kaup and A. C. Newell, *An exact solution for a derivative nonlinear Schrödinger equation*, J. Math. Phys. 19, 798–801 (1978).
+6. Stratum Research Group, *IMF Machine-Certified Proof Corpus and Grand Corpus Manifest* (`dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`), 2026.
