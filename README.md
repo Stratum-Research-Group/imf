@@ -9,7 +9,7 @@
 [![Organization: Stratum Research Group](https://img.shields.io/badge/Organization-Stratum%20Research%20Group-black.svg)](#10-ownership--governance)
 [![Hardware: AMD Ryzen 5 7600X | NVIDIA RTX 5060 Ti](https://img.shields.io/badge/Hardware-Ryzen%207600X%20%7C%20RTX%205060%20Ti-76B900.svg)](https://developer.nvidia.com/cuda-zone)
 [![CUDA 12.8 / Triton 3.9](https://img.shields.io/badge/Runtime-CUDA%2012.8%20%7C%20Triton%203.9-green.svg)](https://triton-lang.org/)
-[![Formal Verification: Lean 4 Core](https://img.shields.io/badge/Formal%20Verification-Lean%204%20(230M%20Certified%20Steps)-purple.svg)](https://leanprover.github.io/)
+[![Formal Verification: Lean 4 Core](https://img.shields.io/badge/Formal%20Verification-Lean%204%20(235M%20Certified%20Steps)-purple.svg)](https://leanprover.github.io/)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
 [![PyTorch 2.7+](https://img.shields.io/badge/PyTorch-2.7%2B-ee4c2c.svg)](https://pytorch.org/)
@@ -425,6 +425,13 @@ The theoretical, geometric, physical, and neuro-anatomical foundations are exhau
 - **Paper 540**: *Microarchitectural Blackwell SM 12.0 Bitplane Continuous-Time State-Space ODE Solver*
 - **Paper 541**: *Machine-Certified Maschke's Semisimplicity Theorem in Lean 4*
 - **Paper 542**: *Milestone Synthesis 230M: From Frobenius Splittings to Continuous-Time Silicon Solvers*
+- **Paper 543**: *Two Hundred Thirty-Five Million Steps: Schreier-Sims Permutation Chains and Clifford Representation Bundles in MegaGym*
+- **Paper 544**: *Microarchitectural Blackwell SM 12.0 Bitplane Symmetric Rank-K Covariance Update*
+- **Paper 545**: *Machine-Certified Schreier-Sims Permutation Algorithm in Lean 4*
+- **Paper 546**: *Linux Kernel-Bypass Direct-DMA Ring Broadcast Engine for Distributed Checkpoint Multicasting*
+- **Paper 547**: *Microarchitectural Blackwell SM 12.0 Bitplane Multi-Head Retention*
+- **Paper 548**: *Machine-Certified Clifford's Theorem on Normal Subgroups in Lean 4*
+- **Paper 549**: *Milestone Synthesis 235M: From Schreier-Sims Permutation Bases to Direct-DMA Multi-GPU Broadcast Fabrics*
 
 ---
 
