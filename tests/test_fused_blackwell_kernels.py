@@ -250,3 +250,45 @@ def test_causal_sdpa_correctness():
     diff = torch.norm(out - ref_out).item() / (batch * num_heads * seq_len * head_dim)
     assert diff < 1e-4, f"Causal SDPA diff: {diff}"
 
+@pytest.mark.skipif(not torch.cuda.is_available(), reason="CUDA device required")
+def test_rmsnorm_residual_correctness():
+    so_path = "csrc/fused_blackwell_bit_rmsnorm.so"
+    lib = ctypes.CDLL(so_path)
+    lib.launch_fused_blackwell_bit_rmsnorm.argtypes = [
+        ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p,
+        ctypes.c_int, ctypes.c_int, ctypes.c_float, ctypes.c_void_p
+    ]
+
+    num_rows = 32
+    hidden_dim = 128
+    eps = 1e-6
+
+    x = torch.randn(num_rows, hidden_dim, device='cuda', dtype=torch.float32)
+    residual = torch.randn(num_rows, hidden_dim, device='cuda', dtype=torch.float32)
+    gamma = torch.randn(hidden_dim, device='cuda', dtype=torch.float32)
+    out = torch.zeros_like(x)
+    updated_res = torch.zeros_like(residual)
+
+    lib.launch_fused_blackwell_bit_rmsnorm(
+        ctypes.c_void_p(x.data_ptr()),
+        ctypes.c_void_p(residual.data_ptr()),
+        ctypes.c_void_p(gamma.data_ptr()),
+        ctypes.c_void_p(out.data_ptr()),
+        ctypes.c_void_p(updated_res.data_ptr()),
+        num_rows, hidden_dim, eps, None
+    )
+    torch.cuda.synchronize()
+
+    # Analytical reference
+    ref_x_prime = x + residual
+    ref_var = ref_x_prime.pow(2).mean(dim=-1, keepdim=True)
+    ref_rrms = torch.rsqrt(ref_var + eps)
+    ref_out = ref_x_prime * ref_rrms * gamma
+
+    diff_res = torch.norm(updated_res - ref_x_prime).item() / (num_rows * hidden_dim)
+    diff_out = torch.norm(out - ref_out).item() / (num_rows * hidden_dim)
+
+    assert diff_res < 1e-5, f"Residual diff: {diff_res}"
+    assert diff_out < 1e-4, f"RMSNorm out diff: {diff_out}"
+
+

@@ -208,3 +208,71 @@ def test_iouring_sqpoll_roundtrip():
     lib.close_sqpoll_engine(eng)
     os.unlink(tpath)
 
+def test_iouring_splice_roundtrip():
+    so_path = "csrc/fused_iouring_splice_pipe.so"
+    lib = ctypes.CDLL(so_path)
+
+    lib.init_splice_engine.argtypes = [ctypes.c_int]
+    lib.init_splice_engine.restype = ctypes.c_void_p
+
+    lib.create_splice_pipe.argtypes = [ctypes.POINTER(ctypes.c_int)]
+    lib.create_splice_pipe.restype = ctypes.c_int
+
+    lib.submit_file_to_pipe_splice.argtypes = [ctypes.c_void_p, ctypes.c_int, ctypes.c_longlong, ctypes.c_int, ctypes.c_size_t]
+    lib.submit_file_to_pipe_splice.restype = ctypes.c_int
+
+    lib.submit_pipe_to_file_splice.argtypes = [ctypes.c_void_p, ctypes.c_int, ctypes.c_int, ctypes.c_longlong, ctypes.c_size_t]
+    lib.submit_pipe_to_file_splice.restype = ctypes.c_int
+
+    lib.wait_splice_completions.argtypes = [ctypes.c_void_p, ctypes.c_int]
+    lib.wait_splice_completions.restype = ctypes.c_int
+
+    lib.close_splice_engine.argtypes = [ctypes.c_void_p]
+    lib.close_splice_engine.restype = None
+
+    payload = b"SPLICE_ZERO_COPY_PIPE_DMA_STREAM_OK" * 40
+    size = len(payload)
+
+    with tempfile.NamedTemporaryFile(delete=False) as tf_src:
+        tf_src.write(payload)
+        tf_src.flush()
+        src_path = tf_src.name
+
+    with tempfile.NamedTemporaryFile(delete=False) as tf_dst:
+        dst_path = tf_dst.name
+
+    pipe_fds = (ctypes.c_int * 2)()
+    assert lib.create_splice_pipe(pipe_fds) == 0
+
+    fd_in = os.open(src_path, os.O_RDONLY)
+    fd_out = os.open(dst_path, os.O_RDWR)
+
+    eng = lib.init_splice_engine(16)
+    assert eng is not None
+
+    # Step 1: Splice from file to pipe write-end
+    ret1 = lib.submit_file_to_pipe_splice(eng, fd_in, 0, pipe_fds[1], size)
+    assert ret1 >= 0
+    done1 = lib.wait_splice_completions(eng, 1)
+    assert done1 >= 1
+
+    # Step 2: Splice from pipe read-end to destination file
+    ret2 = lib.submit_pipe_to_file_splice(eng, pipe_fds[0], fd_out, 0, size)
+    assert ret2 >= 0
+    done2 = lib.wait_splice_completions(eng, 1)
+    assert done2 >= 1
+
+    lib.close_splice_engine(eng)
+    os.close(pipe_fds[0])
+    os.close(pipe_fds[1])
+    os.close(fd_in)
+    os.close(fd_out)
+
+    with open(dst_path, "rb") as f:
+        read_dst = f.read()
+
+    assert read_dst == payload
+    os.unlink(src_path)
+    os.unlink(dst_path)
+
+

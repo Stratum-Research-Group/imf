@@ -11,3 +11,5 @@ import Pilot.OrthogonalProjector
 import Pilot.TraceIdempotent
 import Pilot.KillingForm
 import Pilot.SymplecticBilinear
+import Pilot.CasimirInvariant
+import Pilot.GrassmannExterior

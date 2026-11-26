@@ -37,19 +37,27 @@ int main(int argc, char** argv) {
     size_t dim = 128;
     size_t vocab = 3200;
     size_t steps = 100;
+    float temperature = 0.8f;
+    float top_p = 0.95f;
     bool interactive = false;
 
     for (int i = 1; i < argc; ++i) {
         std::string arg = argv[i];
         if (arg == "--steps" && i + 1 < argc) {
             steps = std::stoul(argv[++i]);
+        } else if (arg == "--temp" || arg == "--temperature" && i + 1 < argc) {
+            temperature = std::stof(argv[++i]);
+        } else if (arg == "--top-p" && i + 1 < argc) {
+            top_p = std::stof(argv[++i]);
         } else if (arg == "--repl" || arg == "-i") {
             interactive = true;
         } else if (arg == "--help" || arg == "-h") {
             std::cout << "Usage: " << argv[0] << " [options]" << std::endl;
-            std::cout << "  --steps <N>    Execute N benchmark autoregressive steps (default: 100)" << std::endl;
-            std::cout << "  --repl, -i     Launch interactive streaming token generation REPL" << std::endl;
-            std::cout << "  --help, -h     Show this help message" << std::endl;
+            std::cout << "  --steps <N>        Execute N benchmark autoregressive steps (default: 100)" << std::endl;
+            std::cout << "  --temp <float>     Set softmax temperature annealing (default: 0.8)" << std::endl;
+            std::cout << "  --top-p <float>    Set nucleus sampling cutoff threshold (default: 0.95)" << std::endl;
+            std::cout << "  --repl, -i         Launch interactive streaming token generation REPL" << std::endl;
+            std::cout << "  --help, -h         Show this help message" << std::endl;
             return 0;
         }
     }
