@@ -99,7 +99,7 @@ def run_counter_rotating_vortex_benchmark() -> Dict[str, Any]:
         "results": [asdict(r) for r in results]
     }
 
-    out_file = Path("docs/counter_rotating_vortex_benchmark.json")
+    out_file = Path("docs/benchmarks/counter_rotating_vortex_benchmark.json")
     out_file.parent.mkdir(parents=True, exist_ok=True)
     with open(out_file, "w") as f:
         json.dump(summary, f, indent=2)

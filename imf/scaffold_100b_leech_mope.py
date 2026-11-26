@@ -138,7 +138,7 @@ def scaffold_100b_leech_architecture(output_path: str = "checkpoints/imf_foundat
     print(f"[✓] Leech Lattice Codebook initialized in {elapsed:.2f} ms")
 
     # Save container manifest
-    manifest_path = "docs/scaffold_manifest_100b_leech.json"
+    manifest_path = "docs/manifests/scaffold_manifest_100b_leech.json"
     with open(manifest_path, "w") as f:
         json.dump(config, f, indent=2)
     print(f"[+] Wrote 100B architecture specification to {manifest_path}")

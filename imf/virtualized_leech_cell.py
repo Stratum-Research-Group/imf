@@ -138,7 +138,7 @@ def benchmark_leech_coset_expansion():
 
     import json
     from pathlib import Path
-    out_file = Path("docs/leech_coset_expansion_benchmark.json")
+    out_file = Path("docs/benchmarks/leech_coset_expansion_benchmark.json")
     out_file.parent.mkdir(parents=True, exist_ok=True)
     with open(out_file, "w") as f:
         json.dump(results, f, indent=2)

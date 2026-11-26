@@ -80,7 +80,7 @@ def run_cross_model_ingestion():
         else:
             print(f"[!] Target {target} not ready.")
             
-    out_manifest = Path("docs/frontier_cross_distillation_manifest.json")
+    out_manifest = Path("docs/manifests/frontier_cross_distillation_manifest.json")
     out_manifest.parent.mkdir(parents=True, exist_ok=True)
     with open(out_manifest, "w") as f:
         json.dump(results, f, indent=2)

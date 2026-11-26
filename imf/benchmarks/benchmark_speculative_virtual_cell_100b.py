@@ -154,7 +154,7 @@ def run_comprehensive_speculative_benchmark() -> Dict[str, Any]:
         "speculative_benchmarks": [asdict(r) for r in spec_results]
     }
 
-    out_file = Path("docs/speculative_virtual_cell_100b_benchmark.json")
+    out_file = Path("docs/benchmarks/speculative_virtual_cell_100b_benchmark.json")
     out_file.parent.mkdir(parents=True, exist_ok=True)
     with open(out_file, "w") as f:
         json.dump(summary, f, indent=2)

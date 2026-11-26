@@ -29,7 +29,7 @@ class FrontierCodebookFusionEngine:
     def __init__(self, d_model: int = 4096, n_codebooks: int = 6):
         self.d_model = d_model
         self.n_codebooks = n_codebooks
-        self.manifest_path = Path("docs/frontier_cross_distillation_manifest.json")
+        self.manifest_path = Path("docs/manifests/frontier_cross_distillation_manifest.json")
         self.fused_checkpoint_path = Path("models/distilled_frontier_fused_7b.pt")
         self.fused_checkpoint_path.parent.mkdir(parents=True, exist_ok=True)
 

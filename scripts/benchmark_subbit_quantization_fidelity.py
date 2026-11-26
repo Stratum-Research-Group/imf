@@ -74,7 +74,7 @@ def run_fidelity_benchmark():
         "elapsed_seconds": round(time.perf_counter() - t_start, 4)
     }
 
-    out_file = Path("docs/SUBBIT_QUANTIZATION_FIDELITY_REPORT.json")
+    out_file = Path("docs/benchmarks/SUBBIT_QUANTIZATION_FIDELITY_REPORT.json")
     with open(out_file, "w") as f:
         json.dump(results, f, indent=2)
 

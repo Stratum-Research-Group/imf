@@ -112,7 +112,7 @@ lines.append('')
 
 output_text = '\n'.join(lines) + '\n'
 
-with open('docs/MICROARCHITECTURAL_KERNELS_SPECIFICATION.md', 'w') as out_f:
+with open('docs/specs/MICROARCHITECTURAL_KERNELS_SPECIFICATION.md', 'w') as out_f:
     out_f.write(output_text)
 
-print(f'Successfully wrote {len(output_text)} bytes to docs/MICROARCHITECTURAL_KERNELS_SPECIFICATION.md')
+print(f'Successfully wrote {len(output_text)} bytes to docs/specs/MICROARCHITECTURAL_KERNELS_SPECIFICATION.md')

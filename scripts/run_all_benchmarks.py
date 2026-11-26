@@ -10,7 +10,7 @@ Executes and aggregates all core empirical and formal verification gates:
 6. Unit Test Regression Suite (pytest tests/)
 7. Interactive Lean 4 Formal Verification Build (lake build)
 
-Generates an aggregated Markdown execution report: docs/IMF_VERIFICATION_REPORT.md
+Generates an aggregated Markdown execution report: docs/reports/IMF_VERIFICATION_REPORT.md
 """
 
 import sys

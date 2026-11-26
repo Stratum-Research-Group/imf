@@ -209,7 +209,7 @@ theorem ns_solenoidal_exact (div_u : Int) (h_sol : div_u = 0) : div_u * 0 = 0 :=
     for c in contenders:
         print(f"  Rank #{c.rank}: {c.model_name:<36} | Pass Rate: {c.verification_rate*100:5.1f}% | Avg Latency: {c.avg_latency_ms:4.1f}ms | Footprint: {c.resident_size_mb:6.1f} MB")
 
-    out_file = Path("docs/tournament_consensus_benchmark.json")
+    out_file = Path("docs/benchmarks/tournament_consensus_benchmark.json")
     out_file.parent.mkdir(parents=True, exist_ok=True)
     summary = {
         "arbiter": "Lean 4.33.1 Kernel (Zero Axioms)",
