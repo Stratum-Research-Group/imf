@@ -353,5 +353,59 @@ def test_sliding_window_attn_correctness():
     diff = torch.norm(out - ref_out).item() / (batch * num_heads * seq_len * head_dim)
     assert diff < 1e-4, f"SWA diff: {diff}"
 
+@pytest.mark.skipif(not torch.cuda.is_available(), reason="CUDA device required")
+def test_gqa_dequant_correctness():
+    so_path = "csrc/fused_blackwell_gqa_dequant.so"
+    lib = ctypes.CDLL(so_path)
+    lib.launch_fused_blackwell_gqa_dequant.argtypes = [
+        ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p,
+        ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p,
+        ctypes.c_int, ctypes.c_int, ctypes.c_int, ctypes.c_int, ctypes.c_int,
+        ctypes.c_float, ctypes.c_void_p
+    ]
+
+    batch = 2
+    num_q_heads = 8
+    num_kv_heads = 2
+    seq_len = 16
+    head_dim = 64
+    scale = 1.0 / math.sqrt(head_dim)
+
+    q = torch.randn(batch, num_q_heads, seq_len, head_dim, device='cuda', dtype=torch.float32)
+    k_quant = torch.randint(-128, 127, (batch, num_kv_heads, seq_len, head_dim), device='cuda', dtype=torch.int8)
+    k_scale = torch.rand(batch, num_kv_heads, seq_len, device='cuda', dtype=torch.float32) * 0.05 + 0.01
+    v_quant = torch.randint(-128, 127, (batch, num_kv_heads, seq_len, head_dim), device='cuda', dtype=torch.int8)
+    v_scale = torch.rand(batch, num_kv_heads, seq_len, device='cuda', dtype=torch.float32) * 0.05 + 0.01
+    out = torch.zeros_like(q)
+
+    lib.launch_fused_blackwell_gqa_dequant(
+        ctypes.c_void_p(q.data_ptr()),
+        ctypes.c_void_p(k_quant.data_ptr()),
+        ctypes.c_void_p(k_scale.data_ptr()),
+        ctypes.c_void_p(v_quant.data_ptr()),
+        ctypes.c_void_p(v_scale.data_ptr()),
+        ctypes.c_void_p(out.data_ptr()),
+        batch, num_q_heads, num_kv_heads, seq_len, head_dim, scale, None
+    )
+    torch.cuda.synchronize()
+
+    # Analytical reference:
+    k_dequant = k_quant.float() * k_scale.unsqueeze(-1)
+    v_dequant = v_quant.float() * v_scale.unsqueeze(-1)
+
+    gqa_ratio = num_q_heads // num_kv_heads
+    k_expanded = k_dequant.repeat_interleave(gqa_ratio, dim=1)
+    v_expanded = v_dequant.repeat_interleave(gqa_ratio, dim=1)
+
+    scores = torch.matmul(q, k_expanded.transpose(-1, -2)) * scale
+    causal_mask = torch.triu(torch.ones(seq_len, seq_len, device='cuda', dtype=torch.bool), diagonal=1)
+    scores.masked_fill_(causal_mask, -1e30)
+    attn = torch.softmax(scores, dim=-1)
+    ref_out = torch.matmul(attn, v_expanded)
+
+    diff = torch.norm(out - ref_out).item() / (batch * num_q_heads * seq_len * head_dim)
+    assert diff < 1e-4, f"GQA dequant diff: {diff}"
+
+
 
 

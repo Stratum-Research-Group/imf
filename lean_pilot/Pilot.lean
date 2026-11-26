@@ -15,3 +15,5 @@ import Pilot.CasimirInvariant
 import Pilot.GrassmannExterior
 import Pilot.HodgeStarDuality
 import Pilot.YangMillsCurvature
+import Pilot.SymplecticInvariance
+import Pilot.ExteriorDerivativeNilpotent

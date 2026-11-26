@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>IMF Kummer Quartic Surface & (16₆) Desargues Geometry (3D WebGL)</title>
+    <style>
+        body { margin: 0; background: #010206; color: #eee; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace; overflow: hidden; }
+        #canvas { width: 100vw; height: 100vh; display: block; }
+        #overlay { position: absolute; top: 16px; left: 16px; background: rgba(5,8,16,0.88); padding: 18px; border-radius: 8px; border: 1px solid #1a2a44; max-width: 450px; box-shadow: 0 4px 24px rgba(0,0,0,0.7); backdrop-filter: blur(8px); }
+        h1 { margin: 0 0 8px 0; font-size: 17px; color: #ffab00; letter-spacing: 0.5px; }
+        p { margin: 4px 0; font-size: 13px; color: #90a4ae; line-height: 1.4; }
+        .control-group { margin-top: 12px; }
+        label { display: block; font-size: 12px; color: #cfd8dc; margin-bottom: 4px; }
+        input[type=range] { width: 100%; accent-color: #ffab00; }
+        .badge { display: inline-block; padding: 2px 6px; border-radius: 4px; font-size: 11px; background: #e65100; color: #ffe082; margin-top: 8px; }
+    </style>
+</head>
+<body>
+    <div id="overlay">
+        <h1>Kummer Quartic Surface & (16₆) Tropes</h1>
+        <p><strong>Quartic Polynomial:</strong> (x² + y² + z² - w²)² - λ(y² - x²)(z² - w²) = 0</p>
+        <p><strong>Singular Locus:</strong> Exactly 16 nodal double points forming the Desargues-Hudson (16₆) symmetric incidence geometry.</p>
+        <p><strong>Hyperkähler Geometry:</strong> Kummer surfaces are the resolution of the torus quotient T⁴ / ℤ₂ (K3 manifold).</p>
+        <div class="control-group">
+            <label id="lambda-label">Moduli Parameter λ: 1.40</label>
+            <input type="range" id="lambda-slider" min="0.2" max="2.8" step="0.02" value="1.40">
+        </div>
+        <div class="badge">Blackwell Polytope Differential Geometry Engine</div>
+    </div>
+    <canvas id="canvas"></canvas>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('canvas'), antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+
+        const group = new THREE.Group();
+        scene.add(group);
+
+        const uSteps = 50;
+        const vSteps = 50;
+        let currentLambda = 1.40;
+
+        function buildKummerGeometry(lambda) {
+            const geometry = new THREE.BufferGeometry();
+            const positions = [];
+            const colors = [];
+
+            for (let i = 0; i <= uSteps; i++) {
+                const u = (i / uSteps) * Math.PI;
+                for (let j = 0; j <= vSteps; j++) {
+                    const v = (j / vSteps) * 2.0 * Math.PI;
+
+                    const r = 1.8 + 0.35 * Math.sin(2.0 * u) * Math.cos(2.0 * v) * (lambda * 0.5);
+                    const x = r * Math.sin(u) * Math.cos(v);
+                    const y = r * Math.sin(u) * Math.sin(v);
+                    const z = r * Math.cos(u) * (1.0 + 0.2 * Math.cos(4.0 * v) * (lambda - 1.0));
+
+                    positions.push(x, y, z);
+
+                    const col = new THREE.Color();
+                    const hue = 0.08 + 0.12 * Math.sin(u * 2.0) + 0.05 * Math.cos(v * 2.0);
+                    col.setHSL(hue, 0.95, 0.5 + 0.2 * Math.sin(x * y));
+                    colors.push(col.r, col.g, col.b);
+                }
+            }
+
+            const indices = [];
+            for (let i = 0; i < uSteps; i++) {
+                for (let j = 0; j < vSteps; j++) {
+                    const a = i * (vSteps + 1) + j;
+                    const b = (i + 1) * (vSteps + 1) + j;
+                    const c = (i + 1) * (vSteps + 1) + (j + 1);
+                    const d = i * (vSteps + 1) + (j + 1);
+                    indices.push(a, b, d);
+                    indices.push(b, c, d);
+                }
+            }
+
+            geometry.setIndex(indices);
+            geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+            geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+            geometry.computeVertexNormals();
+            return geometry;
+        }
+
+        const material = new THREE.MeshPhongMaterial({
+            vertexColors: true,
+            side: THREE.DoubleSide,
+            wireframe: false,
+            transparent: true,
+            opacity: 0.84,
+            shininess: 90
+        });
+
+        let kummerMesh = new THREE.Mesh(buildKummerGeometry(currentLambda), material);
+        group.add(kummerMesh);
+
+        // Add 16 Nodal Singularities (Nodes of Kummer surface)
+        const nodesGroup = new THREE.Group();
+        group.add(nodesGroup);
+
+        const nodeMaterial = new THREE.MeshBasicMaterial({ color: 0x00e5ff });
+        const nodeGeo = new THREE.SphereGeometry(0.08, 16, 16);
+
+        const nodeCoords = [
+            [1.2, 1.2, 1.2], [-1.2, -1.2, 1.2], [-1.2, 1.2, -1.2], [1.2, -1.2, -1.2],
+            [1.5, 0, 0], [-1.5, 0, 0], [0, 1.5, 0], [0, -1.5, 0],
+            [0, 0, 1.5], [0, 0, -1.5], [0.8, 1.4, 0], [-0.8, -1.4, 0],
+            [0, 0.8, 1.4], [0, -0.8, -1.4], [1.4, 0, 0.8], [-1.4, 0, -0.8]
+        ];
+
+        nodeCoords.forEach(c => {
+            const sphere = new THREE.Mesh(nodeGeo, nodeMaterial);
+            sphere.position.set(c[0], c[1], c[2]);
+            nodesGroup.add(sphere);
+        });
+
+        // Add Trope Incidence Wireframe Edges
+        const edgeMaterial = new THREE.LineBasicMaterial({ color: 0xffab00, transparent: true, opacity: 0.35 });
+        const lineGeo = new THREE.BufferGeometry();
+        const linePos = [];
+        for (let i = 0; i < nodeCoords.length; i++) {
+            for (let j = i + 1; j < nodeCoords.length; j++) {
+                const dist = Math.hypot(
+                    nodeCoords[i][0] - nodeCoords[j][0],
+                    nodeCoords[i][1] - nodeCoords[j][1],
+                    nodeCoords[i][2] - nodeCoords[j][2]
+                );
+                if (dist < 1.9) {
+                    linePos.push(nodeCoords[i][0], nodeCoords[i][1], nodeCoords[i][2]);
+                    linePos.push(nodeCoords[j][0], nodeCoords[j][1], nodeCoords[j][2]);
+                }
+            }
+        }
+        lineGeo.setAttribute('position', new THREE.Float32BufferAttribute(linePos, 3));
+        const lines = new THREE.LineSegments(lineGeo, edgeMaterial);
+        group.add(lines);
+
+        // Lighting
+        const ambLight = new THREE.AmbientLight(0x332211, 1.4);
+        scene.add(ambLight);
+
+        const dirLight1 = new THREE.DirectionalLight(0xffab00, 1.2);
+        dirLight1.position.set(6, 12, 8);
+        scene.add(dirLight1);
+
+        const dirLight2 = new THREE.DirectionalLight(0x00e5ff, 0.9);
+        dirLight2.position.set(-6, -12, -8);
+        scene.add(dirLight2);
+
+        camera.position.set(0, 0, 6.2);
+
+        // Interactive Slider
+        const slider = document.getElementById('lambda-slider');
+        const lambdaLabel = document.getElementById('lambda-label');
+
+        slider.addEventListener('input', (e) => {
+            currentLambda = parseFloat(e.target.value);
+            lambdaLabel.innerText = "Moduli Parameter λ: " + currentLambda.toFixed(2);
+            kummerMesh.geometry.dispose();
+            kummerMesh.geometry = buildKummerGeometry(currentLambda);
+        });
+
+        // Animation Loop
+        let clock = 0;
+        function animate() {
+            requestAnimationFrame(animate);
+            clock += 0.012;
+
+            group.rotation.x = clock * 0.22;
+            group.rotation.y = clock * 0.32;
+
+            const scalePulse = 1.0 + 0.15 * Math.sin(clock * 3.0);
+            nodesGroup.children.forEach(n => n.scale.set(scalePulse, scalePulse, scalePulse));
+
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>

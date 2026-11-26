@@ -43,6 +43,8 @@ int main(int argc, char** argv) {
     float top_p = 0.95f;
     bool interactive = false;
     bool stream_mode = false;
+    bool inspect_manifold = false;
+    unsigned int seed = 42;
     std::string input_file = "";
 
     for (int i = 1; i < argc; ++i) {
@@ -53,21 +55,27 @@ int main(int argc, char** argv) {
             temperature = std::stof(argv[++i]);
         } else if (arg == "--top-p" && i + 1 < argc) {
             top_p = std::stof(argv[++i]);
+        } else if (arg == "--seed" && i + 1 < argc) {
+            seed = static_cast<unsigned int>(std::stoul(argv[++i]));
         } else if (arg == "--stream") {
             stream_mode = true;
+        } else if (arg == "--inspect-manifold") {
+            inspect_manifold = true;
         } else if (arg == "--file" && i + 1 < argc) {
             input_file = argv[++i];
         } else if (arg == "--repl" || arg == "-i") {
             interactive = true;
         } else if (arg == "--help" || arg == "-h") {
             std::cout << "Usage: " << argv[0] << " [options]" << std::endl;
-            std::cout << "  --steps <N>        Execute N benchmark autoregressive steps (default: 100)" << std::endl;
-            std::cout << "  --temp <float>     Set softmax temperature annealing (default: 0.8)" << std::endl;
-            std::cout << "  --top-p <float>    Set nucleus sampling cutoff threshold (default: 0.95)" << std::endl;
-            std::cout << "  --stream           Continuous live token streaming with real-time flush" << std::endl;
-            std::cout << "  --file <path>      Batch prompt evaluation from input text file" << std::endl;
-            std::cout << "  --repl, -i         Launch interactive streaming token generation REPL" << std::endl;
-            std::cout << "  --help, -h         Show this help message" << std::endl;
+            std::cout << "  --steps <N>           Execute N benchmark autoregressive steps (default: 100)" << std::endl;
+            std::cout << "  --temp <float>        Set softmax temperature annealing (default: 0.8)" << std::endl;
+            std::cout << "  --top-p <float>       Set nucleus sampling cutoff threshold (default: 0.95)" << std::endl;
+            std::cout << "  --seed <uint>         Deterministic RNG initialization seed (default: 42)" << std::endl;
+            std::cout << "  --stream              Continuous live token streaming with real-time flush" << std::endl;
+            std::cout << "  --inspect-manifold    Display Lie algebra norm and orthogonality drift metrics" << std::endl;
+            std::cout << "  --file <path>         Batch prompt evaluation from input text file" << std::endl;
+            std::cout << "  --repl, -i            Launch interactive streaming token generation REPL" << std::endl;
+            std::cout << "  --help, -h            Show this help message" << std::endl;
             return 0;
         }
     }
@@ -78,13 +86,37 @@ int main(int argc, char** argv) {
     std::vector<float> head(vocab * dim, 0.01f);
 
     // Populate skew-symmetric matrix A: A[i, j] = -A[j, i]
-    srand(42);
+    srand(seed);
     for (size_t i = 0; i < dim; ++i) {
         for (size_t j = i + 1; j < dim; ++j) {
             float val = static_cast<float>(rand()) / static_cast<float>(RAND_MAX) * 0.02f;
             a_mat[i * dim + j] = val;
             a_mat[j * dim + i] = -val;
         }
+    }
+
+    if (inspect_manifold) {
+        float f_norm_sq = 0.0f;
+        for (size_t i = 0; i < dim * dim; ++i) {
+            f_norm_sq += a_mat[i] * a_mat[i];
+        }
+        float state_norm_sq = 0.0f;
+        for (size_t i = 0; i < dim; ++i) {
+            state_norm_sq += state[i] * state[i];
+        }
+        float skew_drift = 0.0f;
+        for (size_t i = 0; i < dim; ++i) {
+            float ax_i = 0.0f;
+            for (size_t j = 0; j < dim; ++j) {
+                ax_i += a_mat[i * dim + j] * state[j];
+            }
+            skew_drift += state[i] * ax_i;
+        }
+
+        std::cout << "[*] Manifold Diagnostics (seed=" << seed << "):" << std::endl;
+        std::cout << "    Lie Algebra Frobenius Norm ||A||_F: " << std::sqrt(f_norm_sq) << std::endl;
+        std::cout << "    Initial State Energy ||x||_2:       " << std::sqrt(state_norm_sq) << std::endl;
+        std::cout << "    Skew-Symmetric Parity Drift x^T A x: " << std::abs(skew_drift) << std::endl;
     }
 
     if (interactive) {

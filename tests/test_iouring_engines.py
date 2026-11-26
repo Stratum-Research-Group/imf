@@ -337,5 +337,65 @@ def test_iouring_multishot_poll_basic():
     os.close(r_fd)
     os.close(w_fd)
 
+def test_iouring_direct_reg_engine():
+    so_path = "csrc/fused_iouring_direct_reg_engine.so"
+    lib = ctypes.CDLL(so_path)
+
+    lib.init_direct_reg_engine.argtypes = [
+        ctypes.c_int, ctypes.c_void_p, ctypes.c_size_t, ctypes.POINTER(ctypes.c_int), ctypes.c_int
+    ]
+    lib.init_direct_reg_engine.restype = ctypes.c_void_p
+
+    lib.submit_fixed_write.argtypes = [
+        ctypes.c_void_p, ctypes.c_int, ctypes.c_size_t, ctypes.c_size_t, ctypes.c_longlong
+    ]
+    lib.submit_fixed_write.restype = ctypes.c_int
+
+    lib.submit_fixed_read.argtypes = [
+        ctypes.c_void_p, ctypes.c_int, ctypes.c_size_t, ctypes.c_size_t, ctypes.c_longlong
+    ]
+    lib.submit_fixed_read.restype = ctypes.c_int
+
+    lib.wait_direct_completions.argtypes = [ctypes.c_void_p, ctypes.c_int]
+    lib.wait_direct_completions.restype = ctypes.c_int
+
+    lib.close_direct_reg_engine.argtypes = [ctypes.c_void_p]
+    lib.close_direct_reg_engine.restype = None
+
+    payload = b"DIRECT_DESCRIPTOR_REGISTERED_BUFFER_OK\n"
+    size = len(payload)
+
+    with tempfile.NamedTemporaryFile(delete=False) as tf:
+        temp_path = tf.name
+
+    fd = os.open(temp_path, os.O_RDWR)
+    buf = (ctypes.c_char * 4096)()
+    ctypes.memmove(buf, payload, size)
+
+    fds = (ctypes.c_int * 1)(fd)
+    eng = lib.init_direct_reg_engine(16, ctypes.cast(buf, ctypes.c_void_p), 4096, fds, 1)
+    assert eng is not None
+
+    # Write from registered buffer offset 0 to file offset 0
+    ret_w = lib.submit_fixed_write(eng, 0, 0, size, 0)
+    assert ret_w == 0
+    done_w = lib.wait_direct_completions(eng, 1)
+    assert done_w == 1
+
+    # Read back from file offset 0 into registered buffer offset 1024
+    ret_r = lib.submit_fixed_read(eng, 0, 1024, size, 0)
+    assert ret_r == 0
+    done_r = lib.wait_direct_completions(eng, 1)
+    assert done_r == 1
+
+    # Verify read content
+    read_back = bytes(buf[1024:1024 + size])
+    assert read_back == payload
+
+    lib.close_direct_reg_engine(eng)
+    os.close(fd)
+    os.unlink(temp_path)
+
+
 
 
