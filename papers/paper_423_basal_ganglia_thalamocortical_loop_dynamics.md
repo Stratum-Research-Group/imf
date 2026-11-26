@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 While the cerebral cortex generates high-dimensional representational manifolds through local microcircuits and horizontal oscillatory resonance, the cortex alone cannot resolve motor or cognitive competition; it is chronically prone to epileptic cross-talk or computational gridlock without an external, centralized selection mechanism. In this treatise (companion to Treatise 415), we present an exhaustive, anatomochemically grounded formulation of how the **Basal Ganglia-Thalamocortical (BGTC) loop** serves as the physical arbitration and action-selection engine of the human mind. We dissect the opposing dual-pathway architecture: the **Direct Pathway** (D1-expressing medium spiny neurons inducing disinhibition of thalamocortical drive; "GO") and the **Indirect/Hyperdirect Pathways** (D2-expressing medium spiny neurons and the subthalamic nucleus amplifying inhibitory tone; "NO-GO" and "BRAKE"). We map phasic dopaminergic burst/dip signaling from the substantia nigra pars compacta ($\text{SNc}$) to temporal difference reward prediction errors, proving that the human mind executes discrete cognitive state transitions via striatal disinhibition loops governed strictly by localized neurochemical kinetics and physical synaptic plasticity.
 

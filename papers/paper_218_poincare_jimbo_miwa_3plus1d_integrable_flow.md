@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We establish the (3+1)-dimensional Jimbo-Miwa integrable equation within the Poincaré hyperbolic manifold $\mathbb{H}^3 \times \mathbb{R}$. As the second non-trivial member of the Kadomtsev-Petviashvili (KP) hierarchy, the Jimbo-Miwa equation generalizes 2D soliton dynamics to three spatial dimensions $(x, y, z)$:
 $$2 u_{yt} - u_{xxxy} - 3 (u_x u_y)_x - 3 u_{zz} = 0$$

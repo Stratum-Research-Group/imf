@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 
 We present the empirical scaling and pretraining architecture for the 129.8M parameter **IMF Joint-Reconstruction & Polytope Mixture-of-Experts Language Model** on open-domain natural language and free-form code. Prior iterations of the IMF architecture relied on closed-domain synthetic symbolic streams (Omni-118) constrained to a 1,024-token vocabulary, which, while optimal for non-Abelian Lie group dynamics and formal Lean 4 verification, lacked general conversational and programmatic fluency. In this work, we introduce a hybrid 4,096-token BPE tokenizer covering the full byte-level ASCII spectrum and UTF-8 multi-byte sequences, paired with a dual cross-entropy and latent simplex reconstruction objective ($\mathcal{L}_{\text{total}} = \mathcal{L}_{\text{pred}} + \alpha \mathcal{L}_{\text{recon}}$). Across 11.6 million tokens of verified dialogue narratives (TinyStoriesV2), standard algorithmic implementations (TheAlgorithms), and formal verification corpora (Lean 4), validation perplexity decreases monotonically from an initial baseline of $4,210.22$ down to $49.70$ ($84.4\times$ reduction) while maintaining exact causal equivalence and stable singular-value bounds on local consumer-class hardware (NVIDIA GeForce RTX 5060 Ti).

@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We establish a categorical foundation for universal multimodal reasoning by integrating **Alexander Grothendieck's theory of motives and topoi** with continuous Lie group neural architectures. Standard multimodal foundation models align text, vision, and audio via empirical contrastive projections (e.g. CLIP), which suffer from spurious cross-modal correlations and topological collapse. By constructing a category of pure numerical motives $\mathbf{Mot}(k)$ equipped with the Tannakian Galois group $\mathcal{G}_{\text{mot}} = \operatorname{Aut}^\otimes(\omega)$, we prove that multimodal invariants correspond to exact Tannakian tensor subcategories preserving the fiber functor $\omega: \mathbf{Mot}(k) \to \mathbf{Vec}_{\mathbb{Q}}$. Furthermore, Grothendieck topoi provide an axiomatic sheaf-theoretic substrate on a site $(\mathcal{C}, J)$ that eliminates modality-specific artifacts. We machine-certify the underlying motivic tensor functoriality and Grothendieck site sheaf axioms in Lean 4.33.1 with **zero axioms** (`#print axioms` empty).
 

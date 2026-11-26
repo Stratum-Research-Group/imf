@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 We present the formal derivation and GPU hardware realization of the Ablowitz-Ladik (AL) discrete nonlinear Schrödinger lattice over the Poincaré conformal unit disk. Representing the unique integrable discretization of the continuous NLS equation, the AL system $i \dot{\psi}_n + (\psi_{n+1} - 2 \psi_n + \psi_{n-1}) + |\psi_n|^2 (\psi_{n+1} + \psi_{n-1}) = 0$ preserves the complete infinite hierarchy of conservation laws, including particle number and momentum. Our specialized fused Triton kernel (`imf/kernels/triton_fused_poincare_ablowitz_ladik.py`) evaluates the complex discrete dynamics in **23.33 µs** per 128k lattice node iteration on an RTX 5060 Ti GPU, demonstrating a **16.97×** speedup over native PyTorch ($5,617.10\text{M nodes/s}$) with maximum error $< 1.19 \times 10^{-7}$. All structural conservation properties are verified in Lean 4 without external axioms.
 

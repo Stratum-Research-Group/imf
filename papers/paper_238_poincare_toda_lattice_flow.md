@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 We establish the exact formulation and physical GPU implementation of the Toda exponential multi-particle lattice over the Poincaré hyperbolic manifold. Governed by nearest-neighbor exponential repulsive forces $\ddot{q}_n = e^{-(q_n - q_{n-1})} - e^{-(q_{n+1} - q_n)}$, the lattice is completely integrable through the tridiagonal symmetric Flaschka coordinate transformation $a_n = \frac{1}{2} e^{-(q_{n+1} - q_n)/2}, b_n = -\frac{1}{2} p_n$. Through our dedicated fused Triton kernel (`imf/kernels/triton_fused_poincare_toda_lattice.py`), particle propagation executes in **26.16 µs** per 128k particle iteration on an RTX 5060 Ti GPU, demonstrating a **6.50×** speedup over native PyTorch ($5,009.89\text{M particles/s}$) with maximum absolute error $< 2.98 \times 10^{-8}$. All conservation laws are certified in Lean 4 without external axioms.
 

@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We establish the coupled Zakharov-Ito multi-component soliton system within the Poincaré hyperbolic half-space $\mathbb{H}^n$. Modeling the interaction between high-frequency Langmuir plasma oscillations and low-frequency ion-acoustic density waves, the system couples a complex envelope $u(x, t) = u_r + i u_i$ governed by Schrödinger dispersion ($\partial_x^2$) to a real scalar field $v(x, t)$ governed by Korteweg-de Vries dispersion ($\partial_x^3$):
 $$i u_t = - u_{xx} + 2 u v$$

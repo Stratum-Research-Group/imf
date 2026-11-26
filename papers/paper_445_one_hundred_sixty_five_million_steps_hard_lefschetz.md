@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We announce the formal completion and cryptographic sealing of Milestone 165M in the Infinite Math Framework (IMF) autonomous deductive reasoning engine. Spanning 165 contiguous blocks containing exactly $165,000,000$ machine-verified deductive steps and $3,321.0\text{ MB}$ of compressed Zstandard payload, this milestone establishes an empirical synthesis rate exceeding $349,000\text{ steps/s}$ on consumer-tier Blackwell silicon. We examine the algebraic geometry of the Hard Lefschetz theorem and its primitive cohomology decompositions, demonstrating how symplectic wedge operations stabilize speculative reasoning trajectories across high-dimensional polytope state spaces.
 

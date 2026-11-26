@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 We present the formal derivation and GPU hardware realization of the Kaup-Kupershmidt (KK) fifth-order nonlinear dispersive equation in Poincaré hyperbolic space. Sharing identical linear dispersion ($u_{xxxxx}$) with Sawada-Kotera and Lax KdV5, the KK equation possesses a unique fractional convective structure ($u_t + 45 u^2 u_x - \frac{75}{2} u_x u_{xx} - 15 u u_{xxx} + u_{xxxxx} = 0$) linked through reciprocal Bäcklund transformations. Through our specialized fused Triton kernel (`imf/kernels/triton_fused_poincare_kaup_kupershmidt.py`), spatial propagation evaluates in **19.69 µs** per 128k grid iteration on an NVIDIA GeForce RTX 5060 Ti GPU, demonstrating a **17.50×** speedup over native PyTorch with maximum error $< 5.96 \times 10^{-8}$. All algebraic invariants are certified in Lean 4 without external axioms.
 

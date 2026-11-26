@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We establish an automorphic representation framework for neural state-space models by bridging the **Langlands Program** with continuous non-Abelian Lie group dynamics. In traditional deep learning architectures, hidden states are scalar activations embedded in unstructured vector spaces. Under the Langlands paradigm, we model internal state transitions as automorphic representations $\pi$ of reductive algebraic groups $G(\mathbb{A}_{\mathbb{Q}})$ over the adele ring $\mathbb{A}_{\mathbb{Q}}$. We demonstrate that the Satake isomorphism:
 $$

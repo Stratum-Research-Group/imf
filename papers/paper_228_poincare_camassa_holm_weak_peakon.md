@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 We present the exact derivation and GPU workstation implementation of the Camassa-Holm (CH) shallow water integrable system ($b=2$) mapped onto the Poincaré hyperbolic manifold. Governed by the momentum transport relation $m_t + u m_x + 2 m u_x = 0$ with $m = (1 - \partial_x^2) u$, the equation admits weak peakon solutions that conserve the $H^1(\mathbb{R})$ Sobolev norm while forming peaked solitary waves. Our dedicated fused Triton kernel (`imf/kernels/triton_fused_poincare_camassa_holm.py`) executes at **22.76 µs** per 128k grid iteration on an RTX 5060 Ti GPU, attaining a **12.09×** speedup over native PyTorch with maximum error bounded below $5.96 \times 10^{-8}$. All structural invariants are certified in Lean 4 without external axioms.
 

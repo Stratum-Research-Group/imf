@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We record the verified machine certification of the 220-millionth formal proof step within the IMF MegaGym continuous verification substrate. Traversing 220 contiguous 1,000,000-step blocks sealed on physical NVMe storage with SHA-256 block ledger immutability, this milestone establishes that sovereign cognitive representations over finite group lattices admit canonical Hall $\pi$-subgroup decompositions. Contextualized within Kevin Buzzard's Lean 4 formalization initiatives and the Xena Project, we demonstrate that cognitive attractor stability across recursive self-improvement loops is guaranteed by the algebraic existence of coprime invariant complements.
 

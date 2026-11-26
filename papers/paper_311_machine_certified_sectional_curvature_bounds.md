@@ -10,5 +10,8 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 Optimizing neural networks on hyperbolic parameter manifolds requires strict mathematical guarantees that the sectional curvature $K$ remains bounded away from zero to ensure exponential separation of geodesics. We present a machine-certified constructive proof in Lean 4 verifying that parameter gyrogroups equipped with relativistic velocity addition exhibit uniform negative sectional curvature $-1 \le K < 0$. This ensures that gradient descent dynamics converge exponentially without stagnation or saddle-point oscillation.

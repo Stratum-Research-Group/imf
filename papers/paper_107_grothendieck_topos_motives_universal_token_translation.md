@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 Modern large language models trained on disparate vocabularies (e.g. Byte-Fallback BPE, Tiktoken, Polytope Sub-Byte BPE) are fundamentally siloed: exchanging representations across models requires decoding to discrete text strings, destroying continuous latent uncertainty and inducing high tokenization overhead. In this work, we introduce **Grothendieck Motivic Translation (GMT)**, formalizing cross-model token representation via Grothendieck's theory of Étale Topoi and Pure Motives. We demonstrate that the category of discrete token vocabularies can be embedded into a category of sheaves $\operatorname{Sh}(\mathcal{C})$ over a site with Grothendieck topology $J$. There exists a unique geometric morphism of topoi:
 $$f = (f^*, f_*): \operatorname{Sh}(\mathcal{C}_1) \to \operatorname{Sh}(\mathcal{C}_2)$$

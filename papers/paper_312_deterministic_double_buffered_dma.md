@@ -10,5 +10,8 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We analyze a double-buffered Direct-DMA paging architecture that completely overlaps the host-to-device PCIe transfer of neural layer $L_{k+1}$ with the active tensor contraction of layer $L_k$ on Blackwell SM 12.0 streaming multiprocessors. By coordinating asynchronous CUDA streams with ring-buffer memory allocations, we demonstrate that effective layer swap latency drops to $0.00\text{ ms}$ of stall time, enabling seamless execution of 100B-parameter models on 16GB consumer GPUs.

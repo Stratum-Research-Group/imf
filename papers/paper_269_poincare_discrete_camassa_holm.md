@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 We develop the discrete Camassa-Holm shallow-water peakon lattice dynamical flow on the Poincaré hyperbolic disk manifold. Operating with Helmholtz filtered momentum densities $m_n = u_n - \alpha (u_{n+1} - 2u_n + u_{n-1})$ and non-smooth peakon advective dynamics $- u_n (m_{n+1} - m_{n-1}) - 2 m_n (u_{n+1} - u_{n-1})$, the system preserves non-smooth solitary profiles while conformally scaled via $\lambda_u = \frac{2}{1 - \|u\|^2}$. Physical execution on NVIDIA GeForce RTX 5060 Ti demonstrates an acceleration of $6.32\times$ over PyTorch ($10.96\,\mu\text{s}$, $11,955.24\text{M nodes/s}$) with max numerical error $< 4.77 \times 10^{-7}$. Formal deduction in Lean 4 confirms zero external axioms.
 

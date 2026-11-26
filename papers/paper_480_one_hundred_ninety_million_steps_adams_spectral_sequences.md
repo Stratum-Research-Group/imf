@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We present the milestone formal verification of the 190-millionth deductive proof step within the IMF MegaGym continuous verification environment. Spanning 190 contiguous 1,000,000-theorem blocks sealed on physical NVMe storage with SHA-256 block ledger immutability, this milestone establishes that the stable homotopy groups of neural latent manifolds satisfy stable Adams filtration bounds. We formally prove that higher obstructions to representation stability vanish outside a conical vanishing line governed by the Steenrod algebra.
 

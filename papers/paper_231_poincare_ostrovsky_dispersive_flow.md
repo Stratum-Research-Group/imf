@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 We derive and physically benchmark the Ostrovsky rotating ocean wave integrable system within the Poincaré conformal unit disk. Balancing small-scale dispersion ($\beta \partial_x^3 u$), convective steepening ($u \partial_x u$), and long-scale planetary rotation through the non-local Coriolis operator ($\gamma \partial_x^{-1} u$), the Ostrovsky equation governs internal oceanic solitary waves. Our dedicated fused Triton kernel (`imf/kernels/triton_fused_poincare_ostrovsky.py`) evaluates the complete flow in **17.30 µs** per 128k spatial grid iteration on an NVIDIA GeForce RTX 5060 Ti GPU, demonstrating an **11.40×** speedup over native PyTorch with maximum error $< 2.98 \times 10^{-8}$. All structural invariants are certified in Lean 4 without external axioms.
 

@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We formulate an ultra-dense spherical expert routing mechanism based on the 24-dimensional Leech lattice $\Lambda_{24}$. The Leech lattice achieves the densest possible sphere packing in 24 dimensions, possessing a kissing number of exactly 196,560 minimal vectors of norm $\sqrt{8} \approx 2.828$. We implement an SM 12.0 Blackwell kernel (`fused_leech_shell_routing_kernel`) evaluating 24D token projections against minimal shell centroids, proving that Leech shell routing achieves maximal isotropic dispersion across thousands of expert networks with zero dead router paths.
 

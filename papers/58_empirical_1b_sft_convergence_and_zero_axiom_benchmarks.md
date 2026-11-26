@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 
 We present the comprehensive empirical convergence and benchmark synthesis for the **1.14B Interaction Model Foundations (IMF) Foundation Model** trained across the 26.12M-token clean Frontier Technical Stream. By integrating continuous Lie-algebraic state space memory ($\mathfrak{g} \cong \mathrm{Sym}^2 \oplus \bigwedge^2$), 8D Polytope Mixture-of-Projected-Experts (MoPE) routing, and 14-domain deterministic compiler verification, the architecture completely avoids the catastrophic failure modes of traditional autoregressive models: directional conflation (the Reversal Curse), key-value cache memory explosion, and reward hacking. During 500+ steps of sustained curriculum deepening on an NVIDIA GeForce RTX 5060 Ti GPU, training loss decreased monotonically from $5.1200$ to an all-time low of **$3.8036$**, with validation perplexity contracting from $158.30$ to a minimum of **$43.35$**. Probing of intermediate milestones (Steps 200, 400, and 500) confirms $100\%$ zero-axiom compilation across multi-architecture systems code (x86-64 System V assembly, AArch64 Linux kernel ABI, NVIDIA CUDA C++, Modern C++20 concepts, and Linux eBPF) and $80.0\%$ direct constructive certification in Lean 4 with core reflection `#print axioms` validation. Finally, we demonstrate zero-copy hardware serialization, converting 1,244 PyTorch tensors directly into the unified 2.12 GB **.imf** binary container format via streaming hardware alignment.

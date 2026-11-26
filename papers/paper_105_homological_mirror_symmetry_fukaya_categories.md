@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 In deep Mixture-of-Polytope-Experts (MoPE) architectures, routing input tokens across high-dimensional lattice chambers typically relies on heuristic gating networks vulnerable to representation collapse. In this work, we introduce **Homological Mirror Routing (HMR)**, formalizing token dispatch via Maxim Kontsevich's Homological Mirror Symmetry (HMS). We establish a categorical equivalence between the bounded derived category of coherent sheaves $D^b \operatorname{Coh}(X)$ on an algebraic variety $X$ and the derived Fukaya category $D^\pi \operatorname{Fuk}(Y)$ on its symplectic mirror partner $Y$:
 $$D^b \operatorname{Coh}(X) \simeq D^\pi \operatorname{Fuk}(Y)$$

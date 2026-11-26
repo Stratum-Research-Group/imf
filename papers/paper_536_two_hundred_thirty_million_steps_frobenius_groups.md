@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We document the machine-verified formal certification of the 230-millionth deductive proof step within the IMF MegaGym continuous verification environment. Spanning 230 contiguous 1,000,000-step blocks stored under cryptographic SHA-256 Merkle chain verification on NVMe storage, this milestone establishes that finite cognitive state spaces exhibit regular Frobenius kernel-complement semidirect factorizations ($G \cong K \rtimes H$) and complete representation semisimplicity under Maschke projections. Grounded in Kevin Buzzard's Lean 4 formalization standards and the Liquid Tensor Experiment, we prove that cognitive attractor representations decompose into direct sums of irreducible sub-modules with zero cross-talk.
 

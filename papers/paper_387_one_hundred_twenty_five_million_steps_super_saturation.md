@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We present empirical and analytical results from sealing one hundred twenty-five million ($125,000,000$) formal machine-certified steps in the IMF MegaGym autonomous verification engine. Sealing Blocks 121 through 125 achieves sustained deductive throughput exceeding $356,000\text{ steps/s}$ on workstation silicon with zero heuristic approximations, zero unproven axioms, and zero `sorry` placeholders. We analyze the compactness of deductive fixed points, demonstrating that the global lemma citation graph contracts into a compact Hausdorff topology with finite topological diameter.
 

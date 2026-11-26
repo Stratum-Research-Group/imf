@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 This landmark treatise synthesizes the architectural, mathematical, and empirical foundations established across 358 formal research papers and one hundred million ($100,000,000$) machine-certified deductive steps. We trace the complete unified trajectory of Interaction Primitive Families (IMF): from symmetric/anti-symmetric Lie-algebraic valence splitting, through sub-byte Polytope Lattice Quantization (PLQ) and direct-DMA streaming, to exceptional group routing ($G_2, F_4, E_6, E_7$) and Lean 4 formal machine verification. We prove that autonomous intelligence on consumer silicon is achievable when grounded in invariant geometric principles.
 

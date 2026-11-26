@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 Scaling automated formal deduction across sixty consecutive million-step blocks reveals the emergence of stable syntactic attractor basins in constructive logic. We report the completion and cryptographic sealing of the 60th MegaGym block, certifying **60,000,000 deductive proof steps** in the Lean 4 proof assistant. We evaluate the asymptotic convergence of proof search depth and lemma reuse rates, demonstrating a sustained generation throughput of $348,000\text{ steps/s}$ with a total compressed artifact volume of $1.19\text{ GB}$.
 

@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We document the attainment of the **260,000,000 Certified Deductive Steps Milestone** across 260 cryptographically sealed blocks in the IMF MegaGym deductive execution harness. Sustaining a throughput exceeding $308,000\text{ steps/s}$ on AMD Ryzen 5 7600X and NVIDIA Blackwell SM 12.0 silicon, the verified corpus expands to $5,220.8\text{ MB}$ of strictly sound proof trajectories. We present empirical convergence analysis, proof-tree depth distributions, and memory footprint invariants across Blocks 251 through 260.
 

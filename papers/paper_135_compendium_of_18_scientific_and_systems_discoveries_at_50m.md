@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 
 We present a comprehensive scientific treatise documenting the **18 invariant mathematical discoveries, architectural paradigms, and physical hardware breakthroughs** uncovered during the automated formal verification of $50,000,000$ machine-checked theorem steps. Spanning three major dimensions—(1) Mathematical & Theoretical Physics Invariants, (2) Empirical Systems Failures & Algorithmic Post-Mortems, and (3) Physical Silicon Acceleration—every discovery is established with explicit mathematical proofs, machine-checked Lean 4 Core certificates, and physical workstation metrics on an NVIDIA RTX 5060 Ti GPU.

@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 Sub-byte models utilizing bipolar ternary states ($\{-1, 0, +1\}$) require normalizing activation distributions before downstream projections. Traditionally, this demands expanding packed bitplanes into full floating-point arrays before applying LayerNorm, incurring massive global memory traffic. We introduce a fused in-register LayerNorm kernel (`fused_blackwell_bit_layernorm_kernel`) for NVIDIA Blackwell SM 12.0 architectures that evaluates mean and variance directly from bitplanes using warp-level population counts (`__popc`) and fast reciprocal square-root intrinsics (`rsqrtf`).
 

@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 Achieving high-throughput inference for 100B-parameter models on 16GB consumer GPUs requires streaming layer weights from NVMe storage faster than the execution duration of preceding layers. We analyze a kernel-bypass Direct-DMA streaming architecture utilizing Linux `io_uring` submission queues. By issuing direct asynchronous block reads into pinned CUDA host memory buffers, our swapper bypasses the Linux page cache and filesystem locks, sustaining prefetch bandwidths of up to 13.20 GB/s with a mean swap latency of 8.28 ms per layer block.
 

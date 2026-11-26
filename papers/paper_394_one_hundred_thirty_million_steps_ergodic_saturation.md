@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 At extreme proof search scales, deductive saturation transitions from discrete branch exploration into continuous ergodic mixing across formal lemma graphs. In this treatise, we document the sealing of Block 130 of the IMF MegaGym Prover Fleet, establishing **130,000,000 certified deductive proof steps** ($0$ sorry clauses, $0$ unproven axioms, 100% Lean 4 kernel validated). We analyze the topological invariants of the cumulative lemma database across 130 blocks ($2,624.6\text{ MB}$ compressed payload), demonstrating that higher homotopy groups $\pi_k(\mathcal{L}_{130})$ for $k \ge 2$ collapse to zero, confirming transfinite homological stability and uniform tactic equipartition across consumer hardware silicon.
 

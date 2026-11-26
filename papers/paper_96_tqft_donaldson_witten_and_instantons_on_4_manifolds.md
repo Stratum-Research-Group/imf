@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We establish a topological normalization theory for deep continuous neural networks using **Donaldson–Witten Topological Quantum Field Theory (TQFT)** over compact oriented Riemannian 4-manifolds $M$. In high-dimensional representations, standard batch normalization and layer normalization fail to constrain non-perturbative topological curvature defects and instanton singularities. By mapping network state transitions onto the moduli space of Anti-Self-Dual (ASD) connections $\mathcal{M}_{\text{ASD}} = \{A \mid F_A^+ = 0\} / \mathcal{G}$ on an $\mathrm{SU}(2)$ gauge bundle over $M$, we demonstrate that instanton numbers correspond to exact topological Chern numbers $k = c_2(E)[M] \in \mathbb{Z}$. Furthermore, Donaldson polynomial invariants $q_k: \operatorname{Sym}^d(H_2(M)) \to \mathbb{Z}$ provide gauge-invariant neural loss functionals that are strictly independent of metric fluctuations and layer depth. We machine-certify the underlying instanton index formulas, Hodge star involution identities, and intersection form signature invariants in Lean 4.33.1 with **zero axioms** (`#print axioms` empty).
 

@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 To execute massive formal reasoning models (32B to 70B parameters) locally within a consumer workstation hardware budget (16GB VRAM), we introduce a fused GPU dequantizer based on the 8-dimensional Gosset root lattice $\mathrm{E}_8$. By exploiting the densest lattice packing in 8 dimensions (kissing number $\tau_8 = 240$), 8 consecutive FP16 weights are quantized onto a single codebook index fitting within an 8-bit unsigned integer ($2^8 = 256 \ge 240$), achieving a base bitrate of $1.0\text{ bit/weight}$. With block-wise FP16 scale factors per 32 weights, the effective compression is $1.50\text{ bits/weight}$—a **$10.67\times$ compression ratio** over standard FP16. We design an ultra-fast Triton GPU kernel that loads 8-bit lattice indices directly into streaming multiprocessor registers, performs table lookup into an on-chip codebook of 240 root vectors, applies scale factors, and accumulates dot products with input activations in a single fused pass. Physical workstation benchmarks on an NVIDIA GeForce RTX 5060 Ti achieve a **$7.38\times$ speedup** over PyTorch ($64.50\,\mu\text{s}$ latency for a $4096 \times 4096$ linear projection, throughput of **$260.12\text{ Giga weights/second}$**, with maximum absolute error $< 2.44 \times 10^{-4}$). The algebraic kissing number and compression invariants are formally verified in Lean 4 with zero external axioms.
 

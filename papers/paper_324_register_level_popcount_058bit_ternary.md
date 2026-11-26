@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We introduce a specialized CUDA kernel architecture targeting the NVIDIA Blackwell SM 12.0 microarchitecture for sub-byte 0.58-bit ternary quantized neural networks ($\{-1, 0, +1\}$). By decomposing ternary vectors into dual-bitmask registers (`pos_mask` and `neg_mask`), dot-product accumulation is reduced entirely to bitwise bit-parallel logic (`&`, `|`) and hardware-accelerated population count (`__popc`) instructions, bypassing conventional arithmetic units and floating-point MACs.
 

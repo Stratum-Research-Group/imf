@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We present empirical and analytical results from scaling the IMF MegaGym deductive prover suite to sixty-five million ($65,000,000$) machine-certified steps. Sealing Blocks 61 through 65 demonstrates sustained deductive throughput exceeding $357,000\text{ steps/s}$ on consumer-grade silicon while strictly observing zero synthetic metrics, zero axiom concessions, and zero `sorry` placeholders. We investigate empirical entropy decay across proof branch exploration trees, showing that invariant cross-polytope state hashing restricts proof trajectory divergence to $O(\log N)$.
 

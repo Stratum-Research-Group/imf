@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We formulate, implement, and benchmark the Poincaré Discrete Ostrovsky Ocean Internal Soliton lattice flow (`imf/kernels/triton_fused_poincare_discrete_ostrovsky.py`). The Ostrovsky equation models weakly nonlinear long internal gravity waves in a rotating ocean, combining Korteweg-de Vries (KdV) advection and third-order dispersion with Coriolis rotation effects. We project this lattice dynamics onto the Poincaré hyperbolic ball with conformal factor $\lambda_u = \frac{2}{1 - \|u\|^2}$, demonstrating a **9.28x speedup** on an NVIDIA RTX 5060 Ti workstation GPU over PyTorch FP32, with numerical error $< 2.98 \times 10^{-8}$ and throughput of **6,118.02M nodes/s**.
 

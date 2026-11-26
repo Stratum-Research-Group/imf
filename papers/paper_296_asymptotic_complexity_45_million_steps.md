@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 Scaling automated formal deduction beyond tens of millions of proof steps exposes severe storage and index retrieval bottlenecks if AST representations are not factorized. We evaluate the memory footprint and retrieval latency of the MegaGym prover corpus as it scales to **45,000,000 certified deductive proof steps**. Using Zstandard dictionary compaction and deduplicated structural term indexing, the total compressed on-disk footprint across 45 blocks is constrained to $895.6\text{ MB}$, yielding an average of just $19.9\text{ bytes}$ per certified formal deductive step.
 

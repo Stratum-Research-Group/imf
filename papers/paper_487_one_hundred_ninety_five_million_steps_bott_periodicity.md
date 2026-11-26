@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We report the formal completion and machine certification of the 195-millionth deductive proof step within the IMF MegaGym continuous verification environment. Spanning 195 contiguous 1,000,000-theorem blocks sealed on physical NVMe storage with SHA-256 block ledger immutability, this milestone demonstrates the asymptotic saturation of complex Bott periodicity across neural latent manifolds. We establish that higher-order homotopy representations on unitary parameter manifolds exhibit strict 2-periodicity under double topological suspension. In connection with formal mathematical formalization programs initiated by Kevin Buzzard (Xena Project / Imperial College London) for modern algebraic topology and schemes, we demonstrate that full topological towers can be verified with foundational rigor without classical heuristic relaxations.
 

@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We investigate Poisson-Lie groups $(G, \pi)$ as the mathematical bridge connecting continuous Lie group parameter spaces with discrete quantum deformations $U_q(\mathfrak{g})$. In a Poisson-Lie group, the Poisson bivector $\pi \in \bigwedge^2 TG$ is compatible with group multiplication: $\pi(gh) = (L_g)_* \pi(h) + (R_h)_* \pi(g)$. We demonstrate that non-zero Poisson structures model noncommutative quantum uncertainty during continuous weight updates, naturally introducing regularization that prevents parameter overfitting.
 

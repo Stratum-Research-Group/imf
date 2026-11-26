@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 Modern multi-chiplet wafer-scale processors face catastrophic routing failures when physical processing elements (PEs) suffer soft errors, manufacturing defects, or thermal throttles. Standard architectural fault mitigation relies on packet re-routing, redundant interconnects, and ECC overhead. In this paper, we demonstrate that when systolic state updates are mapped to discrete Chern insulators with non-zero bulk topological invariant ($C_1 \neq 0$), chiral edge states emerge at boundaries and around defect voids. We prove by the **Bulk-Boundary Correspondence** that these edge modes propagate unidirectionally with velocity $v_{edge} = \partial E / \partial k \neq 0$ and exhibit topological protection:
 $$

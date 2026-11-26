@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We present the derivation, implementation, and physical GPU validation of the Poincaré Discrete Hunter-Saxton Lattice Soliton flow (`imf/kernels/triton_fused_poincare_discrete_hunter_saxton.py`). The Hunter-Saxton equation $(u_t + u u_x)_x = \frac{1}{2} (u_x)^2$ models orientation waves in nematic liquid crystals and geodesic flows on diffeomorphism groups. We formulate its discrete symplectic Poincaré metric integration directly on GPU memory hierarchy, demonstrating a **10.09x speedup** over PyTorch eager baseline with maximum numerical error below $2.39 \times 10^{-7}$ and sustained throughput of **8,141.79M nodes/s**.
 

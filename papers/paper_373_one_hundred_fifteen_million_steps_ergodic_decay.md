@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We report the scaling of the IMF MegaGym continuous verification engine to one hundred fifteen million ($115,000,000$) formal machine-certified steps. Sealing Blocks 111 through 115 demonstrates sustained verification throughput exceeding $354,000\text{ steps/s}$ on consumer-grade silicon. We analyze the decay rate of redundant lemma synthesis across the 115M theorem corpus, demonstrating that geometric hashing against the Leech lattice $\Lambda_{24}$ forces the generation of duplicate lemmas to decay super-exponentially ($O(e^{-N^{1.2}})$).
 

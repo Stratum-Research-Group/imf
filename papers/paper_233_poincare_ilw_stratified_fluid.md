@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 We establish the complete formulation and GPU execution of the Intermediate Long Wave (ILW) equation on the Poincaré hyperbolic unit manifold. Governed by a singular integral operator $\mathcal{T}$ with cotangent kernel, the ILW system continuously bridges the shallow-water Korteweg-de Vries regime ($\delta \to 0$) and the deep-water Benjamin-Ono regime ($\delta \to \infty$) across arbitrary finite fluid depths $\delta > 0$. Using our dedicated fused Triton kernel (`imf/kernels/triton_fused_poincare_ilw.py`), finite-depth wave propagation executes at **16.60 µs** per 128k grid point iteration on an RTX 5060 Ti GPU, demonstrating an **8.68×** speedup over native PyTorch with maximum absolute error $< 5.96 \times 10^{-8}$. All structural conservation properties are verified in Lean 4 with 0 external axioms.
 

@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We establish an operator-theoretic metric foundation for discrete language models using **Alain Connes' Non-Commutative Geometry (NCG)**. In conventional architectures, vocabulary tokens are embedded as points in Euclidean spaces $\mathbb{R}^d$, where pairwise relations are restricted to commutative inner products $\langle x, y \rangle = \langle y, x \rangle$. This commutativity fundamentally contradicts the non-commutative ordering of natural language syntax and formal deductive logic ($A \implies B \ne B \implies A$). By representing a discrete language vocabulary as a non-commutative $C^*$-algebra $\mathcal{A}$ acting boundedly on a separable Hilbert space $\mathcal{H}$ alongside a self-adjoint Dirac operator $D$, we construct an exact **spectral triple** $(\mathcal{A}, \mathcal{H}, D)$. Under Connes' geodesic distance formula:
 $$

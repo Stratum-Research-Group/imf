@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We announce the completion of eighty million ($80,000,000$) machine-certified formal deductive steps within the IMF MegaGym continuous verification runtime. Sealing Blocks 76 through 80 sustains an uninterrupted generation and checking velocity of over $344,000\text{ steps/s}$ on consumer-grade silicon. We investigate higher-order Betti numbers of the proof state manifold, demonstrating that all first-order homology groups vanish ($H_1(\mathcal{M}_{\text{proof}}) = 0$), formally confirming the topological absence of circular reasoning loops.
 

@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 Scaling automated formal theorem proving to tens of millions of machine-checked steps provides a rigorous foundation for training reasoning models without synthetic hallucinations. We report the completion and sealing of the 50th continuous MegaGym block, certifying **50,000,000 deductive proof steps** in the Lean 4 proof assistant. We evaluate the longitudinal stability of theorem generation throughput across 50 blocks, demonstrating an average throughput of $348,500\text{ steps/s}$ with a total compressed artifact size of $995.1\text{ MB}$.
 

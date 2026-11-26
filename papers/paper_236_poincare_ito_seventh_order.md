@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 We present the formal derivation and physical GPU realization of the Ito seventh-order nonlinear dispersive wave hierarchy over the Poincaré conformal unit manifold. Involving ultra-high 7th-order linear dispersion coupled with high-degree convective polynomials ($\partial_x [ u_{xxxxxx} + 14 u u_{xxxx} + 21 u_x u_{xxx} + 14 (u_{xx})^2 + 70 u^2 u_{xx} + 70 u (u_x)^2 + 70 u^4 ] = 0$), the Ito equation requires a 9-point spatial finite-difference stencil. Our specialized fused Triton kernel (`imf/kernels/triton_fused_poincare_ito_seventh_order.py`) evaluates the flow in **32.55 µs** per 128k grid iteration on an NVIDIA GeForce RTX 5060 Ti GPU, demonstrating a **20.06×** speedup over native PyTorch with maximum absolute error $< 2.98 \times 10^{-8}$. All structural invariants are certified in Lean 4 without external axioms.
 

@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 Sub-byte autoregressive architectures require continuous post-activation features to be dynamically packed into sub-byte bitplanes before streaming into bit-serial matrix multipliers. We introduce an in-register activation quantizer kernel (`fused_blackwell_bit_activations_kernel`) for NVIDIA Blackwell SM 12.0 architectures. By computing non-linear GELU/ReLU evaluations in floating-point registers and immediately packing sign and threshold bits across 32 warp threads using `__ballot_sync`, intermediate global memory writes are completely eliminated.
 

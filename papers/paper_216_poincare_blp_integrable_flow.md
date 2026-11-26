@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We establish the Boiti-Leon-Pempinelli (BLP) integrable hierarchy within the Poincaré hyperbolic manifold $\mathbb{H}^2$. Originating as a multidimensional generalization of the Korteweg-de Vries and sine-Gordon equations, the BLP system features cubic self-interactions and mixed dispersion $\partial_y \partial_x^2$:
 $$u_t = u_{xxy} - 4 u^2 u_y - 2 u_x v$$

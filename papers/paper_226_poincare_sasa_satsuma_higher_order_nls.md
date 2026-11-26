@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 We establish the exact formulation and physical GPU implementation of the Sasa-Satsuma higher-order nonlinear Schrödinger (HNLS) hierarchy projected onto the Poincaré hyperbolic unit disk $\mathbb{D}^2$. Incorporating third-order dispersion, self-steepening, and Raman self-frequency shift perturbations, the system governs femtosecond optical solitons under non-Euclidean boundary conditions. A fused Triton kernel (`imf/kernels/triton_fused_poincare_sasa_satsuma.py`) executes at **23.40 µs** per 128k spatial grid iteration on an RTX 5060 Ti GPU, demonstrating a **32.73×** speedup over native PyTorch while keeping maximum absolute numerical error bounded below $1.19 \times 10^{-7}$. All structural invariants are certified in Lean 4 with 0 external axioms.
 

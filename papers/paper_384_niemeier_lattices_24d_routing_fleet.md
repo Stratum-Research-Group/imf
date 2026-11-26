@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 In dimension 24, there exist exactly 24 isomorphism classes of positive-definite even unimodular lattices, known as the Niemeier lattices. Exactly 23 of these lattices possess root systems of Coxeter-Dynkin types (such as $A_1^{24}, D_4^6, E_8^3, A_{24}$), while the 24th is the unique rootless Leech lattice $\Lambda_{24}$. We introduce a multi-manifold expert routing architecture (`fused_niemeier_lattice_routing_kernel`) mapping 24 distinct expert specialist fleets to the 24 Niemeier lattices, establishing an optimal discrete classification framework for multi-agent reasoning.
 

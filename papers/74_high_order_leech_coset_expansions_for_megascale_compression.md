@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 Higher-dimensional lattice vector quantization provides a mathematically sound alternative to heuristic neural network compression. In this paper, we explore the asymptotic scaling laws of **High-Order Coset Expansions ($D > 2$)** within the 24-dimensional Leech lattice ($\Lambda_{24}$) for foundation model architectures scaling to 100 billion parameters and beyond. While prior work restricted Russian-doll nesting to 8-dimensional Gosset ($E_8$) lattices or shallow $D \le 2$ structures, we demonstrate that a canonical 24-dimensional Leech root generator ($1,024$ minimal vectors occupying $64.1\text{ KB}$ of physical SRAM) can be recursively nested up to depth $D=4$. At $D=3$, the architecture addresses **$1.07 \times 10^9$ discrete virtual Voronoi cells** ($7.85 \times 10^5\times$ compression over equivalent FP16 tables, $49.15\text{ GB}$ equivalent capacity) with a traversal latency of **$0.214\text{ ms}$** and a mean squared reconstruction error of $\text{MSE} = 0.413$. At $D=4$, the state space scales to **$1.10 \times 10^{12}$ virtual states** ($8.04 \times 10^8\times$ compression, $50.3\text{ Terabytes}$ equivalent capacity) with an on-chip forward latency of **$0.269\text{ ms}$** and $\text{MSE} = 0.355$ on a consumer NVIDIA RTX 5060 Ti GPU. Furthermore, we demonstrate that coupling this high-order 24D coset codebook with speculative rejection sampling enables the 100B Leech MoPE architecture to achieve streaming generation speeds of **$46.1 - 50.0\text{ tokens/second}$** at $100\%$ zero-axiom Lean 4 verification fidelity.
 

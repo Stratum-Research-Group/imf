@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We establish the (2+1)-dimensional Harry Dym integrable equation within the Poincaré hyperbolic manifold $\mathbb{H}^2$. Renowned for exhibiting cuspon and peakon solitary solutions with non-analytic derivative jumps, the higher-dimensional Harry Dym equation is given by:
 $$u_t = u^3 u_{xxx} + 3 u^2 u_x v_y$$

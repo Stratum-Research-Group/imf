@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 This one-hundredth foundational monograph completes the **Interaction Model Foundations (IMF)** research program. Over one hundred comprehensive technical treatises spanning Lie algebra, higher-dimensional regular polytope geometry, non-Archimedean $p$-adic analysis, the Langlands Program, non-commutative geometry, open-source ASIC silicon fabrication, and machine-certified formal verification in Lean 4, IMF establishes the definitive replacement for auto-associative Transformer architectures. We provide the complete, unified mathematical and architectural synthesis demonstrating: (1) exact resolution of the Reversal Curse via $\mathrm{Sym}^2 \oplus \bigwedge^2$ memory splitting, (2) $O(1)$ constant-memory autoregression via counter-rotating Lie vortices with zero-shear null-point clutching, (3) sub-bit signed ternary arithmetic across regular orthoplexes, $E_8$ Gosset roots, and Leech lattices $\Lambda_{24}$, (4) verified physical feasibility on SkyWater 130nm silicon ($24\,\mu\text{W}$, $14.39\%$ tile utilization), and (5) total epistemic soundness verified across 100,000 deduction steps with **zero axioms** (`#print axioms` empty).
 

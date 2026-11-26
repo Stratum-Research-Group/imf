@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We present the architectural realization of linear-time and logarithmic-depth execution engines on hyperbolic manifolds: the Fused Poincaré Selective State Space Model (SSM / Mamba) and Fused Poincaré Hierarchical Centroid Routing. By integrating continuous-to-discrete state transitions directly into origin tangent spaces, Poincaré SSM achieves $O(N)$ linear complexity in sequence length with exact hyperbolic boundary retraction. Simultaneously, the Hierarchical Centroid Routing kernel evaluates exact geodesic distances across multi-level tree centroids in parallel, achieving **$125.55\,\mu\text{s}$** latency ($1.99\times$ speedup, **$16.31\text{ M tok/s}$**) with $100.0\%$ decision concordance on an NVIDIA GeForce RTX 5060 Ti. In tandem, we formally verify 10 cornerstone theorems across William Thurston's Geometrization of 3-Manifolds and Carlos Simpson's Non-Abelian Hodge Theory under Lean 4 Core with 100% Zero External Axioms.
 

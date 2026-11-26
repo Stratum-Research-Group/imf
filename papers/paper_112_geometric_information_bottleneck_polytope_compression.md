@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 The Information Bottleneck (IB) principle of Tishby et al. seeks an intermediate continuous representation $Z$ that minimizes mutual information with input $X$ while maximizing predictive relevance with target $Y$: $\mathcal{L}_{IB} = I(X; Z) - \beta I(Z; Y)$. When representations are embedded in continuous Riemannian manifolds endowed with the Fubini-Study / quantum geometric tensor metric:
 $$

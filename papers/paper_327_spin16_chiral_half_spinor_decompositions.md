@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We formulate a novel Mixture-of-Polytope-Experts (MoPE) routing mechanism based on the chiral half-spinor representations of the spin group $\operatorname{Spin}(16)$. In dimension $n=16$, the Dirac spinor representation of dimension $2^8 = 256$ decomposes under the chirality operator $\Gamma_{17}$ into two irreducible 128-dimensional Weyl half-spinors $\Delta_{16}^+$ and $\Delta_{16}^-$. We demonstrate that mapping 16D token embeddings into $\Delta_{16}^+$ establishes orthogonal, interference-free routing across 128 expert networks with hardware-accelerated warp-level evaluation.
 

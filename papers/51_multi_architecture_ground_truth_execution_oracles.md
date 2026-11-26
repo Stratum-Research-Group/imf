@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 
 We present the design, architectural integration, and verification semantics of the **IMF 14-Domain Ground-Truth Execution Verifier Registry**. Evaluation of technical foundation models has historically relied on surface-level heuristics—BLEU, exact string matching, unconstrained regexes, or soft neural reward models—which permit catastrophic false positives on syntax errors, memory safety violations, and formal fallacies. We systematically resolve this across 14 diverse technical domains by embedding actual compilers, assemblers, and formal proof kernels directly into the evaluation and reinforcement learning feedback loops. The registry encompasses low-level architectures (x86-64, ARM64, RISC-V RV64GC), hardware and kernel targets (NVIDIA CUDA C++, Linux eBPF, LLVM-IR, C17, C++20, Rust), interactive formal theorem provers (Lean 4), and domain science representations (CRISPR Watson-Crick DNA, Cheminformatics SMILES, Agentic JSON RPC). All 14 verification oracles execute locally on Linux x86_64 with deterministic sub-second pass/fail criteria, completely eliminating human-in-the-loop subjectivity and providing tamper-proof reward signals for autonomous model self-improvement.

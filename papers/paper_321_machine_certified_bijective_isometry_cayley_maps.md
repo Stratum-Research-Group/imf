@@ -10,5 +10,8 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 Linear approximations of Lie group operations frequently drift into improper orthogonal transformations containing reflections ($\det(R) = -1$), which invert the parity of token representations. We present a formal machine-checked proof in Lean 4 certifying that the matrix Cayley transform $R = (I - \Omega)(I + \Omega)^{-1}$ applied to any real skew-symmetric matrix $\Omega \in \mathfrak{so}(n)$ is a strict bijective isometry onto $\mathrm{SO}(n)$ with $\det(R) = +1$, guaranteeing that spatial parity is preserved across arbitrary sequence transformations.

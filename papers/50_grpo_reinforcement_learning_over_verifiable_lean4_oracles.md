@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 
 We formalize the integration of machine-checked Lean 4 kernel verification into **Group Relative Policy Optimization (GRPO)** for continuous mathematical and deductive reasoning. Reinforcement Learning from Human Feedback (RLHF) and empirical reward models suffer from well-documented alignment vulnerabilities: reward hacking, verbosity bias, and sycophancy. In technical domains, these statistical rewards fail to penalize invalid mathematical steps, producing superficially convincing yet unsound derivations. We resolve this by replacing heuristic scalar reward models with an automated, non-stochastic **Lean 4 Formal Oracle**. Candidate completions generated across policy rollouts are directly evaluated by the Lean 4 compiler kernel under strict axiomatic reflection (`#print axioms`), granting binary rewards ($+3.0$) exclusively to closed proof trees that satisfy core foundational axioms (`Classical.choice`, `Quot.sound`, `propext`) and applying severe penalties ($-1.0$) to proof escape-hatches (`sorry`, `admit`). We demonstrate that GRPO group advantages computed over verifiable proofs eliminate policy drift and force rapid convergence toward sound deductive trajectories without external human supervision.

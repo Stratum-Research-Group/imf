@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 Autonomous recursive self-improvement (RSI) requires reliable, non-divergent epistemic supervision across extended compute runs. In standard auto-regressive distillation pipelines, models suffer from representation drift, hallucinations, and catastrophic entropy collapse when self-training without external grounding. In this paper, we demonstrate the empirical stability and asymptotic convergence of a **Zero-Axiom Formally Gated Distillation Loop** over **40,841 continuous steps** on local workstation hardware. Every distilled step is gated by a Lean 4 formal verification kernel enforcing `#print axioms` (strictly rejecting `sorry` and `admit`). Concurrently, we present a cross-model geometric ingestion framework that projects dense parameter manifolds from external frontier mathematical models—including **Qwen2.5-Math-72B**, **Goedel-Prover-32B**, and **DeepSeek-R1-Distill-Qwen-32B**—directly into the 8-dimensional Gosset ($E_8$) and 24-dimensional Leech ($\Lambda_{24}$) polytope lattice codebooks. The resulting virtualized representation achieves an average root mean squared reconstruction error of $\text{MSE} \approx 0.203 - 0.235$ while operating within a sub-20 MB resident GPU VRAM footprint and maintaining thermal stability at $55^\circ\text{C}-61^\circ\text{C}$. This establishes the viability of unbounded, safe, continuous mathematical learning on consumer edge hardware.
 

@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We formulate, implement, and hardware-benchmark two bidirectional non-Euclidean linear-time execution engines: the Fused Poincaré Bidirectional State Space Model (Bi-Mamba) and the Fused Poincaré 2D Spatial Cross-Scan. Combining forward and backward continuous-to-discrete selective state space recurrences directly within origin tangent spaces $T_0 \mathbb{B}_c^D$, the Bidirectional SSM executes at **$447.19\,\mu\text{s}$** latency ($2,271.23\times$ speedup, **$9.16\text{ M tok/s}$**) on the RTX 5060 Ti. Concurrently, the 4-way 2D Spatial Cross-Scan merges multidirectional vision-geometric features via isotropic hyperbolic gyrovector addition at **$27.06\,\mu\text{s}$** ($7.35\times$ speedup, **$302.76\text{ M tok/s}$**). In tandem, we formally machine-certify 10 cornerstone theorems across the Berry-Keating Arithmetic Quantum Chaos conjecture and Lurie's Higher $\infty$-Topos Theory under Lean 4 Core with 100% Zero External Axioms.
 

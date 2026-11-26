@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We establish the Calogero-Degasperis integrable equation within the Poincaré hyperbolic half-space $\mathbb{H}^n$. Distinguished by its combination of third-order dispersion, cubic convection, and non-polynomial rational gradient terms, the equation governs the evolution:
 $$u_t = \frac{1}{4} u_{xxx} - \frac{3}{2} u^2 u_x + \frac{1}{8} \frac{(u_x)^3}{u^2}$$

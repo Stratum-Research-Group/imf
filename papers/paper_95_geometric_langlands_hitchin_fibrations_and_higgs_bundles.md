@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We formulate a geometric substrate for continuous neural memory using the **Geometric Langlands Correspondence** and **Hitchin integrable systems** over smooth complex projective algebraic curves $X$. In conventional recurrent architectures and state-space models, hidden representations suffer from chaotic drift and non-integrability across deep temporal horizons. By representing continuous neural trajectories as pairs $(E, \Phi)$ consisting of a holomorphic vector bundle $E \to X$ and a Higgs field $\Phi \in H^0(X, \operatorname{End}(E) \otimes K_X)$, the state space embeds into the cotangent bundle $T^* \operatorname{Bun}_G(X)$. The Hitchin fibration:
 $$

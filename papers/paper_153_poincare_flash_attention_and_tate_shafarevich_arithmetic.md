@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We formulate, implement, and benchmark two fundamental attention acceleration engines on Riemannian manifolds: Fused Poincaré Flash-Attention and Fused Poincaré Grouped-Query Attention (GQA) RoPE. By integrating the online softmax algorithm of Dao et al. with hyperbolic conformal metric scalings and exponential retraction maps $\exp_0^c$, Poincaré Flash-Attention eliminates intermediate $N \times N$ attention matrix materialization, reducing memory complexity from $O(N^2)$ to $O(1)$ and accelerating attention computation to **$20.87\,\mu\text{s}$** ($8.71\times$ speedup, **$49.07\text{ M tok/s}$**) on the RTX 5060 Ti. Concurrently, Fused Poincaré GQA RoPE achieves **$19.89\,\mu\text{s}$** latency ($14.17\times$ speedup, **$25.74\text{ M query-heads/s}$**). In tandem, we formally verify 10 cornerstone theorems across the arithmetic geometry of the Tate-Shafarevich group $\Sha(E/K)$ and Fontaine's $p$-adic Hodge theory period rings under Lean 4 Core with 100% Zero External Axioms.
 

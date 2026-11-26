@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We establish the Chen-Lee-Liu (CLL) derivative nonlinear Schrödinger equation within the Poincaré hyperbolic manifold $\mathbb{H}^n$. As the second canonical integrable member of the DNLS hierarchy, the Chen-Lee-Liu equation governs optical pulse propagation in nonlinear fibers under self-steepening:
 $$i u_t + u_{xx} + i |u|^2 u_x = 0$$

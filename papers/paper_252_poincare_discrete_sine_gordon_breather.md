@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 We develop the discrete sine-Gordon (Frenkel-Kontorova) lattice dynamical flow governing fluxon breathers on the Poincaré hyperbolic disc manifold. Symplectic temporal evolution models the nonlinear Josephson periodic potential force $- \omega_0^2 \sin(\phi_n)$ and discrete spatial coupling, scaling through the Riemannian conformal metric $\lambda_\phi = \frac{2}{1 - \|\phi\|^2}$. Physical execution on NVIDIA GeForce RTX 5060 Ti achieves a $3.85\times$ speedup over PyTorch ($29.06\,\mu\text{s}$, $4,510.20\text{M nodes/s}$) with max numerical divergence $< 1.91 \times 10^{-6}$. Formal deduction in Lean 4 confirms zero external axioms.
 

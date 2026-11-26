@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We present a geometric framework for fault-tolerant quantum circuit compilation based on regular higher-dimensional orthoplex and Leech lattice coordinate frames. In conventional quantum compiling, approximating arbitrary unitary operators $U \in \mathrm{SU}(2^n)$ with universal discrete gate sets (Clifford + $T$) incurs exponential Solovay–Kitaev depth overhead. By projecting continuous $n$-qubit quantum state trajectories onto the 24-dimensional Leech lattice $\Lambda_{24}$ and 8-dimensional $E_8$ Gosset root polytope, we show that discrete coset transitions map isometrically onto exact Clifford gate sequences with bounded phase errors. Furthermore, ternary orthoplex coordinates $\{-1, 0, +1\}$ naturally represent single-qubit stabilizer states and Pauli eigenstates, eliminating topological phase leakage. We machine-certify the underlying discrete unitary group symmetries and parity bounds in Lean 4.33.1 with **zero axioms**.
 

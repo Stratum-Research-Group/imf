@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 Autoregressive token generation in large language models is predominantly memory-bandwidth bound ($M=1$ GEMV regime). We introduce an optimized CUDA GEMV microkernel for NVIDIA Blackwell SM 12.0 architectures executing FP8 (E4M3) weight matrices directly against FP32/FP16 activation vectors. The kernel unpacks FP8 coordinates on-the-fly inside register files, saturating the $448\text{ GB/s}$ GDDR7 memory bus and enabling 70B parameter models to decode at real-time speeds under consumer hardware constraints.
 

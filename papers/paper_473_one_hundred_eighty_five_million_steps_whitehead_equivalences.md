@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We document the formal certification of the 185-millionth deductive proof step within the IMF MegaGym continuous verification environment. Spanning 185 contiguous 1,000,000-theorem blocks sealed on physical NVMe storage with SHA-256 block ledger immutability, this milestone demonstrates the asymptotic saturation of Whitehead homotopy equivalences across high-dimensional latent manifolds. We establish that when a neural representation map preserves the entire homotopy tower of higher spheres, weak homotopy equivalence implies isometric congruence under metric volume preservation.
 

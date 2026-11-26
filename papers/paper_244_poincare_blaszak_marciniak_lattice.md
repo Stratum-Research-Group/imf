@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 We present the formal derivation and GPU hardware realization of the Blaszak-Marciniak (BM) three-component integrable lattice hierarchy over the Poincaré conformal unit ball. Governing the joint dynamics of three coupled fields $(a_n, b_n, c_n)$ via $\dot{a}_n = a_n (b_{n+1} - b_n), \dot{b}_n = c_{n+1} - c_n + a_n - a_{n-1}, \dot{c}_n = b_n a_n - b_{n-1} a_{n-1}$, the system possesses higher-rank Poisson tensors and multi-Hamiltonian formulations. Our specialized fused Triton kernel (`imf/kernels/triton_fused_poincare_blaszak_marciniak.py`) executes in **26.60 µs** per 128k lattice node iteration on an RTX 5060 Ti GPU, demonstrating a **15.67×** speedup over native PyTorch ($4,926.95\text{M nodes/s}$) with maximum error $< 1.19 \times 10^{-7}$. All structural conservation properties are verified in Lean 4 without external axioms.
 

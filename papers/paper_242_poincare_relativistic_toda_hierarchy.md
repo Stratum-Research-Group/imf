@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 We derive and physically benchmark the Suris relativistic deformation of the Toda lattice hierarchy within the Poincaré conformal unit manifold. Coupled through dual phase-space variables $(a_n, b_n)$ representing coordinate spacing and particle momentum, the system $\dot{a}_n = a_n [(b_{n+1} - b_n) + g^2 a_n (a_{n+1} - a_{n-1})], \dot{b}_n = (a_n - a_{n-1}) + g^2 b_n (b_n - b_{n-1})$ extends discrete integrability to relativistic kinematics with Poisson commuting action invariants. Our specialized fused Triton kernel (`imf/kernels/triton_fused_poincare_relativistic_toda.py`) evaluates the coupled flow in **20.98 µs** per 128k lattice node iteration on an RTX 5060 Ti GPU, demonstrating a **30.18×** speedup over native PyTorch ($6,248.83\text{M nodes/s}$) with maximum error $< 1.19 \times 10^{-7}$. All structural conservation laws are certified in Lean 4 without external axioms.
 

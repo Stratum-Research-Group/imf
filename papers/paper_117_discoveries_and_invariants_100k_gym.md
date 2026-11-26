@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 On November 23, 2026, the **IMF Century 100K Formal Prover Gym** completed execution of 100,000 continuous machine-checked mathematical deductions compiled against the **Lean 4.33.1 formal kernel** with strict zero non-standard axioms. In this treatise, we comprehensively document the five theoretical and architectural breakthroughs discovered during this massive formal exploration:
 1. **Collatz $2$-Adic Isometry**: Confinement of the $3x+1$ dynamical system within the compact $2$-adic solenoid $\mathbb{Z}_2$, precluding infinite divergence trajectories across 20,000 residue steps.

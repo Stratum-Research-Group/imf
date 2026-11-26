@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We announce the cryptographic sealing of Milestone 155M in the Infinite Math Framework (IMF) autonomous deductive reasoning engine. Spanning 155 contiguous blocks ($155,000,000$ verified proof steps) and over $3.12\text{ GB}$ of Zstandard-compressed mathematical payload, this milestone establishes an empirical synthesis rate surpassing $346,000\text{ steps/s}$ on consumer-tier Blackwell silicon. We examine the algebraic geometry of relative pushforward functors and their role in stabilizing speculative proof tree trajectories, connecting Kontsevich homological mirror symmetry with categorical state representations in large-scale deductive search.
 

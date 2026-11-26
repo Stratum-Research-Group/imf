@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 
 We formalize the mathematical, structural, and computational mechanics of **decoupling spinning Lie manifolds** ($\mathrm{SO}(n)$, $\mathrm{U}(n)$, and $\mathrm{Spin}(n)$) within continuous-time neural representations. While non-dissipative gyroscopic rotation prevents vanishing/exploding gradients, unconstrained multi-axial spin generates high-dimensional cross-talk, non-Abelian frame dragging, and representation smearing. In this paper, we establish three canonical decoupling frameworks: (i) **Cartan Subalgebra / Schur Factorization**, which projects coupled $\mathfrak{so}(n)$ generators into independent, non-interacting 2-plane harmonic oscillators; (ii) **Direct-Sum Commutator Annihilation** ($\mathfrak{so}(p) \oplus \mathfrak{so}(n-p)$), eliminating inter-shell gyroscopic torque through the condition $[\Omega_A, \Omega_B] \equiv 0$; and (iii) **Dynamical Gauge Nullspace Projection**, which isolates zero-frequency rotational eigenvectors ($\Omega v = 0$) and co-rotating reference frames to freeze critical working memory invariants indefinitely. We analyze the exact algebraic trade-offs, stability envelopes, and computational scaling of each method, demonstrating that block-decoupling reduces inference memory from $\mathcal{O}(n^2)$ to $\mathcal{O}(n)$ while preserving topological memory capacity.

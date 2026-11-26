@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 Classical autoregressive transformers and recurrent neural architectures exhibit catastrophic capacity collapse over long sequences ($L \to \infty$) due to non-isometric weight transformations $W \notin SO(N)$, which induce an exponential decay in signal-to-noise ratio: $\operatorname{SNR}(t) \propto \|W\|_2^{2t} \to 0$. In this paper, we formalize the recurrence relation of the **Isometric Manifold Formalism (IMF)** as a continuous communication channel governed by Claude Shannon’s Noisy Channel Coding Theorem. We prove that mapping recurrent state updates to the Lie group $SO(N)$ via the Cayley transform:
 $$

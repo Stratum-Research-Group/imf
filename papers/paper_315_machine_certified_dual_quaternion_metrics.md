@@ -10,5 +10,8 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 Forecasting the latent trajectory of drafting models during speculative decoding requires measuring geometric distances between intermediate hidden states in the rigid-body Lie group $\mathrm{SE}(3)$. We formulate speculative token trajectories using unit dual quaternions $\hat{q} = q_r + \epsilon q_d$ ($\epsilon^2 = 0$). We establish a formal mathematical proof in Lean 4 verifying that the dual quaternion logarithmic metric satisfies the axioms of a metric space and is strictly bi-invariant under both left and right $\mathrm{SE}(3)$ transformations.

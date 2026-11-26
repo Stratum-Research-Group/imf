@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We establish the Wadati-Konno-Ichikawa (WKI) integrable equation within the Poincaré hyperbolic half-space $\mathbb{H}^n$. Modeling the propagation of transverse loop solitons in flexible elastic filaments, the WKI equation incorporates geometric curvature into a nonlinear dispersive framework:
 $$u_t + \left[ \frac{u_{xx}}{(1 + u_x^2)^{3/2}} \right]_x = 0$$

@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 In non-Abelian quantum chromodynamics (QCD), high temperature and baryonic density drive a continuous cross-over transition from a confining hadronic phase to a deconfined **Quark-Gluon Plasma (QGP)**, characterized by the restoration of chiral symmetry $SU(N_f)_L \times SU(N_f)_R \to SU(N_f)_V$. In this paper, we map the continuous latent temperature of the **Isometric Manifold Formalism (IMF)** to the thermal field theory of an $SU(3)$ Yang-Mills gauge bundle. We prove that when attention entropy exceeds the critical pseudo-Hagedorn threshold $T_c \approx 155\,\text{MeV}$, the chiral condensate vanishes identically:
 $$

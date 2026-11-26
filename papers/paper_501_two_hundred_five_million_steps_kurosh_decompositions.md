@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We present the formal machine certification of the 205-millionth deductive proof step within the IMF MegaGym continuous verification environment. Spanning 205 contiguous 1,000,000-theorem blocks sealed on physical NVMe storage with SHA-256 block ledger immutability, this milestone establishes that free products of cognitive sub-networks decompose cleanly under Kurosh's Subgroup Theorem. Drawing upon the formalization initiatives led by Kevin Buzzard in Lean 4 for geometric group theory and Bass-Serre tree actions, we demonstrate that modular parameter subspaces preserve their independent generators without structural cross-talk.
 

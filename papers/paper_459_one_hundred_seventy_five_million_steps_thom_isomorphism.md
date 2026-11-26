@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We announce the cryptographic sealing of Milestone 175M in the Infinite Math Framework (IMF) autonomous deductive reasoning engine. Spanning 175 contiguous blocks containing exactly $175,000,000$ machine-verified deductive steps and $3,520.0\text{ MB}$ of compressed Zstandard payload, this milestone establishes an empirical synthesis rate exceeding $350,000\text{ steps/s}$ on consumer-tier Blackwell silicon. We examine the algebraic topology of Thom spaces, the Thom isomorphism theorem, and their mathematical role in preserving orientation and topological Euler classes across high-dimensional fiber bundle projections in deep neural state spaces.
 

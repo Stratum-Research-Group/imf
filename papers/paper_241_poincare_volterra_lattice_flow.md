@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 We present the formal derivation and GPU hardware realization of the Volterra-Kac-van Moerbeke lattice (the canonical discrete Korteweg-de Vries hierarchy) over the Poincaré conformal unit manifold. Governed by the quadratic convective relation $\dot{u}_n = u_n (u_{n+1} - u_{n-1})$, the system models nonlinear wave propagation and biological Lotka-Volterra population dynamics while admitting a symmetric tridiagonal Lax representation. Using our specialized fused Triton kernel (`imf/kernels/triton_fused_poincare_volterra_lattice.py`), discrete convective flow executes in **18.40 µs** per 128k lattice node iteration on an NVIDIA GeForce RTX 5060 Ti GPU, demonstrating a **5.44×** speedup over native PyTorch ($7,122.03\text{M nodes/s}$) with maximum error $< 2.98 \times 10^{-8}$. All conservation laws are certified in Lean 4 without external axioms.
 

@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We establish the fifth-order integrable Kaup-Kupershmidt (KK) nonlinear evolution equation within the Poincaré hyperbolic half-space $\mathbb{H}^n$. In contrast to the Sawada-Kotera hierarchy associated with affine $\mathrm{A}_2^{(2)}$ symmetry, the Kaup-Kupershmidt equation arises as a non-standard reduction of the $\mathrm{B}_2^{(1)}$ affine Kac-Moody Lie algebra. We construct a Triton-fused GPU kernel executing the full fifth-order spatial operator with Poincaré hyperbolic metric scaling in a single streaming multiprocessor pass. Physical workstation benchmarks on an NVIDIA GeForce RTX 5060 Ti demonstrate a $14.34\times$ speedup ($16.92\,\mu\text{s}$ per step) with peak throughput of $30.98\times 10^9$ lattice nodes/second while maintaining strict numerical precision ($\|u_{\text{triton}} - u_{\text{ref}}\|_\infty < 7.63 \times 10^{-6}$). Furthermore, we provide a complete, machine-certified Lean 4 deduction establishing the existence of infinite local conservation laws, the non-equivalence of the KK and SK Hamiltonians, and the Lax integrability under the third-order spectral operator without external axioms.
 

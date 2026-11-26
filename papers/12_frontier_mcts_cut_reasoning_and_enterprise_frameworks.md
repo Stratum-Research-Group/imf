@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 
 We report the integration of the **Five Frontier Reasoning Pillars** into the Interaction Model Foundations (IMF) paradigm, scaling the expert ontology to **118 specialized continuous manifolds**. We show that standard autoregressive generation inevitably suffers from compounding error drift on frontier-tier graduate benchmarks (e.g. *Humanity's Last Exam*, GPQA, and SWE-bench). To overcome this, we couple our continuous Lie-group state spaces and hyperbolic polytope mixtures with:

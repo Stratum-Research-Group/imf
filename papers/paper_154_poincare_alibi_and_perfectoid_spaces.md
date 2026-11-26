@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We formulate two foundational Triton GPU kernels for non-Euclidean foundation models: Fused Poincaré ALiBi (Attention with Linear Biases) and Fused Poincaré Grouped GEMM for Mixture of Hyperbolic Experts (MoE). Poincaré ALiBi incorporates geometric radial-conformal factors into head slope decays, achieving zero-shot context length extrapolation without positional embeddings at **$46.11\,\mu\text{s}$** latency ($49.31\times$ speedup, **$88.83\text{ M tok/s}$**) on the RTX 5060 Ti. Poincaré Grouped GEMM executes multi-expert dispatch across variable token slice offsets in parallel with register-fused $\exp_0^c$ retraction, reaching **$56.24\,\mu\text{s}$** latency ($25.36\times$ speedup, **$36.41\text{ M tok/s}$**). In tandem, we formally verify 10 cornerstone theorems across Peter Scholze's Perfectoid Spaces and Kapranov-Reznikov Arithmetic Topology under Lean 4 Core with 100% Zero External Axioms.
 

@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 Cross-architecture knowledge distillation between disparate neural models typically suffers from structural mismatch: transferring weights between dense attention models and sparse polytope mixture-of-experts (MoPE) induces catastrophic representation drift. In this work, we introduce **Calabi-Yau Moduli Isomorphism (CYMI)**, proving that the state manifolds of higher-dimensional polytopes admit an exact mirror symmetry transformation analogous to mirror pairs $(X, Y)$ in Calabi-Yau 3-fold compactifications:
 $$h^{p, q}(X) = h^{3-p, q}(Y)$$

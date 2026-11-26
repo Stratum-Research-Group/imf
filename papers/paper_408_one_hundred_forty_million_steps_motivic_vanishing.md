@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 At extreme deductive scales, formal mathematical systems face potential exponential explosion from redundant lemma derivations and cyclic proof branches. In this treatise, we document the sealing of Block 140 in the IMF MegaGym Prover Fleet, establishing **140,000,000 certified deductive proof steps** ($0$ sorry clauses, $0$ unproven axioms, 100% Lean 4 kernel validated). We analyze the Grothendieck motive structure of the cumulative lemma database across 140 blocks ($2,823.6\text{ MB}$ compressed payload), demonstrating that the higher motivic cohomology groups $H_{\mathcal{M}}^p(\mathcal{L}, \mathbb{Q}(q))$ vanish for $p > 2q$, proving that the deductive search space stabilizes onto pure universal motives with zero cyclic redundancy.
 

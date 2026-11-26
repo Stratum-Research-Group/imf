@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 
 We formalize the multimodal architecture extending the Interaction Model Foundations (IMF) paradigm to **2D Vision (Patch Manifolds)** and **1D Continuous Audio (Spectrogram Waveforms)**. Conventional multimodal transformers (e.g. LLaVA, Whisper) concatenate distinct pretrained encoders via heuristic MLP projection layers, suffering from modality competition, positional drift, and quadratic memory blow-up. We resolve this by mapping both vision and audio signals directly into the continuous Lie algebra $\text{SO}(d_h)$ state-space manifold of the 1.14B foundation model. Image patches ($16 \times 16$) are encoded via unitary Stiefel projections ($U^T U = I$) guaranteeing energy enclosure conservation, while temporal audio frames are downsampled via causal multi-scale 1D convolutions. Crucially, the resulting visual ($196$ tokens) and auditory ($100$ tokens) latent vectors enter the exact same **8-dimensional Cross-Polytope ($\mathcal{C}_8^*$) Mixture-of-Experts** layers as text tokens, enabling direct cross-modal geometric deduction without quadratic cross-attention maps.

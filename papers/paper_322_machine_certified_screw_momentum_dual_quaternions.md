@@ -10,5 +10,8 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 Forecasting speculative verification trajectories for fast drafting models requires guarantees that intermediate interpolations do not inject spurious momentum perturbations into the latent space. We formulate drafting trajectories as screw motions on the unit dual quaternion manifold $\mathrm{SE}(3)$. We present a machine-certified constructive proof in Lean 4 verifying that spherical linear interpolation (ScLERP) strictly conserves the screw pitch and angular momentum invariants along the entire verification arc.

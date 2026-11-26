@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We record the machine-verified certification of the 225-millionth formal proof step within the IMF MegaGym continuous verification environment. Spanning 225 contiguous 1,000,000-step blocks stored under SHA-256 Merkle chain verification on NVMe media, this milestone establishes that finite cognitive representation spaces decompose uniquely into simple Jordan-Hölder composition factors and admit stable nilpotent Fitting product closures. Grounded in Kevin Buzzard's Lean 4 formalization standards and the Liquid Tensor Experiment, we show that representation factorization in autonomous cognitive systems is algebraically unique up to factor permutation.
 

@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 Sub-byte convolutional and attention architectures require downsampling high-dimensional bit-packed state representations across temporal or spatial feature maps. In conventional pipelines, bitplanes must be unpacked into floating-point numbers before applying max-pooling. We introduce an in-register bit-parallel max-pooling kernel (`fused_blackwell_bit_maxpool_kernel`) for NVIDIA Blackwell SM 12.0 architectures. By formulating max-pooling over binary state flags as bitwise OR tree reductions across warp lanes, spatial subsampling executes at line-rate with zero floating-point conversions.
 

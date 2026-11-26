@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We formulate and accelerate the Kaup-Newell (KN) derivative nonlinear Schrödinger equation within the Poincaré hyperbolic half-space $\mathbb{H}^n$. Modeling circularly polarized nonlinear Alfvén waves in magnetized plasmas and sub-picosecond optical pulses, the Kaup-Newell equation features a derivative cubic nonlinearity:
 $$i u_t + u_{xx} + i (|u|^2 u)_x = 0$$

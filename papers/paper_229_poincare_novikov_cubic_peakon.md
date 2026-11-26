@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 We present the formal derivation and GPU hardware realization of Vladimir Novikov's cubic peakon integrable hierarchy over the Poincaré conformal unit disk. Featuring cubic nonlinear advection $u^2 m_x$ and nonlinear momentum stretching $3 u u_x m$, the Novikov equation generalizes the quadratic Camassa-Holm and Degasperis-Procesi systems into higher-degree polynomial Hamiltonians. Through our specialized fused Triton kernel (`imf/kernels/triton_fused_poincare_novikov.py`), spatial momentum transport is evaluated in **30.22 µs** per 128k grid point iteration on an RTX 5060 Ti GPU, demonstrating a **6.79×** speedup over native PyTorch while keeping maximum absolute error strictly below $5.96 \times 10^{-8}$. All structural invariants are certified in Lean 4 without external axioms.
 

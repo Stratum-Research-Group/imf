@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 We develop the discrete Ward chiral integrable flow (the (2+2)-dimensional continuous dimensional reduction of self-dual Yang-Mills) on the Poincaré hyperbolic disk manifold. Operating with 3-component $\mathfrak{su}(2)$ Lie-algebraic gauge matrices $J_n$, the system models discrete chiral cross-product commutators $[J_n, J_{n+1} - J_{n-1}]$, scaling via the hyperbolic conformal metric $\lambda_J = \frac{2}{1 - \|J\|^2}$. Benchmarking on NVIDIA GeForce RTX 5060 Ti demonstrates an acceleration of $1.33\times$ over PyTorch ($190.25\,\mu\text{s}$, $688.95\text{M nodes/s}$) with max numerical error $< 3.58 \times 10^{-7}$. Formal deduction in Lean 4 confirms zero external axioms.
 

@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 We derive and physically benchmark the discrete sine-Gordon (Frenkel-Kontorova) dislocation lattice within the Poincaré conformal unit disk. Modeling atomic crystal lattices subject to periodic Peierls-Nabarro substrate potentials through the symplectic equations $\ddot{\phi}_n = (\phi_{n+1} - 2\phi_n + \phi_{n-1}) - \sin(\phi_n)$, the system captures topological kink solitons and non-linear dislocation mobility. Our dedicated fused Triton kernel (`imf/kernels/triton_fused_poincare_frenkel_kontorova.py`) evaluates particle-dislocation dynamics in **20.55 µs** per 128k lattice node iteration on an RTX 5060 Ti GPU, demonstrating a **15.20×** speedup over native PyTorch ($6,376.98\text{M nodes/s}$) with maximum error $< 5.96 \times 10^{-8}$. All topological and energy invariants are certified in Lean 4 without external axioms.
 

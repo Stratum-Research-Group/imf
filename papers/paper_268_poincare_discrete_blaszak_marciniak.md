@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 We develop the discrete Blaszak-Marciniak 3-field coupled lattice dynamical flow on the Poincaré hyperbolic disk manifold. Operating with 3 coupled hydrodynamic fields $(u_n, v_n, w_n)$, the system models discrete bi-Hamiltonian hierarchies and non-local Poisson brackets while conformally scaled through $\lambda = \frac{2}{1 - (\|u\|^2 + \|v\|^2 + \|w\|^2)}$. Physical execution on NVIDIA GeForce RTX 5060 Ti demonstrates an acceleration of $5.65\times$ over PyTorch ($23.05\,\mu\text{s}$, $5,687.55\text{M nodes/s}$) with max numerical error $< 1.79 \times 10^{-7}$. Formal deduction in Lean 4 confirms zero external axioms.
 

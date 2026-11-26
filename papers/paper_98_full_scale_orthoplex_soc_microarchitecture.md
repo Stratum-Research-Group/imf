@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We specify the complete multi-core hardware microarchitecture for a full-scale **Orthoplex System-on-Chip (SoC)** implementing native sub-bit ternary signed accumulation and zero-shear clutching crossbars. Building upon the verified single-tile TinyTapeout prototype (`tt_um_imf_orthoplex_tile`), this work scales the compute topology into an $8 \times 8$ (64-core) systolic mesh interconnected via a 2D toroidal zero-shear crossbar network. By integrating hardware-fused $E_8$ Gosset and 24-dimensional Leech lattice coordinate decoders directly into the tile fetch units, the SoC achieves continuous $O(1)$ constant-memory autoregression without off-chip high-bandwidth memory (HBM) bandwidth saturation. We provide complete physical floorplanning, power-performance-area (PPA) scaling models across SkyWater 130nm (`sky130_fd_sc_hd`) and TSMC 16nm nodes, and machine-certify the systolic network throughput and packet deadlock-freedom in Lean 4.33.1 with **zero axioms** (`#print axioms` empty).
 

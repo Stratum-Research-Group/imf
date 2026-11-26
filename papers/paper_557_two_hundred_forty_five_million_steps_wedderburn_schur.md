@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We record the machine-verified formal certification of the 245-millionth deductive proof step within the IMF MegaGym continuous verification environment. Spanning 245 contiguous 1,000,000-step blocks stored under cryptographic SHA-256 Merkle chain verification on NVMe storage, this milestone establishes that semisimple cognitive transformation rings factor into direct products of matrix algebras over division rings (the Wedderburn-Artin theorem) and that irreducible module endomorphism algebras collapse to 1-dimensional scalar fields (Schur's lemma). Contextualized within Kevin Buzzard's Lean 4 formalization initiatives and the Liquid Tensor Experiment, we establish that cognitive parameter representations possess algebraically unique irreducible factorizations.
 

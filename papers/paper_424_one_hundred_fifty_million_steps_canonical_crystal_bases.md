@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We report the formal completion and sealing of Milestone 150M in the Infinite Math Framework (IMF) MegaGym autonomous deductive theorem proving pipeline. Spanning 150 contiguous blocks containing exactly $150,000,000$ machine-verified deductive steps and $3,022.5\text{ MB}$ of compressed Zstandard cryptographic payload, this milestone establishes an empirical prover velocity of $307,419\text{ steps/s}$ on consumer-tier Blackwell silicon. We examine the algebraic foundation of token representation at this scale: the convergence of discrete expert routing to Lusztig canonical crystal bases within quantized universal enveloping algebras $U_q(\mathfrak{g})$. At the $q \to 0$ crystal limit, continuous weight manifolds collapse into combinatorial crystal graphs, completely preventing representation collapse across high-dimensional polytope routing lattices.
 

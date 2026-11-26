@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 
 We formalize the mathematical, physical, and computational mechanics of **spinning Lie manifolds** operating as continuous neural state spaces. While traditional Recurrent Neural Networks (RNNs) and State-Space Models (SSMs) rely on dissipative or non-unitary coordinate updates vulnerable to exponential gradient vanishing or explosion, Lie-group manifolds enforce exact norm conservation ($\|h(t)\| = \|h(0)\|$) through skew-symmetric generator dynamics $\Omega \in \mathfrak{so}(n)$. In this paper, we establish the complete mechanics of **rotational velocity modulation**, demonstrating how neural representations dynamically alter their rotational angular frequency through four distinct operational regimes: (i) continuous scalar time-step dilation $\Delta t$, (ii) input-conditioned cognitive torque gating $\tau(x)$, (iii) anisotropic Jordan-Schur multi-frequency harmonic gear spectra $\vec{\omega} = [\omega_1, \dots, \omega_{\lfloor n/2 \rfloor}]$, and (iv) symplectic Hamiltonian damping with gyroscopic attractor convergence. We validate these formulations empirically on an 8-dimensional $E_8$ Gosset subspace ($n=8$) and an embedding space ($n=4096$), proving machine-precision norm preservation (drift $< 10^{-6}$), non-commutative syntactic reasoning via Lie commutators $[\Omega_A, \Omega_B] \ne 0$, and continuous velocity control across an $8.38 \times 10^6$-dimensional parameter space.

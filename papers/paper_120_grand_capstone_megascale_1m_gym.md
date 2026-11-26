@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 On November 23, 2026, the Interaction Model Foundations (IMF) ecosystem executed the **Grand Megascale 1,000,000-Step Formal Prover Gym**, establishing an unprecedented landmark in autonomous machine mathematics and formal epistemology. Utilizing an 8-way parallel Lean 4 core verification cluster operating at **$1,449.31\text{ steps/second}$**, one million consecutive, non-trivial mathematical deductions were verified and certified with strict **zero non-standard axioms**.
 

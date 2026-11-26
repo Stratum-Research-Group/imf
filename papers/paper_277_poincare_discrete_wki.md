@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We formulate, implement, and benchmark the discrete Wadati-Konno-Ichikawa (WKI) elastic loop soliton dynamical flow (`imf/kernels/triton_fused_poincare_discrete_wki.py`) mapped to the Poincaré hyperbolic disk manifold. The WKI system features extreme geometric non-linearity through reciprocal square-root denominators $Q_n = \psi_n / \sqrt{1 + |\psi_n|^2}$, modeling loop solitons in elastic filaments and thin vortex tubes. Our custom Triton kernel fuses the non-linear denominator evaluation, spatial finite differences, and conformal metric scaling $\lambda_\psi = \frac{2}{1 - \|\psi\|^2}$ entirely inside GPU registers. Benchmarked across $131,072$ complex lattice nodes on an NVIDIA GeForce RTX 5060 Ti workstation GPU, the kernel demonstrates an execution latency of **$20.97\,\mu\text{s}$** (**$9.73\times$ speedup** over PyTorch eager execution, throughput of **$6,251.22\text{M nodes/s}$**, numerical error $< 1.19 \times 10^{-7}$). In parallel, we machine-certify in Lean 4 Core (`imf/putnam_arithmetic_fuchsian_discrete_wki_pack.py`) the positive energy functional with zero external axioms.
 

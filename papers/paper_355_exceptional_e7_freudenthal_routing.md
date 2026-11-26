@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We formulate a geometric expert routing mechanism based on the 133-dimensional exceptional Lie group $E_7 = \operatorname{Aut}(\mathbf{F}, \omega, q)$. The fundamental representation of $E_7$ acts on a 56-dimensional symplectic Freudenthal vector space equipped with a non-degenerate skew-symmetric form $\omega$ and a unique quartic polynomial invariant $q(x)$. We implement an SM 12.0 Blackwell kernel (`fused_e7_freudenthal_routing_kernel`) evaluating 56D Freudenthal projections in register files, proving that quartic invariant scaling enforces strict expert orthogonalization without representational collapse.
 

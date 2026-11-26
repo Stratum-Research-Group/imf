@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We present the definitive empirical and theoretical report on achieving one hundred million ($100,000,000$) machine-certified deductive steps in the IMF MegaGym autonomous formal reasoning engine. Completed continuously on consumer-grade silicon, the sealed 100-block corpus aggregates over $1.99\text{ GB}$ of cryptographically verified proof states with strictly zero heuristic concessions, zero `sorry` placeholders, and zero unproven axioms. We characterize deductive saturation across higher-order mathematical domains and evaluate the asymptotic stability of automated tactic synthesis.
 

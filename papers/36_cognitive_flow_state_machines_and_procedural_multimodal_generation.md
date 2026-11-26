@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 Human problem-solving operates across distinct neuropsychological regimes characterized by preparation, cognitive friction, deliberate disengagement, focused execution, and post-session consolidation. Standard autoregressive architectures, however, typically execute generation uniformly across tokens without structural awareness of cognitive phase transitions. In this work, we formalize the **5-Phase Cognitive Flow State Machine** ($\mathcal{S}_{\text{flow}}$) and a deterministic **Bottleneck Diagnostic Engine** within the IMF 1.14B foundation model. We demonstrate that conditioning autoregressive generation on an explicit phase trajectory ($\langle\text{setup}\rangle \to \langle\text{struggle}\rangle \to \langle\text{release}\rangle \to \langle\text{flow}\rangle \to \langle\text{recovery}\rangle$) stabilizes Lie SSM recurrent state drift, eliminates linguistic ambiguity, and yields high-fidelity procedural multimodal vector generation (SVG/CSS) without requiring discrete diffusion or latent pixel models. We formally verify the transition monotonicity and state invariants in Lean 4 with 0 axioms and 0 sorry.
 

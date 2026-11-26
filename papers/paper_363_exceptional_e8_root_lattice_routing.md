@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We present a geometric expert routing mechanism operating over the 248-dimensional adjoint representation of the largest exceptional simple Lie group $E_8$. By projecting token embeddings into the 240 root vectors of the Gosset $4_{21}$ polytope and the 8-dimensional Cartan subalgebra, expert selection is governed by the discrete Weyl symmetry group $W(E_8)$ of order $696,729,600$. An SM 12.0 Blackwell kernel computes 248D inner products in registers, proving that $E_8$ routing guarantees maximal expert isolation for 100B parameter architectures.
 

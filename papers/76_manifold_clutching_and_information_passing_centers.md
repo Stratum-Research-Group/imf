@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 In continuous Lie state-space models and recurrent geometric neural networks, coordinating information transfer between counter-rotating manifolds without catastrophic interference or gradient explosion is a fundamental challenge. When two high-dimensional manifolds rotate with opposing angular velocities ($\Omega_1 = +\Omega$, $\Omega_2 = -\Omega$), directly bridging their phase spaces generates severe velocity shear that disrupts stored memory representations. In this monograph, we formalize the mathematical theory and physical mechanics of **Manifold Clutching** mediated by a central **Information-Passing Center (IPC)**. Located precisely at the velocity null point $\|v_{\text{net}}(0)\| = 0$, the IPC acts as an isometric topological clutch. By decomposing input signals into symmetric (shear-free) and antisymmetric (vorticity-bearing) Lie algebra components ($\mathrm{Sym}^2 \oplus \bigwedge^2$), the IPC decouples rotational kinetic momentum from associative content. Inside the clutching chamber, state vectors undergo adiabatic projective synchronization, dropping tangential shear forces to zero while enabling lossless token-to-token information transfer. We prove that the clutching transition matrix preserves the symplectic 2-form $\omega$ with zero symplectic area deformation ($\det J = 1.000$) and demonstrate that information transfer latency across the clutch scales in sub-microsecond time ($\mathcal{O}(1)$ with respect to dimension $N$). This provides an exact blueprint for non-turbulent memory routing across ultra-high-dimensional geometric networks.
 

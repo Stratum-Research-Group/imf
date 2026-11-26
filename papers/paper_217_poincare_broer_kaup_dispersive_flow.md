@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We formulate and accelerate the classical Broer-Kaup system of bidirectional shallow water wave equations within the Poincaré hyperbolic manifold $\mathbb{H}^n$. Coupling the horizontal fluid velocity $u(x, t)$ and the free-surface elevation $v(x, t)$, the equations describe long waves under dispersion and surface tension:
 $$u_t = - u u_x - v_x + \frac{1}{2} u_{xx}$$

@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 Autonomous agents executing long-context reasoning often experience runaway context drift or paralysis due to unconstrained attention over trivial token variations. We model cognitive attention as an information-theoretic thermodynamic phase transition governed by surprise entropy $\Delta H$. When the prediction error between current observation and prior working memory exceeds a critical temperature threshold $\tau_c$, the system undergoes non-linear attentional ignition, triggering global broadcast across model experts. We prove that this mechanism maintains bounded entropy production and ensures finite-time convergence of metacognitive interrogation cycles.
 

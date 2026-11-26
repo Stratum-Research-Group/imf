@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We introduce a high-throughput CUDA kernel for bit-plane serial matrix multiplication on NVIDIA Blackwell SM 12.0 architectures. By decomposing quantized weights and activations into orthogonal 1-bit binary slices, integer linear algebra is transformed into bitwise logical conjunctions and hardware population count instructions. This achieves variable precision execution (1.0 to 2.58 bits) with sub-clock latency and zero hardware dequantization stalls.
 

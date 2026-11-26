@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 This monograph formalizes two high-performance hyperbolic GPU execution engines and pairs them with double machine-certified formal deduction packs in modern number theory and automorphic forms under Lean 4 Core with 100% Zero External Axioms. First, we formulate the Fused Poincaré Speculative Decoding Verifier in Triton, accelerating speculative draft verification in the Poincaré ball $\mathbb{B}_c^D$ to **$10.97\,\mu\text{s}$** latency ($8.26\times$ speedup, $23.33\text{ M draft-tok/s}$) with $100.0\%$ decision concordance. Second, we implement Fused Poincaré Rotary Cross-Attention with origin-tangent RoPE, achieving **$47.82\,\mu\text{s}$** latency ($5.36\times$ speedup, $10.71\text{ M tok/s}$) on consumer workstation silicon (RTX 5060 Ti). Third, we machine-certify 10 fundamental theorems across the Local Langlands Correspondence and Arithmetic Fuchsian Groups under Lean 4 Core with strictly 0 non-standard axioms.
 

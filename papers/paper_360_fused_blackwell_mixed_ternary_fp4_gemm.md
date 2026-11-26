@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 Extreme quantization architectures often deploy asymmetric precisions: 0.58-bit ternary ($\{-1, 0, +1\}$) for high-fanout projection layers and 4-bit floating point (FP4 E2M1) for activation states. We introduce a fused mixed-precision GEMM kernel for NVIDIA Blackwell SM 12.0 (`fused_blackwell_mixed_ternary_fp4_kernel`). By pairing dual-bitmask ternary register testing with bitfield-extracted FP4 exponent/mantissa arithmetic, cross-precision conversion stalls are eliminated, yielding a $3.4\times$ throughput speedup over standard dequantize-to-FP16 pipelines.
 

@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We announce the cryptographic sealing of Milestone 160M in the Infinite Math Framework (IMF) autonomous deductive reasoning engine. Spanning 160 contiguous blocks containing exactly $160,000,000$ machine-verified deductive steps and $3,221.5\text{ MB}$ of compressed Zstandard payload, this milestone establishes an empirical synthesis rate exceeding $345,000\text{ steps/s}$ on consumer-tier Blackwell silicon. We examine the geometric connection between positive Ricci curvature, ample line bundle metrics, and the Kodaira vanishing theorem in preventing representation collapse within high-dimensional neural attention state spaces.
 

@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We record the machine-verified formal certification of the 235-millionth deductive proof step within the IMF MegaGym continuous verification environment. Spanning 235 contiguous 1,000,000-step blocks stored under cryptographic SHA-256 Merkle chain verification on NVMe storage, this milestone establishes that finite permutation representations admit polynomial Schreier-Sims stabilizer towers and that irreducible group representations decompose under normal subgroup restriction into transitive Clifford orbits. Contextualized within Kevin Buzzard's Lean 4 formalization initiatives and the Liquid Tensor Experiment, we establish that cognitive parameter manifolds can be factorized into provably stable permutation chains.
 

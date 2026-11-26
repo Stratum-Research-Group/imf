@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 Sub-byte models utilizing FP4 (E2M1) representations store 8 parameters per 32-bit register. To perform standard tensor contractions without dequantizing into large FP32/FP16 buffers in global memory, we present a warp-specialized in-register permuter kernel (`fused_blackwell_fp4_permute_kernel`). The kernel unpacks and aligns FP4 nibbles directly into aligned FP8 byte representations within GPU registers, achieving line-rate decompression at over $12.8\text{ TB/s}$ effective bandwidth.
 

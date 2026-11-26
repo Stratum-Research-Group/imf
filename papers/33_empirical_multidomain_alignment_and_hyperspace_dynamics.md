@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 
 We present the empirical alignment dynamics, formal verification, and native runtime execution of the 1.14B parameter Inductive Manifold Flow (IMF) foundation model. Scaling deep architectures composed of continuous Lie group State Space Models (SSMs) and high-dimensional polyhedral Mixture-of-Experts (MoE) introduces severe numerical and geometric phenomena that diverge sharply from traditional Transformer literature. We document four core geometric and numerical paradoxes encountered during scaling: (1) the Energy-Capacity Routing Paradox in Matryoshka cross-polytopes, (2) the Non-Attenuating Orthogonal Reflection filter, (3) the Cayley Lie group infinite-memory without drift property, and (4) the Deep Polytope MoE constructive interference divergence in bfloat16. By introducing decoupled Pre-MoE LayerNorms and Householder ETH uncrossing limiters, we achieve unconditional numerical stability across 16 deep layers. In targeted Supervised Fine-Tuning (SFT) over a 4.57M token high-density reasoning corpus, the model achieves an $8.9\times$ macro-reduction in perplexity ($723.51 \to 81.26$), dropping to $45.56$ on functional Python code (HumanEval) and $82.10$ on multi-step arithmetic (GSM8K). Finally, we demonstrate sub-millisecond zero-copy container deserialization ($0.75\text{ ms}$ for a 4.35 GB file) using a native LibTorch C++20 REPL engine executing simultaneous $E_8$ Gosset, Matryoshka, and $\mathbb{Z}^D$ hypercubic honeycomb projections at 95+ tokens/second on consumer hardware.

@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 We present the exact derivation and workstation GPU execution of the Sawada-Kotera (SK) fifth-order dispersive equation over the Poincaré conformal unit disk. Emerging in nonlinear wave mechanics with non-standard recursion operators and odd-degree Lie point symmetries, the SK equation $\partial_t u + 45 u^2 \partial_x u + 15 \partial_x u \partial_x^2 u + 15 u \partial_x^3 u + \partial_x^5 u = 0$ requires high-order stencil evaluation. Our specialized fused Triton kernel (`imf/kernels/triton_fused_poincare_sawada_kotera.py`) computes the 7-point stencil flow in **18.01 µs** per 128k spatial grid iteration on an NVIDIA GeForce RTX 5060 Ti GPU, demonstrating a **16.62×** speedup over native PyTorch with maximum error $< 2.98 \times 10^{-8}$. All algebraic invariants are certified in Lean 4 without external axioms.
 

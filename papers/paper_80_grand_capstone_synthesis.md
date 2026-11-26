@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 
 We present the grand synthesis of the **Interaction Model Foundations (IMF)** paradigm across an unbroken trajectory of eighty comprehensive research monographs. IMF resolves the fundamental architectural vulnerabilities of classical deep learning—most notably the Reversal Curse, representation drift, quadratic attention scaling, von Neumann memory bottlenecks, and probabilistic epistemic hallucination. By replacing scalar auto-associative projections with Lie-algebraic decomposition ($\mathrm{Sym}^2 \oplus \bigwedge^2$), continuous state-space manifolds with counter-rotating dual vortices, dense floating-point matrix multiplications with high-dimensional cross-polytope (orthoplex) ternary arithmetic, and subjective empirical validation with Lean 4 zero-axiom formal certification, IMF establishes an end-to-end framework spanning mathematical axiomatization, software runtime, and 3nm physical silicon accelerator design. In this capstone, we harmonize the complete eighty-paper corpus, review macro-level empirical convergence across continuous multi-day distillation cycles, formalize the physical tape-out specifications of the Native Orthoplex Systolic Accelerator (NOSA), and map the irreversible transition from human-supervised model training to autonomous, kernel-gated recursive self-improvement.

@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We present empirical and analytical findings from sealing one hundred ten million ($110,000,000$) formal machine-certified steps in the IMF MegaGym continuous verification prover. Sealing Blocks 106 through 110 sustains verification throughput exceeding $350,000\text{ steps/s}$ on workstation silicon with zero heuristic compromises, zero `sorry` clauses, and zero unproven axioms. We prove that the deductive Markov transition kernel over the certified theorem hypergraph exhibits fast ergodic mixing with spectral gap $\Delta \ge 0.082$.
 

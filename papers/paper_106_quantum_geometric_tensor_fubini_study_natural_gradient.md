@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 Standard first-order optimization algorithms (AdamW, Lion, SGD) rely on coordinate-dependent gradients $\nabla_\theta \mathcal{L}$ that distort when parameterized over curved geometric manifolds. In high-dimensional polytope state spaces, gradient updates cause parameter trajectories to shear away from the Riemannian geodesics, inducing representation drift. In this work, we introduce **Quantum Geometric Natural Gradient (QGNG)**, formalizing neural parameter evolution via the Quantum Geometric Tensor (QGT) on ray spaces in complex projective Hilbert space $\mathbb{C}P^{N-1}$:
 $$\mathcal{Q}_{\mu\nu} = g_{\mu\nu} - \frac{i}{2} \mathcal{F}_{\mu\nu}$$

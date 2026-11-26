@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We formulate and accelerate the two-dimensional Davey-Stewartson (DS) integrable hierarchy within the Poincaré hyperbolic half-space $\mathbb{H}^2$. The DS system governs the coupled evolution of a complex wave envelope $A(x, y, t) = A_r + i A_i$ and a non-local mean flow potential $Q(x, y, t)$:
 $$i A_t + c_0 A_{xx} + A_{yy} = \alpha |A|^2 A + \beta A Q_x$$

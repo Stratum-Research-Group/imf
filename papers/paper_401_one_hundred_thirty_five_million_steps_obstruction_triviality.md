@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 At extreme deductive scales, formal mathematical systems face potential exponential explosion from higher-order obstructions in proof search trees. In this treatise, we document the sealing of Block 135 in the IMF MegaGym Prover Fleet, establishing **135,000,000 certified deductive proof steps** ($0$ sorry clauses, $0$ unproven axioms, 100% Lean 4 kernel validated). We analyze the obstruction complexes of the cumulative lemma database across 135 blocks ($2,724.1\text{ MB}$ compressed payload), demonstrating that the obstruction cohomology groups $H^2(\mathcal{T}, \mathcal{O})$ vanish identically, verifying that higher-order tactic search collapses to an unobstructed smooth deformation manifold.
 

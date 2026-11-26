@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 This treatise investigates the operational realization of epistemic closure in automated mathematical discovery through the synthesis of Grothendieck's étale cohomology, l-adic Galois representations, and hardware-accelerated proof search. As modern autonomous theorem-proving architectures scale to hundreds of millions of certified steps, naive syntactic search suffers catastrophic combinatorial explosion. We demonstrate that structuring the epistemic search manifold via arithmetic schemes, Frobenius trace invariants, and certified duality theorems induces an exact categorical functor from raw syntactic conjecture generation to algebraically constrained semantic varieties. Under this functor, open conjectures correspond to missing cohomological classes, enabling goal-directed proof discovery with bounded asymptotic branching factors.
 

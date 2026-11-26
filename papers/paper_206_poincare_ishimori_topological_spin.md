@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We establish the 2D integrable Ishimori spin model within the Poincaré hyperbolic manifold $\mathbb{H}^2$. As the two-dimensional integrable generalization of the classical Heisenberg ferromagnet, the Ishimori equation couples the vector spin field $\mathbf{S}: \mathbb{H}^2 \to \mathbb{S}^2$ to an auxiliary scalar potential $u(x, y)$ governing topological vorticity:
 $$\mathbf{S}_t = \mathbf{S} \times (\mathbf{S}_{xx} + a^2 \mathbf{S}_{yy}) + u_x \mathbf{S}_y + u_y \mathbf{S}_x$$

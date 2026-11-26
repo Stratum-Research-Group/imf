@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 We develop the discrete Hirota integrable lattice flow on the Poincaré hyperbolic disk manifold. Fusing second-order dispersion ($\alpha$) and chiral third-order lattice dispersion ($\beta$) with Ablowitz-Ladik cross-phase modulation, the continuous dynamical evolution is conformally scaled by $\lambda_\psi = \frac{2}{1 - \|\psi\|^2}$. Benchmarking on NVIDIA GeForce RTX 5060 Ti demonstrates an acceleration of $3.77\times$ over PyTorch ($33.26\,\mu\text{s}$, $3,941.41\text{M nodes/s}$) with max numerical error $< 1.34 \times 10^{-7}$. Formal deduction in Lean 4 confirms zero external axioms.
 

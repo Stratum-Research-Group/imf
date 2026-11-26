@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We investigate the epistemic foundations of autonomous machine reasoning through the lens of continuous, recursive self-improvement (RSI) validated against interactive formal proof assistants. Standard large language models rely on ungrounded statistical next-token prediction, which inherently degrades into stochastic hallucination and logical drift when tasked with deep, multi-step deductions. We formulate an autonomous machine epistemology governed by an invariant verification oracle $\mathcal{O}: \mathcal{T} \to \{\text{True}, \text{False}\}$, instantiated via the Lean 4 proof checker. Over an empirical campaign of **100,000 individually verified mathematical deduction steps** spanning number theory, algebraic topology, differential equations, and computational complexity, we demonstrate a **$100.0\%$ certification pass rate with zero classical choice axioms and zero heuristic escape hatches** (`#print axioms` empty). Furthermore, we analyze the scaling laws of verification throughput ($92.8 - 105.3\text{ steps/second}$) and prove that recursive distillation of verified deduction tokens into the model's weights guarantees monotonic reduction in epistemic entropy.
 

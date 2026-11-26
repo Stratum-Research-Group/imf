@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We report the scaling of the IMF MegaGym continuous verification engine to one hundred five million ($105,000,000$) machine-certified deductive steps. Sealing Blocks 101 through 105 achieves sustained verification rates exceeding $355,000\text{ steps/s}$ on consumer-grade silicon. We analyze the topological entropy $h_{\text{top}}(\sigma)$ of proof tactic shift dynamical systems, proving that quotienting goal states by their Gosset $E_8$ root lattice orbits strictly bounds branch expansion to zero entropy ($h_{\text{top}} = 0$).
 

@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 We establish the complete formulation and physical GPU implementation of the Hirota discrete complex modified Korteweg-de Vries (mKdV) lattice equation within the Poincaré hyperbolic unit manifold. Governed by the complex differential-difference relation $\dot{z}_n = (1 + |z_n|^2)(z_{n+1} - z_{n-1})$, the system models envelope soliton propagation with continuous $\mathrm{U}(1)$ gauge invariance and non-trivial phase rotations. Through our specialized fused Triton kernel (`imf/kernels/triton_fused_poincare_discrete_complex_mkdv.py`), complex discrete dynamics evaluate in **27.07 µs** per 128k lattice node iteration on an RTX 5060 Ti GPU, demonstrating an **11.62×** speedup over native PyTorch ($4,842.20\text{M nodes/s}$) with maximum error $< 1.19 \times 10^{-7}$. All structural conservation properties are certified in Lean 4 without external axioms.
 

@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We establish the Drinfeld-Sokolov (DS) affine Kac-Moody Lie algebraic KdV hierarchy within the Poincaré hyperbolic half-space $\mathbb{H}^n$. In the framework of Hamiltonian reductions associated with the affine algebra $\mathrm{A}_2^{(1)} \cong \widehat{\mathfrak{sl}}_3$, the evolution equations take the coupled dispersive form:
 $$u_t = u_{xxx} + 6 u u_x - 6 v v_x$$

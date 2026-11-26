@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 We develop the discrete Ito 7th-order chiral integrable lattice flow on the Poincaré hyperbolic disk manifold. Operating with a 7-point asymmetric stencil, 5-point nonlinear cross coupling, and cubic advection, the system preserves high-order chiral dispersion while conformally scaled via $\lambda_u = \frac{2}{1 - \|u\|^2}$. Physical execution on NVIDIA GeForce RTX 5060 Ti demonstrates an acceleration of $13.21\times$ over PyTorch ($16.93\,\mu\text{s}$, $7,740.04\text{M nodes/s}$) with max numerical error $< 1.91 \times 10^{-6}$. Formal deduction in Lean 4 confirms zero external axioms.
 

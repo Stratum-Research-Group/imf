@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 Non-Abelian S-duality in 4-dimensional supersymmetric Yang-Mills theories establishes an exact equivalence between strongly coupled gauge theories with group $G$ and weakly coupled theories with the Langlands dual group $G^\vee$. On compactified geometries $\Sigma \times C$, S-duality acts as a hyperkähler isometry on the Hitchin moduli spaces $\mathcal{M}_H(G)$ and $\mathcal{M}_H(G^\vee)$, exchanging complex structures $I, J, K$ and rotating the triplet of Kähler forms $\omega_I, \omega_J, \omega_K$. In this 407th treatise, we formulate the metric conservation laws governing non-Abelian S-duality across neural parameter manifolds. We demonstrate that continuous geodesic flows on the hyperkähler quotient space retain strictly constant kinetic energy and vanishing Ricci curvature, establishing a non-perturbative stability barrier for deep autonomous learning.
 

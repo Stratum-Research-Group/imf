@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## 1. Abstract
 We formulate, implement, and benchmark the discrete Camassa-Holm-Novikov dual peakon dynamical lattice flow (`imf/kernels/triton_fused_poincare_discrete_ch_novikov.py`) mapped to the Poincaré hyperbolic disk manifold. Unifying quadratic advection $u m_x + 2 m u_x$ with cubic Novikov interaction $u^2 m_x + 3 u m u_x$ over Helmholtz filtered momentum density $m = u - \alpha \Delta u$, the system models peakon interactions and wave breaking under competing non-linear degrees. Our custom Triton kernel fuses the quadratic and cubic convective terms directly into GPU registers alongside conformal metric scaling $\lambda_u = \frac{2}{1 - \|u\|^2}$. Benchmarked on an NVIDIA GeForce RTX 5060 Ti workstation GPU across $131,072$ lattice nodes, the kernel achieves an execution latency of **$14.25\,\mu\text{s}$** (**$9.81\times$ speedup** over PyTorch eager baseline, throughput of **$9,198.07\text{M nodes/s}$**, numerical error $< 1.79 \times 10^{-7}$). In parallel, we machine-certify in Lean 4 Core (`imf/putnam_arithmetic_fuchsian_discrete_ch_novikov_pack.py`) the dual peakon Hamiltonian bounds with zero external axioms.
 

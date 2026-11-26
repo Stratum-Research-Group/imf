@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We document the milestone formal machine certification of the 215-millionth deductive proof step within the IMF MegaGym continuous verification environment. Spanning 215 contiguous 1,000,000-theorem blocks sealed on physical NVMe storage with SHA-256 block ledger immutability, this milestone demonstrates that solvable cognitive parameter representations admit triangularizable Malcev normal forms of finite index. Grounded in Kevin Buzzard's Lean 4 formalization standards for Lie groups and linear representations, we show that continuous cognitive attractor fields decompose into upper-triangular nilpotent actions bounded solely by ambient manifold dimension.
 

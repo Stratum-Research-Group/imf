@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We report the formal completion and cryptographic authentication of Milestone 170M in the Infinite Math Framework (IMF) autonomous deductive proving engine. Encompassing 170 contiguous blocks containing exactly $170,000,000$ machine-verified deductive steps and $3,420.5\text{ MB}$ of compressed Zstandard cryptographic payload, this milestone establishes an empirical prover velocity exceeding $353,000\text{ steps/s}$ on consumer-tier Blackwell silicon. We examine the stable homotopy invariants of Bott periodicity in real ($8$-fold) and complex ($2$-fold) topological K-theory and demonstrate how Clifford algebra modules prevent spectral drift in recurrent neural state spaces.
 

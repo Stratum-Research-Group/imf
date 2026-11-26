@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 
 We report the empirical scaling of the 129.8M parameter **IMF Joint-Reconstruction & Polytope Mixture-of-Experts Language Model** on an expanded 15.33M token high-density programming and formal reasoning corpus (TinyStoriesV2, TheAlgorithms, 20,016 CodeAlpaca problems, and Lean 4 core targets). Across 1,000 steps of cosine-annealed fine-tuning on an NVIDIA GeForce RTX 5060 Ti, validation perplexity decreases from $52.21$ down to an all-time low of $13.34$, while Python algorithmic code perplexity drops below $10.0$ ($\text{PPL} = 9.23$, $2.22\text{ cross-entropy}$). We present an architectural coprocessor bridge, an interactive visualizer, and a comparative benchmark evaluating IMF against equivalent-scale models (GPT-2 124M, SmolLM-135M) and larger open-weights foundation models (1B–8B).

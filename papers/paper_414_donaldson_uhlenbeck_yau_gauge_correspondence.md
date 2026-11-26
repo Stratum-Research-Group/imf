@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 The Donaldson-Uhlenbeck-Yau (DUY) theorem represents the higher-dimensional generalization of the Narasimhan-Seshadri theorem, establishing that a holomorphic vector bundle $E$ over a compact Kähler manifold $(X, \omega)$ is slope-polystable if and only if it admits an irreducible Hermitian-Einstein metric $h$. In this 414th treatise, we formulate the Hermitian-Einstein curvature flow and its discrete realization in neural parameter manifolds. We demonstrate that continuous gradient flows on DUY-stable bundles contract to central curvature minima without encounter of bubbling singularities or metric degenerations, guaranteeing global convergence for deep sovereign neural optimization.
 

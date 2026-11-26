@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 Non-convex loss landscapes often exhibit ill-conditioned saddle geometries and anisotropic ridges that stall gradient-based optimization. We investigate continuous Riemannian Ricci flows $\frac{\partial g_{i j}}{\partial t} = -2 R_{i j}$ applied to parameter space metrics. By dynamically evolving the Riemannian metric tensor proportionally to the Ricci curvature tensor, high-frequency metric singularities are smoothed into isotropic Einstein spaces, accelerating convergence across complex deductive landscapes.
 

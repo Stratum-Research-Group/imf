@@ -10,5 +10,8 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 When neural attention maps representations over closed loops in sequence context, standard Euclidean embeddings lose directional orientation due to commutative symmetry. We formulate sequential memory retention as parallel transport around closed loops in a parameter gyrogroup. We establish a machine-certified proof in Lean 4 demonstrating that parallel transport around non-degenerate loops induces a strictly non-zero Thomas-Wigner precession angle $\epsilon_{\text{Thomas}} > 0$, guaranteeing that sequence order is preserved invariant under cyclic context permutations.

@@ -10,5 +10,8 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 During autoregressive token generation, the batch size is strictly $M = 1$, converting the primary computational workload from compute-bound matrix-matrix multiplication (GEMM) into memory-bandwidth-bound matrix-vector contraction (GEMV). We introduce an optimized Blackwell SM 12.0 kernel that unpacks 4-bit PLQ Voronoi centroids directly inside warp registers and accumulates inner products via warp-synchronous butterfly shuffle reductions (`__shfl_down_sync`). The kernel delivers single-token decoding latencies of $<0.14\text{ ms}$ on local RTX 5060 Ti silicon.

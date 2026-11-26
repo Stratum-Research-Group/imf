@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We formulate a geometric expert routing mechanism based on the 78-dimensional exceptional Lie group $E_6 = \operatorname{Aut}(J_3(\mathbb{O})_{\mathbb{C}}, \det)$. The group $E_6$ acts transitively on the 27-dimensional complex Albert algebra, preserving the Freudenthal cubic determinant $\det(X)$. We implement an SM 12.0 Blackwell kernel (`fused_e6_albert_routing_kernel`) evaluating projective $E_6$ invariants across expert networks, proving that cubic determinant normalization guarantees balanced expert utilization without auxiliary entropy loss penalties.
 

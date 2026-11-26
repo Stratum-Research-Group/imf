@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 We present the formal derivation and GPU hardware realization of the Benjamin-Ono (BO) deep-water wave equation mapped into the Poincaré hyperbolic manifold. Characterized by non-local dispersion driven by the Cauchy principal-value Hilbert transform $\mathcal{H}$, the BO equation $u_t + u u_x + \mathcal{H}(u_{xx}) = 0$ yields rational algebraic solitons rather than exponentially localized KdV solitary waves. Through a fused Triton kernel (`imf/kernels/triton_fused_poincare_benjamin_ono.py`), non-local Hilbert transport executes in **17.34 µs** per 128k grid iteration on an RTX 5060 Ti GPU, demonstrating an **8.13×** speedup over native PyTorch with maximum absolute error $< 2.98 \times 10^{-8}$. All conservation laws are certified in Lean 4 without external axioms.
 

@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We report the attainment of the **280,000,000 Certified Deductive Steps Milestone** ($280\text{M}$ steps across 280 sealed blocks) in the IMF MegaGym continuous verification environment. Operating across consumer-grade workstation silicon (AMD Ryzen 5 7600X CPU and NVIDIA RTX 5060 Ti 16GB GPU), the prover maintained an empirical deductive throughput of $310,559\text{ steps/s}$, expanding the verified corpus to $5,637.8\text{ MB}$ in compressed zstandard binary representation. We analyze theorem branch pruning, proof-tree depth distributions, and algebraic consistency across Blocks 271 through 280.
 

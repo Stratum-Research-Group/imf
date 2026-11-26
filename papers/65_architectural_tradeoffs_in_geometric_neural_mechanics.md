@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 
 As neural foundation models transition from Euclidean scalar baselines toward non-Euclidean geometric representations, architectural decisions regarding coordinate topology, rotational kinematics, and quantization boundaries dictate the fundamental trade-offs between memory footprint, computational complexity, epistemic stability, and expressive capacity. In this paper, we present a comprehensive comparative analysis of the four major geometric design paradigms: (1) High-Dimensional Voronoi Lattice Quantization ($E_8$ Gosset and Leech $\Lambda_{24}$), (2) Continuous Spinning Lie Manifolds ($\mathrm{SO}(n)$ state spaces), (3) Counter-Rotating Vortex Dynamics with $N$-Orthoplex Filtering, and (4) Manifold Decoupling Strategies (Cartan Subalgebras vs. Dense Coupling). For each paradigm, we map the exact mathematical **Pros and Cons**, delineating their failure modes, asymptotic complexities, memory boundaries, and physical execution envelopes. We synthesize these trade-offs into an optimal unified hardware-software architecture for foundation models operating up to 1T parameters.

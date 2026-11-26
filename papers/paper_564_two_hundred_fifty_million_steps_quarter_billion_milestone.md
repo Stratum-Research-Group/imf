@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We report the attainment of the **Quarter-Billion Certified Deductive Steps Milestone** ($250,000,000$ verified inference transitions) within the IMF MegaGym deductive execution harness. Spanning 250 sealed and cryptographically verified storage blocks, the grand corpus embodies $5,012.3\text{ MB}$ of strictly valid, zero-hallucination cognitive trajectories. We analyze the macro-structural properties of this quarter-billion corpus, demonstrating sustained mathematical consistency, zero axiom bloat, and a mean deductive velocity of $309,000\text{ steps/s}$ on NVIDIA Blackwell SM 12.0 microarchitecture.
 

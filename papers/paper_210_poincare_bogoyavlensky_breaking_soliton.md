@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We establish the two-dimensional Bogoyavlensky breaking soliton equation within the Poincaré hyperbolic manifold $\mathbb{H}^2$. Characterized by mixed spatial dispersion $\partial_y \partial_x^2$ and hydrodynamic self-steepening, the Bogoyavlensky equation couples a real wave field $u(x, y, t)$ to an auxiliary velocity field $v(x, y, t)$:
 $$u_t = 4 u u_y + 2 u_x v - u_{xxy}$$

@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 Continuous state-space models and recurrent geometric networks frequently suffer from numerical explosion or chaotic drift when operating in ultra-high dimensions ($N \ge 10,000$). In this paper, we formulate and empirically validate the mechanics of **Counter-Rotating Lie Manifold Vortices** centered around an $N$-dimensional regular cross-polytope (orthoplex) core. By coupling two counter-rotating Lie group trajectories—governed by anti-symmetric skew generators $\Omega_1 = +\Omega$ and $\Omega_2 = -\Omega$ in the Lie algebra $\mathfrak{so}(N)$—the velocity fields destructively interfere at the geometric center, establishing an absolute velocity null point:
 

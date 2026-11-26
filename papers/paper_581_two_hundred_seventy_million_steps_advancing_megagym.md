@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We document the achievement of the **270,000,000 Certified Deductive Steps Milestone** ($270\text{M}$ steps across 270 cryptographically sealed blocks) in the IMF MegaGym automated theorem prover fleet. Sustaining a throughput of $309,597\text{ steps/s}$ across an AMD Ryzen 5 7600X CPU and an NVIDIA RTX 5060 Ti 16GB GPU (Blackwell SM 12.0), the verified corpus reaches $5,429.3\text{ MB}$ of strictly sound deductive trajectories. We examine the algebraic distribution of theorems sealed across Blocks 261 through 270, confirming zero proof-graph cyclical degeneracy and absolute invariance under formal kernel checks.
 

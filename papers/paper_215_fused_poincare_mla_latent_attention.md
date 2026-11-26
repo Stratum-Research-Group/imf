@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We formulate and benchmark a high-throughput Triton GPU kernel for Multi-Head Latent Attention (MLA) tailored to high-parameter reasoning models (14B, 32B, and 70B architectures) on workstation hardware (16GB VRAM). By projecting keys and values into a low-rank compressed latent cache $\mathbf{c}_{KV} \in \mathbb{R}^{d_c}$ ($d_c = 256$) rather than full uncompressed tensors ($H_Q \times d_h = 16 \times 128 = 2048$), we achieve an **$8.0\times$ reduction in KV cache memory footprint** (saving $87.5\%$ of sequence VRAM). During autoregressive decoding, rather than decompressing keys in DRAM, we exploit the associative factorization:
 $$\mathbf{q} \mathbf{k}^\top = \mathbf{q} (\mathbf{W}_{UK} \mathbf{c}_{KV})^\top = (\mathbf{q} \mathbf{W}_{UK}) \mathbf{c}_{KV}^\top$$

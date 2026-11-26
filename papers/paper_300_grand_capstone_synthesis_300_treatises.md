@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 This 300th foundational treatise serves as the grand capstone synthesizing the mathematical, physical, and algorithmic principles developed across Papers 01 through 299. We unite four structural pillars into a cohesive theory of autonomous machine epistemology:
 1. **Geometric Topology**: The $E_8$ Gosset polytope ($4_{21}$) and 24-dimensional Leech lattice ($\Lambda_{24}$) providing optimal sphere packings and collision-free expert routing.

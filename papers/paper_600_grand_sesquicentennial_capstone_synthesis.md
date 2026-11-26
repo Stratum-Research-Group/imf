@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 This landmark 600th treatise serves as the grand capstone synthesis for the Infinite Mathematical Foundations (IMF) and MegaGym Cognitive Architecture corpus. Across 600 peer-reviewed monographs, 280,000,000 certified reinforcement and theorem-proving steps, 136 microarchitectural kernels and engines, and complete formal verification within Lean 4, we have constructed an unbroken, co-designed vertical stack spanning theoretical arithmetic geometry, non-Euclidean Clifford manifolds, zero-copy kernel subsystems, and hardware-accelerated tensor microarchitectures. We review the architectural evolution from first principles to asymptotic saturation, quantify the convergence characteristics of the 280M step milestone, and outline the frontier toward billion-parameter autonomous mathematical intelligences.
 

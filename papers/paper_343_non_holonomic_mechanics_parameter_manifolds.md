@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We investigate the application of non-holonomic mechanics (systems with non-integrable velocity constraints $\omega_i(q) \dot{q} = 0$) to parameter trajectories in deep neural networks. By imposing non-holonomic orthogonality constraints on speculative momentum rollouts, parameter optimization is confined to sub-Riemannian distributions without reducing the topological reachability of the configuration manifold.
 

@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We establish the (2+1)-dimensional Konopelchenko-Dubrovsky (KD) integrable hierarchy within the Poincaré hyperbolic manifold $\mathbb{H}^2$. Combining the characteristic nonlinearities of both the Korteweg-de Vries (KdV) and modified Korteweg-de Vries (mKdV) equations, the KD system governs the evolution of a wave field $u(x, y, t)$ coupled to an auxiliary velocity potential $v(x, y, t)$:
 $$u_t = u_{xxx} - 6 b u u_x + 3 a^2 u^2 u_x - 3 v_y + 3 a u_x v$$

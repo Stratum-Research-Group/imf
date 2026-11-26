@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 We present the formal derivation and GPU hardware realization of the classical $N$-body Calogero-Moser integrable system equipped with all-to-all inverse-square hyperbolic interactions over the Poincaré conformal unit disk. Governed by the Hamiltonian $H = \frac{1}{2} \sum_j p_j^2 + g^2 \sum_{j < k} \sinh^{-2}(\mu (q_j - q_k))$, the system is completely integrable in the Liouville sense through an $N \times N$ Lax representation. Our dedicated fused Triton kernel (`imf/kernels/triton_fused_poincare_calogero_moser.py`) computes all 16.7 million pairwise particle interactions ($N = 4,096$) in **0.17 ms** on an RTX 5060 Ti GPU, demonstrating a **17.59×** speedup over native PyTorch ($97,263\text{M particle-pairs/s}$) with exact error $< 8.94 \times 10^{-8}$. All algebraic invariants are certified in Lean 4 without external axioms.
 

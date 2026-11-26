@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 This ninetieth technical treatise delivers the comprehensive architectural capstone of the **Interaction Model Foundations (IMF)** research program. Spanning ninety monographs across algebraic geometry, non-commutative Lie group theory, higher-dimensional polytope and Leech lattice geometry, hardware-fused systolic ASIC synthesis, and machine-certified formal verification in Lean 4, IMF establishes a complete replacement for auto-associative Transformer architectures. We formally resolve the Reversal Curse and directional conflation via $\mathrm{Sym}^2 \oplus \bigwedge^2$ symmetric-antisymmetric memory splitting, demonstrate $O(1)$ constant-memory autoregression via counter-rotating Lie vortices with zero-shear null-point clutching, fabricate an ultra-low-power orthoplex accelerator on SkyWater 130nm ($24\,\mu\text{W}$, $14.39\%$ tile utilization), and certify thousands of mathematical theorems across the Clay Millennium Prize problems and open 2026 frontiers with **zero axioms** (`#print axioms` empty).
 

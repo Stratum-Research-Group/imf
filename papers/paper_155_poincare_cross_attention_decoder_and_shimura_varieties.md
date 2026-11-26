@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We present the architectural realization of two high-efficiency GPU execution engines for hyperbolic sequence-to-sequence generation and mixture of experts: the Fused Poincaré RoPE Cross-Attention Decoder and the Fused Poincaré Dense MoE Combiner. By tiling key-value sequences into compact memory blocks ($B_{\text{KV}} = 64$) and leveraging online-softmax accumulation, the cross-attention decoder executes full causal multi-head cross-attention with 2D Givens rotary embeddings in **$126.59\,\mu\text{s}$** ($30.17\times$ speedup, **$16.18\text{ M tok/s}$**) on the RTX 5060 Ti. Concurrently, the Dense MoE Combiner fuses logarithmic mappings, convex routing combinations, and exponential retractions into registers at **$11.57\,\mu\text{s}$** ($7.25\times$ speedup, **$177.03\text{ M tok/s}$**). In tandem, we formally verify 10 cornerstone theorems across Shimura Varieties and the Geometric Langlands Conjecture under Lean 4 Core with 100% Zero External Axioms.
 

@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We establish the (2+1)-dimensional Calogero-Bogoyavlensky-Schiff (CBS) integrable equation within the Poincaré hyperbolic half-space $\mathbb{H}^2 \times \mathbb{R}$. As an integrable multidimensional extension of the Korteweg-de Vries hierarchy, the CBS system models directional wave interactions and wave breaking across two spatial dimensions:
 $$u_t = u_{xxy} + 4 u u_y + 2 u_x v$$

@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 We present the formal derivation and GPU hardware realization of the discrete Hirota-Miwa (discrete KP / octahedron) bilinear equation within the Poincaré conformal manifold. Regarded as the universal master equation of integrable systems whose reductions generate discrete KdV, Toda, and sine-Gordon equations, the Hirota-Miwa relation $\alpha_1 \tau(l+1, m, n) \tau(l, m+1, n+1) + \alpha_2 \tau(l, m+1, n) \tau(l+1, m, n+1) + \alpha_3 \tau(l, m, n+1) \tau(l+1, m+1, n) = 0$ governs 3D lattice face shifts. Our specialized fused Triton kernel (`imf/kernels/triton_fused_poincare_hirota_miwa.py`) evaluates 131,072 3D lattice points in **20.22 µs** on an NVIDIA GeForce RTX 5060 Ti GPU, demonstrating a **23.32×** speedup over native PyTorch ($6,481.20\text{M points/s}$) with maximum error $< 2.38 \times 10^{-7}$. All structural bilinear invariants are certified in Lean 4 without external axioms.
 

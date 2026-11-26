@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 We develop the discrete Bogoyavlensky-Sasaki hydrodynamic multi-wave lattice flow on the Poincaré hyperbolic disk manifold. Modeling asymmetric next-to-nearest neighbor convection fluxes $u_n ((u_{n+1} + u_{n+2}) - (u_{n-1} + u_{n-2}))$, the system preserves discrete KdV-type Hamiltonian invariants while scaled by $\lambda_u = \frac{2}{1 - \|u\|^2}$. Physical execution on NVIDIA GeForce RTX 5060 Ti demonstrates an acceleration of $5.29\times$ over PyTorch ($19.11\,\mu\text{s}$, $6,857.09\text{M nodes/s}$) with max numerical error $< 5.96 \times 10^{-8}$. Formal deduction in Lean 4 confirms zero external axioms.
 

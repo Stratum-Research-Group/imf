@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 
 We dissect the multi-system synchronization mechanisms through which **Continuous Lie Group State Space Models (SO(d_h) SSM)**, **Polytope Mixture-of-Experts (MoPE)**, and **Joint State Reconstruction Heads** operate in tandem within the IMF OmniBlock architecture. In isolation, recurrent linear attention systems suffer from state saturation and semantic fading across long context windows; conversely, standard Feed-Forward Networks cannot maintain persistent unitary state memory. We formulate the exact mathematical coupling whereby the continuous Hamiltonian Lie SSM preserves long-horizon topological conservation laws, while the Polytope MoPE performs orthogonal multi-manifold feature expansion, and the anti-collapse reconstruction loss ($\mathcal{L}_{\text{recon}}$) anchors latent representations against catastrophic drift. We evaluate the resulting system under $O(1)$ constant recurrent memory constraints, demonstrating zero representation collapse across deep multi-step algorithmic execution.

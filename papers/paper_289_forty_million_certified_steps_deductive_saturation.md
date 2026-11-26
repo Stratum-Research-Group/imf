@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We investigate the asymptotic scaling behavior of automated formal proof generation under continuous mathematical deductive regimes. Scaling the MegaGym prover fleet across 40 sealed blocks, we generate and cryptographically seal **40,000,000 certified deductive proof steps** in Lean 4 without empirical approximation. We analyze theorem redundancy distributions, proof-depth decay curves, and kernel verification throughput, establishing that deductive throughput stabilizes at $\approx 350,000\text{ steps/s}$ with zero proof-soundness degradation.
 

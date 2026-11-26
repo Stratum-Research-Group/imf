@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 Linear multi-head self-attention relies on associative matrix multiplication, restricting parameter representations to standard associative Lie algebras. We introduce non-associative token mixing using the octonionic division algebra $\mathbb{O}$. By mapping 8-dimensional token heads to the 7 directed lines of the Fano plane, we compute octonionic cross-products $u \times v$ directly in warp registers. We establish that non-associative associators $[u, v, w] = (uv)w - u(vw)$ capture higher-order contextual entanglement impossible in standard associative algebras.
 

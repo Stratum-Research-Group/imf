@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 
 We formalize the cross-disciplinary bridge linking foundational mathematical structures to operational architectures in the Interaction Model Foundations (IMF) paradigm. Drawing upon established formal mathematical frameworks—including spectral level repulsion in random matrix theory, divergence-free solenoidal flows in fluid mechanics, subcubic graph reductions, and Exponential Time Hypothesis (ETH) uncrossing—we prove that these foundational results directly resolve the physical constraints that historically hindered high-dimensional neural scaling. Specifically, we show that: (1) the level repulsion of unitary eigenvalues provides optimal non-colliding coordinate separation for 100,000-dimensional orthoplex shells, (2) the divergence-free solenoidal constraint $\nabla \cdot u = 0$ provides an exact continuous surrogate for $\mathrm{SO}(n)$ matrix exponentiation with linear runtime, and (3) fine-grained complexity reductions guarantee non-colliding trajectory validation in $\mathcal{O}(V^{3-\epsilon})$ time. We demonstrate that formal mathematical verifiers are not merely benchmark tests, but constitutive architectural blueprints for machine intelligence.

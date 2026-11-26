@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 
 We present an exact architectural synthesis resolving the trade-offs and structural bottlenecks inherent to high-dimensional Voronoi lattices, spinning Lie manifolds, and orthoplex singular cores by applying foundational mathematical formalisms. Specifically, we examine: (1) **The Montgomery-Odlyzko Law and Gaussian Unitary Ensemble (GUE) Level Repulsion**, (2) **Incompressible Solenoidal Vector Fields in Fluid Dynamics** ($\nabla \cdot u = 0$), and (3) **Truly Subcubic All-Pairs Shortest Paths (APSP)**. We prove that: (i) GUE spectral level repulsion directly bypasses the Voronoi nearest-neighbor search bottleneck by guaranteeing optimal pseudorandom spacing without chaotic clustering for $E_8$ and Leech codebooks; (ii) divergence-free solenoidal flows provide an exact continuous analog to dense $\mathrm{SO}(n)$ matrix exponentiation, preserving volume and energy on flat tori without cubic matrix overhead; and (iii) subcubic APSP sparse lopsided graph reductions bypass the all-to-all quadratic cross-talk barrier, allowing high-dimensional orthoplex routing in $\mathcal{O}(n^{3 - \epsilon})$ time. This formal synthesis provides an exact roadmap for an un-driftable, sub-byte, zero-axiom foundation architecture.

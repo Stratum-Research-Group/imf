@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 We develop the discrete Sasa-Satsuma higher-order nonlinear Schrödinger dynamical flow on the Poincaré hyperbolic disk manifold. Fusing second-order dispersion, third-order dispersion, and self-steepening terms $3 |\psi_n|^2 (\psi_{n+1} - \psi_{n-1}) + \psi_n^2 (\psi^*_{n+1} - \psi^*_{n-1})$, the system models femtosecond optical pulses while conformally scaled via $\lambda_\psi = \frac{2}{1 - \|\psi\|^2}$. Physical execution on NVIDIA GeForce RTX 5060 Ti demonstrates an acceleration of $3.79\times$ over PyTorch ($72.82\,\mu\text{s}$, $1,799.94\text{M nodes/s}$) with max numerical error $< 1.82 \times 10^{-7}$. Formal deduction in Lean 4 confirms zero external axioms.
 

@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 Temporal context filtering in sub-byte cognitive sequence models requires convolving 1-bit binary state vectors across shifting time windows without unrolling into expensive floating-point representations. We introduce a fused 1D bitwise convolution kernel (`fused_blackwell_bit_conv_kernel`) for NVIDIA Blackwell SM 12.0 architectures. Leveraging hardware 64-bit funnel shift intrinsics (`__funnelshift_r`) paired with bitwise XNOR and population counts (`__popc`), our kernel evaluates 32 temporal filter positions concurrently within a single execution cycle.
 

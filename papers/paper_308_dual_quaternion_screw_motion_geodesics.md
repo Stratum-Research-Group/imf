@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 Speculative decoding typically forecasts token sequences using simple heuristic n-gram or shallow draft models, which drift rapidly from target model distribution trajectories. We formulate speculative hidden-state evolution as a screw motion along the Lie group $\mathrm{SE}(3)$ represented by unit dual quaternions. By interpolating intermediate draft hidden states using dual quaternion spherical linear interpolation (ScLERP), our method forecasts continuous trajectory geodesics, increasing speculative token acceptance rates across sub-bit parameter models.
 

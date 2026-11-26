@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We present the derivation, physical GPU acceleration, and formal machine certification of the Poincaré Discrete Gardner (Extended KdV) Lattice Soliton Flow (`imf/kernels/triton_fused_poincare_discrete_gardner.py`). The Gardner equation introduces both quadratic advection $\alpha u u_x$ and cubic non-linear steepening $\beta u^2 u_x$ balanced by third-order dispersion $\delta u_{xxx}$, modelling large-amplitude internal gravity solitons in density-stratified fluids. We discretize this non-linear balance on a 1D lattice mapped conformally into the Poincaré hyperbolic disk with conformal metric factor $\lambda_u = \frac{2}{1 - \|u\|^2}$. Evaluated on an NVIDIA GeForce RTX 5060 Ti workstation GPU, our custom fused Triton kernel achieves a latency of **$14.89\,\mu\text{s}$** (**$9.15\times$ speedup** over PyTorch eager baseline, throughput of **$8,802.39\text{M nodes/s}$**, numerical error $< 2.38 \times 10^{-7}$). In parallel, we machine-certify in Lean 4 Core (`imf/putnam_arithmetic_fuchsian_discrete_gardner_pack.py`) the non-linear flux monotonicity and zero-axiom compliance.
 

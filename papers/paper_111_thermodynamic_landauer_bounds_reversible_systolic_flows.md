@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 Standard deep learning architectures rely on irreversible activation functions (e.g., ReLU, GeLU) and non-unitary projection weights, which systematically discard state entropy at each layer. By Rolf Landauer's thermodynamic principle, erasing $1$ bit of physical or computational information releases at least $Q \ge k_B T \ln 2$ of thermal energy into the silicon substrate. In this treatise, we prove that the **Isometric Manifold Formalism (IMF)** realizes a mathematically reversible systolic computation engine. Because the state update is an exact isometric action on the Lie group $SO(N)$:
 $$

@@ -10,5 +10,8 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 While the rational Cayley transform provides a fast first-order approximation to Lie group rotations, higher-order rotary interactions require computing the true matrix exponential $\exp(\Omega)$ for skew-symmetric generator matrices $\Omega \in \mathfrak{so}(8)$. We evaluate high-order [6/6] Padé approximants combined with scaling and squaring. Implemented directly inside Blackwell SM 12.0 warp registers, our kernel achieves double-precision rotational accuracy while eliminating transcendent function evaluations and shared memory bank conflicts.

@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 Under extreme memory pressure where model parameters reside on NVMe storage, invoking system calls (`io_uring_enter`, `epoll_wait`) introduces non-deterministic context switch penalties ($1.2\text{ µs}$ to $4.5\text{ µs}$ per transfer). We implement a kernel-bypass zero-syscall completion-polling engine (`ZeroCopyRing`) using `IORING_SETUP_SQPOLL`. Physical measurements confirm a complete elimination of userspace-to-kernel boundary transitions during forward pass parameter streaming.
 

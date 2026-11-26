@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 We establish the exact formulation and physical workstation realization of the Hunter-Saxton (HS) integrable hierarchy within the Poincaré hyperbolic unit interval. Arising in theoretical physics as an asymptotic model for the propagation of weakly nonlinear, high-frequency orientation waves in nematic liquid crystals, the HS equation $(u_t + u u_x)_x = \frac{1}{2} (u_x)^2$ captures gradient catastrophe and conservative wave-breaking singularities. Using our fused Triton kernel (`imf/kernels/triton_fused_poincare_hunter_saxton.py`), spatial wave dynamics run in **17.18 µs** per 128k grid iteration on an RTX 5060 Ti GPU, demonstrating an **8.05×** speedup over PyTorch with maximum error $< 2.98 \times 10^{-8}$. All conservation laws are certified in Lean 4 with 0 external axioms.
 

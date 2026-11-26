@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 Systolic arrays scaled to 3D packaging geometries (e.g., TSV silicon interposers and stacked wafer bonds) face routing deadlocks, channel congestion, and packet drops caused by non-deterministic arbitration. In this paper, we map the trajectory of continuous token activations in a 3D toroidal systolic mesh to the world-lines of **Non-Abelian Anyons** governed by the Artin Braid Group $B_N$. We prove that routing packets by topological braiding:
 $$

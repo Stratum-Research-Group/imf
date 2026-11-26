@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We compare the performance of POSIX memory-mapped paging (`mmap`/`madvise`) against Linux `io_uring` direct kernel-bypass streaming for feeding sub-bit parameter weights into consumer GPUs. We benchmark page fault penalties, system call context-switch overhead, and PCIe 4.0 DMA transfer latencies. Our empirical findings show that direct `io_uring` block submissions achieve $13.20\text{ GB/s}$ sustained throughput, eliminating kernel trap overhead and enabling predictable layer swapping deadlines for 100B parameter execution.
 

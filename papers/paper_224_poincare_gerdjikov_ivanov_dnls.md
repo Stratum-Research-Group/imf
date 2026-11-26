@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We establish the Gerdjikov-Ivanov (GI) derivative nonlinear Schrödinger equation within the Poincaré hyperbolic half-space $\mathbb{H}^n$. As the third canonical member of the derivative NLS hierarchy (alongside Kaup-Newell and Chen-Lee-Liu), the Gerdjikov-Ivanov equation incorporates conjugate derivative interactions and quintic self-focusing:
 $$i u_t + u_{xx} - i u^2 u_x^* + \frac{1}{2} |u|^4 u = 0$$

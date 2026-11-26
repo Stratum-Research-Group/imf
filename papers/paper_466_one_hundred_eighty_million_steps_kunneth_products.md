@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We announce the cryptographic sealing of Milestone 180M in the Infinite Math Framework (IMF) autonomous deductive reasoning engine. Spanning 180 contiguous blocks containing exactly $180,000,000$ machine-verified deductive steps and $3,619.5\text{ MB}$ of compressed Zstandard payload, this milestone establishes an empirical synthesis rate exceeding $353,000\text{ steps/s}$ on consumer-tier Blackwell silicon. We examine the algebraic topology of the Künneth product theorem for cohomology rings, demonstrating how graded tensor product representations preserve multi-modal cross-attention invariants across Cartesian product manifolds in large-scale deductive search.
 

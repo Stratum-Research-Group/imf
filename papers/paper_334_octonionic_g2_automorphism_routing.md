@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We formulate a non-associative routing mechanism for multi-agent dialectic consensus based on the exceptional Lie group $G_2 = \operatorname{Aut}(\mathbb{O})$. The 14-dimensional compact group $G_2$ preserves the non-associative multiplication table of the 7 imaginary octonionic units $\{e_1, \dots, e_7\}$ encoded by the Fano plane. We implement a Blackwell kernel mapping 7 distinct agent personas directly to the Fano lines, showing that $G_2$ invariance resolves dialectic deadlocks without requiring centralized central arbitration.
 

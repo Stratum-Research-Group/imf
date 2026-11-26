@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 Mixture-of-Experts (MoE) architectures frequently suffer from representation collapse, where a small subset of experts receives the vast majority of routing tokens while remaining experts stay dormant. We propose a geometric routing mechanism based on the 24-dimensional Leech lattice $\Lambda_{24}$ constructed via the extended Golay code $G_{24}$. We prove that the minimal norm bound $\|v\|^2 \ge 4$ enforces strict orthogonal separation between expert centroids, preventing expert routing overlap and ensuring uniform expert activation across 64 specialized domains.
 

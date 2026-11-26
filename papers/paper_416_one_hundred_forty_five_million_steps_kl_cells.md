@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 At extreme deductive frontiers, formal mathematical systems require combinatorial partitioning to prevent tactic graph divergence. In this treatise, we document the sealing of Block 145 in the IMF MegaGym Prover Fleet, establishing **145,000,000 certified deductive proof steps** ($0$ sorry clauses, $0$ unproven axioms, 100% Lean 4 kernel validated). We analyze the Kazhdan-Lusztig cell decomposition of the cumulative lemma database across 145 blocks ($2,923.0\text{ MB}$ compressed payload), demonstrating that the two-sided cells decompose into a finite set of irreducible representations of the affine Weyl group, guaranteeing finite tactic search diameter across consumer hardware silicon.
 

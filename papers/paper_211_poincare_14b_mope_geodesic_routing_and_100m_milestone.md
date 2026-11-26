@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 This landmark monograph commemorates the attainment of the **100,000,000 formally certified proof step milestone** across all 32 mathematical families in the IMF Grand Corpus (Blocks 00001 through 00100). To support continuous parameter expansion within a workstation hardware budget (16GB VRAM), we formulate and execute the **Poincaré 14B Mixture of Polytope Experts (MoPE)** architecture. By placing 16 expert centroid vectors $\mathbf{c}_e$ on the hyperbolic Poincaré ball $\mathbb{B}^d$, tokens $\mathbf{x} \in \mathbb{B}^d$ are dynamically routed via hyperbolic geodesic distance:
 $$d_{\mathbb{B}}(\mathbf{x}, \mathbf{c}_e) = \operatorname{arcosh}\left(1 + 2 \frac{\|\mathbf{x} - \mathbf{c}_e\|^2}{(1 - \|\mathbf{x}\|^2)(1 - \|\mathbf{c}_e\|^2)}\right)$$

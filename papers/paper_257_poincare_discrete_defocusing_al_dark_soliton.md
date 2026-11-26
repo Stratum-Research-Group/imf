@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 We implement the discrete defocusing Ablowitz-Ladik integrable lattice dynamical flow supporting stable dark and gray solitons on the Poincaré hyperbolic disk manifold. The temporal evolution balances discrete linear dispersion against defocusing cross-phase modulation $- \mu |\psi_n|^2 (\psi_{n+1} + \psi_{n-1})$, scaling conformally with $\lambda_\psi = \frac{2}{1 - \|\psi\|^2}$. Benchmarking on NVIDIA GeForce RTX 5060 Ti demonstrates an acceleration of $2.00\times$ over PyTorch ($72.38\,\mu\text{s}$, $1,810.88\text{M nodes/s}$) with max numerical error $< 2.46 \times 10^{-7}$. Formal deduction in Lean 4 confirms zero external axioms.
 

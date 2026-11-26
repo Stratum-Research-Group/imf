@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We report the scaling of the IMF MegaGym continuous verification engine to one hundred twenty million ($120,000,000$) formal machine-certified steps. Sealing Blocks 116 through 120 demonstrates sustained proof verification throughput exceeding $352,000\text{ steps/s}$ on consumer-grade silicon. We analyze transfinite closure over ordinal proof search trees, demonstrating that invariant cross-polytope state quotienting bounds proof depth by the Church-Kleene ordinal $\omega_1^{\text{CK}}$, eliminating non-terminating divergent tactic synthesis.
 

@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 
 We formalize the mathematical mechanics, geometric projection manifolds, and sparse dispatch algorithms governing the **Polytope Mixture-of-Experts (MoPE)** architecture within the Interaction Model Foundations (IMF) paradigm. Conventional Mixture-of-Experts architectures depend on unbounded linear softmax gating networks, causing notorious representational pathology: routing collapse, catastrophic expert starvation, and chaotic gradient oscillation during continuous fine-tuning. We resolve this by anchoring expert parameter ensembles to the canonical geometric vertices of higher-dimensional regular polytopes—specifically the 8-dimensional cross-polytope (orthoplex $\mathcal{C}_8^*$) and the exceptional $E_8$ Gosset polytope ($4_{21}$). By mapping latent state trajectories into the Poincaré hyperbolic ball $\mathbb{B}^d$ and evaluating geodesic distances against fixed polyhedral centroids, we guarantee uniform spatial dispersion, topological load stabilization, and strictly bounded gradient variance. We present empirical traces demonstrating sparse top-2 dispatch mechanics ($12.5\%$ active parameter footprint) across 256 physical expert MLPs in the 1.14B parameter foundation model.

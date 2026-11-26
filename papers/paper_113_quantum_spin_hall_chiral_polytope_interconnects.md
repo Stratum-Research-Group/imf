@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 Systolic arrays and wafer-scale AI interconnects suffer significant interconnect congestion during distributed pretraining due to bidirectional link conflicts between forward activation broadcasting and backward gradient accumulation. In this paper, we generalize the **Quantum Spin Hall (QSH)** effect and topological Kane-Mele $\mathbb{Z}_2$ insulators to continuous neural state spaces. By embedding activations into a spin-orbit coupled Lie algebra with time-reversal symmetry $\mathcal{T}^2 = -1$:
 $$

@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 We develop the discrete Toda exponential lattice dynamical flow on the Poincaré hyperbolic disk manifold. Operating with exponential nearest-neighbor restoring potentials $\exp(-(q_{n+1} - q_n))$, the continuous evolution preserves the complete integrability of Flaschka-Manakov Lax variables while scaled by the Riemannian conformal metric $\lambda_q = \frac{2}{1 - \|q\|^2}$. Physical execution on NVIDIA GeForce RTX 5060 Ti demonstrates an acceleration of $7.94\times$ over PyTorch ($16.97\,\mu\text{s}$, $7,721.53\text{M particles/s}$) with max numerical error $< 4.77 \times 10^{-7}$. Formal deduction in Lean 4 confirms zero external axioms.
 

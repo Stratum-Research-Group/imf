@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We investigate sub-Riemannian geometry on stratified nilpotent Lie groups (Carnot groups $\mathbb{G}$) for constrained neural trajectory optimization. In Carnot groups, horizontal curves are restricted to a distribution $V_1$ that generates the entire Lie algebra $\mathfrak{g} = V_1 \oplus V_2 \oplus \cdots \oplus V_s$ through iterated brackets. We formalize sub-Riemannian geodesics as solutions to the Pontryagin Maximum Principle, proving that optimal parameter rollouts avoid abnormal extremal singularities and achieve shortest-path convergence under rank constraints.
 

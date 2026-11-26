@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 In recurrent sequence architectures and continuous-time state-space models (SSMs), computing gradients across sequence horizons $L \to \infty$ is bounded by the spectral radius of the transition Jacobian $J = \prod_{t=1}^L \frac{\partial h_t}{\partial h_{t-1}}$. In unconstrained state spaces, the eigenvalue magnitude condition $|\lambda| < 1$ causes exponential gradient vanishing, while $|\lambda| > 1$ induces numerical explosion. In this work, we introduce **Chern Simplex Flow (CSF)**, demonstrating that mapping recurrent state updates to an adiabatic parallel transport over a 2D Brillouin zone torus $\mathbb{T}^2$ yields a topologically protected first Chern number:
 $$C_1 = \frac{1}{2\pi} \int_{\mathbb{T}^2} \mathcal{F}_{12}(k_1, k_2) \, dk_1 dk_2 \in \mathbb{Z}$$

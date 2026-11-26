@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 
 We present the capstone milestone synthesis of the Inductive Manifold Flow (IMF) paradigm, chronicling the full theoretical, formal, and empirical progression across 35 formal research papers. We establish the complete system architecture of the 1.14B parameter foundation model, operating across continuous Lie algebra $\mathfrak{so}(n)$ State Space Models, higher-dimensional Gosset ($E_8$ 240-root $4_{21}$) and Russian-doll Matryoshka cross-polytope mixture-of-experts, and formally verified ETH uncrossing limits. We introduce the closed-loop Autonomous Recursive Self-Improvement (RSI) engine, which couples live formal proof generation in Lean 4 (`lake env lean`) and algorithmic execution in Python with reinforcement learning policy updates, achieving 100% oracle acceptance across autonomous evolution cycles. We provide comprehensive release specifications for the zero-copy POSIX memory-mapped `.imf` container format, sub-millisecond cold start times ($0.81\text{ ms}$), and $127.21\text{ tokens/second}$ speculative execution throughput on consumer hardware.

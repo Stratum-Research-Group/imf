@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We extend the differential geometric framework of neural state representations from real Riemannian manifolds to complex Kähler manifolds $(M, g, J, \omega)$. A Kähler manifold simultaneously possesses a Riemannian metric $g$, a complex structure $J$ ($J^2 = -I$), and a symplectic form $\omega$, satisfying the compatibility relation $\omega(X, Y) = g(JX, Y)$ and the closure condition $d\omega = 0$. We prove that Kähler state dynamics unify phase coherence (attention mechanisms) with metric distance (energy conservation) in a single geometric tensor.
 

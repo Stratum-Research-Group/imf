@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We report the scaling of the IMF MegaGym autonomous formal verification engine to seventy million ($70,000,000$) verified deductive steps. Sealing Blocks 66 through 70 sustains mean proof generation rates exceeding $350,000\text{ steps/s}$ on consumer-grade silicon. We analyze the asymptotic topological convergence of the deductive search graph, demonstrating that transitive closure over verified lemma DAGs bounds new goal search expansion to $O(1)$ amortized proof depth.
 

@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 Scaling automated formal deduction beyond 50 million steps requires aggressive lemma deduplication to maintain sub-millisecond AST retrieval latencies. We report the completion and sealing of the 55th continuous MegaGym block, certifying **55,000,000 deductive proof steps** in the Lean 4 proof assistant. We evaluate the longitudinal stability of theorem generation throughput across 55 blocks, demonstrating an average throughput of $351,200\text{ steps/s}$ with a total compressed artifact size of $1.09\text{ GB}$.
 

@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 
 We establish the mathematical geometry and empirical consensus dynamics of **Epistemic Soundness in Multi-Agent Cognitive Swarms**. Traditional multi-agent language systems rely on informal natural language debates, voting heuristics, or majority consensus protocols, which are fundamentally vulnerable to shared sycophancy, collective hallucination, and Byzantine consensus degradation. Within the Information-Theoretic Manifold Foundations (IMF) architecture, agent beliefs and working memory states are parameterized as trajectories over the chambers of regular Coxeter complexes and higher-dimensional polytopes. Epistemic alignment between heterogeneous agents is measured not through linguistic token overlap, but through invariant projection distances on the root lattice manifold ($E_8$ and $\Lambda_{24}$) and formally gated deduction trees checked by Lean 4 interactive oracles. We prove that a swarm of $N$ cognitive agents operating under simplicial chamber routing achieves Byzantine resilience against up to $f < N/3$ arbitrary epistemic failures, guaranteeing that the collective output remains provably sound and topologically bounded.

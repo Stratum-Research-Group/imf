@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 In deep geometric architectures executed across multi-core systolic arrays, token state representations circulate through recurrent feedback loops and crossbars. In traditional floating-point architectures, cyclic state circulation inevitably accumulates non-holonomic drift, leading to phase cancellation and catastrophic representation collapse. In this work, we present **Gauge-Invariant Systolic Routing (GISR)**, demonstrating that on a 2D toroidal orthoplex processor, routing paths can be mapped to closed Wilson loops:
 $$W_C = \operatorname{Tr} \mathcal{P} \exp \left( \oint_C A_\mu dx^\mu \right)$$

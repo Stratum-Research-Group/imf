@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 We develop the discrete Volterra-Lotka ecological lattice dynamical flow on the Poincaré hyperbolic disk manifold. Operating with nonlinear convective competitive interactions $N_n ((N_{n+1} - N_{n-1}) + \epsilon N_n (N_{n+1} + N_{n-1}))$, the system preserves discrete Hamiltonian invariants and log-density conservation laws while scaled through the Riemannian conformal factor $\lambda_N = \frac{2}{1 - \|N\|^2}$. Physical execution on NVIDIA GeForce RTX 5060 Ti demonstrates an acceleration of $4.26\times$ over PyTorch ($19.79\,\mu\text{s}$, $6,623.07\text{M nodes/s}$) with max numerical error $< 1.49 \times 10^{-8}$. Formal deduction in Lean 4 confirms zero external axioms.
 

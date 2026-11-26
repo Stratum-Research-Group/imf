@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 
 We formalize the algorithmic dynamics and empirical scaling of **Bidirectional Monte Carlo Tree Search (MCTS) Cut-Reasoning** coupled to our 14-domain ground-truth compiler and proof oracles. Unidirectional autoregressive code synthesis over branching factor $B$ and horizon $2m$ exhibits exponential explosion $\mathcal{O}(B^{2m})$, causing state exhaustion, severe token hallucinations, and high search latencies in formal synthesis. By implementing the Exponential Time Hypothesis (ETH) bipartite cut-factorization ($B^{2m} \implies B^m \times B^m$), the IMF Frontier MCTS engine executes simultaneous forward search from the premise and backward adjoint search from the goal. Intermediate candidate states are evaluated at each expansion step by a Process Reward Model (PRM) grounded in native compilers (GNU `as`, `clang -target aarch64`, `nvcc`, `rustc`, and `lean`). We show that intermediate singlet pairing ($S^2 = -I$) enforces exact cut-closure, achieving a $128.0\times$ theoretical evaluation reduction and delivering verified machine-checked solutions across Lean 4 mathematical proofs, x86-64 assembly, and ARM64 kernel routines.

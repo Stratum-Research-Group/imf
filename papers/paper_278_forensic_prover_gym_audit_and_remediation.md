@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## 1. Abstract
 We present a rigorous post-mortem and forensic analysis of a critical failure mode identified in the IMF MegaScale 32-Billion Step Prover Gym (`imf/run_megagym_32b.py` and `imf/gym_32_families.py`). During execution up to milestone Block 00132 ($132,000,000$ nominal steps), external and internal audits revealed three severe systemic discrepancies: (1) **Tautological Statement Degeneracy**, wherein each 1,000,000-step block consisted of thousands of renamed copies of only 32 static identities (e.g., $t - t = 0$); (2) **Premature Certification**, where records were tagged with `"certified": True` and `"axioms": 0` *prior* to subprocess invocation of the Lean 4 compiler; and (3) **Axiom Extraction Blindness**, where compiler `#print axioms` output was printed but never parsed back into telemetry records, coupled with a permissive verifier whitelist allowing `Classical.choice`. 
 

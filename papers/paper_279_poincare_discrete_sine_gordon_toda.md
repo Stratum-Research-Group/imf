@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## 1. Abstract
 We formulate, implement, and benchmark the discrete Sine-Gordon-Toda hybrid lattice dynamical flow (`imf/kernels/triton_fused_poincare_discrete_sine_gordon_toda.py`) mapped to the Poincaré hyperbolic disk manifold. The hybrid system combines exponential Toda nearest-neighbor forces $\exp(u_{n+1} - u_n) - \exp(u_n - u_{n-1})$ with periodic Sine-Gordon pinning potentials $-\sin(u_n)$, describing dislocation dynamics in crystalline substrates and coupled Josephson transmission ladders. Our custom Triton kernel fuses the non-linear transcendental function evaluations, spatial difference stencils, and conformal Poincaré metric scaling $\lambda_u = \frac{2}{1 - \|u\|^2}$ directly inside GPU registers. Benchmarked on an NVIDIA GeForce RTX 5060 Ti workstation GPU across $131,072$ lattice nodes, the kernel achieves a latency of **$25.07\,\mu\text{s}$** (**$5.06\times$ speedup** over PyTorch eager baseline, throughput of **$5,228.31\text{M nodes/s}$**, numerical error $< 2.38 \times 10^{-7}$). In parallel, we provide a zero-axiom Lean 4 formalization (`imf/putnam_arithmetic_fuchsian_discrete_sine_gordon_toda_pack.py`) establishing positive potential bounds with zero external axioms.
 

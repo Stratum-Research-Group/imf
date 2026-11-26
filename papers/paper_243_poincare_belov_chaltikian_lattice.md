@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 We present the formal derivation and GPU hardware realization of the Belov-Chaltikian (BC) two-component lattice hierarchy within the Poincaré conformal unit manifold. Coupling discrete fields $(u_n, v_n)$ through the system $\dot{u}_n = u_n (v_n - v_{n-1}), \dot{v}_n = v_n (u_{n+1} - u_n) + u_{n+1} - u_{n-1}$, the BC equations extend the Volterra discrete KdV dynamics into a multi-field bi-Hamiltonian structure. Our specialized fused Triton kernel (`imf/kernels/triton_fused_poincare_belov_chaltikian.py`) evaluates the two-field dynamics in **23.67 µs** per 128k lattice node iteration on an RTX 5060 Ti GPU, demonstrating a **12.30×** speedup over native PyTorch ($5,537.03\text{M nodes/s}$) with maximum error $< 1.19 \times 10^{-7}$. All structural conservation properties are verified in Lean 4 without external axioms.
 

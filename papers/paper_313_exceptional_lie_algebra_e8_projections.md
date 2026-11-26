@@ -10,5 +10,8 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 The exceptional Lie algebra $\mathfrak{e}_8$ is the largest finite-dimensional exceptional simple Lie algebra (dimension 248). We introduce a neural projection operator that factorizes high-dimensional hidden representations along the 240 minimal roots of $\mathfrak{e}_8$ decomposed with respect to its maximal compact subalgebra $\mathfrak{so}(16)$. By partitioning representations into a 120-dimensional adjoint representation and a 128-dimensional chiral spinor representation, our architecture preserves Jacobi identity conservation while compressing token activations into 8D Voronoi centroids.

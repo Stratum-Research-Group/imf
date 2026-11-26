@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 While conservative Hamiltonian dynamics model lossless speculative reflection, learning and memory consolidation require controlled thermodynamic dissipation. Contact geometry provides the odd-dimensional counterpart to symplectic mechanics, modeling non-conservative Hamiltonian systems with intrinsic friction. We formulate parameter consolidation on a $(2n+1)$-dimensional contact manifold $(M, \alpha)$ equipped with contact form $\alpha \wedge (d\alpha)^n \ne 0$. We prove that contact Reeb flows naturally dissipate entropy while preserving invariant sub-Riemannian distributions.
 

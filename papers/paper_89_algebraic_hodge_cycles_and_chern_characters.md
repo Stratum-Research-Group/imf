@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We formulate a multi-stage algorithmic formalization of the **Hodge Conjecture** and **Grothendieck Chern Character Invariance** over projective complex algebraic varieties within the Infinite Manifold Flow (IMF) architecture. By establishing an orthogonal harmonic projector $\Pi_{\mathcal{H}}: H^k(X, \mathbb{C}) \to \bigoplus_{p+q=k} H^{p,q}(X)$ onto Dolbeault cohomology spaces coupled with anti-holomorphic complex conjugation involution, we demonstrate that algebraic cycle classes $[Z] \in H^{2p}(X, \mathbb{Q})$ embed injectively into rational Hodge classes $\operatorname{Hdg}^{2p}(X)$. Furthermore, we machine-certify the exact additive ring homomorphism of the Grothendieck Chern character $\operatorname{ch}: K_0(X) \to H^{2*}(X, \mathbb{Q})$ and its second-order lattice conservation $\operatorname{ch}_2(E) = \frac{1}{2} c_1(E)^2 - c_2(E)$ in Lean 4.33.1 with **zero axioms** (`#print axioms` empty).
 

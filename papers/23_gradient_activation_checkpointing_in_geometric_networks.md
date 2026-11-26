@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 Modern geometric and hybrid architectures—incorporating continuous-time state-space models (SSMs), multilinear higher-order simplex convolutions, and non-Abelian gauge complexes—exhibit complex computational graphs with extensive parallel branch fan-outs. During backpropagation, standard PyTorch autograd caches all intermediate tensor activations across every recurrent step and geometric branch. For a sequence length of $T = 128$ and model hidden dimension $d = 384$, forward activations accumulate over $11.5\text{ GB}$ of dynamic VRAM, causing out-of-memory (OOM) failures even when model parameters and optimizer states fit comfortably within $3\text{ GB}$.
 

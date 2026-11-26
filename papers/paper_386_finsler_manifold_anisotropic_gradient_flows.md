@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 Riemannian metrics enforce quadratic, directionally symmetric velocity costs $g(v, v) = g(-v, -v)$. In contrast, cognitive learning dynamics are inherently asymmetric: acquiring a novel deductive lemma entails different computational friction than forgetting or reverting an invalid conjecture. We formulate non-Euclidean parameter optimization on Finsler manifolds $(M, F)$, where the fundamental metric tensor $g_{i j}(x, y) = \frac{1}{2}\frac{\partial^2 F^2}{\partial y^i \partial y^j}$ depends on both position $x$ and velocity direction $y$. We prove that Randers metrics ($F(x, y) = \sqrt{a_{i j} y^i y^j} + b_i y^i$) model directional learning irreversibility with provable geodesic stability.
 

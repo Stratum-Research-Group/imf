@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 In sub-byte quantized foundation models (e.g., 2.5-bit PLVQ, INT4, binary networks), weight discretization introduces severe quantization noise that typically degrades downstream reasoning accuracy, perplexity, and long-context coherence. In this monograph, we investigate the fundamental relationship between **Continuous Lie Manifold Spin ($\mathfrak{so}(N)$ Vorticity)** and **Model Representation Quality**. We formulate the **Spin-Restraint Hypothesis**: continuous rotational momentum acting on neural weight manifolds induces an artificial centrifugal gyroscopic stiffness that actively suppresses quantization noise and prevents representation collapse. We prove that a non-zero angular spin frequency $\omega > 0$ shifts the eigenvalue spectrum of the Hessian error matrix, pushing low-energy perturbation modes away from zero and establishing an invariant spectral energy barrier:
 

@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We introduce **Interaction Primitive Families MSS Void** (`IMF-MSS-Void`), a sovereign, fully self-contained multi-agent developer environment and neural deduction runtime embedded directly within modern editor architecture. By fusing sub-bit lattice quantization (0.58 to 1.58 bits per parameter) with $E_8$ Gosset polytope root spaces ($4_{21}$) and 24-dimensional Leech lattice ($\Lambda_{24}$) mixture-of-polytope experts (MoPE), IMF-MSS-Void executes 70B and 100B parameter inference entirely within a strict $\le 8\text{ GB}$ VRAM ceiling using zero-copy memory-mapped host paging. We demonstrate the coupling of a 6-stage closed-loop cognitive state machine (combining Integrated Information Theory with Global Workspace Theory) with an autonomous MegaGym prover engine. We report the complete sealing of 35 consecutive verification blocks, certifying **35,000,000 deductive proof steps** in Lean 4 without empirical approximation.
 

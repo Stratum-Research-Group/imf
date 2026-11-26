@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 
 For over four decades, artificial neural networks have parameterized linear projections as rectangular Cartesian tensors $W \in \mathbb{R}^{d_{\text{out}} \times d_{\text{in}}}$, implicitly assuming that weight vectors are uniformly distributed across orthogonal Euclidean axes. Under low-bit quantization or low-rank factorization, Cartesian axis-clipping induces severe angular distortion, representation collapse, and catastrophic precision degradation.

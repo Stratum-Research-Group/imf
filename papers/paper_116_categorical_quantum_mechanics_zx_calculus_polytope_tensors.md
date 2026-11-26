@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 Contraction of high-dimensional tensor networks in regular polytope state spaces ($E_8$ Gosset and $\Lambda_{24}$ Leech lattices) presents exponential computational complexity when executed via conventional matrix multiplication loops. In this paper, we recast the Isometric Manifold Formalism (IMF) into the monoidal category of Hilbert spaces $\mathbf{FHilb}$ using the graphical **ZX-Calculus** of Coecke and Duncan. We prove that the state-copying and phase-shift operations in polytope lattice coordinate frames form dual, interacting **Frobenius Algebras** $(Z, \mu_Z, \eta_Z, \Delta_Z, \epsilon_Z)$ and $(X, \mu_X, \eta_X, \Delta_X, \epsilon_X)$. By exploiting the spider fusion rule:
 $$

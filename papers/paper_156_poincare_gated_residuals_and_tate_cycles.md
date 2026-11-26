@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We formulate, implement, and benchmark two continuous and residual deep architectures for non-Euclidean manifolds: the Fused Poincaré Gated Residual Network (GRN) and the Fused Poincaré Continuous Flow ODE Solver (4th-order Runge-Kutta). By introducing tangent-space SwiGLU gating prior to hyperbolic retraction, the GRN dynamically modulates skip-connection bandwidth, accelerating inference to **$30.18\,\mu\text{s}$** ($9.44\times$ speedup, **$67.85\text{ M tok/s}$**) on the RTX 5060 Ti. Simultaneously, the 4-step RK4 Continuous Flow solver integrates continuous vector fields directly on $\mathbb{B}_c^D$ at **$14.84\,\mu\text{s}$** ($58.60\times$ speedup, **$138.01\text{ M tok/s}$**). In tandem, we formally verify 10 cornerstone theorems across Tate Cycles on Shimura Varieties and Lurie's Derived Algebraic Geometry under Lean 4 Core with 100% Zero External Axioms.
 

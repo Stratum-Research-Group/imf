@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 We present the formal derivation and GPU hardware realization of the Degasperis-Procesi (DP) peakon integrable hierarchy within the Poincaré hyperbolic unit manifold. Arising from the $b$-family of peakon equations at $b=3$, the DP equation models shallow water waves possessing discontinuous derivative shock profiles ($u(x,t) = c e^{-|x - ct|}$). Through a dedicated fused Triton kernel (`imf/kernels/triton_fused_poincare_degasperis_procesi.py`), the momentum density evolution $m_t + m_x u + 3 m u_x = 0$ is evaluated at **19.53 µs** per 128k grid iteration on an NVIDIA GeForce RTX 5060 Ti GPU, demonstrating a **12.88×** speedup over native PyTorch with maximum absolute error $< 5.96 \times 10^{-8}$. All algebraic invariants are certified in Lean 4 with 0 external axioms.
 

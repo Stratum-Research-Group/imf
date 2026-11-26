@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 We present the formal derivation and GPU hardware realization of the Ruijsenaars-Schneider (RS) relativistic integrable particle system over the Poincaré conformal unit disk. Representing the one-parameter relativistic deformation of Calogero-Moser dynamics, the RS Hamiltonian $H = \sum_j \cosh(p_j) \prod_{k \neq j} (1 - \sinh^2(\lambda)/\sinh^2(\mu(q_j - q_k)))^{1/2}$ incorporates kinematic velocity bounds $|v_j| < c$. Our specialized fused Triton kernel (`imf/kernels/triton_fused_poincare_ruijsenaars_schneider.py`) evaluates particle trajectories in **22.17 µs** per 128k particle iteration on an RTX 5060 Ti GPU, demonstrating a **14.79×** speedup over native PyTorch ($5,912.70\text{M particles/s}$) with maximum error $< 2.98 \times 10^{-8}$. All conservation laws are certified in Lean 4 without external axioms.
 

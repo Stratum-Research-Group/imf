@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We formulate a dual-stream mixture-of-experts routing architecture based on the 496-dimensional exceptional Lie algebra $\mathfrak{e}_8 \oplus \mathfrak{e}_8$. In heterotic string theory, $E_8 \times E_8$ provides anomaly cancellation in 10 dimensions. In IMF, we map the dual factors to two distinct cognitive channels: the **Analytic Channel** (formal proof state goals) and the **Generative Channel** (heuristic natural language representations). We implement a Blackwell SM 12.0 kernel evaluating 496D inner products in registers, demonstrating that heterotic coupling resolves dialectic friction with zero cross-stream representational bleeding.
 

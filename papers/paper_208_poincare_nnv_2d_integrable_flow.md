@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We establish the two-dimensional Nizhnik-Novikov-Veselov (NNV) integrable hierarchy within the Poincaré hyperbolic half-space $\mathbb{H}^2$. As an isotropic 2D extension of the Korteweg-de Vries (KdV) equation, the NNV system is associated with the non-stationary 2D hyperbolic Schrödinger spectral problem $L = \partial_x \partial_y + u(x, y, t)$:
 $$u_t = u_{xxx} + u_{yyy} + 3 (u v)_x + 3 (u w)_y$$

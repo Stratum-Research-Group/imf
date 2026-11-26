@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 Sub-byte quantized neural networks frequently require dynamically alternating between bit-plane serial layouts (for popcount accumulation) and bit-packed row layouts (for GEMV contractions). Transposing a $32 \times 32$ boolean matrix through shared memory induces bank conflicts. We present an in-register butterfly transposition kernel that leverages `__shfl_xor_sync` across a 32-thread warp, completing full $32 \times 32$ bit transposition in exactly $\log_2(32) = 5$ stages with zero shared memory transactions.
 

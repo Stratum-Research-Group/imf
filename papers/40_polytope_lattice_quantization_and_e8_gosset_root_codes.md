@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 
 State-of-the-art sub-byte quantization methods (e.g. BitNet b1.58, AWQ, and LittleBit-2) rely primarily on 1D sign extraction or scalar SVD projection, ignoring the dense sphere packings available in higher dimensions. In this paper, we introduce **Polytope Lattice Quantization (PLQ)**, a native sub-byte quantization standard designed for the Interaction Model Foundations (IMF) ecosystem.

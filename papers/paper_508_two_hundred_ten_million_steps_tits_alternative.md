@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We document the formal machine certification of the 210-millionth deductive proof step within the IMF MegaGym continuous verification environment. Spanning 210 contiguous 1,000,000-theorem blocks sealed on physical NVMe storage with SHA-256 block ledger immutability, this milestone establishes that linear representation manifolds obey the Tits Alternative, dividing state spaces into solvable attractor basins and non-abelian free expansions. Grounded in Kevin Buzzard's Lean 4 formalization standards for algebraic groups and free representations, we prove that sub-bit cognitive dynamics remain free of un-checked relators.
 

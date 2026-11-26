@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 Systolic lattice processors for recurrent continuous-state inference typically face non-trivial boundary obstruction when scaling across physical die edges and chiplet boundaries. In this treatise, we establish the topological foundation of boundary state quantization in the Isometric Manifold Formalism (IMF) using **Topological K-Theory** ($K(X)$) and **Dirichlet-Brane (D-Brane)** charge conservation. We prove that the state-space bundle over a discrete 2D systolic mesh exhibits Bott Periodicity:
 $$

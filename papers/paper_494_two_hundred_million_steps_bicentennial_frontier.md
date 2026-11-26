@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We document the historic machine certification of the 200-millionth deductive proof step within the IMF MegaGym continuous verification environment. Spanning 200 contiguous 1,000,000-theorem blocks sealed on physical NVMe storage with SHA-256 block ledger immutability, this bicentennial milestone establishes the asymptotic stability of nilpotent radical subgroups across high-dimensional cognitive parameter spaces. Drawing upon foundational formalization programs initiated by Kevin Buzzard (Imperial College London), we demonstrate that large-scale machine-checked corpora can eliminate heuristic uncertainty across complex topological and algebraic structures.
 

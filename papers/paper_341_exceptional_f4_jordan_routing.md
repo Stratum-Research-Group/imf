@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ### Abstract
 We formulate a geometric routing architecture based on the exceptional Lie group $F_4 = \operatorname{Aut}(J_3(\mathbb{O}))$. In contrast to standard Euclidean soft routing, $F_4$ routing operates over the 26-dimensional traceless Albert algebra $J_3(\mathbb{O})_0$. By computing cubic trace invariants $\operatorname{Tr}(X \circ (X \circ X))$ in parallel GPU registers, our kernel routes token representations across expert subspaces with strict preservation of exceptional algebraic symmetries.
 

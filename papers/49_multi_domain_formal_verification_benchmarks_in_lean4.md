@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 
 We introduce the formal architecture, axiomatic gating protocol, and empirical evaluation of the **IMF Multi-Domain Formal Lean 4 Verification Suite** (18 benchmark theorems). Foundation models evaluated solely on statistical metrics (e.g. BLEU, perplexity, or ungrounded synthetic unit tests) frequently suffer from semantic hallucinations, superficial pattern matching, and subtle logical fallacies. To establish non-negotiable mathematical soundness, we ground the Interaction Model Foundations (IMF) reasoning loop directly inside the interactive Lean 4 kernel (v4.33.1). We formalize an automated evaluation oracle that executes strict Alpöge/Riemann-style axiomatic reflection (`#print axioms`), permanently rejecting proof escape hatches (`sorry`, `admit`, `sorryAx`, `unsafe`). Across 18 foundational targets spanning Peano arithmetic, constructive propositional logic, discrete list structures, higher-dimensional lattice geometry ($E_8$ Gosset and $\Lambda_{24}$ Leech), and abstract magmas, our oracle achieves a $100.0\%$ machine-checked pass rate with an average compilation latency of $0.269\text{ seconds}$ per theorem. Finally, we formalize how these verified proof trees serve as verifiable sparse reward signals for continuous Group Relative Policy Optimization (GRPO).

@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 Deep neural architectures organize representations into hierarchical latent spaces, yet the theoretical bounds on their multi-layer information transmission capacity remain unresolved. In this paper, we map the discrete layer depth $z \in [0, z_{\max}]$ of the **Isometric Manifold Formalism (IMF)** to a continuous bulk anti-de Sitter ($\text{AdS}_{d+1}$) metric:
 $$

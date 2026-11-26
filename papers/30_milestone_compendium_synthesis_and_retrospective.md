@@ -10,6 +10,9 @@
 
 ---
 
+<!-- THEORETICAL-DRAFT-NOTICE -->
+> **⚠ THEORETICAL DRAFT.** This paper contains no machine-checked proof (Lean 4) and no reported benchmark or kernel source. Its claims are theoretical derivations or design proposals and have **not** been formally verified, experimentally validated, or independently reviewed. Treat all results as unverified.
+
 ## Abstract
 
 We present the culminating milestone synthesis of the **Interaction Model Foundations (IMF)** research initiative across **thirty technical monographs**. Beginning with the fundamental resolution of directional conflation through Lie-algebraic decomposition ($\operatorname{Sym}^2 \oplus \bigwedge^2$), the IMF paradigm has expanded into a complete, mathematically verified, end-to-end foundation model stack:
