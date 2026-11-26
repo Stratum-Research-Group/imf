@@ -9,3 +9,5 @@ import Pilot.LieDerivation
 import Pilot.SolvableLieGroup
 import Pilot.OrthogonalProjector
 import Pilot.TraceIdempotent
+import Pilot.KillingForm
+import Pilot.SymplecticBilinear

@@ -21,6 +21,7 @@ jobs:
         run: |
           g++ -O3 -shared -fPIC -std=c++17 csrc/fused_iouring_gather_scatter.cpp -luring -o csrc/fused_iouring_gather_scatter.so
           g++ -O3 -shared -fPIC -std=c++17 csrc/fused_iouring_checkpoint_rollback.cpp -luring -o csrc/fused_iouring_checkpoint_rollback.so
+          g++ -O3 -shared -fPIC -std=c++17 csrc/fused_iouring_sqpoll_engine.cpp -luring -o csrc/fused_iouring_sqpoll_engine.so
 
       - name: Install uv and Python
         uses: astral-sh/setup-uv@v3

@@ -155,3 +155,56 @@ def test_iouring_write_back_roundtrip():
         read_back = f.read(len(write_data))
     assert read_back == write_data
     os.unlink(tpath)
+
+def test_iouring_sqpoll_roundtrip():
+    so_path = "csrc/fused_iouring_sqpoll_engine.so"
+    lib = ctypes.CDLL(so_path)
+
+    lib.init_sqpoll_engine.argtypes = [ctypes.c_char_p, ctypes.c_int]
+    lib.init_sqpoll_engine.restype = ctypes.c_void_p
+
+    lib.is_sqpoll_active.argtypes = [ctypes.c_void_p]
+    lib.is_sqpoll_active.restype = ctypes.c_int
+
+    lib.submit_sqpoll_write.argtypes = [ctypes.c_void_p, ctypes.c_void_p, ctypes.c_size_t, ctypes.c_longlong]
+    lib.submit_sqpoll_write.restype = ctypes.c_int
+
+    lib.submit_sqpoll_read.argtypes = [ctypes.c_void_p, ctypes.c_void_p, ctypes.c_size_t, ctypes.c_longlong]
+    lib.submit_sqpoll_read.restype = ctypes.c_int
+
+    lib.wait_sqpoll_completions.argtypes = [ctypes.c_void_p, ctypes.c_int]
+    lib.wait_sqpoll_completions.restype = ctypes.c_int
+
+    lib.close_sqpoll_engine.argtypes = [ctypes.c_void_p]
+    lib.close_sqpoll_engine.restype = None
+
+    size_bytes = 4096
+    with tempfile.NamedTemporaryFile(delete=False) as tf:
+        tf.write(b"0" * size_bytes)
+        tf.flush()
+        tpath = tf.name
+
+    eng = lib.init_sqpoll_engine(tpath.encode('utf-8'), 16)
+    assert eng is not None
+
+    payload = b"SQPOLL_ZERO_SYSCALL_DMA_VERIFIED" * 50
+    write_buf = (ctypes.c_char * len(payload)).from_buffer_copy(payload)
+
+    ret = lib.submit_sqpoll_write(eng, write_buf, len(payload), 0)
+    assert ret >= 0
+
+    done = lib.wait_sqpoll_completions(eng, 1)
+    assert done >= 1
+
+    read_buf = (ctypes.c_char * len(payload))()
+    ret2 = lib.submit_sqpoll_read(eng, read_buf, len(payload), 0)
+    assert ret2 >= 0
+
+    done2 = lib.wait_sqpoll_completions(eng, 1)
+    assert done2 >= 1
+
+    assert read_buf.raw == payload
+
+    lib.close_sqpoll_engine(eng)
+    os.unlink(tpath)
+

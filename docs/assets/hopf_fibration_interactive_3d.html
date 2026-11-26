@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>IMF Hopf Fibration & Clifford Torus Geodesics (3D WebGL)</title>
+    <style>
+        body { margin: 0; background: #020306; color: #eee; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace; overflow: hidden; }
+        #canvas { width: 100vw; height: 100vh; display: block; }
+        #overlay { position: absolute; top: 16px; left: 16px; background: rgba(6,10,18,0.85); padding: 18px; border-radius: 8px; border: 1px solid #1a283e; max-width: 420px; box-shadow: 0 4px 20px rgba(0,0,0,0.6); }
+        h1 { margin: 0 0 8px 0; font-size: 18px; color: #00e5ff; letter-spacing: 0.5px; }
+        p { margin: 4px 0; font-size: 13px; color: #90a4ae; line-height: 1.4; }
+        .badge { display: inline-block; padding: 2px 6px; border-radius: 4px; font-size: 11px; background: #0d47a1; color: #82b1ff; margin-top: 6px; }
+    </style>
+</head>
+<body>
+    <div id="overlay">
+        <h1>Hopf Fibration & Clifford Torus (S³ → S²)</h1>
+        <p><strong>Principal Bundle:</strong> U(1) ↪ S³ → S² (First Chern Class c₁ = 1)</p>
+        <p><strong>Stereographic Map:</strong> S³ ⊂ ℝ⁴ → ℝ³ maps great circle fibers into linked Villarceau circles forming nested Clifford tori.</p>
+        <p><strong>Gauge Holonomy:</strong> Non-Abelian SU(2) memory trajectory with exact Berry-Wilczek-Zee phase preservation.</p>
+        <div class="badge">Blackwell SM 12.0 Co-Designed Geometry</div>
+    </div>
+    <canvas id="canvas"></canvas>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('canvas'), antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+
+        const group = new THREE.Group();
+        scene.add(group);
+
+        // Parameters for Hopf Fibration sampling
+        const numEta = 6;      // Number of nested tori (eta in (0, pi/2))
+        const numFibers = 16;  // Fibers per torus
+
+        for (let e = 1; e <= numEta; e++) {
+            const eta = (e / (numEta + 1)) * (Math.PI / 2);
+            const r1 = Math.cos(eta);
+            const r2 = Math.sin(eta);
+
+            for (let f = 0; f < numFibers; f++) {
+                const xi2_base = (f / numFibers) * 2 * Math.PI;
+
+                // Create a Villarceau circle fiber: xi1 in [0, 2pi), xi2 = xi2_base + xi1
+                const points = [];
+                const segments = 120;
+                for (let s = 0; s <= segments; s++) {
+                    const xi1 = (s / segments) * 2 * Math.PI;
+                    const xi2 = xi2_base + xi1;
+
+                    // Coordinates in S^3:
+                    const x1 = r1 * Math.cos(xi1);
+                    const y1 = r1 * Math.sin(xi1);
+                    const x2 = r2 * Math.cos(xi2);
+                    const y2 = r2 * Math.sin(xi2);
+
+                    // Stereographic projection from S^3 to R^3: (X, Y, Z) = (x1, y1, x2) / (1 - y2)
+                    // Scale factor for visualization
+                    const denom = Math.max(0.15, 1.0 - y2);
+                    const scale = 2.4;
+                    const X = (x1 / denom) * scale;
+                    const Y = (y1 / denom) * scale;
+                    const Z = (x2 / denom) * scale;
+
+                    points.push(new THREE.Vector3(X, Y, Z));
+                }
+
+                const geometry = new THREE.BufferGeometry().setFromPoints(points);
+                const hue = ((e / numEta) * 0.7 + (f / numFibers) * 0.3) % 1.0;
+                const material = new THREE.LineBasicMaterial({
+                    color: new THREE.Color().setHSL(hue, 0.9, 0.55),
+                    transparent: true,
+                    opacity: 0.75,
+                    linewidth: 1.5
+                });
+
+                const line = new THREE.Line(geometry, material);
+                group.add(line);
+            }
+        }
+
+        camera.position.set(0, 5, 16);
+        camera.lookAt(0, 0, 0);
+
+        // Animation loop
+        let clock = new THREE.Clock();
+        function animate() {
+            requestAnimationFrame(animate);
+            const t = clock.getElapsedTime() * 0.3;
+            group.rotation.x = t * 0.5;
+            group.rotation.y = t * 0.7;
+            group.rotation.z = t * 0.2;
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>

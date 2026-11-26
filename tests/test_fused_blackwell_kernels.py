@@ -215,3 +215,38 @@ def test_rope_correctness():
 
     diff = torch.norm(out - ref_out).item() / (batch * seq_len * num_heads * head_dim)
     assert diff < 1e-4, f"RoPE diff: {diff}"
+
+@pytest.mark.skipif(not torch.cuda.is_available(), reason="CUDA device required")
+def test_causal_sdpa_correctness():
+    so_path = "csrc/fused_blackwell_bit_causal_sdpa.so"
+    lib = ctypes.CDLL(so_path)
+    lib.launch_fused_blackwell_bit_causal_sdpa.argtypes = [
+        ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p,
+        ctypes.c_int, ctypes.c_int, ctypes.c_int, ctypes.c_int, ctypes.c_void_p
+    ]
+
+    batch = 2
+    num_heads = 4
+    seq_len = 16
+    head_dim = 32
+
+    q = torch.randn(batch, num_heads, seq_len, head_dim, device='cuda', dtype=torch.float32)
+    k = torch.randn(batch, num_heads, seq_len, head_dim, device='cuda', dtype=torch.float32)
+    v = torch.randn(batch, num_heads, seq_len, head_dim, device='cuda', dtype=torch.float32)
+    out = torch.zeros_like(q)
+
+    lib.launch_fused_blackwell_bit_causal_sdpa(
+        ctypes.c_void_p(q.data_ptr()),
+        ctypes.c_void_p(k.data_ptr()),
+        ctypes.c_void_p(v.data_ptr()),
+        ctypes.c_void_p(out.data_ptr()),
+        batch, num_heads, seq_len, head_dim, None
+    )
+    torch.cuda.synchronize()
+
+    # Analytical PyTorch SDPA reference with causal mask
+    ref_out = torch.nn.functional.scaled_dot_product_attention(q, k, v, is_causal=True)
+
+    diff = torch.norm(out - ref_out).item() / (batch * num_heads * seq_len * head_dim)
+    assert diff < 1e-4, f"Causal SDPA diff: {diff}"
+
