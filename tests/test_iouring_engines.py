@@ -2,6 +2,7 @@ import pytest
 import ctypes
 import os
 import tempfile
+import socket
 
 def test_iouring_gather_scatter_basic():
     so_path = "csrc/fused_iouring_gather_scatter.so"
@@ -395,6 +396,63 @@ def test_iouring_direct_reg_engine():
     lib.close_direct_reg_engine(eng)
     os.close(fd)
     os.unlink(temp_path)
+
+def test_iouring_socket_sendmsg_basic():
+    so_path = "csrc/fused_iouring_socket_sendmsg.so"
+    lib = ctypes.CDLL(so_path)
+
+    lib.init_socket_sendmsg_engine.argtypes = [ctypes.c_int]
+    lib.init_socket_sendmsg_engine.restype = ctypes.c_void_p
+
+    lib.submit_socket_send.argtypes = [
+        ctypes.c_void_p, ctypes.c_int, ctypes.c_char_p, ctypes.c_size_t, ctypes.c_int
+    ]
+    lib.submit_socket_send.restype = ctypes.c_int
+
+    lib.submit_socket_send_zc.argtypes = [
+        ctypes.c_void_p, ctypes.c_int, ctypes.c_char_p, ctypes.c_size_t, ctypes.c_int
+    ]
+    lib.submit_socket_send_zc.restype = ctypes.c_int
+
+    lib.submit_socket_recv.argtypes = [
+        ctypes.c_void_p, ctypes.c_int, ctypes.c_char_p, ctypes.c_size_t, ctypes.c_int
+    ]
+    lib.submit_socket_recv.restype = ctypes.c_int
+
+    lib.wait_socket_completions.argtypes = [ctypes.c_void_p, ctypes.c_int]
+    lib.wait_socket_completions.restype = ctypes.c_int
+
+    lib.close_socket_sendmsg_engine.argtypes = [ctypes.c_void_p]
+    lib.close_socket_sendmsg_engine.restype = None
+
+    s1, s2 = socket.socketpair(socket.AF_UNIX, socket.SOCK_STREAM)
+    eng = lib.init_socket_sendmsg_engine(16)
+    assert eng is not None
+
+    payload = b"SOCKET_ZERO_COPY_SENDMSG_BROADCAST_OK"
+    size = len(payload)
+    recv_buf = (ctypes.c_char * 128)()
+
+    # Submit receive on s2
+    ret_r = lib.submit_socket_recv(eng, s2.fileno(), ctypes.cast(recv_buf, ctypes.c_char_p), size, 0)
+    assert ret_r == 0
+
+    # Submit send on s1
+    ret_s = lib.submit_socket_send(eng, s1.fileno(), payload, size, 0)
+    assert ret_s == 0
+
+    # Wait for completions (receive and send)
+    done = lib.wait_socket_completions(eng, 2)
+    assert done >= 2
+
+    # Verify received payload
+    assert recv_buf.value[:size] == payload
+
+    lib.close_socket_sendmsg_engine(eng)
+    s1.close()
+    s2.close()
+
+
 
 
 

@@ -17,3 +17,5 @@ import Pilot.HodgeStarDuality
 import Pilot.YangMillsCurvature
 import Pilot.SymplecticInvariance
 import Pilot.ExteriorDerivativeNilpotent
+import Pilot.PoissonBracketJacobi
+import Pilot.SymplecticGradientCommutation

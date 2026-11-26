@@ -13,6 +13,8 @@
 #include <string>
 #include <fstream>
 #include <sstream>
+#include <algorithm>
+#include <iomanip>
 
 extern "C" {
     int imf_rs_infer_step(
@@ -44,6 +46,8 @@ int main(int argc, char** argv) {
     bool interactive = false;
     bool stream_mode = false;
     bool inspect_manifold = false;
+    bool benchmark_mode = false;
+    std::string json_out_file = "";
     unsigned int seed = 42;
     std::string input_file = "";
 
@@ -61,6 +65,10 @@ int main(int argc, char** argv) {
             stream_mode = true;
         } else if (arg == "--inspect-manifold") {
             inspect_manifold = true;
+        } else if (arg == "--benchmark") {
+            benchmark_mode = true;
+        } else if (arg == "--json-out" && i + 1 < argc) {
+            json_out_file = argv[++i];
         } else if (arg == "--file" && i + 1 < argc) {
             input_file = argv[++i];
         } else if (arg == "--repl" || arg == "-i") {
@@ -73,6 +81,8 @@ int main(int argc, char** argv) {
             std::cout << "  --seed <uint>         Deterministic RNG initialization seed (default: 42)" << std::endl;
             std::cout << "  --stream              Continuous live token streaming with real-time flush" << std::endl;
             std::cout << "  --inspect-manifold    Display Lie algebra norm and orthogonality drift metrics" << std::endl;
+            std::cout << "  --benchmark           Run high-precision latency profiling with p50/p95/p99 quantiles" << std::endl;
+            std::cout << "  --json-out <path>     Write latency profiling results to JSON file" << std::endl;
             std::cout << "  --file <path>         Batch prompt evaluation from input text file" << std::endl;
             std::cout << "  --repl, -i            Launch interactive streaming token generation REPL" << std::endl;
             std::cout << "  --help, -h            Show this help message" << std::endl;
@@ -179,6 +189,92 @@ int main(int argc, char** argv) {
         double ms = std::chrono::duration<double, std::milli>(end_stream - start_stream).count();
         std::cout << std::endl << "[✓] Streamed " << steps << " tokens in " << ms << " ms ("
                   << (steps / ms) * 1000.0 << " tokens/sec)" << std::endl;
+        return 0;
+    }
+
+    if (benchmark_mode) {
+        std::cout << "[*] High-Precision Micro-Benchmarking (" << steps << " iterations)..." << std::endl;
+
+        // Warmup iterations
+        for (size_t w = 0; w < 10; ++w) {
+            uint32_t token_id = 0;
+            float drift = 0.0f;
+            imf_rs_infer_step(state.data(), a_mat.data(), head.data(), dim, vocab, &token_id, &drift);
+        }
+
+        std::vector<double> latencies_us;
+        latencies_us.reserve(steps);
+        float total_drift = 0.0f;
+
+        auto bench_start = std::chrono::high_resolution_clock::now();
+        for (size_t s = 0; s < steps; ++s) {
+            uint32_t token_id = 0;
+            float drift = 0.0f;
+
+            auto t0 = std::chrono::high_resolution_clock::now();
+            int ret = imf_rs_infer_step(state.data(), a_mat.data(), head.data(), dim, vocab, &token_id, &drift);
+            auto t1 = std::chrono::high_resolution_clock::now();
+
+            if (ret != 0) {
+                std::cerr << "[!] Error during inference step " << s << ": code " << ret << std::endl;
+                return 1;
+            }
+            latencies_us.push_back(std::chrono::duration<double, std::micro>(t1 - t0).count());
+            total_drift += drift;
+        }
+        auto bench_end = std::chrono::high_resolution_clock::now();
+
+        std::sort(latencies_us.begin(), latencies_us.end());
+        double total_time_ms = std::chrono::duration<double, std::milli>(bench_end - bench_start).count();
+        double mean_us = 0.0;
+        for (double lat : latencies_us) mean_us += lat;
+        mean_us /= steps;
+
+        double p50 = latencies_us[static_cast<size_t>(steps * 0.50)];
+        double p95 = latencies_us[static_cast<size_t>(steps * 0.95)];
+        double p99 = latencies_us[static_cast<size_t>(steps * 0.99)];
+        double min_us = latencies_us.front();
+        double max_us = latencies_us.back();
+        double throughput = (steps / total_time_ms) * 1000.0;
+        float mean_drift = total_drift / steps;
+
+        std::cout << "[✓] Micro-Benchmark Results:" << std::endl;
+        std::cout << "    Iterations:     " << steps << std::endl;
+        std::cout << "    Mean Latency:   " << std::fixed << std::setprecision(2) << mean_us << " us" << std::endl;
+        std::cout << "    p50 Latency:    " << p50 << " us" << std::endl;
+        std::cout << "    p95 Latency:    " << p95 << " us" << std::endl;
+        std::cout << "    p99 Latency:    " << p99 << " us" << std::endl;
+        std::cout << "    Min / Max:      " << min_us << " / " << max_us << " us" << std::endl;
+        std::cout << "    Throughput:     " << throughput << " tokens/sec" << std::endl;
+        std::cout << "    Mean Drift:     " << mean_drift << std::endl;
+        std::cout << "================================================================================" << std::endl;
+
+        if (!json_out_file.empty()) {
+            std::ofstream jout(json_out_file);
+            if (jout.is_open()) {
+                double safe_drift = (std::isinf(mean_drift) || std::isnan(mean_drift)) ? 0.0 : static_cast<double>(mean_drift);
+                jout << "{\n"
+                     << "  \"benchmark\": \"imf_native_inference\",\n"
+                     << "  \"steps\": " << steps << ",\n"
+                     << "  \"dim\": " << dim << ",\n"
+                     << "  \"vocab\": " << vocab << ",\n"
+                     << "  \"latency_us\": {\n"
+                     << "    \"mean\": " << mean_us << ",\n"
+                     << "    \"p50\": " << p50 << ",\n"
+                     << "    \"p95\": " << p95 << ",\n"
+                     << "    \"p99\": " << p99 << ",\n"
+                     << "    \"min\": " << min_us << ",\n"
+                     << "    \"max\": " << max_us << "\n"
+                     << "  },\n"
+                     << "  \"throughput_tok_sec\": " << throughput << ",\n"
+                     << "  \"mean_drift\": " << safe_drift << "\n"
+                     << "}\n";
+                std::cout << "[✓] Wrote JSON telemetry to " << json_out_file << std::endl;
+            } else {
+                std::cerr << "[!] Failed to write to " << json_out_file << std::endl;
+            }
+        }
+
         return 0;
     }
 

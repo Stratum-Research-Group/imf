@@ -1,0 +1,268 @@
+#!/usr/bin/env python3
+"""
+Generate interactive 3D WebGL visualization of the Hyperbolic 24-Cell (Octacube) {3, 4, 3}
+Tiling and Beltrami-Klein / Poincaré Ball Projective Manifold.
+"""
+
+import os
+from pathlib import Path
+
+HTML_CONTENT = """<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>IMF Hyperbolic Octacube {3,4,3} Tiling & Beltrami-Klein Disc (3D WebGL)</title>
+    <style>
+        body { margin: 0; background: #020208; color: #eee; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace; overflow: hidden; }
+        #canvas { width: 100vw; height: 100vh; display: block; }
+        #overlay { position: absolute; top: 16px; left: 16px; background: rgba(5,8,18,0.90); padding: 18px; border-radius: 8px; border: 1px solid #1a2a44; max-width: 480px; box-shadow: 0 4px 24px rgba(0,0,0,0.8); backdrop-filter: blur(8px); }
+        h1 { margin: 0 0 8px 0; font-size: 16px; color: #00e5ff; letter-spacing: 0.5px; }
+        p { margin: 4px 0; font-size: 12.5px; color: #90a4ae; line-height: 1.4; }
+        .control-group { margin-top: 10px; }
+        label { display: block; font-size: 12px; color: #cfd8dc; margin-bottom: 3px; }
+        input[type=range] { width: 100%; accent-color: #00e5ff; }
+        .badge { display: inline-block; padding: 2px 6px; border-radius: 4px; font-size: 11px; background: #006064; color: #80deea; margin-top: 8px; margin-right: 6px; }
+    </style>
+</head>
+<body>
+    <div id="overlay">
+        <h1>Hyperbolic Octacube {3,4,3} Tiling</h1>
+        <p><strong>Coxeter-Dynkin Configuration:</strong> Self-dual 24-cell {3,4,3} regular 4-polytope (24 vertices, 96 edges, 96 triangular faces, 24 octahedral cells).</p>
+        <p><strong>Hyperbolic Projection:</strong> Lorentz hyperboloid $\\mathcal{H}^3 \\subset \\mathbb{R}^{3,1}$ conformally mapped into the Poincaré unit ball $\\mathbb{B}^3$ and projective Beltrami-Klein disc.</p>
+        <p><strong>Geodesic Horizon:</strong> Conformal reflection group $[3,4,3]$ acting on the boundary $\\partial \\mathbb{H}^3 \\cong \\mathbb{CP}^1$.</p>
+        
+        <div class="control-group">
+            <label id="curvature-label">Hyperbolic Curvature Scale κ: 1.25</label>
+            <input type="range" id="curvature-slider" min="0.4" max="2.5" step="0.05" value="1.25">
+        </div>
+        <div class="control-group">
+            <label id="rotation-label">4D Clifford Rotation Phase θ: 0.00 rad</label>
+            <input type="range" id="rotation-slider" min="0" max="6.28" step="0.05" value="0.00">
+        </div>
+        <div>
+            <span class="badge">Lorentzian Metric ds² = -dt² + dx² + dy² + dz²</span>
+            <span class="badge">Beltrami-Klein Geodesics</span>
+        </div>
+    </div>
+    <canvas id="canvas"></canvas>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.set(0, 0, 4.2);
+
+        const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('canvas'), antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+
+        const rootGroup = new THREE.Group();
+        scene.add(rootGroup);
+
+        // Generate the 24 vertices of the standard 24-cell in 4D:
+        // All permutations of (+-1, +-1, 0, 0) -> 6 * 4 = 24 vertices
+        const raw4DVertices = [];
+        const signs = [-1, 1];
+        for (let i = 0; i < 4; i++) {
+            for (let j = i + 1; j < 4; j++) {
+                for (let s1 of signs) {
+                    for (let s2 of signs) {
+                        const v = [0, 0, 0, 0];
+                        v[i] = s1;
+                        v[j] = s2;
+                        raw4DVertices.push(v);
+                    }
+                }
+            }
+        }
+
+        // Find edges: vertices with distance sqrt(2) apart
+        const rawEdges = [];
+        for (let i = 0; i < raw4DVertices.length; i++) {
+            for (let j = i + 1; j < raw4DVertices.length; j++) {
+                let distSq = 0;
+                for (let k = 0; k < 4; k++) {
+                    const diff = raw4DVertices[i][k] - raw4DVertices[j][k];
+                    distSq += diff * diff;
+                }
+                // (1 - 0)^2 + (1 - 1)^2 + 0 + (-1)^2 = 2
+                if (Math.abs(distSq - 2.0) < 1e-4) {
+                    rawEdges.push([i, j]);
+                }
+            }
+        }
+
+        // Ideal boundary horizon sphere: Poincaré ball radius R=2.5
+        const horizonGeo = new THREE.SphereGeometry(2.5, 32, 32);
+        const horizonMat = new THREE.MeshBasicMaterial({
+            color: 0x004d40,
+            wireframe: true,
+            transparent: true,
+            opacity: 0.18
+        });
+        const horizonMesh = new THREE.Mesh(horizonGeo, horizonMat);
+        scene.add(horizonMesh);
+
+        // Particles for boundary horizon quantum fluctuations
+        const partCount = 500;
+        const partGeo = new THREE.BufferGeometry();
+        const partPos = [];
+        const partCols = [];
+        for (let p = 0; p < partCount; p++) {
+            const theta = Math.random() * 2 * Math.PI;
+            const phi = Math.acos(2 * Math.random() - 1);
+            const r = 2.5;
+            partPos.push(r * Math.sin(phi) * Math.cos(theta), r * Math.sin(phi) * Math.sin(theta), r * Math.cos(phi));
+            partCols.push(0.0, 0.7 + 0.3 * Math.random(), 0.8 + 0.2 * Math.random());
+        }
+        partGeo.setAttribute('position', new THREE.Float32BufferAttribute(partPos, 3));
+        partGeo.setAttribute('color', new THREE.Float32BufferAttribute(partCols, 3));
+        const partMat = new THREE.PointsMaterial({ size: 0.035, vertexColors: true, transparent: true, opacity: 0.65 });
+        const particles = new THREE.Points(partGeo, partMat);
+        scene.add(particles);
+
+        let curvature = 1.25;
+        let cliffordAngle = 0.0;
+
+        const dynamicGroup = new THREE.Group();
+        rootGroup.add(dynamicGroup);
+
+        function project4DtoHyperbolic3D(v, curval, angle) {
+            // Apply 4D isoclinic / Clifford rotation:
+            // plane 1: (x, w) by angle, plane 2: (y, z) by angle
+            const cosA = Math.cos(angle);
+            const sinA = Math.sin(angle);
+
+            const x = v[0] * cosA - v[3] * sinA;
+            const w = v[0] * sinA + v[3] * cosA;
+            const y = v[1] * cosA - v[2] * sinA;
+            const z = v[1] * sinA + v[2] * cosA;
+
+            // Hyperbolic Poincaré stereographic projection from 4D hyperboloid:
+            // Beltrami-Poincaré metric deformation
+            const factor = curval / (1.5 + 0.5 * Math.abs(w));
+            return new THREE.Vector3(x * factor, y * factor, z * factor);
+        }
+
+        function rebuildGeometry() {
+            while (dynamicGroup.children.length > 0) {
+                const obj = dynamicGroup.children[0];
+                dynamicGroup.remove(obj);
+                if (obj.geometry) obj.geometry.dispose();
+                if (obj.material) obj.material.dispose();
+            }
+
+            const projected3D = raw4DVertices.map(v => project4DtoHyperbolic3D(v, curvature, cliffordAngle));
+
+            // Vertices as glowing nodes
+            const nodeGeo = new THREE.SphereGeometry(0.05, 16, 16);
+            project3DNodes = [];
+            for (let i = 0; i < projected3D.length; i++) {
+                const nodeMat = new THREE.MeshBasicMaterial({
+                    color: 0x00e5ff
+                });
+                const mesh = new THREE.Mesh(nodeGeo, nodeMat);
+                mesh.position.copy(projected3D[i]);
+                dynamicGroup.add(mesh);
+            }
+
+            // Edges as hyperbolic geodesic lines
+            const linePositions = [];
+            const lineColors = [];
+            for (let edge of rawEdges) {
+                const v1 = projected3D[edge[0]];
+                const v2 = projected3D[edge[1]];
+
+                // Subdivide hyperbolic arc
+                const steps = 12;
+                for (let s = 0; s < steps; s++) {
+                    const t1 = s / steps;
+                    const t2 = (s + 1) / steps;
+
+                    // Geodesic interpolation with hyperbolic sag
+                    const mid1 = new THREE.Vector3().lerpVectors(v1, v2, t1);
+                    const mid2 = new THREE.Vector3().lerpVectors(v1, v2, t2);
+
+                    // Add radial hyperbolic curvature warp
+                    const rWarp1 = 1.0 - 0.12 * Math.sin(t1 * Math.PI) * (curvature * 0.5);
+                    const rWarp2 = 1.0 - 0.12 * Math.sin(t2 * Math.PI) * (curvature * 0.5);
+                    mid1.multiplyScalar(rWarp1);
+                    mid2.multiplyScalar(rWarp2);
+
+                    linePositions.push(mid1.x, mid1.y, mid1.z);
+                    linePositions.push(mid2.x, mid2.y, mid2.z);
+
+                    const col = new THREE.Color();
+                    col.setHSL(0.52 + 0.15 * Math.sin(t1 * Math.PI), 0.95, 0.6);
+                    lineColors.push(col.r, col.g, col.b);
+                    lineColors.push(col.r, col.g, col.b);
+                }
+            }
+
+            const lineGeo = new THREE.BufferGeometry();
+            lineGeo.setAttribute('position', new THREE.Float32BufferAttribute(linePositions, 3));
+            lineGeo.setAttribute('color', new THREE.Float32BufferAttribute(lineColors, 3));
+            const lineMat = new THREE.LineBasicMaterial({
+                vertexColors: true,
+                linewidth: 2,
+                transparent: true,
+                opacity: 0.85
+            });
+            const linesMesh = new THREE.LineSegments(lineGeo, lineMat);
+            dynamicGroup.add(linesMesh);
+        }
+
+        rebuildGeometry();
+
+        // UI Controls
+        const curvSlider = document.getElementById('curvature-slider');
+        const curvLabel = document.getElementById('curvature-label');
+        curvSlider.addEventListener('input', (e) => {
+            curvature = parseFloat(e.target.value);
+            curvLabel.textContent = `Hyperbolic Curvature Scale κ: ${curvature.toFixed(2)}`;
+            rebuildGeometry();
+        });
+
+        const rotSlider = document.getElementById('rotation-slider');
+        const rotLabel = document.getElementById('rotation-label');
+        rotSlider.addEventListener('input', (e) => {
+            cliffordAngle = parseFloat(e.target.value);
+            rotLabel.textContent = `4D Clifford Rotation Phase θ: ${cliffordAngle.toFixed(2)} rad`;
+            rebuildGeometry();
+        });
+
+        // Animation Loop
+        let autoAngle = 0;
+        function animate() {
+            requestAnimationFrame(animate);
+
+            autoAngle += 0.005;
+            rootGroup.rotation.y = autoAngle * 0.6;
+            rootGroup.rotation.x = Math.sin(autoAngle * 0.4) * 0.25;
+
+            particles.rotation.y = -autoAngle * 0.2;
+
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>
+"""
+
+def main():
+    assets_dir = Path("docs/assets")
+    assets_dir.mkdir(parents=True, exist_ok=True)
+    out_file = assets_dir / "hyperbolic_octacube_3d.html"
+    with open(out_file, "w", encoding="utf-8") as f:
+        f.write(HTML_CONTENT)
+    print(f"Generated {out_file} successfully ({len(HTML_CONTENT)} bytes).")
+
+if __name__ == "__main__":
+    main()

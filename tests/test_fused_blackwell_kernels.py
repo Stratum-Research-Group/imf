@@ -406,6 +406,51 @@ def test_gqa_dequant_correctness():
     diff = torch.norm(out - ref_out).item() / (batch * num_q_heads * seq_len * head_dim)
     assert diff < 1e-4, f"GQA dequant diff: {diff}"
 
+@pytest.mark.skipif(not torch.cuda.is_available(), reason="CUDA device required")
+def test_chunked_linear_attn_correctness():
+    so_path = "csrc/fused_blackwell_chunked_linear_attn.so"
+    lib = ctypes.CDLL(so_path)
+    lib.launch_fused_blackwell_chunked_linear_attn.argtypes = [
+        ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p,
+        ctypes.c_int, ctypes.c_int, ctypes.c_int, ctypes.c_int,
+        ctypes.c_float, ctypes.c_float, ctypes.c_void_p
+    ]
+
+    batch = 2
+    num_heads = 4
+    seq_len = 16
+    head_dim = 64
+    decay = 0.95
+    scale = 1.0 / math.sqrt(head_dim)
+
+    q = torch.randn(batch, num_heads, seq_len, head_dim, device='cuda', dtype=torch.float32)
+    k = torch.randn(batch, num_heads, seq_len, head_dim, device='cuda', dtype=torch.float32)
+    v = torch.randn(batch, num_heads, seq_len, head_dim, device='cuda', dtype=torch.float32)
+    out = torch.zeros_like(q)
+
+    lib.launch_fused_blackwell_chunked_linear_attn(
+        ctypes.c_void_p(q.data_ptr()),
+        ctypes.c_void_p(k.data_ptr()),
+        ctypes.c_void_p(v.data_ptr()),
+        ctypes.c_void_p(out.data_ptr()),
+        batch, num_heads, seq_len, head_dim, decay, scale, None
+    )
+    torch.cuda.synchronize()
+
+    # Analytical reference:
+    t_idx = torch.arange(seq_len, device='cuda').unsqueeze(1)
+    j_idx = torch.arange(seq_len, device='cuda').unsqueeze(0)
+    delta = t_idx - j_idx
+    decay_weights = torch.where(delta >= 0, decay ** delta.float(), torch.zeros_like(delta, dtype=torch.float32))
+
+    scores = torch.matmul(q, k.transpose(-1, -2)) * scale
+    weighted_scores = scores * decay_weights
+    ref_out = torch.matmul(weighted_scores, v)
+
+    diff = torch.norm(out - ref_out).item() / (batch * num_heads * seq_len * head_dim)
+    assert diff < 1e-4, f"Linear attn diff: {diff}"
+
+
 
 
 
