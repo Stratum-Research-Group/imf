@@ -897,6 +897,66 @@ def test_iouring_direct_splice_pipe_to_socket_correctness():
         sock_client.close()
 
 
+def test_iouring_direct_splice_socket_to_pipe_correctness():
+    so_path = "csrc/fused_iouring_direct_splice_socket_to_pipe.so"
+    assert os.path.exists(so_path)
+    lib = ctypes.CDLL(so_path)
+
+    lib.iouring_socket_to_pipe_init.argtypes = [ctypes.c_uint]
+    lib.iouring_socket_to_pipe_init.restype = ctypes.c_void_p
+
+    lib.iouring_splice_socket_to_pipe.argtypes = [
+        ctypes.c_void_p, ctypes.c_int, ctypes.c_int, ctypes.c_uint, ctypes.c_uint64
+    ]
+    lib.iouring_splice_socket_to_pipe.restype = ctypes.c_int
+
+    lib.iouring_socket_to_pipe_submit.argtypes = [ctypes.c_void_p]
+    lib.iouring_socket_to_pipe_submit.restype = ctypes.c_int
+
+    lib.iouring_socket_to_pipe_wait_cqe.argtypes = [
+        ctypes.c_void_p, ctypes.POINTER(ctypes.c_int), ctypes.POINTER(ctypes.c_uint64)
+    ]
+    lib.iouring_socket_to_pipe_wait_cqe.restype = ctypes.c_int
+
+    lib.iouring_socket_to_pipe_free.argtypes = [ctypes.c_void_p]
+    lib.iouring_socket_to_pipe_free.restype = None
+
+    gw = lib.iouring_socket_to_pipe_init(16)
+    assert gw is not None
+
+    r_pipe, w_pipe = os.pipe()
+    sock_sender, sock_receiver = socket.socketpair(socket.AF_UNIX, socket.SOCK_STREAM)
+
+    test_payload = b"IMF_ZERO_COPY_SPLICE_SOCKET_TO_PIPE_STREAM_9876543210"
+    sock_sender.sendall(test_payload)
+
+    try:
+        ret = lib.iouring_splice_socket_to_pipe(gw, sock_receiver.fileno(), w_pipe, len(test_payload), 0x8888)
+        assert ret == 0
+
+        submitted = lib.iouring_socket_to_pipe_submit(gw)
+        assert submitted == 1
+
+        out_res = ctypes.c_int(0)
+        out_ud = ctypes.c_uint64(0)
+        w = lib.iouring_socket_to_pipe_wait_cqe(gw, ctypes.byref(out_res), ctypes.byref(out_ud))
+        assert w == 0
+        assert out_ud.value == 0x8888
+        assert out_res.value == len(test_payload)
+
+        # Read back from pipe read end
+        received = os.read(r_pipe, 1024)
+        assert received == test_payload
+
+        lib.iouring_socket_to_pipe_free(gw)
+    finally:
+        os.close(r_pipe)
+        os.close(w_pipe)
+        sock_sender.close()
+        sock_receiver.close()
+
+
+
 
 
 

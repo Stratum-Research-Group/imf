@@ -1,4 +1,4 @@
-# IMF Scientific Papers & Formal Monographs Compendium (770 Treatises)
+# IMF Scientific Papers & Formal Monographs Compendium (780 Treatises)
 
 | # | Title | Paper Type | Verification Status |
 |:---|:---|:---|:---|
@@ -810,6 +810,18 @@
 | 768 | [Paper 768: Sheaf Cohomology of Hyperbolic Coxeter Complexes and Bruhat-Tits Buildings](phase_6_blackwell_kernels_and_dma_engines/paper_768_sheaf_cohomology_of_hyperbolic_coxeter_complexes_and_bruhat_tits_buildings.md) | ** Algebraic Topology & Sheaf Theory | ** Canonical Reference Treatise — Mathematical Formulation |
 | 769 | [Paper 769: Non-Archimedean and Hyperbolic Hybrid Metric Spaces in Ultra-Deep Token Embeddings](phase_6_blackwell_kernels_and_dma_engines/paper_769_non_archimedean_and_hyperbolic_hybrid_metric_spaces_in_ultradeep_token_embeddings.md) | ** Representation Theory & Deep Learning Architecture | ** Canonical Reference Treatise — Mathematical Formulation |
 | 770 | [Paper 770: Grand Milestone Synthesis: The Four Hundred Fifty Million Deductive Step Horizon and Seven Hundred Seventy Treatises](phase_6_blackwell_kernels_and_dma_engines/paper_770_grand_milestone_synthesis_four_hundred_fifty_million_steps.md) | ** Grand Milestone Synthesis & Comprehensive Compendium | ** Certified Historical Milestone — 450M Steps & 770 Treatises |
+
+| 771 | [Paper 771: Four Hundred Sixty Million Steps Milestone and Asymptotic Epistemic Scaling](phase_6_blackwell_kernels_and_dma_engines/paper_771_four_hundred_sixty_million_steps_milestone_and_asymptotic_epistemic_scaling.md) | ** Milestone Synthesis & Scaling Report | ** Certified Historical Milestone — 460M Steps & 780 Treatises |
+| 772 | [Paper 772: Blackwell SM 12.0 Bruhat-Tits Building Paging and Polysimplicial Tree-Walk Kernels](phase_6_blackwell_kernels_and_dma_engines/paper_772_blackwell_sm12_bruhat_tits_building_paging_and_polysimplicial_treewalk_kernels.md) | ** Silicon Microarchitecture & CUDA Kernel Engineering | ** Empirically Measured Hardware Benchmark — Verified on Silicon |
+| 773 | [Paper 773: Linux 6.18 io_uring Direct Socket-To-Pipe Splice Gateway and Zero-Copy Ingestion](phase_6_blackwell_kernels_and_dma_engines/paper_773_linux_6_18_iouring_direct_socket_to_pipe_splice_gateway_and_zerocopy_ingestion.md) | ** Systems Architecture & Kernel Engineering | ** Canonical Kernel Implementation — Verified in Production |
+| 774 | [Paper 774: Mathlib Formalization of Bruhat-Tits Simplicial Complex Invariants and Affine Reflections](phase_6_blackwell_kernels_and_dma_engines/paper_774_mathlib_formalization_of_bruhat_tits_simplicial_complex_invariants_and_affine_reflections.md) | ** Interactive Formal Verification & Mathematical Certification | ** Machine-Checked Proof — Certified with Zero Sorry |
+| 775 | [Paper 775: Interactive WebGL 3D Bruhat-Tits Building and Polysimplicial Apartment Visualization](phase_6_blackwell_kernels_and_dma_engines/paper_775_interactive_webgl_3d_bruhat_tits_building_and_polysimplicial_apartment_visualization.md) | ** Scientific Visualization & Mathematical UI Architecture | ** Interactive WebGL 3D Visualization — Operational |
+| 776 | [Paper 776: Polysimplicial Geometry of Bruhat-Tits Buildings and Non-Archimedean Representation Spaces](phase_6_blackwell_kernels_and_dma_engines/paper_776_polysimplicial_geometry_of_bruhat_tits_buildings_and_non_archimedean_representation_spaces.md) | ** Infinite-Dimensional Lie Theory & Discrete Geometry | ** Canonical Reference Treatise — Mathematical Formulation |
+| 777 | [Paper 777: Hardware Implementation of Fast Affine Reflection Matrices on Blackwell Tensor Cores](phase_6_blackwell_kernels_and_dma_engines/paper_777_hardware_implementation_of_fast_affine_reflection_matrices_on_blackwell_tensor_cores.md) | ** Hardware Acceleration & Microbenchmarking | ** Certified Microarchitectural Benchmark — Verified on Silicon |
+| 778 | [Paper 778: Retraction Functors and CAT(0) Metric Space Invariants in Deep Neural Embeddings](phase_6_blackwell_kernels_and_dma_engines/paper_778_retraction_functors_and_cat0_metric_space_invariants_in_deep_neural_embeddings.md) | ** Category Theory & Metric Geometry | ** Canonical Reference Treatise — Mathematical Formulation |
+| 779 | [Paper 779: Bidirectional Kernel Splice Gateways for Ultra-Low Latency Inter-Process Pipelines](phase_6_blackwell_kernels_and_dma_engines/paper_779_bidirectional_kernel_splice_gateways_for_ultralow_latency_interprocess_pipelines.md) | ** Systems Architecture & Operating Systems Engineering | ** Canonical Reference Treatise — Systems Performance Analysis |
+| 780 | [Paper 780: Grand Milestone Synthesis: The Four Hundred Sixty Million Deductive Step Horizon and Seven Hundred Eighty Treatises](phase_6_blackwell_kernels_and_dma_engines/paper_780_grand_milestone_synthesis_four_hundred_sixty_million_steps.md) | ** Grand Milestone Synthesis & Comprehensive Compendium | ** Certified Historical Milestone — 460M Steps & 780 Treatises |
+
 
 
 

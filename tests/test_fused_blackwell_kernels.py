@@ -804,6 +804,64 @@ def test_fused_coxeter_billiards_correctness():
     assert abs(x_out[1, 0].item() - 0.49) < 1e-4
 
 
+def test_fused_bruhat_tits_walk_correctness():
+    so_path = "csrc/fused_blackwell_bruhat_tits_walk.so"
+    assert os.path.exists(so_path)
+    lib = ctypes.CDLL(so_path)
+    lib.fused_blackwell_bruhat_tits_walk.argtypes = [
+        ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p,
+        ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p,
+        ctypes.c_int, ctypes.c_int, ctypes.c_int, ctypes.c_float
+    ]
+
+    B = 2
+    D = 4
+    K = 2
+    step_size = 0.2
+
+    # Affine roots: H0 is x_0 = 1.0 (normal [1, 0, 0, 0], offset 1.0)
+    roots = torch.tensor([[1.0, 0.0, 0.0, 0.0],
+                          [0.0, 1.0, 0.0, 0.0]], dtype=torch.float32)
+    offsets = torch.tensor([1.0, 0.5], dtype=torch.float32)
+    root_sq = torch.sum(roots * roots, dim=1)
+
+    # Particle 0: pos = [1.1, 0.0, 0.0, 0.0], dir = [-1.0, 0.0, 0.0, 0.0]
+    # after step 0.2, pos = [0.9, 0.0, 0.0, 0.0] -> crosses wall at x_0 = 1.0!
+    # dist to wall = 0.9 - 1.0 = -0.1.
+    # Reflected pos = 0.9 - 2 * (-0.1) * 1.0 = 1.1!
+    # Reflected dir = -1.0 - 2 * (-1.0) * 1.0 = +1.0!
+    x_in = torch.tensor([[1.1, 0.0, 0.0, 0.0],
+                         [2.0, 2.0, 0.0, 0.0]], dtype=torch.float32)
+    v_in = torch.tensor([[-1.0, 0.0, 0.0, 0.0],
+                         [ 0.1, 0.1, 0.0, 0.0]], dtype=torch.float32)
+    x_out = torch.zeros_like(x_in)
+    v_out = torch.zeros_like(v_in)
+    chamber_ids = torch.tensor([0, 0], dtype=torch.int32)
+
+    ret = lib.fused_blackwell_bruhat_tits_walk(
+        ctypes.c_void_p(x_in.data_ptr()),
+        ctypes.c_void_p(v_in.data_ptr()),
+        ctypes.c_void_p(roots.data_ptr()),
+        ctypes.c_void_p(offsets.data_ptr()),
+        ctypes.c_void_p(root_sq.data_ptr()),
+        ctypes.c_void_p(x_out.data_ptr()),
+        ctypes.c_void_p(v_out.data_ptr()),
+        ctypes.c_void_p(chamber_ids.data_ptr()),
+        B, D, K, step_size
+    )
+    assert ret == 0
+
+    # Particle 0 reflects back
+    assert abs(x_out[0, 0].item() - 1.1) < 1e-4
+    assert abs(v_out[0, 0].item() - 1.0) < 1e-4
+    assert chamber_ids[0].item() != 0
+
+    # Particle 1 steps without crossing: 2.0 + 0.1*0.2 = 2.02
+    assert abs(x_out[1, 0].item() - 2.02) < 1e-4
+    assert abs(v_out[1, 0].item() - 0.1) < 1e-4
+
+
+
 
 
 

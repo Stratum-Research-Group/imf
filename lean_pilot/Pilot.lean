@@ -27,3 +27,4 @@ import Pilot.CartanKillingSemisimplicity
 import Pilot.SpinningManifoldConservation
 import Pilot.UltrametricStrongTriangle
 import Pilot.CoxeterReflectionInvariance
+import Pilot.BruhatTitsInvariance
