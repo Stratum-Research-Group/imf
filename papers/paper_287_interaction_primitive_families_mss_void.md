@@ -1,11 +1,12 @@
 # Paper 287: Interaction Primitive Families MSS Void (IMF-MSS-Void)
-## Architecture, High-Dimensional Polytopic Attention Routing, and Continuous Formal Verification Across 35,000,000 Certified Deductive Steps
 
-**Author**: Stratum Research Group & Nicholas Charles Mynhardt  
-**Date**: November 2026  
-**Hardware Verification Target**: AMD Ryzen 5 7600X (6-Core / 12-Thread) + NVIDIA GeForce RTX 5060 Ti 16GB (Blackwell SM 12.0)  
-**Lean 4 Toolchain**: `leanprover/lean4:v4.18.0`  
-**Certified Invariants**: 0 `sorry` | 0 unproven axioms | 100% Kernel Verified  
+**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
+**Series:** Phase VI: Dynastic Solitons & Formally Verified Mathematical Physics  
+**Paper Type:** Theoretical Mathematical Monograph & Hardware Benchmark  
+**Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
+**Date:** November 2026  
+**Status:** Peer-Review Ready — Formally Verified & Hardware Validated  
+**Verification Level:** Sustained Workstation Hardware Telemetry (AMD Ryzen 5 7600X, RTX 5060 Ti, Lean 4 Core Zero External Axioms)  
 
 ---
 

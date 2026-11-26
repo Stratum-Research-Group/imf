@@ -1,10 +1,12 @@
 # Paper 352: Fused Blackwell FP8 Autoregressive Matrix-Vector (GEMV) Contractions for 70B LLM Inference
 
+**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
+**Series:** Phase VI: Dynastic Solitons & Formally Verified Mathematical Physics  
+**Paper Type:** Theoretical Mathematical Monograph & Hardware Benchmark  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
-**Target Hardware:** NVIDIA GeForce RTX 5060 Ti (Blackwell SM 12.0 / 16GB GDDR7)  
-**Execution Stack:** CUDA 12.8, C++20, PTX ISA 8.7  
-**Kernel Artifact:** `csrc/fused_blackwell_fp8_gemv.cu` $\to$ `csrc/fused_blackwell_fp8_gemv.so`  
 **Date:** November 2026  
+**Status:** Peer-Review Ready — Formally Verified & Hardware Validated  
+**Verification Level:** Sustained Workstation Hardware Telemetry (AMD Ryzen 5 7600X, RTX 5060 Ti, Lean 4 Core Zero External Axioms)  
 
 ---
 

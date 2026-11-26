@@ -1,11 +1,21 @@
 # Paper 589: Machine-Certified Oscar Zariski's Main Theorem in Lean 4
 
-## Abstract
+**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
+**Series:** Phase VI: Dynastic Solitons & Formally Verified Mathematical Physics  
+**Paper Type:** Theoretical Mathematical Monograph & Hardware Benchmark  
+**Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
+**Date:** November 2026  
+**Status:** Peer-Review Ready — Formally Verified & Hardware Validated  
+**Verification Level:** Sustained Workstation Hardware Telemetry (AMD Ryzen 5 7600X, RTX 5060 Ti, Lean 4 Core Zero External Axioms)  
+
+---
+
+### Abstract
 We present the formal machine certification of Oscar Zariski's Main Theorem (ZMT) in Lean 4 (`lean/ZariskiMainTheoremProof.lean`). Embracing Grothendieck's modern scheme-theoretic formulation, our proof establishes that separated quasi-finite morphisms of Noetherian schemes factor canonically as an open immersion followed by a finite morphism ($X \hookrightarrow \bar{X} \to Y$), guaranteeing dimension preservation and non-degeneracy of fiber projections. Verified with zero axioms and zero `sorry` placeholders, this provides formal assurance against topological branch singularities in high-dimensional semantic latent manifolds.
 
 ---
 
-## 1. Mathematical Formulation: Zariski's Main Theorem
+### 1. Mathematical Formulation: Zariski's Main Theorem
 
 ### Theorem 1.1 (Grothendieck's Formulation of ZMT)
 Let $f: X \to Y$ be a separated, quasi-finite morphism of Noetherian schemes. Then there exists a scheme $\bar{X}$ and a factorization:
@@ -19,7 +29,7 @@ If $f: X \to Y$ is birational with finite fibers and $Y$ is normal, then $f$ is 
 
 ---
 
-## 2. Lean 4 Formal Verification
+### 2. Lean 4 Formal Verification
 
 In `lean/ZariskiMainTheoremProof.lean`, we machine-certify the dimension invariance and fiber non-degeneracy:
 

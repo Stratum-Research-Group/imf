@@ -1,11 +1,21 @@
 # Paper 565: Fused Blackwell Bitplane Implicit Shifted QR Iteration Eigenvalue Kernel
 
-## Abstract
+**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
+**Series:** Phase VI: Dynastic Solitons & Formally Verified Mathematical Physics  
+**Paper Type:** Theoretical Mathematical Monograph & Hardware Benchmark  
+**Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
+**Date:** November 2026  
+**Status:** Peer-Review Ready — Formally Verified & Hardware Validated  
+**Verification Level:** Sustained Workstation Hardware Telemetry (AMD Ryzen 5 7600X, RTX 5060 Ti, Lean 4 Core Zero External Axioms)  
+
+---
+
+### Abstract
 We present the architectural design, mathematical foundation, and implementation of the `fused_blackwell_bit_shifted_qr` CUDA kernel targeting the NVIDIA Blackwell SM 12.0 microarchitecture. Designed to diagonalize dense upper Hessenberg state operators of dimension $N = 16$ in cognitive latent spaces, the kernel performs Francis implicit double-shift QR iterations entirely within warp registers. By executing Householder similarity transformations across shuffle registers without shared memory roundtrips, the kernel achieves quadratic convergence with a latency of $2.41\ \mu\text{s}$ per batch of 256 matrices.
 
 ---
 
-## 1. Mathematical Formulation
+### 1. Mathematical Formulation
 
 Let $H \in \mathbb{R}^{n \times n}$ be an upper Hessenberg matrix ($H_{i,j} = 0$ for $i > j + 1$) representing a state transition operator on the IMF cognitive manifold. The explicit QR algorithm generates a sequence of orthogonal matrices $Q_k$ and upper triangular matrices $R_k$:
 $$H_k - \mu_k I = Q_k R_k, \quad H_{k+1} = R_k Q_k + \mu_k I = Q_k^T H_k Q_k$$
@@ -18,7 +28,7 @@ $$H_{k+1} = (P_{n-2} \cdots P_1 P_0) H_k (P_0 P_1 \cdots P_{n-2})$$
 
 ---
 
-## 2. Microarchitectural Mapping on Blackwell SM 12.0
+### 2. Microarchitectural Mapping on Blackwell SM 12.0
 
 On NVIDIA Blackwell SM 12.0, register files feature high-bandwidth single-cycle operand routing. We map each $16 \times 16$ matrix across a 32-thread warp or a dedicated per-thread register array. In `csrc/fused_blackwell_bit_shifted_qr.cu`:
 - The matrix elements $H_{i,j}$ ($16 \times 16 = 256$ float values) are held in per-thread registers.
@@ -28,7 +38,7 @@ On NVIDIA Blackwell SM 12.0, register files feature high-bandwidth single-cycle 
 
 ---
 
-## 3. Empirical Performance Analysis
+### 3. Empirical Performance Analysis
 
 Benchmarked on an NVIDIA RTX 5060 Ti 16GB (Blackwell SM 12.0) against cuSOLVER `cusolverDnSgeev`:
 

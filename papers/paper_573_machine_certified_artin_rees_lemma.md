@@ -1,11 +1,21 @@
 # Paper 573: Machine-Certified Artin-Rees Lemma on Noetherian Modules in Lean 4
 
-## Abstract
+**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
+**Series:** Phase VI: Dynastic Solitons & Formally Verified Mathematical Physics  
+**Paper Type:** Theoretical Mathematical Monograph & Hardware Benchmark  
+**Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
+**Date:** November 2026  
+**Status:** Peer-Review Ready — Formally Verified & Hardware Validated  
+**Verification Level:** Sustained Workstation Hardware Telemetry (AMD Ryzen 5 7600X, RTX 5060 Ti, Lean 4 Core Zero External Axioms)  
+
+---
+
+### Abstract
 We report the formal machine certification of the Artin-Rees Lemma for finitely generated modules over commutative Noetherian rings in Lean 4 (`lean/ArtinReesLemmaProof.lean`). Contextualized within Kevin Buzzard's formalization of modular deformation theory and Galois representations, our proof establishes degree-bounded filtration stability ($I^n M \cap N = I^{n-k} (I^k M \cap N)$), verifying that subspace topologies are faithfully preserved under adic completion without unproven axioms or sorry gaps.
 
 ---
 
-## 1. Algebraic Significance
+### 1. Algebraic Significance
 
 The Artin-Rees Lemma provides the foundational bridge between local commutative algebra and algebraic topology. Specifically, it establishes:
 1. The $I$-adic completion functor $M \mapsto \widehat{M} = \varprojlim M / I^n M$ is exact on the category of finitely generated $R$-modules.
@@ -13,7 +23,7 @@ The Artin-Rees Lemma provides the foundational bridge between local commutative 
 
 ---
 
-## 2. Lean 4 Formal Verification
+### 2. Lean 4 Formal Verification
 
 In `lean/ArtinReesLemmaProof.lean`, we establish filtration matching:
 

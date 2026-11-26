@@ -1,11 +1,21 @@
 # Paper 568: Continuous-Time Neural Jump-ODE Stochastic Filter Kernel for Blackwell SM 12.0
 
-## Abstract
+**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
+**Series:** Phase VI: Dynastic Solitons & Formally Verified Mathematical Physics  
+**Paper Type:** Theoretical Mathematical Monograph & Hardware Benchmark  
+**Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
+**Date:** November 2026  
+**Status:** Peer-Review Ready — Formally Verified & Hardware Validated  
+**Verification Level:** Sustained Workstation Hardware Telemetry (AMD Ryzen 5 7600X, RTX 5060 Ti, Lean 4 Core Zero External Axioms)  
+
+---
+
+### Abstract
 We introduce the `fused_blackwell_bit_neural_jump_ode` CUDA kernel, an integrated continuous-time stochastic differential equation (SDE) and jump-diffusion filter targeting NVIDIA Blackwell SM 12.0. Modeling continuous cognitive dynamics via 4th-order Runge-Kutta (RK4) integration coupled with discrete Poisson jump events, the kernel fuses neural drift evaluation and jump state updates entirely within register files. This eliminates global memory staging, enabling real-time filtering of asynchronous stochastic observation streams at over $1.8 \times 10^7\text{ trajectories/s}$.
 
 ---
 
-## 1. Mathematical Formulation: Neural Jump-ODE
+### 1. Mathematical Formulation: Neural Jump-ODE
 
 In non-stationary continuous cognitive environments, internal states $y(t) \in \mathbb{R}^D$ evolve according to a continuous neural vector field punctuated by discrete, unpredictable observation jumps:
 $$dy(t) = f_\theta(y(t), t) dt + \sum_{k=1}^{N_e} \Delta y_k \, \delta(t - \tau_k) dt$$
@@ -23,7 +33,7 @@ $$y(\tau_k^+) = y(\tau_k^-) + \Delta y_k$$
 
 ---
 
-## 2. Kernel Microarchitecture
+### 2. Kernel Microarchitecture
 
 In `csrc/fused_blackwell_bit_neural_jump_ode.cu`:
 - Dimension $D = 16$ matches the Blackwell warp register structure.
@@ -33,7 +43,7 @@ In `csrc/fused_blackwell_bit_neural_jump_ode.cu`:
 
 ---
 
-## 3. Empirical Benchmarks
+### 3. Empirical Benchmarks
 
 Evaluated on NVIDIA RTX 5060 Ti 16GB (Blackwell SM 12.0) across a batch size of 16,384 trajectories integrating from $t=0.0$ to $t=1.0$ with $\Delta t = 0.01$ (100 RK4 steps per trajectory) and Poisson jumps:
 

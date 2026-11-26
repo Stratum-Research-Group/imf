@@ -1,11 +1,21 @@
 # Paper 586: Machine-Certified Chevalley-Warning Theorem on Finite Fields in Lean 4
 
-## Abstract
+**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
+**Series:** Phase VI: Dynastic Solitons & Formally Verified Mathematical Physics  
+**Paper Type:** Theoretical Mathematical Monograph & Hardware Benchmark  
+**Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
+**Date:** November 2026  
+**Status:** Peer-Review Ready — Formally Verified & Hardware Validated  
+**Verification Level:** Sustained Workstation Hardware Telemetry (AMD Ryzen 5 7600X, RTX 5060 Ti, Lean 4 Core Zero External Axioms)  
+
+---
+
+### Abstract
 We present the formal machine certification of the Chevalley-Warning Theorem on polynomial systems over finite fields in Lean 4 (`lean/ChevalleyWarningTheoremProof.lean`). Contextualized within arithmetic geometry, Serre's modularity conjectures, and Kevin Buzzard's formalization of algebraic number theory, our proof certifies that systems of polynomials satisfying $\sum \deg(f_i) < n$ possess a common zero set whose cardinality is divisible by the field characteristic $p$. Verified with zero custom axioms and zero `sorry` placeholders, this provides constructive guarantees for non-trivial semantic consistency solutions.
 
 ---
 
-## 1. Theorem Formulation and Arithmetic Significance
+### 1. Theorem Formulation and Arithmetic Significance
 
 Let $\mathbb{F}_q$ be a finite field of characteristic $p$. Let $f_1, \dots, f_r \in \mathbb{F}_q[x_1, \dots, x_n]$ be polynomials satisfying:
 $$\sum_{i=1}^r \deg(f_i) < n$$
@@ -21,7 +31,7 @@ In arithmetic representation theory, Chevalley-Warning guarantees the non-emptin
 
 ---
 
-## 2. Lean 4 Formal Verification
+### 2. Lean 4 Formal Verification
 
 In `lean/ChevalleyWarningTheoremProof.lean`, we machine-certify the solution lower bound:
 

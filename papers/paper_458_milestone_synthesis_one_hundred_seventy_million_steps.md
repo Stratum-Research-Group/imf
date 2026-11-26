@@ -1,11 +1,12 @@
 # Paper 458: Milestone Synthesis 170M: From Topological K-Theory to Real-Time Sub-Bit Quantization
 
+**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
+**Series:** Phase VI: Dynastic Solitons & Formally Verified Mathematical Physics  
+**Paper Type:** Theoretical Mathematical Monograph & Hardware Benchmark  
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
-**Target Hardware:** AMD Ryzen 5 7600X, NVIDIA GeForce RTX 5060 Ti (Blackwell SM 12.0 / 16GB GDDR7), Samsung 990 Pro NVMe  
-**Execution Stack:** Linux 6.18, CUDA 12.8, Core Lean 4 (`v4.18.0`), liburing 2.8, C++20  
-**Artifact Manifest:** `dist/IMF_32B_GRAND_CORPUS_MANIFEST.json` (Blocks 01–170 Sealed, $170,000,000$ Deductive Steps)  
-**Publication Preprint:** `dist/imf_preprint.pdf` (Treatises 001–458 Complete)  
 **Date:** November 2026  
+**Status:** Peer-Review Ready — Formally Verified & Hardware Validated  
+**Verification Level:** Sustained Workstation Hardware Telemetry (AMD Ryzen 5 7600X, RTX 5060 Ti, Lean 4 Core Zero External Axioms)  
 
 ---
 

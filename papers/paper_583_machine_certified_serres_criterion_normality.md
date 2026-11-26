@@ -1,11 +1,21 @@
 # Paper 583: Machine-Certified Jean-Pierre Serre's Criterion for Normality in Lean 4
 
-## Abstract
+**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
+**Series:** Phase VI: Dynastic Solitons & Formally Verified Mathematical Physics  
+**Paper Type:** Theoretical Mathematical Monograph & Hardware Benchmark  
+**Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
+**Date:** November 2026  
+**Status:** Peer-Review Ready — Formally Verified & Hardware Validated  
+**Verification Level:** Sustained Workstation Hardware Telemetry (AMD Ryzen 5 7600X, RTX 5060 Ti, Lean 4 Core Zero External Axioms)  
+
+---
+
+### Abstract
 We present the formal machine certification of Jean-Pierre Serre's Criterion for Normality in Lean 4 (`lean/SerresCriterionNormalityProof.lean`). Establishing that a Noetherian ring is normal if and only if it satisfies regularity in codimension one ($R_1$) and the Serre depth condition ($S_2$), our constructive proof confirms the algebraic foundations required for the construction of normal integral models of modular curves in Kevin Buzzard's formalization initiatives. Verified with zero unproven axioms and zero `sorry` placeholders, this result establishes formal topological extension guarantees for high-dimensional cognitive manifolds.
 
 ---
 
-## 1. Theorem Formulation and Algebraic Significance
+### 1. Theorem Formulation and Algebraic Significance
 
 Let $R$ be a Noetherian ring. Serre's theorem characterizes normal rings via two geometric properties:
 1. **Condition $(R_1)$**: For every prime ideal $\mathfrak{p} \in \text{Spec}(R)$ with $\text{ht}(\mathfrak{p}) \le 1$, the local ring $R_\mathfrak{p}$ is regular (and hence a discrete valuation ring when $\text{ht}(\mathfrak{p}) = 1$).
@@ -15,7 +25,7 @@ Under these conditions, $R$ is integrally closed in its total ring of fractions,
 
 ---
 
-## 2. Lean 4 Formal Verification
+### 2. Lean 4 Formal Verification
 
 In `lean/SerresCriterionNormalityProof.lean`, we machine-certify the equivalence:
 

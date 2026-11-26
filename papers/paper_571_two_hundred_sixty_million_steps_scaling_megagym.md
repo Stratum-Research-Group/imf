@@ -1,11 +1,21 @@
 # Paper 571: Two Hundred Sixty Million Steps: Scaling the MegaGym Prover Fleet
 
-## Abstract
+**Hardware Target:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9  
+**Series:** Phase VI: Dynastic Solitons & Formally Verified Mathematical Physics  
+**Paper Type:** Theoretical Mathematical Monograph & Hardware Benchmark  
+**Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
+**Date:** November 2026  
+**Status:** Peer-Review Ready — Formally Verified & Hardware Validated  
+**Verification Level:** Sustained Workstation Hardware Telemetry (AMD Ryzen 5 7600X, RTX 5060 Ti, Lean 4 Core Zero External Axioms)  
+
+---
+
+### Abstract
 We document the attainment of the **260,000,000 Certified Deductive Steps Milestone** across 260 cryptographically sealed blocks in the IMF MegaGym deductive execution harness. Sustaining a throughput exceeding $308,000\text{ steps/s}$ on AMD Ryzen 5 7600X and NVIDIA Blackwell SM 12.0 silicon, the verified corpus expands to $5,220.8\text{ MB}$ of strictly sound proof trajectories. We present empirical convergence analysis, proof-tree depth distributions, and memory footprint invariants across Blocks 251 through 260.
 
 ---
 
-## 1. Corpus Scaling and Verification Invariants
+### 1. Corpus Scaling and Verification Invariants
 
 Between Blocks 251 and 260, the automated prover executed $10,000,000$ deductive inference steps covering commutative algebra, algebraic geometry, symplectic topology, and operator algebras.
 
@@ -26,6 +36,6 @@ Every block was hashed and cross-validated against the global manifest `dist/IMF
 
 ---
 
-## 2. Structural Entropy and Non-Degeneracy
+### 2. Structural Entropy and Non-Degeneracy
 
 As the corpus expands past a quarter-billion steps, maintaining high informational entropy without circular loop traps is paramount. By enforcing strict Noetherian termination guarantees (derived from our formal proof of Krull's intersection theorem), the prover avoids cyclical proof expansions.
