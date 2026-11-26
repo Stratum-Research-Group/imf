@@ -25,3 +25,4 @@ import Pilot.MarsdenWeinsteinReduction
 import Pilot.NoetherSymplecticConservation
 import Pilot.CartanKillingSemisimplicity
 import Pilot.SpinningManifoldConservation
+import Pilot.UltrametricStrongTriangle

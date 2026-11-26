@@ -782,6 +782,62 @@ def test_iouring_fixed_file_table_correctness():
         os.unlink(p1)
         os.unlink(p2)
 
+def test_iouring_cooperative_task_work_correctness():
+    so_path = "csrc/fused_iouring_cooperative_task_work.so"
+    assert os.path.exists(so_path), "Shared library does not exist"
+    lib = ctypes.CDLL(so_path)
+
+    lib.iouring_coop_engine_init.argtypes = [ctypes.c_uint]
+    lib.iouring_coop_engine_init.restype = ctypes.c_void_p
+
+    lib.iouring_coop_engine_prep_read.argtypes = [
+        ctypes.c_void_p, ctypes.c_int, ctypes.c_void_p, ctypes.c_uint, ctypes.c_uint64, ctypes.c_uint64
+    ]
+    lib.iouring_coop_engine_prep_read.restype = ctypes.c_int
+
+    lib.iouring_coop_engine_submit.argtypes = [ctypes.c_void_p]
+    lib.iouring_coop_engine_submit.restype = ctypes.c_int
+
+    lib.iouring_coop_engine_wait_cqe.argtypes = [
+        ctypes.c_void_p, ctypes.POINTER(ctypes.c_uint64), ctypes.POINTER(ctypes.c_int)
+    ]
+    lib.iouring_coop_engine_wait_cqe.restype = ctypes.c_int
+
+    lib.iouring_coop_engine_destroy.argtypes = [ctypes.c_void_p]
+    lib.iouring_coop_engine_destroy.restype = None
+
+    with tempfile.NamedTemporaryFile(mode='wb', delete=False) as f:
+        test_data = b"IMF_COOPERATIVE_TASK_WORK_ZERO_IPI_PAYLOAD"
+        f.write(test_data)
+        f.flush()
+        f_name = f.name
+
+    fd = os.open(f_name, os.O_RDONLY)
+    try:
+        eng = lib.iouring_coop_engine_init(16)
+        assert eng is not None
+
+        buf = ctypes.create_string_buffer(len(test_data))
+        ret = lib.iouring_coop_engine_prep_read(eng, fd, buf, len(test_data), 0, 0x1337)
+        assert ret == 0
+
+        sub = lib.iouring_coop_engine_submit(eng)
+        assert sub == 1
+
+        out_ud = ctypes.c_uint64(0)
+        out_res = ctypes.c_int(0)
+        w = lib.iouring_coop_engine_wait_cqe(eng, ctypes.byref(out_ud), ctypes.byref(out_res))
+        assert w == 0
+        assert out_ud.value == 0x1337
+        assert out_res.value == len(test_data)
+        assert buf.raw == test_data
+
+        lib.iouring_coop_engine_destroy(eng)
+    finally:
+        os.close(fd)
+        os.unlink(f_name)
+
+
 
 
 

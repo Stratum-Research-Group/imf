@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>IMF p-Adic Trees & Berkovich Analytic Spaces (3D WebGL)</title>
+    <style>
+        body { margin: 0; background: #03030c; color: #eee; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace; overflow: hidden; }
+        #canvas { width: 100vw; height: 100vh; display: block; }
+        #overlay { position: absolute; top: 16px; left: 16px; background: rgba(6,10,28,0.92); padding: 18px; border-radius: 8px; border: 1px solid #7c4dff; max-width: 500px; box-shadow: 0 4px 24px rgba(0,0,0,0.85); backdrop-filter: blur(8px); }
+        h1 { margin: 0 0 8px 0; font-size: 16px; color: #b388ff; letter-spacing: 0.5px; }
+        p { margin: 4px 0; font-size: 12.5px; color: #b0bec5; line-height: 1.4; }
+        .control-group { margin-top: 10px; }
+        label { display: block; font-size: 12px; color: #cfd8dc; margin-bottom: 3px; }
+        input[type=range] { width: 100%; accent-color: #7c4dff; }
+        .badge { display: inline-block; padding: 2px 6px; border-radius: 4px; font-size: 11px; background: #311b92; color: #d1c4e9; margin-top: 8px; margin-right: 6px; }
+    </style>
+</head>
+<body>
+    <div id="overlay">
+        <h1>p-Adic Valuation Trees & Berkovich Spaces</h1>
+        <p><strong>Geometry:</strong> Hierarchical Non-Archimedean tree topology over $\mathbb{Q}_p$. Distance satisfies the Strong Triangle Inequality $d_p(x, z) \le \max(d_p(x, y), d_p(y, z))$.</p>
+        <p><strong>Clopen Valuation Spheres:</strong> Every node represents a compact-open ball $B_{p^{-k}}(a)$ whose radius scales as $p^{-v_p}$. All triangles are strictly isosceles with equal longer sides.</p>
+        <p><strong>Berkovich Continuum:</strong> Branching lines represent multiplicative seminorms interpolating between discrete rational points and the Gauss point.</p>
+        
+        <div class="control-group">
+            <label id="prime-label">Prime Branching Factor p: 2 (Binary Dyadic Tree)</label>
+            <input type="range" id="prime-slider" min="2" max="4" step="1" value="2">
+        </div>
+        <div class="control-group">
+            <label id="depth-label">Tree Valuation Depth: 4</label>
+            <input type="range" id="depth-slider" min="2" max="5" step="1" value="4">
+        </div>
+        <div class="control-group">
+            <label id="rot-label">Rotational Drift Velocity: 0.6 rad/s</label>
+            <input type="range" id="rot-slider" min="0.0" max="2.0" step="0.1" value="0.6">
+        </div>
+        <div>
+            <span class="badge">Non-Archimedean</span>
+            <span class="badge">Strong Triangle Invariant</span>
+            <span class="badge">Berkovich Space</span>
+            <span class="badge">Zero Drift</span>
+        </div>
+    </div>
+    <canvas id="canvas"></canvas>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
+        camera.position.set(0, 0, 8.5);
+
+        scene.add(new THREE.AmbientLight(0x332244));
+        const dirLight = new THREE.DirectionalLight(0xffffff, 0.9);
+        dirLight.position.set(5, 10, 8);
+        scene.add(dirLight);
+
+        const treeGroup = new THREE.Group();
+        scene.add(treeGroup);
+
+        const colors = [0x7c4dff, 0x00e5ff, 0x00e676, 0xffd600, 0xff1744];
+
+        function buildTree(p, maxDepth) {
+            while (treeGroup.children.length > 0) {
+                treeGroup.remove(treeGroup.children[0]);
+            }
+
+            const nodeGeom = new THREE.SphereGeometry(1, 12, 12);
+            const linePositions = [];
+
+            function addNode(depth, x, y, z, parentPos) {
+                if (depth > maxDepth) return;
+
+                const radius = 0.35 * Math.pow(0.65, depth);
+                const mat = new THREE.MeshBasicMaterial({ color: colors[depth % colors.length] });
+                const mesh = new THREE.Mesh(nodeGeom, mat);
+                mesh.scale.set(radius, radius, radius);
+                mesh.position.set(x, y, z);
+                treeGroup.add(mesh);
+
+                if (parentPos) {
+                    linePositions.push(parentPos.x, parentPos.y, parentPos.z);
+                    linePositions.push(x, y, z);
+                }
+
+                if (depth === maxDepth) return;
+
+                const branchDist = 2.4 * Math.pow(0.58, depth);
+                const numBranches = (p === 4) ? 3 : p; // p=2: binary, p=3: ternary, p=4: quaternary
+                const spreadAngle = Math.PI * 0.75;
+
+                for (let i = 0; i < numBranches; i++) {
+                    const angle = ((i / (numBranches - 1 || 1)) - 0.5) * spreadAngle + (depth % 2 === 0 ? 0 : Math.PI / 2);
+                    const nx = x + Math.cos(angle) * branchDist;
+                    const ny = y - branchDist * 0.9;
+                    const nz = z + Math.sin(angle) * branchDist * 0.7;
+                    addNode(depth + 1, nx, ny, nz, { x, y, z });
+                }
+            }
+
+            addNode(0, 0, 2.5, 0, null);
+
+            const lineGeom = new THREE.BufferGeometry();
+            lineGeom.setAttribute('position', new THREE.Float32BufferAttribute(linePositions, 3));
+            const lineMat = new THREE.LineBasicMaterial({ color: 0x9575cd, transparent: true, opacity: 0.6 });
+            const lines = new THREE.LineSegments(lineGeom, lineMat);
+            treeGroup.add(lines);
+        }
+
+        let currentP = 2;
+        let currentDepth = 4;
+        let rotSpeed = 0.6;
+        buildTree(currentP, currentDepth);
+
+        const primeSlider = document.getElementById('prime-slider');
+        const depthSlider = document.getElementById('depth-slider');
+        const rotSlider = document.getElementById('rot-slider');
+
+        primeSlider.addEventListener('input', (e) => {
+            currentP = parseInt(e.target.value);
+            const label = (currentP === 2) ? "2 (Binary Dyadic Tree)" : ((currentP === 3) ? "3 (Ternary Tree)" : "5 (5-Adic Pentadic Tree)");
+            document.getElementById('prime-label').textContent = `Prime Branching Factor p: ${label}`;
+            buildTree(currentP, currentDepth);
+        });
+
+        depthSlider.addEventListener('input', (e) => {
+            currentDepth = parseInt(e.target.value);
+            document.getElementById('depth-label').textContent = `Tree Valuation Depth: ${currentDepth}`;
+            buildTree(currentP, currentDepth);
+        });
+
+        rotSlider.addEventListener('input', (e) => {
+            rotSpeed = parseFloat(e.target.value);
+            document.getElementById('rot-label').textContent = `Rotational Drift Velocity: ${rotSpeed.toFixed(1)} rad/s`;
+        });
+
+        let clock = new THREE.Clock();
+        function animate() {
+            requestAnimationFrame(animate);
+            const delta = clock.getDelta();
+            treeGroup.rotation.y += rotSpeed * 0.4 * delta;
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>

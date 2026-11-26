@@ -714,6 +714,42 @@ def test_fused_spinning_polytope_torque_correctness():
     diff_h = torch.max(torch.abs(h_out - ref_h_out)).item()
     assert diff_h < 1e-5, f"Rotated state diff: {diff_h}"
 
+def test_fused_padic_tree_routing_correctness():
+    so_path = "csrc/fused_blackwell_ultrametric_padic_tree_routing.so"
+    assert os.path.exists(so_path), "Shared library does not exist"
+    lib = ctypes.CDLL(so_path)
+
+    lib.fused_blackwell_padic_tree_routing_forward.argtypes = [
+        ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p,
+        ctypes.c_int, ctypes.c_int, ctypes.c_int, ctypes.c_int
+    ]
+
+    B = 8
+    D = 16
+    K = 4
+    p = 2
+
+    tokens = torch.randint(0, 1000, (B, D), dtype=torch.int32)
+    centers = torch.randint(0, 1000, (K, D), dtype=torch.int32)
+    # Give token 0 an exact match with center 2
+    centers[2] = tokens[0].clone()
+
+    best_branch = torch.zeros(B, dtype=torch.int32)
+    min_dist = torch.zeros(B, dtype=torch.float32)
+
+    ret = lib.fused_blackwell_padic_tree_routing_forward(
+        ctypes.c_void_p(tokens.data_ptr()),
+        ctypes.c_void_p(centers.data_ptr()),
+        ctypes.c_void_p(best_branch.data_ptr()),
+        ctypes.c_void_p(min_dist.data_ptr()),
+        B, D, K, p
+    )
+    assert ret == 0
+    # Token 0 should route to center 2 with near zero distance
+    assert best_branch[0].item() == 2
+    assert min_dist[0].item() < 1e-4
+
+
 
 
 
