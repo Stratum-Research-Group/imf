@@ -604,3 +604,56 @@ def test_iouring_splice_gateway_basic():
     os.close(p2_w)
     lib.iouring_splice_gateway_close(gw)
 
+def test_iouring_socket_recv_basic():
+    so_path = "csrc/fused_iouring_socket_recvmsg.so"
+    if not os.path.exists(so_path):
+        pytest.skip("fused_iouring_socket_recvmsg.so not compiled")
+
+    lib = ctypes.CDLL(so_path)
+    lib.iouring_socket_recv_init.argtypes = [ctypes.c_uint]
+    lib.iouring_socket_recv_init.restype = ctypes.c_void_p
+
+    lib.iouring_socket_recv_submit.argtypes = [
+        ctypes.c_void_p, ctypes.c_int, ctypes.c_void_p,
+        ctypes.c_size_t, ctypes.c_int, ctypes.c_uint64
+    ]
+    lib.iouring_socket_recv_submit.restype = ctypes.c_int
+
+    lib.iouring_socket_recv_wait.argtypes = [
+        ctypes.c_void_p, ctypes.POINTER(ctypes.c_int), ctypes.POINTER(ctypes.c_uint64)
+    ]
+    lib.iouring_socket_recv_wait.restype = ctypes.c_int
+
+    lib.iouring_socket_recv_close.argtypes = [ctypes.c_void_p]
+    lib.iouring_socket_recv_close.restype = None
+
+    eng = lib.iouring_socket_recv_init(16)
+    assert eng is not None
+
+    s_recv, s_send = socket.socketpair(socket.AF_UNIX, socket.SOCK_STREAM)
+    payload = b"IOURING_DIRECT_SOCKET_RECV_TEST_998877"
+
+    recv_buf = (ctypes.c_char * 64)()
+
+    # Submit receive
+    ret = lib.iouring_socket_recv_submit(
+        eng, s_recv.fileno(), ctypes.cast(recv_buf, ctypes.c_void_p), len(recv_buf), 0, 0x55AA
+    )
+    assert ret == 0
+
+    # Send payload
+    s_send.sendall(payload)
+
+    bytes_recv = ctypes.c_int(0)
+    user_data = ctypes.c_uint64(0)
+    wait_ret = lib.iouring_socket_recv_wait(eng, ctypes.byref(bytes_recv), ctypes.byref(user_data))
+    assert wait_ret == 0
+    assert bytes_recv.value == len(payload)
+    assert user_data.value == 0x55AA
+    assert recv_buf.value == payload
+
+    s_recv.close()
+    s_send.close()
+    lib.iouring_socket_recv_close(eng)
+
+

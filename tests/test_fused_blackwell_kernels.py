@@ -578,3 +578,51 @@ def test_mope_router_correctness():
     weight_diff = torch.max(torch.abs(routing_weights - ref_probs)).item()
     assert weight_diff < 1e-4, f"Routing weights diff: {weight_diff}"
 
+@pytest.mark.skipif(not torch.cuda.is_available(), reason="CUDA not available")
+def test_bit_linear_residual_correctness():
+    so_path = "csrc/fused_blackwell_bit_linear_residual.so"
+    lib = ctypes.CDLL(so_path)
+    lib.launch_fused_blackwell_bit_linear_residual.argtypes = [
+        ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p,
+        ctypes.c_void_p, ctypes.c_int, ctypes.c_int, ctypes.c_int, ctypes.c_void_p
+    ]
+
+    batch_size = 8
+    in_dim = 64
+    out_dim = 32
+
+    x = torch.randn(batch_size, in_dim, device='cuda', dtype=torch.float32)
+    residual = torch.randn(batch_size, out_dim, device='cuda', dtype=torch.float32)
+    scales = torch.rand(out_dim, device='cuda', dtype=torch.float32) + 0.5
+    y_out = torch.zeros(batch_size, out_dim, device='cuda', dtype=torch.float32)
+
+    # Generate random 2-bit codes in {0, 1, 3} mapped to {0, +1, -1}
+    # 4 codes per byte
+    packed_w = torch.randint(0, 256, (out_dim, in_dim // 4), device='cuda', dtype=torch.uint8)
+
+    ret = lib.launch_fused_blackwell_bit_linear_residual(
+        ctypes.c_void_p(x.data_ptr()),
+        ctypes.c_void_p(packed_w.data_ptr()),
+        ctypes.c_void_p(residual.data_ptr()),
+        ctypes.c_void_p(scales.data_ptr()),
+        ctypes.c_void_p(y_out.data_ptr()),
+        batch_size, in_dim, out_dim, None
+    )
+    torch.cuda.synchronize()
+    assert ret == 0
+
+    # CPU / PyTorch unpack reference
+    w_unpacked = torch.zeros(out_dim, in_dim, device='cuda', dtype=torch.float32)
+    for p in range(in_dim // 4):
+        byte_col = packed_w[:, p]
+        for i in range(4):
+            code = (byte_col >> (i * 2)) & 0x03
+            # Map code: 1 -> +1, 3 -> -1, else 0
+            w_unpacked[:, p * 4 + i] = torch.where(code == 1, 1.0, torch.where(code == 3, -1.0, 0.0))
+
+    # Analytical reference: y = (x @ W.T) * scales + residual
+    ref_y = torch.matmul(x, w_unpacked.T) * scales.unsqueeze(0) + residual
+    diff = torch.max(torch.abs(y_out - ref_y)).item()
+    assert diff < 1e-4, f"Bit-linear output diff: {diff}"
+
+

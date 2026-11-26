@@ -29,6 +29,7 @@ jobs:
           g++ -O3 -shared -fPIC -std=c++17 csrc/fused_iouring_eventfd_signaling.cpp -luring -o csrc/fused_iouring_eventfd_signaling.so
           g++ -O3 -shared -fPIC -std=c++17 csrc/fused_iouring_ringbuf_interop.cpp -luring -o csrc/fused_iouring_ringbuf_interop.so
           g++ -O3 -shared -fPIC -std=c++17 csrc/fused_iouring_splice_socket.cpp -luring -o csrc/fused_iouring_splice_socket.so
+          g++ -O3 -shared -fPIC -std=c++17 csrc/fused_iouring_socket_recvmsg.cpp -luring -o csrc/fused_iouring_socket_recvmsg.so
 
       - name: Install uv and Python
         uses: astral-sh/setup-uv@v3
