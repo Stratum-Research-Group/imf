@@ -3545,5 +3545,51 @@ def test_iouring_motivic_tmf_splice_stream_correctness():
     assert stats.motivic_tmf_verified == 1
 
 
+def test_iouring_motivic_bp_splice_stream_correctness():
+    so_path = "csrc/libfused_iouring_motivic_bp_splice_stream.so"
+    assert os.path.exists(so_path), f"Missing shared object: {so_path}"
+
+    class MotivicBPConfig(ctypes.Structure):
+        _fields_ = [
+            ("ring_entries", ctypes.c_uint32),
+            ("packet_size_bytes", ctypes.c_uint32),
+            ("num_packets", ctypes.c_uint32),
+            ("stream_passes", ctypes.c_uint32),
+        ]
+
+    class MotivicBPStats(ctypes.Structure):
+        _fields_ = [
+            ("total_bytes_streamed", ctypes.c_uint64),
+            ("packets_processed", ctypes.c_uint32),
+            ("ring_queue_depth", ctypes.c_uint32),
+            ("motivic_bp_verified", ctypes.c_uint32),
+            ("engine_status", ctypes.c_uint32),
+        ]
+
+    lib = ctypes.CDLL(so_path)
+    lib.run_motivic_bp_splice_stream_engine.argtypes = [
+        ctypes.POINTER(MotivicBPConfig),
+        ctypes.POINTER(MotivicBPStats)
+    ]
+    lib.run_motivic_bp_splice_stream_engine.restype = ctypes.c_int
+
+    config = MotivicBPConfig(
+        ring_entries=64,
+        packet_size_bytes=4096,
+        num_packets=16,
+        stream_passes=16,
+    )
+    stats = MotivicBPStats()
+
+    ret = lib.run_motivic_bp_splice_stream_engine(ctypes.byref(config), ctypes.byref(stats))
+    assert ret == 0, f"run_motivic_bp_splice_stream_engine failed with return code {ret}"
+    assert stats.engine_status == 1
+    assert stats.packets_processed == 16 * 16
+    assert stats.total_bytes_streamed == 16 * 16 * 4096
+    assert stats.ring_queue_depth == 64
+    assert stats.motivic_bp_verified == 1
+
+
+
 
 

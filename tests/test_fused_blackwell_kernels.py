@@ -2400,5 +2400,18 @@ def test_fused_motivic_tmf_correctness():
     assert valid_count == n_samples, f'Expected all {n_samples} samples to satisfy Motivic TMF invariants, got {valid_count}'
 
 
+def test_fused_motivic_bp_correctness():
+    so_path = os.path.join(os.path.dirname(__file__), '..', 'csrc', 'libfused_blackwell_motivic_bp.so')
+    assert os.path.exists(so_path), f'Library {so_path} does not exist'
+
+    lib = ctypes.CDLL(so_path)
+    lib.run_motivic_bp_benchmark.argtypes = [ctypes.c_int]
+    lib.run_motivic_bp_benchmark.restype = ctypes.c_int
+
+    n_samples = 1024
+    valid_count = lib.run_motivic_bp_benchmark(n_samples)
+    assert valid_count == n_samples, f'Expected all {n_samples} samples to satisfy Motivic BP invariants, got {valid_count}'
+
+
 
 
