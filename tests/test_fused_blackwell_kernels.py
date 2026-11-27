@@ -2243,6 +2243,20 @@ def test_fused_weil_ii_mixed_weights_correctness():
     valid_count = lib.run_weil_ii_benchmark(n_samples)
     assert valid_count == n_samples, f"Expected all {n_samples} samples to satisfy Weil II weight bounds, got {valid_count}"
 
+@pytest.mark.skipif(not torch.cuda.is_available(), reason="CUDA not available")
+def test_fused_voevodsky_motives_correctness():
+    so_path = "csrc/libfused_blackwell_voevodsky_motivic_cohomology.so"
+    assert os.path.exists(so_path), f"Missing shared object: {so_path}"
+
+    lib = ctypes.CDLL(so_path)
+    lib.run_voevodsky_motives_benchmark.argtypes = [ctypes.c_int]
+    lib.run_voevodsky_motives_benchmark.restype = ctypes.c_int
+
+    n_samples = 1024
+    valid_count = lib.run_voevodsky_motives_benchmark(n_samples)
+    assert valid_count == n_samples, f"Expected all {n_samples} samples to satisfy Voevodsky motivic cohomology invariants, got {valid_count}"
+
+
 
 
 

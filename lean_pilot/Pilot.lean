@@ -61,6 +61,8 @@ import Pilot.HodgeConjectureCycles
 import Pilot.TateConjectureEtale
 import Pilot.StandardConjecturesGrothendieck
 import Pilot.WeilIIMixedWeights
+import Pilot.VoevodskyMotivicCohomology
+
 
 
 

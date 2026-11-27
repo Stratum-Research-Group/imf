@@ -3008,6 +3008,51 @@ def test_iouring_perverse_sheaf_ring_splice_correctness():
     assert stats.ring_queue_depth == 64
     assert stats.perverse_splice_verified == 1
 
+def test_iouring_motivic_slice_shm_mmap_correctness():
+    so_path = "csrc/libfused_iouring_motivic_slice_shm_mmap.so"
+    assert os.path.exists(so_path), f"Missing shared object: {so_path}"
+
+    class MotivicSliceConfig(ctypes.Structure):
+        _fields_ = [
+            ("ring_entries", ctypes.c_uint32),
+            ("slice_size_bytes", ctypes.c_uint32),
+            ("num_slices", ctypes.c_uint32),
+            ("stream_passes", ctypes.c_uint32),
+        ]
+
+    class MotivicSliceStats(ctypes.Structure):
+        _fields_ = [
+            ("total_bytes_streamed", ctypes.c_uint64),
+            ("slices_processed", ctypes.c_uint32),
+            ("ring_queue_depth", ctypes.c_uint32),
+            ("slice_mmap_verified", ctypes.c_uint32),
+            ("engine_status", ctypes.c_uint32),
+        ]
+
+    lib = ctypes.CDLL(so_path)
+    lib.run_motivic_slice_shm_mmap_engine.argtypes = [
+        ctypes.POINTER(MotivicSliceConfig),
+        ctypes.POINTER(MotivicSliceStats)
+    ]
+    lib.run_motivic_slice_shm_mmap_engine.restype = ctypes.c_int
+
+    config = MotivicSliceConfig(
+        ring_entries=64,
+        slice_size_bytes=4096,
+        num_slices=12,
+        stream_passes=24,
+    )
+    stats = MotivicSliceStats()
+
+    ret = lib.run_motivic_slice_shm_mmap_engine(ctypes.byref(config), ctypes.byref(stats))
+    assert ret == 0, f"run_motivic_slice_shm_mmap_engine failed with return code {ret}"
+    assert stats.engine_status == 1
+    assert stats.slices_processed == 24
+    assert stats.total_bytes_streamed == 24 * 4096
+    assert stats.ring_queue_depth == 64
+    assert stats.slice_mmap_verified == 1
+
+
 
 
 
