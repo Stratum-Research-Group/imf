@@ -66,7 +66,7 @@ def run_bidirectional_mqar_benchmark():
         "retrograde_reverse_recall_accuracy": reverse_correct / num_trials,
         "bidirectional_joint_accuracy": bidirectional_correct / num_trials,
         "architecture": "SAVG Dual-Sector Readout (0.5 * (M_S +- M_A))",
-        "resolution_of_reversal_curse": "CONFIRMED_VIA_DUAL_READOUT"
+        "evaluation_type": "DUAL_READOUT_OUTER_PRODUCT_SYNTHETIC_CHECK"
     }
 
     out_file = os.path.join("benchmark_results", "mqar_bidirectional_adapter.json")
