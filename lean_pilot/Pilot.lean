@@ -49,3 +49,4 @@ import Pilot.KhareWintenbergerLifting
 import Pilot.ColemanIntegration
 import Pilot.GrossZagierFormula
 import Pilot.ModularSymbolsManin
+import Pilot.MazurTorsionTheorem
