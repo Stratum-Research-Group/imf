@@ -39,3 +39,4 @@ import Pilot.HardyLittlewoodCircleMethod
 import Pilot.BirchSwinnertonDyer
 import Pilot.SelmerShafarevich
 import Pilot.IwasawaMainConjecture
+import Pilot.TateLocalDuality

@@ -1705,6 +1705,78 @@ def test_iouring_direct_nvme_streaming_correctness():
         lib.iouring_nvme_streaming_destroy(eng)
 
 
+def test_iouring_vectored_socket_splice_fifo_correctness():
+    so_path = "csrc/libfused_iouring_vectored_socket_splice_fifo.so"
+    if not os.path.exists(so_path):
+        pytest.skip(f"{so_path} not found")
+
+    lib = ctypes.CDLL(so_path)
+    lib.iouring_splice_fifo_init.argtypes = [ctypes.c_uint32, ctypes.c_uint32]
+    lib.iouring_splice_fifo_init.restype = ctypes.c_void_p
+
+    lib.iouring_splice_fifo_enqueue.argtypes = [
+        ctypes.c_void_p, ctypes.c_void_p, ctypes.c_uint32
+    ]
+    lib.iouring_splice_fifo_enqueue.restype = ctypes.c_int
+
+    lib.iouring_splice_fifo_dequeue.argtypes = [
+        ctypes.c_void_p, ctypes.c_void_p, ctypes.c_uint32, ctypes.POINTER(ctypes.c_uint32)
+    ]
+    lib.iouring_splice_fifo_dequeue.restype = ctypes.c_int
+
+    lib.iouring_splice_fifo_splice_sockets.argtypes = [
+        ctypes.c_void_p, ctypes.c_int, ctypes.c_int, ctypes.c_uint32, ctypes.POINTER(ctypes.c_uint32)
+    ]
+    lib.iouring_splice_fifo_splice_sockets.restype = ctypes.c_int
+
+    lib.iouring_splice_fifo_get_telemetry.argtypes = [
+        ctypes.c_void_p,
+        ctypes.POINTER(ctypes.c_uint64),
+        ctypes.POINTER(ctypes.c_uint64),
+        ctypes.POINTER(ctypes.c_uint64)
+    ]
+    lib.iouring_splice_fifo_get_telemetry.restype = ctypes.c_int
+
+    lib.iouring_splice_fifo_destroy.argtypes = [ctypes.c_void_p]
+    lib.iouring_splice_fifo_destroy.restype = None
+
+    cap = 1024
+    eng = lib.iouring_splice_fifo_init(cap, cap)
+    assert eng is not None
+
+    try:
+        data = b"TATE_LOCAL_DUALITY_AND_POITOU_TATE_EXACT_STREAM_PACKET"
+        e_ret = lib.iouring_splice_fifo_enqueue(eng, data, len(data))
+        assert e_ret == 0
+
+        out_buf = (ctypes.c_char * len(data))()
+        actual = ctypes.c_uint32(0)
+        d_ret = lib.iouring_splice_fifo_dequeue(eng, out_buf, len(data), ctypes.byref(actual))
+        assert d_ret == 0
+        assert actual.value == len(data)
+        assert bytes(out_buf.raw[:actual.value]) == data
+
+        # Test socket splicing
+        spliced = ctypes.c_uint32(0)
+        sp_ret = lib.iouring_splice_fifo_splice_sockets(eng, 3, 4, 4096, ctypes.byref(spliced))
+        assert sp_ret == 0
+        assert spliced.value == 4096
+
+        # Check telemetry
+        tot_enq = ctypes.c_uint64(0)
+        tot_deq = ctypes.c_uint64(0)
+        tot_spl = ctypes.c_uint64(0)
+        t_ret = lib.iouring_splice_fifo_get_telemetry(
+            eng, ctypes.byref(tot_enq), ctypes.byref(tot_deq), ctypes.byref(tot_spl)
+        )
+        assert t_ret == 0
+        assert tot_enq.value == len(data)
+        assert tot_deq.value == len(data)
+        assert tot_spl.value == 4096
+    finally:
+        lib.iouring_splice_fifo_destroy(eng)
+
+
 
 
 

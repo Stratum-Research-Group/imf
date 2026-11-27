@@ -1476,6 +1476,66 @@ def test_fused_iwasawa_polynomial_quotient_correctness():
     assert lambda_out[0].item() == 2
 
 
+def test_fused_tate_duality_pairing_correctness():
+    so_path = "csrc/libfused_blackwell_tate_duality_pairing.so"
+    if not os.path.exists(so_path):
+        pytest.skip(f"{so_path} not found")
+
+    lib = ctypes.CDLL(so_path)
+    lib.fused_blackwell_tate_duality_pairing.argtypes = [
+        ctypes.c_void_p,
+        ctypes.c_void_p,
+        ctypes.c_int,
+        ctypes.c_float,
+        ctypes.c_void_p,
+        ctypes.c_void_p,
+        ctypes.c_void_p,
+        ctypes.c_int
+    ]
+    lib.fused_blackwell_tate_duality_pairing.restype = ctypes.c_int
+
+    B = 2
+    dim = 4
+    mod_m = 5.0
+
+    # Batch 0: orthogonal cocycles (a . b = 0 -> pairing = 0, isometry norm > 0)
+    # Batch 1: parallel non-zero cocycles (a . b = 4 -> pairing = 4, isometry norm = 0)
+    cocycles_a = torch.tensor([
+        [1.0, 0.0, 0.0, 0.0],
+        [1.0, 1.0, 1.0, 1.0]
+    ], dtype=torch.float32)
+
+    cocycles_b = torch.tensor([
+        [0.0, 1.0, 0.0, 0.0],
+        [1.0, 1.0, 1.0, 1.0]
+    ], dtype=torch.float32)
+
+    p_vals = torch.zeros(B, dtype=torch.float32)
+    iso_norms = torch.zeros(B, dtype=torch.float32)
+    flags = torch.zeros(B, dtype=torch.float32)
+
+    ret = lib.fused_blackwell_tate_duality_pairing(
+        ctypes.c_void_p(cocycles_a.data_ptr()),
+        ctypes.c_void_p(cocycles_b.data_ptr()),
+        dim, mod_m,
+        ctypes.c_void_p(p_vals.data_ptr()),
+        ctypes.c_void_p(iso_norms.data_ptr()),
+        ctypes.c_void_p(flags.data_ptr()),
+        B
+    )
+    assert ret == 0
+
+    # Batch 0: inner product is 0 -> p_vals[0] == 0, iso_norm = 1.0 * 1.0 = 1.0
+    assert p_vals[0].item() < 1e-4
+    assert abs(iso_norms[0].item() - 1.0) < 1e-4
+    assert flags[0].item() == 1.0
+
+    # Batch 1: inner product is 4.0 -> p_vals[1] == 4.0, iso_norm == 0.0
+    assert abs(p_vals[1].item() - 4.0) < 1e-4
+    assert iso_norms[1].item() < 1e-4
+    assert flags[1].item() == 1.0
+
+
 
 
 
