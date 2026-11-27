@@ -1777,6 +1777,103 @@ def test_iouring_vectored_socket_splice_fifo_correctness():
         lib.iouring_splice_fifo_destroy(eng)
 
 
+def test_iouring_page_pool_allocator_correctness():
+    so_path = "csrc/libfused_iouring_page_pool_allocator.so"
+    if not os.path.exists(so_path):
+        pytest.skip("libfused_iouring_page_pool_allocator.so not compiled")
+
+    lib = ctypes.CDLL(so_path)
+    lib.iouring_page_pool_init.argtypes = [ctypes.c_uint32, ctypes.c_uint32]
+    lib.iouring_page_pool_init.restype = ctypes.c_void_p
+
+    lib.iouring_page_pool_allocate.argtypes = [
+        ctypes.c_void_p,
+        ctypes.POINTER(ctypes.c_uint32),
+        ctypes.POINTER(ctypes.c_void_p)
+    ]
+    lib.iouring_page_pool_allocate.restype = ctypes.c_int
+
+    lib.iouring_page_pool_release.argtypes = [ctypes.c_void_p, ctypes.c_uint32]
+    lib.iouring_page_pool_release.restype = ctypes.c_int
+
+    lib.iouring_page_pool_register_ring_buffers.argtypes = [ctypes.c_void_p, ctypes.c_int]
+    lib.iouring_page_pool_register_ring_buffers.restype = ctypes.c_int
+
+    lib.iouring_page_pool_get_stats.argtypes = [
+        ctypes.c_void_p,
+        ctypes.POINTER(ctypes.c_uint32),
+        ctypes.POINTER(ctypes.c_uint32),
+        ctypes.POINTER(ctypes.c_uint64),
+        ctypes.POINTER(ctypes.c_uint64)
+    ]
+    lib.iouring_page_pool_get_stats.restype = ctypes.c_int
+
+    lib.iouring_page_pool_destroy.argtypes = [ctypes.c_void_p]
+    lib.iouring_page_pool_destroy.restype = None
+
+    num_pages = 64
+    page_size = 4096
+    eng = lib.iouring_page_pool_init(num_pages, page_size)
+    assert eng is not None
+
+    try:
+        # Register ring buffers
+        reg_ret = lib.iouring_page_pool_register_ring_buffers(eng, 5)
+        assert reg_ret == 0
+
+        # Allocate page 0
+        p_idx = ctypes.c_uint32(0)
+        p_ptr = ctypes.c_void_p(0)
+        a_ret = lib.iouring_page_pool_allocate(eng, ctypes.byref(p_idx), ctypes.byref(p_ptr))
+        assert a_ret == 0
+        assert p_idx.value == 0
+        assert p_ptr.value != 0
+
+        # Write to allocated memory
+        ctypes.memset(p_ptr, 0x42, 64)
+
+        # Allocate page 1
+        p_idx2 = ctypes.c_uint32(0)
+        p_ptr2 = ctypes.c_void_p(0)
+        a_ret2 = lib.iouring_page_pool_allocate(eng, ctypes.byref(p_idx2), ctypes.byref(p_ptr2))
+        assert a_ret2 == 0
+        assert p_idx2.value == 1
+
+        # Check stats
+        tot_p = ctypes.c_uint32(0)
+        alloc_p = ctypes.c_uint32(0)
+        tot_alloc = ctypes.c_uint64(0)
+        tot_free = ctypes.c_uint64(0)
+        s_ret = lib.iouring_page_pool_get_stats(
+            eng, ctypes.byref(tot_p), ctypes.byref(alloc_p),
+            ctypes.byref(tot_alloc), ctypes.byref(tot_free)
+        )
+        assert s_ret == 0
+        assert tot_p.value == num_pages
+        assert alloc_p.value == 2
+        assert tot_alloc.value == 2
+        assert tot_free.value == 0
+
+        # Release page 0
+        rel_ret = lib.iouring_page_pool_release(eng, p_idx.value)
+        assert rel_ret == 0
+
+        # Stats after release
+        s_ret2 = lib.iouring_page_pool_get_stats(
+            eng, ctypes.byref(tot_p), ctypes.byref(alloc_p),
+            ctypes.byref(tot_alloc), ctypes.byref(tot_free)
+        )
+        assert s_ret2 == 0
+        assert alloc_p.value == 1
+        assert tot_free.value == 1
+
+        # Double free returns error
+        assert lib.iouring_page_pool_release(eng, p_idx.value) == -3
+    finally:
+        lib.iouring_page_pool_destroy(eng)
+
+
+
 
 
 

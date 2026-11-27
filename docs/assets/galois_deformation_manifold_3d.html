@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>IMF Galois Deformation Rings & Modular Lifting Visualizer (3D)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            padding: 0;
+            background: #020617;
+            color: #f8fafc;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace;
+            overflow: hidden;
+        }
+        #canvas {
+            width: 100vw;
+            height: 100vh;
+            display: block;
+        }
+        #hud {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            background: rgba(15, 23, 42, 0.90);
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 18px 22px;
+            max-width: 480px;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+            pointer-events: auto;
+        }
+        h1 {
+            margin: 0 0 8px 0;
+            font-size: 19px;
+            font-weight: 700;
+            color: #ec4899;
+            letter-spacing: 0.5px;
+        }
+        .subtitle {
+            font-size: 13px;
+            color: #94a3b8;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+        .stat-card {
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid #334155;
+            padding: 8px 12px;
+            border-radius: 6px;
+        }
+        .stat-label {
+            font-size: 11px;
+            color: #64748b;
+            text-transform: uppercase;
+        }
+        .stat-value {
+            font-size: 14px;
+            font-weight: 600;
+            color: #f1f5f9;
+        }
+        .controls {
+            margin-top: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        label {
+            font-size: 12px;
+            color: #cbd5e1;
+            display: flex;
+            justify-content: space-between;
+        }
+        input[type=range] {
+            width: 100%;
+            accent-color: #ec4899;
+        }
+    </style>
+    <!-- Three.js from CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+</head>
+<body>
+    <div id="hud">
+        <h1>Galois Deformation Ring R = &#120149;</h1>
+        <div class="subtitle">Universal Tangent Cones & Taylor-Wiles Patching Manifolds (Module 43)</div>
+        <div class="stat-grid">
+            <div class="stat-card">
+                <div class="stat-label">Tangent Dim r = dim H&#185;</div>
+                <div class="stat-value" id="val-tangent">dim = 3</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Obstruction s = dim H&#178;</div>
+                <div class="stat-value" id="val-obs">dim = 1</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Hecke Rank rk &#120149;</div>
+                <div class="stat-value" id="val-hecke">rk = 3</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Taylor-Wiles Defect</div>
+                <div class="stat-value" style="color: #10b981;">&#916; = 0 (Isomorphism)</div>
+            </div>
+        </div>
+        <div class="controls">
+            <label><span>Deformation Parameter &#955;:</span> <span id="lbl-lambda">1.00</span></label>
+            <input type="range" id="param-lambda" min="0.1" max="3.0" step="0.05" value="1.0">
+
+            <label><span>Obstruction Curvature:</span> <span id="lbl-obs">0.50</span></label>
+            <input type="range" id="param-obs" min="0.0" max="2.0" step="0.05" value="0.5">
+
+            <label><span>Wiles Patching Level:</span> <span id="lbl-patch">4</span></label>
+            <input type="range" id="param-patch" min="1" max="10" step="1" value="4">
+        </div>
+    </div>
+
+    <canvas id="canvas"></canvas>
+
+    <script>
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0x020617, 0.025);
+
+        const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.set(24, 18, 32);
+
+        const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('canvas'), antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+        const controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
+
+        // Ambient and Directional Lighting
+        const ambLight = new THREE.AmbientLight(0x38bdf8, 0.4);
+        scene.add(ambLight);
+
+        const dirLight1 = new THREE.DirectionalLight(0xec4899, 1.2);
+        dirLight1.position.set(30, 40, 20);
+        scene.add(dirLight1);
+
+        const dirLight2 = new THREE.DirectionalLight(0x818cf8, 0.8);
+        dirLight2.position.set(-30, -20, -20);
+        scene.add(dirLight2);
+
+        // Grid plane
+        const grid = new THREE.GridHelper(50, 50, 0x334155, 0x1e293b);
+        grid.position.y = -6;
+        scene.add(grid);
+
+        // Parametric deformation manifold
+        let defMesh, tangentCones = [], patchFibers = [];
+
+        function buildDeformationManifold(lam, obs, patchCount) {
+            if (defMesh) scene.remove(defMesh);
+            tangentCones.forEach(c => scene.remove(c));
+            patchFibers.forEach(f => scene.remove(f));
+            tangentCones = [];
+            patchFibers = [];
+
+            // Parametric Surface: z = lam * (x^2 - y^2) / (1 + obs * (x^2 + y^2))
+            const uSegs = 60;
+            const vSegs = 60;
+            const geom = new THREE.BufferGeometry();
+            const positions = [];
+            const colors = [];
+
+            const color1 = new THREE.Color(0xec4899); // Magenta
+            const color2 = new THREE.Color(0x38bdf8); // Cyan
+            const color3 = new THREE.Color(0xa855f7); // Purple
+
+            for (let i = 0; i <= uSegs; i++) {
+                const u = (i / uSegs) * 4 - 2; // -2 to 2
+                for (let j = 0; j <= vSegs; j++) {
+                    const v = (j / vSegs) * 4 - 2; // -2 to 2
+
+                    const r2 = u * u + v * v;
+                    const x = u * 6.0;
+                    const y = (lam * (u * u - v * v) / (1.0 + obs * r2 * 0.25)) * 4.0;
+                    const z = v * 6.0;
+
+                    positions.push(x, y, z);
+
+                    const t = (y + 10) / 20;
+                    const c = color1.clone().lerp(color2, Math.max(0, Math.min(1, t)));
+                    colors.push(c.r, c.g, c.b);
+                }
+            }
+
+            const indices = [];
+            for (let i = 0; i < uSegs; i++) {
+                for (let j = 0; j < vSegs; j++) {
+                    const a = i * (vSegs + 1) + j;
+                    const b = (i + 1) * (vSegs + 1) + j;
+                    const c = (i + 1) * (vSegs + 1) + (j + 1);
+                    const d = i * (vSegs + 1) + (j + 1);
+                    indices.push(a, b, d);
+                    indices.push(b, c, d);
+                }
+            }
+
+            geom.setIndex(indices);
+            geom.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+            geom.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+            geom.computeVertexNormals();
+
+            const mat = new THREE.MeshStandardMaterial({
+                vertexColors: true,
+                side: THREE.DoubleSide,
+                roughness: 0.3,
+                metalness: 0.7,
+                wireframe: false,
+                transparent: true,
+                opacity: 0.92
+            });
+
+            defMesh = new THREE.Mesh(geom, mat);
+            scene.add(defMesh);
+
+            // Add Tangent Cones at origin
+            const coneGeom = new THREE.ConeGeometry(3, 8, 16);
+            const coneMat = new THREE.MeshStandardMaterial({
+                color: 0x10b981,
+                wireframe: true,
+                transparent: true,
+                opacity: 0.6
+            });
+            const topCone = new THREE.Mesh(coneGeom, coneMat);
+            topCone.position.set(0, 4, 0);
+            scene.add(topCone);
+            tangentCones.push(topCone);
+
+            const botCone = new THREE.Mesh(coneGeom, coneMat);
+            botCone.rotation.x = Math.PI;
+            botCone.position.set(0, -4, 0);
+            scene.add(botCone);
+            tangentCones.push(botCone);
+
+            // Add Taylor-Wiles Patching Fibers
+            for (let k = 0; k < patchCount; k++) {
+                const angle = (k / patchCount) * Math.PI * 2;
+                const rad = 10;
+                const fx = Math.cos(angle) * rad;
+                const fz = Math.sin(angle) * rad;
+
+                const curve = new THREE.CatmullRomCurve3([
+                    new THREE.Vector3(fx, -6, fz),
+                    new THREE.Vector3(fx * 0.5, 3 + Math.sin(k) * 2, fz * 0.5),
+                    new THREE.Vector3(0, 0, 0)
+                ]);
+
+                const tubeGeom = new THREE.TubeGeometry(curve, 32, 0.15, 8, false);
+                const tubeMat = new THREE.MeshStandardMaterial({
+                    color: 0xfacc15,
+                    emissive: 0x713f12,
+                    roughness: 0.2
+                });
+                const fiber = new THREE.Mesh(tubeGeom, tubeMat);
+                scene.add(fiber);
+                patchFibers.push(fiber);
+            }
+        }
+
+        buildDeformationManifold(1.0, 0.5, 4);
+
+        // UI Listeners
+        const paramLambda = document.getElementById('param-lambda');
+        const paramObs = document.getElementById('param-obs');
+        const paramPatch = document.getElementById('param-patch');
+
+        function updateParams() {
+            const lam = parseFloat(paramLambda.value);
+            const obs = parseFloat(paramObs.value);
+            const patch = parseInt(paramPatch.value);
+
+            document.getElementById('lbl-lambda').innerText = lam.toFixed(2);
+            document.getElementById('lbl-obs').innerText = obs.toFixed(2);
+            document.getElementById('lbl-patch').innerText = patch;
+
+            buildDeformationManifold(lam, obs, patch);
+        }
+
+        paramLambda.addEventListener('input', updateParams);
+        paramObs.addEventListener('input', updateParams);
+        paramPatch.addEventListener('input', updateParams);
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // Animation Loop
+        let clock = new THREE.Clock();
+        function animate() {
+            requestAnimationFrame(animate);
+            const t = clock.getElapsedTime();
+
+            if (defMesh) {
+                defMesh.rotation.y = t * 0.1;
+            }
+            tangentCones.forEach(c => {
+                c.rotation.y = -t * 0.2;
+            });
+            patchFibers.forEach((f, idx) => {
+                f.rotation.y = t * 0.05 * (idx % 2 === 0 ? 1 : -1);
+            });
+
+            controls.update();
+            renderer.render(scene, camera);
+        }
+        animate();
+    </script>
+</body>
+</html>

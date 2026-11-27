@@ -1536,6 +1536,65 @@ def test_fused_tate_duality_pairing_correctness():
     assert flags[1].item() == 1.0
 
 
+def test_fused_galois_deformation_ring_correctness():
+    so_path = "csrc/libfused_blackwell_galois_deformation_ring.so"
+    if not os.path.exists(so_path):
+        pytest.skip(f"{so_path} not found")
+
+    lib = ctypes.CDLL(so_path)
+    lib.fused_blackwell_galois_deformation_ring.argtypes = [
+        ctypes.c_void_p,
+        ctypes.c_void_p,
+        ctypes.c_void_p,
+        ctypes.c_void_p,
+        ctypes.c_int,
+        ctypes.c_int,
+        ctypes.c_int,
+        ctypes.c_float
+    ]
+    lib.fused_blackwell_galois_deformation_ring.restype = ctypes.c_int
+
+    batch_size = 2
+    dim_tangent = 2
+    dim_obstruction = 1
+    lam = 0.1
+
+    # Tangent basis: [B, dim_tangent, 4]
+    # For batch 0: zeros
+    # For batch 1: identity-like
+    tangent_basis = torch.zeros(batch_size, dim_tangent * 4, dtype=torch.float32)
+    tangent_basis[1, :4] = torch.tensor([1.0, 0.0, 0.0, 1.0])
+
+    obstruction_coeffs = torch.zeros(batch_size, dim_obstruction * dim_tangent, dtype=torch.float32)
+    obstruction_coeffs[1, 0] = 0.5
+
+    deformation_matrix_out = torch.zeros(batch_size, 16, dtype=torch.float32)
+    tangent_energy_norm = torch.zeros(batch_size, dtype=torch.float32)
+
+    ret = lib.fused_blackwell_galois_deformation_ring(
+        ctypes.c_void_p(tangent_basis.data_ptr()),
+        ctypes.c_void_p(obstruction_coeffs.data_ptr()),
+        ctypes.c_void_p(deformation_matrix_out.data_ptr()),
+        ctypes.c_void_p(tangent_energy_norm.data_ptr()),
+        batch_size,
+        dim_tangent,
+        dim_obstruction,
+        lam
+    )
+    assert ret == 0
+
+    # Batch 0: tangent is 0, so deformation matrix is identity
+    mat0 = deformation_matrix_out[0].reshape(4, 4)
+    assert torch.allclose(mat0, torch.eye(4), atol=1e-4)
+    assert tangent_energy_norm[0].item() < 1e-3
+
+    # Batch 1: has non-zero tangent norm and deformation
+    assert tangent_energy_norm[1].item() > 0.0
+    mat1 = deformation_matrix_out[1].reshape(4, 4)
+    assert not torch.allclose(mat1, torch.eye(4), atol=1e-3)
+
+
+
 
 
 
