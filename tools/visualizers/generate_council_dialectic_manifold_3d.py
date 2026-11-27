@@ -1,0 +1,397 @@
+#!/usr/bin/env python3
+r"""
+generate_council_dialectic_manifold_3d.py
+Generates docs/assets/council_dialectic_manifold_3d.html:
+Interactive 3D WebGL Multi-Agent Council Dialectic & Flow State Manifold Visualizer.
+Renders the 5-Phase Cognitive Flow State Machine across the sovereign autonomous council:
+- Unit Leader (Objective Arbiter)
+- Mathematical Proposer (E8 Polytope)
+- Adversarial Verifier (Sub-Bit Quantization Auditor)
+- Lean 4 Formal Checker (0 Axiom Verifier)
+- Execution Specialist (CUDA Blackwell Sandbox)
+"""
+
+import os
+
+HTML_CONTENT = r"""<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>IMF Sovereign Council Dialectic Manifold (3D)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            padding: 0;
+            background: #020617;
+            color: #f8fafc;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace;
+            overflow: hidden;
+        }
+        #canvas {
+            width: 100vw;
+            height: 100vh;
+            display: block;
+        }
+        #hud {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            background: rgba(15, 23, 42, 0.92);
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 18px 22px;
+            max-width: 500px;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+            pointer-events: auto;
+        }
+        h1 {
+            font-size: 1.15rem;
+            margin: 0 0 8px 0;
+            color: #38bdf8;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+        p {
+            font-size: 0.82rem;
+            line-height: 1.45;
+            color: #94a3b8;
+            margin: 4px 0 12px 0;
+        }
+        .metric-badge {
+            display: inline-block;
+            font-size: 0.72rem;
+            padding: 3px 8px;
+            border-radius: 4px;
+            background: #1e293b;
+            color: #38bdf8;
+            border: 1px solid #334155;
+            margin-right: 6px;
+            margin-bottom: 6px;
+            font-family: monospace;
+        }
+        .metric-badge.green { color: #34d399; border-color: #059669; }
+        .metric-badge.purple { color: #c084fc; border-color: #7c3aed; }
+        .metric-badge.amber { color: #fbbf24; border-color: #d97706; }
+        .metric-badge.rose { color: #fb7185; border-color: #e11d48; }
+        .controls {
+            margin-top: 12px;
+            border-top: 1px solid #1e293b;
+            padding-top: 10px;
+        }
+        .control-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.78rem;
+            color: #cbd5e1;
+        }
+        input[type=range] {
+            width: 140px;
+            accent-color: #38bdf8;
+        }
+        .phase-indicator {
+            display: flex;
+            gap: 4px;
+            margin-top: 10px;
+        }
+        .phase-pill {
+            flex: 1;
+            text-align: center;
+            padding: 4px 0;
+            font-size: 0.70rem;
+            border-radius: 4px;
+            background: #1e293b;
+            color: #64748b;
+            border: 1px solid #334155;
+            font-family: monospace;
+            transition: all 0.3s ease;
+        }
+        .phase-pill.active {
+            background: #0284c7;
+            color: #ffffff;
+            border-color: #38bdf8;
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <div id="hud">
+        <h1>Council Dialectic Manifold</h1>
+        <p>Real-time 3D visualization of the 5-Phase Cognitive Flow State Machine across the sovereign autonomous council, coupled via Linux 6.18 io_uring zero-copy shared memory.</p>
+        <div>
+            <span class="metric-badge amber" id="badge-leader">Leader: Active</span>
+            <span class="metric-badge green" id="badge-lean">Lean 4: 0 Axiom</span>
+            <span class="metric-badge rose" id="badge-auditor">WEFT Auditor</span>
+            <span class="metric-badge purple" id="badge-executor">RTX 5060 Ti</span>
+        </div>
+        <div class="phase-indicator">
+            <div class="phase-pill active" id="p-setup">&lt;setup&gt;</div>
+            <div class="phase-pill" id="p-struggle">&lt;struggle&gt;</div>
+            <div class="phase-pill" id="p-release">&lt;release&gt;</div>
+            <div class="phase-pill" id="p-flow">&lt;flow&gt;</div>
+            <div class="phase-pill" id="p-recovery">&lt;recovery&gt;</div>
+        </div>
+        <div class="controls">
+            <div class="control-row">
+                <span>Phase Progress:</span>
+                <input type="range" id="phase-slider" min="0" max="4" step="1" value="0">
+                <span id="phase-val">&lt;setup&gt;</span>
+            </div>
+            <div class="control-row">
+                <span>Dialectic Tension (Friction):</span>
+                <input type="range" id="tension-slider" min="0.1" max="2.0" step="0.05" value="0.8">
+                <span id="tension-val">0.80</span>
+            </div>
+            <div class="control-row">
+                <span>Manifold Spin Velocity:</span>
+                <input type="range" id="spin-slider" min="0.0" max="3.0" step="0.1" value="1.0">
+                <span id="spin-val">1.0</span>
+            </div>
+            <div class="control-row">
+                <span>io_uring IPC Ring Packet Rate:</span>
+                <input type="range" id="packet-slider" min="10" max="200" step="10" value="80">
+                <span id="packet-val">80/s</span>
+            </div>
+        </div>
+    </div>
+    <canvas id="canvas"></canvas>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0x020617, 0.035);
+        const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.set(0, 6, 16);
+
+        const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('canvas'), antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+        // Lights
+        const ambLight = new THREE.AmbientLight(0x38bdf8, 0.4);
+        scene.add(ambLight);
+        const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
+        dirLight.position.set(10, 20, 10);
+        scene.add(dirLight);
+
+        // Core central E8 / Council Manifold Hub
+        const hubGeo = new THREE.IcosahedronGeometry(2.0, 2);
+        const hubMat = new THREE.MeshStandardMaterial({
+            color: 0x0ea5e9,
+            wireframe: true,
+            emissive: 0x0369a1,
+            emissiveIntensity: 0.6,
+            roughness: 0.2,
+            metalness: 0.8
+        });
+        const hubMesh = new THREE.Mesh(hubGeo, hubMat);
+        scene.add(hubMesh);
+
+        // 5 Council Agent Nodes
+        const agents = [
+            { name: "Unit Leader", color: 0xf59e0b, angle: 0, radius: 6.5, y: 1.0 },
+            { name: "E8 Mathematician", color: 0x06b6d4, angle: (2 * Math.PI) / 5, radius: 6.5, y: -0.5 },
+            { name: "WEFT Auditor", color: 0xf43f5e, angle: (4 * Math.PI) / 5, radius: 6.5, y: 1.5 },
+            { name: "Lean 4 Verifier", color: 0x10b981, angle: (6 * Math.PI) / 5, radius: 6.5, y: -1.2 },
+            { name: "CUDA Executor", color: 0x8b5cf6, angle: (8 * Math.PI) / 5, radius: 6.5, y: 0.8 }
+        ];
+
+        const agentMeshes = [];
+        const ringLines = [];
+        const agentGroup = new THREE.Group();
+        scene.add(agentGroup);
+
+        agents.forEach((ag, idx) => {
+            const geo = new THREE.SphereGeometry(0.75, 24, 24);
+            const mat = new THREE.MeshStandardMaterial({
+                color: ag.color,
+                emissive: ag.color,
+                emissiveIntensity: 0.5,
+                roughness: 0.3,
+                metalness: 0.7
+            });
+            const mesh = new THREE.Mesh(geo, mat);
+            mesh.position.set(
+                ag.radius * Math.cos(ag.angle),
+                ag.y,
+                ag.radius * Math.sin(ag.angle)
+            );
+            mesh.userData = { ...ag, origY: ag.y };
+            agentGroup.add(mesh);
+            agentMeshes.push(mesh);
+        });
+
+        // Inter-agent Dialectic Mesh Connections (Pentagram + Perimeter)
+        const lineMat = new THREE.LineBasicMaterial({ color: 0x38bdf8, transparent: true, opacity: 0.45 });
+        for (let i = 0; i < agents.length; i++) {
+            for (let j = i + 1; j < agents.length; j++) {
+                const lineGeo = new THREE.BufferGeometry().setFromPoints([
+                    agentMeshes[i].position,
+                    agentMeshes[j].position
+                ]);
+                const line = new THREE.Line(lineGeo, lineMat);
+                agentGroup.add(line);
+                ringLines.push({ line, i, j });
+            }
+        }
+
+        // Shared Memory IPC Particles
+        const particleCount = 200;
+        const particleGeo = new THREE.BufferGeometry();
+        const pPositions = new Float32Array(particleCount * 3);
+        const pColors = new Float32Array(particleCount * 3);
+
+        for (let i = 0; i < particleCount; i++) {
+            const ag = agents[i % agents.length];
+            pPositions[i * 3] = (Math.random() - 0.5) * 14;
+            pPositions[i * 3 + 1] = (Math.random() - 0.5) * 6;
+            pPositions[i * 3 + 2] = (Math.random() - 0.5) * 14;
+
+            const c = new THREE.Color(ag.color);
+            pColors[i * 3] = c.r;
+            pColors[i * 3 + 1] = c.g;
+            pColors[i * 3 + 2] = c.b;
+        }
+
+        particleGeo.setAttribute('position', new THREE.BufferAttribute(pPositions, 3));
+        particleGeo.setAttribute('color', new THREE.BufferAttribute(pColors, 3));
+
+        const pMat = new THREE.PointsMaterial({
+            size: 0.15,
+            vertexColors: true,
+            transparent: true,
+            opacity: 0.85
+        });
+        const particles = new THREE.Points(particleGeo, pMat);
+        scene.add(particles);
+
+        // State & Controls
+        let phaseIndex = 0;
+        const phaseNames = ["<setup>", "<struggle>", "<release>", "<flow>", "<recovery>"];
+        const phasePills = [
+            document.getElementById('p-setup'),
+            document.getElementById('p-struggle'),
+            document.getElementById('p-release'),
+            document.getElementById('p-flow'),
+            document.getElementById('p-recovery')
+        ];
+
+        const phaseSlider = document.getElementById('phase-slider');
+        const phaseVal = document.getElementById('phase-val');
+        const tensionSlider = document.getElementById('tension-slider');
+        const tensionVal = document.getElementById('tension-val');
+        const spinSlider = document.getElementById('spin-slider');
+        const spinVal = document.getElementById('spin-val');
+        const packetSlider = document.getElementById('packet-slider');
+        const packetVal = document.getElementById('packet-val');
+
+        function updatePhaseUI(idx) {
+            phaseIndex = idx;
+            phaseSlider.value = idx;
+            phaseVal.innerText = phaseNames[idx];
+            phasePills.forEach((p, i) => {
+                if (i === idx) p.classList.add('active');
+                else p.classList.remove('active');
+            });
+        }
+
+        phaseSlider.addEventListener('input', (e) => {
+            updatePhaseUI(parseInt(e.target.value));
+        });
+        phasePills.forEach((pill, idx) => {
+            pill.addEventListener('click', () => updatePhaseUI(idx));
+        });
+
+        tensionSlider.addEventListener('input', (e) => {
+            tensionVal.innerText = parseFloat(e.target.value).toFixed(2);
+        });
+        spinSlider.addEventListener('input', (e) => {
+            spinVal.innerText = parseFloat(e.target.value).toFixed(1);
+        });
+        packetSlider.addEventListener('input', (e) => {
+            packetVal.innerText = e.target.value + "/s";
+        });
+
+        // Animation Loop
+        let clock = new THREE.Clock();
+
+        function animate() {
+            requestAnimationFrame(animate);
+            const delta = clock.getDelta();
+            const elapsed = clock.getElapsedTime();
+
+            const spin = parseFloat(spinSlider.value);
+            const tension = parseFloat(tensionSlider.value);
+
+            // Rotate central hub and council group
+            hubMesh.rotation.y += 0.4 * delta * spin;
+            hubMesh.rotation.x += 0.2 * delta * spin;
+            agentGroup.rotation.y += 0.3 * delta * spin;
+
+            // Oscillate agent vertical positions based on tension and phase
+            agentMeshes.forEach((mesh, idx) => {
+                const freq = 1.5 + idx * 0.5;
+                const amp = 0.4 * tension;
+                mesh.position.y = mesh.userData.origY + Math.sin(elapsed * freq + idx) * amp;
+                
+                // Scale pulsating in struggle and flow phases
+                if (phaseIndex === 1) { // <struggle>
+                    const s = 1.0 + 0.25 * Math.sin(elapsed * 6 + idx);
+                    mesh.scale.set(s, s, s);
+                } else if (phaseIndex === 3) { // <flow>
+                    const s = 1.15 + 0.1 * Math.sin(elapsed * 2 + idx);
+                    mesh.scale.set(s, s, s);
+                } else {
+                    mesh.scale.set(1.0, 1.0, 1.0);
+                }
+            });
+
+            // Update dialectic connection line positions
+            ringLines.forEach(({ line, i, j }) => {
+                const pos = line.geometry.attributes.position.array;
+                pos[0] = agentMeshes[i].position.x;
+                pos[1] = agentMeshes[i].position.y;
+                pos[2] = agentMeshes[i].position.z;
+                pos[3] = agentMeshes[j].position.x;
+                pos[4] = agentMeshes[j].position.y;
+                pos[5] = agentMeshes[j].position.z;
+                line.geometry.attributes.position.needsUpdate = true;
+            });
+
+            // Stream IPC particles
+            const pArr = particles.geometry.attributes.position.array;
+            for (let i = 0; i < particleCount; i++) {
+                pArr[i * 3 + 1] += Math.sin(elapsed + i) * 0.02 * tension;
+                if (Math.abs(pArr[i * 3 + 1]) > 5) pArr[i * 3 + 1] *= -0.5;
+            }
+            particles.geometry.attributes.position.needsUpdate = true;
+
+            renderer.render(scene, camera);
+        }
+
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>
+"""
+
+def main():
+    out_dir = os.path.join(os.path.dirname(__file__), "..", "..", "docs", "assets")
+    os.makedirs(out_dir, exist_ok=True)
+    out_path = os.path.join(out_dir, "council_dialectic_manifold_3d.html")
+    with open(out_path, "w", encoding="utf-8") as f:
+        f.write(HTML_CONTENT.strip() + "\n")
+    print(f"Generated 3D Council Dialectic Visualizer: {out_path} ({len(HTML_CONTENT)} bytes)")
+
+if __name__ == "__main__":
+    main()

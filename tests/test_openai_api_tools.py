@@ -87,3 +87,36 @@ def test_detect_hermes_tool_call_after_tool_response():
     tools = [{"type": "function", "function": {"name": "ls"}}]
     # After tool output, assistant synthesizes final answer without loop
     assert detect_hermes_tool_call(messages, tools, "auto") is None
+
+
+def test_enforce_grammar_constrained_json():
+    from scripts.serve_openai_compatible_api import enforce_grammar_constrained_json
+    response_format = {
+        "type": "json_schema",
+        "json_schema": {
+            "name": "verification_output",
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "verified": {"type": "boolean"},
+                    "axioms_count": {"type": "integer"}
+                },
+                "required": ["verified", "axioms_count"]
+            }
+        }
+    }
+
+    # Test with markdown code block
+    raw_text = "Here is the result:\n```json\n{\"verified\": true, \"axioms_count\": 0}\n```\nExplanation follows."
+    cleaned = enforce_grammar_constrained_json(raw_text, response_format)
+    parsed = json.loads(cleaned)
+    assert parsed["verified"] is True
+    assert parsed["axioms_count"] == 0
+
+    # Test fallback filling required fields if input is plain prose
+    plain_text = "Verification passed with zero unproven assumptions."
+    fallback = enforce_grammar_constrained_json(plain_text, response_format)
+    parsed_fallback = json.loads(fallback)
+    assert "verified" in parsed_fallback
+    assert "axioms_count" in parsed_fallback
+

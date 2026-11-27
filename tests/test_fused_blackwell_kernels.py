@@ -2491,6 +2491,30 @@ def test_fused_blackwell_mope_sparse_correctness():
     assert valid_count == n_samples, f'Expected all {n_samples} samples to satisfy 98.4% sparse MoPE invariants, got {valid_count}'
 
 
+def test_fused_blackwell_lie_rolling_kv_correctness():
+    so_path = os.path.join(os.path.dirname(__file__), '..', 'csrc', 'libfused_blackwell_lie_rolling_kv.so')
+    assert os.path.exists(so_path), f'Library {so_path} does not exist'
+
+    lib = ctypes.CDLL(so_path)
+    lib.run_blackwell_lie_rolling_kv_benchmark.argtypes = [ctypes.c_int]
+    lib.run_blackwell_lie_rolling_kv_benchmark.restype = ctypes.c_int
+
+    n_samples = 1024
+    valid_count = lib.run_blackwell_lie_rolling_kv_benchmark(n_samples)
+    assert valid_count == n_samples, f'Expected all {n_samples} samples to satisfy Lie rolling KV invariants, got {valid_count}'
+
+
+def test_imf_cli_corpus_audit():
+    import subprocess
+    cli_path = os.path.join(os.path.dirname(__file__), '..', 'bin', 'imf_cli')
+    assert os.path.exists(cli_path), f"Binary {cli_path} not found"
+    res = subprocess.run([cli_path, "--audit-corpus"], capture_output=True, text=True)
+    assert res.returncode == 0, f"imf_cli --audit-corpus failed:\n{res.stdout}\n{res.stderr}"
+    assert "CORPUS AUDIT RESULT: ALL GATES CLOSED / 100% PASS" in res.stdout
+
+
+
+
 
 
 

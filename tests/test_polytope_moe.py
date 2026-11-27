@@ -106,3 +106,50 @@ def test_fine_grained_polytope_mope():
     loss.backward()
     assert x.grad is not None
     assert not torch.isnan(x.grad).any()
+
+
+@pytest.mark.skipif(not torch.cuda.is_available(), reason="CUDA required for dual-stream test")
+def test_fine_grained_polytope_mope_dual_stream_cuda():
+    device = torch.device("cuda")
+    d_model = 64
+    mope = FineGrainedPolytopeMoPE(
+        d_model=d_model,
+        num_micro_experts=16,
+        top_k=2,
+        polytope_dim=8,
+        enable_dual_stream=True,
+    ).to(device)
+
+    x = torch.randn(2, 16, d_model, device=device, requires_grad=True)
+    out, aux = mope(x)
+
+    assert out.device.type == "cuda"
+    assert aux["dual_stream_active"] is True
+    assert "entropy_loss" in aux
+    assert "normalized_entropy" in aux
+    assert out.shape == (2, 16, d_model)
+
+    loss = out.sum() + aux["total_aux_loss"]
+    loss.backward()
+    assert x.grad is not None
+    assert not torch.isnan(x.grad).any()
+
+
+def test_fine_grained_polytope_entropy_and_capacity_overflow():
+    d_model = 32
+    # Small micro experts with tight capacity factor
+    mope = FineGrainedPolytopeMoPE(
+        d_model=d_model,
+        num_micro_experts=4,
+        top_k=2,
+        polytope_dim=4,
+        capacity_factor=0.5, # Deliberately low capacity to force overflow handling
+        entropy_weight=0.05,
+    )
+    x = torch.randn(4, 32, d_model)
+    out, aux = mope(x)
+    assert out.shape == (4, 32, d_model)
+    assert "normalized_entropy" in aux
+    assert 0.0 <= aux["normalized_entropy"].item() <= 1.05
+    assert aux["capacity_overflows"] >= 0
+

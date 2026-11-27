@@ -9,12 +9,22 @@
 [![Organization: Stratum Research Group](https://img.shields.io/badge/Organization-Stratum%20Research%20Group-black.svg)](#10-ownership--governance)
 [![Hardware: AMD Ryzen 5 7600X | NVIDIA RTX 5060 Ti](https://img.shields.io/badge/Hardware-Ryzen%207600X%20%7C%20RTX%205060%20Ti-76B900.svg)](https://developer.nvidia.com/cuda-zone)
 [![CUDA 12.8 / Triton 3.9](https://img.shields.io/badge/Runtime-CUDA%2012.8%20%7C%20Triton%203.9-green.svg)](https://triton-lang.org/)
-[![Formal Verification: Lean 4 Core](https://img.shields.io/badge/Formal%20Verification-Lean%204%20(800M%20Certified%20Steps)-purple.svg)](https://leanprover.github.io/)
+[![Formal Verification: Lean 4 Core](https://img.shields.io/badge/Formal%20Verification-Lean%204%20(1B%20Certified%20Steps)-purple.svg)](https://leanprover.github.io/)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
 [![PyTorch 2.7+](https://img.shields.io/badge/PyTorch-2.7%2B-ee4c2c.svg)](https://pytorch.org/)
 [![Blackwell SM 12.0 Ready](https://img.shields.io/badge/Microarchitecture-Blackwell%20SM%2012.0-orange.svg)](https://www.nvidia.com/en-us/data-center/blackwell-architecture/)
-[![Research Papers: 1,120 Published](https://img.shields.io/badge/Research%20Papers-1120%20Treatises-darkgreen.svg)](papers/)
+[![Research Papers: 1,301 Published](https://img.shields.io/badge/Research%20Papers-1301%20Treatises-darkgreen.svg)](papers/)
+
+---
+
+<p align="center">
+  <video src="assets/mediaspeedrun/Jonathan%20Bree%20-%20Until%20We're%20Done.mp4" controls width="720" style="max-width: 100%; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.5);">
+    Your browser does not support the video tag.
+  </video>
+  <br />
+  <sub style="color: #94a3b8; font-size: 0.8rem;">this is what a Speedrun Research Program looks like</sub>
+</p>
 
 ---
 

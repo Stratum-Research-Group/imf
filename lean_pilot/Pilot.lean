@@ -80,4 +80,5 @@ import Pilot.MotivicSmashProduct
 import Pilot.MotivicGrossHopkins
 import Pilot.MotivicGoerssHopkins
 import Pilot.PolytopeSparsity
+import Pilot.LieRollingCacheStability
 

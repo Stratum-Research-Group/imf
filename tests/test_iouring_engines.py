@@ -3865,6 +3865,61 @@ def test_iouring_weight_streamer_direct_io():
     assert stats.total_bytes_streamed == 32 * 8 * 4096
 
 
+class IOUringCouncilRingConfig(ctypes.Structure):
+    _fields_ = [
+        ("ring_entries", ctypes.c_uint32),
+        ("message_size", ctypes.c_uint32),
+        ("num_agents", ctypes.c_uint32),
+        ("round_trips", ctypes.c_uint32),
+    ]
+
+class IOUringCouncilRingStats(ctypes.Structure):
+    _fields_ = [
+        ("total_messages_routed", ctypes.c_uint64),
+        ("total_shm_bytes", ctypes.c_uint64),
+        ("zero_copy_verified", ctypes.c_uint32),
+        ("lock_free_sync_verified", ctypes.c_uint32),
+        ("status", ctypes.c_uint32),
+    ]
+
+def test_iouring_council_shm_ring_direct():
+    so_path = "bin/libfused_iouring_weight_streamer.so"
+    assert os.path.exists(so_path)
+    lib = ctypes.CDLL(so_path)
+    lib.run_iouring_council_shm_ring.argtypes = [
+        ctypes.POINTER(IOUringCouncilRingConfig),
+        ctypes.POINTER(IOUringCouncilRingStats),
+    ]
+    lib.run_iouring_council_shm_ring.restype = ctypes.c_int
+
+    config = IOUringCouncilRingConfig(
+        ring_entries=32,
+        message_size=512,
+        num_agents=5,
+        round_trips=10,
+    )
+    stats = IOUringCouncilRingStats()
+    ret = lib.run_iouring_council_shm_ring(ctypes.byref(config), ctypes.byref(stats))
+    assert ret == 0
+    assert stats.status == 1
+    assert stats.zero_copy_verified == 1
+    assert stats.lock_free_sync_verified == 1
+    assert stats.total_messages_routed == 50
+    assert stats.total_shm_bytes == 50 * 512
+
+
+def test_cognitive_swarm_iouring_shm_dispatch():
+    from imf.cognitive_swarm_engine import CognitiveSwarm
+    swarm = CognitiveSwarm()
+    res = swarm.dispatch_with_iouring_shm("Formalize continuous rotation symmetry", round_trips=8)
+    assert res["status"] == "CONSENSUS_REACHED"
+    assert "shm_ipc_ring" in res
+    assert res["shm_ipc_ring"]["io_uring_accelerated"] is True
+    assert res["shm_ipc_ring"]["zero_copy"] is True
+    assert res["shm_ipc_ring"]["messages_routed"] == 5 * 8
+
+
+
 
 
 

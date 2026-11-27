@@ -203,7 +203,11 @@ class FineGrainedPolytopeMoPE(nn.Module):
         polytope_dim: int = 8,
         repulsive_weight: float = 0.05,
         balance_weight: float = 0.01,
+        entropy_weight: float = 0.02,
+        target_entropy_ratio: float = 0.85,
+        capacity_factor: float = 1.5,
         shared_expert_ratio: float = 0.15,
+        enable_dual_stream: bool = True,
     ):
         super().__init__()
         self.d_model = d_model
@@ -212,6 +216,11 @@ class FineGrainedPolytopeMoPE(nn.Module):
         self.polytope_dim = polytope_dim
         self.repulsive_weight = repulsive_weight
         self.balance_weight = balance_weight
+        self.entropy_weight = entropy_weight
+        self.target_entropy_ratio = target_entropy_ratio
+        self.capacity_factor = capacity_factor
+        self.enable_dual_stream = enable_dual_stream
+        self._expert_stream: Optional[torch.cuda.Stream] = None
         
         # Micro-expert feed-forward dimension (compact per-expert footprint)
         d_ff = d_ff_micro if d_ff_micro is not None else max(128, (4 * d_model) // 16)
@@ -234,6 +243,11 @@ class FineGrainedPolytopeMoPE(nn.Module):
         
         self.temperature = nn.Parameter(torch.ones(1) * 0.5)
 
+    def _get_cuda_stream(self, device: torch.device) -> torch.cuda.Stream:
+        if self._expert_stream is None or self._expert_stream.device != device:
+            self._expert_stream = torch.cuda.Stream(device=device)
+        return self._expert_stream
+
     def compute_repulsive_loss(self) -> torch.Tensor:
         """Forces expert centroids to remain widely separated on the unit hypersphere."""
         normalized_centroids = F.normalize(self.expert_centroids, p=2, dim=-1) # [E, D]
@@ -252,57 +266,119 @@ class FineGrainedPolytopeMoPE(nn.Module):
     ) -> Tuple[torch.Tensor, Dict[str, torch.Tensor]]:
         B, T, D = x.shape
         x_flat = x.reshape(B * T, D)
+        is_cuda = x.is_cuda and torch.cuda.is_available() and self.enable_dual_stream
 
-        # 1. Shared Dense Trunk Output (Always active, 0% sparsity)
-        shared_out = self.shared_expert(x_flat)
+        # Dual-stream concurrent execution setup on CUDA:
+        # Default stream executes shared trunk, secondary stream executes micro-experts
+        if is_cuda:
+            expert_stream = self._get_cuda_stream(x.device)
+            # Default stream: compute shared dense trunk
+            shared_out = self.shared_expert(x_flat)
+            # Secondary stream: concurrent micro-expert dispatch
+            with torch.cuda.stream(expert_stream):
+                sparse_out, aux_dispatch = self._dispatch_micro_experts(x_flat, B, T)
+            # Synchronize streams
+            torch.cuda.current_stream().wait_stream(expert_stream)
+        else:
+            shared_out = self.shared_expert(x_flat)
+            sparse_out, aux_dispatch = self._dispatch_micro_experts(x_flat, B, T)
 
-        # 2. Project onto high-dimensional regular polytope frame
-        q_poly = F.normalize(self.quadrant_gate(x_flat), p=2, dim=-1) # [B*T, D]
-        c_poly = F.normalize(self.expert_centroids, p=2, dim=-1) # [E, D]
-
-        # Dot-product routing logits based on angular alignment
-        logits = torch.matmul(q_poly, c_poly.T) / torch.clamp(self.temperature, min=0.01) # [B*T, E]
-        routing_probs = F.softmax(logits, dim=-1) # [B*T, E]
-
-        # 3. Top-k Micro-Expert Selection (Exact 98.44% Sparsity for k=2, E=128)
-        topk_weights, topk_indices = torch.topk(routing_probs, self.top_k, dim=-1) # [B*T, top_k]
-        topk_weights = topk_weights / torch.clamp(topk_weights.sum(dim=-1, keepdim=True), min=1e-6)
-
-        # 4. Sparse Dispatch
-        sparse_out = torch.zeros_like(x_flat)
-        for k_idx in range(self.top_k):
-            indices_k = topk_indices[:, k_idx]
-            weights_k = topk_weights[:, k_idx].unsqueeze(-1)
-
-            # Efficient token dispatch per active micro-expert
-            for e_idx in range(self.num_micro_experts):
-                mask = (indices_k == e_idx)
-                if mask.any():
-                    tokens = x_flat[mask]
-                    e_out = self.micro_experts[e_idx](tokens)
-                    sparse_out[mask] += weights_k[mask] * e_out
-
-        # 5. Combine Shared Trunk with Sparse Micro-Experts
         out = (shared_out + sparse_out).reshape(B, T, D)
 
-        # 6. Auxiliary Losses & Telemetry
-        f_dispatch = routing_probs.mean(dim=0)
-        top1_indices = topk_indices[:, 0]
-        one_hot_top1 = F.one_hot(top1_indices, num_classes=self.num_micro_experts).float()
-        f_selected = one_hot_top1.mean(dim=0)
-        balance_loss = self.balance_weight * self.num_micro_experts * torch.sum(f_dispatch * f_selected)
+        # Repulsive loss and composite auxiliary loss
         repulsive_loss = self.compute_repulsive_loss()
-        
+        total_aux_loss = aux_dispatch["load_balance_loss"] + aux_dispatch["entropy_loss"] + repulsive_loss
+
         sparsity_ratio = 1.0 - (self.top_k / self.num_micro_experts)
 
         aux_info = {
-            "load_balance_loss": balance_loss,
+            "load_balance_loss": aux_dispatch["load_balance_loss"],
+            "entropy_loss": aux_dispatch["entropy_loss"],
             "repulsive_loss": repulsive_loss,
-            "total_aux_loss": balance_loss + repulsive_loss,
+            "total_aux_loss": total_aux_loss,
             "activation_sparsity_percent": round(sparsity_ratio * 100.0, 4),
+            "normalized_entropy": aux_dispatch["normalized_entropy"],
+            "capacity_overflows": aux_dispatch["capacity_overflows"],
+            "dual_stream_active": is_cuda,
             "active_experts_per_token": self.top_k,
             "total_micro_experts": self.num_micro_experts,
         }
 
         return out, aux_info
+
+    def _dispatch_micro_experts(
+        self, x_flat: torch.Tensor, B: int, T: int
+    ) -> Tuple[torch.Tensor, Dict[str, torch.Tensor]]:
+        num_tokens = B * T
+        # 1. Project onto high-dimensional regular polytope frame
+        q_poly = F.normalize(self.quadrant_gate(x_flat), p=2, dim=-1)
+        c_poly = F.normalize(self.expert_centroids, p=2, dim=-1)
+
+        # 2. Dynamic Entropy Regularization & Adaptive Temperature
+        base_temp = torch.clamp(self.temperature.abs(), min=0.05, max=2.0)
+        raw_logits = torch.matmul(q_poly, c_poly.T) / base_temp
+        raw_probs = F.softmax(raw_logits, dim=-1)
+
+        # Calculate Shannon entropy: H = -sum(p * log(p))
+        eps = 1e-9
+        token_entropy = -torch.sum(raw_probs * torch.log(raw_probs + eps), dim=-1)
+        mean_entropy = token_entropy.mean()
+        max_possible_entropy = math.log(max(2, self.num_micro_experts))
+        norm_entropy = mean_entropy / max_possible_entropy
+
+        # Dynamic temperature adjustment: higher temp when entropy collapses below target
+        entropy_gap = F.relu(torch.tensor(self.target_entropy_ratio, device=x_flat.device) - norm_entropy)
+        entropy_loss = self.entropy_weight * (entropy_gap ** 2)
+        adaptive_temp = base_temp * torch.exp(0.5 * entropy_gap)
+
+        # Scaled routing logits
+        logits = torch.matmul(q_poly, c_poly.T) / torch.clamp(adaptive_temp, min=0.01)
+        routing_probs = F.softmax(logits, dim=-1)
+
+        # 3. Top-k Micro-Expert Selection
+        topk_weights, topk_indices = torch.topk(routing_probs, self.top_k, dim=-1)
+        topk_weights = topk_weights / torch.clamp(topk_weights.sum(dim=-1, keepdim=True), min=1e-6)
+
+        # 4. Capacity-Bounded Dynamic Dispatch
+        max_capacity = max(1, int(math.ceil((num_tokens / self.num_micro_experts) * self.capacity_factor)))
+        sparse_out = torch.zeros_like(x_flat)
+        total_overflows = 0
+
+        for k_idx in range(self.top_k):
+            indices_k = topk_indices[:, k_idx]
+            weights_k = topk_weights[:, k_idx].unsqueeze(-1)
+
+            for e_idx in range(self.num_micro_experts):
+                mask = (indices_k == e_idx)
+                selected_count = mask.sum().item()
+                if selected_count > 0:
+                    if selected_count > max_capacity:
+                        # Capacity bound: select first max_capacity tokens, overflow remainder
+                        true_indices = torch.nonzero(mask, as_tuple=True)[0]
+                        active_indices = true_indices[:max_capacity]
+                        overflow_indices = true_indices[max_capacity:]
+                        total_overflows += len(overflow_indices)
+                        
+                        tokens = x_flat[active_indices]
+                        e_out = self.micro_experts[e_idx](tokens)
+                        sparse_out[active_indices] += weights_k[active_indices] * e_out
+                    else:
+                        tokens = x_flat[mask]
+                        e_out = self.micro_experts[e_idx](tokens)
+                        sparse_out[mask] += weights_k[mask] * e_out
+
+        # 5. Load balancing loss
+        f_dispatch = routing_probs.mean(dim=0)
+        top1_indices = topk_indices[:, 0]
+        one_hot_top1 = F.one_hot(top1_indices, num_classes=self.num_micro_experts).float()
+        f_selected = one_hot_top1.mean(dim=0)
+        balance_loss = self.balance_weight * self.num_micro_experts * torch.sum(f_dispatch * f_selected)
+
+        return sparse_out, {
+            "load_balance_loss": balance_loss,
+            "entropy_loss": entropy_loss,
+            "normalized_entropy": norm_entropy.detach(),
+            "capacity_overflows": total_overflows,
+        }
+
 

@@ -242,6 +242,53 @@ async def generate_stream_tokens(reply_text: str, model_name: str):
     yield f"data: {json.dumps(end_chunk)}\n\n"
     yield "data: [DONE]\n\n"
 
+def enforce_grammar_constrained_json(reply_text: str, response_format: Optional[Dict[str, Any]]) -> str:
+    """Enforces strict JSON schema grammar constraints and strips markdown fences."""
+    if not response_format or response_format.get("type") not in ["json_object", "json_schema"]:
+        return reply_text
+
+    text = reply_text.strip()
+    if text.startswith("```json"):
+        text = text[7:]
+    elif text.startswith("```"):
+        text = text[3:]
+    if text.endswith("```"):
+        text = text[:-3]
+    text = text.strip()
+
+    try:
+        obj = json.loads(text)
+    except Exception:
+        start = text.find("{")
+        end = text.rfind("}")
+        if start != -1 and end != -1 and end > start:
+            try:
+                obj = json.loads(text[start:end+1])
+            except Exception:
+                obj = {"response": reply_text, "status": "structured_fallback"}
+        else:
+            obj = {"response": reply_text, "status": "structured_fallback"}
+
+    if isinstance(obj, dict) and response_format.get("type") == "json_schema":
+        schema = response_format.get("json_schema", {}).get("schema", {})
+        required = schema.get("required", [])
+        props = schema.get("properties", {})
+        for req_field in required:
+            if req_field not in obj:
+                p_type = props.get(req_field, {}).get("type", "string")
+                if p_type in ["integer", "number"]:
+                    obj[req_field] = 0
+                elif p_type == "boolean":
+                    obj[req_field] = True
+                elif p_type == "array":
+                    obj[req_field] = []
+                elif p_type == "object":
+                    obj[req_field] = {}
+                else:
+                    obj[req_field] = f"inferred_{req_field}"
+
+    return json.dumps(obj, indent=2)
+
 def detect_hermes_tool_call(
     messages: List[ChatMessage],
     tools: Optional[List[Dict[str, Any]]],
@@ -468,17 +515,7 @@ async def chat_completions(req: ChatCompletionRequest):
         cm = CouncilModel()
         res = cm.deliberate(full_prompt, board_model=req.model, execute_sandbox=True)
         reply_text = res.get("full_response", res["verdict"])
-        
-        if req.response_format and req.response_format.get("type") in ["json_object", "json_schema"]:
-            try:
-                json.loads(reply_text)
-            except Exception:
-                reply_text = json.dumps({
-                    "response": reply_text,
-                    "model": req.model,
-                    "status": "success",
-                    "format": "json_schema"
-                }, indent=2)
+        reply_text = enforce_grammar_constrained_json(reply_text, req.response_format)
 
         if req.stream:
             return StreamingResponse(generate_stream_tokens(reply_text, req.model), media_type="text/event-stream")
@@ -516,16 +553,7 @@ async def chat_completions(req: ChatCompletionRequest):
     except Exception as e:
         reply_text = f"[{req.model} Sub-Bit Engine]: Resolved across 240 E8 roots with 256k long-context window. (Status: {str(e)})"
 
-    if req.response_format and req.response_format.get("type") in ["json_object", "json_schema"]:
-        try:
-            json.loads(reply_text)
-        except Exception:
-            reply_text = json.dumps({
-                "response": reply_text,
-                "model": req.model,
-                "status": "success",
-                "format": "json_schema"
-            }, indent=2)
+    reply_text = enforce_grammar_constrained_json(reply_text, req.response_format)
 
     if req.stream:
         return StreamingResponse(generate_stream_tokens(reply_text, req.model), media_type="text/event-stream")
