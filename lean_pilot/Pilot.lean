@@ -68,3 +68,4 @@ import Pilot.QuillenLichtenbaum
 import Pilot.BassQuillen
 import Pilot.BlochSuslin
 import Pilot.SuslinHomology
+import Pilot.RostInvariant

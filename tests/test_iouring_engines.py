@@ -3318,3 +3318,48 @@ def test_iouring_singular_cycle_splice_stream_correctness():
     assert stats.total_bytes_streamed == 16 * 16 * 4096
     assert stats.ring_queue_depth == 64
     assert stats.singular_cycle_verified == 1
+
+
+def test_iouring_exceptional_galois_splice_stream_correctness():
+    so_path = "csrc/libfused_iouring_exceptional_galois_splice_stream.so"
+    assert os.path.exists(so_path), f"Missing shared object: {so_path}"
+
+    class ExceptionalGaloisConfig(ctypes.Structure):
+        _fields_ = [
+            ("ring_entries", ctypes.c_uint32),
+            ("torsor_size_bytes", ctypes.c_uint32),
+            ("num_torsors", ctypes.c_uint32),
+            ("stream_passes", ctypes.c_uint32),
+        ]
+
+    class ExceptionalGaloisStats(ctypes.Structure):
+        _fields_ = [
+            ("total_bytes_streamed", ctypes.c_uint64),
+            ("torsors_processed", ctypes.c_uint32),
+            ("ring_queue_depth", ctypes.c_uint32),
+            ("exceptional_galois_verified", ctypes.c_uint32),
+            ("engine_status", ctypes.c_uint32),
+        ]
+
+    lib = ctypes.CDLL(so_path)
+    lib.run_exceptional_galois_splice_stream_engine.argtypes = [
+        ctypes.POINTER(ExceptionalGaloisConfig),
+        ctypes.POINTER(ExceptionalGaloisStats)
+    ]
+    lib.run_exceptional_galois_splice_stream_engine.restype = ctypes.c_int
+
+    config = ExceptionalGaloisConfig(
+        ring_entries=64,
+        torsor_size_bytes=4096,
+        num_torsors=16,
+        stream_passes=16,
+    )
+    stats = ExceptionalGaloisStats()
+
+    ret = lib.run_exceptional_galois_splice_stream_engine(ctypes.byref(config), ctypes.byref(stats))
+    assert ret == 0, f"run_exceptional_galois_splice_stream_engine failed with return code {ret}"
+    assert stats.engine_status == 1
+    assert stats.torsors_processed == 16 * 16
+    assert stats.total_bytes_streamed == 16 * 16 * 4096
+    assert stats.ring_queue_depth == 64
+    assert stats.exceptional_galois_verified == 1
