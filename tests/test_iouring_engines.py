@@ -1556,6 +1556,85 @@ def test_iouring_send_zc_notify_ring_correctness():
         lib.iouring_send_zc_free(eng)
 
 
+def test_iouring_workstealing_multiring_correctness():
+    so_path = "csrc/libfused_iouring_workstealing_multiring.so"
+    if not os.path.exists(so_path):
+        pytest.skip(f"{so_path} not found")
+
+    lib = ctypes.CDLL(so_path)
+    lib.iouring_workstealing_init.argtypes = [ctypes.c_uint32, ctypes.c_uint32]
+    lib.iouring_workstealing_init.restype = ctypes.c_void_p
+
+    lib.iouring_workstealing_submit.argtypes = [
+        ctypes.c_void_p, ctypes.c_uint32, ctypes.c_uint64, ctypes.c_uint64, ctypes.c_uint32
+    ]
+    lib.iouring_workstealing_submit.restype = ctypes.c_int
+
+    lib.iouring_workstealing_balance.argtypes = [
+        ctypes.c_void_p, ctypes.POINTER(ctypes.c_uint32)
+    ]
+    lib.iouring_workstealing_balance.restype = ctypes.c_int
+
+    lib.iouring_workstealing_complete.argtypes = [
+        ctypes.c_void_p, ctypes.c_uint32, ctypes.c_uint32, ctypes.POINTER(ctypes.c_uint32)
+    ]
+    lib.iouring_workstealing_complete.restype = ctypes.c_int
+
+    lib.iouring_workstealing_get_stats.argtypes = [
+        ctypes.c_void_p,
+        ctypes.POINTER(ctypes.c_uint64),
+        ctypes.POINTER(ctypes.c_uint64),
+        ctypes.POINTER(ctypes.c_uint64)
+    ]
+    lib.iouring_workstealing_get_stats.restype = ctypes.c_int
+
+    lib.iouring_workstealing_destroy.argtypes = [ctypes.c_void_p]
+    lib.iouring_workstealing_destroy.restype = None
+
+    num_rings = 4
+    ring_cap = 16
+    eng = lib.iouring_workstealing_init(num_rings, ring_cap)
+    assert eng is not None
+
+    try:
+        # Submit 6 jobs to ring 0 (load = 6), 0 jobs to ring 1 (load = 0)
+        for j in range(6):
+            ret = lib.iouring_workstealing_submit(eng, 0, 100 + j, 1024, 1)
+            assert ret == 0
+
+        # Run workstealing balance: should steal (6 - 0) / 2 = 3 jobs from ring 0 to ring 1
+        stolen = ctypes.c_uint32(0)
+        b_ret = lib.iouring_workstealing_balance(eng, ctypes.byref(stolen))
+        assert b_ret == 0
+        assert stolen.value == 3
+
+        # Complete jobs on ring 1 (stolen jobs)
+        act1 = ctypes.c_uint32(0)
+        c_ret1 = lib.iouring_workstealing_complete(eng, 1, 10, ctypes.byref(act1))
+        assert c_ret1 == 0
+        assert act1.value == 3
+
+        # Complete jobs on ring 0 (remaining jobs)
+        act0 = ctypes.c_uint32(0)
+        c_ret0 = lib.iouring_workstealing_complete(eng, 0, 10, ctypes.byref(act0))
+        assert c_ret0 == 0
+        assert act0.value == 3
+
+        # Verify stats
+        tot_jobs = ctypes.c_uint64(0)
+        tot_stolen = ctypes.c_uint64(0)
+        tot_bytes = ctypes.c_uint64(0)
+        s_ret = lib.iouring_workstealing_get_stats(
+            eng, ctypes.byref(tot_jobs), ctypes.byref(tot_stolen), ctypes.byref(tot_bytes)
+        )
+        assert s_ret == 0
+        assert tot_jobs.value == 6
+        assert tot_stolen.value == 3
+        assert tot_bytes.value == 6 * 1024
+    finally:
+        lib.iouring_workstealing_destroy(eng)
+
+
 
 
 

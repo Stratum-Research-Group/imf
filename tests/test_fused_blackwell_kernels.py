@@ -1354,6 +1354,65 @@ def test_fused_bsd_lfunction_euler_product_correctness():
     assert ranks[0].item() == 0
 
 
+def test_fused_selmer_group_exact_sequence_correctness():
+    so_path = "csrc/libfused_blackwell_selmer_group_exact_sequence.so"
+    if not os.path.exists(so_path):
+        pytest.skip(f"{so_path} not built")
+
+    lib = ctypes.CDLL(so_path)
+    lib.fused_blackwell_selmer_group_exact_sequence.argtypes = [
+        ctypes.c_void_p,
+        ctypes.c_void_p,
+        ctypes.c_void_p,
+        ctypes.c_void_p,
+        ctypes.c_void_p,
+        ctypes.c_void_p,
+        ctypes.c_int,
+        ctypes.c_int,
+        ctypes.c_float
+    ]
+    lib.fused_blackwell_selmer_group_exact_sequence.restype = ctypes.c_int
+
+    B = 2
+    num_places = 4
+    weights = torch.tensor([1.0, 1.0, 0.5, 0.25], dtype=torch.float32)
+
+    # Batch 0: cocycles exactly match bases (proj = cocycle, diff = 0 -> admissible, sha = 0)
+    # Batch 1: cocycles have large obstruction (diff != 0 -> obstructed, sha > 0)
+    cocycles = torch.tensor([
+        [1.0, 1.0, 1.0, 1.0],
+        [1.0, 2.0, 3.0, 4.0]
+    ], dtype=torch.float32)
+
+    bases = torch.tensor([
+        [1.0, 1.0, 1.0, 1.0],
+        [0.0, 0.0, 0.0, 0.0]
+    ], dtype=torch.float32)
+
+    proj = torch.zeros(B, num_places, dtype=torch.float32)
+    admissibility = torch.zeros(B, dtype=torch.float32)
+    sha_energy = torch.zeros(B, dtype=torch.float32)
+
+    ret = lib.fused_blackwell_selmer_group_exact_sequence(
+        ctypes.c_void_p(cocycles.data_ptr()),
+        ctypes.c_void_p(bases.data_ptr()),
+        ctypes.c_void_p(weights.data_ptr()),
+        ctypes.c_void_p(proj.data_ptr()),
+        ctypes.c_void_p(admissibility.data_ptr()),
+        ctypes.c_void_p(sha_energy.data_ptr()),
+        B, num_places, 1e-4
+    )
+    assert ret == 0
+
+    # Batch 0 is admissible (Sha = 0)
+    assert admissibility[0].item() == 1.0
+    assert sha_energy[0].item() < 1e-5
+
+    # Batch 1 is obstructed (Sha > 0, adm = 0)
+    assert admissibility[1].item() == 0.0
+    assert sha_energy[1].item() > 0.0
+
+
 
 
 
