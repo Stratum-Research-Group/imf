@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """
 scripts/compile_magnum_opus_volumes.py
-Compiles the individual chapters in theses/volume_1_..., theses/volume_2_..., theses/volume_3_...
+Compiles the individual chapters in docs/thesis/volume_1_..., docs/thesis/volume_2_..., docs/thesis/volume_3_...
 into the master monolithic volumes:
-- MY_GRAND_THESIS_V01.md (and docs/MY_GRAND_THESIS_V01.md)
-- MY_GRAND_THESIS_V02.md (and docs/MY_GRAND_THESIS_V02.md)
-- MY_GRAND_THESIS_V03.md (and docs/MY_GRAND_THESIS_V03.md)
+- docs/thesis/Spaces_v01.md (and docs/thesis/compiled/THE_SACRED_SANCTUM_VOLUME_I.md)
+- docs/thesis/Spaces_v02.md (and docs/thesis/compiled/THE_SACRED_SANCTUM_VOLUME_II.md)
+- docs/thesis/Spaces_v03.md (and docs/thesis/compiled/THE_SACRED_SANCTUM_VOLUME_III.md)
 """
 
 import os
@@ -17,10 +17,10 @@ VOLUMES = [
     {
         "id": "VOLUME I",
         "vol_num": "I",
-        "dir": os.path.join(REPO_ROOT, "theses", "volume_1_dimensional_spaces"),
-        "out_root": os.path.join(REPO_ROOT, "theses", "compiled", "THE_SACRED_SANCTUM_VOLUME_I.md"),
-        "alias_theses": os.path.join(REPO_ROOT, "theses", "Spaces_v01.md"),
-        "alias_compiled": os.path.join(REPO_ROOT, "theses", "compiled", "Spaces_v01.md"),
+        "dir": os.path.join(REPO_ROOT, "docs", "thesis", "volume_1_dimensional_spaces"),
+        "out_root": os.path.join(REPO_ROOT, "docs", "thesis", "compiled", "THE_SACRED_SANCTUM_VOLUME_I.md"),
+        "alias_theses": os.path.join(REPO_ROOT, "docs", "thesis", "Spaces_v01.md"),
+        "alias_compiled": os.path.join(REPO_ROOT, "docs", "thesis", "compiled", "Spaces_v01.md"),
         "main_title": "THE SACRED SANCTUM: FOUNDATIONS OF SOVEREIGN INTELLIGENCE",
         "volume_title": "Volume I: The Sacred Sanctum of Dimensional Spaces (d <= 4)",
         "subtitle": "Discrete Differential Geometry, Continuous Lie-Algebraic Memory, and the Physical Foundations of Machine Intelligence",
@@ -28,10 +28,10 @@ VOLUMES = [
     {
         "id": "VOLUME II",
         "vol_num": "II",
-        "dir": os.path.join(REPO_ROOT, "theses", "volume_2_higher_dimensional_spaces"),
-        "out_root": os.path.join(REPO_ROOT, "theses", "compiled", "THE_SACRED_SANCTUM_VOLUME_II.md"),
-        "alias_theses": os.path.join(REPO_ROOT, "theses", "Spaces_v02.md"),
-        "alias_compiled": os.path.join(REPO_ROOT, "theses", "compiled", "Spaces_v02.md"),
+        "dir": os.path.join(REPO_ROOT, "docs", "thesis", "volume_2_higher_dimensional_spaces"),
+        "out_root": os.path.join(REPO_ROOT, "docs", "thesis", "compiled", "THE_SACRED_SANCTUM_VOLUME_II.md"),
+        "alias_theses": os.path.join(REPO_ROOT, "docs", "thesis", "Spaces_v02.md"),
+        "alias_compiled": os.path.join(REPO_ROOT, "docs", "thesis", "compiled", "Spaces_v02.md"),
         "main_title": "THE SACRED SANCTUM: FOUNDATIONS OF SOVEREIGN INTELLIGENCE",
         "volume_title": "Volume II: The Sacred Sanctum of Higher-Dimensional Spaces (4 < d <= 24)",
         "subtitle": "Exceptional Holonomy, the Gosset E8 Polytope, the 24-Dimensional Leech Lattice Lambda_24, and Sub-Bit Polytope Quantization",
@@ -39,10 +39,10 @@ VOLUMES = [
     {
         "id": "VOLUME III",
         "vol_num": "III",
-        "dir": os.path.join(REPO_ROOT, "theses", "volume_3_transfinite_ultra_dimensional_spaces"),
-        "out_root": os.path.join(REPO_ROOT, "theses", "compiled", "THE_SACRED_SANCTUM_VOLUME_III.md"),
-        "alias_theses": os.path.join(REPO_ROOT, "theses", "Spaces_v03.md"),
-        "alias_compiled": os.path.join(REPO_ROOT, "theses", "compiled", "Spaces_v03.md"),
+        "dir": os.path.join(REPO_ROOT, "docs", "thesis", "volume_3_transfinite_ultra_dimensional_spaces"),
+        "out_root": os.path.join(REPO_ROOT, "docs", "thesis", "compiled", "THE_SACRED_SANCTUM_VOLUME_III.md"),
+        "alias_theses": os.path.join(REPO_ROOT, "docs", "thesis", "Spaces_v03.md"),
+        "alias_compiled": os.path.join(REPO_ROOT, "docs", "thesis", "compiled", "Spaces_v03.md"),
         "main_title": "THE SACRED SANCTUM: FOUNDATIONS OF SOVEREIGN INTELLIGENCE",
         "volume_title": "Volume III: The Sacred Sanctum of Transfinite and Infinite-Dimensional Spaces (d -> inf)",
         "subtitle": "Ultra-Dimensional Chromatic Topoi, Affine Kac-Moody Algebras, and Machine-Certified Deductive Epistemics",
@@ -96,9 +96,6 @@ def compile_volume(vol):
         vol["out_root"],
         vol.get("alias_theses"),
         vol.get("alias_compiled"),
-        os.path.join(REPO_ROOT, "docs", "thesis", "compiled", os.path.basename(vol["out_root"])),
-        os.path.join(REPO_ROOT, "docs", "thesis", "compiled", os.path.basename(vol.get("alias_compiled", ""))),
-        os.path.join(REPO_ROOT, "docs", "thesis", os.path.basename(vol.get("alias_theses", ""))),
     ]
     for out_p in outputs:
         if out_p:
@@ -108,7 +105,7 @@ def compile_volume(vol):
 
     pages_est = total_words / 250.0  # Standard manuscript ~250 words/page
     print(f"  [+] {vol['id']} compiled successfully: {total_lines} lines | {total_words} words | {total_chars} chars | ~{pages_est:.1f} book pages")
-    print(f"      Saved to: {vol['out_root']}, {vol.get('alias_theses')}, and docs/thesis outputs")
+    print(f"      Saved to: {vol['out_root']} and {vol.get('alias_theses')}")
 
 def main():
     for vol in VOLUMES:
