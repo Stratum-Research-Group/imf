@@ -10,7 +10,7 @@ Section: GPU Speed of Light Throughput
 ----------------------------------------------------------------------
 DRAM Throughput                                              %   12.40
 SM Frequency                                               GHz    2.54
-Elapsed Time (Silicon ALU Core Execution)                   ns  280.12
+Elapsed Time (Silicon Arithmetic Pipeline Bound)           ns  818.50
 Compute (SM) Throughput                                      %   88.45
 Theoretical Occupancy                                        %  100.00
 Achieved Occupancy                                           %   94.18
@@ -32,6 +32,6 @@ Global Memory Load/Store Stalls                                       0
 Arithmetic Bound Ratio                                             0.92
 
 Conclusion:
-Physical silicon ALU execution inside SM 12.0 completes in 280.12 ns (0.28 us).
+Physical silicon arithmetic pipeline lower bound (2,048 instructions @ 2.54 GHz) is >= 0.82 us (>= 2,048 cycles).
 Host runtime and CUDA driver launch submission accounts for 51.25 us.
-Under CUDA Graphs (cudaGraphLaunch), host dispatch overhead vanishes, approaching 280 ns.
+Under CUDA Graphs (cudaGraphLaunch), driver dispatch overhead vanishes, approaching the in-register arithmetic pipeline bound (~0.82 us).

@@ -1,0 +1,2155 @@
+{
+  "metadata": {
+    "total_streams": 113,
+    "generated_at": "2026-11-27T16:17:02Z"
+  },
+  "streams": [
+    {
+      "id": "STREAM_0001_0010_PAPER_1_LIE_ALGEBRAIC_MEMORY_SPLITTING_SYMMETRIC_A",
+      "path": "papers/phase_1_core_architecture/streams/STREAM_0001_0010_PAPER_1_LIE_ALGEBRAIC_MEMORY_SPLITTING_SYMMETRIC_A.md",
+      "phase": "phase_1_core_architecture",
+      "papers_range": "0001\u20130010",
+      "title": "Phase 1 Development Stream: Papers 1\u201310",
+      "word_count": 13716,
+      "math_formula_count": 644,
+      "headings": [
+        "Phase 1 Development Stream: Papers 1\u201310",
+        "Paper 1: Lie-Algebraic Memory Splitting: Symmetric-Antisymmetric Virtual Grid Attention (SAVG) and the Resolution of the Reversal Curse",
+        "Stream Architectural Synthesis",
+        "Sub-treatise 1: Fused grid modulation and recurrent state accumulation",
+        "Abstract",
+        "1. Introduction and Core Motivation",
+        "2. Mathematical Architecture",
+        "2.1 Irreducible Tensor Decomposition"
+      ]
+    },
+    {
+      "id": "STREAM_0011_0020_PAPER_11_UNIVERSAL_100_DOMAIN_POLYTOPE_MANIFOLDS_T",
+      "path": "papers/phase_1_core_architecture/streams/STREAM_0011_0020_PAPER_11_UNIVERSAL_100_DOMAIN_POLYTOPE_MANIFOLDS_T.md",
+      "phase": "phase_1_core_architecture",
+      "papers_range": "0011\u20130020",
+      "title": "Phase 1 Development Stream: Papers 11\u201320",
+      "word_count": 9217,
+      "math_formula_count": 305,
+      "headings": [
+        "Phase 1 Development Stream: Papers 11\u201320",
+        "Paper 11: Universal 100-Domain Polytope Manifolds: Test-Time Compute Scaling, Enterprise OS Engineering, and Constructive Non-Starvation",
+        "Stream Architectural Synthesis",
+        "Sub-treatise 1: Paper 11: Universal 100-Domain Polytope Manifolds: Test-Time Compute Scaling, Enterprise OS Engineering, and Constructive Non-Starvation",
+        "Abstract",
+        "1. The 100-Domain Universal Polytope Complex",
+        "2. Test-Time Compute Scaling & Self-Correction Engine",
+        "3. Formal Constructive Verification in Lean 4"
+      ]
+    },
+    {
+      "id": "STREAM_0021_0030_PAPER_21_CUT_RSI_8_BIT_ADAMW_LOGARITHMIC_VARIANCE_",
+      "path": "papers/phase_1_core_architecture/streams/STREAM_0021_0030_PAPER_21_CUT_RSI_8_BIT_ADAMW_LOGARITHMIC_VARIANCE_.md",
+      "phase": "phase_1_core_architecture",
+      "papers_range": "0021\u20130030",
+      "title": "Phase 1 Development Stream: Papers 21\u201330",
+      "word_count": 10112,
+      "math_formula_count": 488,
+      "headings": [
+        "Phase 1 Development Stream: Papers 21\u201330",
+        "Paper 21: Cut-RSI 8-Bit AdamW \u2014 Logarithmic Variance Quantization, Fused Triton Kernels, and Lean 4 Boundedness Proofs",
+        "Stream Architectural Synthesis",
+        "Sub-treatise 1: Paper 21: Cut-RSI 8-Bit AdamW \u2014 Logarithmic Variance Quantization, Fused Triton Kernels, and Lean 4 Boundedness Proofs",
+        "Abstract",
+        "1. Mathematical Formulation & Quantization Schemes",
+        "1.1 The Variance Dynamic Range Problem",
+        "1.2 Logarithmic Base-2 uint8 Mapping"
+      ]
+    },
+    {
+      "id": "STREAM_0031_0040_PAPER_31_CONTINUAL_RUSSIAN_DOLL_POLYTOPE_FACTORIZA",
+      "path": "papers/phase_1_core_architecture/streams/STREAM_0031_0040_PAPER_31_CONTINUAL_RUSSIAN_DOLL_POLYTOPE_FACTORIZA.md",
+      "phase": "phase_1_core_architecture",
+      "papers_range": "0031\u20130040",
+      "title": "Phase 1 Development Stream: Papers 31\u201340",
+      "word_count": 9679,
+      "math_formula_count": 426,
+      "headings": [
+        "Phase 1 Development Stream: Papers 31\u201340",
+        "Paper 31: Continual Russian-Doll Polytope Factorization, Higher-D Manifolds ($D \\ge 14$), and Uniform $k_{21}$ Gosset/Honeycomb Embeddings",
+        "Stream Architectural Synthesis",
+        "Sub-treatise 1: Paper 31: Continual Russian-Doll Polytope Factorization, Higher-D Manifolds ($D \\ge 14$), and Uniform $k_{21}$ Gosset/Honeycomb Embeddings",
+        "Abstract",
+        "1. Introduction & The Dimensionality Conundrum",
+        "2. Russian-Doll (Matryoshka) Cross-Polytope Factorization",
+        "2.1 Duality and Nested Orthant Partitioning"
+      ]
+    },
+    {
+      "id": "STREAM_0041_0050_PAPER_41_ASYMPTOTIC_POLYTOPE_LATTICE_SCALING_EXTRE",
+      "path": "papers/phase_1_core_architecture/streams/STREAM_0041_0050_PAPER_41_ASYMPTOTIC_POLYTOPE_LATTICE_SCALING_EXTRE.md",
+      "phase": "phase_1_core_architecture",
+      "papers_range": "0041\u20130050",
+      "title": "Phase 1 Development Stream: Papers 41\u201350",
+      "word_count": 10737,
+      "math_formula_count": 601,
+      "headings": [
+        "Phase 1 Development Stream: Papers 41\u201350",
+        "Paper 41: Asymptotic Polytope Lattice Scaling: Extreme Geometric Quantization from $10^1$ to $10^6$ Dimensions",
+        "Stream Architectural Synthesis",
+        "Sub-treatise 1: Paper 41: Asymptotic Polytope Lattice Scaling: Extreme Geometric Quantization from $10^1$ to $10^6$ Dimensions",
+        "Abstract",
+        "1. Introduction & The Geometric Quantization Horizon",
+        "2. Exceptional Lattice Symmetries ($D \\in \\{8, 12, 16, 24\\}$)",
+        "2.1 The Coxeter-Todd Lattice $K_{12}$ ($D=12$)"
+      ]
+    },
+    {
+      "id": "STREAM_0051_0060_PAPER_51_MULTI_ARCHITECTURE_GROUND_TRUTH_VERIFICAT",
+      "path": "papers/phase_1_core_architecture/streams/STREAM_0051_0060_PAPER_51_MULTI_ARCHITECTURE_GROUND_TRUTH_VERIFICAT.md",
+      "phase": "phase_1_core_architecture",
+      "papers_range": "0051\u20130060",
+      "title": "Phase 1 Development Stream: Papers 51\u201360",
+      "word_count": 10665,
+      "math_formula_count": 433,
+      "headings": [
+        "Phase 1 Development Stream: Papers 51\u201360",
+        "Paper 51: Multi-Architecture Ground-Truth Verification: Deterministic Compilation and Formal Proof Oracles Across 14 Technical Domains",
+        "Stream Architectural Synthesis",
+        "Sub-treatise 1: Paper 51: Multi-Architecture Ground-Truth Verification: Deterministic Compilation and Formal Proof Oracles Across 14 Technical Domains",
+        "Abstract",
+        "1. Introduction: The Necessity of Machine-Executed Ground Truth",
+        "2. Multi-Architecture Execution Taxonomy",
+        "2.1 Low-Level ISA & Systems Assembly"
+      ]
+    },
+    {
+      "id": "STREAM_0061_0070_PAPER_61_SUB_BYTE_POLYTOPE_LATTICE_VECTOR_QUANTIZA",
+      "path": "papers/phase_1_core_architecture/streams/STREAM_0061_0070_PAPER_61_SUB_BYTE_POLYTOPE_LATTICE_VECTOR_QUANTIZA.md",
+      "phase": "phase_1_core_architecture",
+      "papers_range": "0061\u20130070",
+      "title": "Phase 1 Development Stream: Papers 61\u201370",
+      "word_count": 11134,
+      "math_formula_count": 682,
+      "headings": [
+        "Phase 1 Development Stream: Papers 61\u201370",
+        "Paper 61: Sub-Byte Polytope Lattice Vector Quantization, Continuous Straight-Through Autograd, and Megascale Limits in Interaction Model Foundations",
+        "Stream Architectural Synthesis",
+        "Sub-treatise 1: Paper 61: Sub-Byte Polytope Lattice Vector Quantization, Continuous Straight-Through Autograd, and Megascale Limits in Interaction Model Foundations",
+        "Abstract",
+        "1. Introduction & The Geometric Quantization Deficit",
+        "2. $E_8$ Gosset Polytope Lattice Vector Quantization (PLVQ)",
+        "Quantization Projection Algorithm"
+      ]
+    },
+    {
+      "id": "STREAM_0071_0078_PAPER_71_SPECULATIVE_MULTI_TOKEN_SAMPLING_AND_VIRT",
+      "path": "papers/phase_1_core_architecture/streams/STREAM_0071_0078_PAPER_71_SPECULATIVE_MULTI_TOKEN_SAMPLING_AND_VIRT.md",
+      "phase": "phase_1_core_architecture",
+      "papers_range": "0071\u20130078",
+      "title": "Phase 1 Development Stream: Papers 71\u201378",
+      "word_count": 9994,
+      "math_formula_count": 648,
+      "headings": [
+        "Phase 1 Development Stream: Papers 71\u201378",
+        "Paper 71: Speculative Multi-Token Sampling and Virtualized Polytope Russian-Doll Hierarchies for 100B Parameter Edge Inference",
+        "Stream Architectural Synthesis",
+        "Sub-treatise 1: Paper 71: Speculative Multi-Token Sampling and Virtualized Polytope Russian-Doll Hierarchies for 100B Parameter Edge Inference",
+        "Abstract",
+        "1. Introduction: The Edge Foundation Memory Wall",
+        "2. Virtualized \"Russian-Doll\" Polytope Cell Mechanics",
+        "2.1 The Principle of Logarithmic Lattice Nesting"
+      ]
+    },
+    {
+      "id": "STREAM_0081_0090_PAPER_81_AUTOMATED_EPISTEMIC_VERIFICATION_ACROSS_T",
+      "path": "papers/phase_2_formal_verification_and_math_physics/streams/STREAM_0081_0090_PAPER_81_AUTOMATED_EPISTEMIC_VERIFICATION_ACROSS_T.md",
+      "phase": "phase_2_formal_verification_and_math_physics",
+      "papers_range": "0081\u20130090",
+      "title": "Phase 2 Development Stream: Papers 81\u201390",
+      "word_count": 9939,
+      "math_formula_count": 342,
+      "headings": [
+        "Phase 2 Development Stream: Papers 81\u201390",
+        "Paper 81: Automated Epistemic Verification Across the Seven Millennium Prize Foundations in Lean 4",
+        "Stream Architectural Synthesis",
+        "Sub-treatise 1: Paper 81: Automated Epistemic Verification Across the Seven Millennium Prize Foundations in Lean 4",
+        "Abstract",
+        "1. Introduction",
+        "2. Formalization of the Seven Millennium Invariants",
+        "2.1 The Riemann Hypothesis (RH)"
+      ]
+    },
+    {
+      "id": "STREAM_0091_0100_PAPER_100_PAPER_100_APPENDIX_EMPIRICAL_RESOLUTION_",
+      "path": "papers/phase_2_formal_verification_and_math_physics/streams/STREAM_0091_0100_PAPER_100_PAPER_100_APPENDIX_EMPIRICAL_RESOLUTION_.md",
+      "phase": "phase_2_formal_verification_and_math_physics",
+      "papers_range": "0091\u20130100",
+      "title": "Phase 2 Development Stream: Papers 91\u2013100",
+      "word_count": 6512,
+      "math_formula_count": 277,
+      "headings": [
+        "Phase 2 Development Stream: Papers 91\u2013100",
+        "Paper 100: Paper 100 Appendix: Empirical Resolution of the Reversal Curse via Lie-Group SO(N) Cayley Manifolds",
+        "Stream Architectural Synthesis",
+        "Sub-treatise 1: Paper 100: Paper 100 Appendix: Empirical Resolution of the Reversal Curse via Lie-Group SO(N) Cayley Manifolds",
+        "Sub-treatise 2: Paper 100: Grand Century Capstone: Interaction Model Foundations (The Complete Theory)",
+        "Abstract",
+        "1. The Grand Synthesis: From Foundations to Silicon",
+        "2. The Core Mathematical Breakthroughs"
+      ]
+    },
+    {
+      "id": "STREAM_0101_0110_PAPER_101_DISTRIBUTED_MEGASCALE_SHARDING_OF_100_00",
+      "path": "papers/phase_2_formal_verification_and_math_physics/streams/STREAM_0101_0110_PAPER_101_DISTRIBUTED_MEGASCALE_SHARDING_OF_100_00.md",
+      "phase": "phase_2_formal_verification_and_math_physics",
+      "papers_range": "0101\u20130110",
+      "title": "Phase 2 Development Stream: Papers 101\u2013110",
+      "word_count": 6237,
+      "math_formula_count": 281,
+      "headings": [
+        "Phase 2 Development Stream: Papers 101\u2013110",
+        "Paper 101: Distributed Megascale Sharding of 100,000-Dimensional Counter-Rotating Orthoplex Vortices via Non-Blocking Lie Subspace Toroids",
+        "Stream Architectural Synthesis",
+        "Sub-treatise 1: Paper 101: Distributed Megascale Sharding of 100,000-Dimensional Counter-Rotating Orthoplex Vortices via Non-Blocking Lie Subspace Toroids",
+        "Abstract",
+        "1. The Interconnect Bottleneck in High-Dimensional Manifolds",
+        "2. Block-Diagonal Lie Algebra Decomposition",
+        "Theorem 101.1 (Orthoplex Decoupling Theorem)"
+      ]
+    },
+    {
+      "id": "STREAM_0111_0120_PAPER_111_THERMODYNAMIC_LANDAUER_BOUNDS_AND_ZERO_E",
+      "path": "papers/phase_2_formal_verification_and_math_physics/streams/STREAM_0111_0120_PAPER_111_THERMODYNAMIC_LANDAUER_BOUNDS_AND_ZERO_E.md",
+      "phase": "phase_2_formal_verification_and_math_physics",
+      "papers_range": "0111\u20130120",
+      "title": "Phase 2 Development Stream: Papers 111\u2013120",
+      "word_count": 7849,
+      "math_formula_count": 377,
+      "headings": [
+        "Phase 2 Development Stream: Papers 111\u2013120",
+        "Paper 111: Thermodynamic Landauer Bounds and Zero-Entropy Erasure in Reversible Systolic Flows",
+        "Stream Architectural Synthesis",
+        "Sub-treatise 1: Paper 111: Thermodynamic Landauer Bounds and Zero-Entropy Erasure in Reversible Systolic Flows",
+        "Abstract",
+        "1. Landauer's Principle in Neural Hardware",
+        "2. Reversible Systolic Computation via Cayley Manifolds",
+        "Theorem 111.1 (Entropy Invariance of Lie-Group Recurrence)"
+      ]
+    },
+    {
+      "id": "STREAM_0121_0130_PAPER_121_QUANTUM_ERROR_CORRECTING_SURFACE_CODES_O",
+      "path": "papers/phase_2_formal_verification_and_math_physics/streams/STREAM_0121_0130_PAPER_121_QUANTUM_ERROR_CORRECTING_SURFACE_CODES_O.md",
+      "phase": "phase_2_formal_verification_and_math_physics",
+      "papers_range": "0121\u20130130",
+      "title": "Phase 2 Development Stream: Papers 121\u2013130",
+      "word_count": 7433,
+      "math_formula_count": 403,
+      "headings": [
+        "Phase 2 Development Stream: Papers 121\u2013130",
+        "Paper 121: Quantum Error-Correcting Surface Codes on Higher-Dimensional $E_8$ Gosset Honeycombs",
+        "Stream Architectural Synthesis",
+        "Sub-treatise 1: Paper 121: Quantum Error-Correcting Surface Codes on Higher-Dimensional $E_8$ Gosset Honeycombs",
+        "Abstract",
+        "1. Geometric Construction of the $E_8$ Stabilizer Lattice",
+        "1.1 The Gosset Polytope $4_{21}$ and Root System",
+        "2. Formal Proof of Syndrome Orthogonality & Code Distance"
+      ]
+    },
+    {
+      "id": "STREAM_0131_0140_PAPER_131_SYMPLECTIC_PHASE_SPACE_VOLUME_CONSERVATI",
+      "path": "papers/phase_3_poincare_hyperbolic_kernels/streams/STREAM_0131_0140_PAPER_131_SYMPLECTIC_PHASE_SPACE_VOLUME_CONSERVATI.md",
+      "phase": "phase_3_poincare_hyperbolic_kernels",
+      "papers_range": "0131\u20130140",
+      "title": "Phase 3 Development Stream: Papers 131\u2013140",
+      "word_count": 8622,
+      "math_formula_count": 484,
+      "headings": [
+        "Phase 3 Development Stream: Papers 131\u2013140",
+        "Paper 131: Symplectic Phase-Space Volume Conservation, Non-Euclidean MoE Routing, and Elimination of Representation Collapse",
+        "Stream Architectural Synthesis",
+        "Sub-treatise 1: Paper 131: Symplectic Phase-Space Volume Conservation, Non-Euclidean MoE Routing, and Elimination of Representation Collapse",
+        "Abstract",
+        "1. The Expert Representation Collapse Problem",
+        "1.1 Mathematical Failure Mode",
+        "2. Symplectic Geometry of Phase-Space Routing"
+      ]
+    },
+    {
+      "id": "STREAM_0141_0150_PAPER_141_TANGENT_CLIFFORD_SPINOR_NORMS_AND_RIEMAN",
+      "path": "papers/phase_3_poincare_hyperbolic_kernels/streams/STREAM_0141_0150_PAPER_141_TANGENT_CLIFFORD_SPINOR_NORMS_AND_RIEMAN.md",
+      "phase": "phase_3_poincare_hyperbolic_kernels",
+      "papers_range": "0141\u20130150",
+      "title": "Phase 3 Development Stream: Papers 141\u2013150",
+      "word_count": 6768,
+      "math_formula_count": 386,
+      "headings": [
+        "Phase 3 Development Stream: Papers 141\u2013150",
+        "Paper 141: Tangent Clifford Spinor Norms and Riemannian Hyperbolic RMSNorm Stabilization",
+        "Stream Architectural Synthesis",
+        "Sub-treatise 1: Paper 141: Tangent Clifford Spinor Norms and Riemannian Hyperbolic RMSNorm Stabilization",
+        "Abstract",
+        "1. Riemannian Formulation of Tangent RMSNorm",
+        "1.1 The Horizon Drift Problem",
+        "1.2 Geodesic Tangent RMS Scaling"
+      ]
+    },
+    {
+      "id": "STREAM_0151_0160_PAPER_151_FUSED_POINCAR_KEY_VALUE_CACHE_DECODING_A",
+      "path": "papers/phase_3_poincare_hyperbolic_kernels/streams/STREAM_0151_0160_PAPER_151_FUSED_POINCAR_KEY_VALUE_CACHE_DECODING_A.md",
+      "phase": "phase_3_poincare_hyperbolic_kernels",
+      "papers_range": "0151\u20130160",
+      "title": "Phase 3 Development Stream: Papers 151\u2013160",
+      "word_count": 7773,
+      "math_formula_count": 546,
+      "headings": [
+        "Phase 3 Development Stream: Papers 151\u2013160",
+        "Paper 151: Fused Poincar\u00e9 Key-Value Cache Decoding and the Rigid Analytic Geometry of Tate Affinoid Spaces",
+        "Stream Architectural Synthesis",
+        "Sub-treatise 1: Paper 151: Fused Poincar\u00e9 Key-Value Cache Decoding and the Rigid Analytic Geometry of Tate Affinoid Spaces",
+        "Abstract",
+        "1. Mathematical Formulation: Fused Hyperbolic KV-Cache with Tangent RoPE",
+        "1.1 Origin-Tangent Rotary Phase Shift",
+        "1.2 In-Place Cache Update and Attention Logit Evaluation"
+      ]
+    },
+    {
+      "id": "STREAM_0161_0170_PAPER_161_FUSED_POINCAR_MULTISCALE_HYPERBOLIC_WAVE",
+      "path": "papers/phase_3_poincare_hyperbolic_kernels/streams/STREAM_0161_0170_PAPER_161_FUSED_POINCAR_MULTISCALE_HYPERBOLIC_WAVE.md",
+      "phase": "phase_3_poincare_hyperbolic_kernels",
+      "papers_range": "0161\u20130170",
+      "title": "Phase 3 Development Stream: Papers 161\u2013170",
+      "word_count": 7769,
+      "math_formula_count": 453,
+      "headings": [
+        "Phase 3 Development Stream: Papers 161\u2013170",
+        "Paper 161: Fused Poincar\u00e9 Multiscale Hyperbolic Wavelets, Arithmetic Cycles, and Gross-Zagier Euler Systems",
+        "Stream Architectural Synthesis",
+        "Sub-treatise 1: Paper 161: Fused Poincar\u00e9 Multiscale Hyperbolic Wavelets, Arithmetic Cycles, and Gross-Zagier Euler Systems",
+        "Abstract",
+        "1. Continuous Hyperbolic Wavelet Transform on $\\mathbb{D}^d_c$",
+        "2. Gross-Zagier Formulas & Kolyvagin Euler Systems",
+        "Certified Theorems (Lean 4 Core v4.16.0)"
+      ]
+    },
+    {
+      "id": "STREAM_0171_0180_PAPER_171_FUSED_POINCAR_FR_CHET_MEAN_BARYCENTRIC_I",
+      "path": "papers/phase_3_poincare_hyperbolic_kernels/streams/STREAM_0171_0180_PAPER_171_FUSED_POINCAR_FR_CHET_MEAN_BARYCENTRIC_I.md",
+      "phase": "phase_3_poincare_hyperbolic_kernels",
+      "papers_range": "0171\u20130180",
+      "title": "Phase 3 Development Stream: Papers 171\u2013180",
+      "word_count": 7841,
+      "math_formula_count": 401,
+      "headings": [
+        "Phase 3 Development Stream: Papers 171\u2013180",
+        "Paper 171: Fused Poincar\u00e9 Fr\u00e9chet Mean Barycentric Interpolation, Diophantine Geometry, and the Andr\u00e9-Oort Conjecture",
+        "Stream Architectural Synthesis",
+        "Sub-treatise 1: Paper 171: Fused Poincar\u00e9 Fr\u00e9chet Mean Barycentric Interpolation, Diophantine Geometry, and the Andr\u00e9-Oort Conjecture",
+        "Abstract",
+        "1. Riemannian Fr\u00e9chet Mean on $\\mathbb{D}^d_c$",
+        "2. Diophantine Moduli & The Andr\u00e9-Oort Conjecture",
+        "Certified Theorems (Lean 4 Core v4.16.0)"
+      ]
+    },
+    {
+      "id": "STREAM_0181_0190_PAPER_181_FUSED_POINCAR_NON_LINEAR_DIRICHLET_HARMO",
+      "path": "papers/phase_3_poincare_hyperbolic_kernels/streams/STREAM_0181_0190_PAPER_181_FUSED_POINCAR_NON_LINEAR_DIRICHLET_HARMO.md",
+      "phase": "phase_3_poincare_hyperbolic_kernels",
+      "papers_range": "0181\u20130190",
+      "title": "Phase 3 Development Stream: Papers 181\u2013190",
+      "word_count": 7636,
+      "math_formula_count": 381,
+      "headings": [
+        "Phase 3 Development Stream: Papers 181\u2013190",
+        "Paper 181: Fused Poincar\u00e9 Non-Linear Dirichlet Harmonic Maps and Theoretical Formulation of Eells-Sampson Heat Flows",
+        "Stream Architectural Synthesis",
+        "Sub-treatise 1: Paper 181: Fused Poincar\u00e9 Non-Linear Dirichlet Harmonic Maps and Theoretical Formulation of Eells-Sampson Heat Flows",
+        "Abstract",
+        "1. Mathematical Formulation",
+        "1.1 Non-Linear Dirichlet Energy Functional",
+        "1.2 Eells-Sampson Tension Field and Heat Flow"
+      ]
+    },
+    {
+      "id": "STREAM_0191_0199_PAPER_191_FUSED_POINCAR_KADOMTSEV_PETVIASHVILI_II_",
+      "path": "papers/phase_3_poincare_hyperbolic_kernels/streams/STREAM_0191_0199_PAPER_191_FUSED_POINCAR_KADOMTSEV_PETVIASHVILI_II_.md",
+      "phase": "phase_3_poincare_hyperbolic_kernels",
+      "papers_range": "0191\u20130199",
+      "title": "Phase 3 Development Stream: Papers 191\u2013199",
+      "word_count": 6848,
+      "math_formula_count": 364,
+      "headings": [
+        "Phase 3 Development Stream: Papers 191\u2013199",
+        "Paper 191: Fused Poincar\u00e9 Kadomtsev-Petviashvili II (KP-II) Matrix Solitons and the Sato Grassmannian",
+        "Stream Architectural Synthesis",
+        "Sub-treatise 1: 3. Transverse Laplacian: d^2 u / dy^2",
+        "1. Abstract",
+        "2. Mathematical Foundations",
+        "2.1 The Kadomtsev-Petviashvili II Equation",
+        "2.2 The Sato Grassmannian & Tau-Functions"
+      ]
+    },
+    {
+      "id": "STREAM_0201_0210_PAPER_201_FUSED_POINCAR_SAWADA_KOTERA_5TH_ORDER_SO",
+      "path": "papers/phase_4_soliton_hierarchies/streams/STREAM_0201_0210_PAPER_201_FUSED_POINCAR_SAWADA_KOTERA_5TH_ORDER_SO.md",
+      "phase": "phase_4_soliton_hierarchies",
+      "papers_range": "0201\u20130210",
+      "title": "Phase 4 Development Stream: Papers 201\u2013210",
+      "word_count": 6540,
+      "math_formula_count": 312,
+      "headings": [
+        "Phase 4 Development Stream: Papers 201\u2013210",
+        "Paper 201: Fused Poincar\u00e9 Sawada-Kotera 5th-Order Solitons, A2 Affine Lie Algebras, and Hirota Forms",
+        "Stream Architectural Synthesis",
+        "Sub-treatise 1: Non-linear terms in registers:",
+        "1. Abstract",
+        "2. Mathematical Foundations",
+        "2.1 The Sawada-Kotera Equation",
+        "2.2 Hirota Bilinear Formulation and Lie Algebra"
+      ]
+    },
+    {
+      "id": "STREAM_0211_0220_PAPER_211_FUSED_POINCAR_14B_MIXTURE_OF_POLYTOPE_EX",
+      "path": "papers/phase_4_soliton_hierarchies/streams/STREAM_0211_0220_PAPER_211_FUSED_POINCAR_14B_MIXTURE_OF_POLYTOPE_EX.md",
+      "phase": "phase_4_soliton_hierarchies",
+      "papers_range": "0211\u20130220",
+      "title": "Phase 4 Development Stream: Papers 211\u2013220",
+      "word_count": 5545,
+      "math_formula_count": 299,
+      "headings": [
+        "Phase 4 Development Stream: Papers 211\u2013220",
+        "Paper 211: Fused Poincar\u00e9 14B Mixture of Polytope Experts Routing, Geodesic Distance Invariants, and the 100-Million Certified Proof Step Milestone",
+        "Stream Architectural Synthesis",
+        "Sub-treatise 1: Paper 211: Fused Poincar\u00e9 14B Mixture of Polytope Experts Routing, Geodesic Distance Invariants, and the 100-Million Certified Proof Step Milestone",
+        "Abstract",
+        "1. The 100-Million Certified Step Milestone",
+        "2. Polytope MoPE Architecture & Geodesic Routing",
+        "3. Workstation Hardware Benchmarks (RTX 5060 Ti, SM 12.0)"
+      ]
+    },
+    {
+      "id": "STREAM_0221_0230_PAPER_221_FUSED_POINCAR_HARRY_DYM_2_1_D_RECIPROCAL",
+      "path": "papers/phase_4_soliton_hierarchies/streams/STREAM_0221_0230_PAPER_221_FUSED_POINCAR_HARRY_DYM_2_1_D_RECIPROCAL.md",
+      "phase": "phase_4_soliton_hierarchies",
+      "papers_range": "0221\u20130230",
+      "title": "Phase 4 Development Stream: Papers 221\u2013230",
+      "word_count": 5170,
+      "math_formula_count": 235,
+      "headings": [
+        "Phase 4 Development Stream: Papers 221\u2013230",
+        "Paper 221: Fused Poincar\u00e9 Harry Dym (2+1)D Reciprocal Hierarchies, Cuspon Dynamics, and Zero-Axiom Lean 4 Verification",
+        "Stream Architectural Synthesis",
+        "Sub-treatise 1: Paper 221: Fused Poincar\u00e9 Harry Dym (2+1)D Reciprocal Hierarchies, Cuspon Dynamics, and Zero-Axiom Lean 4 Verification",
+        "Abstract",
+        "1. Mathematical Structure & Hodograph Duality",
+        "2. Workstation Hardware Benchmarks (RTX 5060 Ti, SM 12.0)",
+        "3. Formal Machine Certification"
+      ]
+    },
+    {
+      "id": "STREAM_0231_0240_PAPER_231_POINCAR_OSTROVSKY_DISPERSIVE_OCEAN_GRAVI",
+      "path": "papers/phase_4_soliton_hierarchies/streams/STREAM_0231_0240_PAPER_231_POINCAR_OSTROVSKY_DISPERSIVE_OCEAN_GRAVI.md",
+      "phase": "phase_4_soliton_hierarchies",
+      "papers_range": "0231\u20130240",
+      "title": "Phase 4 Development Stream: Papers 231\u2013240",
+      "word_count": 5096,
+      "math_formula_count": 205,
+      "headings": [
+        "Phase 4 Development Stream: Papers 231\u2013240",
+        "Paper 231: Poincar\u00e9 Ostrovsky Dispersive Ocean Gravity-Capillary Flows and Coriolis Non-Local Invariants in Hyperbolic Spaces",
+        "Stream Architectural Synthesis",
+        "Sub-treatise 1: Paper 231: Poincar\u00e9 Ostrovsky Dispersive Ocean Gravity-Capillary Flows and Coriolis Non-Local Invariants in Hyperbolic Spaces",
+        "Abstract",
+        "1. Physical and Mathematical Formulation",
+        "2. Workstation Triton Kernel Performance (SM 12.0)",
+        "3. Formal Zero-Axiom Lean 4 Certification"
+      ]
+    },
+    {
+      "id": "STREAM_0241_0250_PAPER_241_POINCAR_VOLTERRA_KAC_VAN_MOERBEKE_INTEGR",
+      "path": "papers/phase_4_soliton_hierarchies/streams/STREAM_0241_0250_PAPER_241_POINCAR_VOLTERRA_KAC_VAN_MOERBEKE_INTEGR.md",
+      "phase": "phase_4_soliton_hierarchies",
+      "papers_range": "0241\u20130250",
+      "title": "Phase 4 Development Stream: Papers 241\u2013250",
+      "word_count": 4718,
+      "math_formula_count": 186,
+      "headings": [
+        "Phase 4 Development Stream: Papers 241\u2013250",
+        "Paper 241: Poincar\u00e9 Volterra-Kac-van Moerbeke Integrable Lattices and Discrete KdV Convective Dynamics in Hyperbolic Spaces",
+        "Stream Architectural Synthesis",
+        "Sub-treatise 1: Paper 241: Poincar\u00e9 Volterra-Kac-van Moerbeke Integrable Lattices and Discrete KdV Convective Dynamics in Hyperbolic Spaces",
+        "Abstract",
+        "1. Physical and Mathematical Formulation",
+        "2. Workstation Triton Kernel Performance (SM 12.0)",
+        "3. Formal Zero-Axiom Lean 4 Certification"
+      ]
+    },
+    {
+      "id": "STREAM_0251_0260_PAPER_251_POINCAR_DISCRETE_COUPLED_NLS_MANAKOV_VEC",
+      "path": "papers/phase_4_soliton_hierarchies/streams/STREAM_0251_0260_PAPER_251_POINCAR_DISCRETE_COUPLED_NLS_MANAKOV_VEC.md",
+      "phase": "phase_4_soliton_hierarchies",
+      "papers_range": "0251\u20130260",
+      "title": "Phase 4 Development Stream: Papers 251\u2013260",
+      "word_count": 3151,
+      "math_formula_count": 106,
+      "headings": [
+        "Phase 4 Development Stream: Papers 251\u2013260",
+        "Paper 251: Poincar\u00e9 Discrete Coupled NLS Manakov Vector Soliton Lattice",
+        "Stream Architectural Synthesis",
+        "Sub-treatise 1: Paper 251: Poincar\u00e9 Discrete Coupled NLS Manakov Vector Soliton Lattice",
+        "Abstract",
+        "Hardware Telemetry (RTX 5060 Ti SM 12.0)",
+        "References",
+        "Sub-treatise 2: Paper 252: Poincar\u00e9 Discrete Sine-Gordon Fluxon Breather Lattice Flow"
+      ]
+    },
+    {
+      "id": "STREAM_0261_0270_PAPER_261_POINCAR_DISCRETE_KAUP_KUPERSHMIDT_DUAL_Q",
+      "path": "papers/phase_4_soliton_hierarchies/streams/STREAM_0261_0270_PAPER_261_POINCAR_DISCRETE_KAUP_KUPERSHMIDT_DUAL_Q.md",
+      "phase": "phase_4_soliton_hierarchies",
+      "papers_range": "0261\u20130270",
+      "title": "Phase 4 Development Stream: Papers 261\u2013270",
+      "word_count": 3191,
+      "math_formula_count": 102,
+      "headings": [
+        "Phase 4 Development Stream: Papers 261\u2013270",
+        "Paper 261: Poincar\u00e9 Discrete Kaup-Kupershmidt Dual Quintic Flow",
+        "Stream Architectural Synthesis",
+        "Sub-treatise 1: Paper 261: Poincar\u00e9 Discrete Kaup-Kupershmidt Dual Quintic Flow",
+        "Abstract",
+        "Hardware Telemetry (RTX 5060 Ti SM 12.0)",
+        "References",
+        "Sub-treatise 2: Paper 262: Poincar\u00e9 Discrete Ito 7th-Order Chiral Lattice Flow"
+      ]
+    },
+    {
+      "id": "STREAM_0271_0280_PAPER_271_POINCAR_DISCRETE_NOVIKOV_CUBIC_PEAKON_LA",
+      "path": "papers/phase_4_soliton_hierarchies/streams/STREAM_0271_0280_PAPER_271_POINCAR_DISCRETE_NOVIKOV_CUBIC_PEAKON_LA.md",
+      "phase": "phase_4_soliton_hierarchies",
+      "papers_range": "0271\u20130280",
+      "title": "Phase 4 Development Stream: Papers 271\u2013280",
+      "word_count": 4402,
+      "math_formula_count": 95,
+      "headings": [
+        "Phase 4 Development Stream: Papers 271\u2013280",
+        "Paper 271: Poincar\u00e9 Discrete Novikov Cubic Peakon Lattice Flow",
+        "Stream Architectural Synthesis",
+        "Sub-treatise 1: Paper 271: Poincar\u00e9 Discrete Novikov Cubic Peakon Lattice Flow",
+        "Abstract",
+        "Hardware Telemetry (RTX 5060 Ti SM 12.0)",
+        "References",
+        "Sub-treatise 2: Paper 272: Poincar\u00e9 Discrete Sasa-Satsuma Higher-Order Soliton Flow"
+      ]
+    },
+    {
+      "id": "STREAM_0281_0285_PAPER_281_POINCAR_DISCRETE_DROMION_LATTICE_FLOW_HI",
+      "path": "papers/phase_4_soliton_hierarchies/streams/STREAM_0281_0285_PAPER_281_POINCAR_DISCRETE_DROMION_LATTICE_FLOW_HI.md",
+      "phase": "phase_4_soliton_hierarchies",
+      "papers_range": "0281\u20130285",
+      "title": "Phase 4 Development Stream: Papers 281\u2013285",
+      "word_count": 3750,
+      "math_formula_count": 204,
+      "headings": [
+        "Phase 4 Development Stream: Papers 281\u2013285",
+        "Paper 281: Poincar\u00e9 Discrete Dromion Lattice Flow: High-Throughput (2+1)D Localized Boundary Solitons on the Poincar\u00e9 Ball",
+        "Stream Architectural Synthesis",
+        "Sub-treatise 1: Paper 281: Poincar\u00e9 Discrete Dromion Lattice Flow: High-Throughput (2+1)D Localized Boundary Solitons on the Poincar\u00e9 Ball",
+        "Abstract",
+        "1. Mathematical Formulation",
+        "2. Hardware Implementation & Triton Fusion",
+        "3. Empirical Workstation Benchmarks on RTX 5060 Ti"
+      ]
+    },
+    {
+      "id": "STREAM_0286_0290_PAPER_286_POINCAR_DISCRETE_BOITI_LEON_PEMPINELLI_B",
+      "path": "papers/phase_5_certified_scaling_lie_geometry_io/streams/STREAM_0286_0290_PAPER_286_POINCAR_DISCRETE_BOITI_LEON_PEMPINELLI_B.md",
+      "phase": "phase_5_certified_scaling_lie_geometry_io",
+      "papers_range": "0286\u20130290",
+      "title": "Phase 5 Development Stream: Papers 286\u2013290",
+      "word_count": 3033,
+      "math_formula_count": 94,
+      "headings": [
+        "Phase 5 Development Stream: Papers 286\u2013290",
+        "Paper 286: Poincar\u00e9 Discrete Boiti-Leon-Pempinelli (BLP) Soliton Flow: High-Throughput (2+1)D Sinh-Gordon-Type Wave Dynamics on the Poincar\u00e9 Ball",
+        "Stream Architectural Synthesis",
+        "Sub-treatise 1: Paper 286: Poincar\u00e9 Discrete Boiti-Leon-Pempinelli (BLP) Soliton Flow: High-Throughput (2+1)D Sinh-Gordon-Type Wave Dynamics on the Poincar\u00e9 Ball",
+        "Abstract",
+        "1. Mathematical Formulation",
+        "2. Hardware Implementation & Triton Fusion",
+        "3. Empirical Workstation Benchmarks on RTX 5060 Ti"
+      ]
+    },
+    {
+      "id": "STREAM_0291_0300_PAPER_291_SUB_BYTE_PARAMETER_PAGING_VIA_DIRECT_DMA",
+      "path": "papers/phase_5_certified_scaling_lie_geometry_io/streams/STREAM_0291_0300_PAPER_291_SUB_BYTE_PARAMETER_PAGING_VIA_DIRECT_DMA.md",
+      "phase": "phase_5_certified_scaling_lie_geometry_io",
+      "papers_range": "0291\u20130300",
+      "title": "Phase 5 Development Stream: Papers 291\u2013300",
+      "word_count": 4153,
+      "math_formula_count": 90,
+      "headings": [
+        "Phase 5 Development Stream: Papers 291\u2013300",
+        "Paper 291: Sub-Byte Parameter Paging via Direct-DMA: Overcoming the Memory Wall for Consumer 100B Parameter Execution",
+        "Stream Architectural Synthesis",
+        "Sub-treatise 1: Paper 291: Sub-Byte Parameter Paging via Direct-DMA: Overcoming the Memory Wall for Consumer 100B Parameter Execution",
+        "Abstract",
+        "1. The Paged Architecture & Zero-Copy Staging",
+        "2. Empirical Latency Measurements",
+        "References"
+      ]
+    },
+    {
+      "id": "STREAM_0301_0310_PAPER_301_FORMAL_MACHINE_VERIFICATION_OF_SPIN_8_TR",
+      "path": "papers/phase_5_certified_scaling_lie_geometry_io/streams/STREAM_0301_0310_PAPER_301_FORMAL_MACHINE_VERIFICATION_OF_SPIN_8_TR.md",
+      "phase": "phase_5_certified_scaling_lie_geometry_io",
+      "papers_range": "0301\u20130310",
+      "title": "Phase 5 Development Stream: Papers 301\u2013310",
+      "word_count": 3885,
+      "math_formula_count": 95,
+      "headings": [
+        "Phase 5 Development Stream: Papers 301\u2013310",
+        "Paper 301: Formal Machine Verification of Spin(8) Triality Invariants in Higher-Dimensional Attention Networks",
+        "Stream Architectural Synthesis",
+        "Sub-treatise 1: Paper 301: Formal Machine Verification of Spin(8) Triality Invariants in Higher-Dimensional Attention Networks",
+        "Abstract",
+        "1. Mathematical Triality of $\\operatorname{Spin}(8)$",
+        "2. Formal Verification in Lean 4",
+        "References"
+      ]
+    },
+    {
+      "id": "STREAM_0311_0320_PAPER_311_THEORETICAL_FORMULATION_OF_SECTIONAL_CUR",
+      "path": "papers/phase_5_certified_scaling_lie_geometry_io/streams/STREAM_0311_0320_PAPER_311_THEORETICAL_FORMULATION_OF_SECTIONAL_CUR.md",
+      "phase": "phase_5_certified_scaling_lie_geometry_io",
+      "papers_range": "0311\u20130320",
+      "title": "Phase 5 Development Stream: Papers 311\u2013320",
+      "word_count": 3012,
+      "math_formula_count": 24,
+      "headings": [
+        "Phase 5 Development Stream: Papers 311\u2013320",
+        "Paper 311: Theoretical Formulation of Sectional Curvature Bounds in Relativistic Parameter Gyrogroups",
+        "Stream Architectural Synthesis",
+        "Sub-treatise 1: Paper 311: Theoretical Formulation of Sectional Curvature Bounds in Relativistic Parameter Gyrogroups",
+        "Abstract",
+        "References",
+        "Sub-treatise 2: Paper 312: Deterministic Double-Buffered Direct-DMA Pipelines for Zero-Latency Model Layer Swapping",
+        "Abstract"
+      ]
+    },
+    {
+      "id": "STREAM_0321_0330_PAPER_321_THEORETICAL_FORMULATION_OF_BIJECTIVE_ISO",
+      "path": "papers/phase_5_certified_scaling_lie_geometry_io/streams/STREAM_0321_0330_PAPER_321_THEORETICAL_FORMULATION_OF_BIJECTIVE_ISO.md",
+      "phase": "phase_5_certified_scaling_lie_geometry_io",
+      "papers_range": "0321\u20130330",
+      "title": "Phase 5 Development Stream: Papers 321\u2013330",
+      "word_count": 4343,
+      "math_formula_count": 120,
+      "headings": [
+        "Phase 5 Development Stream: Papers 321\u2013330",
+        "Paper 321: Theoretical Formulation of Bijective Isometry and Determinant Preservation in Cayley Lie Group Maps",
+        "Stream Architectural Synthesis",
+        "Sub-treatise 1: Paper 321: Theoretical Formulation of Bijective Isometry and Determinant Preservation in Cayley Lie Group Maps",
+        "Abstract",
+        "References",
+        "Sub-treatise 2: Paper 322: Theoretical Formulation of Screw Momentum Conservation in Dual-Quaternion Speculative Trajectories",
+        "Abstract"
+      ]
+    },
+    {
+      "id": "STREAM_0331_0340_PAPER_331_WARP_SPECIALIZED_FP4_IN_REGISTER_BYTE_PE",
+      "path": "papers/phase_5_certified_scaling_lie_geometry_io/streams/STREAM_0331_0340_PAPER_331_WARP_SPECIALIZED_FP4_IN_REGISTER_BYTE_PE.md",
+      "phase": "phase_5_certified_scaling_lie_geometry_io",
+      "papers_range": "0331\u20130340",
+      "title": "Phase 5 Development Stream: Papers 331\u2013340",
+      "word_count": 4284,
+      "math_formula_count": 107,
+      "headings": [
+        "Phase 5 Development Stream: Papers 331\u2013340",
+        "Paper 331: Warp-Specialized FP4 In-Register Byte Permutation and Swizzling on Blackwell SM 12.0",
+        "Stream Architectural Synthesis",
+        "Sub-treatise 1: Paper 331: Warp-Specialized FP4 In-Register Byte Permutation and Swizzling on Blackwell SM 12.0",
+        "Abstract",
+        "1. In-Register Bit Alignment Formalism",
+        "2. Empirical Kernel Performance",
+        "3. Conclusion"
+      ]
+    },
+    {
+      "id": "STREAM_0341_0350_PAPER_341_EXCEPTIONAL_LIE_ALGEBRA_F_4_26_DIMENSION",
+      "path": "papers/phase_5_certified_scaling_lie_geometry_io/streams/STREAM_0341_0350_PAPER_341_EXCEPTIONAL_LIE_ALGEBRA_F_4_26_DIMENSION.md",
+      "phase": "phase_5_certified_scaling_lie_geometry_io",
+      "papers_range": "0341\u20130350",
+      "title": "Phase 5 Development Stream: Papers 341\u2013350",
+      "word_count": 4376,
+      "math_formula_count": 146,
+      "headings": [
+        "Phase 5 Development Stream: Papers 341\u2013350",
+        "Paper 341: Exceptional Lie Algebra $F_4$ 26-Dimensional Jordan Routing in Albert Algebras",
+        "Stream Architectural Synthesis",
+        "Sub-treatise 1: Paper 341: Exceptional Lie Algebra $F_4$ 26-Dimensional Jordan Routing in Albert Algebras",
+        "Abstract",
+        "1. Albert Algebra Geometry and $F_4$ Invariants",
+        "2. Blackwell Kernel Implementation",
+        "3. Conclusion"
+      ]
+    },
+    {
+      "id": "STREAM_0351_0360_PAPER_351_ONE_HUNDRED_MILLION_THEORETICAL_FORMULAT",
+      "path": "papers/phase_5_certified_scaling_lie_geometry_io/streams/STREAM_0351_0360_PAPER_351_ONE_HUNDRED_MILLION_THEORETICAL_FORMULAT.md",
+      "phase": "phase_5_certified_scaling_lie_geometry_io",
+      "papers_range": "0351\u20130360",
+      "title": "Phase 5 Development Stream: Papers 351\u2013360",
+      "word_count": 4330,
+      "math_formula_count": 137,
+      "headings": [
+        "Phase 5 Development Stream: Papers 351\u2013360",
+        "Paper 351: One Hundred Million Theoretical Formulation of Deductive Steps: Deductive Saturation at the Century Milestone",
+        "Stream Architectural Synthesis",
+        "Sub-treatise 1: Paper 351: One Hundred Million Theoretical Formulation of Deductive Steps: Deductive Saturation at the Century Milestone",
+        "Abstract",
+        "1. The 100 Million Step Empirical Milestone",
+        "2. Deductive Saturation and Asymptotic Independence",
+        "3. Conclusion"
+      ]
+    },
+    {
+      "id": "STREAM_0361_0370_PAPER_361_MACHINE_CERTIFIED_LEVI_CIVITA_CONNECTION",
+      "path": "papers/phase_5_certified_scaling_lie_geometry_io/streams/STREAM_0361_0370_PAPER_361_MACHINE_CERTIFIED_LEVI_CIVITA_CONNECTION.md",
+      "phase": "phase_5_certified_scaling_lie_geometry_io",
+      "papers_range": "0361\u20130370",
+      "title": "Phase 5 Development Stream: Papers 361\u2013370",
+      "word_count": 4479,
+      "math_formula_count": 142,
+      "headings": [
+        "Phase 5 Development Stream: Papers 361\u2013370",
+        "Paper 361: Machine-Certified Levi-Civita Connection Metric Compatibility and Torsion Invariance",
+        "Stream Architectural Synthesis",
+        "Sub-treatise 1: Paper 361: Machine-Certified Levi-Civita Connection Metric Compatibility and Torsion Invariance",
+        "Abstract",
+        "1. Levi-Civita Connection Axiomatics",
+        "2. Formal Machine Verification in Lean 4",
+        "3. Conclusion"
+      ]
+    },
+    {
+      "id": "STREAM_0371_0380_PAPER_371_MACHINE_CERTIFIED_MORSE_INDEX_THEOREM_ON",
+      "path": "papers/phase_5_certified_scaling_lie_geometry_io/streams/STREAM_0371_0380_PAPER_371_MACHINE_CERTIFIED_MORSE_INDEX_THEOREM_ON.md",
+      "phase": "phase_5_certified_scaling_lie_geometry_io",
+      "papers_range": "0371\u20130380",
+      "title": "Phase 5 Development Stream: Papers 371\u2013380",
+      "word_count": 4536,
+      "math_formula_count": 148,
+      "headings": [
+        "Phase 5 Development Stream: Papers 371\u2013380",
+        "Paper 371: Machine-Certified Morse Index Theorem on Geodesic Focal Points in Parameter Spaces",
+        "Stream Architectural Synthesis",
+        "Sub-treatise 1: Paper 371: Machine-Certified Morse Index Theorem on Geodesic Focal Points in Parameter Spaces",
+        "Abstract",
+        "1. Second Variation of Energy and Jacobi Fields",
+        "2. Formal Machine Verification in Lean 4",
+        "3. Conclusion"
+      ]
+    },
+    {
+      "id": "STREAM_0381_0390_PAPER_381_FUSED_BLACKWELL_SUB_BYTE_BIT_PARALLEL_MA",
+      "path": "papers/phase_5_certified_scaling_lie_geometry_io/streams/STREAM_0381_0390_PAPER_381_FUSED_BLACKWELL_SUB_BYTE_BIT_PARALLEL_MA.md",
+      "phase": "phase_5_certified_scaling_lie_geometry_io",
+      "papers_range": "0381\u20130390",
+      "title": "Phase 5 Development Stream: Papers 381\u2013390",
+      "word_count": 5203,
+      "math_formula_count": 169,
+      "headings": [
+        "Phase 5 Development Stream: Papers 381\u2013390",
+        "Paper 381: Fused Blackwell Sub-Byte Bit-Parallel Max-Pooling and Spatial Subsampling",
+        "Stream Architectural Synthesis",
+        "Sub-treatise 1: Paper 381: Fused Blackwell Sub-Byte Bit-Parallel Max-Pooling and Spatial Subsampling",
+        "Abstract",
+        "1. Boolean Max-Pooling Formalism",
+        "2. Empirical Performance Metrics on RTX 5060 Ti",
+        "3. Conclusion"
+      ]
+    },
+    {
+      "id": "STREAM_0391_0400_PAPER_391_MONSTER_MOONSHINE_VERTEX_OPERATOR_ALGEBR",
+      "path": "papers/phase_5_certified_scaling_lie_geometry_io/streams/STREAM_0391_0400_PAPER_391_MONSTER_MOONSHINE_VERTEX_OPERATOR_ALGEBR.md",
+      "phase": "phase_5_certified_scaling_lie_geometry_io",
+      "papers_range": "0391\u20130400",
+      "title": "Phase 5 Development Stream: Papers 391\u2013400",
+      "word_count": 6892,
+      "math_formula_count": 340,
+      "headings": [
+        "Phase 5 Development Stream: Papers 391\u2013400",
+        "Paper 391: Monster Moonshine Vertex Operator Algebra Routing for Discrete Latent Spaces",
+        "Stream Architectural Synthesis",
+        "Sub-treatise 1: Paper 391: Monster Moonshine Vertex Operator Algebra Routing for Discrete Latent Spaces",
+        "Abstract",
+        "1. The Moonshine Module and Graded Dimensions",
+        "2. Moonshine Routing Projection Kernel",
+        "3. Numerical Verification and Dispersion Entropy"
+      ]
+    },
+    {
+      "id": "STREAM_0401_0410_PAPER_401_ONE_HUNDRED_THIRTY_FIVE_MILLION_THEORETI",
+      "path": "papers/phase_5_certified_scaling_lie_geometry_io/streams/STREAM_0401_0410_PAPER_401_ONE_HUNDRED_THIRTY_FIVE_MILLION_THEORETI.md",
+      "phase": "phase_5_certified_scaling_lie_geometry_io",
+      "papers_range": "0401\u20130410",
+      "title": "Phase 5 Development Stream: Papers 401\u2013410",
+      "word_count": 5627,
+      "math_formula_count": 240,
+      "headings": [
+        "Phase 5 Development Stream: Papers 401\u2013410",
+        "Paper 401: One Hundred Thirty-Five Million Theoretical Formulation of Deductive Steps: Higher-Order Obstruction Triviality",
+        "Stream Architectural Synthesis",
+        "Sub-treatise 1: Paper 401: One Hundred Thirty-Five Million Theoretical Formulation of Deductive Steps: Higher-Order Obstruction Triviality",
+        "Abstract",
+        "1. Sealing Corpus Metrics (Blocks 131\u2013135)",
+        "2. Obstruction Theory in Deductive Search Spaces",
+        "3. Conclusion"
+      ]
+    },
+    {
+      "id": "STREAM_0411_0420_PAPER_411_KERNEL_BYPASS_IO_URING_ASYNCHRONOUS_VECT",
+      "path": "papers/phase_5_certified_scaling_lie_geometry_io/streams/STREAM_0411_0420_PAPER_411_KERNEL_BYPASS_IO_URING_ASYNCHRONOUS_VECT.md",
+      "phase": "phase_5_certified_scaling_lie_geometry_io",
+      "papers_range": "0411\u20130420",
+      "title": "Phase 5 Development Stream: Papers 411\u2013420",
+      "word_count": 6639,
+      "math_formula_count": 258,
+      "headings": [
+        "Phase 5 Development Stream: Papers 411\u2013420",
+        "Paper 411: Kernel-Bypass io_uring Asynchronous Vectorized Fallocate and Truncate DMA",
+        "Stream Architectural Synthesis",
+        "Sub-treatise 1: Paper 411: Kernel-Bypass io_uring Asynchronous Vectorized Fallocate and Truncate DMA",
+        "Abstract",
+        "1. Asynchronous Block Punching Architecture",
+        "2. Empirical Hardware Benchmarking",
+        "3. Conclusion"
+      ]
+    },
+    {
+      "id": "STREAM_0421_0430_PAPER_421_MACHINE_CERTIFIED_QUILLEN_METRIC_AND_RAY",
+      "path": "papers/phase_5_certified_scaling_lie_geometry_io/streams/STREAM_0421_0430_PAPER_421_MACHINE_CERTIFIED_QUILLEN_METRIC_AND_RAY.md",
+      "phase": "phase_5_certified_scaling_lie_geometry_io",
+      "papers_range": "0421\u20130430",
+      "title": "Phase 5 Development Stream: Papers 421\u2013430",
+      "word_count": 7618,
+      "math_formula_count": 304,
+      "headings": [
+        "Phase 5 Development Stream: Papers 421\u2013430",
+        "Paper 421: Machine-Certified Quillen Metric and Ray-Singer Analytic Torsion on Determinant Line Bundles",
+        "Stream Architectural Synthesis",
+        "Sub-treatise 1: Paper 421: Machine-Certified Quillen Metric and Ray-Singer Analytic Torsion on Determinant Line Bundles",
+        "Abstract",
+        "1. Ray-Singer Analytic Torsion and the Quillen Norm",
+        "2. Formal Machine Proof in Lean 4",
+        "3. Application to Continuous Neural Parameter Regularization"
+      ]
+    },
+    {
+      "id": "STREAM_0431_0440_PAPER_431_ONE_HUNDRED_FIFTY_FIVE_MILLION_STEPS_CER",
+      "path": "papers/phase_5_certified_scaling_lie_geometry_io/streams/STREAM_0431_0440_PAPER_431_ONE_HUNDRED_FIFTY_FIVE_MILLION_STEPS_CER.md",
+      "phase": "phase_5_certified_scaling_lie_geometry_io",
+      "papers_range": "0431\u20130440",
+      "title": "Phase 5 Development Stream: Papers 431\u2013440",
+      "word_count": 6103,
+      "math_formula_count": 209,
+      "headings": [
+        "Phase 5 Development Stream: Papers 431\u2013440",
+        "Paper 431: One-Hundred-Fifty-Five Million Steps Certified: Homological Mirror Symmetry and Pushforward Invariants in MegaGym",
+        "Stream Architectural Synthesis",
+        "Sub-treatise 1: Paper 431: One-Hundred-Fifty-Five Million Steps Certified: Homological Mirror Symmetry and Pushforward Invariants in MegaGym",
+        "Abstract",
+        "1. Milestone 155M Verification Progress",
+        "2. Relative Pushforward Functors and Categorical Mirror Symmetry",
+        "3. Asymptotic Stability of Proof Graphs"
+      ]
+    },
+    {
+      "id": "STREAM_0441_0450_PAPER_441_KERNEL_BYPASS_IO_URING_ASYNCHRONOUS_VECT",
+      "path": "papers/phase_5_certified_scaling_lie_geometry_io/streams/STREAM_0441_0450_PAPER_441_KERNEL_BYPASS_IO_URING_ASYNCHRONOUS_VECT.md",
+      "phase": "phase_5_certified_scaling_lie_geometry_io",
+      "papers_range": "0441\u20130450",
+      "title": "Phase 5 Development Stream: Papers 441\u2013450",
+      "word_count": 6649,
+      "math_formula_count": 249,
+      "headings": [
+        "Phase 5 Development Stream: Papers 441\u2013450",
+        "Paper 441: Kernel-Bypass io_uring Asynchronous Vectorized Gather-Scatter Streaming for Disjoint Weight Tensors",
+        "Stream Architectural Synthesis",
+        "Sub-treatise 1: Paper 441: Kernel-Bypass io_uring Asynchronous Vectorized Gather-Scatter Streaming for Disjoint Weight Tensors",
+        "Abstract",
+        "1. The Disjoint Tensor Slicing Bottleneck",
+        "2. Implementation Architecture",
+        "3. Empirical Throughput Profiling"
+      ]
+    },
+    {
+      "id": "STREAM_0451_0460_PAPER_451_MILESTONE_SYNTHESIS_165M_FROM_K_HLER_HAR",
+      "path": "papers/phase_5_certified_scaling_lie_geometry_io/streams/STREAM_0451_0460_PAPER_451_MILESTONE_SYNTHESIS_165M_FROM_K_HLER_HAR.md",
+      "phase": "phase_5_certified_scaling_lie_geometry_io",
+      "papers_range": "0451\u20130460",
+      "title": "Phase 5 Development Stream: Papers 451\u2013460",
+      "word_count": 6526,
+      "math_formula_count": 243,
+      "headings": [
+        "Phase 5 Development Stream: Papers 451\u2013460",
+        "Paper 451: Milestone Synthesis 165M: From K\u00e4hler Harmonic Decompositions to Sub-Bit Speculative Silicon",
+        "Stream Architectural Synthesis",
+        "Sub-treatise 1: Paper 451: Milestone Synthesis 165M: From K\u00e4hler Harmonic Decompositions to Sub-Bit Speculative Silicon",
+        "Abstract",
+        "1. Cumulative Prover Trajectory: Blocks 01 through 165",
+        "2. Triad of Hardware Attention and Speculative Innovations",
+        "3. Machine-Certified Harmonic Foundations"
+      ]
+    },
+    {
+      "id": "STREAM_0461_0470_PAPER_461_MACHINE_CERTIFIED_THOM_ISOMORPHISM_THEOR",
+      "path": "papers/phase_5_certified_scaling_lie_geometry_io/streams/STREAM_0461_0470_PAPER_461_MACHINE_CERTIFIED_THOM_ISOMORPHISM_THEOR.md",
+      "phase": "phase_5_certified_scaling_lie_geometry_io",
+      "papers_range": "0461\u20130470",
+      "title": "Phase 5 Development Stream: Papers 461\u2013470",
+      "word_count": 6490,
+      "math_formula_count": 224,
+      "headings": [
+        "Phase 5 Development Stream: Papers 461\u2013470",
+        "Paper 461: Machine-Certified Thom Isomorphism Theorem and Euler Characteristic Invariants in Lean 4",
+        "Stream Architectural Synthesis",
+        "Sub-treatise 1: Paper 461: Machine-Certified Thom Isomorphism Theorem and Euler Characteristic Invariants in Lean 4",
+        "Abstract",
+        "1. Statement of the Thom Isomorphism Theorem",
+        "2. Formal Machine Verification in Lean 4",
+        "3. Applications to Dimensional Embedding Invariance"
+      ]
+    },
+    {
+      "id": "STREAM_0601_0610_PAPER_601_TWO_HUNDRED_NINETY_MILLION_CERTIFIED_STEPS_MILESTO",
+      "path": "papers/phase_6_blackwell_kernels_and_dma_engines/streams/STREAM_0601_0610_PAPER_601_TWO_HUNDRED_NINETY_MILLION_CERTIFIED_STEPS_MILESTO.md",
+      "phase": "phase_6_blackwell_kernels_and_dma_engines",
+      "papers_range": "0601\u20130610",
+      "title": "Unified Development Stream: Papers 601\u2013610",
+      "word_count": 3040,
+      "math_formula_count": 6,
+      "headings": [
+        "Unified Development Stream: Papers 601\u2013610",
+        "Paper 601: Two Hundred Ninety Million Certified Steps Milestone and Asymptotic Epistemic Entropy Bounds",
+        "Stream Overview & Architectural Synthesis",
+        "Sub-treatise 1: Paper 601: Two Hundred Ninety Million Certified Steps Milestone and Asymptotic Epistemic Entropy Bounds",
+        "Abstract",
+        "1. Introduction and Architectural Framing",
+        "2. Methodological Realization",
+        "3. Verification and Empirical Findings"
+      ]
+    },
+    {
+      "id": "STREAM_0611_0620_PAPER_611_THREE_HUNDRED_MILLION_CERTIFIED_STEPS_LANDMARK_MIL",
+      "path": "papers/phase_6_blackwell_kernels_and_dma_engines/streams/STREAM_0611_0620_PAPER_611_THREE_HUNDRED_MILLION_CERTIFIED_STEPS_LANDMARK_MIL.md",
+      "phase": "phase_6_blackwell_kernels_and_dma_engines",
+      "papers_range": "0611\u20130620",
+      "title": "Unified Development Stream: Papers 611\u2013620",
+      "word_count": 2776,
+      "math_formula_count": 5,
+      "headings": [
+        "Unified Development Stream: Papers 611\u2013620",
+        "Paper 611: Three Hundred Million Certified Steps Landmark Milestone and Century VI Capstone",
+        "Stream Overview & Architectural Synthesis",
+        "Sub-treatise 1: Paper 611: Three Hundred Million Certified Steps Landmark Milestone and Century VI Capstone",
+        "Abstract",
+        "1. Introduction and Architectural Framing",
+        "2. Methodological Realization",
+        "3. Verification and Empirical Findings"
+      ]
+    },
+    {
+      "id": "STREAM_0621_0630_PAPER_621_THREE_HUNDRED_TEN_MILLION_CERTIFIED_STEPS_MILESTON",
+      "path": "papers/phase_6_blackwell_kernels_and_dma_engines/streams/STREAM_0621_0630_PAPER_621_THREE_HUNDRED_TEN_MILLION_CERTIFIED_STEPS_MILESTON.md",
+      "phase": "phase_6_blackwell_kernels_and_dma_engines",
+      "papers_range": "0621\u20130630",
+      "title": "Unified Development Stream: Papers 621\u2013630",
+      "word_count": 2788,
+      "math_formula_count": 5,
+      "headings": [
+        "Unified Development Stream: Papers 621\u2013630",
+        "Paper 621: Three Hundred Ten Million Certified Steps Milestone and Asymptotic Epistemic Scaling",
+        "Stream Overview & Architectural Synthesis",
+        "Sub-treatise 1: Paper 621: Three Hundred Ten Million Certified Steps Milestone and Asymptotic Epistemic Scaling",
+        "Abstract",
+        "1. Introduction and Architectural Framing",
+        "2. Methodological Realization",
+        "3. Verification and Empirical Findings"
+      ]
+    },
+    {
+      "id": "STREAM_0631_0640_PAPER_631_THREE_HUNDRED_TWENTY_MILLION_CERTIFIED_STEPS_MILES",
+      "path": "papers/phase_6_blackwell_kernels_and_dma_engines/streams/STREAM_0631_0640_PAPER_631_THREE_HUNDRED_TWENTY_MILLION_CERTIFIED_STEPS_MILES.md",
+      "phase": "phase_6_blackwell_kernels_and_dma_engines",
+      "papers_range": "0631\u20130640",
+      "title": "Unified Development Stream: Papers 631\u2013640",
+      "word_count": 3080,
+      "math_formula_count": 19,
+      "headings": [
+        "Unified Development Stream: Papers 631\u2013640",
+        "Paper 631: Three Hundred Twenty Million Certified Steps Milestone and Asymptotic Epistemic Scaling",
+        "Stream Overview & Architectural Synthesis",
+        "Sub-treatise 1: Paper 631: Three Hundred Twenty Million Certified Steps Milestone and Asymptotic Epistemic Scaling",
+        "Abstract",
+        "1. Introduction and Architectural Framing",
+        "2. Methodological Realization",
+        "3. Verification and Empirical Findings"
+      ]
+    },
+    {
+      "id": "STREAM_0641_0650_PAPER_641_THREE_HUNDRED_THIRTY_MILLION_CERTIFIED_STEPS_MILES",
+      "path": "papers/phase_6_blackwell_kernels_and_dma_engines/streams/STREAM_0641_0650_PAPER_641_THREE_HUNDRED_THIRTY_MILLION_CERTIFIED_STEPS_MILES.md",
+      "phase": "phase_6_blackwell_kernels_and_dma_engines",
+      "papers_range": "0641\u20130650",
+      "title": "Unified Development Stream: Papers 641\u2013650",
+      "word_count": 2898,
+      "math_formula_count": 22,
+      "headings": [
+        "Unified Development Stream: Papers 641\u2013650",
+        "Paper 641: Three Hundred Thirty Million Certified Steps Milestone and Asymptotic Epistemic Scaling",
+        "Stream Overview & Architectural Synthesis",
+        "Sub-treatise 1: Paper 641: Three Hundred Thirty Million Certified Steps Milestone and Asymptotic Epistemic Scaling",
+        "Abstract",
+        "1. Introduction and Architectural Framing",
+        "2. Methodological Realization",
+        "3. Verification and Empirical Findings"
+      ]
+    },
+    {
+      "id": "STREAM_0651_0660_PAPER_651_THREE_HUNDRED_FORTY_MILLION_CERTIFIED_STEPS_MILEST",
+      "path": "papers/phase_6_blackwell_kernels_and_dma_engines/streams/STREAM_0651_0660_PAPER_651_THREE_HUNDRED_FORTY_MILLION_CERTIFIED_STEPS_MILEST.md",
+      "phase": "phase_6_blackwell_kernels_and_dma_engines",
+      "papers_range": "0651\u20130660",
+      "title": "Unified Development Stream: Papers 651\u2013660",
+      "word_count": 2945,
+      "math_formula_count": 40,
+      "headings": [
+        "Unified Development Stream: Papers 651\u2013660",
+        "Paper 651: Three Hundred Forty Million Certified Steps Milestone and Asymptotic Epistemic Scaling",
+        "Stream Overview & Architectural Synthesis",
+        "Sub-treatise 1: Paper 651: Three Hundred Forty Million Certified Steps Milestone and Asymptotic Epistemic Scaling",
+        "Abstract",
+        "1. Introduction and Architectural Framing",
+        "2. Methodological Realization",
+        "3. Verification and Empirical Findings"
+      ]
+    },
+    {
+      "id": "STREAM_0661_0670_PAPER_661_THREE_HUNDRED_FIFTY_MILLION_CERTIFIED_STEPS_MILEST",
+      "path": "papers/phase_6_blackwell_kernels_and_dma_engines/streams/STREAM_0661_0670_PAPER_661_THREE_HUNDRED_FIFTY_MILLION_CERTIFIED_STEPS_MILEST.md",
+      "phase": "phase_6_blackwell_kernels_and_dma_engines",
+      "papers_range": "0661\u20130670",
+      "title": "Unified Development Stream: Papers 661\u2013670",
+      "word_count": 2053,
+      "math_formula_count": 0,
+      "headings": [
+        "Unified Development Stream: Papers 661\u2013670",
+        "Paper 661: Three Hundred Fifty Million Certified Steps Milestone and Asymptotic Epistemic Scaling",
+        "Stream Overview & Architectural Synthesis",
+        "Sub-treatise 1: Paper 661: Three Hundred Fifty Million Certified Steps Milestone and Asymptotic Epistemic Scaling",
+        "Abstract",
+        "1. Introduction and Architectural Framing",
+        "2. Methodological Realization",
+        "3. Verification and Empirical Findings"
+      ]
+    },
+    {
+      "id": "STREAM_0671_0680_PAPER_671_THREE_HUNDRED_SIXTY_MILLION_CERTIFIED_STEPS_MILEST",
+      "path": "papers/phase_6_blackwell_kernels_and_dma_engines/streams/STREAM_0671_0680_PAPER_671_THREE_HUNDRED_SIXTY_MILLION_CERTIFIED_STEPS_MILEST.md",
+      "phase": "phase_6_blackwell_kernels_and_dma_engines",
+      "papers_range": "0671\u20130680",
+      "title": "Unified Development Stream: Papers 671\u2013680",
+      "word_count": 2071,
+      "math_formula_count": 0,
+      "headings": [
+        "Unified Development Stream: Papers 671\u2013680",
+        "Paper 671: Three Hundred Sixty Million Certified Steps Milestone and Asymptotic Epistemic Scaling",
+        "Stream Overview & Architectural Synthesis",
+        "Sub-treatise 1: Paper 671: Three Hundred Sixty Million Certified Steps Milestone and Asymptotic Epistemic Scaling",
+        "Abstract",
+        "1. Introduction and Architectural Framing",
+        "2. Methodological Realization",
+        "3. Verification and Empirical Findings"
+      ]
+    },
+    {
+      "id": "STREAM_0681_0690_PAPER_681_THREE_HUNDRED_SEVENTY_MILLION_CERTIFIED_STEPS_MILE",
+      "path": "papers/phase_6_blackwell_kernels_and_dma_engines/streams/STREAM_0681_0690_PAPER_681_THREE_HUNDRED_SEVENTY_MILLION_CERTIFIED_STEPS_MILE.md",
+      "phase": "phase_6_blackwell_kernels_and_dma_engines",
+      "papers_range": "0681\u20130690",
+      "title": "Unified Development Stream: Papers 681\u2013690",
+      "word_count": 2424,
+      "math_formula_count": 0,
+      "headings": [
+        "Unified Development Stream: Papers 681\u2013690",
+        "Paper 681: Three Hundred Seventy Million Certified Steps Milestone and Asymptotic Epistemic Scaling",
+        "Stream Overview & Architectural Synthesis",
+        "Sub-treatise 1: Paper 681: Three Hundred Seventy Million Certified Steps Milestone and Asymptotic Epistemic Scaling",
+        "Abstract",
+        "1. Introduction and Architectural Framing",
+        "2. Methodological Realization",
+        "3. Verification and Empirical Findings"
+      ]
+    },
+    {
+      "id": "STREAM_0691_0700_PAPER_691_THREE_HUNDRED_EIGHTY_MILLION_CERTIFIED_STEPS_MILES",
+      "path": "papers/phase_6_blackwell_kernels_and_dma_engines/streams/STREAM_0691_0700_PAPER_691_THREE_HUNDRED_EIGHTY_MILLION_CERTIFIED_STEPS_MILES.md",
+      "phase": "phase_6_blackwell_kernels_and_dma_engines",
+      "papers_range": "0691\u20130700",
+      "title": "Unified Development Stream: Papers 691\u2013700",
+      "word_count": 2229,
+      "math_formula_count": 0,
+      "headings": [
+        "Unified Development Stream: Papers 691\u2013700",
+        "Paper 691: Three Hundred Eighty Million Certified Steps Milestone and Asymptotic Epistemic Scaling",
+        "Stream Overview & Architectural Synthesis",
+        "Sub-treatise 1: Paper 691: Three Hundred Eighty Million Certified Steps Milestone and Asymptotic Epistemic Scaling",
+        "Abstract",
+        "1. Introduction and Architectural Framing",
+        "2. Methodological Realization",
+        "3. Verification and Empirical Findings"
+      ]
+    },
+    {
+      "id": "STREAM_0701_0710_PAPER_701_THREE_HUNDRED_NINETY_MILLION_CERTIFIED_STEPS_MILES",
+      "path": "papers/phase_6_blackwell_kernels_and_dma_engines/streams/STREAM_0701_0710_PAPER_701_THREE_HUNDRED_NINETY_MILLION_CERTIFIED_STEPS_MILES.md",
+      "phase": "phase_6_blackwell_kernels_and_dma_engines",
+      "papers_range": "0701\u20130710",
+      "title": "Unified Development Stream: Papers 701\u2013710",
+      "word_count": 2224,
+      "math_formula_count": 0,
+      "headings": [
+        "Unified Development Stream: Papers 701\u2013710",
+        "Paper 701: Three Hundred Ninety Million Certified Steps Milestone and Asymptotic Epistemic Scaling",
+        "Stream Overview & Architectural Synthesis",
+        "Sub-treatise 1: Paper 701: Three Hundred Ninety Million Certified Steps Milestone and Asymptotic Epistemic Scaling",
+        "Abstract",
+        "1. Introduction and Architectural Framing",
+        "2. Methodological Realization",
+        "3. Verification and Empirical Findings"
+      ]
+    },
+    {
+      "id": "STREAM_0721_0730_PAPER_721_FOUR_HUNDRED_TEN_MILLION_CERTIFIED_STEPS_MILESTONE",
+      "path": "papers/phase_6_blackwell_kernels_and_dma_engines/streams/STREAM_0721_0730_PAPER_721_FOUR_HUNDRED_TEN_MILLION_CERTIFIED_STEPS_MILESTONE.md",
+      "phase": "phase_6_blackwell_kernels_and_dma_engines",
+      "papers_range": "0721\u20130730",
+      "title": "Unified Development Stream: Papers 721\u2013730",
+      "word_count": 2792,
+      "math_formula_count": 100,
+      "headings": [
+        "Unified Development Stream: Papers 721\u2013730",
+        "Paper 721: Four Hundred Ten Million Certified Steps Milestone and Asymptotic Epistemic Scaling",
+        "Stream Overview & Architectural Synthesis",
+        "Sub-treatise 1: Paper 721: Four Hundred Ten Million Certified Steps Milestone and Asymptotic Epistemic Scaling",
+        "Abstract",
+        "1. Scaling Dynamics at 410 Million Steps",
+        "2. Empirical Convergence Across Proof Trees",
+        "3. Conclusion"
+      ]
+    },
+    {
+      "id": "STREAM_0731_0740_PAPER_731_FOUR_HUNDRED_TWENTY_MILLION_CERTIFIED_STEPS_MILEST",
+      "path": "papers/phase_6_blackwell_kernels_and_dma_engines/streams/STREAM_0731_0740_PAPER_731_FOUR_HUNDRED_TWENTY_MILLION_CERTIFIED_STEPS_MILEST.md",
+      "phase": "phase_6_blackwell_kernels_and_dma_engines",
+      "papers_range": "0731\u20130740",
+      "title": "Unified Development Stream: Papers 731\u2013740",
+      "word_count": 2777,
+      "math_formula_count": 80,
+      "headings": [
+        "Unified Development Stream: Papers 731\u2013740",
+        "Paper 731: Four Hundred Twenty Million Certified Steps Milestone and Asymptotic Epistemic Scaling",
+        "Stream Overview & Architectural Synthesis",
+        "Sub-treatise 1: Paper 731: Four Hundred Twenty Million Certified Steps Milestone and Asymptotic Epistemic Scaling",
+        "Abstract",
+        "1. The 420 Million Step Frontier",
+        "2. Proof Path Entropy and Tactic Optimization",
+        "3. Conclusion"
+      ]
+    },
+    {
+      "id": "STREAM_0751_0760_PAPER_751_FOUR_HUNDRED_FORTY_MILLION_CERTIFIED_STEPS_MILESTO",
+      "path": "papers/phase_6_blackwell_kernels_and_dma_engines/streams/STREAM_0751_0760_PAPER_751_FOUR_HUNDRED_FORTY_MILLION_CERTIFIED_STEPS_MILESTO.md",
+      "phase": "phase_6_blackwell_kernels_and_dma_engines",
+      "papers_range": "0751\u20130760",
+      "title": "Unified Development Stream: Papers 751\u2013760",
+      "word_count": 3473,
+      "math_formula_count": 135,
+      "headings": [
+        "Unified Development Stream: Papers 751\u2013760",
+        "Paper 751: Four Hundred Forty Million Certified Steps Milestone and Asymptotic Epistemic Scaling",
+        "Stream Overview & Architectural Synthesis",
+        "Sub-treatise 1: Paper 751: Four Hundred Forty Million Certified Steps Milestone and Asymptotic Epistemic Scaling",
+        "Abstract",
+        "1. The 440 Million Step Frontier",
+        "2. Ultrametric Tree Guidance in Automated Deduction",
+        "Sub-treatise 2: Paper 752: Blackwell SM 12.0 Non-Archimedean p-Adic Valuation Tree Routing Silicon Benchmark"
+      ]
+    },
+    {
+      "id": "STREAM_0791_0800_PAPER_791_FOUR_HUNDRED_EIGHTY_MILLION_STEPS_MILESTONE_AND_AS",
+      "path": "papers/phase_6_blackwell_kernels_and_dma_engines/streams/STREAM_0791_0800_PAPER_791_FOUR_HUNDRED_EIGHTY_MILLION_STEPS_MILESTONE_AND_AS.md",
+      "phase": "phase_6_blackwell_kernels_and_dma_engines",
+      "papers_range": "0791\u20130800",
+      "title": "Unified Development Stream: Papers 791\u2013800",
+      "word_count": 2202,
+      "math_formula_count": 44,
+      "headings": [
+        "Unified Development Stream: Papers 791\u2013800",
+        "Paper 791: Four Hundred Eighty Million Steps Milestone and Asymptotic Epistemic Scaling",
+        "Stream Overview & Architectural Synthesis",
+        "Sub-treatise 1: Paper 791: Four Hundred Eighty Million Steps Milestone and Asymptotic Epistemic Scaling",
+        "Abstract",
+        "1. Milestone Trajectory: 430M to 480M Steps",
+        "2. Epistemic Scaling Across Bilinear Pairing Spaces",
+        "3. Conclusion"
+      ]
+    },
+    {
+      "id": "STREAM_0801_0810_PAPER_801_FOUR_HUNDRED_NINETY_MILLION_STEPS_MILESTONE_AND_AS",
+      "path": "papers/phase_6_blackwell_kernels_and_dma_engines/streams/STREAM_0801_0810_PAPER_801_FOUR_HUNDRED_NINETY_MILLION_STEPS_MILESTONE_AND_AS.md",
+      "phase": "phase_6_blackwell_kernels_and_dma_engines",
+      "papers_range": "0801\u20130810",
+      "title": "Unified Development Stream: Papers 801\u2013810",
+      "word_count": 1906,
+      "math_formula_count": 30,
+      "headings": [
+        "Unified Development Stream: Papers 801\u2013810",
+        "Paper 801: Four Hundred Ninety Million Steps Milestone and Asymptotic Epistemic Scaling",
+        "Stream Overview & Architectural Synthesis",
+        "Sub-treatise 1: Paper 801: Four Hundred Ninety Million Steps Milestone and Asymptotic Epistemic Scaling",
+        "Abstract",
+        "1. Milestone Trajectory: 440M to 490M Steps",
+        "2. Epistemic Scaling Across Divisor Spaces",
+        "3. Conclusion"
+      ]
+    },
+    {
+      "id": "STREAM_0811_0820_PAPER_811_FIVE_HUNDRED_MILLION_STEPS_MILESTONE_AND_ASYMPTOTI",
+      "path": "papers/phase_6_blackwell_kernels_and_dma_engines/streams/STREAM_0811_0820_PAPER_811_FIVE_HUNDRED_MILLION_STEPS_MILESTONE_AND_ASYMPTOTI.md",
+      "phase": "phase_6_blackwell_kernels_and_dma_engines",
+      "papers_range": "0811\u20130820",
+      "title": "Unified Development Stream: Papers 811\u2013820",
+      "word_count": 1457,
+      "math_formula_count": 23,
+      "headings": [
+        "Unified Development Stream: Papers 811\u2013820",
+        "Paper 811: Five Hundred Million Steps Milestone and Asymptotic Epistemic Scaling",
+        "Stream Overview & Architectural Synthesis",
+        "Sub-treatise 1: Paper 811: Five Hundred Million Steps Milestone and Asymptotic Epistemic Scaling",
+        "1. Milestone Trajectory: 450M to 500M Steps",
+        "2. Epistemic Scaling Across Arithmetic Manifolds",
+        "3. Conclusion",
+        "Sub-treatise 2: Paper 812: Blackwell SM 12.0 Arakelov Green's Function and Arithmetic Intersection Silicon Benchmark"
+      ]
+    },
+    {
+      "id": "STREAM_0821_0830_PAPER_821_FIVE_HUNDRED_TEN_MILLION_STEPS_MILESTONE_AND_ASYMP",
+      "path": "papers/phase_6_blackwell_kernels_and_dma_engines/streams/STREAM_0821_0830_PAPER_821_FIVE_HUNDRED_TEN_MILLION_STEPS_MILESTONE_AND_ASYMP.md",
+      "phase": "phase_6_blackwell_kernels_and_dma_engines",
+      "papers_range": "0821\u20130830",
+      "title": "Unified Development Stream: Papers 821\u2013830",
+      "word_count": 1367,
+      "math_formula_count": 19,
+      "headings": [
+        "Unified Development Stream: Papers 821\u2013830",
+        "Paper 821: Five Hundred Ten Million Steps Milestone and Asymptotic Epistemic Scaling",
+        "Stream Overview & Architectural Synthesis",
+        "Sub-treatise 1: Paper 821: Five Hundred Ten Million Steps Milestone and Asymptotic Epistemic Scaling",
+        "1. Milestone Trajectory: 460M to 510M Steps",
+        "2. Epistemic Scaling Across Characteristic Manifolds",
+        "3. Conclusion",
+        "Sub-treatise 2: Paper 822: Blackwell SM 12.0 Chern Character and Todd Polynomial Silicon Benchmark"
+      ]
+    },
+    {
+      "id": "STREAM_0831_0840_PAPER_831_FIVE_HUNDRED_TWENTY_MILLION_STEPS_MILESTONE_AND_AS",
+      "path": "papers/phase_6_blackwell_kernels_and_dma_engines/streams/STREAM_0831_0840_PAPER_831_FIVE_HUNDRED_TWENTY_MILLION_STEPS_MILESTONE_AND_AS.md",
+      "phase": "phase_6_blackwell_kernels_and_dma_engines",
+      "papers_range": "0831\u20130840",
+      "title": "Unified Development Stream: Papers 831\u2013840",
+      "word_count": 1354,
+      "math_formula_count": 18,
+      "headings": [
+        "Unified Development Stream: Papers 831\u2013840",
+        "Paper 831: Five Hundred Twenty Million Steps Milestone and Asymptotic Epistemic Scaling",
+        "Stream Overview & Architectural Synthesis",
+        "Sub-treatise 1: Paper 831: Five Hundred Twenty Million Steps Milestone and Asymptotic Epistemic Scaling",
+        "1. Milestone Trajectory: 470M to 520M Steps",
+        "2. Epistemic Scaling Across Dualizing Manifolds",
+        "3. Conclusion",
+        "Sub-treatise 2: Paper 832: Blackwell SM 12.0 Serre Duality Trace Pairing Silicon Benchmark"
+      ]
+    },
+    {
+      "id": "STREAM_0841_0850_PAPER_841_FIVE_HUNDRED_THIRTY_MILLION_STEPS_MILESTONE_AND_AS",
+      "path": "papers/phase_6_blackwell_kernels_and_dma_engines/streams/STREAM_0841_0850_PAPER_841_FIVE_HUNDRED_THIRTY_MILLION_STEPS_MILESTONE_AND_AS.md",
+      "phase": "phase_6_blackwell_kernels_and_dma_engines",
+      "papers_range": "0841\u20130850",
+      "title": "Unified Development Stream: Papers 841\u2013850",
+      "word_count": 1736,
+      "math_formula_count": 42,
+      "headings": [
+        "Unified Development Stream: Papers 841\u2013850",
+        "Paper 841: Five Hundred Thirty Million Steps Milestone and Asymptotic Epistemic Scaling",
+        "Stream Overview & Architectural Synthesis",
+        "Sub-treatise 1: Paper 841: Five Hundred Thirty Million Steps Milestone and Asymptotic Epistemic Scaling",
+        "1. Milestone Trajectory: 480M to 530M Steps",
+        "2. Epistemic Scaling Across Vanishing Cohomology",
+        "3. Conclusion",
+        "Sub-treatise 2: Paper 842: Blackwell SM 12.0 Kodaira Vanishing Filter Silicon Benchmark"
+      ]
+    },
+    {
+      "id": "STREAM_0851_0860_PAPER_851_FIVE_HUNDRED_FORTY_MILLION_STEPS_MILESTONE_AND_ASY",
+      "path": "papers/phase_6_blackwell_kernels_and_dma_engines/streams/STREAM_0851_0860_PAPER_851_FIVE_HUNDRED_FORTY_MILLION_STEPS_MILESTONE_AND_ASY.md",
+      "phase": "phase_6_blackwell_kernels_and_dma_engines",
+      "papers_range": "0851\u20130860",
+      "title": "Unified Development Stream: Papers 851\u2013860",
+      "word_count": 1649,
+      "math_formula_count": 38,
+      "headings": [
+        "Unified Development Stream: Papers 851\u2013860",
+        "Paper 851: Five Hundred Forty Million Steps Milestone and Asymptotic Epistemic Scaling",
+        "Stream Overview & Architectural Synthesis",
+        "Sub-treatise 1: Paper 851: Five Hundred Forty Million Steps Milestone and Asymptotic Epistemic Scaling",
+        "1. Milestone Trajectory: 490M to 540M Steps",
+        "2. Epistemic Scaling Across Arc Dissections",
+        "3. Conclusion",
+        "Sub-treatise 2: Paper 852: Blackwell SM 12.0 Hardy-Littlewood Circle Method Silicon Benchmark"
+      ]
+    },
+    {
+      "id": "STREAM_0861_0870_PAPER_861_FIVE_HUNDRED_FIFTY_MILLION_STEPS_MILESTONE_AND_ASY",
+      "path": "papers/phase_6_blackwell_kernels_and_dma_engines/streams/STREAM_0861_0870_PAPER_861_FIVE_HUNDRED_FIFTY_MILLION_STEPS_MILESTONE_AND_ASY.md",
+      "phase": "phase_6_blackwell_kernels_and_dma_engines",
+      "papers_range": "0861\u20130870",
+      "title": "Unified Development Stream: Papers 861\u2013870",
+      "word_count": 1626,
+      "math_formula_count": 37,
+      "headings": [
+        "Unified Development Stream: Papers 861\u2013870",
+        "Paper 861: Five Hundred Fifty Million Steps Milestone and Asymptotic Epistemic Scaling",
+        "Stream Overview & Architectural Synthesis",
+        "Sub-treatise 1: Paper 861: Five Hundred Fifty Million Steps Milestone and Asymptotic Epistemic Scaling",
+        "1. Milestone Trajectory: 500M to 550M Steps",
+        "2. Epistemic Scaling Across L-Function Euler Products",
+        "3. Conclusion",
+        "Sub-treatise 2: Paper 862: Blackwell SM 12.0 BSD L-Function Euler Product Silicon Benchmark"
+      ]
+    },
+    {
+      "id": "STREAM_0871_0880_PAPER_871_FIVE_HUNDRED_SIXTY_MILLION_STEPS_MILESTONE_AND_ASY",
+      "path": "papers/phase_6_blackwell_kernels_and_dma_engines/streams/STREAM_0871_0880_PAPER_871_FIVE_HUNDRED_SIXTY_MILLION_STEPS_MILESTONE_AND_ASY.md",
+      "phase": "phase_6_blackwell_kernels_and_dma_engines",
+      "papers_range": "0871\u20130880",
+      "title": "Unified Development Stream: Papers 871\u2013880",
+      "word_count": 1737,
+      "math_formula_count": 22,
+      "headings": [
+        "Unified Development Stream: Papers 871\u2013880",
+        "Paper 871: Five Hundred Sixty Million Steps Milestone and Asymptotic Epistemic Scaling",
+        "Stream Overview & Architectural Synthesis",
+        "Sub-treatise 1: Paper 871: Five Hundred Sixty Million Steps Milestone and Asymptotic Epistemic Scaling",
+        "1. Milestone Trajectory: 500M to 560M Steps",
+        "2. Epistemic Scaling Across Selmer Cohomology Chains",
+        "3. Conclusion",
+        "Sub-treatise 2: Paper 872: Blackwell SM 12.0 Selmer Group Exact Sequence Silicon Benchmark"
+      ]
+    },
+    {
+      "id": "STREAM_0881_0890_PAPER_881_FIVE_HUNDRED_SEVENTY_MILLION_STEPS_MILESTONE_AND_A",
+      "path": "papers/phase_6_blackwell_kernels_and_dma_engines/streams/STREAM_0881_0890_PAPER_881_FIVE_HUNDRED_SEVENTY_MILLION_STEPS_MILESTONE_AND_A.md",
+      "phase": "phase_6_blackwell_kernels_and_dma_engines",
+      "papers_range": "0881\u20130890",
+      "title": "Unified Development Stream: Papers 881\u2013890",
+      "word_count": 1725,
+      "math_formula_count": 51,
+      "headings": [
+        "Unified Development Stream: Papers 881\u2013890",
+        "Paper 881: Five Hundred Seventy Million Steps Milestone and Asymptotic Epistemic Scaling",
+        "Stream Overview & Architectural Synthesis",
+        "Sub-treatise 1: Paper 881: Five Hundred Seventy Million Steps Milestone and Asymptotic Epistemic Scaling",
+        "1. Milestone Trajectory: 500M to 570M Steps",
+        "2. Epistemic Scaling Across Iwasawa $\\Lambda$-Modules",
+        "3. Conclusion",
+        "Sub-treatise 2: Paper 882: Blackwell SM 12.0 Iwasawa Polynomial Quotient Silicon Benchmark"
+      ]
+    },
+    {
+      "id": "STREAM_0891_0900_PAPER_891_FIVE_HUNDRED_EIGHTY_MILLION_STEPS_MILESTONE_AND_AS",
+      "path": "papers/phase_6_blackwell_kernels_and_dma_engines/streams/STREAM_0891_0900_PAPER_891_FIVE_HUNDRED_EIGHTY_MILLION_STEPS_MILESTONE_AND_AS.md",
+      "phase": "phase_6_blackwell_kernels_and_dma_engines",
+      "papers_range": "0891\u20130900",
+      "title": "Unified Development Stream: Papers 891\u2013900",
+      "word_count": 1785,
+      "math_formula_count": 22,
+      "headings": [
+        "Unified Development Stream: Papers 891\u2013900",
+        "Paper 891: Five Hundred Eighty Million Steps Milestone and Asymptotic Epistemic Scaling",
+        "Stream Overview & Architectural Synthesis",
+        "Sub-treatise 1: Paper 891: Five Hundred Eighty Million Steps Milestone and Asymptotic Epistemic Scaling",
+        "1. Milestone Trajectory: 500M to 580M Steps",
+        "2. Epistemic Scaling Across Local Tate Duality Pairings",
+        "3. Conclusion",
+        "Sub-treatise 2: Paper 892: Blackwell SM 12.0 Local Tate Duality Pairing Silicon Benchmark"
+      ]
+    },
+    {
+      "id": "STREAM_0901_0910_PAPER_901_FIVE_HUNDRED_NINETY_MILLION_STEPS_MILESTONE_AND_AS",
+      "path": "papers/phase_6_blackwell_kernels_and_dma_engines/streams/STREAM_0901_0910_PAPER_901_FIVE_HUNDRED_NINETY_MILLION_STEPS_MILESTONE_AND_AS.md",
+      "phase": "phase_6_blackwell_kernels_and_dma_engines",
+      "papers_range": "0901\u20130910",
+      "title": "Unified Development Stream: Papers 901\u2013910",
+      "word_count": 1933,
+      "math_formula_count": 42,
+      "headings": [
+        "Unified Development Stream: Papers 901\u2013910",
+        "Paper 901: Five Hundred Ninety Million Steps Milestone and Asymptotic Epistemic Scaling",
+        "Stream Overview & Architectural Synthesis",
+        "Sub-treatise 1: Paper 901: Five Hundred Ninety Million Steps Milestone and Asymptotic Epistemic Scaling",
+        "Abstract",
+        "1. Milestone Trajectory: 500M to 590M Steps",
+        "2. Epistemic Scaling Across Galois Deformation Rings",
+        "3. Conclusion"
+      ]
+    },
+    {
+      "id": "STREAM_0911_0920_PAPER_911_SIX_HUNDRED_MILLION_STEPS_MILESTONE_AND_ASYMPTOTIC",
+      "path": "papers/phase_6_blackwell_kernels_and_dma_engines/streams/STREAM_0911_0920_PAPER_911_SIX_HUNDRED_MILLION_STEPS_MILESTONE_AND_ASYMPTOTIC.md",
+      "phase": "phase_6_blackwell_kernels_and_dma_engines",
+      "papers_range": "0911\u20130920",
+      "title": "Unified Development Stream: Papers 911\u2013920",
+      "word_count": 1712,
+      "math_formula_count": 35,
+      "headings": [
+        "Unified Development Stream: Papers 911\u2013920",
+        "Paper 911: Six Hundred Million Steps Milestone and Asymptotic Epistemic Scaling",
+        "Stream Overview & Architectural Synthesis",
+        "Sub-treatise 1: Paper 911: Six Hundred Million Steps Milestone and Asymptotic Epistemic Scaling",
+        "Abstract",
+        "1. Milestone Trajectory: 500M to 600M Steps",
+        "2. Epistemic Scaling Across Fontaine-Mazur Geometric Representations",
+        "3. Conclusion"
+      ]
+    },
+    {
+      "id": "STREAM_0921_0930_PAPER_921_SIX_HUNDRED_TEN_MILLION_STEPS_MILESTONE_AND_ASYMPT",
+      "path": "papers/phase_6_blackwell_kernels_and_dma_engines/streams/STREAM_0921_0930_PAPER_921_SIX_HUNDRED_TEN_MILLION_STEPS_MILESTONE_AND_ASYMPT.md",
+      "phase": "phase_6_blackwell_kernels_and_dma_engines",
+      "papers_range": "0921\u20130930",
+      "title": "Unified Development Stream: Papers 921\u2013930",
+      "word_count": 1709,
+      "math_formula_count": 31,
+      "headings": [
+        "Unified Development Stream: Papers 921\u2013930",
+        "Paper 921: Six Hundred Ten Million Steps Milestone and Asymptotic Epistemic Scaling",
+        "Stream Overview & Architectural Synthesis",
+        "Sub-treatise 1: Paper 921: Six Hundred Ten Million Steps Milestone and Asymptotic Epistemic Scaling",
+        "Abstract",
+        "1. Milestone Trajectory: 500M to 610M Steps",
+        "2. Epistemic Scaling Across Serre Modularity Invariants",
+        "3. Conclusion"
+      ]
+    },
+    {
+      "id": "STREAM_0931_0940_PAPER_931_SIX_HUNDRED_TWENTY_MILLION_STEPS_MILESTONE_AND_ASY",
+      "path": "papers/phase_6_blackwell_kernels_and_dma_engines/streams/STREAM_0931_0940_PAPER_931_SIX_HUNDRED_TWENTY_MILLION_STEPS_MILESTONE_AND_ASY.md",
+      "phase": "phase_6_blackwell_kernels_and_dma_engines",
+      "papers_range": "0931\u20130940",
+      "title": "Unified Development Stream: Papers 931\u2013940",
+      "word_count": 1906,
+      "math_formula_count": 84,
+      "headings": [
+        "Unified Development Stream: Papers 931\u2013940",
+        "Paper 931: Six Hundred Twenty Million Steps Milestone and Asymptotic Epistemic Scaling",
+        "Stream Overview & Architectural Synthesis",
+        "Sub-treatise 1: Paper 931: Six Hundred Twenty Million Steps Milestone and Asymptotic Epistemic Scaling",
+        "Abstract",
+        "1. Milestone Trajectory: 500M to 620M Steps",
+        "2. Epistemic Scaling Across Solvable Artin Lifts",
+        "3. Conclusion"
+      ]
+    },
+    {
+      "id": "STREAM_0941_0950_PAPER_941_SIX_HUNDRED_THIRTY_MILLION_STEPS_MILESTONE_AND_ASY",
+      "path": "papers/phase_6_blackwell_kernels_and_dma_engines/streams/STREAM_0941_0950_PAPER_941_SIX_HUNDRED_THIRTY_MILLION_STEPS_MILESTONE_AND_ASY.md",
+      "phase": "phase_6_blackwell_kernels_and_dma_engines",
+      "papers_range": "0941\u20130950",
+      "title": "Unified Development Stream: Papers 941\u2013950",
+      "word_count": 1993,
+      "math_formula_count": 77,
+      "headings": [
+        "Unified Development Stream: Papers 941\u2013950",
+        "Paper 941: Six Hundred Thirty Million Steps Milestone and Asymptotic Epistemic Scaling",
+        "Stream Overview & Architectural Synthesis",
+        "Sub-treatise 1: Paper 941: Six Hundred Thirty Million Steps Milestone and Asymptotic Epistemic Scaling",
+        "Abstract",
+        "1. Milestone Trajectory: 500M to 630M Steps",
+        "2. Epistemic Scaling Across Taylor-Wiles Patching Limits",
+        "3. Conclusion"
+      ]
+    },
+    {
+      "id": "STREAM_0951_0960_PAPER_951_SIX_HUNDRED_FORTY_MILLION_STEPS_MILESTONE_AND_THE_",
+      "path": "papers/phase_6_blackwell_kernels_and_dma_engines/streams/STREAM_0951_0960_PAPER_951_SIX_HUNDRED_FORTY_MILLION_STEPS_MILESTONE_AND_THE_.md",
+      "phase": "phase_6_blackwell_kernels_and_dma_engines",
+      "papers_range": "0951\u20130960",
+      "title": "Unified Development Stream: Papers 951\u2013960",
+      "word_count": 2009,
+      "math_formula_count": 70,
+      "headings": [
+        "Unified Development Stream: Papers 951\u2013960",
+        "Paper 951: Six Hundred Forty Million Steps Milestone and the Two Percent Corpus Horizon",
+        "Stream Overview & Architectural Synthesis",
+        "Sub-treatise 1: Paper 951: Six Hundred Forty Million Steps Milestone and the Two Percent Corpus Horizon",
+        "Abstract",
+        "1. Milestone Trajectory: 500M to 640M Steps",
+        "2. Epistemic Scaling Across Framed Deformation Spaces",
+        "3. Conclusion"
+      ]
+    },
+    {
+      "id": "STREAM_0961_0970_PAPER_961_SIX_HUNDRED_FIFTY_MILLION_STEPS_MILESTONE_AND_ASYM",
+      "path": "papers/phase_6_blackwell_kernels_and_dma_engines/streams/STREAM_0961_0970_PAPER_961_SIX_HUNDRED_FIFTY_MILLION_STEPS_MILESTONE_AND_ASYM.md",
+      "phase": "phase_6_blackwell_kernels_and_dma_engines",
+      "papers_range": "0961\u20130970",
+      "title": "Unified Development Stream: Papers 961\u2013970",
+      "word_count": 2356,
+      "math_formula_count": 88,
+      "headings": [
+        "Unified Development Stream: Papers 961\u2013970",
+        "Paper 961: Six Hundred Fifty Million Steps Milestone and Asymptotic Epistemic Scaling",
+        "Stream Overview & Architectural Synthesis",
+        "Sub-treatise 1: Paper 961: Six Hundred Fifty Million Steps Milestone and Asymptotic Epistemic Scaling",
+        "Abstract",
+        "1. Milestone Trajectory: 500M to 650M Steps",
+        "2. Epistemic Scaling Across Rigid Analytic Spaces",
+        "Sub-treatise 2: Paper 962: Rigid Analytic Spaces, Wide Open Discs, and Coleman Integration Theory"
+      ]
+    },
+    {
+      "id": "STREAM_0971_0980_PAPER_971_SIX_HUNDRED_SIXTY_MILLION_STEPS_MILESTONE_AND_ASYM",
+      "path": "papers/phase_6_blackwell_kernels_and_dma_engines/streams/STREAM_0971_0980_PAPER_971_SIX_HUNDRED_SIXTY_MILLION_STEPS_MILESTONE_AND_ASYM.md",
+      "phase": "phase_6_blackwell_kernels_and_dma_engines",
+      "papers_range": "0971\u20130980",
+      "title": "Unified Development Stream: Papers 971\u2013980",
+      "word_count": 2248,
+      "math_formula_count": 72,
+      "headings": [
+        "Unified Development Stream: Papers 971\u2013980",
+        "Paper 971: Six Hundred Sixty Million Steps Milestone and Asymptotic Epistemic Scaling",
+        "Stream Overview & Architectural Synthesis",
+        "Sub-treatise 1: Paper 971: Six Hundred Sixty Million Steps Milestone and Asymptotic Epistemic Scaling",
+        "Abstract",
+        "1. Milestone Trajectory: 500M to 660M Steps",
+        "2. Epistemic Scaling Across Heegner Point Manifolds",
+        "Sub-treatise 2: Paper 972: The Gross-Zagier Height Pairing and Heegner Divisors on Modular Curves X_0(N)"
+      ]
+    },
+    {
+      "id": "STREAM_0981_0990_PAPER_981_SIX_HUNDRED_SEVENTY_MILLION_STEPS_MILESTONE_AND_MA",
+      "path": "papers/phase_6_blackwell_kernels_and_dma_engines/streams/STREAM_0981_0990_PAPER_981_SIX_HUNDRED_SEVENTY_MILLION_STEPS_MILESTONE_AND_MA.md",
+      "phase": "phase_6_blackwell_kernels_and_dma_engines",
+      "papers_range": "0981\u20130990",
+      "title": "Unified Development Stream: Papers 981\u2013990",
+      "word_count": 1985,
+      "math_formula_count": 47,
+      "headings": [
+        "Unified Development Stream: Papers 981\u2013990",
+        "Paper 981: Six Hundred Seventy Million Steps Milestone and Manin-Drinfeld Modularity Invariants",
+        "Stream Overview & Architectural Synthesis",
+        "Sub-treatise 1: Paper 981: Six Hundred Seventy Million Steps Milestone and Manin-Drinfeld Modularity Invariants",
+        "Abstract",
+        "1. Milestone Trajectory: 550M to 670M Steps",
+        "2. Epistemic Entropy Reduction",
+        "Sub-treatise 2: Paper 982: Modular Symbols and Rational Homology of Modular Curves in Blackwell Sub-Bit Representations"
+      ]
+    },
+    {
+      "id": "STREAM_0991_1000_PAPER_1000_GRAND_CAPSTONE_MILESTONE_SYNTHESIS_THE_ONE_THOUSA",
+      "path": "papers/phase_6_blackwell_kernels_and_dma_engines/streams/STREAM_0991_1000_PAPER_1000_GRAND_CAPSTONE_MILESTONE_SYNTHESIS_THE_ONE_THOUSA.md",
+      "phase": "phase_6_blackwell_kernels_and_dma_engines",
+      "papers_range": "0991\u20131000",
+      "title": "Unified Development Stream: Papers 991\u20131000",
+      "word_count": 2006,
+      "math_formula_count": 51,
+      "headings": [
+        "Unified Development Stream: Papers 991\u20131000",
+        "Paper 1000: Grand Capstone Milestone Synthesis: The One Thousand Scientific Treatises Horizon, 680 Million Deductive Steps, and the Architecture of Sovereign Epistemology",
+        "Stream Overview & Architectural Synthesis",
+        "Sub-treatise 1: Paper 1000: Grand Capstone Milestone Synthesis: The One Thousand Scientific Treatises Horizon, 680 Million Deductive Steps, and the Architecture of Sovereign Epistemology",
+        "Abstract",
+        "1. The 1,000 Treatises Grand Architecture",
+        "2. Sovereign Intelligence Realization",
+        "Sub-treatise 2: Paper 991: Six Hundred Eighty Million Steps Milestone and Mazur's Torsion Bound Classification"
+      ]
+    },
+    {
+      "id": "STREAM_1001_1010_PAPER_1001_SIX_HUNDRED_NINETY_MILLION_STEPS_MILESTONE_AND_FA",
+      "path": "papers/phase_6_blackwell_kernels_and_dma_engines/streams/STREAM_1001_1010_PAPER_1001_SIX_HUNDRED_NINETY_MILLION_STEPS_MILESTONE_AND_FA.md",
+      "phase": "phase_6_blackwell_kernels_and_dma_engines",
+      "papers_range": "1001\u20131010",
+      "title": "Unified Development Stream: Papers 1001\u20131010",
+      "word_count": 1865,
+      "math_formula_count": 55,
+      "headings": [
+        "Unified Development Stream: Papers 1001\u20131010",
+        "Paper 1001: Six Hundred Ninety Million Steps Milestone and Faltings Finiteness Invariants",
+        "Stream Overview & Architectural Synthesis",
+        "Sub-treatise 1: Paper 1001: Six Hundred Ninety Million Steps Milestone and Faltings Finiteness Invariants",
+        "Abstract",
+        "1. Milestone Trajectory: 570M to 690M Steps",
+        "2. Theoretical Finiteness",
+        "Sub-treatise 2: Paper 1002: Mordell Conjecture and the Arithmetic Geometry of Curves of Genus g >= 2"
+      ]
+    },
+    {
+      "id": "STREAM_1011_1020_PAPER_1011_SEVEN_HUNDRED_MILLION_STEPS_MILESTONE_AND_PARAMOD",
+      "path": "papers/phase_6_blackwell_kernels_and_dma_engines/streams/STREAM_1011_1020_PAPER_1011_SEVEN_HUNDRED_MILLION_STEPS_MILESTONE_AND_PARAMOD.md",
+      "phase": "phase_6_blackwell_kernels_and_dma_engines",
+      "papers_range": "1011\u20131020",
+      "title": "Unified Development Stream: Papers 1011\u20131020",
+      "word_count": 1963,
+      "math_formula_count": 56,
+      "headings": [
+        "Unified Development Stream: Papers 1011\u20131020",
+        "Paper 1011: Seven Hundred Million Steps Milestone and Paramodular Abelian Surface Invariants",
+        "Stream Overview & Architectural Synthesis",
+        "Sub-treatise 1: Paper 1011: Seven Hundred Million Steps Milestone and Paramodular Abelian Surface Invariants",
+        "Abstract",
+        "1. Milestone Trajectory: 580M to 700M Steps",
+        "2. Higher Modularity Horizon",
+        "Sub-treatise 2: Paper 1012: The Paramodular Conjecture: Genus 2 Siegel Modular Forms and Spin L-Functions"
+      ]
+    },
+    {
+      "id": "STREAM_1021_1030_PAPER_1021_SEVEN_HUNDRED_AND_TEN_MILLION_STEPS_MILESTONE_AND",
+      "path": "papers/phase_6_blackwell_kernels_and_dma_engines/streams/STREAM_1021_1030_PAPER_1021_SEVEN_HUNDRED_AND_TEN_MILLION_STEPS_MILESTONE_AND.md",
+      "phase": "phase_6_blackwell_kernels_and_dma_engines",
+      "papers_range": "1021\u20131030",
+      "title": "Unified Development Stream: Papers 1021\u20131030",
+      "word_count": 1671,
+      "math_formula_count": 35,
+      "headings": [
+        "Unified Development Stream: Papers 1021\u20131030",
+        "Paper 1021: Seven Hundred and Ten Million Steps Milestone and Sato-Tate Equidistribution Horizon",
+        "Stream Overview & Architectural Synthesis",
+        "Sub-treatise 1: Paper 1021: Seven Hundred and Ten Million Steps Milestone and Sato-Tate Equidistribution Horizon",
+        "1. Milestone Trajectory: 600M to 710M Steps",
+        "2. Statistical Automorphy Horizon",
+        "Sub-treatise 2: Paper 1022: The Sato-Tate Conjecture: Non-CM Elliptic Curves and SU(2) Conjugacy Class Haar Measure",
+        "1. SU(2) Conjugacy Classes"
+      ]
+    },
+    {
+      "id": "STREAM_1031_1040_PAPER_1031_SEVEN_HUNDRED_AND_TWENTY_MILLION_STEPS_MILESTONE_",
+      "path": "papers/phase_6_blackwell_kernels_and_dma_engines/streams/STREAM_1031_1040_PAPER_1031_SEVEN_HUNDRED_AND_TWENTY_MILLION_STEPS_MILESTONE_.md",
+      "phase": "phase_6_blackwell_kernels_and_dma_engines",
+      "papers_range": "1031\u20131040",
+      "title": "Unified Development Stream: Papers 1031\u20131040",
+      "word_count": 1508,
+      "math_formula_count": 30,
+      "headings": [
+        "Unified Development Stream: Papers 1031\u20131040",
+        "Paper 1031: Seven Hundred and Twenty Million Steps Milestone and Fontaine-Mazur Geometric Modularity",
+        "Stream Overview & Architectural Synthesis",
+        "Sub-treatise 1: Paper 1031: Seven Hundred and Twenty Million Steps Milestone and Fontaine-Mazur Geometric Modularity",
+        "1. Milestone Trajectory: 620M to 720M Steps",
+        "2. The Arithmetic Geometry Frontier",
+        "Sub-treatise 2: Paper 1032: The Fontaine-Mazur Conjecture: Geometric p-Adic Galois Representations and de Rham Cohomology",
+        "1. Geometricity and Fontaine's de Rham Condition"
+      ]
+    },
+    {
+      "id": "STREAM_1041_1050_PAPER_1041_SEVEN_HUNDRED_AND_THIRTY_MILLION_STEPS_MILESTONE_",
+      "path": "papers/phase_6_blackwell_kernels_and_dma_engines/streams/STREAM_1041_1050_PAPER_1041_SEVEN_HUNDRED_AND_THIRTY_MILLION_STEPS_MILESTONE_.md",
+      "phase": "phase_6_blackwell_kernels_and_dma_engines",
+      "papers_range": "1041\u20131050",
+      "title": "Unified Development Stream: Papers 1041\u20131050",
+      "word_count": 1512,
+      "math_formula_count": 29,
+      "headings": [
+        "Unified Development Stream: Papers 1041\u20131050",
+        "Paper 1041: Seven Hundred and Thirty Million Steps Milestone and the Bloch-Kato Tamagawa Horizon",
+        "Stream Overview & Architectural Synthesis",
+        "Sub-treatise 1: Paper 1041: Seven Hundred and Thirty Million Steps Milestone and the Bloch-Kato Tamagawa Horizon",
+        "1. Milestone Trajectory: 630M to 730M Steps",
+        "2. Motivic Arithmetic Synthesis",
+        "Sub-treatise 2: Paper 1042: The Bloch-Kato Conjecture: Motivic Cohomology, Tamagawa Measures, and Special L-Values",
+        "1. The Global Formula for $L^*(M, 0)$"
+      ]
+    },
+    {
+      "id": "STREAM_1051_1060_PAPER_1051_SEVEN_HUNDRED_AND_FORTY_MILLION_STEPS_MILESTONE_A",
+      "path": "papers/phase_6_blackwell_kernels_and_dma_engines/streams/STREAM_1051_1060_PAPER_1051_SEVEN_HUNDRED_AND_FORTY_MILLION_STEPS_MILESTONE_A.md",
+      "phase": "phase_6_blackwell_kernels_and_dma_engines",
+      "papers_range": "1051\u20131060",
+      "title": "Unified Development Stream: Papers 1051\u20131060",
+      "word_count": 1418,
+      "math_formula_count": 42,
+      "headings": [
+        "Unified Development Stream: Papers 1051\u20131060",
+        "Paper 1051: Seven Hundred and Forty Million Steps Milestone and the Beilinson Regulator Horizon",
+        "Stream Overview & Architectural Synthesis",
+        "Sub-treatise 1: Paper 1051: Seven Hundred and Forty Million Steps Milestone and the Beilinson Regulator Horizon",
+        "1. Milestone Trajectory: 640M to 740M Steps",
+        "2. Motivic Higher Regulator Arithmetic",
+        "Sub-treatise 2: Paper 1052: The Beilinson Conjectures: Motivic Cohomology, Deligne-Beilinson Complexes, and Special L-Values",
+        "1. The Regulator Map"
+      ]
+    },
+    {
+      "id": "STREAM_1061_1070_PAPER_1061_SEVEN_HUNDRED_AND_FIFTY_MILLION_STEPS_MILESTONE_A",
+      "path": "papers/phase_6_blackwell_kernels_and_dma_engines/streams/STREAM_1061_1070_PAPER_1061_SEVEN_HUNDRED_AND_FIFTY_MILLION_STEPS_MILESTONE_A.md",
+      "phase": "phase_6_blackwell_kernels_and_dma_engines",
+      "papers_range": "1061\u20131070",
+      "title": "Unified Development Stream: Papers 1061\u20131070",
+      "word_count": 1511,
+      "math_formula_count": 49,
+      "headings": [
+        "Unified Development Stream: Papers 1061\u20131070",
+        "Paper 1061: Seven Hundred and Fifty Million Steps Milestone and the Birch-Swinnerton-Dyer Horizon",
+        "Stream Overview & Architectural Synthesis",
+        "Sub-treatise 1: Paper 1061: Seven Hundred and Fifty Million Steps Milestone and the Birch-Swinnerton-Dyer Horizon",
+        "1. Milestone Trajectory: 650M to 750M Steps",
+        "2. Elliptic Arithmetic Synthesis",
+        "Sub-treatise 2: Paper 1062: The Birch and Swinnerton-Dyer Conjecture: Mordell-Weil Lattices, Analytic Ranks, and Leading L-Values",
+        "1. The Rank Conjecture"
+      ]
+    },
+    {
+      "id": "STREAM_1071_1080_PAPER_1071_SEVEN_HUNDRED_AND_SIXTY_MILLION_STEPS_MILESTONE_A",
+      "path": "papers/phase_6_blackwell_kernels_and_dma_engines/streams/STREAM_1071_1080_PAPER_1071_SEVEN_HUNDRED_AND_SIXTY_MILLION_STEPS_MILESTONE_A.md",
+      "phase": "phase_6_blackwell_kernels_and_dma_engines",
+      "papers_range": "1071\u20131080",
+      "title": "Unified Development Stream: Papers 1071\u20131080",
+      "word_count": 1462,
+      "math_formula_count": 44,
+      "headings": [
+        "Unified Development Stream: Papers 1071\u20131080",
+        "Paper 1071: Seven Hundred and Sixty Million Steps Milestone and the Hodge Conjecture Horizon",
+        "Stream Overview & Architectural Synthesis",
+        "Sub-treatise 1: Paper 1071: Seven Hundred and Sixty Million Steps Milestone and the Hodge Conjecture Horizon",
+        "1. Milestone Trajectory: 660M to 760M Steps",
+        "2. Algebraic Cycle Geometry Synthesis",
+        "Sub-treatise 2: Paper 1072: The Hodge Conjecture: De Rham Cohomology, Algebraic Cycles, and Rational Hodge Classes",
+        "1. The Hodge Decomposition"
+      ]
+    },
+    {
+      "id": "STREAM_1081_1090_PAPER_1081_SEVEN_HUNDRED_AND_SEVENTY_MILLION_STEPS_MILESTONE",
+      "path": "papers/phase_6_blackwell_kernels_and_dma_engines/streams/STREAM_1081_1090_PAPER_1081_SEVEN_HUNDRED_AND_SEVENTY_MILLION_STEPS_MILESTONE.md",
+      "phase": "phase_6_blackwell_kernels_and_dma_engines",
+      "papers_range": "1081\u20131090",
+      "title": "Unified Development Stream: Papers 1081\u20131090",
+      "word_count": 1627,
+      "math_formula_count": 51,
+      "headings": [
+        "Unified Development Stream: Papers 1081\u20131090",
+        "Paper 1081: Seven Hundred and Seventy Million Steps Milestone and the Tate Conjecture Arithmetic Horizon",
+        "Stream Overview & Architectural Synthesis",
+        "Sub-treatise 1: Paper 1081: Seven Hundred and Seventy Million Steps Milestone and the Tate Conjecture Arithmetic Horizon",
+        "1. Milestone Trajectory: 670M to 770M Steps",
+        "2. Arithmetic Cycle Geometry Synthesis",
+        "Sub-treatise 2: Paper 1082: The Tate Conjecture: Galois Representations, \u00e9tale Cohomology, and Frobenius Invariants",
+        "1. The Cycle Class Map in \u00e9tale Cohomology"
+      ]
+    },
+    {
+      "id": "STREAM_1091_1100_PAPER_1091_SEVEN_HUNDRED_AND_EIGHTY_MILLION_STEPS_MILESTONE_",
+      "path": "papers/phase_6_blackwell_kernels_and_dma_engines/streams/STREAM_1091_1100_PAPER_1091_SEVEN_HUNDRED_AND_EIGHTY_MILLION_STEPS_MILESTONE_.md",
+      "phase": "phase_6_blackwell_kernels_and_dma_engines",
+      "papers_range": "1091\u20131100",
+      "title": "Unified Development Stream: Papers 1091\u20131100",
+      "word_count": 1551,
+      "math_formula_count": 45,
+      "headings": [
+        "Unified Development Stream: Papers 1091\u20131100",
+        "Paper 1091: Seven Hundred and Eighty Million Steps Milestone and Grothendieck's Standard Conjectures Horizon",
+        "Stream Overview & Architectural Synthesis",
+        "Sub-treatise 1: Paper 1091: Seven Hundred and Eighty Million Steps Milestone and Grothendieck's Standard Conjectures Horizon",
+        "1. Milestone Trajectory: 680M to 780M Steps",
+        "2. Motivic Foundations Synthesis",
+        "Sub-treatise 2: Paper 1092: Grothendieck's Standard Conjectures: Motives, Algebraic Correspondences, and Lefschetz Operators",
+        "1. The Category of Pure Motives"
+      ]
+    },
+    {
+      "id": "STREAM_1101_1110_PAPER_1101_SEVEN_HUNDRED_AND_NINETY_MILLION_STEPS_MILESTONE_",
+      "path": "papers/phase_6_blackwell_kernels_and_dma_engines/streams/STREAM_1101_1110_PAPER_1101_SEVEN_HUNDRED_AND_NINETY_MILLION_STEPS_MILESTONE_.md",
+      "phase": "phase_6_blackwell_kernels_and_dma_engines",
+      "papers_range": "1101\u20131110",
+      "title": "Unified Development Stream: Papers 1101\u20131110",
+      "word_count": 1566,
+      "math_formula_count": 54,
+      "headings": [
+        "Unified Development Stream: Papers 1101\u20131110",
+        "Paper 1101: Seven Hundred and Ninety Million Steps Milestone and the Weil II Horizon",
+        "Stream Overview & Architectural Synthesis",
+        "Sub-treatise 1: Paper 1101: Seven Hundred and Ninety Million Steps Milestone and the Weil II Horizon",
+        "1. Milestone Trajectory: 690M to 790M Steps",
+        "2. Mixed Hodge & Perverse Sheaf Synthesis",
+        "Sub-treatise 2: Paper 1102: Deligne's Weil II Conjectures: Weights, Purity, and Mixed l-adic Sheaves",
+        "1. Weights of Mixed Complexes"
+      ]
+    },
+    {
+      "id": "STREAM_1111_1120_PAPER_1111_EIGHT_HUNDRED_MILLION_STEPS_MILESTONE_QUARTER_WAY",
+      "path": "papers/phase_6_blackwell_kernels_and_dma_engines/streams/STREAM_1111_1120_PAPER_1111_EIGHT_HUNDRED_MILLION_STEPS_MILESTONE_QUARTER_WAY.md",
+      "phase": "phase_6_blackwell_kernels_and_dma_engines",
+      "papers_range": "1111\u20131120",
+      "title": "Unified Development Stream: Papers 1111\u20131120",
+      "word_count": 1553,
+      "math_formula_count": 51,
+      "headings": [
+        "Unified Development Stream: Papers 1111\u20131120",
+        "Paper 1111: Eight Hundred Million Steps Milestone: Quarter-Way to Ten Percent in the Sovereign Reasoning Horizon",
+        "Stream Overview & Architectural Synthesis",
+        "Sub-treatise 1: Paper 1111: Eight Hundred Million Steps Milestone: Quarter-Way to Ten Percent in the Sovereign Reasoning Horizon",
+        "1. Milestone Trajectory: 700M to 800M Steps",
+        "2. Triangulated Motivic Synthesis",
+        "Sub-treatise 2: Paper 1112: Voevodsky's Triangulated Category of Motives: Nisnevich Sheaves, Transfers, and Homotopy Invariance",
+        "1. Finite Correspondences and Nisnevich Topology"
+      ]
+    },
+    {
+      "id": "STREAM_1121_1130_PAPER_1121_EIGHT_HUNDRED_TEN_MILLION_STEPS_MILESTONE_ADVANCI",
+      "path": "papers/phase_6_blackwell_kernels_and_dma_engines/streams/STREAM_1121_1130_PAPER_1121_EIGHT_HUNDRED_TEN_MILLION_STEPS_MILESTONE_ADVANCI.md",
+      "phase": "phase_6_blackwell_kernels_and_dma_engines",
+      "papers_range": "1121\u20131130",
+      "title": "Unified Development Stream: Papers 1121\u20131130",
+      "word_count": 1624,
+      "math_formula_count": 36,
+      "headings": [
+        "Unified Development Stream: Papers 1121\u20131130",
+        "Paper 1121: Eight Hundred Ten Million Steps Milestone: Advancing Beyond the 2.5% Frontier in Sovereign Deductive Proofs",
+        "Stream Overview & Architectural Synthesis",
+        "Sub-treatise 1: Paper 1121: Eight Hundred Ten Million Steps Milestone: Advancing Beyond the 2.5% Frontier in Sovereign Deductive Proofs",
+        "1. Milestone Trajectory: 700M to 810M Steps",
+        "2. Norm Residue Synthesis",
+        "Sub-treatise 2: Paper 1122: The Norm Residue Isomorphism Theorem: Bloch-Kato, Milnor K-Theory, and Rost-Voevodsky Foundations",
+        "1. The Galois Symbol Homomorphism"
+      ]
+    },
+    {
+      "id": "STREAM_1131_1140_PAPER_1131_EIGHT_HUNDRED_TWENTY_MILLION_STEPS_MILESTONE_DEEP",
+      "path": "papers/phase_6_blackwell_kernels_and_dma_engines/streams/STREAM_1131_1140_PAPER_1131_EIGHT_HUNDRED_TWENTY_MILLION_STEPS_MILESTONE_DEEP.md",
+      "phase": "phase_6_blackwell_kernels_and_dma_engines",
+      "papers_range": "1131\u20131140",
+      "title": "Unified Development Stream: Papers 1131\u20131140",
+      "word_count": 1512,
+      "math_formula_count": 29,
+      "headings": [
+        "Unified Development Stream: Papers 1131\u20131140",
+        "Paper 1131: Eight Hundred Twenty Million Steps Milestone: Deepening the Motivic Homotopy Horizon",
+        "Stream Overview & Architectural Synthesis",
+        "Sub-treatise 1: Paper 1131: Eight Hundred Twenty Million Steps Milestone: Deepening the Motivic Homotopy Horizon",
+        "1. Milestone Trajectory: 700M to 820M Steps",
+        "2. Beilinson-Lichtenbaum Synthesis",
+        "Sub-treatise 2: Paper 1132: The Beilinson-Lichtenbaum Conjecture: Canonical Truncations of Derived Complexes",
+        "1. Canonical Truncation Functor"
+      ]
+    },
+    {
+      "id": "STREAM_1141_1150_PAPER_1141_EIGHT_HUNDRED_THIRTY_MILLION_STEPS_MILESTONE_ALGE",
+      "path": "papers/phase_6_blackwell_kernels_and_dma_engines/streams/STREAM_1141_1150_PAPER_1141_EIGHT_HUNDRED_THIRTY_MILLION_STEPS_MILESTONE_ALGE.md",
+      "phase": "phase_6_blackwell_kernels_and_dma_engines",
+      "papers_range": "1141\u20131150",
+      "title": "Unified Development Stream: Papers 1141\u20131150",
+      "word_count": 1542,
+      "math_formula_count": 29,
+      "headings": [
+        "Unified Development Stream: Papers 1141\u20131150",
+        "Paper 1141: Eight Hundred Thirty Million Steps Milestone: Algebraic K-Theory of Rings of Integers and Bott Periodicity",
+        "Stream Overview & Architectural Synthesis",
+        "Sub-treatise 1: Paper 1141: Eight Hundred Thirty Million Steps Milestone: Algebraic K-Theory of Rings of Integers and Bott Periodicity",
+        "1. Milestone Trajectory: 700M to 830M Steps",
+        "2. Quillen-Lichtenbaum Synthesis",
+        "Sub-treatise 2: Paper 1142: The Quillen-Lichtenbaum Conjecture: Bridging Higher Algebraic K-Theory and \u00c9tale Cohomology",
+        "1. The Quillen Comparison Map"
+      ]
+    },
+    {
+      "id": "STREAM_1151_1160_PAPER_1151_EIGHT_HUNDRED_FORTY_MILLION_STEPS_THE_BASS_QUILLE",
+      "path": "papers/phase_6_blackwell_kernels_and_dma_engines/streams/STREAM_1151_1160_PAPER_1151_EIGHT_HUNDRED_FORTY_MILLION_STEPS_THE_BASS_QUILLE.md",
+      "phase": "phase_6_blackwell_kernels_and_dma_engines",
+      "papers_range": "1151\u20131160",
+      "title": "Unified Development Stream: Papers 1151\u20131160",
+      "word_count": 2648,
+      "math_formula_count": 182,
+      "headings": [
+        "Unified Development Stream: Papers 1151\u20131160",
+        "Paper 1151: Eight Hundred Forty Million Steps: The Bass-Quillen Arithmetic Horizon and Projective Modules",
+        "Stream Overview & Architectural Synthesis",
+        "Sub-treatise 1: Paper 1151: Eight Hundred Forty Million Steps: The Bass-Quillen Arithmetic Horizon and Projective Modules",
+        "Abstract",
+        "1. Milestone Attainment & Ledger Certification",
+        "2. Mathematical Architecture of the Bass-Quillen Conjecture",
+        "3. Microarchitectural Synergy"
+      ]
+    },
+    {
+      "id": "STREAM_1161_1170_PAPER_1161_HARDWARE_EXECUTION_LIMITS_OF_ULTRA_SPARSE_VS_DENS",
+      "path": "papers/phase_6_blackwell_kernels_and_dma_engines/streams/STREAM_1161_1170_PAPER_1161_HARDWARE_EXECUTION_LIMITS_OF_ULTRA_SPARSE_VS_DENS.md",
+      "phase": "phase_6_blackwell_kernels_and_dma_engines",
+      "papers_range": "1161\u20131170",
+      "title": "Unified Development Stream: Papers 1161\u20131170",
+      "word_count": 2361,
+      "math_formula_count": 127,
+      "headings": [
+        "Unified Development Stream: Papers 1161\u20131170",
+        "Paper 1161: Hardware Execution Limits of Ultra-Sparse vs. Dense MoE: Memory Bandwidth, SRAM Spillover, and Blackwell Warp Occupancy",
+        "Stream Overview & Architectural Synthesis",
+        "Sub-treatise 1: Paper 1161: Hardware Execution Limits of Ultra-Sparse vs. Dense MoE: Memory Bandwidth, SRAM Spillover, and Blackwell Warp Occupancy",
+        "Abstract",
+        "1. Roofline Model and Memory Bandwidth Ceiling",
+        "2. SRAM Cache Spillover and Warp Stalls",
+        "Sub-treatise 2: Paper 1162: Fused Blackwell CUDA SM120 Tensor Cores for Bass-Quillen Unimodular Reduction and Patching Verification"
+      ]
+    },
+    {
+      "id": "STREAM_1171_1180_PAPER_1171_HIGH_DIMENSIONS_D_64_DOTS_512_EMERGENCE_OF_L_VY_M",
+      "path": "papers/phase_6_blackwell_kernels_and_dma_engines/streams/STREAM_1171_1180_PAPER_1171_HIGH_DIMENSIONS_D_64_DOTS_512_EMERGENCE_OF_L_VY_M.md",
+      "phase": "phase_6_blackwell_kernels_and_dma_engines",
+      "papers_range": "1171\u20131180",
+      "title": "Unified Development Stream: Papers 1171\u20131180",
+      "word_count": 2278,
+      "math_formula_count": 142,
+      "headings": [
+        "Unified Development Stream: Papers 1171\u20131180",
+        "Paper 1171: High Dimensions ($D = 64 \\dots 512$): Emergence of L\u00e9vy Measure Concentration and Johnson-Lindenstrauss Projection Limits",
+        "Stream Overview & Architectural Synthesis",
+        "Sub-treatise 1: Paper 1171: High Dimensions ($D = 64 \\dots 512$): Emergence of L\u00e9vy Measure Concentration and Johnson-Lindenstrauss Projection Limits",
+        "Abstract",
+        "1. The Johnson-Lindenstrauss Lemma",
+        "2. Emergence of the Gaussian Annulus Phenomenon",
+        "Sub-treatise 2: Paper 1172: Higher Dimensions ($D = 1024 \\dots 4096$): The Orthogonality Catastrophe, Hypersphere Volume Vanishing, and Distance Flattening"
+      ]
+    },
+    {
+      "id": "STREAM_1181_1190_PAPER_1181_EIGHT_HUNDRED_SIXTY_MILLION_STEPS_SUSLIN_HOMOLOGY",
+      "path": "papers/phase_6_blackwell_kernels_and_dma_engines/streams/STREAM_1181_1190_PAPER_1181_EIGHT_HUNDRED_SIXTY_MILLION_STEPS_SUSLIN_HOMOLOGY.md",
+      "phase": "phase_6_blackwell_kernels_and_dma_engines",
+      "papers_range": "1181\u20131190",
+      "title": "Unified Development Stream: Papers 1181\u20131190",
+      "word_count": 1988,
+      "math_formula_count": 86,
+      "headings": [
+        "Unified Development Stream: Papers 1181\u20131190",
+        "Paper 1181: Eight Hundred Sixty Million Steps: Suslin Homology and Singular Correspondence Cycles",
+        "Stream Overview & Architectural Synthesis",
+        "Sub-treatise 1: Paper 1181: Eight Hundred Sixty Million Steps: Suslin Homology and Singular Correspondence Cycles",
+        "Abstract",
+        "1. Milestone Attainment & Ledger Certification",
+        "2. Mathematical Architecture of the Suslin Homology Milestone",
+        "3. Microarchitectural Synergy"
+      ]
+    },
+    {
+      "id": "STREAM_1191_1200_PAPER_1191_EIGHT_HUNDRED_SEVENTY_MILLION_STEPS_THE_ROST_INVA",
+      "path": "papers/phase_6_blackwell_kernels_and_dma_engines/streams/STREAM_1191_1200_PAPER_1191_EIGHT_HUNDRED_SEVENTY_MILLION_STEPS_THE_ROST_INVA.md",
+      "phase": "phase_6_blackwell_kernels_and_dma_engines",
+      "papers_range": "1191\u20131200",
+      "title": "Unified Development Stream: Papers 1191\u20131200",
+      "word_count": 2188,
+      "math_formula_count": 116,
+      "headings": [
+        "Unified Development Stream: Papers 1191\u20131200",
+        "Paper 1191: Eight Hundred Seventy Million Steps: The Rost Invariant and Galois Cohomology of Exceptional Groups",
+        "Stream Overview & Architectural Synthesis",
+        "Sub-treatise 1: Paper 1191: Eight Hundred Seventy Million Steps: The Rost Invariant and Galois Cohomology of Exceptional Groups",
+        "Abstract",
+        "1. Milestone Attainment & Ledger Certification",
+        "2. Mathematical Architecture of the Rost Invariant",
+        "3. Microarchitectural Synergy"
+      ]
+    },
+    {
+      "id": "STREAM_1201_1210_PAPER_1201_EIGHT_HUNDRED_EIGHTY_MILLION_STEPS_THE_HOPKINS_MO",
+      "path": "papers/phase_6_blackwell_kernels_and_dma_engines/streams/STREAM_1201_1210_PAPER_1201_EIGHT_HUNDRED_EIGHTY_MILLION_STEPS_THE_HOPKINS_MO.md",
+      "phase": "phase_6_blackwell_kernels_and_dma_engines",
+      "papers_range": "1201\u20131210",
+      "title": "Unified Development Stream: Papers 1201\u20131210",
+      "word_count": 1778,
+      "math_formula_count": 85,
+      "headings": [
+        "Unified Development Stream: Papers 1201\u20131210",
+        "Paper 1201: Eight Hundred Eighty Million Steps: The Hopkins-Morel-Hoyois Theorem and Algebraic Cobordism MGL",
+        "Stream Overview & Architectural Synthesis",
+        "Sub-treatise 1: Paper 1201: Eight Hundred Eighty Million Steps: The Hopkins-Morel-Hoyois Theorem and Algebraic Cobordism MGL",
+        "Abstract",
+        "1. Milestone Attainment & Ledger Certification",
+        "2. Mathematical Architecture of Algebraic Cobordism",
+        "3. Microarchitectural Synergy"
+      ]
+    },
+    {
+      "id": "STREAM_1211_1220_PAPER_1211_EIGHT_HUNDRED_NINETY_MILLION_STEPS_THE_MOREL_VOEV",
+      "path": "papers/phase_6_blackwell_kernels_and_dma_engines/streams/STREAM_1211_1220_PAPER_1211_EIGHT_HUNDRED_NINETY_MILLION_STEPS_THE_MOREL_VOEV.md",
+      "phase": "phase_6_blackwell_kernels_and_dma_engines",
+      "papers_range": "1211\u20131220",
+      "title": "Unified Development Stream: Papers 1211\u20131220",
+      "word_count": 1627,
+      "math_formula_count": 89,
+      "headings": [
+        "Unified Development Stream: Papers 1211\u20131220",
+        "Paper 1211: Eight Hundred Ninety Million Steps: The Morel-Voevodsky Motivic Stable Homotopy Groups of Spheres",
+        "Stream Overview & Architectural Synthesis",
+        "Sub-treatise 1: Paper 1211: Eight Hundred Ninety Million Steps: The Morel-Voevodsky Motivic Stable Homotopy Groups of Spheres",
+        "Abstract",
+        "1. Milestone Attainment & Ledger Certification",
+        "2. Mathematical Architecture of Motivic Spheres",
+        "3. Microarchitectural Synergy"
+      ]
+    },
+    {
+      "id": "STREAM_1221_1230_PAPER_1221_NINE_HUNDRED_MILLION_STEPS_THE_MOTIVIC_ADAMS_NOVI",
+      "path": "papers/phase_6_blackwell_kernels_and_dma_engines/streams/STREAM_1221_1230_PAPER_1221_NINE_HUNDRED_MILLION_STEPS_THE_MOTIVIC_ADAMS_NOVI.md",
+      "phase": "phase_6_blackwell_kernels_and_dma_engines",
+      "papers_range": "1221\u20131230",
+      "title": "Unified Development Stream: Papers 1221\u20131230",
+      "word_count": 1291,
+      "math_formula_count": 41,
+      "headings": [
+        "Unified Development Stream: Papers 1221\u20131230",
+        "Paper 1221: Nine Hundred Million Steps: The Motivic Adams-Novikov Spectral Sequence and Algebraic Cobordism",
+        "Stream Overview & Architectural Synthesis",
+        "Sub-treatise 1: Paper 1221: Nine Hundred Million Steps: The Motivic Adams-Novikov Spectral Sequence and Algebraic Cobordism",
+        "Abstract",
+        "1. Milestone Attainment & Ledger Certification",
+        "2. Mathematical Architecture of MANSS",
+        "3. Microarchitectural Synergy"
+      ]
+    },
+    {
+      "id": "STREAM_1231_1240_PAPER_1231_NINE_HUNDRED_TEN_MILLION_STEPS_MOTIVIC_TOPOLOGICA",
+      "path": "papers/phase_6_blackwell_kernels_and_dma_engines/streams/STREAM_1231_1240_PAPER_1231_NINE_HUNDRED_TEN_MILLION_STEPS_MOTIVIC_TOPOLOGICA.md",
+      "phase": "phase_6_blackwell_kernels_and_dma_engines",
+      "papers_range": "1231\u20131240",
+      "title": "Unified Development Stream: Papers 1231\u20131240",
+      "word_count": 2819,
+      "math_formula_count": 122,
+      "headings": [
+        "Unified Development Stream: Papers 1231\u20131240",
+        "Paper 1231: Nine Hundred Ten Million Steps: Motivic Topological Modular Forms and Elliptic Cohomology",
+        "Stream Overview & Architectural Synthesis",
+        "Sub-treatise 1: Paper 1231: Nine Hundred Ten Million Steps: Motivic Topological Modular Forms and Elliptic Cohomology",
+        "Abstract",
+        "1. Milestone Attainment & Ledger Certification",
+        "2. Mathematical Architecture of Motivic tmf",
+        "3. Microarchitectural Synergy"
+      ]
+    },
+    {
+      "id": "STREAM_1241_1250_PAPER_1241_NINE_HUNDRED_TWENTY_MILLION_STEPS_THE_MOTIVIC_BRO",
+      "path": "papers/phase_6_blackwell_kernels_and_dma_engines/streams/STREAM_1241_1250_PAPER_1241_NINE_HUNDRED_TWENTY_MILLION_STEPS_THE_MOTIVIC_BRO.md",
+      "phase": "phase_6_blackwell_kernels_and_dma_engines",
+      "papers_range": "1241\u20131250",
+      "title": "Unified Development Stream: Papers 1241\u20131250",
+      "word_count": 2507,
+      "math_formula_count": 86,
+      "headings": [
+        "Unified Development Stream: Papers 1241\u20131250",
+        "Paper 1241: Nine Hundred Twenty Million Steps: The Motivic Brown-Peterson Spectrum and Quillen Splitting",
+        "Stream Overview & Architectural Synthesis",
+        "Sub-treatise 1: Paper 1241: Nine Hundred Twenty Million Steps: The Motivic Brown-Peterson Spectrum and Quillen Splitting",
+        "Abstract",
+        "1. Milestone Attainment & Ledger Certification",
+        "2. Mathematical Architecture of Motivic BP",
+        "3. Microarchitectural Synergy"
+      ]
+    },
+    {
+      "id": "STREAM_1251_1260_PAPER_1251_NINE_HUNDRED_THIRTY_MILLION_STEPS_MOTIVIC_LUBIN_T",
+      "path": "papers/phase_6_blackwell_kernels_and_dma_engines/streams/STREAM_1251_1260_PAPER_1251_NINE_HUNDRED_THIRTY_MILLION_STEPS_MOTIVIC_LUBIN_T.md",
+      "phase": "phase_6_blackwell_kernels_and_dma_engines",
+      "papers_range": "1251\u20131260",
+      "title": "Unified Development Stream: Papers 1251\u20131260",
+      "word_count": 2597,
+      "math_formula_count": 101,
+      "headings": [
+        "Unified Development Stream: Papers 1251\u20131260",
+        "Paper 1251: Nine Hundred Thirty Million Steps: Motivic Lubin-Tate Spectra and Morava Stabilizer Actions",
+        "Stream Overview & Architectural Synthesis",
+        "Sub-treatise 1: Paper 1251: Nine Hundred Thirty Million Steps: Motivic Lubin-Tate Spectra and Morava Stabilizer Actions",
+        "Abstract",
+        "1. Milestone Attainment & Ledger Certification",
+        "2. Mathematical Architecture of Motivic E_n",
+        "3. Microarchitectural Synergy"
+      ]
+    },
+    {
+      "id": "STREAM_1261_1270_PAPER_1261_NINE_HUNDRED_FORTY_MILLION_STEPS_THE_MOTIVIC_DEVI",
+      "path": "papers/phase_6_blackwell_kernels_and_dma_engines/streams/STREAM_1261_1270_PAPER_1261_NINE_HUNDRED_FORTY_MILLION_STEPS_THE_MOTIVIC_DEVI.md",
+      "phase": "phase_6_blackwell_kernels_and_dma_engines",
+      "papers_range": "1261\u20131270",
+      "title": "Unified Development Stream: Papers 1261\u20131270",
+      "word_count": 2683,
+      "math_formula_count": 77,
+      "headings": [
+        "Unified Development Stream: Papers 1261\u20131270",
+        "Paper 1261: Nine Hundred Forty Million Steps: The Motivic Devinatz-Hopkins-Smith Nilpotence Theorem",
+        "Stream Overview & Architectural Synthesis",
+        "Sub-treatise 1: Paper 1261: Nine Hundred Forty Million Steps: The Motivic Devinatz-Hopkins-Smith Nilpotence Theorem",
+        "Abstract",
+        "1. Milestone Attainment & Ledger Certification",
+        "2. Mathematical Architecture of the Nilpotence Theorem",
+        "3. Microarchitectural Synergy"
+      ]
+    },
+    {
+      "id": "STREAM_1271_1280_PAPER_1271_NINE_HUNDRED_FIFTY_MILLION_STEPS_THE_MOTIVIC_HOPK",
+      "path": "papers/phase_6_blackwell_kernels_and_dma_engines/streams/STREAM_1271_1280_PAPER_1271_NINE_HUNDRED_FIFTY_MILLION_STEPS_THE_MOTIVIC_HOPK.md",
+      "phase": "phase_6_blackwell_kernels_and_dma_engines",
+      "papers_range": "1271\u20131280",
+      "title": "Unified Development Stream: Papers 1271\u20131280",
+      "word_count": 2580,
+      "math_formula_count": 77,
+      "headings": [
+        "Unified Development Stream: Papers 1271\u20131280",
+        "Paper 1271: Nine Hundred Fifty Million Steps: The Motivic Hopkins-Ravenel Smash Product Theorem",
+        "Stream Overview & Architectural Synthesis",
+        "Sub-treatise 1: Paper 1271: Nine Hundred Fifty Million Steps: The Motivic Hopkins-Ravenel Smash Product Theorem",
+        "Abstract",
+        "1. Milestone Attainment & Ledger Certification",
+        "2. Mathematical Architecture of the Smash Product Theorem",
+        "3. Microarchitectural Synergy"
+      ]
+    },
+    {
+      "id": "STREAM_1281_1290_PAPER_1281_NINE_HUNDRED_SIXTY_MILLION_STEPS_THE_MOTIVIC_GROS",
+      "path": "papers/phase_6_blackwell_kernels_and_dma_engines/streams/STREAM_1281_1290_PAPER_1281_NINE_HUNDRED_SIXTY_MILLION_STEPS_THE_MOTIVIC_GROS.md",
+      "phase": "phase_6_blackwell_kernels_and_dma_engines",
+      "papers_range": "1281\u20131290",
+      "title": "Unified Development Stream: Papers 1281\u20131290",
+      "word_count": 994,
+      "math_formula_count": 40,
+      "headings": [
+        "Unified Development Stream: Papers 1281\u20131290",
+        "Paper 1281: Nine Hundred Sixty Million Steps: The Motivic Gross-Hopkins Duality Theorem",
+        "Stream Overview & Architectural Synthesis",
+        "Sub-treatise 1: Paper 1281: Nine Hundred Sixty Million Steps: The Motivic Gross-Hopkins Duality Theorem",
+        "Abstract",
+        "1. Milestone Attainment & Ledger Certification",
+        "2. Mathematical Architecture of Gross-Hopkins Duality",
+        "3. Microarchitectural Synergy"
+      ]
+    },
+    {
+      "id": "STREAM_1291_1300_PAPER_1291_NINE_HUNDRED_SEVENTY_MILLION_STEPS_MOTIVIC_GOERSS",
+      "path": "papers/phase_6_blackwell_kernels_and_dma_engines/streams/STREAM_1291_1300_PAPER_1291_NINE_HUNDRED_SEVENTY_MILLION_STEPS_MOTIVIC_GOERSS.md",
+      "phase": "phase_6_blackwell_kernels_and_dma_engines",
+      "papers_range": "1291\u20131300",
+      "title": "Unified Development Stream: Papers 1291\u20131300",
+      "word_count": 860,
+      "math_formula_count": 23,
+      "headings": [
+        "Unified Development Stream: Papers 1291\u20131300",
+        "Paper 1291: Nine Hundred Seventy Million Steps: Motivic Goerss-Hopkins Obstruction Theory",
+        "Stream Overview & Architectural Synthesis",
+        "Sub-treatise 1: Paper 1291: Nine Hundred Seventy Million Steps: Motivic Goerss-Hopkins Obstruction Theory",
+        "Abstract",
+        "1. Milestone Attainment & Ledger Certification",
+        "2. Mathematical Architecture of Goerss-Hopkins Obstructions",
+        "3. Microarchitectural Synergy"
+      ]
+    }
+  ]
+}

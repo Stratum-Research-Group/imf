@@ -205,6 +205,51 @@
       </div>
     </div>
 
+
+    <div class="card" style="grid-column: 1 / -1; margin-top: 10px;">
+      <div class="card-body">
+        <h3>🔍 Fast Development Stream Search (113 Treatises / 447,277 Words)</h3>
+        <p>Filter across all consolidated development streams by topic, theorem, or equation:</p>
+        <input type="text" id="streamSearch" placeholder="Search streams (e.g., Gross-Hopkins, Lie SSM, Motivic, Blackwell, Soliton)..." 
+               style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #334155; background: #0f172a; color: #f8fafc; font-size: 0.95rem; margin-top: 8px;"
+               onkeyup="filterStreams()">
+        <div id="searchResults" style="margin-top: 12px; font-size: 0.85rem; color: #94a3b8; max-height: 200px; overflow-y: auto;">
+          <em>Type above to filter streams in real time.</em>
+        </div>
+      </div>
+    </div>
+    <script>
+      let streamIndex = [];
+      fetch("../dist/stream_search_index.json")
+        .then(r => r.json())
+        .then(data => { streamIndex = data.streams; })
+        .catch(() => {});
+
+      function filterStreams() {
+        const q = document.getElementById("streamSearch").value.toLowerCase();
+        const resDiv = document.getElementById("searchResults");
+        if (!q || !streamIndex.length) {
+          resDiv.innerHTML = "<em>Type above to filter streams in real time.</em>";
+          return;
+        }
+        const matches = streamIndex.filter(s => 
+          s.title.toLowerCase().includes(q) || 
+          s.phase.toLowerCase().includes(q) ||
+          s.headings.some(h => h.toLowerCase().includes(q))
+        );
+        if (!matches.length) {
+          resDiv.innerHTML = "<em>No matching development streams found.</em>";
+          return;
+        }
+        resDiv.innerHTML = matches.slice(0, 10).map(m => 
+          `<div style="padding: 6px 0; border-bottom: 1px solid #1e293b;">
+             <strong style="color: #38bdf8;">${m.title}</strong> (${m.word_count.toLocaleString()} words) — 
+             <span style="color: #64748b;">${m.phase}</span>
+           </div>`
+        ).join("");
+      }
+    </script>
+
     <div class="card">
       <div class="card-icon">🎛️</div>
       <div class="card-body">
