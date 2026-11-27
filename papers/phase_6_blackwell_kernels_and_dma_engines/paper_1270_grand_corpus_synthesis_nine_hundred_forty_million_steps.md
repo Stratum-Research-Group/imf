@@ -1,18 +1,11 @@
----
-title: "Grand Corpus Synthesis: 1,270 Treatises, 940 Million Steps, and the Tensor Triangular Frontier"
-paper_number: 1270
-topic: "Grand Synthesis & The Tensor Triangular Frontier"
-badge: "Grand Synthesis Treatise — Compendium Paper 1270"
-status: "Certified Formal Treatise"
-steps_covered: 1000000
-total_accumulated_steps: 940000000
-lean_module: "lean_pilot/Pilot/MotivicNilpotence.lean"
-cuda_kernel: "csrc/fused_blackwell_motivic_nilpotence.cu"
-iouring_engine: "csrc/fused_iouring_motivic_nilpotence_splice_stream.cpp"
-date: "November 2026"
----
+# Paper 1270: Grand Corpus Synthesis: 1,270 Treatises, 940 Million Steps, and the Tensor Triangular Frontier
 
-# Grand Corpus Synthesis: 1,270 Treatises, 940 Million Steps, and the Tensor Triangular Frontier
+**Hardware Target:** NVIDIA Blackwell SM 12.0 (RTX 5060 Ti / 16GB) + AMD Ryzen 5 7600X  
+**Series:** Phase 6 Blackwell Kernels And Dma Engines: Grand Synthesis & The Tensor Triangular Frontier  
+**Paper Type:** Scientific Monograph & Hardware Report  
+**Status:** Certified Formal Treatise  
+
+---
 
 ## Abstract
 As the capstone treatise of the 940 Million Step milestone, Paper 1270 synthesizes the attainment of **1,270 formal scientific treatises** and **940,000,000 certified deductive proof steps** (2.93750% of the 32B Grand Corpus). We review the progression through algebraic cobordism, topological modular forms, Lubin-Tate spectra, and the Devinatz-Hopkins-Smith nilpotence theorem, framing the final approach toward One Billion steps.

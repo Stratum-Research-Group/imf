@@ -1,18 +1,11 @@
----
-title: "Thick Ideals and Balmer's Tensor Triangular Geometry of the Motivic Stable Category"
-paper_number: 1266
-topic: "Tensor Triangular Geometry & Balmer Spectra"
-badge: "Canonical Reference Treatise — Tensor Triangular Geometry"
-status: "Certified Formal Treatise"
-steps_covered: 1000000
-total_accumulated_steps: 940000000
-lean_module: "lean_pilot/Pilot/MotivicNilpotence.lean"
-cuda_kernel: "csrc/fused_blackwell_motivic_nilpotence.cu"
-iouring_engine: "csrc/fused_iouring_motivic_nilpotence_splice_stream.cpp"
-date: "November 2026"
----
+# Paper 1266: Thick Ideals and Balmer's Tensor Triangular Geometry of the Motivic Stable Category
 
-# Thick Ideals and Balmer's Tensor Triangular Geometry of the Motivic Stable Category
+**Hardware Target:** NVIDIA Blackwell SM 12.0 (RTX 5060 Ti / 16GB) + AMD Ryzen 5 7600X  
+**Series:** Phase 6 Blackwell Kernels And Dma Engines: Tensor Triangular Geometry & Balmer Spectra  
+**Paper Type:** Scientific Monograph & Hardware Report  
+**Status:** Certified Formal Treatise  
+
+---
 
 ## Abstract
 This paper analyzes Balmer's tensor triangular spectrum $\operatorname{Spc}(\mathcal{SH}(k)^{\mathrm{fin}})$. We formalize the support of motivic spectra, classify prime thick tensor ideals, and construct the comparison map to the Zariski spectrum of the base field.

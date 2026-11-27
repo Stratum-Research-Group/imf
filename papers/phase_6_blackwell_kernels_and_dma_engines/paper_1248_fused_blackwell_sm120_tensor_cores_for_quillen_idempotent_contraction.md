@@ -1,18 +1,11 @@
----
-title: "Fused Blackwell SM120 Tensor Core Architecture for Quillen Idempotent Contractions"
-paper_number: 1248
-topic: "Blackwell SM120 & Quillen Contractions"
-badge: "Canonical Engineering Report — Microarchitectural Kernel Implementation"
-status: "Certified Formal Treatise"
-steps_covered: 1000000
-total_accumulated_steps: 920000000
-lean_module: "lean_pilot/Pilot/MotivicBP.lean"
-cuda_kernel: "csrc/fused_blackwell_motivic_bp.cu"
-iouring_engine: "csrc/fused_iouring_motivic_bp_splice_stream.cpp"
-date: "November 2026"
----
+# Paper 1248: Fused Blackwell SM120 Tensor Core Architecture for Quillen Idempotent Contractions
 
-# Fused Blackwell SM120 Tensor Core Architecture for Quillen Idempotent Contractions
+**Hardware Target:** NVIDIA Blackwell SM 12.0 (RTX 5060 Ti / 16GB) + AMD Ryzen 5 7600X  
+**Series:** Phase 6 Blackwell Kernels And Dma Engines: Blackwell SM120 & Quillen Contractions  
+**Paper Type:** Scientific Monograph & Hardware Report  
+**Status:** Certified Formal Treatise  
+
+---
 
 ## Abstract
 This report evaluates the architecture and microbenchmark results of our 76th native CUDA kernel (`csrc/fused_blackwell_motivic_bp.cu`) targeting the NVIDIA Blackwell SM120 microarchitecture. We detail the warp-level evaluation of Quillen idempotents and Hazewinkel recursion formulas.

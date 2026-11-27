@@ -1,18 +1,11 @@
----
-title: "The Motivic Witten Genus and String Orientation of Motivic MString to tmf"
-paper_number: 1234
-topic: "Witten Genus & String Orientation"
-badge: "Canonical Reference Treatise — Differential & Motivic Topology"
-status: "Certified Formal Treatise"
-steps_covered: 1000000
-total_accumulated_steps: 910000000
-lean_module: "lean_pilot/Pilot/MotivicTMF.lean"
-cuda_kernel: "csrc/fused_blackwell_motivic_tmf.cu"
-iouring_engine: "csrc/fused_iouring_motivic_tmf_splice_stream.cpp"
-date: "November 2026"
----
+# Paper 1234: The Motivic Witten Genus and String Orientation of Motivic MString to tmf
 
-# The Motivic Witten Genus and String Orientation of Motivic MString to tmf
+**Hardware Target:** NVIDIA Blackwell SM 12.0 (RTX 5060 Ti / 16GB) + AMD Ryzen 5 7600X  
+**Series:** Phase 6 Blackwell Kernels And Dma Engines: Witten Genus & String Orientation  
+**Paper Type:** Scientific Monograph & Hardware Report  
+**Status:** Certified Formal Treatise  
+
+---
 
 ## Abstract
 This monograph formalizes the motivic Witten genus as an orientation of motivic string cobordism $\mathbf{MString}$ into $\mathbf{tmf}$. We construct the universal elliptic character and compute the characteristic classes of motivic vector bundles equipped with string structures.

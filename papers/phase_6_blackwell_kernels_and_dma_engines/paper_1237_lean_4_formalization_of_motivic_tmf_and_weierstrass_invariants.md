@@ -1,18 +1,11 @@
----
-title: "Lean 4 Formalization of Motivic tmf, Weierstrass Invariants, and Discriminant Non-Vanishing"
-paper_number: 1237
-topic: "Formalization & Lean 4 Architecture"
-badge: "Canonical Engineering Report — Verified Proof Engines"
-status: "Certified Formal Treatise"
-steps_covered: 1000000
-total_accumulated_steps: 910000000
-lean_module: "lean_pilot/Pilot/MotivicTMF.lean"
-cuda_kernel: "csrc/fused_blackwell_motivic_tmf.cu"
-iouring_engine: "csrc/fused_iouring_motivic_tmf_splice_stream.cpp"
-date: "November 2026"
----
+# Paper 1237: Lean 4 Formalization of Motivic tmf, Weierstrass Invariants, and Discriminant Non-Vanishing
 
-# Lean 4 Formalization of Motivic tmf, Weierstrass Invariants, and Discriminant Non-Vanishing
+**Hardware Target:** NVIDIA Blackwell SM 12.0 (RTX 5060 Ti / 16GB) + AMD Ryzen 5 7600X  
+**Series:** Phase 6 Blackwell Kernels And Dma Engines: Formalization & Lean 4 Architecture  
+**Paper Type:** Scientific Monograph & Hardware Report  
+**Status:** Certified Formal Treatise  
+
+---
 
 ## Abstract
 We document the mathematical formalization of Motivic $\mathbf{tmf}$ in the `lean_pilot` framework within Mathlib 4. We review `Pilot.MotivicTMF`, detailing the formal definitions of Weierstrass models, discriminant invariants, elliptic curve isomorphisms, and the connective $\mathbf{tmf}$ spectrum with zero `sorry` placeholders.

@@ -1,7 +1,11 @@
 # Paper 1284: Brown-Comenetz Duality, Anderson Duality, and Arithmetic Duality in Motivic Homotopy
 
-**Paper Type**: Brown-Comenetz & Anderson Duality  
-**Verification Status**: Canonical Reference Treatise — Arithmetic Homotopy  
+**Hardware Target:** NVIDIA Blackwell SM 12.0 (RTX 5060 Ti / 16GB) + AMD Ryzen 5 7600X  
+**Series:** Phase 6 Blackwell Kernels And Dma Engines — High-Dimensional Continuous Foundations  
+**Paper Type:** Brown-Comenetz & Anderson Duality  
+**Status:** Canonical Reference Treatise — Arithmetic Homotopy  
+
+---
 
 ---
 

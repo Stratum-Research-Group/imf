@@ -1,18 +1,11 @@
----
-title: "Morava K-Theory Functors and Chromatic Splittings in the Motivic Stable Homotopy Category"
-paper_number: 1245
-topic: "Morava K-Theories & Chromatic Splitting"
-badge: "Canonical Reference Treatise — Chromatic Homotopy"
-status: "Certified Formal Treatise"
-steps_covered: 1000000
-total_accumulated_steps: 920000000
-lean_module: "lean_pilot/Pilot/MotivicBP.lean"
-cuda_kernel: "csrc/fused_blackwell_motivic_bp.cu"
-iouring_engine: "csrc/fused_iouring_motivic_bp_splice_stream.cpp"
-date: "November 2026"
----
+# Paper 1245: Morava K-Theory Functors and Chromatic Splittings in the Motivic Stable Homotopy Category
 
-# Morava K-Theory Functors and Chromatic Splittings in the Motivic Stable Homotopy Category
+**Hardware Target:** NVIDIA Blackwell SM 12.0 (RTX 5060 Ti / 16GB) + AMD Ryzen 5 7600X  
+**Series:** Phase 6 Blackwell Kernels And Dma Engines: Morava K-Theories & Chromatic Splitting  
+**Paper Type:** Scientific Monograph & Hardware Report  
+**Status:** Certified Formal Treatise  
+
+---
 
 ## Abstract
 We develop the motivic Morava $K$-theory spectra $K(n)$ as algebraic quotients of $\mathbf{BP}$. We analyze their field-like property, the chromatic convergence theorem, and the chromatic splitting conjecture in motivic homotopy theory.

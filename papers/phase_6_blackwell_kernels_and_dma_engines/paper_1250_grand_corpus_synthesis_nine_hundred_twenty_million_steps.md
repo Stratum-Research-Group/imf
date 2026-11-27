@@ -1,18 +1,11 @@
----
-title: "Grand Corpus Synthesis: 1,250 Treatises, 920 Million Steps, and the Chromatic Frontier"
-paper_number: 1250
-topic: "Grand Synthesis & The Chromatic Frontier"
-badge: "Grand Synthesis Treatise — Compendium Paper 1250"
-status: "Certified Formal Treatise"
-steps_covered: 1000000
-total_accumulated_steps: 920000000
-lean_module: "lean_pilot/Pilot/MotivicBP.lean"
-cuda_kernel: "csrc/fused_blackwell_motivic_bp.cu"
-iouring_engine: "csrc/fused_iouring_motivic_bp_splice_stream.cpp"
-date: "November 2026"
----
+# Paper 1250: Grand Corpus Synthesis: 1,250 Treatises, 920 Million Steps, and the Chromatic Frontier
 
-# Grand Corpus Synthesis: 1,250 Treatises, 920 Million Steps, and the Chromatic Frontier
+**Hardware Target:** NVIDIA Blackwell SM 12.0 (RTX 5060 Ti / 16GB) + AMD Ryzen 5 7600X  
+**Series:** Phase 6 Blackwell Kernels And Dma Engines: Grand Synthesis & The Chromatic Frontier  
+**Paper Type:** Scientific Monograph & Hardware Report  
+**Status:** Certified Formal Treatise  
+
+---
 
 ## Abstract
 As the capstone treatise of the 920 Million Step milestone, Paper 1250 synthesizes the attainment of **1,250 formal scientific treatises** and **920,000,000 certified deductive proof steps** (2.87500% of the 32B Grand Corpus). We review the progression through algebraic cobordism, elliptic modular forms, and Brown-Peterson spectra, framing the final ascent toward One Billion steps.

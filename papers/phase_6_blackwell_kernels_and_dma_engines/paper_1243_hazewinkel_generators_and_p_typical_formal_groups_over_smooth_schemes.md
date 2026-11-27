@@ -1,18 +1,11 @@
----
-title: "Hazewinkel Generators and p-Typical Formal Groups over Arbitrary Smooth Schemes"
-paper_number: 1243
-topic: "Hazewinkel Generators & p-Typicality"
-badge: "Canonical Reference Treatise — Arithmetic Homotopy"
-status: "Certified Formal Treatise"
-steps_covered: 1000000
-total_accumulated_steps: 920000000
-lean_module: "lean_pilot/Pilot/MotivicBP.lean"
-cuda_kernel: "csrc/fused_blackwell_motivic_bp.cu"
-iouring_engine: "csrc/fused_iouring_motivic_bp_splice_stream.cpp"
-date: "November 2026"
----
+# Paper 1243: Hazewinkel Generators and p-Typical Formal Groups over Arbitrary Smooth Schemes
 
-# Hazewinkel Generators and p-Typical Formal Groups over Arbitrary Smooth Schemes
+**Hardware Target:** NVIDIA Blackwell SM 12.0 (RTX 5060 Ti / 16GB) + AMD Ryzen 5 7600X  
+**Series:** Phase 6 Blackwell Kernels And Dma Engines: Hazewinkel Generators & p-Typicality  
+**Paper Type:** Scientific Monograph & Hardware Report  
+**Status:** Certified Formal Treatise  
+
+---
 
 ## Abstract
 We examine the arithmetic and geometric properties of Hazewinkel's generators $v_n$ and Araki's generators across smooth schemes over arbitrary base fields. We establish their compatibility with base change, residue field evaluations, and formal Cartier duality.

@@ -1,18 +1,11 @@
----
-title: "Deformation Theory of Formal Groups and the Universal Lubin-Tate Ring W(k)[[u1,...,un-1]]"
-paper_number: 1252
-topic: "Lubin-Tate Deformation Theory"
-badge: "Canonical Reference Treatise — Mathematical Formulation"
-status: "Certified Formal Treatise"
-steps_covered: 1000000
-total_accumulated_steps: 930000000
-lean_module: "lean_pilot/Pilot/MotivicLubinTate.lean"
-cuda_kernel: "csrc/fused_blackwell_motivic_lubin_tate.cu"
-iouring_engine: "csrc/fused_iouring_motivic_lubin_tate_splice_stream.cpp"
-date: "November 2026"
----
+# Paper 1252: Deformation Theory of Formal Groups and the Universal Lubin-Tate Ring W(k)[[u1,...,un-1]]
 
-# Deformation Theory of Formal Groups and the Universal Lubin-Tate Ring W(k)[[u1,...,un-1]]
+**Hardware Target:** NVIDIA Blackwell SM 12.0 (RTX 5060 Ti / 16GB) + AMD Ryzen 5 7600X  
+**Series:** Phase 6 Blackwell Kernels And Dma Engines: Lubin-Tate Deformation Theory  
+**Paper Type:** Scientific Monograph & Hardware Report  
+**Status:** Certified Formal Treatise  
+
+---
 
 ## Abstract
 This treatise provides a rigorous mathematical exposition of Lubin-Tate deformation theory for 1-dimensional formal groups of finite height. We prove the representability of the deformation functor and deduce the structure of the universal deformation ring.

@@ -1,18 +1,11 @@
----
-title: "Generalized Moore Spectra, Type n Complexes, and Smith-Toda Complexes over Arbitrary Fields"
-paper_number: 1274
-topic: "Moore Spectra & Type n Complexes"
-badge: "Canonical Reference Treatise — Arithmetic Homotopy"
-status: "Certified Formal Treatise"
-steps_covered: 1000000
-total_accumulated_steps: 950000000
-lean_module: "lean_pilot/Pilot/MotivicSmashProduct.lean"
-cuda_kernel: "csrc/fused_blackwell_motivic_smash_product.cu"
-iouring_engine: "csrc/fused_iouring_motivic_smash_product_splice_stream.cpp"
-date: "November 2026"
----
+# Paper 1274: Generalized Moore Spectra, Type n Complexes, and Smith-Toda Complexes over Arbitrary Fields
 
-# Generalized Moore Spectra, Type n Complexes, and Smith-Toda Complexes over Arbitrary Fields
+**Hardware Target:** NVIDIA Blackwell SM 12.0 (RTX 5060 Ti / 16GB) + AMD Ryzen 5 7600X  
+**Series:** Phase 6 Blackwell Kernels And Dma Engines: Moore Spectra & Type n Complexes  
+**Paper Type:** Scientific Monograph & Hardware Report  
+**Status:** Certified Formal Treatise  
+
+---
 
 ## Abstract
 This monograph formalizes the construction of generalized Moore spectra and Smith-Toda complexes $V(n)$ in the motivic stable category. We analyze the existence of $v_n$-self-maps, the Toda brackets governing their obstruction theory, and the algebraic geometric invariants of their cohomology.

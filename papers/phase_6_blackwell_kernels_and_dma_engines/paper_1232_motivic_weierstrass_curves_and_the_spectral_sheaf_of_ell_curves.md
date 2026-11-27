@@ -1,18 +1,11 @@
----
-title: "Motivic Weierstrass Curves and the Spectral Sheaf of Elliptic Curves over Smooth Schemes"
-paper_number: 1232
-topic: "Weierstrass Curves & Spectral Sheaves"
-badge: "Canonical Reference Treatise — Mathematical Formulation"
-status: "Certified Formal Treatise"
-steps_covered: 1000000
-total_accumulated_steps: 910000000
-lean_module: "lean_pilot/Pilot/MotivicTMF.lean"
-cuda_kernel: "csrc/fused_blackwell_motivic_tmf.cu"
-iouring_engine: "csrc/fused_iouring_motivic_tmf_splice_stream.cpp"
-date: "November 2026"
----
+# Paper 1232: Motivic Weierstrass Curves and the Spectral Sheaf of Elliptic Curves over Smooth Schemes
 
-# Motivic Weierstrass Curves and the Spectral Sheaf of Elliptic Curves over Smooth Schemes
+**Hardware Target:** NVIDIA Blackwell SM 12.0 (RTX 5060 Ti / 16GB) + AMD Ryzen 5 7600X  
+**Series:** Phase 6 Blackwell Kernels And Dma Engines: Weierstrass Curves & Spectral Sheaves  
+**Paper Type:** Scientific Monograph & Hardware Report  
+**Status:** Certified Formal Treatise  
+
+---
 
 ## Abstract
 This treatise provides a rigorous mathematical exposition of Weierstrass curves and their associated spectral sheaves in motivic homotopy theory. We examine the affine Weierstrass equation $y^2 + a_1 xy + a_3 y = x^3 + a_2 x^2 + a_4 x + a_6$, the universal invariants $c_4, c_6, \Delta$, and the descent spectral sequence over smooth base schemes.

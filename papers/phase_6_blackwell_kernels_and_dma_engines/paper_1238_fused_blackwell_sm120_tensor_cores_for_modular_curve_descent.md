@@ -1,18 +1,11 @@
----
-title: "Fused Blackwell SM120 Tensor Core Architecture for Modular Curve Descent Calculations"
-paper_number: 1238
-topic: "Blackwell SM120 & Modular Descent"
-badge: "Canonical Engineering Report — Microarchitectural Kernel Implementation"
-status: "Certified Formal Treatise"
-steps_covered: 1000000
-total_accumulated_steps: 910000000
-lean_module: "lean_pilot/Pilot/MotivicTMF.lean"
-cuda_kernel: "csrc/fused_blackwell_motivic_tmf.cu"
-iouring_engine: "csrc/fused_iouring_motivic_tmf_splice_stream.cpp"
-date: "November 2026"
----
+# Paper 1238: Fused Blackwell SM120 Tensor Core Architecture for Modular Curve Descent Calculations
 
-# Fused Blackwell SM120 Tensor Core Architecture for Modular Curve Descent Calculations
+**Hardware Target:** NVIDIA Blackwell SM 12.0 (RTX 5060 Ti / 16GB) + AMD Ryzen 5 7600X  
+**Series:** Phase 6 Blackwell Kernels And Dma Engines: Blackwell SM120 & Modular Descent  
+**Paper Type:** Scientific Monograph & Hardware Report  
+**Status:** Certified Formal Treatise  
+
+---
 
 ## Abstract
 This report describes the architecture and performance of the native NVIDIA Blackwell SM120 fused kernel for modular curve descent and elliptic cohomology operations (`csrc/fused_blackwell_motivic_tmf.cu`). We detail the FP8/FP16 tensor core layout, register allocation, shared memory banking, and asynchronous copy pipelines.

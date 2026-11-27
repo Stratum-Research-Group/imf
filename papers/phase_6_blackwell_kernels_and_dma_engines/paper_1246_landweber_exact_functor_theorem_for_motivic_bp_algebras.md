@@ -1,18 +1,11 @@
----
-title: "The Landweber Exact Functor Theorem for Motivic BP-Algebras and Flat Base Change"
-paper_number: 1246
-topic: "Landweber Exactness & Flat Base Change"
-badge: "Canonical Reference Treatise — Homological Algebra"
-status: "Certified Formal Treatise"
-steps_covered: 1000000
-total_accumulated_steps: 920000000
-lean_module: "lean_pilot/Pilot/MotivicBP.lean"
-cuda_kernel: "csrc/fused_blackwell_motivic_bp.cu"
-iouring_engine: "csrc/fused_iouring_motivic_bp_splice_stream.cpp"
-date: "November 2026"
----
+# Paper 1246: The Landweber Exact Functor Theorem for Motivic BP-Algebras and Flat Base Change
 
-# The Landweber Exact Functor Theorem for Motivic BP-Algebras and Flat Base Change
+**Hardware Target:** NVIDIA Blackwell SM 12.0 (RTX 5060 Ti / 16GB) + AMD Ryzen 5 7600X  
+**Series:** Phase 6 Blackwell Kernels And Dma Engines: Landweber Exactness & Flat Base Change  
+**Paper Type:** Scientific Monograph & Hardware Report  
+**Status:** Certified Formal Treatise  
+
+---
 
 ## Abstract
 This monograph formalizes the Motivic Landweber Exact Functor Theorem (LEFT). We prove that any $\mathbf{BP}_{*, *}$-module $M$ on which the sequence $(p, v_1, v_2, \dots, v_n)$ is regular for all $n$ determines a motivic homology theory $E_{*, *}(X) = \mathbf{BP}_{*, *}(X) \otimes_{\mathbf{BP}_{*, *}} M$.

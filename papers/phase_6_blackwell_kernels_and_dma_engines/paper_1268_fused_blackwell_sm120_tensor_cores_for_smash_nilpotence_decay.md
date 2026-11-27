@@ -1,18 +1,11 @@
----
-title: "Fused Blackwell SM120 Tensor Core Architecture for Smash-Nilpotence Iteration Decay"
-paper_number: 1268
-topic: "Blackwell SM120 & Nilpotence Decay"
-badge: "Canonical Engineering Report — Microarchitectural Kernel Implementation"
-status: "Certified Formal Treatise"
-steps_covered: 1000000
-total_accumulated_steps: 940000000
-lean_module: "lean_pilot/Pilot/MotivicNilpotence.lean"
-cuda_kernel: "csrc/fused_blackwell_motivic_nilpotence.cu"
-iouring_engine: "csrc/fused_iouring_motivic_nilpotence_splice_stream.cpp"
-date: "November 2026"
----
+# Paper 1268: Fused Blackwell SM120 Tensor Core Architecture for Smash-Nilpotence Iteration Decay
 
-# Fused Blackwell SM120 Tensor Core Architecture for Smash-Nilpotence Iteration Decay
+**Hardware Target:** NVIDIA Blackwell SM 12.0 (RTX 5060 Ti / 16GB) + AMD Ryzen 5 7600X  
+**Series:** Phase 6 Blackwell Kernels And Dma Engines: Blackwell SM120 & Nilpotence Decay  
+**Paper Type:** Scientific Monograph & Hardware Report  
+**Status:** Certified Formal Treatise  
+
+---
 
 ## Abstract
 This report evaluates the architecture and microbenchmark results of our 78th native CUDA kernel (`csrc/fused_blackwell_motivic_nilpotence.cu`) targeting the NVIDIA Blackwell SM120 microarchitecture. We detail the warp-level evaluation of smash power decay and thick subcategory projection operators.

@@ -1,7 +1,11 @@
 # Paper 1290: Grand Corpus Synthesis: 1,290 Treatises, 960 Million Steps, and the Chromatic Duality Horizon
 
-**Paper Type**: Grand Synthesis & Chromatic Duality  
-**Verification Status**: Grand Synthesis Treatise — Compendium Paper 1290  
+**Hardware Target:** NVIDIA Blackwell SM 12.0 (RTX 5060 Ti / 16GB) + AMD Ryzen 5 7600X  
+**Series:** Phase 6 Blackwell Kernels And Dma Engines — High-Dimensional Continuous Foundations  
+**Paper Type:** Grand Synthesis & Chromatic Duality  
+**Status:** Grand Synthesis Treatise — Compendium Paper 1290  
+
+---
 
 ---
 

@@ -1,7 +1,11 @@
 # Paper 1282: Morava E_n Self-Duality and the Gross-Hopkins Dualizing Spectrum I_n
 
-**Paper Type**: Morava E_n Self-Duality & Dualizing Spectrum  
-**Verification Status**: Canonical Reference Treatise — Mathematical Formulation  
+**Hardware Target:** NVIDIA Blackwell SM 12.0 (RTX 5060 Ti / 16GB) + AMD Ryzen 5 7600X  
+**Series:** Phase 6 Blackwell Kernels And Dma Engines — High-Dimensional Continuous Foundations  
+**Paper Type:** Morava E_n Self-Duality & Dualizing Spectrum  
+**Status:** Canonical Reference Treatise — Mathematical Formulation  
+
+---
 
 ---
 

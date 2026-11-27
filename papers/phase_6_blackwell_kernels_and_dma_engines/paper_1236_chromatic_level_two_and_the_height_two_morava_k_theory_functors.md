@@ -1,18 +1,11 @@
----
-title: "Chromatic Level Two Phenomena and the Height Two Morava K-Theory Functors over Arbitrary Fields"
-paper_number: 1236
-topic: "Chromatic Level Two & Morava K-Theory"
-badge: "Canonical Reference Treatise — Chromatic Homotopy"
-status: "Certified Formal Treatise"
-steps_covered: 1000000
-total_accumulated_steps: 910000000
-lean_module: "lean_pilot/Pilot/MotivicTMF.lean"
-cuda_kernel: "csrc/fused_blackwell_motivic_tmf.cu"
-iouring_engine: "csrc/fused_iouring_motivic_tmf_splice_stream.cpp"
-date: "November 2026"
----
+# Paper 1236: Chromatic Level Two Phenomena and the Height Two Morava K-Theory Functors over Arbitrary Fields
 
-# Chromatic Level Two Phenomena and the Height Two Morava K-Theory Functors over Arbitrary Fields
+**Hardware Target:** NVIDIA Blackwell SM 12.0 (RTX 5060 Ti / 16GB) + AMD Ryzen 5 7600X  
+**Series:** Phase 6 Blackwell Kernels And Dma Engines: Chromatic Level Two & Morava K-Theory  
+**Paper Type:** Scientific Monograph & Hardware Report  
+**Status:** Certified Formal Treatise  
+
+---
 
 ## Abstract
 This paper details chromatic level two phenomena in motivic stable homotopy theory through the lens of $\mathbf{tmf}$ and Morava $K$-theory $K(2)$. We explore the chromatic filtration, monochromatic layers, and the landweber exactness of elliptic spectra.

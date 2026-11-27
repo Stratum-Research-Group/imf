@@ -1,18 +1,11 @@
----
-title: "The Chromatic Convergence Theorem and Inverse Limits of Chromatic Towers"
-paper_number: 1273
-topic: "Chromatic Convergence & Inverse Limits"
-badge: "Canonical Reference Treatise — Chromatic Homotopy"
-status: "Certified Formal Treatise"
-steps_covered: 1000000
-total_accumulated_steps: 950000000
-lean_module: "lean_pilot/Pilot/MotivicSmashProduct.lean"
-cuda_kernel: "csrc/fused_blackwell_motivic_smash_product.cu"
-iouring_engine: "csrc/fused_iouring_motivic_smash_product_splice_stream.cpp"
-date: "November 2026"
----
+# Paper 1273: The Chromatic Convergence Theorem and Inverse Limits of Chromatic Towers
 
-# The Chromatic Convergence Theorem and Inverse Limits of Chromatic Towers
+**Hardware Target:** NVIDIA Blackwell SM 12.0 (RTX 5060 Ti / 16GB) + AMD Ryzen 5 7600X  
+**Series:** Phase 6 Blackwell Kernels And Dma Engines: Chromatic Convergence & Inverse Limits  
+**Paper Type:** Scientific Monograph & Hardware Report  
+**Status:** Certified Formal Treatise  
+
+---
 
 ## Abstract
 We present the Chromatic Convergence Theorem of Hopkins and Ravenel in the motivic setting. We prove that any $p$-local finite motivic spectrum $X$ is recovered as the homotopy inverse limit of its chromatic localizations $L_n X$.

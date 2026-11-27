@@ -1,7 +1,11 @@
 # Paper 1300: Grand Corpus Synthesis: 1,300 Treatises, 970 Million Steps, and the Operadic E-Infinity Horizon
 
-**Paper Type**: Grand Synthesis & The Operadic Horizon  
-**Verification Status**: Grand Synthesis Treatise — Compendium Paper 1300  
+**Hardware Target:** NVIDIA Blackwell SM 12.0 (RTX 5060 Ti / 16GB) + AMD Ryzen 5 7600X  
+**Series:** Phase 6 Blackwell Kernels And Dma Engines — High-Dimensional Continuous Foundations  
+**Paper Type:** Grand Synthesis & The Operadic Horizon  
+**Status:** Grand Synthesis Treatise — Compendium Paper 1300  
+
+---
 
 ---
 

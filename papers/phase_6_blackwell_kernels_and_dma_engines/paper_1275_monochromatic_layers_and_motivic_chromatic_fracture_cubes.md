@@ -1,18 +1,11 @@
----
-title: "Monochromatic Layers and Higher-Dimensional Motivic Chromatic Fracture Cubes"
-paper_number: 1275
-topic: "Fracture Cubes & Monochromatic Layers"
-badge: "Canonical Reference Treatise — Homological Localization"
-status: "Certified Formal Treatise"
-steps_covered: 1000000
-total_accumulated_steps: 950000000
-lean_module: "lean_pilot/Pilot/MotivicSmashProduct.lean"
-cuda_kernel: "csrc/fused_blackwell_motivic_smash_product.cu"
-iouring_engine: "csrc/fused_iouring_motivic_smash_product_splice_stream.cpp"
-date: "November 2026"
----
+# Paper 1275: Monochromatic Layers and Higher-Dimensional Motivic Chromatic Fracture Cubes
 
-# Monochromatic Layers and Higher-Dimensional Motivic Chromatic Fracture Cubes
+**Hardware Target:** NVIDIA Blackwell SM 12.0 (RTX 5060 Ti / 16GB) + AMD Ryzen 5 7600X  
+**Series:** Phase 6 Blackwell Kernels And Dma Engines: Fracture Cubes & Monochromatic Layers  
+**Paper Type:** Scientific Monograph & Hardware Report  
+**Status:** Certified Formal Treatise  
+
+---
 
 ## Abstract
 We develop higher-dimensional chromatic fracture cubes decomposing localized motivic spectra into monochromatic components. We analyze the gluing data, $K(n)$-local cohomology, and the chromatic spectral sequence.

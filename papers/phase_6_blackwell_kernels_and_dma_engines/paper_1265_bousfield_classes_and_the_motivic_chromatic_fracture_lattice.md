@@ -1,18 +1,11 @@
----
-title: "Bousfield Classes and the Motivic Chromatic Fracture Lattice"
-paper_number: 1265
-topic: "Bousfield Classes & Fracture Lattices"
-badge: "Canonical Reference Treatise — Homological Localization"
-status: "Certified Formal Treatise"
-steps_covered: 1000000
-total_accumulated_steps: 940000000
-lean_module: "lean_pilot/Pilot/MotivicNilpotence.lean"
-cuda_kernel: "csrc/fused_blackwell_motivic_nilpotence.cu"
-iouring_engine: "csrc/fused_iouring_motivic_nilpotence_splice_stream.cpp"
-date: "November 2026"
----
+# Paper 1265: Bousfield Classes and the Motivic Chromatic Fracture Lattice
 
-# Bousfield Classes and the Motivic Chromatic Fracture Lattice
+**Hardware Target:** NVIDIA Blackwell SM 12.0 (RTX 5060 Ti / 16GB) + AMD Ryzen 5 7600X  
+**Series:** Phase 6 Blackwell Kernels And Dma Engines: Bousfield Classes & Fracture Lattices  
+**Paper Type:** Scientific Monograph & Hardware Report  
+**Status:** Certified Formal Treatise  
+
+---
 
 ## Abstract
 We develop the lattice of Bousfield classes $\operatorname{DL}(\mathcal{SH}(k))$ in motivic stable homotopy. We analyze the Boolean algebra of smashing localizations, the Hopkins-Ravenel smash product theorem, and the chromatic fracture square decompositions.

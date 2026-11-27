@@ -1,18 +1,11 @@
----
-title: "Smash-Nilpotence and the MGL Homology Vanishing Criterion in Motivic Stable Homotopy"
-paper_number: 1262
-topic: "Smash-Nilpotence & MGL Vanishing"
-badge: "Canonical Reference Treatise — Mathematical Formulation"
-status: "Certified Formal Treatise"
-steps_covered: 1000000
-total_accumulated_steps: 940000000
-lean_module: "lean_pilot/Pilot/MotivicNilpotence.lean"
-cuda_kernel: "csrc/fused_blackwell_motivic_nilpotence.cu"
-iouring_engine: "csrc/fused_iouring_motivic_nilpotence_splice_stream.cpp"
-date: "November 2026"
----
+# Paper 1262: Smash-Nilpotence and the MGL Homology Vanishing Criterion in Motivic Stable Homotopy
 
-# Smash-Nilpotence and the MGL Homology Vanishing Criterion in Motivic Stable Homotopy
+**Hardware Target:** NVIDIA Blackwell SM 12.0 (RTX 5060 Ti / 16GB) + AMD Ryzen 5 7600X  
+**Series:** Phase 6 Blackwell Kernels And Dma Engines: Smash-Nilpotence & MGL Vanishing  
+**Paper Type:** Scientific Monograph & Hardware Report  
+**Status:** Certified Formal Treatise  
+
+---
 
 ## Abstract
 This treatise provides a rigorous mathematical exposition of smash-nilpotence in the motivic stable homotopy category. We trace the reduction of general ring spectra to commutative ring spectra via the Hopkins-Smith small object argument and analyze the nilpotence filtration on the homotopy groups of motivic spheres.

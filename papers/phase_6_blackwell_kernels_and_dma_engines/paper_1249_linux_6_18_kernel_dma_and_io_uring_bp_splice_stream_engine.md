@@ -1,18 +1,11 @@
----
-title: "Linux 6.18 Kernel DMA and io_uring Motivic BP Splice Stream Zero-Copy Architecture"
-paper_number: 1249
-topic: "Linux 6.18 io_uring & Zero-Copy DMA"
-badge: "Canonical Engineering Report — Systems & Kernel Engines"
-status: "Certified Formal Treatise"
-steps_covered: 1000000
-total_accumulated_steps: 920000000
-lean_module: "lean_pilot/Pilot/MotivicBP.lean"
-cuda_kernel: "csrc/fused_blackwell_motivic_bp.cu"
-iouring_engine: "csrc/fused_iouring_motivic_bp_splice_stream.cpp"
-date: "November 2026"
----
+# Paper 1249: Linux 6.18 Kernel DMA and io_uring Motivic BP Splice Stream Zero-Copy Architecture
 
-# Linux 6.18 Kernel DMA and io_uring Motivic BP Splice Stream Zero-Copy Architecture
+**Hardware Target:** NVIDIA Blackwell SM 12.0 (RTX 5060 Ti / 16GB) + AMD Ryzen 5 7600X  
+**Series:** Phase 6 Blackwell Kernels And Dma Engines: Linux 6.18 io_uring & Zero-Copy DMA  
+**Paper Type:** Scientific Monograph & Hardware Report  
+**Status:** Certified Formal Treatise  
+
+---
 
 ## Abstract
 We detail the implementation of the Linux 6.18 kernel io_uring zero-copy splice stream engine for Motivic $\mathbf{BP}$ data ingestion (`csrc/fused_iouring_motivic_bp_splice_stream.cpp`). We analyze memory registration, page-table pinning, and asynchronous completion queues.

@@ -1,18 +1,11 @@
----
-title: "The Telescope Conjecture, v_n-Periodic Self-Maps, and Chromatic Convergence"
-paper_number: 1264
-topic: "Telescope Conjecture & Periodicity"
-badge: "Canonical Reference Treatise — Chromatic Homotopy"
-status: "Certified Formal Treatise"
-steps_covered: 1000000
-total_accumulated_steps: 940000000
-lean_module: "lean_pilot/Pilot/MotivicNilpotence.lean"
-cuda_kernel: "csrc/fused_blackwell_motivic_nilpotence.cu"
-iouring_engine: "csrc/fused_iouring_motivic_nilpotence_splice_stream.cpp"
-date: "November 2026"
----
+# Paper 1264: The Telescope Conjecture, v_n-Periodic Self-Maps, and Chromatic Convergence
 
-# The Telescope Conjecture, v_n-Periodic Self-Maps, and Chromatic Convergence
+**Hardware Target:** NVIDIA Blackwell SM 12.0 (RTX 5060 Ti / 16GB) + AMD Ryzen 5 7600X  
+**Series:** Phase 6 Blackwell Kernels And Dma Engines: Telescope Conjecture & Periodicity  
+**Paper Type:** Scientific Monograph & Hardware Report  
+**Status:** Certified Formal Treatise  
+
+---
 
 ## Abstract
 This monograph formalizes the Periodicity Theorem of Hopkins and Smith and explores the status of the Telescope Conjecture in motivic homotopy theory. We construct $v_n$-self-maps on type $n$ complexes and compare the telescopic localization $T(n)^{-1} X$ with the Bousfield localization $L_{K(n)} X$.

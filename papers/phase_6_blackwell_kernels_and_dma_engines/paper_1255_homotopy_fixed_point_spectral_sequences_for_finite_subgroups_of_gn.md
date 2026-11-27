@@ -1,18 +1,11 @@
----
-title: "Homotopy Fixed Point Spectral Sequences for Finite Subgroups of the Extended Stabilizer Group"
-paper_number: 1255
-topic: "Homotopy Fixed Points & Finite Subgroups"
-badge: "Canonical Reference Treatise — Chromatic Homotopy"
-status: "Certified Formal Treatise"
-steps_covered: 1000000
-total_accumulated_steps: 930000000
-lean_module: "lean_pilot/Pilot/MotivicLubinTate.lean"
-cuda_kernel: "csrc/fused_blackwell_motivic_lubin_tate.cu"
-iouring_engine: "csrc/fused_iouring_motivic_lubin_tate_splice_stream.cpp"
-date: "November 2026"
----
+# Paper 1255: Homotopy Fixed Point Spectral Sequences for Finite Subgroups of the Extended Stabilizer Group
 
-# Homotopy Fixed Point Spectral Sequences for Finite Subgroups of the Extended Stabilizer Group
+**Hardware Target:** NVIDIA Blackwell SM 12.0 (RTX 5060 Ti / 16GB) + AMD Ryzen 5 7600X  
+**Series:** Phase 6 Blackwell Kernels And Dma Engines: Homotopy Fixed Points & Finite Subgroups  
+**Paper Type:** Scientific Monograph & Hardware Report  
+**Status:** Certified Formal Treatise  
+
+---
 
 ## Abstract
 We investigate the homotopy fixed point spectra $E_n^{hG}$ for finite subgroups $G \subset \mathbb{G}_n$. We analyze the homotopy fixed point spectral sequence, resolve horizontal and vertical differentials, and construct higher real $K$-theories $EO_n(G)$.

@@ -1,18 +1,11 @@
----
-title: "The Thick Subcategory Theorem and Morava K-Theory Kernels in SH(k)"
-paper_number: 1263
-topic: "Thick Subcategories & Morava Kernels"
-badge: "Canonical Reference Treatise — Triangulated Categories"
-status: "Certified Formal Treatise"
-steps_covered: 1000000
-total_accumulated_steps: 940000000
-lean_module: "lean_pilot/Pilot/MotivicNilpotence.lean"
-cuda_kernel: "csrc/fused_blackwell_motivic_nilpotence.cu"
-iouring_engine: "csrc/fused_iouring_motivic_nilpotence_splice_stream.cpp"
-date: "November 2026"
----
+# Paper 1263: The Thick Subcategory Theorem and Morava K-Theory Kernels in SH(k)
 
-# The Thick Subcategory Theorem and Morava K-Theory Kernels in SH(k)
+**Hardware Target:** NVIDIA Blackwell SM 12.0 (RTX 5060 Ti / 16GB) + AMD Ryzen 5 7600X  
+**Series:** Phase 6 Blackwell Kernels And Dma Engines: Thick Subcategories & Morava Kernels  
+**Paper Type:** Scientific Monograph & Hardware Report  
+**Status:** Certified Formal Treatise  
+
+---
 
 ## Abstract
 We present the classification of thick subcategories of the compact objects $\mathcal{SH}(k)^{\mathrm{fin}}$ in the motivic stable homotopy category. We construct the chromatic filtration $\mathcal{C}_n$ and prove that every thick subcategory is an intersection of Morava $K$-theory kernels.

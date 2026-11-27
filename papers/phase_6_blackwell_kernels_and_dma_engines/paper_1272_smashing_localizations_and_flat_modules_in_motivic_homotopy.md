@@ -1,18 +1,11 @@
----
-title: "Smashing Localizations and Flat Modules in the Motivic Stable Homotopy Category"
-paper_number: 1272
-topic: "Smashing Localizations & Flat Modules"
-badge: "Canonical Reference Treatise — Mathematical Formulation"
-status: "Certified Formal Treatise"
-steps_covered: 1000000
-total_accumulated_steps: 950000000
-lean_module: "lean_pilot/Pilot/MotivicSmashProduct.lean"
-cuda_kernel: "csrc/fused_blackwell_motivic_smash_product.cu"
-iouring_engine: "csrc/fused_iouring_motivic_smash_product_splice_stream.cpp"
-date: "November 2026"
----
+# Paper 1272: Smashing Localizations and Flat Modules in the Motivic Stable Homotopy Category
 
-# Smashing Localizations and Flat Modules in the Motivic Stable Homotopy Category
+**Hardware Target:** NVIDIA Blackwell SM 12.0 (RTX 5060 Ti / 16GB) + AMD Ryzen 5 7600X  
+**Series:** Phase 6 Blackwell Kernels And Dma Engines: Smashing Localizations & Flat Modules  
+**Paper Type:** Scientific Monograph & Hardware Report  
+**Status:** Certified Formal Treatise  
+
+---
 
 ## Abstract
 This treatise provides a rigorous mathematical exposition of smashing localizations and flat module structures in motivic homotopy theory. We analyze the Bousfield lattice properties of smashing functors, the telescope conjecture, and the localization of motivic dualizable objects.

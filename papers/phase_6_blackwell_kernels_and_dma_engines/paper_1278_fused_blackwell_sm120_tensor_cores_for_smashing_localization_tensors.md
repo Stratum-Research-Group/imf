@@ -1,18 +1,11 @@
----
-title: "Fused Blackwell SM120 Tensor Core Architecture for Smashing Localization Tensor Contractions"
-paper_number: 1278
-topic: "Blackwell SM120 & Smashing Tensors"
-badge: "Canonical Engineering Report — Microarchitectural Kernel Implementation"
-status: "Certified Formal Treatise"
-steps_covered: 1000000
-total_accumulated_steps: 950000000
-lean_module: "lean_pilot/Pilot/MotivicSmashProduct.lean"
-cuda_kernel: "csrc/fused_blackwell_motivic_smash_product.cu"
-iouring_engine: "csrc/fused_iouring_motivic_smash_product_splice_stream.cpp"
-date: "November 2026"
----
+# Paper 1278: Fused Blackwell SM120 Tensor Core Architecture for Smashing Localization Tensor Contractions
 
-# Fused Blackwell SM120 Tensor Core Architecture for Smashing Localization Tensor Contractions
+**Hardware Target:** NVIDIA Blackwell SM 12.0 (RTX 5060 Ti / 16GB) + AMD Ryzen 5 7600X  
+**Series:** Phase 6 Blackwell Kernels And Dma Engines: Blackwell SM120 & Smashing Tensors  
+**Paper Type:** Scientific Monograph & Hardware Report  
+**Status:** Certified Formal Treatise  
+
+---
 
 ## Abstract
 This report evaluates the architecture and microbenchmark results of our 79th native CUDA kernel (`csrc/fused_blackwell_motivic_smash_product.cu`) targeting the NVIDIA Blackwell SM120 microarchitecture. We detail the warp-level evaluation of smashing localization tensor products $X \wedge L_n(\mathbf{1})$.

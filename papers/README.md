@@ -1,5 +1,14 @@
 # IMF Scientific Papers & Formal Monographs Compendium (1,301 Treatises)
 
+> **Scientific Audit & Consolidation Notice (1,000,000,000 Steps Landmark)**:  
+> For the comprehensive batch audit, measured silicon latencies, and Lean 4 formalization cross-index across all 9 architectural build batches, consult:
+> - **Consolidated Audit Report**: [`docs/PAPER_CORPUS_CONSOLIDATION_AUDIT.md`](../docs/PAPER_CORPUS_CONSOLIDATION_AUDIT.md)
+> - **Interactive Corpus Metrics Dashboard**: [`docs/assets/paper_corpus_metrics_dashboard.html`](../docs/assets/paper_corpus_metrics_dashboard.html)
+> - **Milestone Proof Steps Chart**: [`docs/assets/charts/proof_steps_milestones.svg`](../docs/assets/charts/proof_steps_milestones.svg)
+> - **Activation Sparsity Evolution**: [`docs/assets/charts/activation_sparsity_progression.svg`](../docs/assets/charts/activation_sparsity_progression.svg)
+> - **Hardware Latency Benchmarks**: [`docs/assets/charts/hardware_latency_benchmarks.svg`](../docs/assets/charts/hardware_latency_benchmarks.svg)
+
+
 | # | Title | Paper Type | Verification Status |
 |:---|:---|:---|:---|
 

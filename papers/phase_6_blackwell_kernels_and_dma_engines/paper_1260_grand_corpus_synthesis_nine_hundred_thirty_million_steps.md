@@ -1,18 +1,11 @@
----
-title: "Grand Corpus Synthesis: 1,260 Treatises, 930 Million Steps, and the Height n Horizon"
-paper_number: 1260
-topic: "Grand Synthesis & The Height n Horizon"
-badge: "Grand Synthesis Treatise — Compendium Paper 1260"
-status: "Certified Formal Treatise"
-steps_covered: 1000000
-total_accumulated_steps: 930000000
-lean_module: "lean_pilot/Pilot/MotivicLubinTate.lean"
-cuda_kernel: "csrc/fused_blackwell_motivic_lubin_tate.cu"
-iouring_engine: "csrc/fused_iouring_motivic_lubin_tate_splice_stream.cpp"
-date: "November 2026"
----
+# Paper 1260: Grand Corpus Synthesis: 1,260 Treatises, 930 Million Steps, and the Height n Horizon
 
-# Grand Corpus Synthesis: 1,260 Treatises, 930 Million Steps, and the Height n Horizon
+**Hardware Target:** NVIDIA Blackwell SM 12.0 (RTX 5060 Ti / 16GB) + AMD Ryzen 5 7600X  
+**Series:** Phase 6 Blackwell Kernels And Dma Engines: Grand Synthesis & The Height n Horizon  
+**Paper Type:** Scientific Monograph & Hardware Report  
+**Status:** Certified Formal Treatise  
+
+---
 
 ## Abstract
 As the capstone treatise of the 930 Million Step milestone, Paper 1260 synthesizes the attainment of **1,260 formal scientific treatises** and **930,000,000 certified deductive proof steps** (2.90625% of the 32B Grand Corpus). We review the progression through algebraic cobordism, topological modular forms, Brown-Peterson spectra, and Lubin-Tate deformation theory, framing the final approach toward One Billion steps.

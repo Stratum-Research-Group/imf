@@ -1,7 +1,11 @@
 # Paper 1301: The One Billion Certified Proof Steps Milestone: Sovereign Sub-Bit Fleet Architecture, 99% Polytope Activation Sparsity, and Chromatic Foundations
 
-**Paper Type**: Grand Synthesis Treatise — Compendium Paper 1301  
-**Verification Status**: Certified Historical Milestone — 1,000,000,000 Steps & 1,301 Treatises  
+**Hardware Target:** NVIDIA Blackwell SM 12.0 (RTX 5060 Ti / 16GB) + AMD Ryzen 5 7600X  
+**Series:** Phase 6 Blackwell Kernels And Dma Engines — High-Dimensional Continuous Foundations  
+**Paper Type:** Grand Synthesis Treatise — Compendium Paper 1301  
+**Status:** Certified Historical Milestone — 1,000,000,000 Steps & 1,301 Treatises  
+
+---
 
 ---
 

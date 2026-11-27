@@ -1,18 +1,11 @@
----
-title: "Grand Corpus Synthesis: 1,280 Treatises, 950 Million Steps, and the Chromatic Convergence Horizon"
-paper_number: 1280
-topic: "Grand Synthesis & The Chromatic Convergence Horizon"
-badge: "Grand Synthesis Treatise — Compendium Paper 1280"
-status: "Certified Formal Treatise"
-steps_covered: 1000000
-total_accumulated_steps: 950000000
-lean_module: "lean_pilot/Pilot/MotivicSmashProduct.lean"
-cuda_kernel: "csrc/fused_blackwell_motivic_smash_product.cu"
-iouring_engine: "csrc/fused_iouring_motivic_smash_product_splice_stream.cpp"
-date: "November 2026"
----
+# Paper 1280: Grand Corpus Synthesis: 1,280 Treatises, 950 Million Steps, and the Chromatic Convergence Horizon
 
-# Grand Corpus Synthesis: 1,280 Treatises, 950 Million Steps, and the Chromatic Convergence Horizon
+**Hardware Target:** NVIDIA Blackwell SM 12.0 (RTX 5060 Ti / 16GB) + AMD Ryzen 5 7600X  
+**Series:** Phase 6 Blackwell Kernels And Dma Engines: Grand Synthesis & The Chromatic Convergence Horizon  
+**Paper Type:** Scientific Monograph & Hardware Report  
+**Status:** Certified Formal Treatise  
+
+---
 
 ## Abstract
 As the capstone treatise of the 950 Million Step milestone, Paper 1280 synthesizes the attainment of **1,280 formal scientific treatises** and **950,000,000 certified deductive proof steps** (2.96875% of the 32B Grand Corpus). We review the progression through algebraic cobordism, topological modular forms, Lubin-Tate spectra, nilpotence, and the Hopkins-Ravenel smash product theorem, framing the final approach toward One Billion steps.

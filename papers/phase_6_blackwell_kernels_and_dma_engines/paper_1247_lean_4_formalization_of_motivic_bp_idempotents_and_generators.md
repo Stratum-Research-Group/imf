@@ -1,18 +1,11 @@
----
-title: "Lean 4 Formalization of Motivic BP Idempotents, Quillen Projections, and Hazewinkel Invariants"
-paper_number: 1247
-topic: "Formalization & Lean 4 Architecture"
-badge: "Canonical Engineering Report — Verified Proof Engines"
-status: "Certified Formal Treatise"
-steps_covered: 1000000
-total_accumulated_steps: 920000000
-lean_module: "lean_pilot/Pilot/MotivicBP.lean"
-cuda_kernel: "csrc/fused_blackwell_motivic_bp.cu"
-iouring_engine: "csrc/fused_iouring_motivic_bp_splice_stream.cpp"
-date: "November 2026"
----
+# Paper 1247: Lean 4 Formalization of Motivic BP Idempotents, Quillen Projections, and Hazewinkel Invariants
 
-# Lean 4 Formalization of Motivic BP Idempotents, Quillen Projections, and Hazewinkel Invariants
+**Hardware Target:** NVIDIA Blackwell SM 12.0 (RTX 5060 Ti / 16GB) + AMD Ryzen 5 7600X  
+**Series:** Phase 6 Blackwell Kernels And Dma Engines: Formalization & Lean 4 Architecture  
+**Paper Type:** Scientific Monograph & Hardware Report  
+**Status:** Certified Formal Treatise  
+
+---
 
 ## Abstract
 We document the machine-verified formalization of Motivic $\mathbf{BP}$ within Mathlib 4 (`lean_pilot/Pilot/MotivicBP.lean`). We present the type-theoretic definitions of Quillen idempotents, Hazewinkel generators, and chromatic height monotonicity, proving zero sorry clauses and zero non-standard axioms.

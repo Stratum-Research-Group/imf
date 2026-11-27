@@ -1,18 +1,11 @@
----
-title: "Morava Stabilizer Groups and Maximal Orders in Central Division Algebras over Qp"
-paper_number: 1253
-topic: "Morava Stabilizer Groups & Division Algebras"
-badge: "Canonical Reference Treatise — Non-Abelian Arithmetic"
-status: "Certified Formal Treatise"
-steps_covered: 1000000
-total_accumulated_steps: 930000000
-lean_module: "lean_pilot/Pilot/MotivicLubinTate.lean"
-cuda_kernel: "csrc/fused_blackwell_motivic_lubin_tate.cu"
-iouring_engine: "csrc/fused_iouring_motivic_lubin_tate_splice_stream.cpp"
-date: "November 2026"
----
+# Paper 1253: Morava Stabilizer Groups and Maximal Orders in Central Division Algebras over Qp
 
-# Morava Stabilizer Groups and Maximal Orders in Central Division Algebras over Qp
+**Hardware Target:** NVIDIA Blackwell SM 12.0 (RTX 5060 Ti / 16GB) + AMD Ryzen 5 7600X  
+**Series:** Phase 6 Blackwell Kernels And Dma Engines: Morava Stabilizer Groups & Division Algebras  
+**Paper Type:** Scientific Monograph & Hardware Report  
+**Status:** Certified Formal Treatise  
+
+---
 
 ## Abstract
 We examine the algebraic structure of the Morava stabilizer group $\mathbb{S}_n = \operatorname{Aut}_k(\mathbb{G}_0)$. We formulate its identification with the group of units $\mathcal{O}_n^\times$ in the maximal order of the central division algebra $D_{1/n}$ over $\mathbb{Q}_p$ and analyze its filtration by congruence subgroups.
