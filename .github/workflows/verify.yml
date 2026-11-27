@@ -83,6 +83,7 @@ jobs:
           g++ -O3 -shared -fPIC -std=c++17 csrc/fused_iouring_motivic_bp_splice_stream.cpp -o csrc/libfused_iouring_motivic_bp_splice_stream.so
           g++ -O3 -shared -fPIC -std=c++17 csrc/fused_iouring_motivic_lubin_tate_splice_stream.cpp -o csrc/libfused_iouring_motivic_lubin_tate_splice_stream.so
           g++ -O3 -shared -fPIC -std=c++17 csrc/fused_iouring_motivic_nilpotence_splice_stream.cpp -o csrc/libfused_iouring_motivic_nilpotence_splice_stream.so
+          g++ -O3 -shared -fPIC -std=c++17 csrc/fused_iouring_motivic_smash_product_splice_stream.cpp -o csrc/libfused_iouring_motivic_smash_product_splice_stream.so
 
       - name: Install uv and Python
         uses: astral-sh/setup-uv@v3
