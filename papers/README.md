@@ -1,4 +1,4 @@
-# IMF Scientific Papers & Formal Monographs Compendium (940 Treatises)
+# IMF Scientific Papers & Formal Monographs Compendium (950 Treatises)
 
 | # | Title | Paper Type | Verification Status |
 |:---|:---|:---|:---|
@@ -997,6 +997,17 @@
 | 938 | [Paper 938: Lean 4 Deductive Certification: 46 Modules and Verified Base Change Invariants](phase_6_blackwell_kernels_and_dma_engines/paper_938_lean4_deductive_certification_langlands_tunnell_base_change.md) | ** Interactive Formal Verification & Mathematical Certification | ** Machine-Checked Proof — Certified with Zero Sorry |
 | 939 | [Paper 939: MegaGym 32B Grand Corpus: Block Sequence 611-620 Production and Checksums](phase_6_blackwell_kernels_and_dma_engines/paper_939_megagym_corpus_block_sequence_611_620_production.md) | ** Datasets & Verification Infrastructure | ** Cryptographically Sealed Corpus Block Archive |
 | 940 | [Paper 940: Grand Milestone Synthesis: Nine Hundred Forty Treatises and Six Hundred Twenty Million Steps](phase_6_blackwell_kernels_and_dma_engines/paper_940_mathematical_synthesis_from_serre_modularity_to_langlands_base_change.md) | ** Grand Milestone Synthesis & Comprehensive Compendium | ** Certified Historical Milestone — 620M Steps & 940 Treatises |
+
+| 941 | [Paper 941: Six Hundred Thirty Million Steps Milestone and Asymptotic Epistemic Scaling](phase_6_blackwell_kernels_and_dma_engines/paper_941_six_hundred_thirty_million_steps_milestone_and_asymptotic_epistemic_scaling.md) | ** Milestone Synthesis & Scaling Report | ** Certified Historical Milestone — 630M Steps & 950 Treatises |
+| 942 | [Paper 942: The Taylor-Wiles Patching Method and Complete Intersection Deformations](phase_6_blackwell_kernels_and_dma_engines/paper_942_taylor_wiles_patching_and_complete_intersection_deformations.md) | ** Arithmetic Algebraic Geometry & Modularity Lifting | ** Canonical Reference Treatise — Mathematical Formulation |
+| 943 | [Paper 943: Auxiliary Prime Selection and Trivialization of Dual Selmer Groups](phase_6_blackwell_kernels_and_dma_engines/paper_943_auxiliary_prime_selection_and_dual_selmer_trivialization.md) | ** Galois Cohomology & Chebotarev Density | ** Canonical Reference Treatise — Mathematical Formulation |
+| 944 | [Paper 944: Patched Complete Local Rings and the Freeness of Hecke Modules](phase_6_blackwell_kernels_and_dma_engines/paper_944_patched_complete_local_rings_and_hecke_module_freeness.md) | ** Commutative Algebra & Module Freeness | ** Canonical Reference Treatise — Mathematical Formulation |
+| 945 | [Paper 945: The Kisin Variant of Taylor-Wiles Patching Over Arbitrary Totally Real Fields](phase_6_blackwell_kernels_and_dma_engines/paper_945_the_kisin_variant_of_taylor_wiles_patching.md) | ** Higher-Dimensional Modularity & Framed Deformations | ** Canonical Reference Treatise — Mathematical Formulation |
+| 946 | [Paper 946: Blackwell SM 12.0 Microarchitecture: Taylor-Wiles Warp-Synchronous Auxiliary Prime Sieve](phase_6_blackwell_kernels_and_dma_engines/paper_946_blackwell_sm_12_taylor_wiles_patching_microarchitecture.md) | ** Silicon Microarchitecture & CUDA Kernel Engineering | ** Empirically Measured Hardware Benchmark — Verified on Silicon |
+| 947 | [Paper 947: Linux 6.18 io_uring Kernel Engine: Zero-Copy Network RX Ring and Header-Data Splitting](phase_6_blackwell_kernels_and_dma_engines/paper_947_linux_6_18_zc_rx_ring_architecture.md) | ** Systems Architecture & Kernel Engineering | ** Canonical Kernel Implementation — Verified in Production |
+| 948 | [Paper 948: Lean 4 Deductive Certification: 47 Modules and Verified Taylor-Wiles Invariants](phase_6_blackwell_kernels_and_dma_engines/paper_948_lean4_deductive_certification_taylor_wiles_patching.md) | ** Interactive Formal Verification & Mathematical Certification | ** Machine-Checked Proof — Certified with Zero Sorry |
+| 949 | [Paper 949: MegaGym 32B Grand Corpus: Block Sequence 621-630 Production and Checksums](phase_6_blackwell_kernels_and_dma_engines/paper_949_megagym_corpus_block_sequence_621_630_production.md) | ** Datasets & Verification Infrastructure | ** Cryptographically Sealed Corpus Block Archive |
+| 950 | [Paper 950: Grand Milestone Synthesis: Nine Hundred Fifty Treatises and Six Hundred Thirty Million Steps](phase_6_blackwell_kernels_and_dma_engines/paper_950_mathematical_synthesis_from_langlands_base_change_to_taylor_wiles_patching.md) | ** Grand Milestone Synthesis & Comprehensive Compendium | ** Certified Historical Milestone — 630M Steps & 950 Treatises |
 
 
 

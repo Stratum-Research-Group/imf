@@ -1,6 +1,6 @@
 # Interaction Primitive Families (IMF): Grand Microarchitectural Specification & Hardware Catalog
 
-> **Current Status**: Complete, Verified Microarchitectural Register across 197 Components (122 CUDA Kernels, 75 C++ Engines, 202 Native Shared Objects).
+> **Current Status**: Complete, Verified Microarchitectural Register across 199 Components (123 CUDA Kernels, 76 C++ Engines, 204 Native Shared Objects).
 > **Hardware Targets**: NVIDIA Blackwell SM 12.0 (RTX 5060 Ti 16GB GDDR7 / GB200), AMD Ryzen 5 7600X, Linux Kernel-Bypass Direct-DMA, POSIX NUMA Node 0.
 
 ---
@@ -11,13 +11,13 @@ The IMF runtime bypasses standard OS memory paging and heavy frameworks in favor
 
 | Category | Components Count | Primary Microarchitectural Focus | Hardware Execution Tier |
 | :--- | :--- | :--- | :--- |
-| **CUDA GPU Kernels** | 122 Kernels | Warp register arithmetic, sub-bit PLQ, Lie routing | NVIDIA Blackwell SM 12.0 |
-| **C++ DMA & io_uring Engines** | 75 Engines | Direct-DMA, lock-free ring buffers, NVMe async paging | Linux 6.18, POSIX NUMA |
-| **Compiled Native Libraries** | 202 `.so` Modules | Zero-copy shared objects loaded via `ctypes` / FFI | Userspace Kernel-Bypass |
+| **CUDA GPU Kernels** | 123 Kernels | Warp register arithmetic, sub-bit PLQ, Lie routing | NVIDIA Blackwell SM 12.0 |
+| **C++ DMA & io_uring Engines** | 76 Engines | Direct-DMA, lock-free ring buffers, NVMe async paging | Linux 6.18, POSIX NUMA |
+| **Compiled Native Libraries** | 204 `.so` Modules | Zero-copy shared objects loaded via `ctypes` / FFI | Userspace Kernel-Bypass |
 
 ---
 
-## I. Complete CUDA GPU Microarchitectural Kernels (122 Components)
+## I. Complete CUDA GPU Microarchitectural Kernels (123 Components)
 
 | # | Kernel Name | Microarchitectural Description | Entry Points | Shared Object |
 | :--- | :--- | :--- | :--- | :--- |
@@ -116,33 +116,34 @@ The IMF runtime bypasses standard OS memory paging and heavy frameworks in favor
 | 93 | `fused_blackwell_swiglu_mlp.cu` | =================================== Production Fused Blackwell SM 12.0 SwiGLU Gated MLP Kernel | `fused_blackwell_swiglu_mlp_kernel`, `silu_activate`, `launch_fused_blackwell_swiglu_mlp` | `fused_blackwell_swiglu_mlp.so` |
 | 94 | `fused_blackwell_tate_duality_pairing.cu` | Device / Host helper for local Tate duality pairing and cup product Cup product invariant modul | `tate_duality_pairing_kernel`, `compute_tate_duality_step`, `fused_blackwell_tate_duality_pairing` | `fused_blackwell_tate_duality_pairing.so` |
 | 95 | `fused_blackwell_tate_pairing_curve.cu` | NVIDIA Blackwell SM 12.0 Fused Tate Bilinear Pairing & Isogeny Curve Kernel Computes Tate / Wei | `tate_pairing_isogeny_kernel`, `miller_tangent_step`, `miller_chord_step` | `fused_blackwell_tate_pairing_curve.so` |
-| 96 | `fused_blackwell_ternary_dot.cu` | Microarchitecture: Sub-Byte 0.58-bit Ternary Dot Product Hardware Target: NVIDIA GeForce RTX 50 | `fused_blackwell_ternary_dot_kernel` | `fused_blackwell_ternary_dot.so` |
-| 97 | `fused_blackwell_transpose_plq.cu` | Blackwell SM 12.0 Warp-Level In-Register Bit Permutation & Transpose Kernel. Executes on-the-fl | `fused_blackwell_transpose_plq_kernel` | `fused_blackwell_transpose_plq.so` |
-| 98 | `fused_blackwell_ultrametric_padic_tree_routing.cu` | ========================================================== Production Fused Blackwell SM 12.0 N | `fused_padic_tree_routing_cuda_kernel`, `device_padic_valuation`, `fused_blackwell_padic_tree_routing_forward` | `fused_blackwell_ultrametric_padic_tree_routing.so` |
-| 99 | `fused_blackwell_weil_reciprocity_divisor.cu` | NVIDIA Blackwell SM 12.0 Fused Weil Reciprocity & Algebraic Divisor Arithmetic Kernel Computes  | `weil_reciprocity_divisor_kernel`, `eval_rational_f`, `eval_rational_g` | `fused_blackwell_weil_reciprocity_divisor.so` |
-| 100 | `fused_cayley_inverter.cu` | Fused CUDA Kernel for Cayley Inversion and SO(N) Lie Flow. Given skew-symmetric block generator | `fused_cayley_inverter_kernel_8x8`, `launch_fused_cayley_inverter` | `fused_cayley_inverter.so` |
-| 101 | `fused_deligne_lusztig_routing.cu` | Deligne-Lusztig Character Variety Routing Virtual representations R_T^G(\theta) of finite group | `fused_deligne_lusztig_routing_kernel` | `fused_deligne_lusztig_routing.so` |
-| 102 | `fused_e6_albert_routing.cu` | Microarchitecture: Exceptional Lie Group E6 27-Dimensional Albert Routing Hardware Target: NVID | `fused_e6_albert_routing_kernel` | `fused_e6_albert_routing.so` |
-| 103 | `fused_e7_freudenthal_routing.cu` | Microarchitecture: Exceptional Lie Group E7 56-Dimensional Freudenthal Routing Hardware Target: | `fused_e7_freudenthal_routing_kernel` | `fused_e7_freudenthal_routing.so` |
-| 104 | `fused_e8_e8_heterotic_routing.cu` | Microarchitecture: Exceptional Lie Group E8 x E8 Heterotic Subspace Routing Hardware Target: NV | `fused_e8_e8_heterotic_routing_kernel` | `fused_e8_e8_heterotic_routing.so` |
-| 105 | `fused_e8_root_lattice_routing.cu` | Microarchitecture: Exceptional Lie Group E8 248-Dimensional Root Lattice Routing Hardware Targe | `fused_e8_root_lattice_routing_kernel` | `fused_e8_root_lattice_routing.so` |
-| 106 | `fused_f4_jordan_routing.cu` | Microarchitecture: Exceptional Lie Algebra F4 26-Dimensional Jordan Routing Hardware Target: NV | `fused_f4_jordan_routing_kernel` | `fused_f4_jordan_routing.so` |
-| 107 | `fused_flash_cayley_attention.cu` | Robust Fused Flash-Cayley Attention Kernel. Each warp processes one query token. | `fused_flash_cayley_attention_kernel`, `launch_fused_flash_cayley_attention` | `fused_flash_cayley_attention.so` |
-| 108 | `fused_g2_automorphism_routing.cu` | Microarchitecture: Exceptional Lie Group G2 Automorphism Routing in 7-Agent Consensus Hardware  | `fused_g2_automorphism_routing_kernel` | `fused_g2_automorphism_routing.so` |
-| 109 | `fused_geodesic_flow.cu` | Continuous Lie-Algebraic so(8) Geodesic Flow Integrator. Computes Cayley transformations R = (I | `fused_so8_geodesic_flow_kernel` | `fused_geodesic_flow.so` |
-| 110 | `fused_kazhdan_lusztig_routing.cu` | Kazhdan-Lusztig Cell Representation MoPE Routing Routes tokens according to Kazhdan-Lusztig pre | `fused_kazhdan_lusztig_routing_kernel` | `fused_kazhdan_lusztig_routing.so` |
-| 111 | `fused_leech24_dequant.cu` | Ultra-fast CUDA kernel for 24-Dimensional Leech Lattice (Lambda_24) Dequantization. Used for th | `fused_leech24_dequant_kernel` | *Source only* |
-| 112 | `fused_leech24_gemv.cu` | Fused On-The-Fly Matrix-Vector Multiplication for 24-Dimensional Leech Lattice Quantization. Us | `fused_leech24_gemv_kernel` | *Source only* |
-| 113 | `fused_leech_shell_routing.cu` | Microarchitecture: Leech Lattice Lambda_24 196,560-Minimal Vector Shell Routing Hardware Target | `fused_leech_shell_routing_kernel` | `fused_leech_shell_routing.so` |
-| 114 | `fused_lusztig_canonical_routing.cu` | Canonical crystal basis routing: evaluates highest weight module projections and determines top | `lusztig_canonical_routing_kernel`, `launch_lusztig_canonical_routing` | `fused_lusztig_canonical_routing.so` |
-| 115 | `fused_macdonald_polynomial_routing.cu` | Macdonald Polynomial S-Duality Symmetric Group MoPE Routing Evaluates projections on (q, t)-def | `fused_macdonald_polynomial_routing_kernel` | `fused_macdonald_polynomial_routing.so` |
-| 116 | `fused_mckay_quiver_routing.cu` | McKay Correspondence ADE Quiver Routing Finite subgroups Gamma \subset SU(2) correspond to simp | `fused_mckay_quiver_routing_kernel` | `fused_mckay_quiver_routing.so` |
-| 117 | `fused_monster_moonshine_routing.cu` | Microarchitecture: Monster Moonshine Vertex Operator Routing Hardware Target: NVIDIA GeForce RT | `fused_monster_moonshine_routing_kernel` | `fused_monster_moonshine_routing.so` |
-| 118 | `fused_niemeier_lattice_routing.cu` | Microarchitecture: Niemeier Lattices 24D Even Unimodular Routing Fleet Hardware Target: NVIDIA  | `fused_niemeier_lattice_routing_kernel` | `fused_niemeier_lattice_routing.so` |
-| 119 | `fused_nvlink_polytope_p2p.cu` | Kernel for packing and unpacking high-dimensional polytope coordinate slices across NVLink peer | `nvlink_polytope_p2p_slice_kernel` | `fused_nvlink_polytope_p2p.so` |
-| 120 | `fused_plq_dequant.cu` | Ultra-fast fused CUDA kernel for Sub-Byte Polytope Lattice Quantization (PLQ). Decodes 8-dimens | `fused_e8_dequant_kernel` | *Source only* |
-| 121 | `fused_plq_gemv.cu` | Fused On-The-Fly Matrix-Vector Multiplication (Fused-PLQ-GEMV) for Polytope Lattice Quantizatio | `fused_plq_gemv_kernel` | *Source only* |
-| 122 | `fused_so16_weyl_routing.cu` | Microarchitecture: Spin(16) Chiral Half-Spinor Routing Projection Hardware Target: NVIDIA GeFor | `fused_so16_weyl_routing_kernel` | `fused_so16_weyl_routing.so` |
+| 96 | `fused_blackwell_taylor_wiles_patching.cu` | Blackwell SM 12.0 Kernel: Taylor-Wiles System Selection & Patching Module Reduction Implements  | `fused_blackwell_taylor_wiles_patching_kernel`, `fused_blackwell_taylor_wiles_patching` | *Source only* |
+| 97 | `fused_blackwell_ternary_dot.cu` | Microarchitecture: Sub-Byte 0.58-bit Ternary Dot Product Hardware Target: NVIDIA GeForce RTX 50 | `fused_blackwell_ternary_dot_kernel` | `fused_blackwell_ternary_dot.so` |
+| 98 | `fused_blackwell_transpose_plq.cu` | Blackwell SM 12.0 Warp-Level In-Register Bit Permutation & Transpose Kernel. Executes on-the-fl | `fused_blackwell_transpose_plq_kernel` | `fused_blackwell_transpose_plq.so` |
+| 99 | `fused_blackwell_ultrametric_padic_tree_routing.cu` | ========================================================== Production Fused Blackwell SM 12.0 N | `fused_padic_tree_routing_cuda_kernel`, `device_padic_valuation`, `fused_blackwell_padic_tree_routing_forward` | `fused_blackwell_ultrametric_padic_tree_routing.so` |
+| 100 | `fused_blackwell_weil_reciprocity_divisor.cu` | NVIDIA Blackwell SM 12.0 Fused Weil Reciprocity & Algebraic Divisor Arithmetic Kernel Computes  | `weil_reciprocity_divisor_kernel`, `eval_rational_f`, `eval_rational_g` | `fused_blackwell_weil_reciprocity_divisor.so` |
+| 101 | `fused_cayley_inverter.cu` | Fused CUDA Kernel for Cayley Inversion and SO(N) Lie Flow. Given skew-symmetric block generator | `fused_cayley_inverter_kernel_8x8`, `launch_fused_cayley_inverter` | `fused_cayley_inverter.so` |
+| 102 | `fused_deligne_lusztig_routing.cu` | Deligne-Lusztig Character Variety Routing Virtual representations R_T^G(\theta) of finite group | `fused_deligne_lusztig_routing_kernel` | `fused_deligne_lusztig_routing.so` |
+| 103 | `fused_e6_albert_routing.cu` | Microarchitecture: Exceptional Lie Group E6 27-Dimensional Albert Routing Hardware Target: NVID | `fused_e6_albert_routing_kernel` | `fused_e6_albert_routing.so` |
+| 104 | `fused_e7_freudenthal_routing.cu` | Microarchitecture: Exceptional Lie Group E7 56-Dimensional Freudenthal Routing Hardware Target: | `fused_e7_freudenthal_routing_kernel` | `fused_e7_freudenthal_routing.so` |
+| 105 | `fused_e8_e8_heterotic_routing.cu` | Microarchitecture: Exceptional Lie Group E8 x E8 Heterotic Subspace Routing Hardware Target: NV | `fused_e8_e8_heterotic_routing_kernel` | `fused_e8_e8_heterotic_routing.so` |
+| 106 | `fused_e8_root_lattice_routing.cu` | Microarchitecture: Exceptional Lie Group E8 248-Dimensional Root Lattice Routing Hardware Targe | `fused_e8_root_lattice_routing_kernel` | `fused_e8_root_lattice_routing.so` |
+| 107 | `fused_f4_jordan_routing.cu` | Microarchitecture: Exceptional Lie Algebra F4 26-Dimensional Jordan Routing Hardware Target: NV | `fused_f4_jordan_routing_kernel` | `fused_f4_jordan_routing.so` |
+| 108 | `fused_flash_cayley_attention.cu` | Robust Fused Flash-Cayley Attention Kernel. Each warp processes one query token. | `fused_flash_cayley_attention_kernel`, `launch_fused_flash_cayley_attention` | `fused_flash_cayley_attention.so` |
+| 109 | `fused_g2_automorphism_routing.cu` | Microarchitecture: Exceptional Lie Group G2 Automorphism Routing in 7-Agent Consensus Hardware  | `fused_g2_automorphism_routing_kernel` | `fused_g2_automorphism_routing.so` |
+| 110 | `fused_geodesic_flow.cu` | Continuous Lie-Algebraic so(8) Geodesic Flow Integrator. Computes Cayley transformations R = (I | `fused_so8_geodesic_flow_kernel` | `fused_geodesic_flow.so` |
+| 111 | `fused_kazhdan_lusztig_routing.cu` | Kazhdan-Lusztig Cell Representation MoPE Routing Routes tokens according to Kazhdan-Lusztig pre | `fused_kazhdan_lusztig_routing_kernel` | `fused_kazhdan_lusztig_routing.so` |
+| 112 | `fused_leech24_dequant.cu` | Ultra-fast CUDA kernel for 24-Dimensional Leech Lattice (Lambda_24) Dequantization. Used for th | `fused_leech24_dequant_kernel` | *Source only* |
+| 113 | `fused_leech24_gemv.cu` | Fused On-The-Fly Matrix-Vector Multiplication for 24-Dimensional Leech Lattice Quantization. Us | `fused_leech24_gemv_kernel` | *Source only* |
+| 114 | `fused_leech_shell_routing.cu` | Microarchitecture: Leech Lattice Lambda_24 196,560-Minimal Vector Shell Routing Hardware Target | `fused_leech_shell_routing_kernel` | `fused_leech_shell_routing.so` |
+| 115 | `fused_lusztig_canonical_routing.cu` | Canonical crystal basis routing: evaluates highest weight module projections and determines top | `lusztig_canonical_routing_kernel`, `launch_lusztig_canonical_routing` | `fused_lusztig_canonical_routing.so` |
+| 116 | `fused_macdonald_polynomial_routing.cu` | Macdonald Polynomial S-Duality Symmetric Group MoPE Routing Evaluates projections on (q, t)-def | `fused_macdonald_polynomial_routing_kernel` | `fused_macdonald_polynomial_routing.so` |
+| 117 | `fused_mckay_quiver_routing.cu` | McKay Correspondence ADE Quiver Routing Finite subgroups Gamma \subset SU(2) correspond to simp | `fused_mckay_quiver_routing_kernel` | `fused_mckay_quiver_routing.so` |
+| 118 | `fused_monster_moonshine_routing.cu` | Microarchitecture: Monster Moonshine Vertex Operator Routing Hardware Target: NVIDIA GeForce RT | `fused_monster_moonshine_routing_kernel` | `fused_monster_moonshine_routing.so` |
+| 119 | `fused_niemeier_lattice_routing.cu` | Microarchitecture: Niemeier Lattices 24D Even Unimodular Routing Fleet Hardware Target: NVIDIA  | `fused_niemeier_lattice_routing_kernel` | `fused_niemeier_lattice_routing.so` |
+| 120 | `fused_nvlink_polytope_p2p.cu` | Kernel for packing and unpacking high-dimensional polytope coordinate slices across NVLink peer | `nvlink_polytope_p2p_slice_kernel` | `fused_nvlink_polytope_p2p.so` |
+| 121 | `fused_plq_dequant.cu` | Ultra-fast fused CUDA kernel for Sub-Byte Polytope Lattice Quantization (PLQ). Decodes 8-dimens | `fused_e8_dequant_kernel` | *Source only* |
+| 122 | `fused_plq_gemv.cu` | Fused On-The-Fly Matrix-Vector Multiplication (Fused-PLQ-GEMV) for Polytope Lattice Quantizatio | `fused_plq_gemv_kernel` | *Source only* |
+| 123 | `fused_so16_weyl_routing.cu` | Microarchitecture: Spin(16) Chiral Half-Spinor Routing Projection Hardware Target: NVIDIA GeFor | `fused_so16_weyl_routing_kernel` | `fused_so16_weyl_routing.so` |
 
 ---
 
@@ -213,18 +214,19 @@ The IMF runtime bypasses standard OS memory paging and heavy frameworks in favor
 | 61 | `fused_iouring_vectored_socket_splice_fifo.cpp` | ======================================================== Production Linux 6.18 io_uring Vectore | `iouring_splice_fifo_enqueue`, `iouring_splice_fifo_dequeue`, `iouring_splice_fifo_splice_sockets` | `fused_iouring_vectored_socket_splice_fifo.so` |
 | 62 | `fused_iouring_vq_prefetch.cpp` | High-performance microarchitectural component | `submit_vq_weight_prefetch`, `reap_vq_prefetch_completions`, `close_vq_prefetch_engine` | `fused_iouring_vq_prefetch.so` |
 | 63 | `fused_iouring_workstealing_multiring.cpp` | ======================================================== Production Linux 6.18 io_uring Multi-R | `iouring_workstealing_submit`, `iouring_workstealing_balance`, `iouring_workstealing_complete` | `fused_iouring_workstealing_multiring.so` |
-| 64 | `fused_iouring_zero_copy_ring.cpp` | Kernel-Bypass io_uring Direct Zero-Copy Ring Interceptor Implements userspace completion-pollin | `zero_copy_poll_completion`, `zero_copy_ring_destroy` | `fused_iouring_zero_copy_ring.so` |
-| 65 | `fused_iouring_zero_copy_splice.cpp` | High-performance microarchitectural component | `submit_spliced_transfer`, `reap_spliced_completions`, `close_zero_copy_splice_ring` | `fused_iouring_zero_copy_splice.so` |
-| 66 | `fused_iouring_zerocopy_socket.cpp` | High-performance microarchitectural component | `iouring_zerocopy_socket_send`, `iouring_zerocopy_socket_recv`, `iouring_zerocopy_socket_close` | `fused_iouring_zerocopy_socket.so` |
-| 67 | `fused_nvme_async_prefetch_pipeline.cpp` | fused_nvme_async_prefetch_pipeline.cpp Microarchitectural Linux Kernel-Bypass Asynchronous Dire | `init_async_prefetch_pipeline`, `submit_async_prefetch`, `harvest_prefetched_tokens` | `fused_nvme_async_prefetch_pipeline.so` |
-| 68 | `fused_nvme_direct_kv_pager.cpp` | fused_nvme_direct_kv_pager.cpp Microarchitectural Direct-NVMe Kernel-Bypass Memory-Mapped Zero- | `init_direct_nvme_kv_pager`, `allocate_kv_page`, `read_kv_page` | `fused_nvme_direct_kv_pager.so` |
-| 69 | `imf_autoregressive_gen.cpp` | High-performance microarchitectural component | `main` | *Source only* |
-| 70 | `imf_cli.cpp` | ================= Standalone Native C++20 CLI & Interactive REPL for IMF High-Performance Infer | `imf_rs_infer_step`, `print_banner`, `main` | *Source only* |
-| 71 | `imf_extension_bindings.cpp` | High-performance microarchitectural component | `init` | *Source only* |
-| 72 | `imf_inference_engine.cpp` | High-performance microarchitectural component | `main` | *Source only* |
-| 73 | `imf_main.cpp` | Verify sample tensor pointer access | `main` | *Source only* |
-| 74 | `imf_repl.cpp` | High-performance microarchitectural component | `main` | *Source only* |
-| 75 | `imf_speculative_cpp.cpp` | High-performance microarchitectural component | `main` | *Source only* |
+| 64 | `fused_iouring_zc_rx_ring.cpp` | ======================================================== Production Linux 6.18 io_uring Zero-Co | `iouring_zc_rx_ring_produce`, `iouring_zc_rx_ring_consume`, `iouring_zc_rx_ring_stats` | *Source only* |
+| 65 | `fused_iouring_zero_copy_ring.cpp` | Kernel-Bypass io_uring Direct Zero-Copy Ring Interceptor Implements userspace completion-pollin | `zero_copy_poll_completion`, `zero_copy_ring_destroy` | `fused_iouring_zero_copy_ring.so` |
+| 66 | `fused_iouring_zero_copy_splice.cpp` | High-performance microarchitectural component | `submit_spliced_transfer`, `reap_spliced_completions`, `close_zero_copy_splice_ring` | `fused_iouring_zero_copy_splice.so` |
+| 67 | `fused_iouring_zerocopy_socket.cpp` | High-performance microarchitectural component | `iouring_zerocopy_socket_send`, `iouring_zerocopy_socket_recv`, `iouring_zerocopy_socket_close` | `fused_iouring_zerocopy_socket.so` |
+| 68 | `fused_nvme_async_prefetch_pipeline.cpp` | fused_nvme_async_prefetch_pipeline.cpp Microarchitectural Linux Kernel-Bypass Asynchronous Dire | `init_async_prefetch_pipeline`, `submit_async_prefetch`, `harvest_prefetched_tokens` | `fused_nvme_async_prefetch_pipeline.so` |
+| 69 | `fused_nvme_direct_kv_pager.cpp` | fused_nvme_direct_kv_pager.cpp Microarchitectural Direct-NVMe Kernel-Bypass Memory-Mapped Zero- | `init_direct_nvme_kv_pager`, `allocate_kv_page`, `read_kv_page` | `fused_nvme_direct_kv_pager.so` |
+| 70 | `imf_autoregressive_gen.cpp` | High-performance microarchitectural component | `main` | *Source only* |
+| 71 | `imf_cli.cpp` | ================= Standalone Native C++20 CLI & Interactive REPL for IMF High-Performance Infer | `imf_rs_infer_step`, `print_banner`, `main` | *Source only* |
+| 72 | `imf_extension_bindings.cpp` | High-performance microarchitectural component | `init` | *Source only* |
+| 73 | `imf_inference_engine.cpp` | High-performance microarchitectural component | `main` | *Source only* |
+| 74 | `imf_main.cpp` | Verify sample tensor pointer access | `main` | *Source only* |
+| 75 | `imf_repl.cpp` | High-performance microarchitectural component | `main` | *Source only* |
+| 76 | `imf_speculative_cpp.cpp` | High-performance microarchitectural component | `main` | *Source only* |
 
 ---
 

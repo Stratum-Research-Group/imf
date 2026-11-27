@@ -2103,6 +2103,92 @@ def test_iouring_numa_page_distributor_correctness():
         lib.iouring_numa_distributor_destroy(dist)
 
 
+def test_iouring_zc_rx_ring_correctness():
+    so_path = "csrc/libfused_iouring_zc_rx_ring.so"
+    if not os.path.exists(so_path):
+        pytest.skip("io_uring ZC RX ring library not built")
+
+    lib = ctypes.CDLL(so_path)
+    lib.iouring_zc_rx_ring_init.argtypes = [ctypes.c_uint32, ctypes.c_uint32, ctypes.c_uint32]
+    lib.iouring_zc_rx_ring_init.restype = ctypes.c_void_p
+
+    lib.iouring_zc_rx_ring_produce.argtypes = [
+        ctypes.c_void_p, ctypes.c_uint32, ctypes.c_uint32,
+        ctypes.POINTER(ctypes.c_uint32), ctypes.POINTER(ctypes.c_void_p)
+    ]
+    lib.iouring_zc_rx_ring_produce.restype = ctypes.c_int
+
+    lib.iouring_zc_rx_ring_consume.argtypes = [
+        ctypes.c_void_p, ctypes.POINTER(ctypes.c_uint32),
+        ctypes.POINTER(ctypes.c_uint32), ctypes.POINTER(ctypes.c_void_p)
+    ]
+    lib.iouring_zc_rx_ring_consume.restype = ctypes.c_int
+
+    lib.iouring_zc_rx_ring_stats.argtypes = [
+        ctypes.c_void_p, ctypes.POINTER(ctypes.c_uint32),
+        ctypes.POINTER(ctypes.c_uint64), ctypes.POINTER(ctypes.c_uint64), ctypes.POINTER(ctypes.c_uint64)
+    ]
+    lib.iouring_zc_rx_ring_stats.restype = ctypes.c_int
+
+    lib.iouring_zc_rx_ring_destroy.argtypes = [ctypes.c_void_p]
+    lib.iouring_zc_rx_ring_destroy.restype = None
+
+    cap = 16
+    hdr_size = 64
+    pay_size = 1024
+
+    ring = lib.iouring_zc_rx_ring_init(cap, hdr_size, pay_size)
+    assert ring is not None
+
+    try:
+        # Produce 3 packets
+        for i in range(3):
+            pkt_id = ctypes.c_uint32(0)
+            pay_ptr = ctypes.c_void_p(0)
+            ret = lib.iouring_zc_rx_ring_produce(ring, 32, 512, ctypes.byref(pkt_id), ctypes.byref(pay_ptr))
+            assert ret == 0
+            assert pkt_id.value == i
+            assert pay_ptr.value != 0
+
+        # Check stats
+        avail = ctypes.c_uint32(0)
+        tot_rx = ctypes.c_uint64(0)
+        tot_c = ctypes.c_uint64(0)
+        zc_b = ctypes.c_uint64(0)
+        st = lib.iouring_zc_rx_ring_stats(
+            ring, ctypes.byref(avail), ctypes.byref(tot_rx), ctypes.byref(tot_c), ctypes.byref(zc_b)
+        )
+        assert st == 0
+        assert tot_rx.value == 3
+        assert zc_b.value == 3 * 512
+        assert avail.value == cap - 1 - 3
+
+        # Consume 2 packets
+        for i in range(2):
+            c_pkt_id = ctypes.c_uint32(0)
+            c_pay_len = ctypes.c_uint32(0)
+            c_pay_ptr = ctypes.c_void_p(0)
+            c_ret = lib.iouring_zc_rx_ring_consume(
+                ring, ctypes.byref(c_pkt_id), ctypes.byref(c_pay_len), ctypes.byref(c_pay_ptr)
+            )
+            assert c_ret == 0
+            assert c_pkt_id.value == i
+            assert c_pay_len.value == 512
+            assert c_pay_ptr.value != 0
+
+        # Consume 1 more packet
+        c_pkt_id = ctypes.c_uint32(0)
+        c_pay_len = ctypes.c_uint32(0)
+        c_pay_ptr = ctypes.c_void_p(0)
+        assert lib.iouring_zc_rx_ring_consume(ring, ctypes.byref(c_pkt_id), ctypes.byref(c_pay_len), ctypes.byref(c_pay_ptr)) == 0
+
+        # Ring now empty
+        assert lib.iouring_zc_rx_ring_consume(ring, ctypes.byref(c_pkt_id), ctypes.byref(c_pay_len), ctypes.byref(c_pay_ptr)) == -2
+    finally:
+        lib.iouring_zc_rx_ring_destroy(ring)
+
+
+
 
 
 

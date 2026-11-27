@@ -1793,6 +1793,71 @@ def test_fused_langlands_tunnell_base_change_correctness():
     assert solvability[1].item() == 0.0
 
 
+def test_fused_taylor_wiles_patching_correctness():
+    so_path = "csrc/libfused_blackwell_taylor_wiles_patching.so"
+    if not os.path.exists(so_path):
+        pytest.skip("Taylor-Wiles patching kernel library not compiled")
+
+    lib = ctypes.CDLL(so_path)
+    lib.fused_blackwell_taylor_wiles_patching.argtypes = [
+        ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p,
+        ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p,
+        ctypes.c_int, ctypes.c_int, ctypes.c_int
+    ]
+    lib.fused_blackwell_taylor_wiles_patching.restype = ctypes.c_int
+
+    batch_size = 2
+    num_primes = 4
+    required_r = 2
+
+    # Batch 0: p=3, p^n = 9. Candidates: 19 (19 = 1 mod 9), 37 (37 = 1 mod 9), 7 (7 = 1 mod 3, but not mod 9), 11
+    # For 19: a_q = 2, delta = 4 - 4*19 = 4 - 76 = -72 = 0 mod 3 -> NOT distinct (mod 3 = 0)
+    # Let's pick a_q such that delta != 0 mod 3:
+    # For q=19: if a_q = 1, delta = 1 - 76 = -75 = 0 mod 3. If a_q = 0, delta = -76 = -1 = 2 mod 3 != 0!
+    # For q=37: 37 = 1 mod 9. a_q = 0, delta = -4*37 = -148 = -1 = 2 mod 3 != 0!
+    candidates = torch.tensor([
+        [19.0, 37.0, 7.0, 11.0],
+        [5.0, 7.0, 11.0, 13.0]
+    ], dtype=torch.float32)
+
+    traces = torch.tensor([
+        [0.0, 0.0, 1.0, 2.0],
+        [1.0, 1.0, 1.0, 1.0]
+    ], dtype=torch.float32)
+
+    p_powers = torch.tensor([9.0, 25.0], dtype=torch.float32)
+    primes = torch.tensor([3.0, 5.0], dtype=torch.float32)
+
+    valid_counts = torch.zeros(batch_size, dtype=torch.float32)
+    defects = torch.zeros(batch_size, dtype=torch.float32)
+    flags = torch.zeros(batch_size, dtype=torch.float32)
+
+    ret = lib.fused_blackwell_taylor_wiles_patching(
+        ctypes.c_void_p(candidates.data_ptr()),
+        ctypes.c_void_p(traces.data_ptr()),
+        ctypes.c_void_p(p_powers.data_ptr()),
+        ctypes.c_void_p(primes.data_ptr()),
+        ctypes.c_void_p(valid_counts.data_ptr()),
+        ctypes.c_void_p(defects.data_ptr()),
+        ctypes.c_void_p(flags.data_ptr()),
+        batch_size,
+        num_primes,
+        required_r
+    )
+    assert ret == 0
+
+    # Batch 0: primes 19 and 37 both satisfy q = 1 mod 9 and delta != 0 mod 3 -> valid = 2
+    assert valid_counts[0].item() == 2.0
+    assert flags[0].item() == 1.0
+    assert defects[0].item() == 0.0
+
+    # Batch 1: no candidate = 1 mod 25 -> valid = 0, defect = 2
+    assert valid_counts[1].item() == 0.0
+    assert flags[1].item() == 0.0
+    assert defects[1].item() == 2.0
+
+
+
 
 
 
