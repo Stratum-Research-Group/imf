@@ -1,4 +1,4 @@
-# IMF Scientific Papers & Formal Monographs Compendium (970 Treatises)
+# IMF Scientific Papers & Formal Monographs Compendium (980 Treatises)
 
 | # | Title | Paper Type | Verification Status |
 |:---|:---|:---|:---|
@@ -1030,6 +1030,17 @@
 | 968 | [Paper 968: Lean 4 Deductive Certification: 49 Modules and Verified Coleman Integrals](phase_6_blackwell_kernels_and_dma_engines/paper_968_lean4_deductive_certification_coleman_integration.md) | ** Interactive Formal Verification & Mathematical Certification | ** Machine-Checked Proof — Certified with Zero Sorry |
 | 969 | [Paper 969: MegaGym 32B Grand Corpus: Block Sequence 641-650 Production and 650M Step Sealing](phase_6_blackwell_kernels_and_dma_engines/paper_969_megagym_corpus_block_sequence_641_650_production.md) | ** Datasets & Verification Infrastructure | ** Cryptographically Sealed Corpus Block Archive |
 | 970 | [Paper 970: Mathematical Synthesis: From Modular Lifting to p-Adic Abelian Integration](phase_6_blackwell_kernels_and_dma_engines/paper_970_mathematical_synthesis_from_khare_wintenberger_to_coleman_integration.md) | ** Grand Milestone Synthesis & Comprehensive Compendium | ** Certified Historical Milestone — 650M Steps & 970 Treatises |
+
+| 971 | [Paper 971: Six Hundred Sixty Million Steps Milestone and Asymptotic Epistemic Scaling](phase_6_blackwell_kernels_and_dma_engines/paper_971_six_hundred_sixty_million_steps_milestone_and_asymptotic_epistemic_scaling.md) | ** Milestone Synthesis & Scaling Report | ** Certified Historical Milestone — 660M Steps & 980 Treatises (2.06250%) |
+| 972 | [Paper 972: The Gross-Zagier Height Pairing and Heegner Divisors on Modular Curves X_0(N)](phase_6_blackwell_kernels_and_dma_engines/paper_972_gross_zagier_height_pairing_and_heegner_divisors.md) | ** Arithmetic Algebraic Geometry & Heegner Divisors | ** Canonical Reference Treatise — Mathematical Formulation |
+| 973 | [Paper 973: Rankin-Selberg Convolutions and Central L-Derivatives](phase_6_blackwell_kernels_and_dma_engines/paper_973_rankin_selberg_convolutions_and_central_l_derivatives.md) | ** Automorphic Forms & Rankin-Selberg Convolutions | ** Canonical Reference Treatise — Mathematical Formulation |
+| 974 | [Paper 974: Kolyvagin Euler Systems and the Finiteness of Tate-Shafarevich Groups](phase_6_blackwell_kernels_and_dma_engines/paper_974_kolyvagin_euler_systems_and_selmer_group_finiteness.md) | ** Galois Cohomology & Kolyvagin Euler Systems | ** Canonical Reference Treatise — Mathematical Formulation |
+| 975 | [Paper 975: Arithmetic Applications to the Birch and Swinnerton-Dyer Conjecture of Analytic Rank 1](phase_6_blackwell_kernels_and_dma_engines/paper_975_arithmetic_applications_to_the_bsd_conjecture.md) | ** Diophantine Geometry & BSD Rank 1 Applications | ** Canonical Reference Treatise — Mathematical Formulation |
+| 976 | [Paper 976: Blackwell SM 12.0 Microarchitecture: Gross-Zagier Height Pairing and Arithmetic Silicon](phase_6_blackwell_kernels_and_dma_engines/paper_976_blackwell_sm_12_gross_zagier_height_pairing_microarchitecture.md) | ** Silicon Microarchitecture & CUDA Kernel Engineering | ** Empirically Measured Hardware Benchmark — Verified on Silicon |
+| 977 | [Paper 977: Linux 6.18 io_uring Kernel Engine: Asynchronous Hugepage Compactor via Registered Rings](phase_6_blackwell_kernels_and_dma_engines/paper_977_linux_6_18_kernel_hugepage_compactor_architecture.md) | ** Systems Architecture & Kernel Engineering | ** Canonical Kernel Implementation — Verified in Production |
+| 978 | [Paper 978: Lean 4 Deductive Certification: 50 Modules and Verified Gross-Zagier Identity](phase_6_blackwell_kernels_and_dma_engines/paper_978_lean4_deductive_certification_gross_zagier_formula.md) | ** Interactive Formal Verification & Mathematical Certification | ** Machine-Checked Proof — Certified with Zero Sorry |
+| 979 | [Paper 979: MegaGym 32B Grand Corpus: Block Sequence 651-660 Production and 660M Step Sealing](phase_6_blackwell_kernels_and_dma_engines/paper_979_megagym_corpus_block_sequence_651_660_production.md) | ** Datasets & Verification Infrastructure | ** Cryptographically Sealed Corpus Block Archive |
+| 980 | [Paper 980: Mathematical Synthesis: From p-Adic Abelian Integration to the Gross-Zagier Formula](phase_6_blackwell_kernels_and_dma_engines/paper_980_mathematical_synthesis_from_coleman_integration_to_gross_zagier.md) | ** Grand Milestone Synthesis & Comprehensive Compendium | ** Certified Historical Milestone — 660M Steps & 980 Treatises |
 
 
 

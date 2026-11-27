@@ -2338,6 +2338,79 @@ def test_iouring_kernel_page_migrator_correctness():
         lib.iouring_kernel_page_migrator_free(migrator)
 
 
+def test_iouring_hugepage_compactor_correctness():
+    so_path = "csrc/libfused_iouring_hugepage_compactor.so"
+    if not os.path.exists(so_path):
+        pytest.skip("Hugepage compactor engine not compiled")
+
+    lib = ctypes.CDLL(so_path)
+    lib.iouring_hugepage_compactor_init.argtypes = [ctypes.c_uint32, ctypes.c_uint32]
+    lib.iouring_hugepage_compactor_init.restype = ctypes.c_void_p
+
+    lib.iouring_hugepage_compactor_register_page.argtypes = [
+        ctypes.c_void_p, ctypes.c_uint32, ctypes.c_uint64, ctypes.c_float
+    ]
+    lib.iouring_hugepage_compactor_register_page.restype = ctypes.c_int
+
+    lib.iouring_hugepage_compactor_compact_batch.argtypes = [ctypes.c_void_p, ctypes.c_uint32]
+    lib.iouring_hugepage_compactor_compact_batch.restype = ctypes.c_int
+
+    lib.iouring_hugepage_compactor_get_stats.argtypes = [
+        ctypes.c_void_p, ctypes.POINTER(ctypes.c_uint64), ctypes.POINTER(ctypes.c_uint64), ctypes.POINTER(ctypes.c_int)
+    ]
+    lib.iouring_hugepage_compactor_get_stats.restype = ctypes.c_int
+
+    lib.iouring_hugepage_compactor_free.argtypes = [ctypes.c_void_p]
+    lib.iouring_hugepage_compactor_free.restype = None
+
+    max_pages = 16
+    hugepage_kb = 2048  # 2MB
+
+    compactor = lib.iouring_hugepage_compactor_init(max_pages, hugepage_kb)
+    assert compactor is not None
+
+    try:
+        # Register 4 pages with varying fragmentation:
+        # p0: 0.05 (clean, no compaction needed)
+        # p1: 0.25 (needs compaction, 25% of 2MB = 512KB)
+        # p2: 0.50 (needs compaction, 50% of 2MB = 1024KB)
+        # p3: 0.10 (clean)
+        lib.iouring_hugepage_compactor_register_page(compactor, 0, 0x1000, 0.05)
+        lib.iouring_hugepage_compactor_register_page(compactor, 1, 0x1001, 0.25)
+        lib.iouring_hugepage_compactor_register_page(compactor, 2, 0x1002, 0.50)
+        lib.iouring_hugepage_compactor_register_page(compactor, 3, 0x1003, 0.10)
+
+        # Compact batch of 1
+        compacted = lib.iouring_hugepage_compactor_compact_batch(compactor, 1)
+        assert compacted == 1
+
+        tot_compacted = ctypes.c_uint64(0)
+        tot_bytes = ctypes.c_uint64(0)
+        is_reg = ctypes.c_int(0)
+        ret = lib.iouring_hugepage_compactor_get_stats(
+            compactor, ctypes.byref(tot_compacted), ctypes.byref(tot_bytes), ctypes.byref(is_reg)
+        )
+        assert ret == 0
+        assert tot_compacted.value == 1
+        assert tot_bytes.value == int(0.25 * 2048 * 1024)
+        assert is_reg.value == 1
+
+        # Compact remaining
+        compacted_rem = lib.iouring_hugepage_compactor_compact_batch(compactor, 10)
+        assert compacted_rem == 1
+
+        ret = lib.iouring_hugepage_compactor_get_stats(
+            compactor, ctypes.byref(tot_compacted), ctypes.byref(tot_bytes), ctypes.byref(is_reg)
+        )
+        assert ret == 0
+        assert tot_compacted.value == 2
+        expected_bytes = int(0.25 * 2048 * 1024) + int(0.50 * 2048 * 1024)
+        assert tot_bytes.value == expected_bytes
+    finally:
+        lib.iouring_hugepage_compactor_free(compactor)
+
+
+
 
 
 

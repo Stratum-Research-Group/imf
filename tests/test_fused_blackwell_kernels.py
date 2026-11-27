@@ -1978,6 +1978,57 @@ def test_fused_coleman_integration_correctness():
     assert abs(integrals[1].item()) < 1e-5
 
 
+def test_fused_gross_zagier_height_correctness():
+    so_path = "csrc/libfused_blackwell_gross_zagier_height.so"
+    if not os.path.exists(so_path):
+        pytest.skip("Gross-Zagier height kernel library not compiled")
+
+    lib = ctypes.CDLL(so_path)
+    lib.fused_blackwell_gross_zagier_height.argtypes = [
+        ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p,
+        ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.c_int
+    ]
+    lib.fused_blackwell_gross_zagier_height.restype = ctypes.c_int
+
+    batch_size = 2
+    # Batch 0: D = 7, (f, f) = 1.0, \hat{h}(y_K) = 0.5, u = 1.0
+    # C = 8 * pi^2 * 1.0 / sqrt(7) = 78.9568 / 2.64575 = 29.8428
+    # L'(E/K, 1) = 29.8428 * 0.5 = 14.9214 > 0 -> kolyvagin = 1.0, sha = 1.0
+    # Batch 1: D = 11, (f, f) = 1.0, \hat{h}(y_K) = 0.0 (torsion point), u = 1.0
+    # L'(E/K, 1) = 0.0 -> kolyvagin = 0.0, sha = 0.0
+    d = torch.tensor([7.0, 11.0], dtype=torch.float32)
+    f = torch.tensor([1.0, 1.0], dtype=torch.float32)
+    h = torch.tensor([0.5, 0.0], dtype=torch.float32)
+    u = torch.tensor([1.0, 1.0], dtype=torch.float32)
+
+    lp = torch.zeros(batch_size, dtype=torch.float32)
+    rk = torch.zeros(batch_size, dtype=torch.float32)
+    sha = torch.zeros(batch_size, dtype=torch.float32)
+
+    ret = lib.fused_blackwell_gross_zagier_height(
+        ctypes.c_void_p(d.data_ptr()),
+        ctypes.c_void_p(f.data_ptr()),
+        ctypes.c_void_p(h.data_ptr()),
+        ctypes.c_void_p(u.data_ptr()),
+        ctypes.c_void_p(lp.data_ptr()),
+        ctypes.c_void_p(rk.data_ptr()),
+        ctypes.c_void_p(sha.data_ptr()),
+        batch_size
+    )
+    assert ret == 0
+
+    # Batch 0:
+    assert rk[0].item() == 1.0
+    assert sha[0].item() == 1.0
+    assert abs(lp[0].item() - 14.9214) < 0.1
+
+    # Batch 1:
+    assert rk[1].item() == 0.0
+    assert sha[1].item() == 0.0
+    assert abs(lp[1].item()) < 1e-5
+
+
+
 
 
 

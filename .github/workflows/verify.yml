@@ -54,6 +54,7 @@ jobs:
           g++ -O3 -shared -fPIC -std=c++17 csrc/fused_iouring_zc_rx_ring.cpp -o csrc/libfused_iouring_zc_rx_ring.so
           g++ -O3 -shared -fPIC -std=c++17 csrc/fused_iouring_zc_tx_burst.cpp -o csrc/libfused_iouring_zc_tx_burst.so
           g++ -O3 -shared -fPIC -std=c++17 csrc/fused_iouring_kernel_page_migrator.cpp -o csrc/libfused_iouring_kernel_page_migrator.so
+          g++ -O3 -shared -fPIC -std=c++17 csrc/fused_iouring_hugepage_compactor.cpp -o csrc/libfused_iouring_hugepage_compactor.so
 
       - name: Install uv and Python
         uses: astral-sh/setup-uv@v3

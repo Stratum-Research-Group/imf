@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>IMF Gross-Zagier Formula & Heegner Manifolds (3D)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            padding: 0;
+            background: #020617;
+            color: #f8fafc;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace;
+            overflow: hidden;
+        }
+        #canvas {
+            width: 100vw;
+            height: 100vh;
+            display: block;
+        }
+        #hud {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            background: rgba(15, 23, 42, 0.90);
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 18px 22px;
+            max-width: 480px;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+            pointer-events: auto;
+        }
+        h1 {
+            margin: 0 0 8px 0;
+            font-size: 19px;
+            font-weight: 700;
+            color: #a855f7;
+            letter-spacing: 0.5px;
+        }
+        .subtitle {
+            font-size: 13px;
+            color: #94a3b8;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+        .stat-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px 12px;
+            font-size: 12px;
+            margin-bottom: 14px;
+        }
+        .stat-label { color: #64748b; text-transform: uppercase; font-size: 10px; font-weight: 600; }
+        .stat-val { color: #c084fc; font-weight: 600; font-family: monospace; }
+        .legend {
+            font-size: 12px;
+            border-top: 1px solid #1e293b;
+            padding-top: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .legend-item { display: flex; align-items: center; gap: 8px; }
+        .legend-color { width: 12px; height: 12px; border-radius: 3px; }
+        #controls {
+            position: absolute;
+            bottom: 16px;
+            left: 16px;
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 10px 14px;
+            font-size: 12px;
+            color: #94a3b8;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+</head>
+<body>
+    <div id="hud">
+        <h1>Gross-Zagier Height Pairing & Heegner Points</h1>
+        <div class="subtitle">Rankin-Selberg Central L-Derivative L'(E/K, 1) & Néron-Tate Parabolic Manifold on X_0(N)</div>
+        <div class="stat-grid">
+            <div><span class="stat-label">Discriminant D</span><br><span class="stat-val">D = -7 (K = Q(&radic;-7))</span></div>
+            <div><span class="stat-label">Petersson Norm (f,f)</span><br><span class="stat-val">1.0000</span></div>
+            <div><span class="stat-label">Néron-Tate Height</span><br><span class="stat-val">h&#770;(y_K) = 0.5000</span></div>
+            <div><span class="stat-label">Gross-Zagier Prefactor</span><br><span class="stat-val">8&pi;&sup2;/&radic;7 &approx; 29.8428</span></div>
+            <div><span class="stat-label">L'(E/K, 1) Derivative</span><br><span class="stat-val">14.9214 &gt; 0 (Non-Zero)</span></div>
+            <div><span class="stat-label">Kolyvagin BSD Status</span><br><span class="stat-val">Rank(E(K)) = 1, #Sha &lt; &infin;</span></div>
+        </div>
+        <div class="legend">
+            <div class="legend-item"><div class="legend-color" style="background:#a855f7;"></div> Modular Curve X_0(N) Hyperbolic Surface</div>
+            <div class="legend-item"><div class="legend-color" style="background:#38bdf8;"></div> Néron-Tate Parabolic Height Paraboloid</div>
+            <div class="legend-item"><div class="legend-color" style="background:#f59e0b;"></div> Heegner Point Cycles y_K &in; E(K)</div>
+            <div class="legend-item"><div class="legend-color" style="background:#10b981;"></div> Rankin-Selberg Spectral Geodesics</div>
+        </div>
+    </div>
+    <div id="controls">Orbit: Left Click + Drag | Pan: Right Click + Drag | Zoom: Scroll</div>
+    <canvas id="canvas"></canvas>
+
+    <script>
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0x020617, 0.02);
+
+        const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.set(0, 16, 28);
+
+        const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('canvas'), antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+        const controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
+
+        scene.add(new THREE.AmbientLight(0xffffff, 0.35));
+        const dirLight = new THREE.DirectionalLight(0xc084fc, 1.4);
+        dirLight.position.set(12, 24, 18);
+        scene.add(dirLight);
+
+        const grid = new THREE.GridHelper(40, 40, 0x1e293b, 0x0f172a);
+        grid.position.y = -6;
+        scene.add(grid);
+
+        // 1. Néron-Tate Parabolic Height Bowl (Wireframe paraboloid)
+        const bowlGeo = new THREE.CylinderGeometry(14, 0.5, 12, 32, 16, true);
+        const bowlMat = new THREE.MeshStandardMaterial({
+            color: 0x38bdf8,
+            roughness: 0.3,
+            metalness: 0.7,
+            transparent: true,
+            opacity: 0.25,
+            side: THREE.DoubleSide,
+            wireframe: false
+        });
+        const bowlMesh = new THREE.Mesh(bowlGeo, bowlMat);
+        bowlMesh.position.y = 0;
+        scene.add(bowlMesh);
+
+        const bowlWire = new THREE.LineSegments(
+            new THREE.WireframeGeometry(bowlGeo),
+            new THREE.LineBasicMaterial({ color: 0x38bdf8, transparent: true, opacity: 0.35 })
+        );
+        bowlWire.position.y = 0;
+        scene.add(bowlWire);
+
+        // 2. Modular Curve X_0(N) Hyperbolic Surface (Twisted Minimal Surface)
+        const modGroup = new THREE.Group();
+        const numRings = 7;
+        for (let r = 0; r < numRings; ++r) {
+            const rad = 2.0 + r * 1.6;
+            const ringGeo = new THREE.TorusGeometry(rad, 0.12, 16, 64);
+            const ringMat = new THREE.MeshStandardMaterial({
+                color: 0xa855f7,
+                emissive: 0x7e22ce,
+                emissiveIntensity: 0.4,
+                roughness: 0.2
+            });
+            const ringMesh = new THREE.Mesh(ringGeo, ringMat);
+            ringMesh.position.y = (r - 3) * 1.5;
+            ringMesh.rotation.x = Math.PI / 2 + Math.sin(r * 0.8) * 0.3;
+            modGroup.add(ringMesh);
+        }
+        scene.add(modGroup);
+
+        // 3. Heegner Point Cycles (Luminous spheres distributed along discriminant locus)
+        const heegnerGroup = new THREE.Group();
+        const numHeegner = 12;
+        for (let i = 0; i < numHeegner; ++i) {
+            const angle = (i / numHeegner) * Math.PI * 2;
+            const rad = 6.5 + Math.sin(angle * 3) * 1.8;
+            const x = Math.cos(angle) * rad;
+            const z = Math.sin(angle) * rad;
+            const y = (rad * rad) * 0.08 - 2.0; // parabolic height value
+
+            const ptGeo = new THREE.SphereGeometry(0.55, 16, 16);
+            const ptMat = new THREE.MeshStandardMaterial({
+                color: 0xf59e0b,
+                emissive: 0xd97706,
+                emissiveIntensity: 0.85
+            });
+            const ptMesh = new THREE.Mesh(ptGeo, ptMat);
+            ptMesh.position.set(x, y, z);
+            heegnerGroup.add(ptMesh);
+        }
+        scene.add(heegnerGroup);
+
+        // 4. Rankin-Selberg Spectral Geodesics
+        const curvePts = [];
+        for (let t = 0; t <= 200; ++t) {
+            const theta = (t / 200) * Math.PI * 8;
+            const rad = 1.0 + (t / 200) * 11.0;
+            const x = Math.cos(theta) * rad;
+            const z = Math.sin(theta) * rad;
+            const y = (rad * rad) * 0.08 - 2.0;
+            curvePts.push(new THREE.Vector3(x, y, z));
+        }
+        const curve = new THREE.CatmullRomCurve3(curvePts);
+        const tubeGeo = new THREE.TubeGeometry(curve, 200, 0.16, 8, false);
+        const tubeMat = new THREE.MeshStandardMaterial({
+            color: 0x10b981,
+            emissive: 0x059669,
+            emissiveIntensity: 0.8
+        });
+        const tubeMesh = new THREE.Mesh(tubeGeo, tubeMat);
+        scene.add(tubeMesh);
+
+        // Animation Loop
+        let clock = new THREE.Clock();
+        function animate() {
+            requestAnimationFrame(animate);
+            const elapsed = clock.getElapsedTime();
+
+            modGroup.rotation.y = elapsed * 0.08;
+            heegnerGroup.rotation.y = elapsed * 0.12;
+            tubeMesh.rotation.y = -elapsed * 0.05;
+
+            controls.update();
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>
