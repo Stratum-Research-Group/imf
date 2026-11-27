@@ -41,3 +41,4 @@ import Pilot.SelmerShafarevich
 import Pilot.IwasawaMainConjecture
 import Pilot.TateLocalDuality
 import Pilot.GaloisDeformationRing
+import Pilot.FontaineMazurGeometric

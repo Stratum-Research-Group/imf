@@ -1594,6 +1594,65 @@ def test_fused_galois_deformation_ring_correctness():
     assert not torch.allclose(mat1, torch.eye(4), atol=1e-3)
 
 
+def test_fused_fontaine_mazur_weights_correctness():
+    so_path = "csrc/libfused_blackwell_fontaine_mazur_weights.so"
+    if not os.path.exists(so_path):
+        pytest.skip(f"{so_path} not found")
+
+    lib = ctypes.CDLL(so_path)
+    lib.fused_blackwell_fontaine_mazur_weights.argtypes = [
+        ctypes.c_void_p,
+        ctypes.c_void_p,
+        ctypes.c_void_p,
+        ctypes.c_void_p,
+        ctypes.c_void_p,
+        ctypes.c_int,
+        ctypes.c_int,
+        ctypes.c_float
+    ]
+    lib.fused_blackwell_fontaine_mazur_weights.restype = ctypes.c_int
+
+    batch_size = 2
+    dim_n = 2
+    p_prime = 5.0
+
+    # Representation matrix: [B, 2, 2]
+    # Batch 0: weights are 0 and 1 (eigenvalues 1.0 and 5.0)
+    rep_mat = torch.zeros(batch_size, dim_n * dim_n, dtype=torch.float32)
+    rep_mat[0, 0] = 1.0  # log_5(1) = 0
+    rep_mat[0, 3] = 5.0  # log_5(5) = 1
+
+    # Frobenius matrix: [B, 2, 2]
+    frob_mat = torch.zeros(batch_size, dim_n * dim_n, dtype=torch.float32)
+    frob_mat[0, 0] = 2.0
+    frob_mat[0, 3] = 3.0  # Trace = 2 + 3 = 5.0
+
+    weights_out = torch.zeros(batch_size, dim_n, dtype=torch.float32)
+    trace_out = torch.zeros(batch_size, dtype=torch.float32)
+    purity_out = torch.zeros(batch_size, dtype=torch.float32)
+
+    ret = lib.fused_blackwell_fontaine_mazur_weights(
+        ctypes.c_void_p(rep_mat.data_ptr()),
+        ctypes.c_void_p(frob_mat.data_ptr()),
+        ctypes.c_void_p(weights_out.data_ptr()),
+        ctypes.c_void_p(trace_out.data_ptr()),
+        ctypes.c_void_p(purity_out.data_ptr()),
+        batch_size,
+        dim_n,
+        p_prime
+    )
+    assert ret == 0
+
+    # Verify Hodge-Tate weights for batch 0
+    assert abs(weights_out[0, 0].item() - 0.0) < 1e-4
+    assert abs(weights_out[0, 1].item() - 1.0) < 1e-4
+    # Verify Frobenius trace
+    assert abs(trace_out[0].item() - 5.0) < 1e-4
+    # Verify geometric purity
+    assert purity_out[0].item() == 1.0
+
+
+
 
 
 

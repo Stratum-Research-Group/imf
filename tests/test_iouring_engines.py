@@ -1873,6 +1873,89 @@ def test_iouring_page_pool_allocator_correctness():
         lib.iouring_page_pool_destroy(eng)
 
 
+def test_iouring_socket_multiplexer_correctness():
+    so_path = "csrc/libfused_iouring_socket_multiplexer.so"
+    if not os.path.exists(so_path):
+        pytest.skip("libfused_iouring_socket_multiplexer.so not compiled")
+
+    lib = ctypes.CDLL(so_path)
+    lib.iouring_socket_multiplexer_init.argtypes = [ctypes.c_uint32, ctypes.c_uint32]
+    lib.iouring_socket_multiplexer_init.restype = ctypes.c_void_p
+
+    lib.iouring_socket_multiplexer_register_socket.argtypes = [ctypes.c_void_p, ctypes.c_int, ctypes.c_uint32]
+    lib.iouring_socket_multiplexer_register_socket.restype = ctypes.c_int
+
+    lib.iouring_socket_multiplexer_unregister_socket.argtypes = [ctypes.c_void_p, ctypes.c_uint32]
+    lib.iouring_socket_multiplexer_unregister_socket.restype = ctypes.c_int
+
+    lib.iouring_socket_multiplexer_route.argtypes = [ctypes.c_void_p, ctypes.c_uint32, ctypes.c_void_p, ctypes.c_uint32]
+    lib.iouring_socket_multiplexer_route.restype = ctypes.c_int
+
+    lib.iouring_socket_multiplexer_broadcast.argtypes = [
+        ctypes.c_void_p, ctypes.c_void_p, ctypes.c_uint32, ctypes.POINTER(ctypes.c_uint32)
+    ]
+    lib.iouring_socket_multiplexer_broadcast.restype = ctypes.c_int
+
+    lib.iouring_socket_multiplexer_get_stats.argtypes = [
+        ctypes.c_void_p,
+        ctypes.POINTER(ctypes.c_uint32),
+        ctypes.POINTER(ctypes.c_uint64),
+        ctypes.POINTER(ctypes.c_uint64)
+    ]
+    lib.iouring_socket_multiplexer_get_stats.restype = ctypes.c_int
+
+    lib.iouring_socket_multiplexer_destroy.argtypes = [ctypes.c_void_p]
+    lib.iouring_socket_multiplexer_destroy.restype = None
+
+    max_sock = 32
+    ring_entries = 64
+    mux = lib.iouring_socket_multiplexer_init(max_sock, ring_entries)
+    assert mux is not None
+
+    try:
+        # Register 2 sockets
+        r1 = lib.iouring_socket_multiplexer_register_socket(mux, 10, 0)
+        assert r1 == 0
+        r2 = lib.iouring_socket_multiplexer_register_socket(mux, 11, 1)
+        assert r2 == 0
+
+        # Route a single message to socket 0
+        payload = b"FONTAINE_MAZUR_GEOMETRIC_COCYCLE_PACKET"
+        rt = lib.iouring_socket_multiplexer_route(mux, 0, payload, len(payload))
+        assert rt == 0
+
+        # Broadcast message to all active sockets (2 sockets)
+        sent = ctypes.c_uint32(0)
+        bc = lib.iouring_socket_multiplexer_broadcast(mux, payload, len(payload), ctypes.byref(sent))
+        assert bc == 0
+        assert sent.value == 2
+
+        # Verify stats
+        act = ctypes.c_uint32(0)
+        pkts = ctypes.c_uint64(0)
+        bytes_tot = ctypes.c_uint64(0)
+        st = lib.iouring_socket_multiplexer_get_stats(
+            mux, ctypes.byref(act), ctypes.byref(pkts), ctypes.byref(bytes_tot)
+        )
+        assert st == 0
+        assert act.value == 2
+        assert pkts.value == 3  # 1 route + 2 broadcast
+        assert bytes_tot.value == 3 * len(payload)
+
+        # Unregister socket 1
+        unreg = lib.iouring_socket_multiplexer_unregister_socket(mux, 1)
+        assert unreg == 0
+
+        st2 = lib.iouring_socket_multiplexer_get_stats(
+            mux, ctypes.byref(act), ctypes.byref(pkts), ctypes.byref(bytes_tot)
+        )
+        assert st2 == 0
+        assert act.value == 1
+    finally:
+        lib.iouring_socket_multiplexer_destroy(mux)
+
+
+
 
 
 
