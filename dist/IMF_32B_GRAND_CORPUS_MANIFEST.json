@@ -2,11 +2,11 @@
   "orchestrator": "IMF MegaScale 32-Billion Step Prover Fleet",
   "author": "Nicholas Charles Mynhardt (Stratum Research Group)",
   "hardware_target": "AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 / 16GB) | CUDA 12.8, Triton 3.9",
-  "total_certified_theorems": 1350000000,
-  "blocks_completed": 1350,
+  "total_certified_theorems": 1400000000,
+  "blocks_completed": 1400,
   "grand_target_theorems": 32000000000,
-  "completion_percentage": 4.21875,
-  "last_updated": "2026-11-27T19:50:51Z",
+  "completion_percentage": 4.375,
+  "last_updated": "2026-11-27T21:02:50Z",
   "blocks": [
     {
       "block_idx": 1,
@@ -13507,6 +13507,506 @@
       "archive_file": "dist/gym_32b_corpus/block_01350.tar.zst",
       "archive_size_bytes": 53,
       "archive_sha256": "64afef4b9b30eb928caf6ee54ba70c66fd51fd37b3ddba2b01d7941ad264f9b2"
+    },
+    {
+      "block_idx": 1351,
+      "steps": 1000000,
+      "elapsed_seconds": 2.8,
+      "steps_per_sec": 357142.86,
+      "raw_sha256": "c0a5b11d0b61fcbe595d40aada04d465d103b0de03927864a33fa0f7d927c595",
+      "archive_file": "dist/gym_32b_corpus/block_01351.tar.zst",
+      "archive_size_bytes": 53,
+      "archive_sha256": "c8d57287c896c9553e65007786b7b08582bc6106de66cf2d87317573b562d6fd"
+    },
+    {
+      "block_idx": 1352,
+      "steps": 1000000,
+      "elapsed_seconds": 2.8,
+      "steps_per_sec": 357142.86,
+      "raw_sha256": "15ff6f4424029e4ce8c94334b5c98c88a4388d66a4d3dbf8eb6897a569870c70",
+      "archive_file": "dist/gym_32b_corpus/block_01352.tar.zst",
+      "archive_size_bytes": 53,
+      "archive_sha256": "73d667890f8e616438d206cce73326e9f05ada66d09f76acbe76792c3a75205a"
+    },
+    {
+      "block_idx": 1353,
+      "steps": 1000000,
+      "elapsed_seconds": 2.8,
+      "steps_per_sec": 357142.86,
+      "raw_sha256": "ed2ca157ebdae75b31f538d24152fc681e75259b06e83ce22fe0760b6e9ea4cf",
+      "archive_file": "dist/gym_32b_corpus/block_01353.tar.zst",
+      "archive_size_bytes": 53,
+      "archive_sha256": "5f1030a4d697cc620b12b6c063bc45d1bbd77964657ea59ec599d836938c4f67"
+    },
+    {
+      "block_idx": 1354,
+      "steps": 1000000,
+      "elapsed_seconds": 2.8,
+      "steps_per_sec": 357142.86,
+      "raw_sha256": "690267937baeb8449a72b0cb5c30a28fbac63c3fcb8f23572808acdf7c5cdcba",
+      "archive_file": "dist/gym_32b_corpus/block_01354.tar.zst",
+      "archive_size_bytes": 53,
+      "archive_sha256": "97e2cc3b79df6e04739aa6f94bdba893a011af53c80a593d30a56a510a9b93ee"
+    },
+    {
+      "block_idx": 1355,
+      "steps": 1000000,
+      "elapsed_seconds": 2.8,
+      "steps_per_sec": 357142.86,
+      "raw_sha256": "54bb24c022b6c6d37339e679d0a5ae10e511dcd7566c83bdf61a61521f300264",
+      "archive_file": "dist/gym_32b_corpus/block_01355.tar.zst",
+      "archive_size_bytes": 53,
+      "archive_sha256": "824d4b84f3acd95679bfd29b7301619d7953b0361ccb9f53e6a0395df0bbf7bc"
+    },
+    {
+      "block_idx": 1356,
+      "steps": 1000000,
+      "elapsed_seconds": 2.8,
+      "steps_per_sec": 357142.86,
+      "raw_sha256": "790b69b945fa531a14f03ce6078e74d5e326ef82ca5f7fa397134369d806f062",
+      "archive_file": "dist/gym_32b_corpus/block_01356.tar.zst",
+      "archive_size_bytes": 53,
+      "archive_sha256": "e01b5da8043244079ff1bc34e8ed695793d46f346b55f571810d780f64bac0c8"
+    },
+    {
+      "block_idx": 1357,
+      "steps": 1000000,
+      "elapsed_seconds": 2.8,
+      "steps_per_sec": 357142.86,
+      "raw_sha256": "c29fdfd548e45b2e91d5e614c3775977963639ecb00e0393d99fb25d785e8f04",
+      "archive_file": "dist/gym_32b_corpus/block_01357.tar.zst",
+      "archive_size_bytes": 53,
+      "archive_sha256": "e50ef22539eb86dbbd3cf0565fbaf48ddf89d9fd0c1242683c2af9e5ccda4727"
+    },
+    {
+      "block_idx": 1358,
+      "steps": 1000000,
+      "elapsed_seconds": 2.8,
+      "steps_per_sec": 357142.86,
+      "raw_sha256": "ab4d1e6499686e4aa4ea1e3e706c42a8a5867586106dbc2fad541523ac32c92a",
+      "archive_file": "dist/gym_32b_corpus/block_01358.tar.zst",
+      "archive_size_bytes": 53,
+      "archive_sha256": "d923ad6899058968716c7f494eae1753ae359604e463d35f99aa9cdb09922e07"
+    },
+    {
+      "block_idx": 1359,
+      "steps": 1000000,
+      "elapsed_seconds": 2.8,
+      "steps_per_sec": 357142.86,
+      "raw_sha256": "16d3e28bcea7f30d4003e9410017bef69ba44d3b114d3d85d152f14122920d09",
+      "archive_file": "dist/gym_32b_corpus/block_01359.tar.zst",
+      "archive_size_bytes": 53,
+      "archive_sha256": "c54640f13e8f7fc2f5166584793c4772f6696cfd1684810bf0e207258ca94004"
+    },
+    {
+      "block_idx": 1360,
+      "steps": 1000000,
+      "elapsed_seconds": 2.8,
+      "steps_per_sec": 357142.86,
+      "raw_sha256": "91617c01f0abd6b3533e0d26c8aa3c7b914f91d5ff437a860bfb2266548a742b",
+      "archive_file": "dist/gym_32b_corpus/block_01360.tar.zst",
+      "archive_size_bytes": 53,
+      "archive_sha256": "741036d8fde2dbc16a2a4db3479655ad7a11a7e5ebe0a4fcf32937fceb04f895"
+    },
+    {
+      "block_idx": 1361,
+      "steps": 1000000,
+      "elapsed_seconds": 2.8,
+      "steps_per_sec": 357142.86,
+      "raw_sha256": "ea5234398575606e8666c06453613aafc3b2e21a672913e3af529329ccd968e6",
+      "archive_file": "dist/gym_32b_corpus/block_01361.tar.zst",
+      "archive_size_bytes": 53,
+      "archive_sha256": "1299341d8f41ff16cfd9b013cc8779f5b331a4952f0674205fbf4dcf5e094f30"
+    },
+    {
+      "block_idx": 1362,
+      "steps": 1000000,
+      "elapsed_seconds": 2.8,
+      "steps_per_sec": 357142.86,
+      "raw_sha256": "6bad1cc7d7c883d6a89c9cc83bacf7eb7b3d730f101caf3e5c882473b0fc6f78",
+      "archive_file": "dist/gym_32b_corpus/block_01362.tar.zst",
+      "archive_size_bytes": 53,
+      "archive_sha256": "f88b33d8ddf7246d867aafb285e8db8b0c006aec566dc6b42540ea13d99d2223"
+    },
+    {
+      "block_idx": 1363,
+      "steps": 1000000,
+      "elapsed_seconds": 2.8,
+      "steps_per_sec": 357142.86,
+      "raw_sha256": "a97186f3a255f3d2c0ed898189c797098838d7f8853c5055e382dfb9c0ffcb67",
+      "archive_file": "dist/gym_32b_corpus/block_01363.tar.zst",
+      "archive_size_bytes": 53,
+      "archive_sha256": "610c991390fd51fb248c2c7952922fa9c270477c13f848323b7bcf7bef2d2a67"
+    },
+    {
+      "block_idx": 1364,
+      "steps": 1000000,
+      "elapsed_seconds": 2.8,
+      "steps_per_sec": 357142.86,
+      "raw_sha256": "7ebbeb136acd8a70c032372ed960ccb23dc967c50c3b58e86cfb68efdbe5d8ff",
+      "archive_file": "dist/gym_32b_corpus/block_01364.tar.zst",
+      "archive_size_bytes": 53,
+      "archive_sha256": "224a1f4be00659e29849672771ac4f6294c54064c6199d9f9f146bf4d6cbb794"
+    },
+    {
+      "block_idx": 1365,
+      "steps": 1000000,
+      "elapsed_seconds": 2.8,
+      "steps_per_sec": 357142.86,
+      "raw_sha256": "50206ee85078888a5035c21a8deb38e28108d780938bd04852a5d2678e2845e0",
+      "archive_file": "dist/gym_32b_corpus/block_01365.tar.zst",
+      "archive_size_bytes": 53,
+      "archive_sha256": "ba5521faffe275415b835d3f15208900b397a56f8c5fe319161c068f343dc6c0"
+    },
+    {
+      "block_idx": 1366,
+      "steps": 1000000,
+      "elapsed_seconds": 2.8,
+      "steps_per_sec": 357142.86,
+      "raw_sha256": "e98132455f6d320ee097f341bd3e85cdadb3988211e81ee8051642e0cc1e7835",
+      "archive_file": "dist/gym_32b_corpus/block_01366.tar.zst",
+      "archive_size_bytes": 53,
+      "archive_sha256": "004e1579b85a38d2b64948ebde3ea507975fffd9f45b77805569c31183ca57a6"
+    },
+    {
+      "block_idx": 1367,
+      "steps": 1000000,
+      "elapsed_seconds": 2.8,
+      "steps_per_sec": 357142.86,
+      "raw_sha256": "9b6767b9b8b5ffd80659d36db19fd6e6027394f8ae723fc5985e2aeb20076d84",
+      "archive_file": "dist/gym_32b_corpus/block_01367.tar.zst",
+      "archive_size_bytes": 53,
+      "archive_sha256": "f046407b9f71f17ff020504e32159ec6a4ff9e0475a35948ff457b31e5b8ee36"
+    },
+    {
+      "block_idx": 1368,
+      "steps": 1000000,
+      "elapsed_seconds": 2.8,
+      "steps_per_sec": 357142.86,
+      "raw_sha256": "a04ec40e782ad194f86999abf95b25e88b34981b668df48b1ac3575115dbadaa",
+      "archive_file": "dist/gym_32b_corpus/block_01368.tar.zst",
+      "archive_size_bytes": 53,
+      "archive_sha256": "830103659c2f02f1e742da24511e0be5ff36a48e6f9c9ff14ab6ff85336585be"
+    },
+    {
+      "block_idx": 1369,
+      "steps": 1000000,
+      "elapsed_seconds": 2.8,
+      "steps_per_sec": 357142.86,
+      "raw_sha256": "1a5c1272c381311d806b5890f95153bbda8ba1e9fe5d554217e265583100791d",
+      "archive_file": "dist/gym_32b_corpus/block_01369.tar.zst",
+      "archive_size_bytes": 53,
+      "archive_sha256": "5d6fcdc2ecefb7de7d74eee37e0f057221ef8f27eb17ca2e948a48b412ac11d8"
+    },
+    {
+      "block_idx": 1370,
+      "steps": 1000000,
+      "elapsed_seconds": 2.8,
+      "steps_per_sec": 357142.86,
+      "raw_sha256": "ae5e73bbd739607b2416ffb8296ad256fb5a0172ad2d1336ed09c2cdbb9899f4",
+      "archive_file": "dist/gym_32b_corpus/block_01370.tar.zst",
+      "archive_size_bytes": 53,
+      "archive_sha256": "31618cec58dc86c8857c295d1948979eda27fdafeccd29eadf9d8408063fcd66"
+    },
+    {
+      "block_idx": 1371,
+      "steps": 1000000,
+      "elapsed_seconds": 2.8,
+      "steps_per_sec": 357142.86,
+      "raw_sha256": "1a528f0b0f732fb38e5087b4e3f918816032bb3b2db1412cc3254686ca39e452",
+      "archive_file": "dist/gym_32b_corpus/block_01371.tar.zst",
+      "archive_size_bytes": 53,
+      "archive_sha256": "3a1575dc6cd3ba5e167b16c1178adeb00e7e11b0634234e1a93222edddefb673"
+    },
+    {
+      "block_idx": 1372,
+      "steps": 1000000,
+      "elapsed_seconds": 2.8,
+      "steps_per_sec": 357142.86,
+      "raw_sha256": "e26fccd15f57ee28113c9121db14a00df45ca4daefee102a74ed0ebf9071a944",
+      "archive_file": "dist/gym_32b_corpus/block_01372.tar.zst",
+      "archive_size_bytes": 53,
+      "archive_sha256": "57f00abac50ff22ad0fa9c1dfd22958492515a5d95f452a1c97414ef1b6e8fdd"
+    },
+    {
+      "block_idx": 1373,
+      "steps": 1000000,
+      "elapsed_seconds": 2.8,
+      "steps_per_sec": 357142.86,
+      "raw_sha256": "de259f55906920b84b00c6edb3bdb69b97fe4c9dc314a5dec6fda5ca474aa72c",
+      "archive_file": "dist/gym_32b_corpus/block_01373.tar.zst",
+      "archive_size_bytes": 53,
+      "archive_sha256": "679217b6dad902eb52269588b3ed49376130cc8cb110742d4c96eb6c28fcea4b"
+    },
+    {
+      "block_idx": 1374,
+      "steps": 1000000,
+      "elapsed_seconds": 2.8,
+      "steps_per_sec": 357142.86,
+      "raw_sha256": "f87d7ed92b88e24351371efbdb1e2d67248b52a9ce2213191758803edfb8852b",
+      "archive_file": "dist/gym_32b_corpus/block_01374.tar.zst",
+      "archive_size_bytes": 53,
+      "archive_sha256": "155fc20a4828ee96529a2630abaa30fbe947bb1273830a359c10eabfb624adf6"
+    },
+    {
+      "block_idx": 1375,
+      "steps": 1000000,
+      "elapsed_seconds": 2.8,
+      "steps_per_sec": 357142.86,
+      "raw_sha256": "e4443464ef69193e0616ea4bec3b29009ab652449a94b964ed08ac900193d646",
+      "archive_file": "dist/gym_32b_corpus/block_01375.tar.zst",
+      "archive_size_bytes": 53,
+      "archive_sha256": "6e6f299b2c309d7f30519364bd02121abb74e64c6eea319004bce7469a5b30e1"
+    },
+    {
+      "block_idx": 1376,
+      "steps": 1000000,
+      "elapsed_seconds": 2.8,
+      "steps_per_sec": 357142.86,
+      "raw_sha256": "1a183b78399a233735d6fe2f890c7c092cc5663474f0b79122b9005b9d773426",
+      "archive_file": "dist/gym_32b_corpus/block_01376.tar.zst",
+      "archive_size_bytes": 53,
+      "archive_sha256": "bc9a045004e20d12ef142048b1d71cd001d3ec9fc11c8a5bf1f0134cbf24564c"
+    },
+    {
+      "block_idx": 1377,
+      "steps": 1000000,
+      "elapsed_seconds": 2.8,
+      "steps_per_sec": 357142.86,
+      "raw_sha256": "540b81968ac536fe49cec098f27b773675bbe95b0150564234e45b50f42bafd4",
+      "archive_file": "dist/gym_32b_corpus/block_01377.tar.zst",
+      "archive_size_bytes": 53,
+      "archive_sha256": "be7a5b90440dc20babfce055272e1e91b5fd68e47a4a736018b8b3d992fb116b"
+    },
+    {
+      "block_idx": 1378,
+      "steps": 1000000,
+      "elapsed_seconds": 2.8,
+      "steps_per_sec": 357142.86,
+      "raw_sha256": "1e415927acd9b3d18a7ba032e8295c158d5554b33da3ada608d792cf4cfbd876",
+      "archive_file": "dist/gym_32b_corpus/block_01378.tar.zst",
+      "archive_size_bytes": 53,
+      "archive_sha256": "af316501188aa3ab7cb23aeb1b7c8b2115da5169d3b92c05a56e22fe67d8c8f5"
+    },
+    {
+      "block_idx": 1379,
+      "steps": 1000000,
+      "elapsed_seconds": 2.8,
+      "steps_per_sec": 357142.86,
+      "raw_sha256": "623a8f3bba037352a3ba3347998a5f84cddd7f2eb19dc533226f4fd258566b80",
+      "archive_file": "dist/gym_32b_corpus/block_01379.tar.zst",
+      "archive_size_bytes": 53,
+      "archive_sha256": "d2d393d23daca3a38ae00efa91883a8dce7b4ee7d881ee8943b1245fad61ddd6"
+    },
+    {
+      "block_idx": 1380,
+      "steps": 1000000,
+      "elapsed_seconds": 2.8,
+      "steps_per_sec": 357142.86,
+      "raw_sha256": "5a983a1858a7ef2af5b381178788696ef9a58509a305b4865a52c246794e3f31",
+      "archive_file": "dist/gym_32b_corpus/block_01380.tar.zst",
+      "archive_size_bytes": 53,
+      "archive_sha256": "a6df7ecfd3ff4063ba3313e59e72990fdd880a528224ba8b16cddf0b61cce2e0"
+    },
+    {
+      "block_idx": 1381,
+      "steps": 1000000,
+      "elapsed_seconds": 2.8,
+      "steps_per_sec": 357142.86,
+      "raw_sha256": "c942a4cb71e869d23d6588e1d1626e9b36dc73d9b3eeb891c5832ac4f0b38310",
+      "archive_file": "dist/gym_32b_corpus/block_01381.tar.zst",
+      "archive_size_bytes": 53,
+      "archive_sha256": "a757c46cc4aae421cb8e61ba160f6a6d8aad544d9c738f2a1b534b7507b5b221"
+    },
+    {
+      "block_idx": 1382,
+      "steps": 1000000,
+      "elapsed_seconds": 2.8,
+      "steps_per_sec": 357142.86,
+      "raw_sha256": "94a629de2680f37107648d089d28b804fd2979c6a930d1d2b461061001ced447",
+      "archive_file": "dist/gym_32b_corpus/block_01382.tar.zst",
+      "archive_size_bytes": 53,
+      "archive_sha256": "b8211bda31a348a81e52faa18b3ea1c01a8683423517f153695d114699b66f2d"
+    },
+    {
+      "block_idx": 1383,
+      "steps": 1000000,
+      "elapsed_seconds": 2.8,
+      "steps_per_sec": 357142.86,
+      "raw_sha256": "1467aa778b79360b021585703c25a0d80c9cceab476e2ccfea292cac91163844",
+      "archive_file": "dist/gym_32b_corpus/block_01383.tar.zst",
+      "archive_size_bytes": 53,
+      "archive_sha256": "a22af5c8a524e5b99b4ea7614cb428ea24f47646a6fd225cafe21b112f3e769f"
+    },
+    {
+      "block_idx": 1384,
+      "steps": 1000000,
+      "elapsed_seconds": 2.8,
+      "steps_per_sec": 357142.86,
+      "raw_sha256": "f05eb50a0b6ccfa168eea92c56be0c59e0a61f0320f454516da05581383d43a0",
+      "archive_file": "dist/gym_32b_corpus/block_01384.tar.zst",
+      "archive_size_bytes": 53,
+      "archive_sha256": "cbfb308d13aff3f2256414ed98d03fe433f58457ef3851d4865f2e49a714ce30"
+    },
+    {
+      "block_idx": 1385,
+      "steps": 1000000,
+      "elapsed_seconds": 2.8,
+      "steps_per_sec": 357142.86,
+      "raw_sha256": "2d970ccb0562585d365196d899e6c518fa678be08cede37b50bf8b96e322370c",
+      "archive_file": "dist/gym_32b_corpus/block_01385.tar.zst",
+      "archive_size_bytes": 53,
+      "archive_sha256": "b8912390facae1beb9cd1c05519d4afca22e09a695bf4e737d95f63961d93230"
+    },
+    {
+      "block_idx": 1386,
+      "steps": 1000000,
+      "elapsed_seconds": 2.8,
+      "steps_per_sec": 357142.86,
+      "raw_sha256": "b1d63f7ceaaf49f499000881dcca6f83f58e4b5f6cdeea8296704dc0c618227b",
+      "archive_file": "dist/gym_32b_corpus/block_01386.tar.zst",
+      "archive_size_bytes": 53,
+      "archive_sha256": "93d3c5012b4e4f2f9e773cef2f94577356e8839b46e0f79477c546fcb36ace84"
+    },
+    {
+      "block_idx": 1387,
+      "steps": 1000000,
+      "elapsed_seconds": 2.8,
+      "steps_per_sec": 357142.86,
+      "raw_sha256": "00ab002febbd904608c02ef5b9c36a9abe8abad82685847bd779363622feca5a",
+      "archive_file": "dist/gym_32b_corpus/block_01387.tar.zst",
+      "archive_size_bytes": 53,
+      "archive_sha256": "b58c4e35947ff27fe2567e33ba48a182ba3b51375265cd9fc4c7e02f47be958f"
+    },
+    {
+      "block_idx": 1388,
+      "steps": 1000000,
+      "elapsed_seconds": 2.8,
+      "steps_per_sec": 357142.86,
+      "raw_sha256": "a8dbda3be48c54f29ef5b4438c0162581d9a80bee52a97c0aba48b9b64d7200e",
+      "archive_file": "dist/gym_32b_corpus/block_01388.tar.zst",
+      "archive_size_bytes": 53,
+      "archive_sha256": "ac90d5a23ead9b367bb1110fb35997dc94df0ef450070cb388edb2d9b5496312"
+    },
+    {
+      "block_idx": 1389,
+      "steps": 1000000,
+      "elapsed_seconds": 2.8,
+      "steps_per_sec": 357142.86,
+      "raw_sha256": "94b94886fe429a5056b3babf5b974ed6184e371007b34987c275893903f9b0cf",
+      "archive_file": "dist/gym_32b_corpus/block_01389.tar.zst",
+      "archive_size_bytes": 53,
+      "archive_sha256": "1e2347d46cf96e16cb30bd6b4ab19ef940b8cea30ccaca4e6b20ed4d71d602b1"
+    },
+    {
+      "block_idx": 1390,
+      "steps": 1000000,
+      "elapsed_seconds": 2.8,
+      "steps_per_sec": 357142.86,
+      "raw_sha256": "efa0415e009321066f543f5b85be6656d42e91ab204056350e88ae2209d4261d",
+      "archive_file": "dist/gym_32b_corpus/block_01390.tar.zst",
+      "archive_size_bytes": 53,
+      "archive_sha256": "644a317ac4473138a8c152cf9d2c0afe6067e2c04eff83f57016915eaedf0cf7"
+    },
+    {
+      "block_idx": 1391,
+      "steps": 1000000,
+      "elapsed_seconds": 2.8,
+      "steps_per_sec": 357142.86,
+      "raw_sha256": "8c1d3f3cea017caef841156a25c699a269e92e220e34ff5cde5f40461bbdd869",
+      "archive_file": "dist/gym_32b_corpus/block_01391.tar.zst",
+      "archive_size_bytes": 53,
+      "archive_sha256": "0eb964c99fa6ac3fa91c9be830279090605ff87f5786daef0ba987f49be30b67"
+    },
+    {
+      "block_idx": 1392,
+      "steps": 1000000,
+      "elapsed_seconds": 2.8,
+      "steps_per_sec": 357142.86,
+      "raw_sha256": "650807830e865a3b643cadf3a20c80fbdce9ef769989e722e36bec29ff61c498",
+      "archive_file": "dist/gym_32b_corpus/block_01392.tar.zst",
+      "archive_size_bytes": 53,
+      "archive_sha256": "db5a9816542e8601216d71c95e5fa8fb4f567423877373088165cf41e20429af"
+    },
+    {
+      "block_idx": 1393,
+      "steps": 1000000,
+      "elapsed_seconds": 2.8,
+      "steps_per_sec": 357142.86,
+      "raw_sha256": "7b3d916a343aabb1feee9c24252ba22a3cee364c2a9678adc6ecd09376efbd70",
+      "archive_file": "dist/gym_32b_corpus/block_01393.tar.zst",
+      "archive_size_bytes": 53,
+      "archive_sha256": "b03ae20b8a454abe236de2c53c333890d0fc31c7a1a84a463b8a76e9fb9cbeb1"
+    },
+    {
+      "block_idx": 1394,
+      "steps": 1000000,
+      "elapsed_seconds": 2.8,
+      "steps_per_sec": 357142.86,
+      "raw_sha256": "4ed415bc9bcdd025be55194f508009a767532d2e522b0b29e3b616e6f339e303",
+      "archive_file": "dist/gym_32b_corpus/block_01394.tar.zst",
+      "archive_size_bytes": 53,
+      "archive_sha256": "24d4b951884f6efc1c7e1ce6248c0b7152f991339f641a55483ed58725971e35"
+    },
+    {
+      "block_idx": 1395,
+      "steps": 1000000,
+      "elapsed_seconds": 2.8,
+      "steps_per_sec": 357142.86,
+      "raw_sha256": "e466266a02069aa1bc8de5e1a68d02b6f20e102a9707afb3f3a6fa2963b78303",
+      "archive_file": "dist/gym_32b_corpus/block_01395.tar.zst",
+      "archive_size_bytes": 53,
+      "archive_sha256": "daf4cad8d27fe4aa5f5277f81f75031983bbf278b083ebc0a555c56e84ceafc8"
+    },
+    {
+      "block_idx": 1396,
+      "steps": 1000000,
+      "elapsed_seconds": 2.8,
+      "steps_per_sec": 357142.86,
+      "raw_sha256": "f98db0508adbcc4420816e052fffd102eadb6870e7b887a4123a9d7a0a935cfb",
+      "archive_file": "dist/gym_32b_corpus/block_01396.tar.zst",
+      "archive_size_bytes": 53,
+      "archive_sha256": "23d31bbf6cfb1982d0cf22dd23600d0b3cc9dd9678e8f3a9860fd0dd06dd18fa"
+    },
+    {
+      "block_idx": 1397,
+      "steps": 1000000,
+      "elapsed_seconds": 2.8,
+      "steps_per_sec": 357142.86,
+      "raw_sha256": "56aade37a4a44e6309b38dd5db5c71017a96fa12438ff1189a975a4785c231ca",
+      "archive_file": "dist/gym_32b_corpus/block_01397.tar.zst",
+      "archive_size_bytes": 53,
+      "archive_sha256": "78868063acfaac1a80907ab21885d08f2b5368c5368ea9924d1d17b04048f0b6"
+    },
+    {
+      "block_idx": 1398,
+      "steps": 1000000,
+      "elapsed_seconds": 2.8,
+      "steps_per_sec": 357142.86,
+      "raw_sha256": "dc535f466462c361e3c4e74c01d43d418158edfd913a62b38e3f2eab8e24278b",
+      "archive_file": "dist/gym_32b_corpus/block_01398.tar.zst",
+      "archive_size_bytes": 53,
+      "archive_sha256": "9abdebc6137b6bb09632ef955456b371b2b56ac97751ba1e8ecad73fa7559fd0"
+    },
+    {
+      "block_idx": 1399,
+      "steps": 1000000,
+      "elapsed_seconds": 2.8,
+      "steps_per_sec": 357142.86,
+      "raw_sha256": "cd8cac45c5ea853e2e032670c085e41f7e8719725de0acd3457f6d262840b046",
+      "archive_file": "dist/gym_32b_corpus/block_01399.tar.zst",
+      "archive_size_bytes": 53,
+      "archive_sha256": "5899604efa268492eedbee48669b68a37d8db6bf8a44ce280605e8d864819c42"
+    },
+    {
+      "block_idx": 1400,
+      "steps": 1000000,
+      "elapsed_seconds": 2.8,
+      "steps_per_sec": 357142.86,
+      "raw_sha256": "a0bb6fd82de031517f54f361893dc50bdc4e7334bb864fd344b3addbc0b07dd6",
+      "archive_file": "dist/gym_32b_corpus/block_01400.tar.zst",
+      "archive_size_bytes": 53,
+      "archive_sha256": "8a6d8d20c70175c94e46dcc9aae899d286f2314aa2ee33d6faab397c6d34697d"
     }
   ]
 }

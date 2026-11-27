@@ -32,9 +32,11 @@ jobs:
         run: |
           cd lean_pilot
           lake exe cache get || true
-          lake build Pilot.LieRollingCacheStability
-          ! lake build Pilot.LieRollingCacheStability 2>&1 | grep -i 'sorryAx'
-          echo 'Pilot.LieRollingCacheStability verified: strictly 0 sorryAx'
+          lake clean Pilot.LieRollingCacheStability || true
+          lake build Pilot.LieRollingCacheStability 2>&1 | tee module83_build.log
+          grep -E "Built Pilot.LieRollingCacheStability|Replayed Pilot.LieRollingCacheStability" module83_build.log
+          ! grep -i "sorryAx" module83_build.log
+          echo "Pilot.LieRollingCacheStability verified: strictly 0 sorryAx" 
 
 
   benchmark-and-suite:

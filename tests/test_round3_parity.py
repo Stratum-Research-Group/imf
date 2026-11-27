@@ -58,6 +58,10 @@ def test_mla_latent_backward_exact_matches_autograd():
 
 @pytest.mark.parametrize("D", [8, 64, 128, 256])
 def test_rust_fwht_matches_hadamard_matrix(D):
+    from imf.native_rust_bridge import get_rust_lib
+    lib = get_rust_lib()
+    if lib is None or not hasattr(lib, "imf_fast_walsh_hadamard_avx2"):
+        pytest.skip("imf_fast_walsh_hadamard_avx2 Rust native library not built")
     from imf.native_rust_bridge import rust_fwht
     x = np.random.RandomState(D).randn(5, D).astype(np.float32)
     ref = x @ (hadamard(D).astype(np.float32) / np.sqrt(D))

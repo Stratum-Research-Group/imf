@@ -35,6 +35,10 @@ def test_triton_fused_poincare_mla_backward():
 
 
 def test_rust_polytope_projection_avx2_parity():
+    from imf.native_rust_bridge import get_rust_lib
+    lib = get_rust_lib()
+    if lib is None or not hasattr(lib, "imf_polytope_projection_avx2"):
+        pytest.skip("imf_polytope_projection_avx2 Rust native library not built")
     """Validates Rust AVX2 polytope projection exact numerical equivalence with NumPy argmax."""
     from imf.native_rust_bridge import rust_polytope_projection_avx2
 

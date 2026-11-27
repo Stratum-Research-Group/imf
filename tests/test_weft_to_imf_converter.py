@@ -1,3 +1,13 @@
+import os
+import pytest
+
+# Skip module if WEFT repo / package is not present
+try:
+    from imf.weft_to_imf_converter import _load_weft_format_module
+    _load_weft_format_module()
+except Exception:
+    pytestmark = pytest.mark.skip(reason="WEFT framework not found or IMF_WEFT_PATH not configured")
+
 """
 Tests for weft_to_imf_converter.py
 Validates:
