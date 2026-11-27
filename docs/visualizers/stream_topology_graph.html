@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>IMF Stream Topology Dependency Graph</title>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <style>
+    body { margin: 0; background: #030712; color: #f9fafb; font-family: monospace; overflow: hidden; }
+    #header { position: absolute; top: 16px; left: 24px; z-index: 10; }
+    h1 { margin: 0; font-size: 1.15rem; color: #38bdf8; }
+    p { margin: 4px 0 0 0; font-size: 0.8rem; color: #94a3b8; }
+    svg { width: 100vw; height: 100vh; }
+    .node circle { stroke: #fff; stroke-width: 1.5px; }
+    .link { stroke: #334155; stroke-opacity: 0.6; }
+  </style>
+</head>
+<body>
+  <div id="header">
+    <h1>IMF DEVELOPMENT STREAM TOPOLOGY (113 STREAMS)</h1>
+    <p>Directed Dependency Flow: Lie SSMs &rarr; Hyperbolic Metrics &rarr; Motivic Homotopy &rarr; Blackwell SM 12.0</p>
+  </div>
+  <svg id="graph"></svg>
+  <script>
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+
+    const nodes = [
+      { id: "Lie_SSM", group: 1, label: "Phase I: Lie SSMs" },
+      { id: "Polytope_PLQ", group: 1, label: "Phase I: E8 PLQ" },
+      { id: "Epistemic_Sound", group: 2, label: "Phase II: Lean Oracles" },
+      { id: "Poincare_Kernels", group: 3, label: "Phase III: Poincaré KV" },
+      { id: "Soliton_Manakov", group: 4, label: "Phase IV: Integrable Solitons" },
+      { id: "io_uring_DMA", group: 5, label: "Phase V: Kernel-Bypass DMA" },
+      { id: "Blackwell_SM120", group: 6, label: "Phase VI: Blackwell Kernels" },
+      { id: "Motivic_Homotopy", group: 6, label: "Phase VI: Motivic Schemes" },
+      { id: "Gross_Hopkins", group: 6, label: "Phase VI: Gross-Hopkins" },
+      { id: "Goerss_Hopkins", group: 6, label: "Phase VI: Operads & Obstructions" }
+    ];
+
+    const links = [
+      { source: "Lie_SSM", target: "Poincare_Kernels" },
+      { source: "Polytope_PLQ", target: "Blackwell_SM120" },
+      { source: "Epistemic_Sound", target: "Motivic_Homotopy" },
+      { source: "Poincare_Kernels", target: "Soliton_Manakov" },
+      { source: "Soliton_Manakov", target: "io_uring_DMA" },
+      { source: "io_uring_DMA", target: "Blackwell_SM120" },
+      { source: "Blackwell_SM120", target: "Motivic_Homotopy" },
+      { source: "Motivic_Homotopy", target: "Gross_Hopkins" },
+      { source: "Gross_Hopkins", target: "Goerss_Hopkins" }
+    ];
+
+    const color = d3.scaleOrdinal(d3.schemeCategory10);
+
+    const simulation = d3.forceSimulation(nodes)
+      .force("link", d3.forceLink(links).id(d => d.id).distance(120))
+      .force("charge", d3.forceManyBody().strength(-300))
+      .force("center", d3.forceCenter(width / 2, height / 2));
+
+    const svg = d3.select("#graph");
+
+    const link = svg.append("g")
+      .attr("class", "link")
+      .selectAll("line")
+      .data(links)
+      .enter().append("line")
+      .attr("stroke-width", 2);
+
+    const node = svg.append("g")
+      .selectAll(".node")
+      .data(nodes)
+      .enter().append("g")
+      .attr("class", "node")
+      .call(d3.drag()
+        .on("start", dragstarted)
+        .on("drag", dragged)
+        .on("end", dragended));
+
+    node.append("circle")
+      .attr("r", 14)
+      .attr("fill", d => color(d.group));
+
+    node.append("text")
+      .attr("dx", 18)
+      .attr("dy", ".35em")
+      .attr("fill", "#e2e8f0")
+      .attr("font-size", "11px")
+      .text(d => d.label);
+
+    simulation.on("tick", () => {
+      link
+        .attr("x1", d => d.source.x)
+        .attr("y1", d => d.source.y)
+        .attr("x2", d => d.target.x)
+        .attr("y2", d => d.target.y);
+
+      node
+        .attr("transform", d => `translate(${d.x},${d.y})`);
+    });
+
+    function dragstarted(event, d) {
+      if (!event.active) simulation.alphaTarget(0.3).restart();
+      d.fx = d.x;
+      d.fy = d.y;
+    }
+    function dragged(event, d) {
+      d.fx = event.x;
+      d.fy = event.y;
+    }
+    function dragended(event, d) {
+      if (!event.active) simulation.alphaTarget(0);
+      d.fx = null;
+      d.fy = null;
+    }
+  </script>
+</body>
+</html>

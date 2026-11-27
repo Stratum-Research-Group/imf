@@ -1,0 +1,6 @@
+{
+  "rodrigues_error": 1.5265566588595902e-16,
+  "quaternion_cayley_ortho_error": 2.413136739235254e-16,
+  "so4_split_commutator_norm": 0.0,
+  "status": "VERIFIED"
+}

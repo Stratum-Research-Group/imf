@@ -4,7 +4,7 @@
 **Orchestration System:** IMF MegaScale Deductive Prover Fleet  
 **Verification Bedrock:** Lean 4 Theorem Prover (`0 sorry`, `0 unproven axioms`)  
 **Target Hardware:** NVIDIA GeForce RTX 5060 Ti (Blackwell SM 12.0) | Linux 6.18 io_uring  
-**Current Milestone Level:** 1,350,000,000 Certified Deductive Proof Steps (1.35 Billion Steps)  
+**Current Milestone Level:** 1,300,000,000 Certified Deductive Proof Steps (1.35 Billion Steps)  
 
 ---
 

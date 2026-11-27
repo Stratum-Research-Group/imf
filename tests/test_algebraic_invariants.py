@@ -1,6 +1,7 @@
 """
-tests/test_cuda_lean_invariants.py
-Property-based invariant testing linking Lean 4 certified theorems directly to physical CUDA/C++ execution.
+tests/test_algebraic_invariants.py
+Property-based invariant testing verifying algebraic theorems certified in Lean 4
+Module 83 (Pilot.LieRollingCacheStability) using high-precision double-precision (Float64) arithmetic.
 Tests:
 1. Theorem 1 (Lie Commutator Trace Zero): Tr([A, B]) = 0.
 2. Theorem 2 (Lie Algebra Antisymmetry): Omega + Omega^T = 0.
@@ -10,7 +11,6 @@ Tests:
 """
 import torch
 import numpy as np
-import pytest
 
 def test_theorem_1_lie_bracket_nil_trace():
     d = 32
