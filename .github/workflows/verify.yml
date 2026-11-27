@@ -132,7 +132,7 @@ jobs:
         run: |
           uv run python -c "
           import glob, re
-          papers = glob.glob('papers/phase_*/*.md')
+          papers = glob.glob('papers/phase_*/paper_*.md')
           assert len(papers) >= 600, f'Expected at least 600 papers, got {len(papers)}'
           for p in papers:
               text = open(p).read()

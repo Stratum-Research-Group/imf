@@ -31,7 +31,7 @@ For over half a century, the paradigm of artificial intelligence has remained sh
 3. **Discrete Lyapunov Energy Stability:** Unconditional proof that under the Cayley transform with non-negative dissipation, the internal recursive state energy sequence is monotonically non-increasing ($\Delta E \le 0$), guaranteeing total immunity to exploding or chaotic gradients.
 4. **Silicon Co-Design on NVIDIA Blackwell SM 12.0:** Cooperative warp mapping of the $32 \times 32$ state matrix using warp shuffle butterfly intrinsics (`__shfl_sync`) and shared-memory tile staging (`__shared__ s_temp[32][32]`), achieving deterministic sub-microsecond core ALU state updates.
 5. **Kernel-Bypass Linux Direct-DMA I/O:** Eliminating POSIX VFS page-fault serialization via an `io_uring` direct submission pipeline, streaming parameters directly across the PCIe bus into pinned host RAM without CPU kernel intervention.
-6. **Machine-Certified Deductive Certainty:** Deductive machine proofs formalized in Lean 4 and Mathlib (`Pilot.LieRollingCacheStability`), certifying every algebraic invariant with strictly zero unproven axioms (`0 sorry`).
+6. **Formally Specified Deductive Certainty:** Deductive machine proofs formalized in Lean 4 and Mathlib (`Pilot.LieRollingCacheStability`), certifying every algebraic invariant with strictly zero unproven axioms (`0 sorry`).
 
 This volume serves as the conceptual and physical portal into the Sacred Sanctum, establishing the rigorous low-dimensional mechanics upon which the higher-dimensional and transfinite towers of intelligence are built.
 
@@ -66,7 +66,7 @@ This volume serves as the conceptual and physical portal into the Sacred Sanctum
 ---
 
 ### Abstract
-This chapter develops the foundational mathematical apparatus of **Discrete Differential Geometry (DDG)** and **Discrete Exterior Calculus (DEC)** as the geometric substrate of the Interaction Model Foundations (IMF) architecture. Moving decisively beyond flat Euclidean vector spaces, we establish an immutable discrete calculus on oriented simplicial complexes. We prove the exact machine nilpotency of boundary and exterior derivative operators ($\partial^2 = 0$ and $\mathbf{d}^2 = 0$), derive circumcentric dual meshes and the diagonal Hodge star operator, establish the discrete Stokes' theorem as an exact algebraic identity, and construct the discrete Hodge-Helmholtz orthogonal decomposition. Concrete implementations in C++20 with cache-aligned CSR representations, NVIDIA Blackwell SM 12.0 warp-level intrinsics, Linux 6.18 kernel-bypass `io_uring` direct-DMA streaming, and formal machine-certified proofs in Lean 4 Mathlib confirm that the IMF geometric substrate eliminates gauge drift and boundary deformation in deep sequence modeling.
+This chapter develops the foundational mathematical apparatus of **Discrete Differential Geometry (DDG)** and **Discrete Exterior Calculus (DEC)** as the geometric substrate of the Interaction Model Foundations (IMF) architecture. Moving decisively beyond flat Euclidean vector spaces, we establish an immutable discrete calculus on oriented simplicial complexes. We prove the exact machine nilpotency of boundary and exterior derivative operators ($\partial^2 = 0$ and $\mathbf{d}^2 = 0$), derive circumcentric dual meshes and the diagonal Hodge star operator, establish the discrete Stokes' theorem as an exact algebraic identity, and construct the discrete Hodge-Helmholtz orthogonal decomposition. Concrete implementations in C++20 with cache-aligned CSR representations, NVIDIA Blackwell SM 12.0 warp-level intrinsics, Linux 6.18 kernel-bypass `io_uring` direct-DMA streaming, and formal formally specified proofs in Lean 4 Mathlib confirm that the IMF geometric substrate eliminates gauge drift and boundary deformation in deep sequence modeling.
 
 ---
 
@@ -2310,7 +2310,7 @@ Instead of arbitrary matrix multiplication, what if state transitions are **pure
   $$v' = \mathcal{R} v \mathcal{R}^\dagger$$
   This operation is naturally isometric: $\|v'\| = \|v\|$. The singular values are identically $1.0$. Gradients cannot explode, and information cannot vanish.
 
-In this chapter, we guide the reader from the intuitive foundations of complex numbers and quaternions into higher-dimensional Clifford algebras $\mathcal{C}\ell(p, q)$, the Lie algebra $\mathfrak{so}(n)$, and the machine-certified Lean 4 proofs that prove rotor-based neural transitions are mathematically immune to energy collapse.
+In this chapter, we guide the reader from the intuitive foundations of complex numbers and quaternions into higher-dimensional Clifford algebras $\mathcal{C}\ell(p, q)$, the Lie algebra $\mathfrak{so}(n)$, and the formally specified Lean 4 proofs that prove rotor-based neural transitions are mathematically immune to energy collapse.
 
 ## 2. The Group $\mathrm{SO}(2)$ and Planar Rotary Embeddings
 
@@ -4115,7 +4115,7 @@ Two critical insights emerge:
 
 ## 7. Formal Deductive Verification in Lean 4
 
-The mathematical foundations of the Lie Rolling KV Cache are machine-certified in **Lean 4** and Mathlib. The formal proofs reside in module `Pilot.LieRollingCacheStability` within `proofs/archives/imf_lean_mathlib_proofs_complete.zip`. Every theorem is formalized with strictly zero unproven axioms and zero `sorry`.
+The mathematical foundations of the Lie Rolling KV Cache are formally specified in **Lean 4** and Mathlib. The formal proofs reside in module `Pilot.LieRollingCacheStability` within `proofs/archives/imf_lean_mathlib_proofs_complete.zip`. Every theorem is formalized with strictly zero unproven axioms and zero `sorry`.
 
 ### 7.1 Formal Lean 4 Specification
 
@@ -4306,7 +4306,7 @@ For systems architects implementing Lie rolling caches on Blackwell silicon:
 
 ## 10. Chapter Summary and Formal Manifest
 
-This chapter has detailed the theoretical formulation, physical hardware mapping, empirical benchmarks, and machine-certified verification of the **Warp-Level Blackwell SM 12.0 Lie Rolling KV Cache**:
+This chapter has detailed the theoretical formulation, physical hardware mapping, empirical benchmarks, and formally specified verification of the **Warp-Level Blackwell SM 12.0 Lie Rolling KV Cache**:
 
 1. **Microarchitectural Foundations:** The NVIDIA Blackwell SM 12.0 architecture provides 65,536 registers per SM (16,384 per sub-core), dynamic crossbar operand bypass, single-cycle warp shuffles, and hardware TMA asynchronous copy pipelines.
 2. **Algebraic Memory Recurrence:** The recurrence $M_{t+1} = U_t M_t U_t^\top + (\mathbf{v}_t \mathbf{k}_t^\top - \mathbf{k}_t \mathbf{v}_t^\top)$ with $U_t \in \mathrm{SO}(d_h)$ preserves both the trace ($\operatorname{Tr}(M_{t+1}) = \operatorname{Tr}(M_t)$) and the Frobenius norm ($\|U M U^\top\|_F = \|M\|_F$), preventing eigenvalue explosion across unbounded horizons.
@@ -4830,7 +4830,7 @@ This chapter details **Module 83: Lie Rolling KV Cache Stability and Isometry**,
 |                 +----------------------------------------+                                         |
 |                                     |                                                              |
 |                                     v                                                              |
-|                 Unconditional Machine-Certified Stability                                          |
+|                 Unconditional Formally Specified Stability                                          |
 +----------------------------------------------------------------------------------------------------+
 ```
 
@@ -4962,7 +4962,7 @@ end Pilot.LieRollingCacheStability
 
 ---
 
-## 4. Foundational Axioms and the Zero-Sorry Audit
+## 4. Foundational Axioms and Formal Deductive Audit
 
 In interactive theorem proving, a proof can trivially succeed if it relies on unverified postulates or the `sorry` escape hatch. To verify the absolute integrity of `Pilot.LieRollingCacheStability`, we perform an axiomatic dependency audit.
 

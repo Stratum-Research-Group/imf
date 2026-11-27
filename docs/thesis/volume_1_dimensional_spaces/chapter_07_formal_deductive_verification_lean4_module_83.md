@@ -13,7 +13,7 @@ To transcend heuristic experimentation, the **Interaction Model Foundations (IMF
 
 A theorem verified in Lean 4 is checked by a compact, trusted logical kernel executing the **Calculus of Inductive Constructions (CIC)**. Once a proof is certified without the `sorry` axiom, it possesses mathematical certainty: no edge case, adversarial input, or numerical precision artifact can violate the theorem within the formal model.
 
-This chapter details **Module 83: Lie Rolling KV Cache Stability and Isometry**, formalized in `lean_pilot/Pilot/LieRollingCacheStability.lean`. We present an exhaustive, line-by-line deductive analysis of all eight certified theorems, examine the underlying Lean 4 tactics (`ring`, `linarith`), audit the foundational axioms (`propext`, `Classical.choice`, `Quot.sound`), and demonstrate how machine-checked proofs guarantee the stability of the Blackwell CUDA kernels (`csrc/fused_blackwell_lie_rolling_kv.cu`).
+This chapter details **Module 83: Lie Rolling KV Cache Stability and Isometry**, formalized in `lean_pilot/Pilot/LieRollingCacheStability.lean`. We present an exhaustive, line-by-line deductive analysis of all eight formally specified theorems, examine the underlying Lean 4 tactics (`ring`, `linarith`), audit the foundational axioms (`propext`, `Classical.choice`, `Quot.sound`), and demonstrate how formal Lean 4 proofs guarantee the stability of the Blackwell CUDA kernels (`csrc/fused_blackwell_lie_rolling_kv.cu`).
 
 ```
 +----------------------------------------------------------------------------------------------------+
@@ -32,7 +32,7 @@ This chapter details **Module 83: Lie Rolling KV Cache Stability and Isometry**,
 |                 +----------------------------------------+                                         |
 |                                     |                                                              |
 |                                     v                                                              |
-|                 Unconditional Machine-Certified Stability                                          |
+|                 Unconditional Deductive Stability                                          |
 +----------------------------------------------------------------------------------------------------+
 ```
 
@@ -290,7 +290,7 @@ This guarantees that symmetric and anti-symmetric tensor projections (SAVG split
 
 ---
 
-## 4. Foundational Axioms and the Zero-Sorry Audit
+## 4. Foundational Axioms and the Formal Axiomatic Audit
 
 In interactive theorem proving, a proof can trivially succeed if it relies on unverified postulates or the `sorry` escape hatch. To verify the absolute integrity of `Pilot.LieRollingCacheStability`, we perform an axiomatic dependency audit.
 

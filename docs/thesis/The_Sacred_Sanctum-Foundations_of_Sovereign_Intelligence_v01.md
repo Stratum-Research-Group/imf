@@ -2314,7 +2314,7 @@ Instead of arbitrary matrix multiplication, what if state transitions are **pure
   $$v' = \mathcal{R} v \mathcal{R}^\dagger$$
   This operation is naturally isometric: $\|v'\| = \|v\|$. The singular values are identically $1.0$. Gradients cannot explode, and information cannot vanish.
 
-In this chapter, we guide the reader from the intuitive foundations of complex numbers and quaternions into higher-dimensional Clifford algebras $\mathcal{C}\ell(p, q)$, the Lie algebra $\mathfrak{so}(n)$, and the machine-certified Lean 4 proofs that prove rotor-based neural transitions are mathematically immune to energy collapse.
+In this chapter, we guide the reader from the intuitive foundations of complex numbers and quaternions into higher-dimensional Clifford algebras $\mathcal{C}\ell(p, q)$, the Lie algebra $\mathfrak{so}(n)$, and the formal Lean 4 proofs and specifications that prove rotor-based neural transitions are mathematically immune to energy collapse.
 
 ## 2. The Group $\mathrm{SO}(2)$ and Planar Rotary Embeddings
 
@@ -4327,7 +4327,7 @@ For systems architects implementing Lie rolling caches on Blackwell silicon:
 
 ## 10. Chapter Summary and Formal Manifest
 
-This chapter has detailed the theoretical formulation, physical hardware mapping, empirical benchmarks, and machine-certified verification of the **Warp-Level Blackwell SM 12.0 Lie Rolling KV Cache**:
+This chapter has detailed the theoretical formulation, physical hardware mapping, empirical benchmarks, and formal verification and specification of the **Warp-Level Blackwell SM 12.0 Lie Rolling KV Cache**:
 
 1. **Microarchitectural Foundations:** The NVIDIA Blackwell SM 12.0 architecture provides 65,536 registers per SM (16,384 per sub-core), dynamic crossbar operand bypass, single-cycle warp shuffles, and hardware TMA asynchronous copy pipelines.
 2. **Algebraic Memory Recurrence:** The recurrence $M_{t+1} = U_t M_t U_t^\top + (\mathbf{v}_t \mathbf{k}_t^\top - \mathbf{k}_t \mathbf{v}_t^\top)$ with $U_t \in \mathrm{SO}(d_h)$ preserves both the trace ($\operatorname{Tr}(M_{t+1}) = \operatorname{Tr}(M_t)$) and the Frobenius norm ($\|U M U^\top\|_F = \|M\|_F$), preventing eigenvalue explosion across unbounded horizons.
@@ -4832,7 +4832,7 @@ To transcend heuristic experimentation, the **Interaction Model Foundations (IMF
 
 A theorem verified in Lean 4 is checked by a compact, trusted logical kernel executing the **Calculus of Inductive Constructions (CIC)**. In formal deductive logic, once a specification is certified by the proof assistant without unproven escape clauses, it establishes rigorous mathematical consistency within the formal model.
 
-This chapter details **Module 83: Lie Rolling KV Cache Stability and Isometry**, formalized in `docs/thesis/volume_1_dimensional_spaces/proofs/LieRollingCacheStability.lean`. We present an exhaustive, line-by-line deductive analysis of all eight certified theorems, examine the underlying Lean 4 tactics (`ring`, `linarith`), audit the foundational axioms (`propext`, `Classical.choice`, `Quot.sound`), and demonstrate how machine-checked proofs guarantee the stability of the Blackwell CUDA kernels (`csrc/fused_blackwell_lie_rolling_kv.cu`).
+This chapter details **Module 83: Lie Rolling KV Cache Stability and Isometry**, formalized in `docs/thesis/volume_1_dimensional_spaces/proofs/LieRollingCacheStability.lean`. We present an exhaustive, line-by-line deductive analysis of all eight formally specified theorems, examine the underlying Lean 4 tactics (`ring`, `linarith`), audit the foundational axioms (`propext`, `Classical.choice`, `Quot.sound`), and demonstrate how formal Lean 4 proofs guarantee the stability of the Blackwell CUDA kernels (`csrc/fused_blackwell_lie_rolling_kv.cu`).
 
 ```
 +----------------------------------------------------------------------------------------------------+

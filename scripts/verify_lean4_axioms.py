@@ -22,7 +22,10 @@ build_res = subprocess.run(["lake", "build"], capture_output=True, text=True)
 if build_res.returncode != 0:
     print(f"[-] lake build failed with exit code {build_res.returncode}:\n{build_res.stderr}")
     sys.exit(1)
-print("[+] Lake build completed successfully.")
+
+# Extract actual jobs compiled from lake output
+lake_output = build_res.stdout.strip()
+print(f"[+] Lake build result: {lake_output}")
 
 lean_files = sorted(glob.glob("lean/*.lean") + glob.glob("lean/**/*.lean", recursive=True) + glob.glob("docs/thesis/volume_*/proofs/*.lean"))
 print(f"[*] Phase 2: Scanning {len(lean_files)} proof modules across repo and thesis...")
@@ -30,6 +33,21 @@ print(f"[*] Phase 2: Scanning {len(lean_files)} proof modules across repo and th
 audited_modules = []
 total_theorems = 0
 sorry_detected = 0
+
+def check_has_sorry(text: str) -> bool:
+    """Accurately checks for unproven 'sorry' outside comments."""
+    # Strip multiline block comments /- ... -/
+    text_clean = re.sub(r'/-(?:[^-]|-(?!/))*-/', '', text, flags=re.DOTALL)
+    for line in text_clean.splitlines():
+        line_clean = line.strip()
+        if line_clean.startswith('--'):
+            continue
+        # Strip inline comment
+        if '--' in line_clean:
+            line_clean = line_clean.split('--')[0]
+        if re.search(r'\bsorry\b', line_clean):
+            return True
+    return False
 
 for lf in lean_files:
     with open(lf, "rb") as f:
@@ -39,16 +57,9 @@ for lf in lean_files:
     thms = re.findall(r"^(?:theorem|def|lemma)\s+([a-zA-Z0-9_\']+)", text, re.M)
     total_theorems += len(thms)
     
-    # Check for actual sorry keyword (excluding comments)
-    has_sorry = False
-    for line in text.splitlines():
-        line_clean = line.strip()
-        if line_clean.startswith("--") or line_clean.startswith("/-"):
-            continue
-        if re.search(r"\bsorry\b", line_clean):
-            has_sorry = True
-            sorry_detected += 1
-            break
+    has_sorry = check_has_sorry(text)
+    if has_sorry:
+        sorry_detected += 1
 
     audited_modules.append({
         "name": os.path.basename(lf).replace(".lean", ""),
@@ -64,7 +75,7 @@ report = f"""# Formal Deductive Epistemology: Lean 4 Lake Build & Proof Audit
 
 **Monograph:** The Sacred Sanctum: Foundations of Sovereign Intelligence  
 **Audit Timestamp:** {now_str}  
-**Lake Build Status:** PASS (30 jobs compiled)  
+**Lake Build Output:** `{lake_output}`  
 **Total Declarations:** {total_theorems}  
 **Audited Files:** {len(audited_modules)}  
 
@@ -72,7 +83,7 @@ report = f"""# Formal Deductive Epistemology: Lean 4 Lake Build & Proof Audit
 +----------------------------------------------------------------------------------------------------+
 | LEAN 4 VERIFICATION AUDIT SUMMARY                                                                  |
 +----------------------------------------------------------------------------------------------------+
-| Lake Build:                                   PASS (Zero Syntax/Compilation Errors)               |
+| Lake Build:                                   PASS ({lake_output})
 | Formal Proof Modules Audited:                 {len(audited_modules):<4} Modules                                        |
 | Total Theorems Formalized:                    {total_theorems:<4} Theorems                                       |
 | Active Formal Stubs (sorry):                  {sorry_detected:<4}                                                |

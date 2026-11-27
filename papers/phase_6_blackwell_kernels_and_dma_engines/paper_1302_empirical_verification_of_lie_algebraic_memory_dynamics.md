@@ -4,7 +4,7 @@
 **Series:** Phase 6 Blackwell Kernels And Dma Engines — High-Dimensional Continuous Foundations  
 **Paper Type:** Empirical Verification & Treatises Synthesis — Compendium Paper 1302  
 **Status:** Certified Laboratory Research Treatise  
-**Target Architecture:** NVIDIA Blackwell SM 12.0 (GeForce RTX 5060 Ti 16GB) | AMD Ryzen 5 7600X | Linux 7.2 PREEMPT_RT  
+**Hardware Target:** NVIDIA Blackwell SM 12.0 (GeForce RTX 5060 Ti 16GB) | AMD Ryzen 5 7600X | Linux 7.2 PREEMPT_RT  
 
 ---
 

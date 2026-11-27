@@ -59,7 +59,7 @@ Instead of arbitrary matrix multiplication, what if state transitions are **pure
   $$v' = \mathcal{R} v \mathcal{R}^\dagger$$
   This operation is naturally isometric: $\|v'\| = \|v\|$. The singular values are identically $1.0$. Gradients cannot explode, and information cannot vanish.
 
-In this chapter, we guide the reader from the intuitive foundations of complex numbers and quaternions into higher-dimensional Clifford algebras $\mathcal{C}\ell(p, q)$, the Lie algebra $\mathfrak{so}(n)$, and the machine-certified Lean 4 proofs that prove rotor-based neural transitions are mathematically immune to energy collapse.
+In this chapter, we guide the reader from the intuitive foundations of complex numbers and quaternions into higher-dimensional Clifford algebras $\mathcal{C}\ell(p, q)$, the Lie algebra $\mathfrak{so}(n)$, and the formal Lean 4 proofs and specifications that prove rotor-based neural transitions are mathematically immune to energy collapse.
 
 ## 2. The Group $\mathrm{SO}(2)$ and Planar Rotary Embeddings
 
