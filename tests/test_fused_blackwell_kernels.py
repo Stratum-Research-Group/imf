@@ -2204,6 +2204,20 @@ def test_fused_hodge_algebraic_cycles_correctness():
     valid_count = lib.run_hodge_algebraic_cycles_benchmark(n_samples)
     assert valid_count == n_samples, f"Expected all {n_samples} samples to be Hodge admissible, got {valid_count}"
 
+@pytest.mark.skipif(not torch.cuda.is_available(), reason="CUDA not available")
+def test_fused_tate_etale_cycles_correctness():
+    so_path = "csrc/libfused_blackwell_tate_etale_cycles.so"
+    assert os.path.exists(so_path), f"Missing shared object: {so_path}"
+
+    lib = ctypes.CDLL(so_path)
+    lib.run_tate_etale_cycles_benchmark.argtypes = [ctypes.c_int]
+    lib.run_tate_etale_cycles_benchmark.restype = ctypes.c_int
+
+    n_samples = 1024
+    valid_count = lib.run_tate_etale_cycles_benchmark(n_samples)
+    assert valid_count == n_samples, f"Expected all {n_samples} samples to satisfy Tate conjecture invariants, got {valid_count}"
+
+
 
 
 

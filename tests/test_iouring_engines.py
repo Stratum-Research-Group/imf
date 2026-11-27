@@ -2876,6 +2876,51 @@ def test_iouring_registered_ringbuf_eventfd_splice_correctness():
     assert stats.active_rings_count == 8
     assert stats.eventfd_signal_verified == 1
 
+def test_iouring_etale_shm_ring_stream_correctness():
+    so_path = "csrc/libfused_iouring_etale_shm_ring_stream.so"
+    assert os.path.exists(so_path), f"Missing shared object: {so_path}"
+
+    class EtaleShmStreamConfig(ctypes.Structure):
+        _fields_ = [
+            ("ring_entries", ctypes.c_uint32),
+            ("chunk_size_bytes", ctypes.c_uint32),
+            ("num_chunks", ctypes.c_uint32),
+            ("stream_cycles", ctypes.c_uint32),
+        ]
+
+    class EtaleShmStreamStats(ctypes.Structure):
+        _fields_ = [
+            ("total_bytes_streamed", ctypes.c_uint64),
+            ("chunks_processed", ctypes.c_uint32),
+            ("ring_queue_depth", ctypes.c_uint32),
+            ("iopoll_verified", ctypes.c_uint32),
+            ("engine_status", ctypes.c_uint32),
+        ]
+
+    lib = ctypes.CDLL(so_path)
+    lib.run_etale_shm_ring_stream_engine.argtypes = [
+        ctypes.POINTER(EtaleShmStreamConfig),
+        ctypes.POINTER(EtaleShmStreamStats)
+    ]
+    lib.run_etale_shm_ring_stream_engine.restype = ctypes.c_int
+
+    config = EtaleShmStreamConfig(
+        ring_entries=64,
+        chunk_size_bytes=4096,
+        num_chunks=16,
+        stream_cycles=32,
+    )
+    stats = EtaleShmStreamStats()
+
+    ret = lib.run_etale_shm_ring_stream_engine(ctypes.byref(config), ctypes.byref(stats))
+    assert ret == 0, f"run_etale_shm_ring_stream_engine failed with return code {ret}"
+    assert stats.engine_status == 1
+    assert stats.chunks_processed == 32
+    assert stats.total_bytes_streamed == 32 * 4096
+    assert stats.ring_queue_depth == 64
+    assert stats.iopoll_verified == 1
+
+
 
 
 
