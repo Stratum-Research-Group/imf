@@ -57,18 +57,24 @@ CSS_STYLES = """
     margin: 0;
 }
 
+*, *:before, *:after {
+    box-sizing: border-box;
+}
+
 html, body {
     margin: 0;
     padding: 0;
     width: 210mm;
     background-color: #ffffff;
     font-family: 'Liberation Serif', 'DejaVu Serif', Georgia, serif;
-    font-size: 11pt;
-    line-height: 1.65;
+    font-size: 10.5pt;
+    line-height: 1.68;
     color: #1a1a1a;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
 }
 
-/* Full-bleed front and back covers: strictly edge-to-edge (0 margins), no page numbers */
+/* Full-bleed covers: strictly edge-to-edge (0 margins), no page numbers */
 .cover-page {
     width: 210mm;
     height: 297mm;
@@ -103,142 +109,205 @@ html, body {
     padding: 0;
 }
 
-/* Interior monograph pages: standard 25mm 20mm book margins */
+/* Interior monograph pages: 24mm top/bottom, 22mm left/right */
 .content-wrapper {
     box-sizing: border-box;
     width: 210mm;
-    padding: 25mm 20mm;
+    max-width: 210mm;
+    padding: 24mm 22mm;
     margin: 0 auto;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
-h1, h2, h3, h4 {
+/* Typographic Headings with strict pagination rules */
+h1, h2, h3, h4, h5, h6 {
     font-family: 'Liberation Sans', 'DejaVu Sans', Arial, sans-serif;
-    font-weight: 700;
     color: #0f1419;
-    page-break-after: avoid;
-    break-after: avoid;
+    page-break-after: avoid !important;
+    break-after: avoid-page !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
 }
 
 h1 {
-    font-size: 24pt;
-    border-bottom: 2px solid #0969da;
+    font-size: 23pt;
+    font-weight: 700;
+    border-bottom: 2.5px solid #0969da;
     padding-bottom: 8px;
-    margin-top: 2.2em;
-    margin-bottom: 0.8em;
+    margin-top: 2.4em;
+    margin-bottom: 0.9em;
     page-break-before: always;
     break-before: page;
 }
 
 h1:first-of-type {
-    page-break-before: avoid;
-    break-before: avoid;
+    page-break-before: avoid !important;
+    break-before: avoid !important;
+    margin-top: 0.5em;
 }
 
 h2 {
-    font-size: 17pt;
-    border-bottom: 1px solid #d0d7de;
+    font-size: 16.5pt;
+    font-weight: 700;
+    border-bottom: 1.5px solid #d0d7de;
     padding-bottom: 5px;
-    margin-top: 1.8em;
-    margin-bottom: 0.6em;
+    margin-top: 2.0em;
+    margin-bottom: 0.7em;
+    page-break-before: auto;
 }
 
 h3 {
-    font-size: 13.5pt;
-    margin-top: 1.4em;
+    font-size: 13pt;
+    font-weight: 600;
+    margin-top: 1.6em;
     margin-bottom: 0.5em;
 }
 
 h4 {
-    font-size: 11.5pt;
-    margin-top: 1.2em;
+    font-size: 11pt;
+    font-weight: 600;
+    margin-top: 1.3em;
     margin-bottom: 0.4em;
 }
 
+/* Body paragraphs: justified, elegant line-height, no orphans/widows */
 p {
-    margin-top: 0.8em;
-    margin-bottom: 0.8em;
+    margin-top: 0.75em;
+    margin-bottom: 0.75em;
     text-align: justify;
     hyphens: auto;
     text-indent: 1.5em;
+    orphans: 3;
+    widows: 3;
 }
 
-p:first-of-type, h1 + p, h2 + p, h3 + p, h4 + p, blockquote + p {
+p:first-of-type, 
+h1 + p, h2 + p, h3 + p, h4 + p, h5 + p, h6 + p, 
+blockquote + p, pre + p, table + p, hr + p, ul + p, ol + p {
     text-indent: 0;
 }
 
 blockquote {
     border-left: 4px solid #0969da;
-    margin: 1.5em 0;
-    padding: 0.8em 1.5em;
+    margin: 1.6em 0;
+    padding: 0.9em 1.5em;
     background-color: #f6f8fa;
     color: #57606a;
     font-style: italic;
-    page-break-inside: avoid;
-    break-inside: avoid;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    border-radius: 0 4px 4px 0;
 }
 
+/* Lists */
+ul, ol {
+    margin-top: 0.7em;
+    margin-bottom: 0.9em;
+    padding-left: 2em;
+    orphans: 3;
+    widows: 3;
+}
+
+li {
+    margin-bottom: 0.35em;
+    text-align: justify;
+}
+
+li::marker {
+    color: #0969da;
+    font-weight: bold;
+}
+
+/* Monospace code and ASCII art blocks */
 pre, code {
     font-family: 'Liberation Mono', 'DejaVu Sans Mono', Consolas, monospace;
-    font-size: 8.5pt;
 }
 
 code {
     background-color: #f6f8fa;
+    font-size: 8.8pt;
     padding: 2px 5px;
     border-radius: 4px;
     border: 1px solid #e1e4e8;
+    word-break: break-word;
 }
 
 pre code {
     background: transparent;
     padding: 0;
     border: none;
+    font-size: 8.2pt;
+    line-height: 1.42;
+    white-space: pre-wrap;
+    word-wrap: break-word;
 }
 
 pre {
     background-color: #f6f8fa;
     border: 1px solid #d0d7de;
     border-radius: 6px;
-    padding: 12px 16px;
-    overflow-x: auto;
-    line-height: 1.45;
+    padding: 12px 14px;
+    line-height: 1.42;
     margin: 1.6em 0;
-    page-break-inside: avoid;
-    break-inside: avoid;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    overflow-x: hidden;
+    max-width: 100%;
 }
 
+/* Tables: strictly avoiding page breaks inside rows and blocks */
 table {
     border-collapse: collapse;
     width: 100%;
+    max-width: 100%;
     margin: 1.8em 0;
-    font-size: 9.5pt;
-    page-break-inside: avoid;
-    break-inside: avoid;
+    font-size: 9pt;
+    line-height: 1.45;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    table-layout: auto;
 }
 
 th, td {
     border: 1px solid #d0d7de;
-    padding: 8px 12px;
+    padding: 7px 10px;
     text-align: left;
+    vertical-align: top;
+    word-wrap: break-word;
 }
 
 th {
     background-color: #f6f8fa;
     font-weight: 600;
+    color: #24292f;
+    border-bottom: 2px solid #afb8c1;
 }
 
 tr:nth-child(even) {
     background-color: #fafbfc;
 }
 
+tr {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+}
+
+thead {
+    display: table-header-group;
+}
+
+/* Horizontal dividers */
 hr {
     border: 0;
     height: 1px;
     background: #d0d7de;
-    margin: 2.5em 0;
+    margin: 2.4em 0;
+    page-break-after: avoid;
+    break-after: avoid;
 }
 
-
+/* Embedded figures and diagrams */
 .content-wrapper img {
     max-width: 100%;
     height: auto;
@@ -246,24 +315,26 @@ hr {
     margin: 1.8em auto;
     border-radius: 6px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    page-break-inside: avoid;
-    break-inside: avoid;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
 }
 
 .content-wrapper em {
     color: #4b5563;
 }
 
+/* KaTeX equations: strictly avoid breaks inside display math, prevent overflow */
 .katex {
-    font-size: 1.08em;
+    font-size: 1.05em;
 }
 
 .katex-display {
-    margin: 1.4em 0;
+    margin: 1.3em 0;
+    padding: 0.2em 0;
     overflow-x: auto;
     overflow-y: hidden;
-    page-break-inside: avoid;
-    break-inside: avoid;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
 }
 """
 
