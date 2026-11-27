@@ -31,9 +31,9 @@ For over half a century, the paradigm of artificial intelligence has remained sh
 3. **Discrete Lyapunov Energy Stability:** Unconditional proof that under the Cayley transform with non-negative dissipation, the internal recursive state energy sequence is monotonically non-increasing ($\Delta E \le 0$), guaranteeing total immunity to exploding or chaotic gradients.
 4. **Silicon Co-Design on NVIDIA Blackwell SM 12.0:** Cooperative warp mapping of the $32 \times 32$ state matrix using warp shuffle butterfly intrinsics (`__shfl_sync`) and shared-memory tile staging (`__shared__ s_temp[32][32]`), eliminating KV-cache growth during chunk-level decoding.
 5. **Kernel-Bypass Linux Direct-DMA I/O:** Eliminating POSIX VFS page-fault serialization via an `io_uring` direct submission pipeline, streaming parameters directly across the PCIe bus into pinned host RAM without CPU kernel intervention.
-6. **Machine-Certified Deductive Certainty:** Deductive machine proofs formalized in Lean 4 and Mathlib (`Pilot.LieRollingCacheStability`), certifying every algebraic invariant with no `sorry`, standard CIC axioms only (`propext`, `Quot.sound`, `Classical.choice`).
+6. **Formal Algebraic Invariants:** Deductive algebraic specifications formalized in Lean 4 (`Pilot.LieRollingCacheStability`), certifying trace cancellation and rotational isometry across matrix operators.
 
-This volume serves as the conceptual and physical portal into the Sacred Sanctum, establishing the rigorous low-dimensional mechanics upon which the higher-dimensional and transfinite towers of intelligence are built.
+This volume establishes the low-dimensional mechanics upon which the higher-dimensional and transfinite sequence modeling architectures are constructed.
 
 
 ---
@@ -1693,7 +1693,7 @@ We model directed token-to-token affinities as a **discrete 1-form** $A \in C^1(
 ---
 
 ## Abstract
-This chapter investigates the foundational geometry of moving frames (*repère mobile*) formulated by Élie Cartan and its modern translation into affine gauge connections on principal fiber bundles for continuous-depth neural manifolds. Classical deep architectures treat latent activations as static vectors embedded in a fixed global Cartesian coordinate system, rendering representations vulnerable to coordinate shear, rotational drift, and non-isometric deformation across depth. By equipping each point along the sequence manifold with an orthonormal moving frame $e_i(t)$ and defining the connection 1-forms $\omega^i_j$ and solder forms $\theta^i$, we establish intrinsic, coordinate-free parallel transport governed by the Maurer-Cartan structure equations. We prove that affine gauge equivariance guarantees path-independent feature preservation along geodesics, eliminating gradient vanishing and phase dispersion. The entire construction is mathematically verified in Lean 4 with zero unproven axioms, linking Cartan geometry directly to invariant latent dynamics.
+This chapter investigates the foundational geometry of moving frames (*repère mobile*) formulated by Élie Cartan and its modern translation into affine gauge connections on principal fiber bundles for continuous-depth neural manifolds. Classical deep architectures treat latent activations as static vectors embedded in a fixed global Cartesian coordinate system, rendering representations vulnerable to coordinate shear, rotational drift, and non-isometric deformation across depth. By equipping each point along the sequence manifold with an orthonormal moving frame $e_i(t)$ and defining the connection 1-forms $\omega^i_j$ and solder forms $\theta^i$, we establish intrinsic, coordinate-free parallel transport governed by the Maurer-Cartan structure equations. We prove that affine gauge equivariance guarantees path-independent feature preservation along geodesics, eliminating gradient vanishing and phase dispersion. The entire construction is formalized in Lean 4, linking Cartan geometry directly to invariant latent dynamics.
 
 ---
 
@@ -2790,7 +2790,7 @@ In Chapter 4, we examine the rational **Cayley transform** and discrete Lyapunov
 ---
 
 ## Abstract
-This chapter establishes the theoretical and computational apparatus of the Cayley transform as a structure-preserving conformal mapping between skew-symmetric Lie algebras and orthogonal Lie groups, providing an unconditional guarantee of discrete Lyapunov stability for continuous-depth neural recurrent models. Traditional numerical integrators (e.g., explicit Runge-Kutta, Euler) applied to orthogonal differential equations violate group constraints due to truncation errors, causing cumulative norm drift and destabilization over long horizons. By leveraging the Cayley operator $\operatorname{Cay}(A) = (I - A)(I + A)^{-1}$, we map the linear space of skew-symmetric generators $\mathfrak{so}(n)$ bijectively onto the Lie group $\mathrm{SO}(n)$ without calculating transcendental matrix exponentials. We prove via Lyapunov direct methods that the resulting discrete transition matrices possess eigenvalues strictly bounded on the unit circle $|\lambda_i| = 1$, guaranteeing asymptotic stability and bounded energy for arbitrary sequence lengths. The formal Lean 4 verification of the Cayley isometry and spectral radius bounds is presented with zero unproven axioms.
+This chapter establishes the theoretical and computational apparatus of the Cayley transform as a structure-preserving conformal mapping between skew-symmetric Lie algebras and orthogonal Lie groups, providing an unconditional guarantee of discrete Lyapunov stability for continuous-depth neural recurrent models. Traditional numerical integrators (e.g., explicit Runge-Kutta, Euler) applied to orthogonal differential equations violate group constraints due to truncation errors, causing cumulative norm drift and destabilization over long horizons. By leveraging the Cayley operator $\operatorname{Cay}(A) = (I - A)(I + A)^{-1}$, we map the linear space of skew-symmetric generators $\mathfrak{so}(n)$ bijectively onto the Lie group $\mathrm{SO}(n)$ without calculating transcendental matrix exponentials. We prove via Lyapunov direct methods that the resulting discrete transition matrices possess eigenvalues strictly bounded on the unit circle $|\lambda_i| = 1$, guaranteeing asymptotic stability and bounded energy for arbitrary sequence lengths. The formal Lean 4 specification of the Cayley isometry and spectral radius bounds is presented.
 
 ---
 
@@ -4843,11 +4843,11 @@ This chapter details **Module 83: Lie Rolling KV Cache Stability and Isometry**,
 |                 |       Lean 4 Mathematical Proof        |                                         |
 |                 | (lean_pilot/Pilot/LieRollingCache.lean)|                                         |
 |                 |          ZERO "sorry" AXIOMS           |                                         |
-|                 |     Kernel-Certified Invariants        |                                         |
+|                 |     Lean 4 Formal Invariants           |                                         |
 |                 +----------------------------------------+                                         |
 |                                     |                                                              |
 |                                     v                                                              |
-|                 Unconditional Machine-Certified Stability                                          |
+|                 Formally Specified Deductive Invariants                                            |
 +----------------------------------------------------------------------------------------------------+
 ```
 
