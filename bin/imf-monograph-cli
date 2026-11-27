@@ -1,0 +1,72 @@
+#!/usr/bin/env python3
+"""
+bin/imf-monograph-cli
+Unified Interactive CLI Explorer for the Sacred Sanctum Trilogy & IMF Corpus.
+Subcommands: browse, verify, benchmark, visualize
+"""
+
+import sys
+import os
+import glob
+import json
+import subprocess
+
+def print_help():
+    print("""=== THE SACRED SANCTUM: UNIFIED MONOGRAPH CLI ===
+Usage: imf-monograph-cli <subcommand> [options]
+
+Subcommands:
+  browse       List or inspect the 25 monograph chapters and 6 Development States
+  verify       Run Lean 4 kernel axiom verification (0 sorry gate)
+  benchmark    Execute Blackwell SM 12.0 micro-benchmarks
+  visualize    Launch terminal ANSI 3D/8D Coxeter projection of E8 Gosset Polytope
+  megagym      Display live MegaGym Prover Fleet certified steps & blocks
+""")
+
+def main():
+    if len(sys.argv) < 2 or sys.argv[1] in ["-h", "--help", "help"]:
+        print_help()
+        return
+
+    cmd = sys.argv[1]
+    if cmd == "browse":
+        vols = [
+            ("Volume I: 1D to 4D Differential Geometry", "docs/thesis/volume_1_dimensional_spaces"),
+            ("Volume II: 8D E8 & 24D Leech Lattices", "docs/thesis/volume_2_higher_dimensional_spaces"),
+            ("Volume III: Transfinite & Motivic Homotopy", "docs/thesis/volume_3_transfinite_ultra_dimensional_spaces")
+        ]
+        for vname, vdir in vols:
+            print(f"\n[+] {vname}")
+            chaps = sorted(glob.glob(f"{vdir}/*.md"))
+            for c in chaps:
+                print(f"    - {os.path.basename(c).replace('.md', '').replace('_', ' ').title()}")
+
+    elif cmd == "verify":
+        print("[*] Running Lean 4 kernel axiom verification...")
+        subprocess.run([sys.executable, "scripts/verify_lean4_axioms.py"])
+
+    elif cmd == "benchmark":
+        print("[*] Running Blackwell SM 12.0 benchmark suite...")
+        subprocess.run([sys.executable, "benchmarks/blackwell_fp4_gemm_benchmark.py"])
+
+    elif cmd == "visualize":
+        print("[*] Launching Terminal ANSI E8 Polytope Viewer (Press Ctrl+C to exit)...")
+        subprocess.run([sys.executable, "scripts/vis_polytope.py", "--once"])
+
+    elif cmd == "megagym":
+        manifest_path = "dist/IMF_32B_GRAND_CORPUS_MANIFEST.json"
+        if os.path.exists(manifest_path):
+            with open(manifest_path) as f:
+                d = json.load(f)
+            print(f"MegaGym Fleet Certified Steps: {d.get('total_certified_theorems', 0):,}")
+            print(f"Blocks Sealed: {d.get('blocks_completed', 0):,} / 32,000")
+            print(f"Completion: {d.get('completion_percentage', 0)}%")
+        else:
+            print("Manifest not found.")
+
+    else:
+        print(f"Unknown subcommand: {cmd}")
+        print_help()
+
+if __name__ == '__main__':
+    main()

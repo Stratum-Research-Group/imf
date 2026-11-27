@@ -1,0 +1,30 @@
+{
+  "2": {
+    "mean_accuracy": 0.785,
+    "std_accuracy": 0.24753787588973122
+  },
+  "4": {
+    "mean_accuracy": 0.545,
+    "std_accuracy": 0.22186707732333788
+  },
+  "8": {
+    "mean_accuracy": 0.29625,
+    "std_accuracy": 0.12330728891675463
+  },
+  "16": {
+    "mean_accuracy": 0.1475,
+    "std_accuracy": 0.06405563987659478
+  },
+  "32": {
+    "mean_accuracy": 0.0665625,
+    "std_accuracy": 0.030186594189308604
+  },
+  "64": {
+    "mean_accuracy": 0.02734375,
+    "std_accuracy": 0.018798764711743694
+  },
+  "128": {
+    "mean_accuracy": 0.009765625,
+    "std_accuracy": 0.00971863695673807
+  }
+}
