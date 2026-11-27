@@ -2465,6 +2465,20 @@ def test_fused_motivic_gross_hopkins_correctness():
     assert valid_count == n_samples, f'Expected all {n_samples} samples to satisfy Motivic Gross-Hopkins invariants, got {valid_count}'
 
 
+def test_fused_motivic_goerss_hopkins_correctness():
+    so_path = os.path.join(os.path.dirname(__file__), '..', 'csrc', 'libfused_blackwell_motivic_goerss_hopkins.so')
+    assert os.path.exists(so_path), f'Library {so_path} does not exist'
+
+    lib = ctypes.CDLL(so_path)
+    lib.run_motivic_goerss_hopkins_benchmark.argtypes = [ctypes.c_int]
+    lib.run_motivic_goerss_hopkins_benchmark.restype = ctypes.c_int
+
+    n_samples = 1024
+    valid_count = lib.run_motivic_goerss_hopkins_benchmark(n_samples)
+    assert valid_count == n_samples, f'Expected all {n_samples} samples to satisfy Motivic Goerss-Hopkins invariants, got {valid_count}'
+
+
+
 
 
 
