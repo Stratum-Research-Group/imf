@@ -3185,40 +3185,46 @@ def test_iouring_bott_periodicity_shm_ring_correctness():
     assert stats.bott_ring_verified == 1
 
 
+def test_iouring_quillen_patching_dma_stream_correctness():
+    so_path = "csrc/libfused_iouring_quillen_patching_dma_stream.so"
+    assert os.path.exists(so_path), f"Missing shared object: {so_path}"
 
+    class QuillenPatchingConfig(ctypes.Structure):
+        _fields_ = [
+            ("ring_entries", ctypes.c_uint32),
+            ("patch_size_bytes", ctypes.c_uint32),
+            ("num_patches", ctypes.c_uint32),
+            ("stream_passes", ctypes.c_uint32),
+        ]
 
+    class QuillenPatchingStats(ctypes.Structure):
+        _fields_ = [
+            ("total_bytes_streamed", ctypes.c_uint64),
+            ("patches_processed", ctypes.c_uint32),
+            ("ring_queue_depth", ctypes.c_uint32),
+            ("patching_stream_verified", ctypes.c_uint32),
+            ("engine_status", ctypes.c_uint32),
+        ]
 
+    lib = ctypes.CDLL(so_path)
+    lib.run_quillen_patching_dma_stream_engine.argtypes = [
+        ctypes.POINTER(QuillenPatchingConfig),
+        ctypes.POINTER(QuillenPatchingStats)
+    ]
+    lib.run_quillen_patching_dma_stream_engine.restype = ctypes.c_int
 
+    config = QuillenPatchingConfig(
+        ring_entries=64,
+        patch_size_bytes=4096,
+        num_patches=16,
+        stream_passes=16,
+    )
+    stats = QuillenPatchingStats()
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    ret = lib.run_quillen_patching_dma_stream_engine(ctypes.byref(config), ctypes.byref(stats))
+    assert ret == 0, f"run_quillen_patching_dma_stream_engine failed with return code {ret}"
+    assert stats.engine_status == 1
+    assert stats.patches_processed == 16 * 16
+    assert stats.total_bytes_streamed == 16 * 16 * 4096
+    assert stats.ring_queue_depth == 64
+    assert stats.patching_stream_verified == 1

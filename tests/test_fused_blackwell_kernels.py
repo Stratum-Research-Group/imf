@@ -2296,39 +2296,14 @@ def test_fused_quillen_lichtenbaum_correctness():
     assert valid_count == n_samples, f"Expected all {n_samples} samples to satisfy Quillen-Lichtenbaum invariants, got {valid_count}"
 
 
+def test_fused_bass_quillen_correctness():
+    so_path = os.path.join(os.path.dirname(__file__), '..', 'csrc', 'libfused_blackwell_bass_quillen.so')
+    assert os.path.exists(so_path), f'Library {so_path} does not exist'
 
+    lib = ctypes.CDLL(so_path)
+    lib.run_bass_quillen_benchmark.argtypes = [ctypes.c_int]
+    lib.run_bass_quillen_benchmark.restype = ctypes.c_int
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    n_samples = 1024
+    valid_count = lib.run_bass_quillen_benchmark(n_samples)
+    assert valid_count == n_samples, f'Expected all {n_samples} samples to satisfy Bass-Quillen invariants, got {valid_count}'
