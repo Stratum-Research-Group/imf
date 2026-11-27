@@ -2137,6 +2137,21 @@ def test_fused_sato_tate_equidistribution_correctness():
     assert valid_count == n_samples, f"Expected all {n_samples} samples to be Sato-Tate admissible, got {valid_count}"
 
 
+def test_fused_fontaine_mazur_rep_correctness():
+    """Validates the fused Blackwell SM 12.0 kernel for Fontaine-Mazur p-adic Galois representations and Hodge-Tate weights."""
+    so_path = "csrc/libfused_blackwell_fontaine_mazur_rep.so"
+    assert os.path.exists(so_path), f"Missing shared object: {so_path}"
+
+    lib = ctypes.CDLL(so_path)
+    lib.run_fontaine_mazur_benchmark.argtypes = [ctypes.c_int]
+    lib.run_fontaine_mazur_benchmark.restype = ctypes.c_int
+
+    n_samples = 1024
+    valid_count = lib.run_fontaine_mazur_benchmark(n_samples)
+    assert valid_count == n_samples, f"Expected all {n_samples} samples to be geometrically admissible, got {valid_count}"
+
+
+
 
 
 

@@ -2655,6 +2655,51 @@ def test_iouring_splice_pipe_tee_stream_correctness():
     assert stats.total_bytes_teed == 16 * 4096 * (3 - 1)
 
 
+class SqThreadAffinityConfig(ctypes.Structure):
+    _fields_ = [
+        ("ring_entries", ctypes.c_uint32),
+        ("sq_thread_cpu", ctypes.c_uint32),
+        ("sq_thread_idle_ms", ctypes.c_uint32),
+        ("batch_size", ctypes.c_uint32),
+    ]
+
+
+class SqThreadAffinityStats(ctypes.Structure):
+    _fields_ = [
+        ("total_submissions_polled", ctypes.c_uint64),
+        ("pinned_cpu_verified", ctypes.c_uint32),
+        ("ring_status", ctypes.c_uint32),
+        ("sqpoll_active", ctypes.c_uint32),
+    ]
+
+
+def test_iouring_sq_thread_cpu_pinning_stream_correctness():
+    """Validates the Linux 6.18 SQPOLL kernel thread CPU affinity and isolated polling engine."""
+    so_path = "csrc/libfused_iouring_sq_thread_cpu_pinning_stream.so"
+    assert os.path.exists(so_path), f"Shared object not found: {so_path}"
+
+    lib = ctypes.CDLL(so_path)
+    lib.run_sq_thread_cpu_pinning_engine.argtypes = [
+        ctypes.POINTER(SqThreadAffinityConfig),
+        ctypes.POINTER(SqThreadAffinityStats),
+    ]
+    lib.run_sq_thread_cpu_pinning_engine.restype = ctypes.c_int
+
+    config = SqThreadAffinityConfig(
+        ring_entries=64,
+        sq_thread_cpu=1,
+        sq_thread_idle_ms=2000,
+        batch_size=32,
+    )
+    stats = SqThreadAffinityStats()
+
+    ret = lib.run_sq_thread_cpu_pinning_engine(ctypes.byref(config), ctypes.byref(stats))
+    assert ret == 0, f"run_sq_thread_cpu_pinning_engine failed with return code {ret}"
+    assert stats.ring_status == 1
+    assert stats.total_submissions_polled == 32
+
+
+
 
 
 
