@@ -2,7 +2,7 @@
 """
 scripts/generate_thesis_pdfs.py
 Renders the three master volumes of 'THE SACRED SANCTUM: FOUNDATIONS OF SOVEREIGN INTELLIGENCE'
-into publication-quality PDF documents using Chromium headless with KaTeX and Pygments syntax highlighting.
+into publication-quality PDF documents using Chromium headless with KaTeX and high-DPI full-bleed covers.
 
 Volumes:
 1. docs/thesis/The_Sacred_Sanctum-Foundations_of_Sovereign_Intelligence_v01.pdf
@@ -12,8 +12,10 @@ Volumes:
 
 import os
 import sys
-import glob
+import re
+import base64
 import subprocess
+import shutil
 import markdown
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -25,6 +27,8 @@ VOLUMES = [
         "vol_num": "v01",
         "src_md": os.path.join(DOCS_THESIS, "The_Sacred_Sanctum-Foundations_of_Sovereign_Intelligence_v01.md"),
         "out_pdf": os.path.join(DOCS_THESIS, "The_Sacred_Sanctum-Foundations_of_Sovereign_Intelligence_v01.pdf"),
+        "front_cover": os.path.join(DOCS_THESIS, "The_Sacred_Sanctum-Foundations_of_Sovereign_Intelligence_v01 Frontcover.jpg"),
+        "back_cover": os.path.join(DOCS_THESIS, "The_Sacred_Sanctum-Foundations_of_Sovereign_Intelligence_v01 Backcover.jpg"),
         "title": "THE SACRED SANCTUM: Volume I — Dimensional Spaces (d <= 4)",
     },
     {
@@ -32,6 +36,8 @@ VOLUMES = [
         "vol_num": "v02",
         "src_md": os.path.join(DOCS_THESIS, "The_Sacred_Sanctum-Foundations_of_Sovereign_Intelligence_v02.md"),
         "out_pdf": os.path.join(DOCS_THESIS, "The_Sacred_Sanctum-Foundations_of_Sovereign_Intelligence_v02.pdf"),
+        "front_cover": os.path.join(DOCS_THESIS, "The_Sacred_Sanctum-Foundations_of_Sovereign_Intelligence_v02 Frontcover.jpg"),
+        "back_cover": os.path.join(DOCS_THESIS, "The_Sacred_Sanctum-Foundations_of_Sovereign_Intelligence_v02 Backcover.jpg"),
         "title": "THE SACRED SANCTUM: Volume II — Higher-Dimensional Spaces (4 < d <= 24)",
     },
     {
@@ -39,13 +45,15 @@ VOLUMES = [
         "vol_num": "v03",
         "src_md": os.path.join(DOCS_THESIS, "The_Sacred_Sanctum-Foundations_of_Sovereign_Intelligence_v03.md"),
         "out_pdf": os.path.join(DOCS_THESIS, "The_Sacred_Sanctum-Foundations_of_Sovereign_Intelligence_v03.pdf"),
+        "front_cover": os.path.join(DOCS_THESIS, "The_Sacred_Sanctum-Foundations_of_Sovereign_Intelligence_v03 Frontcover.jpg"),
+        "back_cover": os.path.join(DOCS_THESIS, "The_Sacred_Sanctum-Foundations_of_Sovereign_Intelligence_v03 Backcover.jpg"),
         "title": "THE SACRED SANCTUM: Volume III — Transfinite and Ultra-Dimensional Spaces (d -> inf)",
     },
 ]
 
 CSS_STYLES = """
 @page {
-    size: A4;
+    size: 210mm 297mm;
     margin: 20mm 15mm 20mm 15mm;
     @bottom-center {
         content: counter(page);
@@ -55,6 +63,10 @@ CSS_STYLES = """
     }
 }
 
+@page :first {
+    margin: 0;
+}
+
 body {
     font-family: 'Liberation Serif', 'DejaVu Serif', Georgia, serif;
     font-size: 10.5pt;
@@ -62,6 +74,12 @@ body {
     color: #1a1a1a;
     background-color: #ffffff;
     max-width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.content-wrapper {
+    padding: 0 5mm;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -173,27 +191,36 @@ hr {
     margin: 2em 0;
 }
 
-img {
-    max-width: 100%;
-    height: auto;
-    display: block;
-    margin: 1.5em auto;
-    page-break-inside: avoid;
-}
-
 .cover-page {
-    page-break-after: always;
-    break-after: page;
-    text-align: center;
+    width: 210mm;
+    height: 297mm;
     margin: 0;
     padding: 0;
+    page-break-before: always;
+    page-break-after: always;
+    break-before: page;
+    break-after: page;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.cover-page.front-cover {
+    page-break-before: avoid;
+    break-before: avoid;
 }
 
 .cover-page img {
-    max-height: 95vh;
-    max-width: 95vw;
-    object-fit: contain;
-    margin: auto;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: high-quality;
+    display: block;
+    margin: 0;
+    padding: 0;
 }
 
 .katex {
@@ -207,9 +234,15 @@ img {
 }
 """
 
+def get_base64_img(path):
+    with open(path, "rb") as f:
+        return base64.b64encode(f.read()).decode('utf-8')
+
 def render_volume_to_pdf(vol):
     src_md = vol["src_md"]
     out_pdf = vol["out_pdf"]
+    front_cover = vol["front_cover"]
+    back_cover = vol["back_cover"]
     
     if not os.path.exists(src_md):
         print(f"[-] Source Markdown not found: {src_md}")
@@ -219,9 +252,13 @@ def render_volume_to_pdf(vol):
     with open(src_md, "r", encoding="utf-8") as f:
         md_text = f.read()
 
+    # Strip out the initial raw cover div from markdown so we can inject pixel-perfect full-bleed covers
+    md_clean = re.sub(r'<div class="cover-page front-cover">[\s\S]*?</div>', '', md_text)
+    md_clean = re.sub(r'<div class="cover-page back-cover">[\s\S]*?</div>', '', md_clean)
+
     # Convert Markdown to HTML
     html_body = markdown.markdown(
-        md_text,
+        md_clean,
         extensions=[
             'tables',
             'fenced_code',
@@ -230,13 +267,15 @@ def render_volume_to_pdf(vol):
         ]
     )
 
-    # Full standalone HTML with KaTeX math rendering and cover handling
+    front_b64 = get_base64_img(front_cover)
+    back_b64 = get_base64_img(back_cover)
+
+    # Construct the full HTML document with base64 lossless high-res cover embeddings
     html_doc = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
 <title>{vol['title']}</title>
-<base href="{DOCS_THESIS}/"/>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css"/>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"
@@ -252,7 +291,19 @@ def render_volume_to_pdf(vol):
 </style>
 </head>
 <body>
+
+<div class="cover-page front-cover">
+  <img src="data:image/jpeg;base64,{front_b64}" alt="{vol['id']} Front Cover"/>
+</div>
+
+<div class="content-wrapper">
 {html_body}
+</div>
+
+<div class="cover-page back-cover">
+  <img src="data:image/jpeg;base64,{back_b64}" alt="{vol['id']} Back Cover"/>
+</div>
+
 </body>
 </html>
 """
@@ -261,14 +312,16 @@ def render_volume_to_pdf(vol):
     with open(temp_html, "w", encoding="utf-8") as f:
         f.write(html_doc)
 
-    print(f"[*] Invoking Chromium to print {vol['id']} to PDF...")
+    print(f"[*] Invoking Chromium with high-DPI rasterization for {vol['id']}...")
     cmd = [
         "chromium",
         "--headless",
         "--disable-gpu",
         "--no-sandbox",
         "--run-all-compositor-stages-before-draw",
-        "--virtual-time-budget=6000",
+        "--force-device-scale-factor=2",
+        "--virtual-time-budget=8000",
+        "--print-to-pdf-no-header",
         f"--print-to-pdf={out_pdf}",
         temp_html
     ]
@@ -280,11 +333,10 @@ def render_volume_to_pdf(vol):
         
     if os.path.exists(out_pdf):
         sz_mb = os.path.getsize(out_pdf) / (1024 * 1024)
-        print(f"[+] Successfully generated {out_pdf} ({sz_mb:.2f} MB)")
-        # Also copy to compiled/
+        print(f"[+] Successfully generated high-res PDF: {out_pdf} ({sz_mb:.2f} MB)")
+        # Mirror to compiled/
         compiled_pdf = os.path.join(DOCS_THESIS, "compiled", os.path.basename(out_pdf))
         os.makedirs(os.path.dirname(compiled_pdf), exist_ok=True)
-        import shutil
         shutil.copyfile(out_pdf, compiled_pdf)
         print(f"    Mirrored to {compiled_pdf}")
         return True
@@ -293,14 +345,14 @@ def render_volume_to_pdf(vol):
         return False
 
 def main():
-    print("=== THE SACRED SANCTUM: MASTER THESIS PDF COMPILER ===")
+    print("=== THE SACRED SANCTUM: HIGH-DPI MASTER THESIS PDF COMPILER ===")
     success = True
     for vol in VOLUMES:
         if not render_volume_to_pdf(vol):
             success = False
             
     if success:
-        print("=== ALL THREE MASTER THESIS VOLUMES COMPILED TO PDF SUCCESSFULLY ===")
+        print("=== ALL THREE MASTER THESIS VOLUMES COMPILED TO HIGH-DPI PDF SUCCESSFULLY ===")
     else:
         print("[-] Some volumes failed to compile to PDF.")
         sys.exit(1)

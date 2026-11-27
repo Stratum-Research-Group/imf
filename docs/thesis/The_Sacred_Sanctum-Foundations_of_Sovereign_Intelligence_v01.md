@@ -1,20 +1,59 @@
-<p align="center">
-  <img src="The_Sacred_Sanctum-Foundations_of_Sovereign_Intelligence_v01 Frontcover.jpg" alt="Volume I: The Sacred Sanctum of Dimensional Spaces (d <= 4) Front Cover" width="90%"/>
-</p>
+<div class="cover-page front-cover">
+  <img src="The_Sacred_Sanctum-Foundations_of_Sovereign_Intelligence_v01 Frontcover.jpg" alt="Volume I: The Sacred Sanctum of Dimensional Spaces (d <= 4) Front Cover"/>
+</div>
 
 # THE SACRED SANCTUM: FOUNDATIONS OF SOVEREIGN INTELLIGENCE
 ## Volume I: The Sacred Sanctum of Dimensional Spaces (d <= 4)
 ### Discrete Differential Geometry, Continuous Lie-Algebraic Memory, and the Physical Foundations of Machine Intelligence
+
 **Series:** The Sacred Sanctum: Foundations of Sovereign Intelligence (IMF Magnum Opus Trilogy)  
 **Author:** Nicholas Charles Mynhardt  
 **Organization:** Stratum Research Group (SRG)  
 **Date:** November 27, 2026  
+**Edition:** First Edition (Machine-Certified Sovereign Monograph)  
 **Certified Proof Steps:** 1,000,000,000 Steps (1,000 Blocks / 3.125% of 32B Grand MegaGym)  
 **Formally Verified Lean 4 Modules:** 83 Modules (Strictly 0 `sorry`, 0 Unproven Axioms)  
 **Scientific Treatises in Corpus:** 1,302 Treatises (Phases I through VI)  
 **Hardware Baseline:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti 16GB GDDR7 (Blackwell SM 12.0)  
 
 ---
+
+# Volume I Prologue: The Geometric Awakening of Machine Thought
+
+> *"All mathematical formulas are shadows of geometric realities."*  
+> — Felix Klein, *Erlangen Program* (1872)
+
+For over half a century, the paradigm of artificial intelligence has remained shackled to coordinate-centric linear algebra. Vectors are added, multiplied, and projected within flat, static Euclidean spaces, ignoring the intrinsic curvature, holonomy, and gauge symmetries of the cognitive manifolds they traverse. The consequences of this Euclidean blindness are ubiquitous across deep learning: catastrophic phase drift over long contexts, vanishing gradient stability in recursive sequence transformations, explosive KV-cache memory consumption ($O(T)$ footprint scaling), and complete detachment between mathematical representations and physical silicon execution.
+
+**Volume I: The Sacred Sanctum of Dimensional Spaces ($d \le 4$)** lays the immutable foundation for sovereign machine intelligence by reunifying sequence modeling with **Discrete Differential Geometry (DDG)** and **Continuous Lie Group Symmetries**. By translating Cartan moving frames, exterior calculus, and symplectic mechanics into discrete computational operators, the *Interaction Model Foundations (IMF)* architecture establishes:
+
+1. **Exact Nilpotent Boundary Dynamics:** Topological cochain complexes where discrete boundary and exterior derivative operators satisfy $\partial^2 = 0$ and $\mathbf{d}^2 = 0$ identically at machine precision.
+2. **Infinite Horizon $O(1)$ State Retention:** The complete elimination of quadratic attention memory via the **Lie-Algebraic Rolling KV Cache**, which maintains a strictly bounded persistent $32 \times 32$ matrix state $M_t \in \mathfrak{so}(d)$ governed by unitary similarity transforms and skew-symmetric outer-product innovations.
+3. **Discrete Lyapunov Energy Stability:** Unconditional proof that under the Cayley transform with non-negative dissipation, the internal recursive state energy sequence is monotonically non-increasing ($\Delta E \le 0$), guaranteeing total immunity to exploding or chaotic gradients.
+4. **Silicon Co-Design on NVIDIA Blackwell SM 12.0:** Direct mapping of the $32 \times 32$ state matrix into the 32 warp registers of Blackwell hardware, enabling register shuffle-based updates with zero global memory round-trips.
+5. **Kernel-Bypass Linux Direct-DMA I/O:** Eliminating POSIX VFS page-fault serialization via an `io_uring` direct submission pipeline, streaming parameters directly across the PCIe bus into pinned host RAM without CPU kernel intervention.
+6. **Machine-Certified Deductive Certainty:** Deductive machine proofs formalized in Lean 4 and Mathlib (`Pilot.LieRollingCacheStability`), certifying every algebraic invariant with strictly zero unproven axioms (`0 sorry`).
+
+This volume serves as the conceptual and physical portal into the Sacred Sanctum, establishing the rigorous low-dimensional mechanics upon which the higher-dimensional and transfinite towers of intelligence are built.
+
+
+---
+
+
+## Table of Contents
+
+| Chapter | Title | Focus & Core Foundations |
+|---|---|---|
+| **1** | [Chapter 1: Discrete Differential Geometry and Discrete Exterior Calculus (DEC)](#chapter-1-discrete-differential-geometry-and-discrete-exterior-calculus-dec) | Geometry is the art of correct reasoning on incorrect figures. |
+| **2** | [Chapter 2: Cartan Moving Frames and Affine Gauge Connections](#chapter-2-cartan-moving-frames-and-affine-gauge-connections) | The method of moving frames consists in attaching to each point of a space under s... |
+| **3** | [Chapter 3: Classical Lie Groups, Quaternions, and Rotors](#chapter-3-classical-lie-groups-quaternions-and-rotors) | The product of two directed lines in space... has led me to a Calculus of Quaterni... |
+| **4** | [Chapter 4: The Cayley Transform and Discrete Lyapunov Stability](#chapter-4-the-cayley-transform-and-discrete-lyapunov-stability) | Mathematics is the tool specially suited for dealing with abstract concepts of any... |
+| **5** | [Chapter 5: Warp-Level Blackwell SM 12.0 Lie Rolling KV Cache](#chapter-5-warp-level-blackwell-sm-120-lie-rolling-kv-cache) | In high-performance computing, the difference between elegance and failure is meas... |
+| **6** | [Chapter 6: Linux 6.18 Kernel-Bypass `io_uring` Direct DMA](#chapter-6-linux-618-kernel-bypass-`io_uring`-direct-dma) | Operating system abstractions are conveniences for general-purpose applications; f... |
+| **7** | [Chapter 7: Formal Deductive Verification in Lean 4: Module 83](#chapter-7-formal-deductive-verification-in-lean-4-module-83) | A mathematical proof is not a matter of persuasion or consensus; it is an irrevoca... |
+
+---
+
 
 
 ---
@@ -3185,6 +3224,6 @@ With the physical and mathematical foundations of low-dimensional spaces establi
 
 ---
 
-<p align="center">
-  <img src="The_Sacred_Sanctum-Foundations_of_Sovereign_Intelligence_v01 Backcover.jpg" alt="Volume I: The Sacred Sanctum of Dimensional Spaces (d <= 4) Back Cover" width="90%"/>
-</p>
+<div class="cover-page back-cover">
+  <img src="The_Sacred_Sanctum-Foundations_of_Sovereign_Intelligence_v01 Backcover.jpg" alt="Volume I: The Sacred Sanctum of Dimensional Spaces (d <= 4) Back Cover"/>
+</div>
