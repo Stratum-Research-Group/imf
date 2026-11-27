@@ -2320,3 +2320,16 @@ def test_fused_bloch_suslin_correctness():
     n_samples = 1024
     valid_count = lib.run_bloch_suslin_benchmark(n_samples)
     assert valid_count == n_samples, f'Expected all {n_samples} samples to satisfy Bloch-Suslin invariants, got {valid_count}'
+
+
+def test_fused_suslin_homology_correctness():
+    so_path = os.path.join(os.path.dirname(__file__), '..', 'csrc', 'libfused_blackwell_suslin_homology.so')
+    assert os.path.exists(so_path), f'Library {so_path} does not exist'
+
+    lib = ctypes.CDLL(so_path)
+    lib.run_suslin_homology_benchmark.argtypes = [ctypes.c_int]
+    lib.run_suslin_homology_benchmark.restype = ctypes.c_int
+
+    n_samples = 1024
+    valid_count = lib.run_suslin_homology_benchmark(n_samples)
+    assert valid_count == n_samples, f'Expected all {n_samples} samples to satisfy Suslin homology invariants, got {valid_count}'

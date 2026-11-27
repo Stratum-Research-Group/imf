@@ -74,6 +74,7 @@ jobs:
           g++ -O3 -shared -fPIC -std=c++17 csrc/fused_iouring_bott_periodicity_shm_ring.cpp -o csrc/libfused_iouring_bott_periodicity_shm_ring.so
           g++ -O3 -shared -fPIC -std=c++17 csrc/fused_iouring_quillen_patching_dma_stream.cpp -o csrc/libfused_iouring_quillen_patching_dma_stream.so
           g++ -O3 -shared -fPIC -std=c++17 csrc/fused_iouring_higher_chow_splice_stream.cpp -o csrc/libfused_iouring_higher_chow_splice_stream.so
+          g++ -O3 -shared -fPIC -std=c++17 csrc/fused_iouring_singular_cycle_splice_stream.cpp -o csrc/libfused_iouring_singular_cycle_splice_stream.so
 
       - name: Install uv and Python
         uses: astral-sh/setup-uv@v3
