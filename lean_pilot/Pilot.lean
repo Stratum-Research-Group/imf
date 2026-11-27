@@ -36,3 +36,4 @@ import Pilot.GrothendieckRiemannRoch
 import Pilot.SerreDuality
 import Pilot.KodairaVanishing
 import Pilot.HardyLittlewoodCircleMethod
+import Pilot.BirchSwinnertonDyer

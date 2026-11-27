@@ -1483,6 +1483,79 @@ def test_iouring_futex_waitv_ring_correctness():
     finally:
         lib.iouring_futex_waitv_free(eng)
 
+def test_iouring_send_zc_notify_ring_correctness():
+    so_path = "csrc/fused_iouring_send_zc_notify_ring.so"
+    assert os.path.exists(so_path), "Shared library does not exist"
+    lib = ctypes.CDLL(so_path)
+
+    lib.iouring_send_zc_notify_init.argtypes = [ctypes.c_uint32]
+    lib.iouring_send_zc_notify_init.restype = ctypes.c_void_p
+
+    lib.iouring_send_zc_register_buf.argtypes = [
+        ctypes.c_void_p,
+        ctypes.c_uint32,
+        ctypes.c_void_p,
+        ctypes.c_uint64
+    ]
+    lib.iouring_send_zc_register_buf.restype = ctypes.c_int
+
+    lib.iouring_send_zc_submit_send.argtypes = [
+        ctypes.c_void_p,
+        ctypes.c_uint32,
+        ctypes.c_uint64,
+        ctypes.c_uint32
+    ]
+    lib.iouring_send_zc_submit_send.restype = ctypes.c_int
+
+    lib.iouring_send_zc_flush_notifs.argtypes = [
+        ctypes.c_void_p,
+        ctypes.POINTER(ctypes.c_uint32)
+    ]
+    lib.iouring_send_zc_flush_notifs.restype = ctypes.c_int
+
+    lib.iouring_send_zc_get_stats.argtypes = [
+        ctypes.c_void_p,
+        ctypes.POINTER(ctypes.c_uint64),
+        ctypes.POINTER(ctypes.c_uint64),
+        ctypes.POINTER(ctypes.c_uint64)
+    ]
+    lib.iouring_send_zc_get_stats.restype = ctypes.c_int
+
+    lib.iouring_send_zc_free.argtypes = [ctypes.c_void_p]
+    lib.iouring_send_zc_free.restype = None
+
+    eng = lib.iouring_send_zc_notify_init(16)
+    assert eng is not None
+
+    try:
+        dummy_buf = (ctypes.c_char * 4096)()
+        reg_ret = lib.iouring_send_zc_register_buf(eng, 0, ctypes.byref(dummy_buf), 4096)
+        assert reg_ret == 0
+
+        # Submit zero-copy send
+        send_ret = lib.iouring_send_zc_submit_send(eng, 0, 2048, 0)
+        assert send_ret == 0
+
+        # Flush notifications
+        completed = ctypes.c_uint32(0)
+        flush_ret = lib.iouring_send_zc_flush_notifs(eng, ctypes.byref(completed))
+        assert flush_ret == 0
+        assert completed.value == 1
+
+        tot_sends = ctypes.c_uint64(0)
+        tot_bytes = ctypes.c_uint64(0)
+        tot_notifs = ctypes.c_uint64(0)
+        s_ret = lib.iouring_send_zc_get_stats(
+            eng, ctypes.byref(tot_sends), ctypes.byref(tot_bytes), ctypes.byref(tot_notifs)
+        )
+        assert s_ret == 0
+        assert tot_sends.value == 1
+        assert tot_bytes.value == 2048
+        assert tot_notifs.value == 1
+    finally:
+        lib.iouring_send_zc_free(eng)
+
+
 
 
 

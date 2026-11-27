@@ -1305,6 +1305,55 @@ def test_fused_hardy_littlewood_circle_method_correctness():
     assert major_flags[1].item() == 1.0
     assert major_flags[2].item() == 0.0
 
+def test_fused_bsd_lfunction_euler_product_correctness():
+    so_path = "csrc/fused_blackwell_bsd_lfunction_euler_product.so"
+    assert os.path.exists(so_path), "Shared library does not exist"
+    lib = ctypes.CDLL(so_path)
+
+    lib.fused_blackwell_bsd_lfunction_euler_product.argtypes = [
+        ctypes.c_void_p,
+        ctypes.c_void_p,
+        ctypes.c_void_p,
+        ctypes.c_void_p,
+        ctypes.c_void_p,
+        ctypes.c_void_p,
+        ctypes.c_int,
+        ctypes.c_int
+    ]
+    lib.fused_blackwell_bsd_lfunction_euler_product.restype = ctypes.c_int
+
+    B = 2
+    num_primes = 4
+    primes = torch.tensor([2, 3, 5, 7], dtype=torch.int32)
+    # Batch 0: a_p = [0, 0, 0, 0], s = 2.0 (pure Riemann zeta factors: (1 + p^{-3})^{-1})
+    # Batch 1: a_p = [2, 0, 1, -1], s = 1.0
+    traces_ap = torch.tensor([
+        [0.0, 0.0, 0.0, 0.0],
+        [2.0, 0.0, 1.0, -1.0]
+    ], dtype=torch.float32)
+    s_points = torch.tensor([2.0, 1.0], dtype=torch.float32)
+
+    l_vals = torch.zeros(B, dtype=torch.float32)
+    log_norms = torch.zeros(B, dtype=torch.float32)
+    ranks = torch.zeros(B, dtype=torch.int32)
+
+    ret = lib.fused_blackwell_bsd_lfunction_euler_product(
+        ctypes.c_void_p(traces_ap.data_ptr()),
+        ctypes.c_void_p(primes.data_ptr()),
+        ctypes.c_void_p(s_points.data_ptr()),
+        ctypes.c_void_p(l_vals.data_ptr()),
+        ctypes.c_void_p(log_norms.data_ptr()),
+        ctypes.c_void_p(ranks.data_ptr()),
+        B, num_primes
+    )
+    assert ret == 0
+
+    # L-value must be positive for batch 0
+    assert l_vals[0].item() > 0.0
+    # For batch 0 (s = 2.0), analytic rank is 0
+    assert ranks[0].item() == 0
+
+
 
 
 
