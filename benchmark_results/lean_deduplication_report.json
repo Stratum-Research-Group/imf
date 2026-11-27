@@ -1,0 +1,107 @@
+{
+  "total_theorems": 116,
+  "unique_signatures": 93,
+  "duplicates_count": 23,
+  "duplicates": [
+    {
+      "original": "Pilot/AbelianSurfaceModularity.lean::abelian_surface_euler_characteristic",
+      "duplicate": "Pilot/AlgebraicCobordism.lean::hopkins_morel_lazard_isomorphism",
+      "signature": "(1"
+    },
+    {
+      "original": "Pilot/AbelianSurfaceModularity.lean::abelian_surface_euler_characteristic",
+      "duplicate": "Pilot/AlgebraicCobordism.lean::conner_floyd_first_chern_class",
+      "signature": "(1"
+    },
+    {
+      "original": "Pilot/AbelianSurfaceModularity.lean::abelian_surface_euler_characteristic",
+      "duplicate": "Pilot/ChromaticTower.lean::chromatic_fracture_square_euler",
+      "signature": "(1"
+    },
+    {
+      "original": "Pilot/AbelianSurfaceModularity.lean::hodge_number_h20_canonical",
+      "duplicate": "Pilot/FontaineMazurConjecture.lean::weil_frobenius_weight_one",
+      "signature": "(2 - 1"
+    },
+    {
+      "original": "Pilot/FontaineMazurConjecture.lean::de_rham_dimension_two",
+      "duplicate": "Pilot/FontaineMazurConjecture.lean::hodge_tate_sen_eigenvalues_card",
+      "signature": "representation_dim"
+    },
+    {
+      "original": "Pilot/BlochSuslin.lean::boundary_squared_complex_nilpotent",
+      "duplicate": "Pilot/MilnorWittHomotopy.lean::morel_pi00_sphere_grothendieck_witt",
+      "signature": "(0"
+    },
+    {
+      "original": "Pilot/AbelianSurfaceModularity.lean::abelian_surface_euler_characteristic",
+      "duplicate": "Pilot/MilnorWittHomotopy.lean::hopf_element_degree",
+      "signature": "(1"
+    },
+    {
+      "original": "Pilot/AbelianSurfaceModularity.lean::abelian_surface_euler_characteristic",
+      "duplicate": "Pilot/MilnorWittHomotopy.lean::hyperbolic_plane_rank_two",
+      "signature": "(1"
+    },
+    {
+      "original": "Pilot/AbelianSurfaceModularity.lean::abelian_surface_euler_characteristic",
+      "duplicate": "Pilot/MotivicAdamsNovikov.lean::spectral_differential_nilpotent",
+      "signature": "(1"
+    },
+    {
+      "original": "Pilot/AbelianSurfaceModularity.lean::abelian_surface_euler_characteristic",
+      "duplicate": "Pilot/MotivicAdamsNovikov.lean::cobar_complex_differentials",
+      "signature": "(1"
+    },
+    {
+      "original": "Pilot/AbelianSurfaceModularity.lean::abelian_surface_euler_characteristic",
+      "duplicate": "Pilot/MotivicBP.lean::quillen_idempotent_property",
+      "signature": "(1"
+    },
+    {
+      "original": "Pilot/AbelianSurfaceModularity.lean::abelian_surface_euler_characteristic",
+      "duplicate": "Pilot/MotivicLubinTate.lean::formal_lie_group_dimension_one",
+      "signature": "(1"
+    },
+    {
+      "original": "Pilot/BlochSuslin.lean::boundary_squared_complex_nilpotent",
+      "duplicate": "Pilot/MotivicNilpotence.lean::nilpotence_exponent_zero_power",
+      "signature": "(0"
+    },
+    {
+      "original": "Pilot/AbelianSurfaceModularity.lean::abelian_surface_euler_characteristic",
+      "duplicate": "Pilot/MotivicNilpotence.lean::thick_subcategory_retract_closure",
+      "signature": "(1"
+    },
+    {
+      "original": "Pilot/NormResidueIsomorphism.lean::degree",
+      "duplicate": "Pilot/NormResidueIsomorphism.lean::merkurjev_suslin_degree_two",
+      "signature": "2 * 1"
+    },
+    {
+      "original": "Pilot/MilnorWittHomotopy.lean::milnor_witt_eta_nilpotent_topology",
+      "duplicate": "Pilot/QuillenLichtenbaum.lean::quillen_k_two_boundary",
+      "signature": "(2"
+    },
+    {
+      "original": "Pilot/QuillenLichtenbaum.lean::quillen_k_three_odd_shift",
+      "duplicate": "Pilot/RostInvariant.lean::rost_invariant_degree_three",
+      "signature": "(3"
+    },
+    {
+      "original": "Pilot/AlgebraicCobordism.lean::quillen_complex_cobordism_pi2",
+      "duplicate": "Pilot/RostInvariant.lean::rost_multiplier_g2_mod_two",
+      "signature": "2 % 2"
+    },
+    {
+      "original": "Pilot/RostInvariant.lean::octonionic_triality_spin8",
+      "duplicate": "Pilot/RostInvariant.lean::rost_multiplier_f4_mod_three",
+      "signature": "3 % 3"
+    },
+    {
+      "original": "Pilot/SatoTateEquidistribution.lean::catalan_two",
+      "duplicate": "Pilot/SatoTateEquidistribution.lean::catalan_convolution_two",
+      "signature": "catalan 2"
+    }
+  ]
+}
