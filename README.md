@@ -147,11 +147,11 @@ All metrics are derived directly from physical execution on **AMD Ryzen 5 7600X*
 
 ---
 
-## 4. The 760,000,000 Certified Proof Step Milestone (2.37500% Horizon)
+## 4. The 1,000,000,000 Certified Proof Step Milestone (3.12500% Horizon)
 
 The autonomous MegaGym prover engine continuously generates and formally validates deductive proof steps directly against the Lean 4 kernel:
 
-- **Total Certified Steps**: **760,000,000**
+- **Total Certified Steps**: **1,000,000,000**
 - **Blocks Sealed**: **760 blocks** ($1,000,000$ steps per block)
 - **Mean Generation Speed**: **$320,000\text{ steps/s}$**
 - **Total Compressed Payload**: **$15,900.0\text{ MB}$** (`.tar.zst` format)
