@@ -1652,6 +1652,76 @@ def test_fused_fontaine_mazur_weights_correctness():
     assert purity_out[0].item() == 1.0
 
 
+def test_fused_serre_modularity_conductor_correctness():
+    so_path = "csrc/libfused_blackwell_serre_modularity_conductor.so"
+    if not os.path.exists(so_path):
+        pytest.skip(f"{so_path} not found")
+
+    lib = ctypes.CDLL(so_path)
+    lib.fused_blackwell_serre_modularity_conductor.argtypes = [
+        ctypes.c_void_p,
+        ctypes.c_void_p,
+        ctypes.c_void_p,
+        ctypes.c_void_p,
+        ctypes.c_void_p,
+        ctypes.c_void_p,
+        ctypes.c_int,
+        ctypes.c_int,
+        ctypes.c_float
+    ]
+    lib.fused_blackwell_serre_modularity_conductor.restype = ctypes.c_int
+
+    batch_size = 2
+    num_primes = 2
+    p_prime = 7.0
+
+    # Conjugation matrix: [B, 4]
+    # Batch 0: diag(1, -1) -> det = -1 (odd)
+    # Batch 1: diag(1, 1) -> det = 1 (even)
+    conj_mat = torch.tensor([
+        [1.0, 0.0, 0.0, -1.0],
+        [1.0, 0.0, 0.0, 1.0]
+    ], dtype=torch.float32)
+
+    # Primes and exponents: q1=2, q2=3; e1=1, e2=2 -> N = 2^1 * 3^2 = 18 -> log(18) ~ 2.89037
+    primes = torch.tensor([
+        [2.0, 3.0],
+        [2.0, 3.0]
+    ], dtype=torch.float32)
+
+    exps = torch.tensor([
+        [1.0, 2.0],
+        [0.0, 0.0]
+    ], dtype=torch.float32)
+
+    odd_flags = torch.zeros(batch_size, dtype=torch.float32)
+    level_logs = torch.zeros(batch_size, dtype=torch.float32)
+    weights = torch.zeros(batch_size, dtype=torch.float32)
+
+    ret = lib.fused_blackwell_serre_modularity_conductor(
+        ctypes.c_void_p(conj_mat.data_ptr()),
+        ctypes.c_void_p(primes.data_ptr()),
+        ctypes.c_void_p(exps.data_ptr()),
+        ctypes.c_void_p(odd_flags.data_ptr()),
+        ctypes.c_void_p(level_logs.data_ptr()),
+        ctypes.c_void_p(weights.data_ptr()),
+        batch_size,
+        num_primes,
+        p_prime
+    )
+    assert ret == 0
+
+    # Batch 0: Odd representation
+    assert odd_flags[0].item() == 1.0
+    expected_log = math.log(18.0)
+    assert abs(level_logs[0].item() - expected_log) < 1e-4
+    assert weights[0].item() >= 2.0
+
+    # Batch 1: Even representation
+    assert odd_flags[1].item() == 0.0
+
+
+
 
 
 

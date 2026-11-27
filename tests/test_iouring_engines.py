@@ -1955,6 +1955,81 @@ def test_iouring_socket_multiplexer_correctness():
         lib.iouring_socket_multiplexer_destroy(mux)
 
 
+def test_iouring_socket_buf_recycler_correctness():
+    so_path = "csrc/libfused_iouring_socket_buf_recycler.so"
+    if not os.path.exists(so_path):
+        pytest.skip("libfused_iouring_socket_buf_recycler.so not compiled")
+
+    lib = ctypes.CDLL(so_path)
+    lib.iouring_socket_buf_recycler_init.argtypes = [ctypes.c_uint16, ctypes.c_uint32, ctypes.c_uint32]
+    lib.iouring_socket_buf_recycler_init.restype = ctypes.c_void_p
+
+    lib.iouring_socket_buf_recycler_acquire.argtypes = [
+        ctypes.c_void_p,
+        ctypes.POINTER(ctypes.c_uint16),
+        ctypes.POINTER(ctypes.c_void_p)
+    ]
+    lib.iouring_socket_buf_recycler_acquire.restype = ctypes.c_int
+
+    lib.iouring_socket_buf_recycler_replenish.argtypes = [ctypes.c_void_p, ctypes.c_uint16]
+    lib.iouring_socket_buf_recycler_replenish.restype = ctypes.c_int
+
+    lib.iouring_socket_buf_recycler_multishot_recv.argtypes = [ctypes.c_void_p, ctypes.c_int, ctypes.c_uint32]
+    lib.iouring_socket_buf_recycler_multishot_recv.restype = ctypes.c_int
+
+    lib.iouring_socket_buf_recycler_get_stats.argtypes = [
+        ctypes.c_void_p,
+        ctypes.POINTER(ctypes.c_uint32),
+        ctypes.POINTER(ctypes.c_uint64),
+        ctypes.POINTER(ctypes.c_uint64)
+    ]
+    lib.iouring_socket_buf_recycler_get_stats.restype = ctypes.c_int
+
+    lib.iouring_socket_buf_recycler_destroy.argtypes = [ctypes.c_void_p]
+    lib.iouring_socket_buf_recycler_destroy.restype = None
+
+    bgid = 1
+    num_bufs = 64
+    buf_size = 4096
+    rec = lib.iouring_socket_buf_recycler_init(bgid, num_bufs, buf_size)
+    assert rec is not None
+
+    try:
+        # Acquire a buffer
+        bid = ctypes.c_uint16(0)
+        ptr = ctypes.c_void_p(0)
+        acq_ret = lib.iouring_socket_buf_recycler_acquire(rec, ctypes.byref(bid), ctypes.byref(ptr))
+        assert acq_ret == 0
+        assert bid.value == 0
+        assert ptr.value != 0
+
+        # Replenish the buffer
+        rep_ret = lib.iouring_socket_buf_recycler_replenish(rec, bid.value)
+        assert rep_ret == 0
+
+        # Multishot simulated batch receive of 10 buffers
+        m_ret = lib.iouring_socket_buf_recycler_multishot_recv(rec, 4, 10)
+        assert m_ret == 0
+
+        # Check telemetry stats
+        avail = ctypes.c_uint32(0)
+        tot_rep = ctypes.c_uint64(0)
+        tot_acq = ctypes.c_uint64(0)
+        st = lib.iouring_socket_buf_recycler_get_stats(
+            rec, ctypes.byref(avail), ctypes.byref(tot_rep), ctypes.byref(tot_acq)
+        )
+        assert st == 0
+        assert avail.value == num_bufs
+        assert tot_rep.value == 11
+        assert tot_acq.value == 11
+
+        # Double replenish returns error
+        assert lib.iouring_socket_buf_recycler_replenish(rec, bid.value) == -3
+    finally:
+        lib.iouring_socket_buf_recycler_destroy(rec)
+
+
+
 
 
 
