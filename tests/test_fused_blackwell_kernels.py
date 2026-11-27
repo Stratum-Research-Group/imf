@@ -2178,6 +2178,19 @@ def test_fused_beilinson_regulator_correctness():
     valid_count = lib.run_beilinson_regulator_benchmark(n_samples)
     assert valid_count == n_samples, f"Expected all {n_samples} samples to have non-zero regulator determinants, got {valid_count}"
 
+@pytest.mark.skipif(not torch.cuda.is_available(), reason="CUDA not available")
+def test_fused_bsd_analytic_rank_correctness():
+    so_path = "csrc/libfused_blackwell_bsd_analytic_rank.so"
+    assert os.path.exists(so_path), f"Missing shared object: {so_path}"
+
+    lib = ctypes.CDLL(so_path)
+    lib.run_bsd_analytic_rank_benchmark.argtypes = [ctypes.c_int]
+    lib.run_bsd_analytic_rank_benchmark.restype = ctypes.c_int
+
+    n_samples = 1024
+    valid_count = lib.run_bsd_analytic_rank_benchmark(n_samples)
+    assert valid_count == n_samples, f"Expected all {n_samples} samples to be BSD consistent, got {valid_count}"
+
 
 
 

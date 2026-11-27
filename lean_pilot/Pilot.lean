@@ -56,6 +56,7 @@ import Pilot.SatoTateEquidistribution
 import Pilot.FontaineMazurConjecture
 import Pilot.BlochKatoTamagawa
 import Pilot.BeilinsonRegulatorConjecture
+import Pilot.BirchSwinnertonDyerConjecture
 
 
 

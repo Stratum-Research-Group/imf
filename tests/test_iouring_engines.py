@@ -2789,6 +2789,49 @@ def test_iouring_direct_ring_buffer_zero_alloc_correctness():
     assert stats.active_slots_count == 16
     assert stats.zero_alloc_verified == 1
 
+def test_iouring_direct_splice_tee_zerocopy_correctness():
+    so_path = "csrc/libfused_iouring_direct_splice_tee_zerocopy.so"
+    assert os.path.exists(so_path), f"Shared library does not exist: {so_path}"
+    lib = ctypes.CDLL(so_path)
+
+    class SpliceTeeConfig(ctypes.Structure):
+        _fields_ = [
+            ("ring_entries", ctypes.c_uint32),
+            ("chunk_size_bytes", ctypes.c_uint32),
+            ("total_chunks", ctypes.c_uint32),
+            ("pipe_capacity", ctypes.c_uint32),
+        ]
+
+    class SpliceTeeStats(ctypes.Structure):
+        _fields_ = [
+            ("total_bytes_spliced", ctypes.c_uint64),
+            ("total_bytes_teed", ctypes.c_uint64),
+            ("chunks_completed", ctypes.c_uint32),
+            ("zero_copy_verified", ctypes.c_uint32),
+            ("engine_status", ctypes.c_uint32),
+        ]
+
+    lib.run_direct_splice_tee_zerocopy_engine.argtypes = [
+        ctypes.POINTER(SpliceTeeConfig),
+        ctypes.POINTER(SpliceTeeStats)
+    ]
+    lib.run_direct_splice_tee_zerocopy_engine.restype = ctypes.c_int
+
+    config = SpliceTeeConfig(
+        ring_entries=64,
+        chunk_size_bytes=4096,
+        total_chunks=16,
+        pipe_capacity=65536,
+    )
+    stats = SpliceTeeStats()
+
+    ret = lib.run_direct_splice_tee_zerocopy_engine(ctypes.byref(config), ctypes.byref(stats))
+    assert ret == 0, f"run_direct_splice_tee_zerocopy_engine failed with return code {ret}"
+    assert stats.engine_status == 1
+    assert stats.chunks_completed == 16
+    assert stats.total_bytes_spliced == 16 * 4096
+    assert stats.zero_copy_verified == 1
+
 
 
 
