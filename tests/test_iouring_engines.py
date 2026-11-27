@@ -2188,6 +2188,89 @@ def test_iouring_zc_rx_ring_correctness():
         lib.iouring_zc_rx_ring_destroy(ring)
 
 
+def test_iouring_zc_tx_burst_correctness():
+    so_path = "csrc/libfused_iouring_zc_tx_burst.so"
+    if not os.path.exists(so_path):
+        pytest.skip("io_uring ZC TX burst library not built")
+
+    lib = ctypes.CDLL(so_path)
+    lib.iouring_zc_tx_burst_init.argtypes = [ctypes.c_uint32, ctypes.c_uint32]
+    lib.iouring_zc_tx_burst_init.restype = ctypes.c_void_p
+
+    lib.iouring_zc_tx_burst_enqueue.argtypes = [
+        ctypes.c_void_p, ctypes.c_uint32, ctypes.POINTER(ctypes.c_uint32), ctypes.POINTER(ctypes.c_void_p)
+    ]
+    lib.iouring_zc_tx_burst_enqueue.restype = ctypes.c_int
+
+    lib.iouring_zc_tx_burst_submit.argtypes = [
+        ctypes.c_void_p, ctypes.c_uint32, ctypes.POINTER(ctypes.c_uint32), ctypes.POINTER(ctypes.c_uint64)
+    ]
+    lib.iouring_zc_tx_burst_submit.restype = ctypes.c_int
+
+    lib.iouring_zc_tx_burst_stats.argtypes = [
+        ctypes.c_void_p, ctypes.POINTER(ctypes.c_uint32),
+        ctypes.POINTER(ctypes.c_uint64), ctypes.POINTER(ctypes.c_uint64), ctypes.POINTER(ctypes.c_uint64)
+    ]
+    lib.iouring_zc_tx_burst_stats.restype = ctypes.c_int
+
+    lib.iouring_zc_tx_burst_destroy.argtypes = [ctypes.c_void_p]
+    lib.iouring_zc_tx_burst_destroy.restype = None
+
+    cap = 32
+    pkt_size = 2048
+
+    burst = lib.iouring_zc_tx_burst_init(cap, pkt_size)
+    assert burst is not None
+
+    try:
+        # Enqueue 5 packets
+        for i in range(5):
+            pkt_id = ctypes.c_uint32(0)
+            buf_ptr = ctypes.c_void_p(0)
+            ret = lib.iouring_zc_tx_burst_enqueue(burst, 1024, ctypes.byref(pkt_id), ctypes.byref(buf_ptr))
+            assert ret == 0
+            assert pkt_id.value == i
+            assert buf_ptr.value != 0
+
+        # Check stats before burst submission
+        avail = ctypes.c_uint32(0)
+        tot_enq = ctypes.c_uint64(0)
+        tot_sub = ctypes.c_uint64(0)
+        tot_bytes = ctypes.c_uint64(0)
+        st = lib.iouring_zc_tx_burst_stats(
+            burst, ctypes.byref(avail), ctypes.byref(tot_enq), ctypes.byref(tot_sub), ctypes.byref(tot_bytes)
+        )
+        assert st == 0
+        assert tot_enq.value == 5
+        assert tot_sub.value == 0
+        assert avail.value == cap - 1 - 5
+
+        # Submit burst of max 3 packets
+        burst_cnt = ctypes.c_uint32(0)
+        burst_bytes = ctypes.c_uint64(0)
+        sub_ret = lib.iouring_zc_tx_burst_submit(burst, 3, ctypes.byref(burst_cnt), ctypes.byref(burst_bytes))
+        assert sub_ret == 0
+        assert burst_cnt.value == 3
+        assert burst_bytes.value == 3 * 1024
+
+        # Submit remaining 2 packets
+        sub_ret2 = lib.iouring_zc_tx_burst_submit(burst, 10, ctypes.byref(burst_cnt), ctypes.byref(burst_bytes))
+        assert sub_ret2 == 0
+        assert burst_cnt.value == 2
+        assert burst_bytes.value == 2 * 1024
+
+        # Check final stats
+        lib.iouring_zc_tx_burst_stats(
+            burst, ctypes.byref(avail), ctypes.byref(tot_enq), ctypes.byref(tot_sub), ctypes.byref(tot_bytes)
+        )
+        assert tot_sub.value == 5
+        assert tot_bytes.value == 5 * 1024
+        assert avail.value == cap - 1
+    finally:
+        lib.iouring_zc_tx_burst_destroy(burst)
+
+
+
 
 
 

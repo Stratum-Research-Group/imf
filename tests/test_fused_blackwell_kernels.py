@@ -1857,6 +1857,62 @@ def test_fused_taylor_wiles_patching_correctness():
     assert defects[1].item() == 2.0
 
 
+def test_fused_khare_wintenberger_lifting_correctness():
+    so_path = "csrc/libfused_blackwell_khare_wintenberger_lifting.so"
+    if not os.path.exists(so_path):
+        pytest.skip("Khare-Wintenberger lifting kernel library not compiled")
+
+    lib = ctypes.CDLL(so_path)
+    lib.fused_blackwell_khare_wintenberger_lifting.argtypes = [
+        ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p,
+        ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p,
+        ctypes.c_int
+    ]
+    lib.fused_blackwell_khare_wintenberger_lifting.restype = ctypes.c_int
+
+    batch_size = 2
+
+    # Batch 0: a_p = 0.0, p = 3.0, k = 2 (k - 1 = 1), d = 1 ([Q:Q])
+    # det(Phi) = 3^1 = 3. disc = 0 - 12 < 0 -> lambda_1 = 0.5, lambda_2 = 0.5 (sum = 1.0)
+    # dim(R^\square) = 4 + 3*1 = 7.
+    # Batch 1: a_p = 2.0, p = 5.0, k = 3 (k - 1 = 2), d = 2 ([F:Q] = 2)
+    # det(Phi) = 5^2 = 25. disc = 4 - 100 < 0 -> lambda_1 = 1.0, lambda_2 = 1.0 (sum = 2.0)
+    # dim(R^\square) = 4 + 3*2 = 10.
+    ap = torch.tensor([0.0, 2.0], dtype=torch.float32)
+    p = torch.tensor([3.0, 5.0], dtype=torch.float32)
+    k = torch.tensor([2.0, 3.0], dtype=torch.float32)
+    d = torch.tensor([1.0, 2.0], dtype=torch.float32)
+
+    slopes = torch.zeros(batch_size, 2, dtype=torch.float32)
+    framed_dims = torch.zeros(batch_size, dtype=torch.float32)
+    flags = torch.zeros(batch_size, dtype=torch.float32)
+
+    ret = lib.fused_blackwell_khare_wintenberger_lifting(
+        ctypes.c_void_p(ap.data_ptr()),
+        ctypes.c_void_p(p.data_ptr()),
+        ctypes.c_void_p(k.data_ptr()),
+        ctypes.c_void_p(d.data_ptr()),
+        ctypes.c_void_p(slopes.data_ptr()),
+        ctypes.c_void_p(framed_dims.data_ptr()),
+        ctypes.c_void_p(flags.data_ptr()),
+        batch_size
+    )
+    assert ret == 0
+
+    # Batch 0:
+    assert framed_dims[0].item() == 7.0
+    assert abs(slopes[0, 0].item() - 0.5) < 1e-3
+    assert abs(slopes[0, 1].item() - 0.5) < 1e-3
+    assert flags[0].item() == 1.0
+
+    # Batch 1:
+    assert framed_dims[1].item() == 10.0
+    assert abs(slopes[1, 0].item() - 1.0) < 1e-3
+    assert abs(slopes[1, 1].item() - 1.0) < 1e-3
+    assert flags[1].item() == 1.0
+
+
+
 
 
 
