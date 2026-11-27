@@ -22,13 +22,10 @@ extern "C" struct checkpoint_rollback_engine* init_checkpoint_rollback_engine(co
     if (!eng) return NULL;
     memset(eng, 0, sizeof(*eng));
 
-    eng->checkpoint_fd = open(checkpoint_path, O_RDWR | O_DIRECT);
+    eng->checkpoint_fd = open(checkpoint_path, O_RDWR);
     if (eng->checkpoint_fd < 0) {
-        eng->checkpoint_fd = open(checkpoint_path, O_RDWR);
-        if (eng->checkpoint_fd < 0) {
-            free(eng);
-            return NULL;
-        }
+        free(eng);
+        return NULL;
     }
 
     int q_depth = (depth > 0) ? depth : ROLLBACK_QUEUE_DEPTH;

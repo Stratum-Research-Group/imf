@@ -5,22 +5,22 @@ Authors: Stratum Formal Mathematics Working Group
 -/
 
 /-!
-# Motivic Adams Spectral Sequence Convergence Proof
+# Motivic Adams Spectral Sequence Arithmetic Scaffolding
 
-This module proves formal algebraic bounds and convergence filtration invariants
-for the motivic Adams spectral sequence over an algebraically closed base field $k$:
-$$ E_r^{s,t,w} \Longrightarrow \pi_{t-s, w}(\mathbb{S}_{mot}) $$
-where $s$ denotes the Adams filtration, $t$ the topological degree, and $w$ the motivic weight.
+This module formalizes discrete coordinate arithmetic and indexing scaffolding
+associated with the grading conventions of the motivic Adams spectral sequence:
+grading coordinates $(s, t, w)$ where $s$ denotes the Adams filtration, $t$ the topological degree,
+and $w$ the motivic weight.
 
 We verify:
-1. Adams differential target bounds: $d_r: E_r^{s,t,w} \to E_r^{s+r, t+r-1, w}$.
-   Specifically, weight $w$ is preserved under differentials ($w(d_r(x)) = w(x)$).
-2. Vanishing line theorem: For any fixed motivic stem $(t-s)$, there exists an
-   Adams filtration bound $s > M(t-s, w)$ above which $E_\infty^{s,t,w} = 0$.
-3. Exact filtration convergence: The sequence of submodules $F^{s,w} \subseteq \pi_{*,*}(\mathbb{S}_{mot})$
-   is Hausdorff and complete ($\bigcap_s F^{s,w} = 0$).
+1. Differential target coordinate offsets: $d_r: (s, t, w) \mapsto (s+r, t+r-1, w)$.
+   Weight $w$ remains invariant under coordinate mapping ($w(d_r(x)) = w(x)$).
+2. Filtration offset properties: The Adams filtration strictly increases by $r \ge 1$.
+3. Stem decrement arithmetic: The stem $(t-s)$ decreases by 1 under the differential target offset.
+4. Linear vanishing line index monotonicity: Strict positivity of filtration bounds.
+5. Finite filtration arithmetic boundedness.
 
-All theorems are strictly proven with 0 axioms and 0 sorry.
+All lemmas are proven with 0 `sorry` under standard foundational axioms.
 -/
 
 namespace IMF.MotivicHomotopy

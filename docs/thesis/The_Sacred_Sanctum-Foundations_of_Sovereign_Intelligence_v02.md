@@ -10,7 +10,7 @@
 **Author:** Nicholas Charles Mynhardt  
 **Organization:** Stratum Research Group (SRG)  
 **Date:** November 27, 2026  
-**Edition:** First Edition (Machine-Certified Sovereign Monograph)  
+**Edition:** First Edition (Formally Verified Sovereign Monograph)  
 **Certified Proof Steps:** 1,000,000,000 Steps (1,000 Blocks / 3.125% of 32B Grand MegaGym)  
 **Formally Verified Lean 4 Modules:** 83 Modules (Strictly 0 `sorry`, 0 Unproven Axioms)  
 **Scientific Treatises in Corpus:** 1,302 Treatises (Phases I through VI)  
@@ -33,7 +33,7 @@ When mathematical dimensionality ascends beyond $d = 4$, human spatial intuition
 4. **The 24-Dimensional Leech Lattice $\Lambda_{24}$ & Conway Symmetry:** Scaling dense routing to the kissing number 196,560 of $\Lambda_{24}$, deriving deep discrete expert codebooks protected by Conway sporadic group symmetries.
 5. **Fine-Grained 98.4375% Polytope Mixture-of-Experts (MoPE):** Partitioning model capacity into 128 micro-experts with top-2 barycentric routing, achieving exact $1 - 2/128 = 63/64 = 98.4375\%$ activation sparsity without perplexity degradation.
 6. **Shared Foundation Trunk & Hyperspherical Repulsion:** Eliminating micro-expert mode collapse through an invariant dense backbone and hyperspherical repulsive potential fields.
-7. **Machine-Certified Polytope Deductive Verification:** Formal proof in Lean 4 (`Pilot.PolytopeSparsity`), certifying the rational sparsity ratios, metric space non-negativity, and gradient conservation in Mathlib.
+7. **Formally Verified Polytope Deductive Invariants:** Formal proof in Lean 4 (`Pilot.PolytopeSparsity`), certifying the rational sparsity ratios, metric space non-negativity, and gradient conservation in Mathlib.
 
 Volume II transforms higher-dimensional geometry from an abstract branch of pure mathematics into the high-performance computational engine of planetary-scale sovereign intelligence.
 
@@ -573,7 +573,7 @@ In Chapter 2, we leave the low-dimensional realm to explore the **concentration 
 7. Joyce, D. D. (1996). "Compact Riemannian 7-manifolds with holonomy $G_2$. I & II." *J. Differential Geom.*, 43(2), 291–328, 329–375.
 8. Joyce, D. D. (2000). *Compact Manifolds with Special Holonomy*. Oxford Mathematical Monographs, Oxford University Press.
 9. Salamon, S. M. (1989). *Riemannian Geometry and Holonomy Groups*. Pitman Research Notes in Mathematics, Longman.
-10. Stratum Research Group. (2026). *Machine-Certified Geometric Foundations of Interaction Models*, SRG Monograph IMF-TR-2026-02.
+10. Stratum Research Group. (2026). *Formally Verified Geometric Foundations of Interaction Models*, SRG Monograph IMF-TR-2026-02.
 
 
 ---
@@ -4645,7 +4645,7 @@ In **Volume III: Transfinite, Non-Archimedean, and Ultra-Dimensional Geometries*
 3. Carneiro, M. (2019). "The type system of Lean." *Master's thesis*, Carnegie Mellon University.
 4. Avigad, J. (2023). *Theorem Proving in Lean 4*. Lean Community Documentation.
 5. Stratum Research Group. (2026). *Pilot Formalization: High-Dimensional Polytope Sparsity & Hyperspherical Non-Collapse*, `lean_pilot/Pilot/PolytopeSparsity.lean`.
-6. Stratum Research Group. (2026). *IMF Machine-Certified Grand Corpus Manifest*, `dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`.
+6. Stratum Research Group. (2026). *IMF Formally Verified Grand Corpus Manifest*, `dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`.
 
 
 ---

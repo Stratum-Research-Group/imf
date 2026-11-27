@@ -24,7 +24,7 @@ over real matrices `Matrix n n ℝ`:
 8. Constant Spatial Memory Footprint: Spatial memory representation size $d^2$ is strictly invariant
    under sequence advancement $T \ge 0$.
 
-All theorems are formally verified in Lean 4 with 0 `sorry` and 0 unproven axioms.
+All theorems are formally verified in Lean 4 with 0 `sorry` under standard foundational axioms.
 -/
 
 namespace Pilot.LieRollingCacheStability

@@ -51,28 +51,33 @@ def test_t2_frobenius_cosine_mathematical_consistency():
     assert cos_sim < 0.95, f"Inconsistent metrics: frob_err={frob_err} cannot yield cos_sim={cos_sim}"
 
 
-def _get_or_create_parquet_lake():
-    import glob, os, duckdb, pyarrow as pa, pyarrow.parquet as pq
-    blocks = glob.glob("dist/parquet_lake/block_*.parquet")
+@pytest.fixture
+def parquet_lake_fixture(tmp_path):
+    """Provides a clean temporary Parquet lake fixture with valid schema and unique stmt_hash."""
+    import pyarrow as pa, pyarrow.parquet as pq
+    blocks = list(Path("dist/parquet_lake").glob("block_*.parquet"))
     if blocks:
         return "dist/parquet_lake/block_*.parquet"
-    os.makedirs("dist/parquet_lake", exist_ok=True)
-    sample_path = "dist/parquet_lake/block_00001.parquet"
-    if not os.path.exists(sample_path):
-        data = {
-            "stmt_hash": ["hash_1", "hash_2", "hash_3"],
-            "axioms_count": [0, 0, 0],
-            "theorem_name": ["thm_1", "thm_2", "thm_3"]
-        }
-        table = pa.Table.from_pydict(data)
-        pq.write_table(table, sample_path)
-    return "dist/parquet_lake/block_*.parquet"
+    
+    lake_dir = tmp_path / "parquet_lake"
+    lake_dir.mkdir(parents=True, exist_ok=True)
+    sample_path = lake_dir / "block_00001.parquet"
+    data = {
+        "stmt_hash": ["hash_1", "hash_2", "hash_3"],
+        "axioms_count": [0, 0, 0],
+        "theorem_name": ["thm_1", "thm_2", "thm_3"],
+        "statement": ["def thm1 : 1 + 1 = 2 := by rfl", "def thm2 : 2 + 2 = 4 := by rfl", "def thm3 : 3 + 3 = 6 := by rfl"],
+        "code": ["rfl", "rfl", "rfl"]
+    }
+    table = pa.Table.from_pydict(data)
+    pq.write_table(table, sample_path)
+    return str(lake_dir / "block_*.parquet")
 
 
-def test_t3_axiom_list_parsed_and_zero_external():
+def test_t3_axiom_list_parsed_and_zero_external(parquet_lake_fixture):
     """T3: Verifies axioms list in parquet lake contains only standard propext/Quot.sound."""
     import duckdb
-    parquet_glob = _get_or_create_parquet_lake()
+    parquet_glob = parquet_lake_fixture
     con = duckdb.connect()
     
     # Ensure all records have zero external non-standard axioms
@@ -81,10 +86,10 @@ def test_t3_axiom_list_parsed_and_zero_external():
     assert non_std == 0, f"Found {non_std} non-standard axiom violations in active Parquet lake!"
 
 
-def test_t4_distinct_theorem_deduplication():
+def test_t4_distinct_theorem_deduplication(parquet_lake_fixture):
     """T4: Asserts 100% unique statement hashes in active Parquet lake partitions."""
     import duckdb
-    parquet_glob = _get_or_create_parquet_lake()
+    parquet_glob = parquet_lake_fixture
     con = duckdb.connect()
     
     res = con.execute(f"""

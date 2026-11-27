@@ -75,16 +75,34 @@ def test_rsi_priority_replay_sampling_distribution():
     assert (weights > 0).all()
 
 
-def test_mmap_parquet_streamer_iteration():
+def test_mmap_parquet_streamer_iteration(tmp_path):
     """Validates streaming iteration and tensor generation from partitioned Parquet files."""
+    import pyarrow as pa
+    import pyarrow.parquet as pq
     from imf.mmap_parquet_streamer import MmapParquetTheoremDataset
 
     lake_dir = Path("dist/parquet_lake")
-    files = sorted(lake_dir.glob("*.parquet"))
-    if not files:
-        pytest.skip("No parquet lake files available")
+    valid_files = []
+    if lake_dir.exists():
+        for p in sorted(lake_dir.glob("*.parquet")):
+            try:
+                schema = pq.read_schema(p)
+                if "statement" in schema.names:
+                    valid_files.append(p)
+            except Exception:
+                pass
 
-    ds = MmapParquetTheoremDataset(parquet_paths=files[:1], batch_size=16, max_seq_len=64)
+    if not valid_files:
+        # Generate temporary sample parquet file with valid schema
+        sample_path = tmp_path / "sample_theorems.parquet"
+        data = {
+            "statement": [f"theorem sample_{i} : True := by trivial" for i in range(32)],
+            "code": ["trivial" for _ in range(32)]
+        }
+        pq.write_table(pa.Table.from_pydict(data), sample_path)
+        valid_files = [sample_path]
+
+    ds = MmapParquetTheoremDataset(parquet_paths=valid_files[:1], batch_size=16, max_seq_len=64)
     batches = []
     for i, b in enumerate(ds):
         batches.append(b)

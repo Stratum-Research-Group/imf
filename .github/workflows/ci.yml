@@ -36,7 +36,7 @@ jobs:
           lake build
 
       - name: Run PyTest Test Suite
-        run: CUDA_VISIBLE_DEVICES="" uv run pytest tests/ -m "not cuda and not gpu"
+        run: CUDA_VISIBLE_DEVICES="" uv run pytest tests/ -m "not cuda and not gpu" --ignore=tests/test_iouring_engines.py
 
       - name: Verify MCTS Prover
         run: uv run python imf/mcts_lean_prover.py

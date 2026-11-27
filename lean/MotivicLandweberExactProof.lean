@@ -1,8 +1,9 @@
 /-
   lean/MotivicLandweberExactProof.lean
-  Formal verification of the Motivic Landweber Exact Functor Theorem (MEFT).
+  Formal verification of regular sequence arithmetic and height bounds
+  associated with the Motivic Landweber Exact Functor framework.
   Stratum Research Group — Nicholas Charles Mynhardt
-  Requirements: 0 sorry, 0 unproven axioms.
+  Requirements: 0 sorry under standard foundational axioms.
 -/
 
 structure FormalGroupLaw where
