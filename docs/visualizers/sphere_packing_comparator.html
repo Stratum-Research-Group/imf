@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sphere Packing Lattice Density Comparator (Kepler vs E8 vs Leech)</title>
+  <style>
+    body { margin: 0; background-color: #030712; color: #f3f4f6; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; overflow: hidden; }
+    #canvas-container { width: 100vw; height: 100vh; position: absolute; }
+    #overlay {
+      position: absolute; top: 20px; left: 20px; z-index: 10;
+      background: rgba(17, 24, 39, 0.85); backdrop-filter: blur(8px);
+      border: 1px solid #1f2937; border-radius: 8px; padding: 18px 22px; max-width: 440px;
+    }
+    h1 { font-size: 1.2rem; color: #38bdf8; margin: 0 0 6px 0; }
+    p { font-size: 0.82rem; color: #9ca3af; line-height: 1.4; margin: 0 0 10px 0; }
+    .stat-table { width: 100%; border-collapse: collapse; font-family: monospace; font-size: 0.8rem; margin-top: 8px; }
+    .stat-table th, .stat-table td { border: 1px solid #374151; padding: 6px 8px; }
+    .stat-table th { background: #111827; color: #fbbf24; }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+</head>
+<body>
+  <div id="overlay">
+    <h1>Sphere Packing Density Comparator</h1>
+    <p>Comparing optimal lattice sphere packings across dimensions: Kepler (3D), Viazovska (8D E<sub>8</sub>), and Cohn-Kumar-Miller-Radchenko-Viazovska (24D Leech &Lambda;<sub>24</sub>).</p>
+    <table class="stat-table">
+      <tr><th>Dimension</th><th>Lattice</th><th>Kissing No. &tau;</th><th>Density &Delta;</th></tr>
+      <tr><td>3D</td><td>FCC (A<sub>3</sub>)</td><td>12</td><td>&pi; / &radic;18 &approx; 0.7405</td></tr>
+      <tr><td>8D</td><td>Gosset E<sub>8</sub></td><td>240</td><td>&pi;<sup>4</sup> / 384 &approx; 0.2537</td></tr>
+      <tr><td>24D</td><td>Leech &Lambda;<sub>24</sub></td><td>196,560</td><td>&pi;<sup>12</sup> / 12! &approx; 0.00193</td></tr>
+    </table>
+  </div>
+  <div id="canvas-container"></div>
+
+  <script>
+    const scene = new THREE.Scene();
+    scene.fog = new THREE.FogExp2(0x030712, 0.02);
+
+    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(0, 0, 35);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+    const controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+
+    // Center Sphere (Kepler 3D FCC 12 neighbors)
+    const centerGeom = new THREE.SphereGeometry(2.0, 32, 32);
+    const centerMat = new THREE.MeshBasicMaterial({ color: 0xfbbf24, wireframe: true });
+    const centerSphere = new THREE.Mesh(centerGeom, centerMat);
+    scene.add(centerSphere);
+
+    // 12 Touching Spheres in FCC (tau_3 = 12)
+    const neighborGeom = new THREE.SphereGeometry(2.0, 24, 24);
+    const fccOffsets = [
+      [1, 1, 0], [-1, 1, 0], [1, -1, 0], [-1, -1, 0],
+      [1, 0, 1], [-1, 0, 1], [1, 0, -1], [-1, 0, -1],
+      [0, 1, 1], [0, -1, 1], [0, 1, -1], [0, -1, -1]
+    ];
+
+    const groupFCC = new THREE.Group();
+    fccOffsets.forEach(pos => {
+      const mat = new THREE.MeshBasicMaterial({ color: 0x38bdf8, wireframe: true, transparent: true, opacity: 0.65 });
+      const sphere = new THREE.Mesh(neighborGeom, mat);
+      // Normalized distance 4.0 (2 * radius)
+      sphere.position.set(pos[0] * 2.828, pos[1] * 2.828, pos[2] * 2.828);
+      groupFCC.add(sphere);
+    });
+    scene.add(groupFCC);
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    function animate() {
+      requestAnimationFrame(animate);
+      groupFCC.rotation.y += 0.003;
+      groupFCC.rotation.x += 0.002;
+      controls.update();
+      renderer.render(scene, camera);
+    }
+    animate();
+  </script>
+</body>
+</html>

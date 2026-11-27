@@ -1,0 +1,15 @@
+{
+  "file_size_mb": 32.0,
+  "chunk_size_kb": 64.0,
+  "posix": {
+    "latency_ms": 4.7473907470703125,
+    "throughput_mb_s": 6740.544797107272,
+    "iops": 107848.71675371635
+  },
+  "iouring": {
+    "latency_ms": 6.848573684692383,
+    "throughput_mb_s": 4672.505761531766,
+    "iops": 74760.09218450826
+  },
+  "speedup_factor": 0.6931940818102698
+}

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Voevodsky Motivic Homotopy Schemes Visualizer</title>
+  <style>
+    body { margin: 0; background: #030712; color: #f3f4f6; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; overflow: hidden; }
+    #canvas-container { width: 100vw; height: 100vh; position: absolute; }
+    #overlay {
+      position: absolute; top: 20px; left: 20px; z-index: 10;
+      background: rgba(17, 24, 39, 0.85); backdrop-filter: blur(8px);
+      border: 1px solid #1f2937; border-radius: 8px; padding: 18px 22px; max-width: 420px;
+    }
+    h1 { font-size: 1.2rem; color: #38bdf8; margin: 0 0 6px 0; }
+    p { font-size: 0.82rem; color: #9ca3af; line-height: 1.4; margin: 0 0 10px 0; }
+    .badge { display: inline-block; padding: 2px 6px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; background: #312e81; color: #a5b4fc; }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+</head>
+<body>
+  <div id="overlay">
+    <h1>Motivic Homotopy Schemes &amp; A<sup>1</sup> Invariance</h1>
+    <p>Visualizing algebraic varieties over fields: the contractible affine line <em>A<sup>1</sup></em>, the nodal cubic curve <em>y<sup>2</sup> = x<sup>3</sup> + x<sup>2</sup></em>, and Voevodsky motivic spheres.</p>
+    <span class="badge">A<sup>1</sup>-Weak Equivalence</span>
+    <span class="badge" style="background:#064e3b; color:#34d399;">SH(k) Category</span>
+  </div>
+  <div id="canvas-container"></div>
+
+  <script>
+    const scene = new THREE.Scene();
+    scene.fog = new THREE.FogExp2(0x030712, 0.02);
+
+    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(0, 15, 30);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+    const controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+
+    // Grid helper
+    const grid = new THREE.GridHelper(40, 40, 0x1f2937, 0x111827);
+    scene.add(grid);
+
+    // Algebraic curve: Nodal cubic y^2 = x^3 + x^2 plotted parametrically (t^2 - 1, t(t^2 - 1))
+    const curvePoints = [];
+    for (let t = -1.8; t <= 1.8; t += 0.02) {
+      let x = (t * t - 1.0) * 4.0;
+      let y = t * (t * t - 1.0) * 4.0;
+      let z = Math.sin(t * 3.0) * 2.0;
+      curvePoints.push(new THREE.Vector3(x, y, z));
+    }
+    const curveGeom = new THREE.BufferGeometry().setFromPoints(curvePoints);
+    const curveMat = new THREE.LineBasicMaterial({ color: 0x38bdf8, linewidth: 3 });
+    const curveLine = new THREE.Line(curveGeom, curveMat);
+    scene.add(curveLine);
+
+    // Motivic sphere surface S^(p, q)
+    const sphereGeom = new THREE.SphereGeometry(6, 32, 32);
+    const sphereMat = new THREE.MeshBasicMaterial({ color: 0xfbbf24, wireframe: true, transparent: true, opacity: 0.35 });
+    const sphereMesh = new THREE.Mesh(sphereGeom, sphereMat);
+    sphereMesh.position.set(8, 6, -5);
+    scene.add(sphereMesh);
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    function animate() {
+      requestAnimationFrame(animate);
+      curveLine.rotation.y += 0.003;
+      sphereMesh.rotation.y += 0.005;
+      controls.update();
+      renderer.render(scene, camera);
+    }
+    animate();
+  </script>
+</body>
+</html>
