@@ -1,26 +1,23 @@
 {
-  "precision_drift_1000_steps": {
-    "float32": {
-      "norm_initial": 22.55296724862886,
-      "norm_final": 22.553031370518212,
-      "relative_drift": 2.8431686458422627e-06
-    },
-    "float16": {
-      "norm_initial": 22.855089617102692,
-      "norm_final": 22.960951507327618,
-      "relative_drift": 0.004631873775095953
-    },
-    "bfloat16": {
-      "norm_initial": 22.933351719143918,
-      "norm_final": 21.98552928111577,
-      "relative_drift": 0.041329433640392835
-    }
+  "precision_drift_multiseed": {
+    "num_seeds": 20,
+    "steps": 1000,
+    "fp32_median": 1.4925859400152849e-06,
+    "fp32_min": 3.62810917078161e-07,
+    "fp32_max": 4.0956192349781396e-06,
+    "fp16_median": 0.009764448995235592,
+    "fp16_min": 0.00043353758966474667,
+    "fp16_max": 0.041194019095258064,
+    "bf16_median": 0.16171556052268354,
+    "bf16_min": 0.0023129633548555823,
+    "bf16_max": 0.4574493216864929
   },
-  "param_matched_mqar": {
+  "synthetic_recall_check": {
     "num_trials": 100,
     "num_pairs": 8,
     "transformer_dense_accuracy": 1.0,
     "mamba2_linear_accuracy": 1.0,
-    "imf_lie_accuracy": 0.26
+    "imf_lie_accuracy": 0.28,
+    "note": "Synthetic exact unit-vector lookups without distractors; not trained checkpoints."
   }
 }

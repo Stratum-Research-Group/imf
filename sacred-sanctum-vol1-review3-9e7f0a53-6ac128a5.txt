@@ -1,0 +1,67 @@
+SACRED SANCTUM VOL 1 - REVIEW 3
+Repo: Stratum-Research-Group/imf, remote HEAD 9e7f0a53 (git ls-remote + fresh clone, 18:41 SAST; was af6d4b9c)
+Compared against: re-review 2 at af6d4b9c
+File: docs/thesis/The_Sacred_Sanctum-Foundations_of_Sovereign_Intelligence_v01.md (5273 lines; compiled/ copy also changed)
+Read-only, nothing sent to anyone. Not run: CUDA kernel, Lean, repo pytest (no torch/pytest in my sandbox). I did run my own numpy drift simulation and read the workflow files.
+
+PLAIN VERDICT
+Real progress: the book now matches the repo on 5 of the 6 items from re-review 2. Two things are still wrong that matter: (1) the Lean "zero sorry" claim has no working check behind it, and I found why CI fails; (2) the new U4 drift numbers have no script that produces them and I could not reproduce them.
+
+FIXED SINCE af6d4b9c (verified in the text)
+ 1. 0.28 us / 280 ns is gone. grep for 0.28 and 280 ns returns nothing. All places now say >= 0.82 us (2,048 cycles @ 2.54 GHz); line 5139 cites the file for the number it holds.
+ 2. U1 capacity (line ~5168) now uses the committed lie_capacity.json: raw 77.5/56.3/26.5%, position-aware 100/100/99.9/99.8/93.1% at N=2/4/8/16/32. Matches the JSON.
+ 3. "32x" is gone. Contents line 53 and line 5102 say 8.0x (16,384 vs 131,072 FLOPs). Correct.
+ 4. Corrupted LaTeX is fixed. grep -nP '\t|\x08|\x0c' on the book returns nothing.
+ 5. Chapter 8 section 7 and the Chapter 5 intro text now say registers plus a 32x32 shared-memory staging tile (lines 4300, 30, 32 agree).
+ 6. U9 now admits the baselines are synthetic lookups, not trained checkpoints.
+
+STILL OPEN
+
+A. Lean "zero sorry" is unconfirmed, and CI fails for a simple reason (HIGH)
+ - At HEAD 9e7f0a53 the runs are: Verify Monograph Proofs and Benchmarks = failure, IMF Continuous Integration = failure, IMF Quality & Verification CI = still running when I checked.
+   Source: https://api.github.com/repos/Stratum-Research-Group/imf/actions/runs?head_sha=9e7f0a537e198659b87f0bb959c16f37d80470bb
+ - Job "Lean 4 Kernel Axiom and Proof Check" fails at its first step "Install Elan & Lean 4", exit code 2 (annotation at .github line 8). It never reaches any proof.
+ - Cause (from the workflow file): .github/workflows/verify_monograph.yml line 19 reads
+     curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh -y --default-toolchain leanprover/lean4:v4.16.0
+   "sh -y" is not valid; the script needs "sh -s -- -y --default-toolchain ...". Compare ci.yml line 27, which has "sh -s -- -y". Fix the pipe and this step should pass.
+ - Even after that, the next step (scripts/verify_lean4_axioms.py) does NOT run Lean. It regex-counts the word "sorry" in each .lean file (content_text.count("sorry")), hard-codes the axiom list ["propext","Quot.sound","Classical.choice"], hard-codes "VERIFIED"/"PASS", and prints "Kernel Elaboration Status: PASS". That report is generated text, not a kernel check. A green run from it would not prove zero sorry. The real gate is "lake build" plus "#print axioms <thm>" per theorem.
+ - Job "PyTest & Lean 4 Core Verification" (ci.yml) fails at "Run PyTest Test Suite", exit code 2 (annotation line 75). Exit 2 from pytest means collection error or interruption. I could not see the log (needs login). Run "uv run pytest tests/ -x" locally and send me the first error. Note tests/test_cuda_lean_invariants.py was renamed to test_algebraic_invariants.py in this push; check nothing still imports the old name. There is no tests/__init__.py and I found no duplicate test basenames.
+ - The book claims "zero sorry / no sorry / standard CIC axioms only" at lines 14, 34, 3265, 4149, 4315, 4794, 4851, 4886 and the old U10/ch7 text. Keep them out of the book until lake build + #print axioms is green in CI.
+
+B. U4 drift numbers have no producing script and I could not reproduce them (HIGH)
+ Book U4 says "Executed in scripts/bench_precision_drift_and_baselines.py across 20 distinct pseudo-random seeds (consolidated in benchmark_results/precision_drift_multiseed.json)". But:
+   - That script is a single unseeded draw, loops over 3 dtypes once, and writes benchmark_results/precision_and_mqar.json, not the multiseed file. It has no seed loop.
+   - precision_drift_multiseed.json is referenced by nothing in the repo except the book. It was added in commit 28ce5e43 with no generator committed.
+   - JSON claims bf16 median 5.25% (range 1.42 to 17.0%), fp16 median 0.60%.
+   - My independent run: same recurrence (random skew A, Cayley U, M <- U M U^T, 1000 steps, d=32), inputs and each matmul rounded to the dtype, 20 seeds (numpy + ml_dtypes). bf16 median 16.9%, range 1.6 to 43.3%. fp16 median 1.3%, range 0.18 to 4.7%. That is close to my earlier 17% median and far from 5.25%. I did not run torch itself, so rounding in torch's bf16 matmul could differ a little, but not by 3x.
+   Fix: commit the seeded 20-seed script that writes the JSON, run it, and put whatever it gives into U4. Until then state the range as "single runs 1% to 40%+".
+   Also U4 mixes in "5.44e-5 in silicon" with no file behind it.
+
+C. The ncu file is still not real Nsight output (MEDIUM)
+ benchmark_results/lie_kv_ncu_profile.txt now says 818.50 ns, which is consistent with 2,048 instructions. But it still contains a prose "Conclusion:" block, ends with a stray triple-quote (looks pasted from a Python string), and has "Driver API Launch Latency" which ncu does not report. ncu "Elapsed Time" is a measured duration, not a lower bound. The text in the book (line ~4113) calls it a profiled lower bound. Say instead: "analytic lower bound from the instruction count (2,048 issue cycles at 2.54 GHz)" and drop the claim that ncu measured it, unless you attach the real .ncu-rep export. The file also says 32 KB shared memory for a 4 KB tile, which is another mismatch.
+
+D. Chapter 8 results still weaker than they read (MEDIUM, unchanged)
+ - U9 SAVG "100.0% forward and 100.0% reverse": M_fwd = 0.5(M_S+M_A) and M_rev = 0.5(M_S-M_A) are just v k^T and k v^T held separately, so 100% is an identity, not a result. The new sentence "confirming linear associative memories can be decomposed" is fine; the word "evaluates to 100%" still reads as a performance claim. Label it a sanity check.
+ - U1 position-aware readout: the text now names it, but still does not say it uses the TRUE index of the queried key (bench_lie_capacity.py builds U^(N-1-i) from i). Add: "upper bound; assumes the write position of each key is known; not content-addressed recall". Also say the curve falls to 61% at N=64 and 25% at N=128 (496 dof ceiling), which is currently omitted from the text.
+ - U1 phrase "unitary rotation preserves orthogonal sub-bands without information loss" is stronger than the data (93% at N=32, 25% at N=128).
+
+E. Leftover in-register prose (LOW-MEDIUM)
+ Lines 3358-3359 and 3404 still say "pinned permanently in 32 thread registers... Single-cycle execution. Zero DRAM traffic" and 3414 says the whole matrix executes "in" registers, while 4300/U8 say U is read from global/constant memory per head and a shared tile is used. 5219 and the prologue still say "pinning across 32 warp registers". Reword "zero DRAM traffic" to "no KV-cache growth; state resides on-chip within a chunk".
+
+F. Appendix S (carried over) 
+ Links point at generated stream consolidations; they add no evidence for Vol 1 claims. The "1.30B steps" milestones from the commit messages are unverified here.
+
+WHAT IS NOW FINE
+ - 0.82 us text, 8x, U1 raw/position-aware numbers, LaTeX clean, kernel description in ch5/8 consistent.
+ - Bounded-1M-steps fix, rank-2 Cayley, d<=4 to d=32 bridge (from earlier rounds).
+ - lie_capacity.json is seeded and reproduces (checked last round; script unchanged this round).
+
+FIX LIST (for your coding AI, in order)
+ 1. .github/workflows/verify_monograph.yml line 19: change "| sh -y --default-toolchain leanprover/lean4:v4.16.0" to "| sh -s -- -y --default-toolchain leanprover/lean4:v4.16.0".
+ 2. Replace the body of scripts/verify_lean4_axioms.py's pass/fail with a real check: run "lake build" and "#print axioms" on every theorem and fail on sorryAx. Do not hard-code PASS or the axiom list. Until then, remove "zero sorry" and "kernel verified" wording from the book (lines listed in A).
+ 3. Run "uv run pytest tests/ -x" locally; send the first collection error (or fix it) for the PyTest job.
+ 4. Commit the script that makes benchmark_results/precision_drift_multiseed.json (20 seeds, seeded), re-run it, and update U4 from the output. Do not edit the JSON by hand.
+ 5. ncu file/book: describe 0.82 us as an analytic bound; remove the pasted triple-quote and the non-ncu lines, or attach a real ncu export.
+ 6. U1/U9: add "position-aware = upper bound with known key index" and the N=64/128 numbers; call SAVG 100% an identity check.
+ 7. Reword the remaining "zero DRAM traffic / pinned in registers" lines (3358, 3359, 3404, 3414, 5219, prologue item 4).
+ Do not touch: the damping fix, rank-2 Cayley, Chapters 1-4, the U1 raw/position-aware numbers, the 8x text.
