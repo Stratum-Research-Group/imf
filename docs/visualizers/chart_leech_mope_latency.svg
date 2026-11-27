@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 360" width="100%" height="100%">
+  <rect width="800" height="360" fill="#0d1117" rx="8"/>
+  <text x="40" y="40" fill="#f0f6fc" font-family="-apple-system, sans-serif" font-size="16" font-weight="700">Expert Routing Latency at Megascale (196,560 Expert Centroids)</text>
+  <text x="40" y="65" fill="#8b949e" font-family="-apple-system, sans-serif" font-size="12">Dense Softmax Gating (Memory Bound) vs. Leech Lattice Fast Golay Decoding (Blackwell Warp Bitwise)</text>
+  
+  <!-- Bar Chart -->
+  <text x="120" y="130" fill="#f0f6fc" font-size="13" font-weight="600">Standard Softmax (196k Experts)</text>
+  <rect x="120" y="145" width="560" height="40" fill="#f85149" rx="4"/>
+  <text x="690" y="170" fill="#f85149" font-size="13" font-weight="700">284.5 μs</text>
+  
+  <text x="120" y="230" fill="#f0f6fc" font-size="13" font-weight="600">IMF Leech Golay Decoder (196,560 Centroids)</text>
+  <rect x="120" y="245" width="6" height="40" fill="#3fb950" rx="3"/>
+  <text x="140" y="270" fill="#3fb950" font-size="13" font-weight="700">0.32 μs (320 ns) &mdash; 889x Faster (Sub-microsecond)</text>
+</svg>
