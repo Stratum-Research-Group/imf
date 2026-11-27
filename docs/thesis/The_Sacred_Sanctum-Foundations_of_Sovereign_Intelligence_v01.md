@@ -30,7 +30,7 @@ For over half a century, the paradigm of artificial intelligence has remained sh
 2. **Infinite Horizon $O(1)$ State Retention:** The complete elimination of quadratic attention memory via the **Lie-Algebraic Rolling KV Cache**, which maintains a strictly bounded persistent $32 \times 32$ matrix state $M_t \in \mathfrak{so}(d)$ governed by unitary similarity transforms and skew-symmetric outer-product innovations.
 3. **Discrete Lyapunov Energy Stability:** Unconditional proof that under the Cayley transform with non-negative dissipation, the internal recursive state energy sequence is monotonically non-increasing ($\Delta E \le 0$), guaranteeing total immunity to exploding or chaotic gradients.
 4. **Silicon Co-Design on NVIDIA Blackwell SM 12.0:** Cooperative warp mapping of the $32 \times 32$ state matrix using warp shuffle butterfly intrinsics (`__shfl_sync`) and shared-memory tile staging (`__shared__ s_temp[32][32]`), eliminating KV-cache growth during chunk-level decoding.
-5. **Kernel-Bypass Linux Direct-DMA I/O:** Eliminating POSIX VFS page-fault serialization via an `io_uring` direct submission pipeline, streaming parameters directly across the PCIe bus into pinned host RAM without CPU kernel intervention.
+5. **Shared-Ring Linux Direct-DMA I/O:** Eliminating POSIX VFS page-fault serialization via an `io_uring` direct submission pipeline, streaming parameters directly across the PCIe bus into pinned host RAM without POSIX page cache copying or kernel context switches.
 6. **Formal Algebraic Invariants:** Deductive algebraic specifications formalized in Lean 4 (`Pilot.LieRollingCacheStability`), certifying trace cancellation and rotational isometry across matrix operators.
 
 This volume establishes the low-dimensional mechanics upon which the higher-dimensional and transfinite sequence modeling architectures are constructed.
@@ -48,7 +48,7 @@ This volume establishes the low-dimensional mechanics upon which the higher-dime
 | **3** | [Chapter 3: Classical Lie Groups, Quaternions, and Rotors](#chapter-3-classical-lie-groups-quaternions-and-rotors) | Closed forms in SO(2), SO(3), SO(4), Clifford rotors Cl(3,0), Sp(1) unit quaternions, and SLERP geodesic interpolation. |
 | **4** | [Chapter 4: The Cayley Transform and Discrete Lyapunov Stability](#chapter-4-the-cayley-transform-and-discrete-lyapunov-stability) | Rational conformal Cayley transform, exact rank-2 Sherman-Morrison solver, and contractive discrete Lyapunov stability bounds. |
 | **5** | [Chapter 5: Warp-Level Blackwell SM 12.0 Lie Rolling KV Cache](#chapter-5-warp-level-blackwell-sm-120-lie-rolling-kv-cache) | Physical silicon kernel in csrc/, 32x32 state warp shuffle staging, dissipation parameter lambda, and 51.5 us decode benchmarks. |
-| **6** | [Chapter 6: Linux Kernel-Bypass `io_uring` Direct DMA](#chapter-6-linux-kernel-bypass-iouring-direct-dma) | Ring buffer SQPOLL architecture, host-pinned O_DIRECT fixed buffers, and 2.33 GB/s physical NVMe throughput telemetry. |
+| **6** | [Chapter 6: Linux Kernel-Bypass `io_uring` Direct DMA](#chapter-6-linux-shared-ring-iouring-direct-dma) | Ring buffer SQPOLL architecture, host-pinned O_DIRECT fixed buffers, and 2.33 GB/s physical NVMe throughput telemetry. |
 | **7** | [Chapter 7: Formal Deductive Verification in Lean 4: Module 83](#chapter-7-formal-deductive-verification-in-lean-4-module-83) | Machine-certified Lean 4 Mathlib module verifying isometry, commutator nil-trace, and antisymmetry over real matrices. |
 | **8** | [Chapter 8: The Dimensional Ledger: Closing $d \le 4$ and Bridging to $d = 32$](#chapter-8-the-dimensional-ledger-closing-d--4-and-bridging-to-d--32) | Block-diagonal SO(4)^8 in SO(32), 8.0x arithmetic reduction, empirical capacity, low-precision drift, and open questions. |
 
@@ -66,7 +66,7 @@ This volume establishes the low-dimensional mechanics upon which the higher-dime
 ---
 
 ### Abstract
-This chapter develops the foundational mathematical apparatus of **Discrete Differential Geometry (DDG)** and **Discrete Exterior Calculus (DEC)** as the geometric substrate of the Interaction Model Foundations (IMF) architecture. Moving decisively beyond flat Euclidean vector spaces, we establish an immutable discrete calculus on oriented simplicial complexes. We prove the exact machine nilpotency of boundary and exterior derivative operators ($\partial^2 = 0$ and $\mathbf{d}^2 = 0$), derive circumcentric dual meshes and the diagonal Hodge star operator, establish the discrete Stokes' theorem as an exact algebraic identity, and construct the discrete Hodge-Helmholtz orthogonal decomposition. Concrete implementations in C++20 with cache-aligned CSR representations, NVIDIA Blackwell SM 12.0 warp-level intrinsics, Linux 6.18 shared-ring `io_uring` direct-DMA streaming, and formal machine-certified proofs in Lean 4 Mathlib confirm that the IMF geometric substrate eliminates gauge drift and boundary deformation in deep sequence modeling.
+This chapter develops the foundational mathematical apparatus of **Discrete Differential Geometry (DDG)** and **Discrete Exterior Calculus (DEC)** as the geometric substrate of the Interaction Model Foundations (IMF) architecture. Moving decisively beyond flat Euclidean vector spaces, we establish an immutable discrete calculus on oriented simplicial complexes. We prove the exact machine nilpotency of boundary and exterior derivative operators ($\partial^2 = 0$ and $\mathbf{d}^2 = 0$), derive circumcentric dual meshes and the diagonal Hodge star operator, establish the discrete Stokes' theorem as an exact algebraic identity, and construct the discrete Hodge-Helmholtz orthogonal decomposition. Concrete implementations in C++20 with cache-aligned CSR representations, NVIDIA Blackwell SM 12.0 warp-level intrinsics, Linux shared-ring (kernel 6.18+ / 7.2.15-omarchy) `io_uring` direct-DMA streaming, and formal machine-certified proofs in Lean 4 Mathlib confirm that the IMF geometric substrate eliminates gauge drift and boundary deformation in deep sequence modeling.
 
 ---
 
@@ -1336,7 +1336,7 @@ __device__ __forceinline__ float warp_reduce_cotangent_flux(
 
 ---
 
-### 9.3 Linux 6.18 Kernel-Bypass Direct-DMA via `io_uring`
+### 9.3 Linux Shared-Ring io_uring Direct-DMA Direct-DMA via `io_uring`
 
 In massive-scale distributed topological processing, passing million-simplex mesh updates through standard POSIX file system system calls (`read`, `write`, `pwrite`) introduces scheduler jitter, cache invalidation, and TLB shootdowns. IMF bypasses the operating system kernel using `io_uring` registered zero-copy fixed buffers (`IORING_REGISTER_BUFFERS`) mapped directly to PCIe NVMe drives or GPU unified memory.
 
@@ -1355,8 +1355,8 @@ In massive-scale distributed topological processing, passing million-simplex mes
 
 ```cpp
 // ============================================================================
-// IMF Kernel-Bypass Storage Engine: io_uring Direct DMA for DEC Manifolds
-// Standards: Linux 6.18, liburing-2.8, Direct I/O (O_DIRECT)
+// IMF Shared-Ring Storage Engine: io_uring Direct DMA for DEC Manifolds
+// Standards: Linux 6.18+ / 7.2.15-omarchy, liburing-2.8, Direct I/O (O_DIRECT)
 // ============================================================================
 
 #include <liburing.h>
@@ -1660,7 +1660,7 @@ We model directed token-to-token affinities as a **discrete 1-form** $A \in C^1(
 | Hodge Star Involution (4D)         | Certified Deductive Truth  | Lean 4 (`hodge_sign_four_two`)   |
 | Hodge Orthogonal Tri-Split         | Certified Deductive Truth  | Lean 4 (`exact_coexact_ortho`)   |
 | Cotangent Positive Semi-Definite   | Certified Matrix Theorem   | Spectral Proof (Theorem 1.6)     |
-| Kernel-Bypass Direct DMA           | Operational Subsystem      | Linux 6.18 `io_uring` Zero-Copy  |
+| Shared-Ring Direct DMA           | Operational Subsystem      | Linux 6.18 `io_uring` Zero-Copy  |
 | Hardware Warp Intrinsics           | SM 12.0 Blackwell Verified | CUDA 12.8 Warp Cooperative Asm   |
 +------------------------------------+----------------------------+----------------------------------+
 ```
@@ -3582,6 +3582,10 @@ The discrete state recurrence updates according to:
 
 $$\boxed{M_{t+1} = U_t M_t U_t^\top + W_t}$$
 
+
+> [!NOTE] Implementation Architecture: Shipped Kernel Transport Mechanics
+> In the physical CUDA baseline shipped in `csrc/fused_blackwell_lie_rolling_kv.cu`, the orthogonal operator $U$ is held static per head (loaded once from host or constant memory per attention head, and held across tokens with optional scalar dissipation $\lambda \in (0.95, 0.99)$), functioning as a fixed parallel transport frame. Fully dynamic, token-conditioned connections $U_t = \operatorname{Cayley}(W_q x_t)$ (Unknown U3) require per-step Cayley matrix inversions or closed-form $d \le 4$ block evaluations, which are introduced as architectural extensions in Chapter 8.
+
 where:
 
 $$W_t = \mathbf{v}_t \mathbf{k}_t^\top - \mathbf{k}_t \mathbf{v}_t^\top \in \mathfrak{so}(d_h)$$
@@ -4038,7 +4042,7 @@ The IMF Lie Rolling KV Cache kernel was subjected to physical silicon benchmarki
 - **GPU Silicon:** NVIDIA GeForce RTX 5060 Ti (Blackwell / SM 12.0 Compute Capability).
 - **VRAM Subsystem:** 16 GB GDDR7, 128-bit memory bus width delivering a peak memory bandwidth of $576.0\text{ GB/s}$.
 - **Host CPU:** AMD Ryzen 5 7600X (6 Cores / 12 Threads, 4.7 GHz base, 5.3 GHz boost).
-- **Operating System:** Linux Kernel 6.18.0-imf-custom with `CONFIG_PREEMPT_RT` and `io_uring` direct DMA enabled.
+- **Operating System:** Linux Kernel 7.2.15-1-omarchy with `CONFIG_PREEMPT_RT` and `io_uring` direct DMA enabled.
 - **Compiler Toolchain:** NVIDIA CUDA Toolkit 12.8, NVCC with flags `-O3 --use_fast_math -gencode arch=compute_120,code=sm_120`.
 - **Benchmarking Harness:** `scripts/bench_lie_kv.py` utilizing high-resolution CUDA hardware event timers (`torch.cuda.Event(enable_timing=True)`), averaging over $N = 5,000$ iterations with $200$ warmup cycles.
 
@@ -4246,16 +4250,16 @@ end Pilot.LieRollingCacheStability
 +----------------------------------------------------------------------------------------------------+
 | TABLE 5.4: Deductive Verification Ledger: Pilot.LieRollingCacheStability                           |
 +------------------------------------------+-----------------------+-------------------+-------------+
-| Formal Lemma Name                        | Mathematical Property | Lean 4 Tactic     | Axiom Count |
+| Formal Lemma Name                        | Mathematical Property | Lean 4 Tactic     | Axiom Status |
 +------------------------------------------+-----------------------+-------------------+-------------+
-| lie_bracket_trace_cancellation_real      | Tr([A, B]) = 0        | rw, sub_self      | 0 (Pure)    |
-| lie_algebra_so_antisymmetry_real         | Ω + Ω^T = 0           | rw, add_neg_cancel| 0 (Pure)    |
-| orthogonal_frobenius_norm_sq_preserved   | ||U M U^T||_F = ||M|| | simp, rw          | 0 (Pure)    |
-| rank1_skew_innovation_trace_zero         | Tr(v^T k - k^T v) = 0 | rw, sub_self      | 0 (Pure)    |
-| matrix_transposition_involution_real     | (M^T)^T = M           | exact             | 0 (Pure)    |
-| cayley_damping_dissipation_monotone_real | E - η <= E            | linarith          | 0 (Pure)    |
-| discrete_lyapunov_stability_real         | E_{t+1} <= E_t        | linarith          | 0 (Pure)    |
-| rolling_cache_constant_memory            | d^2 + 0*T = d^2       | ring              | 0 (Pure)    |
+| lie_bracket_trace_cancellation_real      | Tr([A, B]) = 0        | rw, sub_self      | Standard CIC |
+| lie_algebra_so_antisymmetry_real         | Ω + Ω^T = 0           | rw, add_neg_cancel| Standard CIC |
+| orthogonal_frobenius_norm_sq_preserved   | ||U M U^T||_F = ||M|| | simp, rw          | Standard CIC |
+| rank1_skew_innovation_trace_zero         | Tr(v^T k - k^T v) = 0 | rw, sub_self      | Standard CIC |
+| matrix_transposition_involution_real     | (M^T)^T = M           | exact             | Standard CIC |
+| cayley_damping_dissipation_monotone_real | E - η <= E            | linarith          | Standard CIC |
+| discrete_lyapunov_stability_real         | E_{t+1} <= E_t        | linarith          | Standard CIC |
+| rolling_cache_constant_memory            | d^2 + 0*T = d^2       | ring              | Standard CIC |
 +------------------------------------------+-----------------------+-------------------+-------------+
 ```
 
@@ -4317,7 +4321,7 @@ For systems architects implementing Lie rolling caches on Blackwell silicon:
 2. **Strict Register Budgeting:** Maintain structured register allocation with `__launch_bounds__(32, 16)` during compilation. This guarantees high warp occupancy, enabling the hardware thread scheduler to hide memory latency during initial token vector loading.
 3. **Register Shuffle Butterfly Reduction:** Replace shared memory inner products with `__shfl_xor_sync` butterfly trees, reducing reduction latency from ~26 clock cycles to 5 clock cycles.
 4. **TMA Global Memory Staging:** When streaming large batches of query, key, and value vectors, use the Tensor Memory Accelerator (`cp.async.bulk.tensor`) to bypass arithmetic registers, preventing register spilling.
-5. **Direct Memory Access via Kernel Bypass:** In distributed multi-GPU environments, integrate with Linux 6.18 `io_uring` direct DMA (Chapter 6) to stream state matrices directly across PCIe Gen 5 / NVLink buses without kernel context switches.
+5. **Direct Memory Access via Shared-Ring Direct DMA:** In distributed multi-GPU environments, integrate with Linux 6.18 `io_uring` direct DMA (Chapter 6) to stream state matrices directly across PCIe Gen 5 / NVLink buses without kernel context switches.
 
 ---
 
@@ -4360,7 +4364,7 @@ Instead, the program must make a **system call** (`syscall`):
 
 ```
 +----------------------------------------------------------------------------------------------------+
-| CONVENTIONAL POSIX I/O VS. LINUX 6.18 IO_URING DIRECT-DMA                                          |
+| CONVENTIONAL POSIX I/O VS. LINUX IO_URING DIRECT-DMA                                          |
 +----------------------------------------------------------------------------------------------------+
 | 1. Conventional POSIX read() / write() (Tollbooth Architecture):                                   |
 |                                                                                                    |
@@ -4397,13 +4401,13 @@ Instead of calling a function and waiting:
 2. **Zero-Syscall Operation (`IORING_SETUP_SQPOLL`)**: A dedicated kernel thread continuously watches the Submission Queue. When the user application writes an I/O request into the ring, the kernel executes it immediately without a single system call or context switch.
 3. **Fixed Buffer Direct-DMA**: Memory buffers are pinned directly in physical RAM. Hardware controllers read and write directly to these buffers via Direct Memory Access (DMA), completely bypassing the operating system cache.
 
-In this chapter, we explore the mechanical architecture of Linux 6.18 kernel-bypass storage, demonstrate how it connects directly to GPU memory via Peer-to-Peer DMA, and present the formal verification of lock-free queue concurrency.
+In this chapter, we explore the mechanical architecture of Linux shared-ring io_uring direct-DMA storage, demonstrate how it connects directly to GPU memory via Peer-to-Peer DMA, and present the formal verification of lock-free queue concurrency.
 
 ---
 
 ## 2. The Failures of the Classical POSIX I/O Stack
 
-To understand why kernel-bypass I/O is mandatory, we examine the microscopic mechanics of POSIX memory-mapped paging (`mmap`) and synchronous block reading (`pread`).
+To understand why direct-DMA I/O bypassing the OS page cache is mandatory, we examine the microscopic mechanics of POSIX memory-mapped paging (`mmap`) and synchronous block reading (`pread`).
 
 ### 2.1 The POSIX `read`/`pread` Overhead
 
@@ -4440,9 +4444,9 @@ While `mmap` provides zero-copy semantics when pages are cached, it introduces s
 
 ```
 +----------------------------------------------------------------------------------------------------+
-| TABLE 6.1: Latency Profile of POSIX Paging vs. Kernel-Bypass Direct DMA                            |
+| TABLE 6.1: Latency Profile of POSIX Paging vs. Shared-Ring Direct DMA                            |
 +------------------------------------+--------------------------+------------------------------------+
-| Metric                             | POSIX mmap / madvise     | Linux 6.18 io_uring Direct-DMA     |
+| Metric                             | POSIX mmap / madvise     | Linux io_uring Direct-DMA     |
 +------------------------------------+--------------------------+------------------------------------+
 | 64 MB Layer Swap Mean Latency      | 28.40 ms                 | 8.28 ms                            |
 | 99th-Percentile Tail Latency       | 42.15 ms (Severe Jitter) | 8.35 ms (Deterministic)            |
@@ -4457,10 +4461,10 @@ While `mmap` provides zero-copy semantics when pages are cached, it introduces s
 
 ## 3. The Linux 6.18 `io_uring` Architecture
 
-The `io_uring` subsystem, authored by Jens Axboe and expanded in the Linux 6.18 kernel, re-architects Linux I/O around lock-free ring buffers shared between user space and the kernel.
+The `io_uring` subsystem, authored by Jens Axboe and deployed in modern Linux kernels (6.18+ / 7.2+), re-architects Linux I/O around lock-free ring buffers shared between user space and the kernel.
 
 ```
-User Space Application                                    Linux 6.18 Kernel
+User Space Application                                    Linux Kernel (7.2.15)
 +--------------------------+                              +--------------------------+
 |  Submission Queue (SQ)   | ===== shared memory ring ===>|  Kernel SQPOLL Thread    |
 |  - Head / Tail Pointers  |                              |  (kthread: io_uring-sq)  |
@@ -4801,7 +4805,7 @@ As layer $N$ completes, the pointers rotate cyclically: $A \leftarrow B$, $B \le
 
 ## 8. Chapter Summary and Formal Manifest
 
-This chapter has established the systems architecture for kernel-bypass parameter streaming in IMF:
+This chapter has established the systems architecture for shared-ring direct-DMA parameter streaming in IMF:
 - Standard POSIX I/O (`read`, `mmap`) creates severe latency bottlenecks caused by system call context switches, kernel page cache copying, and MMU page fault lock contention.
 - The Linux `io_uring` interface provides lock-free Submission and Completion Queue rings, eliminating system call overhead via `IORING_SETUP_SQPOLL`.
 - Pre-registering fixed physical memory regions via `IORING_REGISTER_BUFFERS` and enforcing strict 4096-byte `O_DIRECT` page alignment enables direct hardware DMA from NVMe controllers into host RAM without kernel intervention.
@@ -4841,7 +4845,7 @@ This chapter details **Module 83: Lie Rolling KV Cache Stability and Isometry**,
 |                      v                              v                                              |
 |                 +----------------------------------------+                                         |
 |                 |       Lean 4 Mathematical Proof        |                                         |
-|                 | (lean_pilot/Pilot/LieRollingCache.lean)|                                         |
+|                 | (Pilot.LieRollingCacheStability)|                                         |
 |                 |      FORMAL SPECIFICATION CODE         |                                         |
 |                 |     Lean 4 Formal Invariants           |                                         |
 |                 +----------------------------------------+                                         |
@@ -5073,7 +5077,7 @@ In dimensions $d \le 4$, Lie-algebraic operations avoid iterative numerical appr
    Every rotation $U \in \mathrm{SO}(4)$ decomposes into a pair of commuting unit quaternions $(p, q) \in \operatorname{Sp}(1) \times \operatorname{Sp}(1) / \{\pm 1\}$.  
    Crucially, the rank-2 innovation tensor $W_t = \mathbf{v}_t \mathbf{k}_t^\top - \mathbf{k}_t \mathbf{v}_t^\top$ is a decomposable bivector (simple 2-form $\mathbf{v} \wedge \mathbf{k}$). Its self-dual and anti-self-dual projections have strictly equal norms:
    $$\|W_t^+\|_F = \|W_t^-\|_F = \frac{1}{\sqrt{2}} \|W_t\|_F$$
-   This eliminates chiral drift across the 4D state manifold.
+   Consequently, the innovation bivector carries no net chirality across self-dual and anti-self-dual sectors.
 
 4. **Exact Discrete Exterior Calculus (DEC):**  
    On simplicial complexes of dimension $K \le 4$, discrete exterior derivatives $\mathbf{d}_k$ constructed from simplicial boundary incidence matrices satisfy:
@@ -5255,7 +5259,7 @@ With the physical and mathematical foundations of low-dimensional spaces establi
 - **Blackwell SM 12.0**: NVIDIA GPU architecture with 256 KB register file per SM and 4 dual-issue warp schedulers.
 - **TMA (Tensor Memory Accelerator)**: Hardware 5D asynchronous DMA engine bypassing arithmetic ALU pipelines.
 - **`__shfl_sync` / `__shfl_down_sync`**: Single-cycle intra-warp register exchange butterfly intrinsics.
-- **`io_uring`**: Linux 6.18 kernel-bypass asynchronous ring buffer architecture.
+- **`io_uring`**: Linux shared-ring io_uring direct-DMA asynchronous ring buffer architecture.
 - **`IORING_SETUP_SQPOLL`**: Dedicated kernel thread continuously polling submission queue without system calls.
 - **O_DIRECT**: Strict 4096-byte aligned kernel bypass memory mapping directly to physical NVMe controller.
 

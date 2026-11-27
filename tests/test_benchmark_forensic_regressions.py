@@ -54,7 +54,7 @@ def test_t2_frobenius_cosine_mathematical_consistency():
 def test_t3_axiom_list_parsed_and_zero_external():
     """T3: Verifies axioms list in parquet lake contains only standard propext/Quot.sound."""
     import duckdb
-    parquet_glob = "dist/parquet_lake/*.parquet"
+    parquet_glob = "dist/parquet_lake/block_*.parquet"
     con = duckdb.connect()
     
     # Ensure all records have zero external non-standard axioms
@@ -66,7 +66,7 @@ def test_t3_axiom_list_parsed_and_zero_external():
 def test_t4_distinct_theorem_deduplication():
     """T4: Asserts 100% unique statement hashes in active Parquet lake partitions."""
     import duckdb
-    parquet_glob = "dist/parquet_lake/*.parquet"
+    parquet_glob = "dist/parquet_lake/block_*.parquet"
     con = duckdb.connect()
     
     res = con.execute(f"""

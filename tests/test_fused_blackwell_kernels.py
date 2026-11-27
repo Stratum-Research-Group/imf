@@ -1,4 +1,6 @@
 import pytest
+
+pytestmark = pytest.mark.cuda
 import torch
 import ctypes
 import math
