@@ -2028,6 +2028,60 @@ def test_fused_gross_zagier_height_correctness():
     assert abs(lp[1].item()) < 1e-5
 
 
+def test_fused_modular_symbols_manin_correctness():
+    so_path = "csrc/libfused_blackwell_modular_symbols_manin.so"
+    if not os.path.exists(so_path):
+        pytest.skip("Modular symbols Manin kernel library not compiled")
+
+    lib = ctypes.CDLL(so_path)
+    lib.fused_blackwell_modular_symbols_manin.argtypes = [
+        ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p,
+        ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p,
+        ctypes.c_int
+    ]
+    lib.fused_blackwell_modular_symbols_manin.restype = ctypes.c_int
+
+    batch_size = 2
+    # Batch 0: p = 2, q = 5 (2/5 = [0; 2, 2]), N = 11
+    # 2/5 -> steps = 3 (rem_p = 2, rem_q = 5 -> a=0, r=2; a=2, r=1; a=2, r=0)
+    # unimodular = 1.0, torsion = 24 * 11 = 264.0, weight = 2/5 = 0.4
+    # Batch 1: p = 3, q = 7 (3/7 = [0; 2, 3]), N = 37
+    # torsion = 24 * 37 = 888.0, weight = 3/7
+    p = torch.tensor([2, 3], dtype=torch.int32)
+    q = torch.tensor([5, 7], dtype=torch.int32)
+    n = torch.tensor([11, 37], dtype=torch.int32)
+
+    steps = torch.zeros(batch_size, dtype=torch.float32)
+    det = torch.zeros(batch_size, dtype=torch.float32)
+    tors = torch.zeros(batch_size, dtype=torch.float32)
+    wt = torch.zeros(batch_size, dtype=torch.float32)
+
+    ret = lib.fused_blackwell_modular_symbols_manin(
+        ctypes.c_void_p(p.data_ptr()),
+        ctypes.c_void_p(q.data_ptr()),
+        ctypes.c_void_p(n.data_ptr()),
+        ctypes.c_void_p(steps.data_ptr()),
+        ctypes.c_void_p(det.data_ptr()),
+        ctypes.c_void_p(tors.data_ptr()),
+        ctypes.c_void_p(wt.data_ptr()),
+        batch_size
+    )
+    assert ret == 0
+
+    # Batch 0:
+    assert steps[0].item() >= 2.0
+    assert det[0].item() == 1.0
+    assert tors[0].item() == 264.0
+    assert abs(wt[0].item() - 0.4) < 1e-4
+
+    # Batch 1:
+    assert steps[1].item() >= 2.0
+    assert det[1].item() == 1.0
+    assert tors[1].item() == 888.0
+    assert abs(wt[1].item() - 3.0 / 7.0) < 1e-4
+
+
+
 
 
 

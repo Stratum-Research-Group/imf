@@ -2410,6 +2410,73 @@ def test_iouring_hugepage_compactor_correctness():
         lib.iouring_hugepage_compactor_free(compactor)
 
 
+def test_iouring_dmabuf_zc_stream_correctness():
+    so_path = "csrc/libfused_iouring_dmabuf_zc_stream.so"
+    if not os.path.exists(so_path):
+        pytest.skip("DMABUF zero-copy stream engine not compiled")
+
+    lib = ctypes.CDLL(so_path)
+    lib.iouring_dmabuf_zc_stream_init.argtypes = [ctypes.c_uint32, ctypes.c_uint32]
+    lib.iouring_dmabuf_zc_stream_init.restype = ctypes.c_void_p
+
+    lib.iouring_dmabuf_zc_stream_push.argtypes = [
+        ctypes.c_void_p, ctypes.c_uint32, ctypes.c_uint32
+    ]
+    lib.iouring_dmabuf_zc_stream_push.restype = ctypes.c_int
+
+    lib.iouring_dmabuf_zc_stream_poll_drain.argtypes = [ctypes.c_void_p, ctypes.c_uint32]
+    lib.iouring_dmabuf_zc_stream_poll_drain.restype = ctypes.c_int
+
+    lib.iouring_dmabuf_zc_stream_get_stats.argtypes = [
+        ctypes.c_void_p, ctypes.POINTER(ctypes.c_uint64), ctypes.POINTER(ctypes.c_uint64), ctypes.POINTER(ctypes.c_int)
+    ]
+    lib.iouring_dmabuf_zc_stream_get_stats.restype = ctypes.c_int
+
+    lib.iouring_dmabuf_zc_stream_free.argtypes = [ctypes.c_void_p]
+    lib.iouring_dmabuf_zc_stream_free.restype = None
+
+    cap = 32
+    chunk_sz = 16384  # 16KB
+
+    stream = lib.iouring_dmabuf_zc_stream_init(cap, chunk_sz)
+    assert stream is not None
+
+    try:
+        # Push 6 chunks
+        for i in range(6):
+            ret = lib.iouring_dmabuf_zc_stream_push(stream, i, 8192)
+            assert ret == 0
+
+        # Drain batch of 4
+        drained = lib.iouring_dmabuf_zc_stream_poll_drain(stream, 4)
+        assert drained == 4
+
+        tot_streamed = ctypes.c_uint64(0)
+        tot_bytes = ctypes.c_uint64(0)
+        is_reg = ctypes.c_int(0)
+        ret = lib.iouring_dmabuf_zc_stream_get_stats(
+            stream, ctypes.byref(tot_streamed), ctypes.byref(tot_bytes), ctypes.byref(is_reg)
+        )
+        assert ret == 0
+        assert tot_streamed.value == 4
+        assert tot_bytes.value == 4 * 8192
+        assert is_reg.value == 1
+
+        # Drain remaining 2
+        drained_rem = lib.iouring_dmabuf_zc_stream_poll_drain(stream, 10)
+        assert drained_rem == 2
+
+        ret = lib.iouring_dmabuf_zc_stream_get_stats(
+            stream, ctypes.byref(tot_streamed), ctypes.byref(tot_bytes), ctypes.byref(is_reg)
+        )
+        assert ret == 0
+        assert tot_streamed.value == 6
+        assert tot_bytes.value == 6 * 8192
+    finally:
+        lib.iouring_dmabuf_zc_stream_free(stream)
+
+
+
 
 
 

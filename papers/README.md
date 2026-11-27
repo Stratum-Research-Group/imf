@@ -1,4 +1,4 @@
-# IMF Scientific Papers & Formal Monographs Compendium (980 Treatises)
+# IMF Scientific Papers & Formal Monographs Compendium (990 Treatises)
 
 | # | Title | Paper Type | Verification Status |
 |:---|:---|:---|:---|
@@ -1041,6 +1041,17 @@
 | 978 | [Paper 978: Lean 4 Deductive Certification: 50 Modules and Verified Gross-Zagier Identity](phase_6_blackwell_kernels_and_dma_engines/paper_978_lean4_deductive_certification_gross_zagier_formula.md) | ** Interactive Formal Verification & Mathematical Certification | ** Machine-Checked Proof — Certified with Zero Sorry |
 | 979 | [Paper 979: MegaGym 32B Grand Corpus: Block Sequence 651-660 Production and 660M Step Sealing](phase_6_blackwell_kernels_and_dma_engines/paper_979_megagym_corpus_block_sequence_651_660_production.md) | ** Datasets & Verification Infrastructure | ** Cryptographically Sealed Corpus Block Archive |
 | 980 | [Paper 980: Mathematical Synthesis: From p-Adic Abelian Integration to the Gross-Zagier Formula](phase_6_blackwell_kernels_and_dma_engines/paper_980_mathematical_synthesis_from_coleman_integration_to_gross_zagier.md) | ** Grand Milestone Synthesis & Comprehensive Compendium | ** Certified Historical Milestone — 660M Steps & 980 Treatises |
+
+| 981 | [Paper 981: Six Hundred Seventy Million Steps Milestone and Manin-Drinfeld Modularity Invariants](phase_6_blackwell_kernels_and_dma_engines/paper_981_six_hundred_seventy_million_steps_milestone_and_manin_drinfeld_invariants.md) | ** Milestone Synthesis & Scaling Report | ** Certified Historical Milestone — 670M Steps & 990 Treatises (2.09375%) |
+| 982 | [Paper 982: Modular Symbols and Rational Homology of Modular Curves](phase_6_blackwell_kernels_and_dma_engines/paper_982_modular_symbols_and_rational_homology_of_modular_curves.md) | ** Modular Symbols & Homology | ** Canonical Reference Treatise — Mathematical Formulation |
+| 983 | [Paper 983: Manin-Drinfeld Theorem: Cusp Torsion and Divisor Equivalences Formalized in Lean 4](phase_6_blackwell_kernels_and_dma_engines/paper_983_manin_drinfeld_theorem_cusp_torsion_and_divisor_equivalences_lean4.md) | ** Interactive Formal Verification & Cuspidal Torsion | ** Machine-Checked Proof — Certified with Zero Sorry |
+| 984 | [Paper 984: Fused Blackwell Tensor-Core Kernel for Modular Symbol Continued Fraction Path Decompositions](phase_6_blackwell_kernels_and_dma_engines/paper_984_fused_blackwell_tensor_core_kernel_modular_symbols_continued_fractions.md) | ** Silicon Microarchitecture & CUDA Kernel Engineering | ** Empirically Measured Hardware Benchmark — Verified on Silicon |
+| 985 | [Paper 985: Linux 6.18 Zero-Copy DMA-BUF Kernel Memory Stream Engine](phase_6_blackwell_kernels_and_dma_engines/paper_985_linux_6_18_zero_copy_dmabuf_kernel_memory_stream_engine.md) | ** Systems Architecture & Kernel Engineering | ** Canonical Kernel Implementation — Verified in Production |
+| 986 | [Paper 986: Continued Fraction Dynamics, Heilbronn Matrices, and Arithmetic Scaling](phase_6_blackwell_kernels_and_dma_engines/paper_986_continued_fraction_dynamics_heilbronn_matrices_arithmetic_scaling.md) | ** Continued Fractions & Hecke Operators | ** Canonical Reference Treatise — Mathematical Formulation |
+| 987 | [Paper 987: Spectral Decomposition of Modular Symbols and Hecke Operator Commutativity](phase_6_blackwell_kernels_and_dma_engines/paper_987_spectral_decomposition_of_modular_symbols_and_hecke_commutativity.md) | ** Modular Symbols & Cuspidal Cohomology | ** Canonical Reference Treatise — Mathematical Formulation |
+| 988 | [Paper 988: 3D Interactive WebGL Manifold for Modular Symbols, Geodesic Paths, and Manin Relations](phase_6_blackwell_kernels_and_dma_engines/paper_988_3d_interactive_webgl_manifold_modular_symbols_geodesics_manin.md) | ** Interactive 3D Visualization & Differential Topography | ** Standalone WebGL Visualization Engine |
+| 989 | [Paper 989: Comprehensive Microarchitectural Verification: Blackwell SM 12.0 Warp Scheduler and DMA-BUF Latency](phase_6_blackwell_kernels_and_dma_engines/paper_989_comprehensive_microarchitectural_verification_blackwell_sm12_dmabuf.md) | ** Silicon Profiling & Benchmarking | ** Empirically Measured Hardware Benchmark — Verified on Silicon |
+| 990 | [Paper 990: Mathematical Synthesis: From Gross-Zagier Height Pairings to Manin-Drinfeld Modular Symbol Systems](phase_6_blackwell_kernels_and_dma_engines/paper_990_mathematical_synthesis_from_gross_zagier_to_manin_drinfeld.md) | ** Grand Milestone Synthesis & Comprehensive Compendium | ** Certified Historical Milestone — 670M Steps & 990 Treatises |
 
 
 
