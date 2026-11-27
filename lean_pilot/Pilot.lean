@@ -59,6 +59,8 @@ import Pilot.BeilinsonRegulatorConjecture
 import Pilot.BirchSwinnertonDyerConjecture
 import Pilot.HodgeConjectureCycles
 import Pilot.TateConjectureEtale
+import Pilot.StandardConjecturesGrothendieck
+
 
 
 

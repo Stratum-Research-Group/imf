@@ -2920,6 +2920,51 @@ def test_iouring_etale_shm_ring_stream_correctness():
     assert stats.ring_queue_depth == 64
     assert stats.iopoll_verified == 1
 
+def test_iouring_kunneth_shm_mmap_splice_correctness():
+    so_path = "csrc/libfused_iouring_kunneth_shm_mmap_splice.so"
+    assert os.path.exists(so_path), f"Missing shared object: {so_path}"
+
+    class KunnethMmapConfig(ctypes.Structure):
+        _fields_ = [
+            ("ring_entries", ctypes.c_uint32),
+            ("buffer_size_bytes", ctypes.c_uint32),
+            ("num_projectors", ctypes.c_uint32),
+            ("stream_iterations", ctypes.c_uint32),
+        ]
+
+    class KunnethMmapStats(ctypes.Structure):
+        _fields_ = [
+            ("total_bytes_spliced", ctypes.c_uint64),
+            ("projections_completed", ctypes.c_uint32),
+            ("ring_queue_depth", ctypes.c_uint32),
+            ("mmap_splice_verified", ctypes.c_uint32),
+            ("engine_status", ctypes.c_uint32),
+        ]
+
+    lib = ctypes.CDLL(so_path)
+    lib.run_kunneth_shm_mmap_splice_engine.argtypes = [
+        ctypes.POINTER(KunnethMmapConfig),
+        ctypes.POINTER(KunnethMmapStats)
+    ]
+    lib.run_kunneth_shm_mmap_splice_engine.restype = ctypes.c_int
+
+    config = KunnethMmapConfig(
+        ring_entries=64,
+        buffer_size_bytes=2048,
+        num_projectors=8,
+        stream_iterations=16,
+    )
+    stats = KunnethMmapStats()
+
+    ret = lib.run_kunneth_shm_mmap_splice_engine(ctypes.byref(config), ctypes.byref(stats))
+    assert ret == 0, f"run_kunneth_shm_mmap_splice_engine failed with return code {ret}"
+    assert stats.engine_status == 1
+    assert stats.projections_completed == 16
+    assert stats.total_bytes_spliced == 16 * 2048
+    assert stats.ring_queue_depth == 64
+    assert stats.mmap_splice_verified == 1
+
+
 
 
 

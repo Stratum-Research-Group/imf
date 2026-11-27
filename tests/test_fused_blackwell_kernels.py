@@ -2217,6 +2217,20 @@ def test_fused_tate_etale_cycles_correctness():
     valid_count = lib.run_tate_etale_cycles_benchmark(n_samples)
     assert valid_count == n_samples, f"Expected all {n_samples} samples to satisfy Tate conjecture invariants, got {valid_count}"
 
+@pytest.mark.skipif(not torch.cuda.is_available(), reason="CUDA not available")
+def test_fused_standard_conjectures_correctness():
+    so_path = "csrc/libfused_blackwell_standard_conjectures_cycles.so"
+    assert os.path.exists(so_path), f"Missing shared object: {so_path}"
+
+    lib = ctypes.CDLL(so_path)
+    lib.run_standard_conjectures_benchmark.argtypes = [ctypes.c_int]
+    lib.run_standard_conjectures_benchmark.restype = ctypes.c_int
+
+    n_samples = 1024
+    valid_count = lib.run_standard_conjectures_benchmark(n_samples)
+    assert valid_count == n_samples, f"Expected all {n_samples} samples to satisfy Standard Conjectures invariants, got {valid_count}"
+
+
 
 
 
