@@ -1253,6 +1253,59 @@ def test_fused_kodaira_vanishing_filter_correctness():
     assert torch.all(filtered[2] == 1.0)
     assert torch.all(filtered[3] == 1.0)
 
+def test_fused_hardy_littlewood_circle_method_correctness():
+    so_path = "csrc/fused_blackwell_hardy_littlewood_circle_method.so"
+    assert os.path.exists(so_path), "Shared library does not exist"
+    lib = ctypes.CDLL(so_path)
+
+    lib.fused_blackwell_hardy_littlewood_circle_method.argtypes = [
+        ctypes.c_void_p,
+        ctypes.c_void_p,
+        ctypes.c_void_p,
+        ctypes.c_void_p,
+        ctypes.c_void_p,
+        ctypes.c_void_p,
+        ctypes.c_void_p,
+        ctypes.c_int,
+        ctypes.c_int
+    ]
+    lib.fused_blackwell_hardy_littlewood_circle_method.restype = ctypes.c_int
+
+    B = 3
+    M_terms = 10
+
+    # Batch 0: alpha = 0.0 (near 0/1 -> major arc)
+    # Batch 1: alpha = 0.5 (near 1/2 -> major arc)
+    # Batch 2: alpha = 0.29166 (midpoint between 1/4 and 1/3 -> minor arc)
+    alphas = torch.tensor([0.0, 0.5, 0.29166], dtype=torch.float32)
+    k_powers = torch.tensor([1, 2, 2], dtype=torch.int32)
+    target_n = torch.tensor([0, 0, 5], dtype=torch.int32)
+
+    exp_real = torch.zeros(B, dtype=torch.float32)
+    exp_imag = torch.zeros(B, dtype=torch.float32)
+    major_flags = torch.zeros(B, dtype=torch.float32)
+    arc_energy = torch.zeros(B, dtype=torch.float32)
+
+    ret = lib.fused_blackwell_hardy_littlewood_circle_method(
+        ctypes.c_void_p(alphas.data_ptr()),
+        ctypes.c_void_p(k_powers.data_ptr()),
+        ctypes.c_void_p(target_n.data_ptr()),
+        ctypes.c_void_p(exp_real.data_ptr()),
+        ctypes.c_void_p(exp_imag.data_ptr()),
+        ctypes.c_void_p(major_flags.data_ptr()),
+        ctypes.c_void_p(arc_energy.data_ptr()),
+        B, M_terms
+    )
+    assert ret == 0
+
+    # For alpha = 0: phase = 0 -> cos(0)=1 -> exp_real = 1.0, exp_imag = 0.0
+    assert abs(exp_real[0].item() - 1.0) < 1e-4
+    assert abs(exp_imag[0].item()) < 1e-4
+    assert major_flags[0].item() == 1.0
+    assert major_flags[1].item() == 1.0
+    assert major_flags[2].item() == 0.0
+
+
 
 
 

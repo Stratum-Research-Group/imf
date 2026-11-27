@@ -1405,6 +1405,85 @@ def test_iouring_dmabuf_ring_correctness():
     finally:
         lib.iouring_dmabuf_ring_free(eng)
 
+def test_iouring_futex_waitv_ring_correctness():
+    so_path = "csrc/fused_iouring_futex_waitv_ring.so"
+    assert os.path.exists(so_path), "Shared library does not exist"
+    lib = ctypes.CDLL(so_path)
+
+    lib.iouring_futex_waitv_init.argtypes = [ctypes.c_uint32]
+    lib.iouring_futex_waitv_init.restype = ctypes.c_void_p
+
+    lib.iouring_futex_waitv_register_target.argtypes = [
+        ctypes.c_void_p,
+        ctypes.c_uint32,
+        ctypes.POINTER(ctypes.c_uint32),
+        ctypes.c_uint32,
+        ctypes.c_uint32
+    ]
+    lib.iouring_futex_waitv_register_target.restype = ctypes.c_int
+
+    lib.iouring_futex_waitv_submit_wait.argtypes = [
+        ctypes.c_void_p,
+        ctypes.c_uint32,
+        ctypes.c_uint64
+    ]
+    lib.iouring_futex_waitv_submit_wait.restype = ctypes.c_int
+
+    lib.iouring_futex_waitv_wake.argtypes = [
+        ctypes.c_void_p,
+        ctypes.c_uint32,
+        ctypes.c_uint32
+    ]
+    lib.iouring_futex_waitv_wake.restype = ctypes.c_int
+
+    lib.iouring_futex_waitv_get_stats.argtypes = [
+        ctypes.c_void_p,
+        ctypes.POINTER(ctypes.c_uint64),
+        ctypes.POINTER(ctypes.c_uint64),
+        ctypes.POINTER(ctypes.c_uint64)
+    ]
+    lib.iouring_futex_waitv_get_stats.restype = ctypes.c_int
+
+    lib.iouring_futex_waitv_free.argtypes = [ctypes.c_void_p]
+    lib.iouring_futex_waitv_free.restype = None
+
+    eng = lib.iouring_futex_waitv_init(32)
+    assert eng is not None
+
+    try:
+        val0 = ctypes.c_uint32(100)
+        val1 = ctypes.c_uint32(200)
+
+        r0 = lib.iouring_futex_waitv_register_target(eng, 0, ctypes.byref(val0), 100, 0)
+        r1 = lib.iouring_futex_waitv_register_target(eng, 1, ctypes.byref(val1), 200, 0)
+        assert r0 == 0 and r1 == 0
+
+        # Wait when both match expected -> 0 (sleeping / no target changed yet)
+        w_ret = lib.iouring_futex_waitv_submit_wait(eng, 2, 1000)
+        assert w_ret == 0
+
+        # Wake target 1 with new value 201
+        wake_ret = lib.iouring_futex_waitv_wake(eng, 1, 201)
+        assert wake_ret == 0
+        assert val1.value == 201
+
+        # Now wait detects target 1 changed -> returns index 1
+        w_ret2 = lib.iouring_futex_waitv_submit_wait(eng, 2, 1000)
+        assert w_ret2 == 1
+
+        tot_waits = ctypes.c_uint64(0)
+        tot_wakes = ctypes.c_uint64(0)
+        timeouts = ctypes.c_uint64(0)
+        s_ret = lib.iouring_futex_waitv_get_stats(
+            eng, ctypes.byref(tot_waits), ctypes.byref(tot_wakes), ctypes.byref(timeouts)
+        )
+        assert s_ret == 0
+        assert tot_waits.value == 2
+        assert tot_wakes.value == 1
+    finally:
+        lib.iouring_futex_waitv_free(eng)
+
+
 
 
 
