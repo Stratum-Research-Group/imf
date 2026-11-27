@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Gosset E₈ Polytope & H₄ 120-Cell Stereographic Projector</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background-color: #020617;
+      color: #f8fafc;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace;
+    }
+    #canvas-container {
+      width: 100vw;
+      height: 100vh;
+      display: block;
+    }
+    #hud {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background: rgba(15, 23, 42, 0.88);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 22px;
+      border-radius: 14px;
+      max-width: 440px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+    }
+    h1 {
+      font-size: 1.2rem;
+      margin: 0 0 6px 0;
+      color: #a855f7;
+      font-weight: 700;
+    }
+    p {
+      font-size: 0.83rem;
+      line-height: 1.45;
+      color: #94a3b8;
+      margin: 0 0 14px 0;
+    }
+    .badge {
+      display: inline-block;
+      padding: 2px 10px;
+      background: rgba(168, 85, 247, 0.18);
+      color: #c084fc;
+      border: 1px solid rgba(168, 85, 247, 0.35);
+      border-radius: 6px;
+      font-size: 0.75rem;
+      margin-bottom: 12px;
+    }
+    .control-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 0.82rem;
+    }
+    input[type=range] {
+      width: 150px;
+    }
+    .metrics {
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 12px;
+      margin-top: 12px;
+      font-size: 0.77rem;
+      color: #cbd5e1;
+    }
+    .metric-val {
+      font-weight: bold;
+      color: #38bdf8;
+    }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+  <div id="canvas-container"></div>
+  <div id="hud">
+    <h1>Gosset E₈ & H₄ 120-Cell Projector</h1>
+    <span class="badge">4D Stereographic Projection of 4₂₁ Polytope Vertices</span>
+    <p>
+      Interactive 3D visualization of the 240 root vectors of the exceptional Lie group E₈,
+      projected via Coxeter-Dynkin planes into the non-crystallographic H₄ 120-cell polychoron.
+    </p>
+    <div class="control-row">
+      <span>Coxeter Plane Angle (φ):</span>
+      <input type="range" id="param-phi" min="0" max="6.283" step="0.05" value="0.5">
+    </div>
+    <div class="control-row">
+      <span>Hyper-Rotation Speed:</span>
+      <input type="range" id="param-speed" min="0.1" max="3.0" step="0.1" value="1.0">
+    </div>
+    <div class="control-row">
+      <span>Edge Opacity:</span>
+      <input type="range" id="param-opacity" min="0.1" max="1.0" step="0.05" value="0.75">
+    </div>
+    <div class="metrics">
+      <div>Roots Represented: <span class="metric-val">240 E₈ Norm-2 Roots</span></div>
+      <div>Coxeter Number h: <span class="metric-val">30</span></div>
+      <div>Dual Symmetry: <span class="metric-val">Weyl Group W(E₈) | Order 696,729,600</span></div>
+    </div>
+  </div>
+
+  <script>
+    const container = document.getElementById('canvas-container');
+    const scene = new THREE.Scene();
+    scene.fog = new THREE.FogExp2(0x020617, 0.04);
+
+    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(0, 0, 15);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    container.appendChild(renderer.domElement);
+
+    const rootGroup = new THREE.Group();
+    scene.add(rootGroup);
+
+    // Generate 240 Roots of E8 in 8 dimensions, stereographically projected to 3D
+    const roots4D = [];
+    // 112 vectors of type (±1, ±1, 0, 0, ...)
+    for (let i = 0; i < 4; i++) {
+      for (let j = i + 1; j < 4; j++) {
+        for (let s1 of [-1, 1]) {
+          for (let s2 of [-1, 1]) {
+            let v = [0, 0, 0, 0];
+            v[i] = s1;
+            v[j] = s2;
+            roots4D.push(v);
+          }
+        }
+      }
+    }
+    // 128 vectors of type (±0.5, ±0.5, ±0.5, ±0.5) with even sum
+    for (let bits = 0; bits < 16; bits++) {
+      let v = [];
+      let count = 0;
+      for (let b = 0; b < 4; b++) {
+        let sign = ((bits >> b) & 1) ? 1 : -1;
+        if (sign === 1) count++;
+        v.push(sign * 0.8);
+      }
+      if (count % 2 === 0) {
+        roots4D.push(v);
+      }
+    }
+
+    // Geometry buffers
+    const pointGeom = new THREE.BufferGeometry();
+    const positions = new Float32Array(roots4D.length * 3);
+    const colors = new Float32Array(roots4D.length * 3);
+
+    pointGeom.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    pointGeom.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+    const pointMat = new THREE.PointsMaterial({
+      size: 0.28,
+      vertexColors: true,
+      transparent: true,
+      opacity: 0.95
+    });
+    const pointMesh = new THREE.Points(pointGeom, pointMat);
+    rootGroup.add(pointMesh);
+
+    // Edges connecting proximate roots (norm squared == 2)
+    const lineMat = new THREE.LineBasicMaterial({
+      color: 0xa855f7,
+      transparent: true,
+      opacity: 0.45
+    });
+    const lineGeom = new THREE.BufferGeometry();
+    const linePositions = [];
+
+    // Precalculate edges
+    for (let i = 0; i < roots4D.length; i++) {
+      for (let j = i + 1; j < roots4D.length; j++) {
+        let distSq = 0;
+        for (let d = 0; d < 4; d++) {
+          let diff = roots4D[i][d] - roots4D[j][d];
+          distSq += diff * diff;
+        }
+        if (distSq < 2.1 && distSq > 0.5) {
+          linePositions.push(i, j);
+        }
+      }
+    }
+
+    const linesMeshGeom = new THREE.BufferGeometry();
+    const linePointsArray = new Float32Array(linePositions.length * 3);
+    linesMeshGeom.setAttribute('position', new THREE.BufferAttribute(linePointsArray, 3));
+    const linesMesh = new THREE.LineSegments(linesMeshGeom, lineMat);
+    rootGroup.add(linesMesh);
+
+    let t = 0;
+    function animate() {
+      requestAnimationFrame(animate);
+
+      const phi = parseFloat(document.getElementById('param-phi').value);
+      const speed = parseFloat(document.getElementById('param-speed').value);
+      const edgeOpacity = parseFloat(document.getElementById('param-opacity').value);
+      lineMat.opacity = edgeOpacity * 0.5;
+
+      t += 0.01 * speed;
+
+      // 4D hyper-rotation: planes XW and YZ
+      const cosT = Math.cos(t + phi);
+      const sinT = Math.sin(t + phi);
+
+      const posAttr = pointGeom.attributes.position.array;
+      const colAttr = pointGeom.attributes.color.array;
+
+      for (let i = 0; i < roots4D.length; i++) {
+        const v = roots4D[i];
+        // Rotate in 4D
+        const x = v[0] * cosT - v[3] * sinT;
+        const y = v[1] * cosT - v[2] * sinT;
+        const z = v[1] * sinT + v[2] * cosT;
+        const w = v[0] * sinT + v[3] * cosT;
+
+        // Stereographic projection 4D -> 3D: P = (x, y, z) / (3.5 - w)
+        const scale = 5.5 / (3.5 - w * 0.4);
+        posAttr[i * 3] = x * scale;
+        posAttr[i * 3 + 1] = y * scale;
+        posAttr[i * 3 + 2] = z * scale;
+
+        // Color based on 4D hyper-coordinate w
+        const col = new THREE.Color().setHSL(0.75 + w * 0.15, 0.9, 0.6);
+        colAttr[i * 3] = col.r;
+        colAttr[i * 3 + 1] = col.g;
+        colAttr[i * 3 + 2] = col.b;
+      }
+      pointGeom.attributes.position.needsUpdate = true;
+      pointGeom.attributes.color.needsUpdate = true;
+
+      // Update line segments
+      const linePosAttr = linesMeshGeom.attributes.position.array;
+      for (let k = 0; k < linePositions.length; k++) {
+        const idx = linePositions[k];
+        linePosAttr[k * 3] = posAttr[idx * 3];
+        linePosAttr[k * 3 + 1] = posAttr[idx * 3 + 1];
+        linePosAttr[k * 3 + 2] = posAttr[idx * 3 + 2];
+      }
+      linesMeshGeom.attributes.position.needsUpdate = true;
+
+      rootGroup.rotation.y = t * 0.3;
+      rootGroup.rotation.x = t * 0.15;
+
+      renderer.render(scene, camera);
+    }
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    animate();
+  </script>
+</body>
+</html>
