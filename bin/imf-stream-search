@@ -1,0 +1,74 @@
+#!/usr/bin/env python3
+"""
+bin/imf-stream-search
+Interactive CLI search tool for the 113 consolidated Development Streams.
+Searches dist/stream_search_index.json by keyword, regex, or theorem name.
+"""
+
+import sys
+import os
+import json
+import re
+
+GREEN = "\033[92m"
+CYAN = "\033[96m"
+YELLOW = "\033[93m"
+BOLD = "\033[1m"
+RESET = "\033[0m"
+
+def main():
+    if len(sys.argv) < 2:
+        print(f"Usage: {sys.argv[0]} <search_query_or_regex>")
+        sys.exit(1)
+
+    query = " ".join(sys.argv[1:]).lower()
+    index_path = "dist/stream_search_index.json"
+
+    if not os.path.exists(index_path):
+        print(f"{YELLOW}[!] Search index not found at {index_path}. Run scripts/build_stream_search_index.py first.{RESET}")
+        sys.exit(1)
+
+    with open(index_path, "r", encoding="utf-8") as f:
+        data = json.load(f)
+
+    streams = data.get("streams", [])
+    matches = []
+
+    for s in streams:
+        score = 0
+        title = s.get("title", "")
+        headings = " ".join(s.get("headings", []))
+        phase = s.get("phase", "")
+
+        if query in title.lower():
+            score += 10
+        if query in headings.lower():
+            score += 5
+        if query in phase.lower():
+            score += 2
+
+        try:
+            if re.search(query, title, re.IGNORECASE) or re.search(query, headings, re.IGNORECASE):
+                score += 3
+        except re.error:
+            pass
+
+        if score > 0:
+            matches.append((score, s))
+
+    matches.sort(key=lambda x: x[0], reverse=True)
+
+    print(f"\n{BOLD}{CYAN}=== IMF Stream Search Results for: '{query}' ({len(matches)} matches) ==={RESET}\n")
+    for score, s in matches[:15]:
+        print(f"  {BOLD}{GREEN}• {s['title']}{RESET}")
+        print(f"    {BOLD}Range:{RESET} Papers {s['papers_range']} | {BOLD}Volume:{RESET} {s['word_count']:,} words | {BOLD}Formulas:{RESET} {s['math_formula_count']:,}")
+        print(f"    {BOLD}File:{RESET}  {CYAN}{s['path']}{RESET}")
+        if s.get("headings"):
+            print(f"    {BOLD}Top Sections:{RESET} {', '.join(s['headings'][:3])}")
+        print()
+
+    if not matches:
+        print(f"  {YELLOW}No matching development streams found.{RESET}\n")
+
+if __name__ == '__main__':
+    main()

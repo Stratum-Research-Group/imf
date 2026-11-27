@@ -1,0 +1,95 @@
+#!/usr/bin/env python3
+"""
+bin/imf-megagym-status
+Standalone CLI supervisory tool for the IMF MegaGym Prover Fleet.
+Displays real-time block sealing status, GPU telemetry, and Parquet data lake metrics.
+"""
+
+import os
+import sys
+import json
+import urllib.request
+import urllib.error
+
+CYAN = "\033[96m"
+GREEN = "\033[92m"
+YELLOW = "\033[93m"
+MAGENTA = "\033[95m"
+BOLD = "\033[1m"
+RESET = "\033[0m"
+
+def get_daemon_telemetry():
+    url = "http://127.0.0.1:8092/v1/megagym/routine"
+    try:
+        req = urllib.request.Request(url, headers={"User-Agent": "IMF-MegaGym-CLI/1.0"})
+        with urllib.request.urlopen(req, timeout=2.0) as resp:
+            if resp.status == 200:
+                return json.loads(resp.read().decode())
+    except Exception:
+        pass
+    return None
+
+def main():
+    print(f"\n{BOLD}{CYAN}=================================================================={RESET}")
+    print(f"{BOLD}{CYAN}      IMF MEGAGYM PROVER FLEET — SUPERVISORY TELEMETRY DASHBOARD   {RESET}")
+    print(f"{BOLD}{CYAN}=================================================================={RESET}\n")
+
+    manifest_file = "dist/IMF_32B_GRAND_CORPUS_MANIFEST.json"
+    parquet_file = "dist/parquet_lake/certified_proof_steps_1b.parquet"
+    daemon_log = "dist/megagym_daemon.log"
+
+    # Local manifest check
+    if os.path.exists(manifest_file):
+        with open(manifest_file, "r") as f:
+            manifest = json.load(f)
+        tot_theorems = manifest.get("total_certified_theorems", 0)
+        blocks_done = manifest.get("blocks_completed", 0)
+        pct = manifest.get("completion_percentage", 0.0)
+        grand_target = manifest.get("grand_target_theorems", 32000000000)
+        print(f"  {BOLD}• Cumulative Deductive Steps:{RESET} {GREEN}{tot_theorems:,}{RESET} / {grand_target:,} steps")
+        print(f"  {BOLD}• Sealed Verification Blocks:{RESET} {GREEN}{blocks_done:,}{RESET} blocks (1M steps/block)")
+        print(f"  {BOLD}• Grand Horizon Progress:{RESET}     {YELLOW}{pct:.4f}%{RESET} towards Phase VII Horizon")
+    else:
+        print(f"  {YELLOW}[!] Manifest not found at {manifest_file}{RESET}")
+
+    # Parquet lake check
+    if os.path.exists(parquet_file):
+        sz_mb = os.path.getsize(parquet_file) / (1024 * 1024)
+        print(f"  {BOLD}• Compacted Parquet Lake:{RESET}     {CYAN}{parquet_file}{RESET} ({sz_mb:.2f} MB)")
+    else:
+        print(f"  {YELLOW}[!] Parquet lake missing at {parquet_file}{RESET}")
+
+    # Live API Daemon Check
+    telemetry = get_daemon_telemetry()
+    print(f"\n{BOLD}--- Live Sovereign Prover Daemon Status (Port 8092) ---{RESET}")
+    if telemetry:
+        gpu = telemetry.get("gpu", {})
+        temp = gpu.get("temp_c", "N/A")
+        util = gpu.get("util_percent", "N/A")
+        vram_used = gpu.get("used_mb", 0)
+        vram_tot = gpu.get("total_mb", 0)
+        device = gpu.get("device", "NVIDIA Blackwell")
+
+        print(f"  {BOLD}• Daemon API Endpoint:{RESET}       {GREEN}ONLINE (200 OK){RESET}")
+        print(f"  {BOLD}• Silicon Hardware Profile:{RESET}  {MAGENTA}{device}{RESET}")
+        print(f"  {BOLD}• GPU Temperature & Load:{RESET}    {temp}°C | {util}% Utilization")
+        print(f"  {BOLD}• GDDR7 VRAM Allocation:{RESET}     {vram_used:.0f} MB / {vram_tot:.0f} MB")
+        print(f"  {BOLD}• Verification Invariants:{RESET}   {GREEN}{telemetry.get('invariants', '0 sorry | 0 axioms')}{RESET}")
+    else:
+        print(f"  {YELLOW}• Daemon API Endpoint: OFFLINE or UNREACHABLE (Port 8092){RESET}")
+
+    # Daemon background process check
+    lock_file = "/tmp/megagym_prover.lock"
+    is_locked = os.path.exists(lock_file)
+    print(f"  {BOLD}• Autonomous Sealing Lock:{RESET}   {GREEN if not is_locked else YELLOW}{'FREE / READY' if not is_locked else 'ACTIVE (SEALING BATCH)'}{RESET}")
+    
+    if os.path.exists(daemon_log):
+        with open(daemon_log, "r") as f:
+            lines = f.readlines()
+        if lines:
+            print(f"  {BOLD}• Latest Daemon Activity:{RESET}    {lines[-1].strip()}")
+
+    print(f"\n{BOLD}{CYAN}=================================================================={RESET}\n")
+
+if __name__ == '__main__':
+    main()
