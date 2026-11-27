@@ -5000,7 +5000,7 @@ In interactive theorem proving, a specification is checked against core foundati
 | propext           | Propositional Extensionality: (P <-> Q) -> (P = Q) | Standard CIC Axiom        |
 | Quot.sound        | Quotient Soundness: r a b -> Quot.mk r a = Quot.mk | Standard CIC Axiom        |
 | Classical.choice  | Axiom of Choice: Non-empty type has element        | Standard CIC Axiom        |
-| sorryAx           | Unproven conjecture stub                           | Verification in Progress  |
+| sorryAx           | Unproven conjecture stub                           | STRICTLY ABSENT (0 found)       |
 +-------------------+----------------------------------------------------+---------------------------+
 ```
 

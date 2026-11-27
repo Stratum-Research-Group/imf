@@ -49,7 +49,7 @@ This volume serves as the conceptual and physical portal into the Sacred Sanctum
 | **4** | [Chapter 4: The Cayley Transform and Discrete Lyapunov Stability](#chapter-4-the-cayley-transform-and-discrete-lyapunov-stability) | Rational conformal Cayley transform, exact rank-2 Sherman-Morrison solver, and contractive discrete Lyapunov stability bounds. |
 | **5** | [Chapter 5: Warp-Level Blackwell SM 12.0 Lie Rolling KV Cache](#chapter-5-warp-level-blackwell-sm-120-lie-rolling-kv-cache) | Physical silicon kernel in csrc/, 32x32 state warp shuffle staging, dissipation parameter lambda, and 51.5 us decode benchmarks. |
 | **6** | [Chapter 6: Linux Kernel-Bypass `io_uring` Direct DMA](#chapter-6-linux-kernel-bypass-iouring-direct-dma) | Ring buffer SQPOLL architecture, host-pinned O_DIRECT fixed buffers, and 2.33 GB/s physical NVMe throughput telemetry. |
-| **7** | [Chapter 7: Formal Deductive Verification in Lean 4: Module 83](#chapter-7-formal-deductive-verification-in-lean-4-module-83) | Machine-certified Lean 4 Mathlib module verifying isometry, commutator nil-trace, and antisymmetry over real matrices. |
+| **7** | [Chapter 7: Formal Deductive Verification in Lean 4: Module 83](#chapter-7-formal-deductive-verification-in-lean-4-module-83) | Formal Lean 4 Mathlib module verifying isometry, commutator nil-trace, and antisymmetry over real matrices. |
 | **8** | [Chapter 8: The Dimensional Ledger: Closing $d \le 4$ and Bridging to $d = 32$](#chapter-8-the-dimensional-ledger-closing-d--4-and-bridging-to-d--32) | Block-diagonal SO(4)^8 in SO(32), 32x arithmetic speedup, empirical capacity, low-precision drift, and open questions. |
 
 ---
@@ -4791,7 +4791,7 @@ This chapter has established the systems architecture for kernel-bypass paramete
 - The C++ engine `csrc/fused_iouring_weight_streamer.cpp` implements both Direct-I/O block weight streaming and a lock-free anonymous shared memory ring for multi-agent council swarms.
 - On physical hardware, the engine achieves **2.33 GB/s sustained throughput** on incompressible encrypted storage and **up to 11.43 GB/s in fixed-buffer burst modes**, completely hiding layer swap latency behind compute.
 
-In Chapter 7, we conclude Volume I by examining the formal deductive verification of the Lie rolling cache in Lean 4 (`lean_pilot/Pilot/LieRollingCacheStability.lean`), proving zero-sorry machine certification across all algebraic invariants.
+In Chapter 7, we conclude Volume I by examining the formal deductive verification of the Lie rolling cache in Lean 4 (`lean_pilot/Pilot/LieRollingCacheStability.lean`), providing formal verification of core algebraic invariants with zero sorry stubs.
 
 
 ---

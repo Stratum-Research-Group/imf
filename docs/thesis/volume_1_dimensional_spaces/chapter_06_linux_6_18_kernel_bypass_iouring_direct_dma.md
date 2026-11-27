@@ -470,4 +470,4 @@ This chapter has established the systems architecture for kernel-bypass paramete
 - The C++ engine `csrc/fused_iouring_weight_streamer.cpp` implements both Direct-I/O block weight streaming and a lock-free anonymous shared memory ring for multi-agent council swarms.
 - On physical hardware, the engine achieves **2.33 GB/s sustained throughput** on incompressible encrypted storage and **up to 11.43 GB/s in fixed-buffer burst modes**, completely hiding layer swap latency behind compute.
 
-In Chapter 7, we conclude Volume I by examining the formal deductive verification of the Lie rolling cache in Lean 4 (`lean_pilot/Pilot/LieRollingCacheStability.lean`), proving zero-sorry machine certification across all algebraic invariants.
+In Chapter 7, we conclude Volume I by examining the formal deductive verification of the Lie rolling cache in Lean 4 (`lean_pilot/Pilot/LieRollingCacheStability.lean`), providing formal verification of core algebraic invariants with zero sorry stubs.

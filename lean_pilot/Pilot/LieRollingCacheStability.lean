@@ -98,4 +98,14 @@ theorem rolling_cache_constant_memory (d_sq T : ℕ) :
     d_sq + 0 * T = d_sq := by
   ring
 
+
+#print axioms lie_bracket_trace_cancellation_real
+#print axioms lie_algebra_so_antisymmetry_real
+#print axioms orthogonal_frobenius_norm_sq_preserved
+#print axioms rank1_skew_innovation_trace_zero
+#print axioms matrix_transposition_involution_real
+#print axioms cayley_damping_dissipation_monotone_real
+#print axioms discrete_lyapunov_stability_real
+#print axioms rolling_cache_constant_memory
 end Pilot.LieRollingCacheStability
+
