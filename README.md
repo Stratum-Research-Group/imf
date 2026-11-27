@@ -19,11 +19,11 @@
 ---
 
 <p align="center">
-  <video src="assets/mediaspeedrun/Jonathan%20Bree%20-%20Until%20We're%20Done.mp4" controls width="720" style="max-width: 100%; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.5);">
-    Your browser does not support the video tag.
-  </video>
+  <a href="assets/mediaspeedrun/Jonathan%20Bree%20-%20Until%20We're%20Done.mp4">
+    <img src="assets/mediaspeedrun/preview.gif" alt="Jonathan Bree - Until We're Done (Speedrun Research Program)" width="720" style="max-width: 100%; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.5);" />
+  </a>
   <br />
-  <sub style="color: #94a3b8; font-size: 0.8rem;">this is what a Speedrun Research Program looks like</sub>
+  <sub style="color: #94a3b8; font-size: 0.8rem;">this is what a Speedrun Research Program looks like (click to play full video)</sub>
 </p>
 
 ---
