@@ -2608,6 +2608,54 @@ def test_iouring_futex2_wake_stream_correctness():
     assert stats.total_wakes == 32
 
 
+class SplicePipeTeeConfig(ctypes.Structure):
+    _fields_ = [
+        ("ring_entries", ctypes.c_uint32),
+        ("packet_size_bytes", ctypes.c_uint32),
+        ("num_packets", ctypes.c_uint32),
+        ("fanout_degree", ctypes.c_uint32),
+    ]
+
+
+class SplicePipeTeeStats(ctypes.Structure):
+    _fields_ = [
+        ("total_bytes_spliced", ctypes.c_uint64),
+        ("total_bytes_teed", ctypes.c_uint64),
+        ("packets_streamed", ctypes.c_uint32),
+        ("ring_status", ctypes.c_uint32),
+        ("zero_copy_verified", ctypes.c_uint32),
+    ]
+
+
+def test_iouring_splice_pipe_tee_stream_correctness():
+    """Validates the Linux 6.18 zero-copy splice & pipe tee fanout stream engine."""
+    so_path = "csrc/libfused_iouring_splice_pipe_tee_stream.so"
+    assert os.path.exists(so_path), f"Shared object not found: {so_path}"
+
+    lib = ctypes.CDLL(so_path)
+    lib.run_splice_pipe_tee_stream_engine.argtypes = [
+        ctypes.POINTER(SplicePipeTeeConfig),
+        ctypes.POINTER(SplicePipeTeeStats),
+    ]
+    lib.run_splice_pipe_tee_stream_engine.restype = ctypes.c_int
+
+    config = SplicePipeTeeConfig(
+        ring_entries=64,
+        packet_size_bytes=4096,
+        num_packets=16,
+        fanout_degree=3,
+    )
+    stats = SplicePipeTeeStats()
+
+    ret = lib.run_splice_pipe_tee_stream_engine(ctypes.byref(config), ctypes.byref(stats))
+    assert ret == 0, f"run_splice_pipe_tee_stream_engine failed with return code {ret}"
+    assert stats.packets_streamed == 16
+    assert stats.zero_copy_verified == 1
+    assert stats.total_bytes_spliced == 16 * 4096
+    assert stats.total_bytes_teed == 16 * 4096 * (3 - 1)
+
+
+
 
 
 

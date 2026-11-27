@@ -2123,6 +2123,21 @@ def test_fused_abelian_surface_modularity_correctness():
     assert matched_count == n_surfaces, f"Expected all {n_surfaces} surfaces to match paramodular Deligne-Weil bounds, got {matched_count}"
 
 
+def test_fused_sato_tate_equidistribution_correctness():
+    """Validates the fused Blackwell SM 12.0 kernel for Sato-Tate equidistribution and Frobenius angles."""
+    so_path = "csrc/libfused_blackwell_sato_tate_equidistribution.so"
+    assert os.path.exists(so_path), f"Missing shared object: {so_path}"
+
+    lib = ctypes.CDLL(so_path)
+    lib.run_sato_tate_benchmark.argtypes = [ctypes.c_int]
+    lib.run_sato_tate_benchmark.restype = ctypes.c_int
+
+    n_samples = 1024
+    valid_count = lib.run_sato_tate_benchmark(n_samples)
+    assert valid_count == n_samples, f"Expected all {n_samples} samples to be Sato-Tate admissible, got {valid_count}"
+
+
+
 
 
 
