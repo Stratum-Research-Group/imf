@@ -64,6 +64,7 @@ jobs:
           g++ -O3 -shared -fPIC -std=c++17 csrc/fused_iouring_fixed_dma_buf_direct_nvme.cpp -o csrc/libfused_iouring_fixed_dma_buf_direct_nvme.so
           g++ -O3 -shared -fPIC -std=c++17 csrc/fused_iouring_direct_ring_buffer_zero_alloc.cpp -o csrc/libfused_iouring_direct_ring_buffer_zero_alloc.so
           g++ -O3 -shared -fPIC -std=c++17 csrc/fused_iouring_direct_splice_tee_zerocopy.cpp -o csrc/libfused_iouring_direct_splice_tee_zerocopy.so
+          g++ -O3 -shared -fPIC -std=c++17 csrc/fused_iouring_registered_ringbuf_eventfd_splice.cpp -o csrc/libfused_iouring_registered_ringbuf_eventfd_splice.so
 
       - name: Install uv and Python
         uses: astral-sh/setup-uv@v3

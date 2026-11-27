@@ -2832,6 +2832,50 @@ def test_iouring_direct_splice_tee_zerocopy_correctness():
     assert stats.total_bytes_spliced == 16 * 4096
     assert stats.zero_copy_verified == 1
 
+def test_iouring_registered_ringbuf_eventfd_splice_correctness():
+    so_path = "csrc/libfused_iouring_registered_ringbuf_eventfd_splice.so"
+    assert os.path.exists(so_path), f"Shared library does not exist: {so_path}"
+    lib = ctypes.CDLL(so_path)
+
+    class RingbufEventfdConfig(ctypes.Structure):
+        _fields_ = [
+            ("ring_entries", ctypes.c_uint32),
+            ("buffer_size_bytes", ctypes.c_uint32),
+            ("num_buffers", ctypes.c_uint32),
+            ("events_to_signal", ctypes.c_uint32),
+        ]
+
+    class RingbufEventfdStats(ctypes.Structure):
+        _fields_ = [
+            ("total_bytes_transferred", ctypes.c_uint64),
+            ("events_completed", ctypes.c_uint32),
+            ("active_rings_count", ctypes.c_uint32),
+            ("eventfd_signal_verified", ctypes.c_uint32),
+            ("engine_status", ctypes.c_uint32),
+        ]
+
+    lib.run_registered_ringbuf_eventfd_splice_engine.argtypes = [
+        ctypes.POINTER(RingbufEventfdConfig),
+        ctypes.POINTER(RingbufEventfdStats)
+    ]
+    lib.run_registered_ringbuf_eventfd_splice_engine.restype = ctypes.c_int
+
+    config = RingbufEventfdConfig(
+        ring_entries=64,
+        buffer_size_bytes=2048,
+        num_buffers=8,
+        events_to_signal=12,
+    )
+    stats = RingbufEventfdStats()
+
+    ret = lib.run_registered_ringbuf_eventfd_splice_engine(ctypes.byref(config), ctypes.byref(stats))
+    assert ret == 0, f"run_registered_ringbuf_eventfd_splice_engine failed with return code {ret}"
+    assert stats.engine_status == 1
+    assert stats.events_completed == 12
+    assert stats.total_bytes_transferred == 12 * 2048
+    assert stats.active_rings_count == 8
+    assert stats.eventfd_signal_verified == 1
+
 
 
 
