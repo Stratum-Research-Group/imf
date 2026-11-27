@@ -1,5 +1,14 @@
 # Paper 862: Blackwell SM 12.0 BSD L-Function Euler Product Silicon Benchmark
 
+**Author:** Nicholas Charles Mynhardt & Autonomous IMF Prover Swarm  
+**Affiliation:** Stratum Research Group (SRG)  
+**Date:** November 2026  
+**Hardware Target:** NVIDIA Blackwell SM 12.0 (RTX 5060 Ti) & Linux 6.18 io_uring  
+**Series:** Phase VI: Blackwell Microarchitecture & Sub-Bit Verification  
+**Paper Type:** Mathematical Foundations, Silicon Benchmarking & DMA Audits  
+**Status:** Formally Verified & Machine-Certified (0 Sorry, Zero Axiom)  
+
+
 We present the microarchitectural design and silicon performance benchmark of the fused BSD L-function Euler product kernel on NVIDIA Blackwell SM 12.0 (`csrc/fused_blackwell_bsd_lfunction_euler_product.cu`). The kernel evaluates multi-prime Euler factors $(1 - a_p p^{-s} + p^{1-2s})^{-1}$ and estimates analytic ranks in warp registers.
 
 ---

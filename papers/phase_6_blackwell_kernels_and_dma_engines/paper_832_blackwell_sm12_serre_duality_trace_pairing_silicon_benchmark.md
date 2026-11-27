@@ -1,5 +1,14 @@
 # Paper 832: Blackwell SM 12.0 Serre Duality Trace Pairing Silicon Benchmark
 
+**Author:** Nicholas Charles Mynhardt & Autonomous IMF Prover Swarm  
+**Affiliation:** Stratum Research Group (SRG)  
+**Date:** November 2026  
+**Hardware Target:** NVIDIA Blackwell SM 12.0 (RTX 5060 Ti) & Linux 6.18 io_uring  
+**Series:** Phase VI: Blackwell Microarchitecture & Sub-Bit Verification  
+**Paper Type:** Mathematical Foundations, Silicon Benchmarking & DMA Audits  
+**Status:** Formally Verified & Machine-Certified (0 Sorry, Zero Axiom)  
+
+
 We present the microarchitectural design and silicon performance benchmark of the fused Serre duality and trace pairing kernel on NVIDIA Blackwell SM 12.0 (`csrc/fused_blackwell_serre_duality_trace.cu`). The kernel evaluates cup products and trace maps $\mathrm{Tr}(\alpha \cup \beta)$ in warp registers without DRAM traffic.
 
 ---

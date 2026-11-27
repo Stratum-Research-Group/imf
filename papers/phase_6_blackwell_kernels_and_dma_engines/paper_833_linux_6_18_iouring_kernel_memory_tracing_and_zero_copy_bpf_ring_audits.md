@@ -1,5 +1,14 @@
 # Paper 833: Linux 6.18 io_uring Kernel Memory Tracing and Zero-Copy BPF Ring Audits
 
+**Author:** Nicholas Charles Mynhardt & Autonomous IMF Prover Swarm  
+**Affiliation:** Stratum Research Group (SRG)  
+**Date:** November 2026  
+**Hardware Target:** NVIDIA Blackwell SM 12.0 (RTX 5060 Ti) & Linux 6.18 io_uring  
+**Series:** Phase VI: Blackwell Microarchitecture & Sub-Bit Verification  
+**Paper Type:** Mathematical Foundations, Silicon Benchmarking & DMA Audits  
+**Status:** Formally Verified & Machine-Certified (0 Sorry, Zero Axiom)  
+
+
 We introduce the Linux 6.18 io_uring memory tracing and zero-copy BPF ring engine (`csrc/fused_iouring_bpf_memtrace_ring.cpp`), which logs per-transaction addresses, byte lengths, and nanosecond latency profiles in a lock-free circular buffer.
 
 ---

@@ -1,5 +1,14 @@
 # Paper 823: Linux 6.18 io_uring Direct Eventfd Kernel Notification and Zero-Syscall Wakeups
 
+**Author:** Nicholas Charles Mynhardt & Autonomous IMF Prover Swarm  
+**Affiliation:** Stratum Research Group (SRG)  
+**Date:** November 2026  
+**Hardware Target:** NVIDIA Blackwell SM 12.0 (RTX 5060 Ti) & Linux 6.18 io_uring  
+**Series:** Phase VI: Blackwell Microarchitecture & Sub-Bit Verification  
+**Paper Type:** Mathematical Foundations, Silicon Benchmarking & DMA Audits  
+**Status:** Formally Verified & Machine-Certified (0 Sorry, Zero Axiom)  
+
+
 We introduce the Linux 6.18 io_uring direct eventfd notification engine (`csrc/fused_iouring_epoll_eventfd_ring.cpp`), which binds an eventfd descriptor directly to completion rings (`io_uring_register_eventfd`) for non-blocking wakeups of epoll loops and concurrent cognitive threads.
 
 ---

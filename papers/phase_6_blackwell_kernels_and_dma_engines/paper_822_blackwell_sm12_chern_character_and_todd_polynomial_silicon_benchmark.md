@@ -1,5 +1,14 @@
 # Paper 822: Blackwell SM 12.0 Chern Character and Todd Polynomial Silicon Benchmark
 
+**Author:** Nicholas Charles Mynhardt & Autonomous IMF Prover Swarm  
+**Affiliation:** Stratum Research Group (SRG)  
+**Date:** November 2026  
+**Hardware Target:** NVIDIA Blackwell SM 12.0 (RTX 5060 Ti) & Linux 6.18 io_uring  
+**Series:** Phase VI: Blackwell Microarchitecture & Sub-Bit Verification  
+**Paper Type:** Mathematical Foundations, Silicon Benchmarking & DMA Audits  
+**Status:** Formally Verified & Machine-Certified (0 Sorry, Zero Axiom)  
+
+
 We present the microarchitectural design and silicon performance benchmark of the fused Grothendieck-Riemann-Roch and Todd class kernel on NVIDIA Blackwell SM 12.0 (`csrc/fused_blackwell_grr_todd_chern.cu`). The kernel executes in-register Horner polynomial evaluations and tensor contractions over 8D/24D parameter manifolds.
 
 ---

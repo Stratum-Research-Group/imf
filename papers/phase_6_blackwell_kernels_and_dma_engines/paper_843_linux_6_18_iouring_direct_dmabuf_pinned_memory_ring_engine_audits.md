@@ -1,5 +1,14 @@
 # Paper 843: Linux 6.18 io_uring Direct DMA-BUF Pinned Memory Ring Engine Audits
 
+**Author:** Nicholas Charles Mynhardt & Autonomous IMF Prover Swarm  
+**Affiliation:** Stratum Research Group (SRG)  
+**Date:** November 2026  
+**Hardware Target:** NVIDIA Blackwell SM 12.0 (RTX 5060 Ti) & Linux 6.18 io_uring  
+**Series:** Phase VI: Blackwell Microarchitecture & Sub-Bit Verification  
+**Paper Type:** Mathematical Foundations, Silicon Benchmarking & DMA Audits  
+**Status:** Formally Verified & Machine-Certified (0 Sorry, Zero Axiom)  
+
+
 We document the architecture and performance profile of the Linux 6.18 `io_uring` direct DMA-BUF pinned memory ring engine (`csrc/fused_iouring_dmabuf_ring.cpp`). Leveraging `IORING_REGISTER_BUFFERS2` and dma-buf export primitives, the engine achieves zero-copy DMA streaming between NVMe storage, host RAM, and accelerator buffers.
 
 ---

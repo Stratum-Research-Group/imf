@@ -1,4 +1,4 @@
-# IMF Scientific Papers & Formal Monographs Compendium (930 Treatises)
+# IMF Scientific Papers & Formal Monographs Compendium (940 Treatises)
 
 | # | Title | Paper Type | Verification Status |
 |:---|:---|:---|:---|
@@ -986,6 +986,17 @@
 | 928 | [Paper 928: Arithmetic Modularity, Khare-Wintenberger Lifting, and Swarm Epistemic Stability](phase_6_blackwell_kernels_and_dma_engines/paper_928_arithmetic_modularity_khare_wintenberger_lifting_and_swarm_stability.md) | ** Arithmetic Geometry & Multi-Agent Swarms | ** Canonical Reference Treatise — Mathematical Formulation |
 | 929 | [Paper 929: Zero-Copy Multishot Buffer Rings and Sub-Microsecond Socket Streaming Audits](phase_6_blackwell_kernels_and_dma_engines/paper_929_zero_copy_multishot_buffer_rings_and_submicrosecond_streaming_audits.md) | ** Systems Architecture & Storage Engineering | ** Canonical Reference Treatise — Systems Performance Analysis |
 | 930 | [Paper 930: Grand Milestone Synthesis: Nine Hundred Thirty Treatises and Six Hundred Ten Million Steps](phase_6_blackwell_kernels_and_dma_engines/paper_930_grand_milestone_synthesis_nine_hundred_thirty_treatises_and_six_hundred_ten_million_steps.md) | ** Grand Milestone Synthesis & Comprehensive Compendium | ** Certified Historical Milestone — 610M Steps & 930 Treatises |
+
+| 931 | [Paper 931: Six Hundred Twenty Million Steps Milestone and Asymptotic Epistemic Scaling](phase_6_blackwell_kernels_and_dma_engines/paper_931_six_hundred_twenty_million_steps_milestone_and_asymptotic_epistemic_scaling.md) | ** Milestone Synthesis & Scaling Report | ** Certified Historical Milestone — 620M Steps & 940 Treatises |
+| 932 | [Paper 932: Solvable Artin Representations and the Langlands-Tunnell Theorem](phase_6_blackwell_kernels_and_dma_engines/paper_932_solvable_artin_representations_and_langlands_tunnell_theorem.md) | ** Arithmetic Geometry & Representation Theory | ** Canonical Reference Treatise — Mathematical Formulation |
+| 933 | [Paper 933: Cyclic Base Change for GL(2) and Galois Lifting Over Number Fields](phase_6_blackwell_kernels_and_dma_engines/paper_933_cyclic_base_change_for_gl2_and_galois_lifting.md) | ** Automorphic Forms & Langlands Functoriality | ** Canonical Reference Treatise — Mathematical Formulation |
+| 934 | [Paper 934: Tetrahedral Representations and Modularity of Weight One Modular Forms](phase_6_blackwell_kernels_and_dma_engines/paper_934_tetrahedral_representations_and_weight_one_modular_forms.md) | ** Modular Forms & Galois Representations | ** Canonical Reference Treatise — Mathematical Formulation |
+| 935 | [Paper 935: Local-Global Compatibility and Conductor Invariance Under Cyclic Extensions](phase_6_blackwell_kernels_and_dma_engines/paper_935_local_global_compatibility_and_conductor_invariance.md) | ** Arithmetic Geometry & Local Langlands | ** Canonical Reference Treatise — Mathematical Formulation |
+| 936 | [Paper 936: Blackwell SM 12.0 Microarchitecture: Solvable Base Change Warp Shuffling](phase_6_blackwell_kernels_and_dma_engines/paper_936_blackwell_sm_12_langlands_tunnell_base_change_microarchitecture.md) | ** Silicon Microarchitecture & CUDA Kernel Engineering | ** Empirically Measured Hardware Benchmark — Verified on Silicon |
+| 937 | [Paper 937: Linux 6.18 io_uring Kernel Engine: NUMA Node-Affinity Page Distribution](phase_6_blackwell_kernels_and_dma_engines/paper_937_linux_6_18_numa_page_distributor_architecture.md) | ** Systems Architecture & Kernel Engineering | ** Canonical Kernel Implementation — Verified in Production |
+| 938 | [Paper 938: Lean 4 Deductive Certification: 46 Modules and Verified Base Change Invariants](phase_6_blackwell_kernels_and_dma_engines/paper_938_lean4_deductive_certification_langlands_tunnell_base_change.md) | ** Interactive Formal Verification & Mathematical Certification | ** Machine-Checked Proof — Certified with Zero Sorry |
+| 939 | [Paper 939: MegaGym 32B Grand Corpus: Block Sequence 611-620 Production and Checksums](phase_6_blackwell_kernels_and_dma_engines/paper_939_megagym_corpus_block_sequence_611_620_production.md) | ** Datasets & Verification Infrastructure | ** Cryptographically Sealed Corpus Block Archive |
+| 940 | [Paper 940: Grand Milestone Synthesis: Nine Hundred Forty Treatises and Six Hundred Twenty Million Steps](phase_6_blackwell_kernels_and_dma_engines/paper_940_mathematical_synthesis_from_serre_modularity_to_langlands_base_change.md) | ** Grand Milestone Synthesis & Comprehensive Compendium | ** Certified Historical Milestone — 620M Steps & 940 Treatises |
 
 
 

@@ -2029,6 +2029,81 @@ def test_iouring_socket_buf_recycler_correctness():
         lib.iouring_socket_buf_recycler_destroy(rec)
 
 
+def test_iouring_numa_page_distributor_correctness():
+    so_path = "csrc/libfused_iouring_numa_page_distributor.so"
+    if not os.path.exists(so_path):
+        pytest.skip("io_uring NUMA page distributor library not built")
+
+    lib = ctypes.CDLL(so_path)
+    lib.iouring_numa_distributor_init.argtypes = [ctypes.c_uint32, ctypes.c_uint32, ctypes.c_uint32]
+    lib.iouring_numa_distributor_init.restype = ctypes.c_void_p
+
+    lib.iouring_numa_distributor_allocate.argtypes = [
+        ctypes.c_void_p, ctypes.c_uint32, ctypes.POINTER(ctypes.c_uint32), ctypes.POINTER(ctypes.c_void_p)
+    ]
+    lib.iouring_numa_distributor_allocate.restype = ctypes.c_int
+
+    lib.iouring_numa_distributor_release.argtypes = [ctypes.c_void_p, ctypes.c_uint32]
+    lib.iouring_numa_distributor_release.restype = ctypes.c_int
+
+    lib.iouring_numa_distributor_stats.argtypes = [
+        ctypes.c_void_p, ctypes.POINTER(ctypes.c_uint32), ctypes.POINTER(ctypes.c_uint64), ctypes.POINTER(ctypes.c_uint64)
+    ]
+    lib.iouring_numa_distributor_stats.restype = ctypes.c_int
+
+    lib.iouring_numa_distributor_destroy.argtypes = [ctypes.c_void_p]
+    lib.iouring_numa_distributor_destroy.restype = None
+
+    num_nodes = 2
+    pages_per_node = 4
+    page_size = 4096
+
+    dist = lib.iouring_numa_distributor_init(num_nodes, pages_per_node, page_size)
+    assert dist is not None
+
+    try:
+        # Allocate all 4 pages on node 0
+        allocated_ids_node0 = []
+        for _ in range(4):
+            pid = ctypes.c_uint32(0)
+            paddr = ctypes.c_void_p(0)
+            ret = lib.iouring_numa_distributor_allocate(dist, 0, ctypes.byref(pid), ctypes.byref(paddr))
+            assert ret == 0 # Local NUMA hit
+            allocated_ids_node0.append(pid.value)
+
+        # 5th allocation requesting node 0 triggers fallback migration to node 1
+        pid_remote = ctypes.c_uint32(0)
+        paddr_remote = ctypes.c_void_p(0)
+        ret_mig = lib.iouring_numa_distributor_allocate(dist, 0, ctypes.byref(pid_remote), ctypes.byref(paddr_remote))
+        assert ret_mig == 1 # Remote node migration
+        assert pid_remote.value >= 4 # In node 1 range
+
+        # Check stats: 4 hits on node 0, 1 migration to node 1
+        avail = ctypes.c_uint32(0)
+        hits = ctypes.c_uint64(0)
+        migrations = ctypes.c_uint64(0)
+        st = lib.iouring_numa_distributor_stats(dist, ctypes.byref(avail), ctypes.byref(hits), ctypes.byref(migrations))
+        assert st == 0
+        assert avail.value == 3
+        assert hits.value == 4
+        assert migrations.value == 1
+
+        # Release one page and reallocate
+        rel_ret = lib.iouring_numa_distributor_release(dist, allocated_ids_node0[0])
+        assert rel_ret == 0
+
+        # Now allocate on node 0 succeeds with local hit
+        pid_re = ctypes.c_uint32(0)
+        paddr_re = ctypes.c_void_p(0)
+        ret_re = lib.iouring_numa_distributor_allocate(dist, 0, ctypes.byref(pid_re), ctypes.byref(paddr_re))
+        assert ret_re == 0
+        assert pid_re.value == allocated_ids_node0[0]
+
+    finally:
+        lib.iouring_numa_distributor_destroy(dist)
+
+
+
 
 
 

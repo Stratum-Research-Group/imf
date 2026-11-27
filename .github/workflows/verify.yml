@@ -50,6 +50,7 @@ jobs:
           g++ -O3 -shared -fPIC -std=c++17 csrc/fused_iouring_page_pool_allocator.cpp -o csrc/libfused_iouring_page_pool_allocator.so
           g++ -O3 -shared -fPIC -std=c++17 csrc/fused_iouring_socket_multiplexer.cpp -o csrc/libfused_iouring_socket_multiplexer.so
           g++ -O3 -shared -fPIC -std=c++17 csrc/fused_iouring_socket_buf_recycler.cpp -o csrc/libfused_iouring_socket_buf_recycler.so
+          g++ -O3 -shared -fPIC -std=c++17 csrc/fused_iouring_numa_page_distributor.cpp -o csrc/libfused_iouring_numa_page_distributor.so
 
       - name: Install uv and Python
         uses: astral-sh/setup-uv@v3

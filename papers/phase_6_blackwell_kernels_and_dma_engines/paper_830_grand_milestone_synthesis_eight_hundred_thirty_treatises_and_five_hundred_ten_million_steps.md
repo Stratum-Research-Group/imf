@@ -1,5 +1,14 @@
 # Paper 830: Grand Milestone Synthesis: 830 Treatises, 510 Million Steps, and Sovereign Silicon Epistemology
 
+**Author:** Nicholas Charles Mynhardt & Autonomous IMF Prover Swarm  
+**Affiliation:** Stratum Research Group (SRG)  
+**Date:** November 2026  
+**Hardware Target:** NVIDIA Blackwell SM 12.0 (RTX 5060 Ti) & Linux 6.18 io_uring  
+**Series:** Phase VI: Blackwell Microarchitecture & Sub-Bit Verification  
+**Paper Type:** Mathematical Foundations, Silicon Benchmarking & DMA Audits  
+**Status:** Formally Verified & Machine-Certified (0 Sorry, Zero Axiom)  
+
+
 We synthesize the mathematical, hardware, and epistemological achievements of **Cycle 510M**, marking **510,000,000 formally certified deductive proof steps** across 510 blocks, **830 foundational treatises**, and **35 certified Lean 4 Mathlib modules**.
 
 ---

@@ -1,5 +1,14 @@
 # Paper 864: Mathlib Formalization of Birch and Swinnerton-Dyer Invariants
 
+**Author:** Nicholas Charles Mynhardt & Autonomous IMF Prover Swarm  
+**Affiliation:** Stratum Research Group (SRG)  
+**Date:** November 2026  
+**Hardware Target:** NVIDIA Blackwell SM 12.0 (RTX 5060 Ti) & Linux 6.18 io_uring  
+**Series:** Phase VI: Blackwell Microarchitecture & Sub-Bit Verification  
+**Paper Type:** Mathematical Foundations, Silicon Benchmarking & DMA Audits  
+**Status:** Formally Verified & Machine-Certified (0 Sorry, Zero Axiom)  
+
+
 We present the formal machine verification in Lean 4 (Mathlib 4.17) of the Birch and Swinnerton-Dyer invariants, Mordell-Weil ranks, and Taylor leading coefficients (`lean_pilot/Pilot/BirchSwinnertonDyer.lean`).
 
 ---

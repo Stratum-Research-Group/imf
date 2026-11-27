@@ -1721,6 +1721,79 @@ def test_fused_serre_modularity_conductor_correctness():
     assert odd_flags[1].item() == 0.0
 
 
+def test_fused_langlands_tunnell_base_change_correctness():
+    so_path = "csrc/libfused_blackwell_langlands_tunnell_base_change.so"
+    if not os.path.exists(so_path):
+        pytest.skip("Langlands-Tunnell base change kernel library not compiled")
+
+    lib = ctypes.CDLL(so_path)
+    lib.fused_blackwell_langlands_tunnell_base_change.argtypes = [
+        ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p,
+        ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p,
+        ctypes.c_void_p, ctypes.c_void_p,
+        ctypes.c_int, ctypes.c_int, ctypes.c_int
+    ]
+    lib.fused_blackwell_langlands_tunnell_base_change.restype = ctypes.c_int
+
+    batch_size = 2
+    num_places = 3
+    cyclic_degree = 2
+
+    # base_traces: [2, 3]
+    # batch 0: a_v = [2.0, 0.0, -1.0], inertia d_v = [1.0, 2.0, 3.0]
+    # deg 1: a_v = 2.0 -> 2.0
+    # deg 2: a_v^2 - 2 = 0 - 2 = -2.0
+    # deg 3: a_v^3 - 3*a_v = (-1)^3 - 3*(-1) = -1 + 3 = 2.0
+    base_traces = torch.tensor([
+        [2.0, 0.0, -1.0],
+        [1.0, 2.0, 0.0]
+    ], dtype=torch.float32)
+
+    inertia = torch.tensor([
+        [1.0, 2.0, 3.0],
+        [1.0, 1.0, 2.0]
+    ], dtype=torch.float32)
+
+    # cond(pi) = 15, disc(K/F) = 5
+    # log(cond(Pi)) = 2 * log(15) + 2 * log(5) = log(15^2 * 5^2) = log(225 * 25) = log(5625)
+    base_cond = torch.tensor([15.0, 1.0], dtype=torch.float32)
+    rel_disc = torch.tensor([5.0, 1.0], dtype=torch.float32)
+
+    # Order of projective image: 12 (tetrahedral A_4), 60 (icosahedral A_5, not solvable by radicals!)
+    proj_orders = torch.tensor([12.0, 60.0], dtype=torch.float32)
+
+    lifted_traces = torch.zeros(batch_size, num_places, dtype=torch.float32)
+    lifted_cond_log = torch.zeros(batch_size, dtype=torch.float32)
+    solvability = torch.zeros(batch_size, dtype=torch.float32)
+
+    ret = lib.fused_blackwell_langlands_tunnell_base_change(
+        ctypes.c_void_p(base_traces.data_ptr()),
+        ctypes.c_void_p(inertia.data_ptr()),
+        ctypes.c_void_p(base_cond.data_ptr()),
+        ctypes.c_void_p(rel_disc.data_ptr()),
+        ctypes.c_void_p(proj_orders.data_ptr()),
+        ctypes.c_void_p(lifted_traces.data_ptr()),
+        ctypes.c_void_p(lifted_cond_log.data_ptr()),
+        ctypes.c_void_p(solvability.data_ptr()),
+        batch_size,
+        num_places,
+        cyclic_degree
+    )
+    assert ret == 0
+
+    # Batch 0 checks:
+    assert solvability[0].item() == 1.0
+    assert abs(lifted_traces[0, 0].item() - 2.0) < 1e-4
+    assert abs(lifted_traces[0, 1].item() - (-2.0)) < 1e-4
+    assert abs(lifted_traces[0, 2].item() - 2.0) < 1e-4
+    expected_log_cond = math.log(5625.0)
+    assert abs(lifted_cond_log[0].item() - expected_log_cond) < 1e-3
+
+    # Batch 1 checks (A_5 is not solvable):
+    assert solvability[1].item() == 0.0
+
+
+
 
 
 

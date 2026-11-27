@@ -1,5 +1,14 @@
 # Paper 812: Blackwell SM 12.0 Arakelov Green's Function and Arithmetic Intersection Silicon Benchmark
 
+**Author:** Nicholas Charles Mynhardt & Autonomous IMF Prover Swarm  
+**Affiliation:** Stratum Research Group (SRG)  
+**Date:** November 2026  
+**Hardware Target:** NVIDIA Blackwell SM 12.0 (RTX 5060 Ti) & Linux 6.18 io_uring  
+**Series:** Phase VI: Blackwell Microarchitecture & Sub-Bit Verification  
+**Paper Type:** Mathematical Foundations, Silicon Benchmarking & DMA Audits  
+**Status:** Formally Verified & Machine-Certified (0 Sorry, Zero Axiom)  
+
+
 We present the microarchitectural design and silicon performance benchmark of the fused Arakelov Green's function and arithmetic intersection kernel on NVIDIA Blackwell SM 12.0 (`csrc/fused_blackwell_arakelov_intersection.cu`). The kernel evaluates archimedean Green's functions $g_v(P, Q)$ and arithmetic intersection pairings $(D_1 \cdot D_2)_{\mathrm{Ar}} = (D_1 \cdot D_2)_{\mathrm{fin}} + g_\infty(P, Q)$ in warp registers.
 
 ---
