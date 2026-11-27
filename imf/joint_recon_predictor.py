@@ -108,7 +108,17 @@ class IMFJointReconPredictorLM(nn.Module):
             metrics: Dict with total_loss, pred_loss, recon_loss, latent_rank, latent_variance
         """
         B, T = input_ids.shape
-        x = self.tok_embed(input_ids) + self.pos_embed[:, :T, :]
+        if T > self.pos_embed.size(1):
+            # Dynamic continuous interpolation across polytope manifold for long context
+            pos = F.interpolate(
+                self.pos_embed.permute(0, 2, 1),
+                size=T,
+                mode="linear",
+                align_corners=False
+            ).permute(0, 2, 1)
+            x = self.tok_embed(input_ids) + pos
+        else:
+            x = self.tok_embed(input_ids) + self.pos_embed[:, :T, :]
 
         total_balance_loss = torch.tensor(0.0, device=x.device)
         res_scale = 1.0 / math.sqrt(2.0 * len(self.layers)) if len(self.layers) > 4 else 1.0

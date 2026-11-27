@@ -93,7 +93,7 @@ def get_engine():
         polytope_dim=8,
         num_experts=16,
         top_k=2,
-        max_seq_len=128,
+        max_seq_len=4096,
         alpha_recon=0.2,
     ).to(_DEVICE)
 
@@ -193,6 +193,22 @@ def list_models():
 async def generate_stream_tokens(reply_text: str, model_name: str):
     created_ts = int(time.time())
     cmpl_id = f"chatcmpl-{int(time.time()*1000)}"
+    
+    # Send initial chunk declaring assistant role (required by Hermes and OpenAI SDKs)
+    init_chunk = {
+        "id": cmpl_id,
+        "object": "chat.completion.chunk",
+        "created": created_ts,
+        "model": model_name,
+        "choices": [{
+            "index": 0,
+            "delta": {"role": "assistant", "content": ""},
+            "finish_reason": None
+        }]
+    }
+    yield f"data: {json.dumps(init_chunk)}\n\n"
+
+    # Stream content tokens smoothly
     words = reply_text.split(" ")
     for i, word in enumerate(words):
         chunk = {
@@ -207,7 +223,7 @@ async def generate_stream_tokens(reply_text: str, model_name: str):
             }]
         }
         yield f"data: {json.dumps(chunk)}\n\n"
-        await asyncio.sleep(0.015)
+        await asyncio.sleep(0.008)
     
     end_chunk = {
         "id": cmpl_id,
@@ -246,33 +262,15 @@ async def chat_completions(req: ChatCompletionRequest):
     # Normalize model identifier across fleet aliases
     target_model = req.model.lower().strip()
     
-    # 1. Council & Reasoning Fleet Models (Long-Context Deliberation & Cognitive Engine)
+    # 1. Council, Fleet & Specialized Reasoning Models (Full Cognitive Engine)
     if any(alias in target_model for alias in [
-        "council", "llama", "qwen", "100b", "70b", "leech", "gosset", "plq"
+        "council", "llama", "qwen", "100b", "70b", "leech", "gosset", "plq", "weft"
     ]):
         from imf.council_orchestrator import CouncilModel
         cm = CouncilModel()
         res = cm.deliberate(full_prompt, board_model=req.model, execute_sandbox=True)
-        reply_text = res["verdict"]
+        reply_text = res.get("full_response", res["verdict"])
         
-        if req.stream:
-            return StreamingResponse(generate_stream_tokens(reply_text, req.model), media_type="text/event-stream")
-        return {
-            "id": f"chatcmpl-{int(time.time()*1000)}",
-            "object": "chat.completion",
-            "created": created_ts,
-            "model": req.model,
-            "choices": [{"index": 0, "message": {"role": "assistant", "content": reply_text}, "finish_reason": "stop"}]
-        }
-
-    # 2. WEFT Sub-Bit Extended Context Models
-    if target_model.startswith("weft"):
-        reply_text = (
-            f"[{req.model} Native Sub-Bit Extended Context Engine]:\n"
-            f"• Factorized window tensor evaluated across 1,048,576-token context manifold.\n"
-            f"• Sub-bit state invariant verified: continuous Lie SSM unitary flow preserved.\n"
-            f"• Context Integration: {len(req.messages)} conversation turns processed with zero memory page drift."
-        )
         if req.stream:
             return StreamingResponse(generate_stream_tokens(reply_text, req.model), media_type="text/event-stream")
         return {
