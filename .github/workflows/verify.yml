@@ -39,14 +39,20 @@ jobs:
           g++ -O3 -shared -fPIC -std=c++17 csrc/fused_iouring_fixed_dma_buf_nvme_passthru.cpp -luring -o csrc/fused_iouring_fixed_dma_buf_nvme_passthru.so
           g++ -O3 -shared -fPIC -std=c++17 csrc/fused_iouring_sqpoll_passthru_cmd.cpp -luring -o csrc/fused_iouring_sqpoll_passthru_cmd.so
           g++ -O3 -shared -fPIC -std=c++17 csrc/fused_iouring_registered_pipesplice.cpp -luring -o csrc/fused_iouring_registered_pipesplice.so
+          cp csrc/fused_iouring_registered_pipesplice.so csrc/libfused_iouring_registered_pipesplice.so
           g++ -O3 -shared -fPIC -std=c++17 csrc/fused_iouring_epoll_eventfd_ring.cpp -luring -o csrc/fused_iouring_epoll_eventfd_ring.so
+          cp csrc/fused_iouring_epoll_eventfd_ring.so csrc/libfused_iouring_epoll_eventfd_ring.so
           g++ -O3 -shared -fPIC -std=c++17 csrc/fused_iouring_bpf_memtrace_ring.cpp -o csrc/fused_iouring_bpf_memtrace_ring.so
+          cp csrc/fused_iouring_bpf_memtrace_ring.so csrc/libfused_iouring_bpf_memtrace_ring.so
           g++ -O3 -shared -fPIC -std=c++17 csrc/fused_iouring_dmabuf_ring.cpp -o csrc/fused_iouring_dmabuf_ring.so
           g++ -O3 -shared -fPIC -std=c++17 csrc/fused_iouring_futex_waitv_ring.cpp -o csrc/fused_iouring_futex_waitv_ring.so
           g++ -O3 -shared -fPIC -std=c++17 csrc/fused_iouring_send_zc_notify_ring.cpp -o csrc/fused_iouring_send_zc_notify_ring.so
           g++ -O3 -shared -fPIC -std=c++17 csrc/fused_iouring_workstealing_multiring.cpp -o csrc/fused_iouring_workstealing_multiring.so
+          cp csrc/fused_iouring_workstealing_multiring.so csrc/libfused_iouring_workstealing_multiring.so
           g++ -O3 -shared -fPIC -std=c++17 csrc/fused_iouring_direct_nvme_streaming.cpp -o csrc/fused_iouring_direct_nvme_streaming.so
+          cp csrc/fused_iouring_direct_nvme_streaming.so csrc/libfused_iouring_direct_nvme_streaming.so
           g++ -O3 -shared -fPIC -std=c++17 csrc/fused_iouring_vectored_socket_splice_fifo.cpp -o csrc/fused_iouring_vectored_socket_splice_fifo.so
+          cp csrc/fused_iouring_vectored_socket_splice_fifo.so csrc/libfused_iouring_vectored_socket_splice_fifo.so
           g++ -O3 -shared -fPIC -std=c++17 csrc/fused_iouring_page_pool_allocator.cpp -o csrc/libfused_iouring_page_pool_allocator.so
           g++ -O3 -shared -fPIC -std=c++17 csrc/fused_iouring_socket_multiplexer.cpp -o csrc/libfused_iouring_socket_multiplexer.so
           g++ -O3 -shared -fPIC -std=c++17 csrc/fused_iouring_socket_buf_recycler.cpp -o csrc/libfused_iouring_socket_buf_recycler.so

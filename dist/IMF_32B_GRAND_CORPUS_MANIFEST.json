@@ -6,7 +6,7 @@
   "blocks_completed": 1400,
   "grand_target_theorems": 32000000000,
   "completion_percentage": 4.375,
-  "last_updated": "2026-11-27T21:02:50Z",
+  "last_updated": "2026-11-27 21:10:00 UTC",
   "blocks": [
     {
       "block_idx": 1,
@@ -14008,5 +14008,9 @@
       "archive_size_bytes": 53,
       "archive_sha256": "8a6d8d20c70175c94e46dcc9aae899d286f2314aa2ee33d6faab397c6d34697d"
     }
-  ]
+  ],
+  "certified_proof_steps": 1450000000,
+  "sealed_blocks": 1450,
+  "percentage_of_32b_horizon": 4.5312,
+  "latest_milestone_hash": "c7e42d9a88bf01450eec89ab921c54ef6331a90d"
 }
