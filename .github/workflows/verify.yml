@@ -77,6 +77,7 @@ jobs:
           g++ -O3 -shared -fPIC -std=c++17 csrc/fused_iouring_singular_cycle_splice_stream.cpp -o csrc/libfused_iouring_singular_cycle_splice_stream.so
           g++ -O3 -shared -fPIC -std=c++17 csrc/fused_iouring_exceptional_galois_splice_stream.cpp -o csrc/libfused_iouring_exceptional_galois_splice_stream.so
           g++ -O3 -shared -fPIC -std=c++17 csrc/fused_iouring_motivic_cobordism_splice_stream.cpp -o csrc/libfused_iouring_motivic_cobordism_splice_stream.so
+          g++ -O3 -shared -fPIC -std=c++17 csrc/fused_iouring_milnor_witt_splice_stream.cpp -o csrc/libfused_iouring_milnor_witt_splice_stream.so
 
       - name: Install uv and Python
         uses: astral-sh/setup-uv@v3
