@@ -60,6 +60,8 @@ import Pilot.BirchSwinnertonDyerConjecture
 import Pilot.HodgeConjectureCycles
 import Pilot.TateConjectureEtale
 import Pilot.StandardConjecturesGrothendieck
+import Pilot.WeilIIMixedWeights
+
 
 
 

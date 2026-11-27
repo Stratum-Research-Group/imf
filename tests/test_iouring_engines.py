@@ -2964,6 +2964,51 @@ def test_iouring_kunneth_shm_mmap_splice_correctness():
     assert stats.ring_queue_depth == 64
     assert stats.mmap_splice_verified == 1
 
+def test_iouring_perverse_sheaf_ring_splice_correctness():
+    so_path = "csrc/libfused_iouring_perverse_sheaf_ring_splice.so"
+    assert os.path.exists(so_path), f"Missing shared object: {so_path}"
+
+    class PerverseSheafConfig(ctypes.Structure):
+        _fields_ = [
+            ("ring_entries", ctypes.c_uint32),
+            ("slice_size_bytes", ctypes.c_uint32),
+            ("num_strata", ctypes.c_uint32),
+            ("total_slices_to_stream", ctypes.c_uint32),
+        ]
+
+    class PerverseSheafStats(ctypes.Structure):
+        _fields_ = [
+            ("total_bytes_spliced", ctypes.c_uint64),
+            ("strata_processed", ctypes.c_uint32),
+            ("ring_queue_depth", ctypes.c_uint32),
+            ("perverse_splice_verified", ctypes.c_uint32),
+            ("engine_status", ctypes.c_uint32),
+        ]
+
+    lib = ctypes.CDLL(so_path)
+    lib.run_perverse_sheaf_ring_splice_engine.argtypes = [
+        ctypes.POINTER(PerverseSheafConfig),
+        ctypes.POINTER(PerverseSheafStats)
+    ]
+    lib.run_perverse_sheaf_ring_splice_engine.restype = ctypes.c_int
+
+    config = PerverseSheafConfig(
+        ring_entries=64,
+        slice_size_bytes=4096,
+        num_strata=8,
+        total_slices_to_stream=24,
+    )
+    stats = PerverseSheafStats()
+
+    ret = lib.run_perverse_sheaf_ring_splice_engine(ctypes.byref(config), ctypes.byref(stats))
+    assert ret == 0, f"run_perverse_sheaf_ring_splice_engine failed with return code {ret}"
+    assert stats.engine_status == 1
+    assert stats.strata_processed == 24
+    assert stats.total_bytes_spliced == 24 * 4096
+    assert stats.ring_queue_depth == 64
+    assert stats.perverse_splice_verified == 1
+
+
 
 
 
