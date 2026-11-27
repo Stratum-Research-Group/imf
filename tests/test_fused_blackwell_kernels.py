@@ -2269,6 +2269,20 @@ def test_fused_norm_residue_isomorphism_correctness():
     valid_count = lib.run_norm_residue_benchmark(n_samples)
     assert valid_count == n_samples, f"Expected all {n_samples} samples to satisfy Norm Residue Isomorphism invariants, got {valid_count}"
 
+@pytest.mark.skipif(not torch.cuda.is_available(), reason="CUDA not available")
+def test_fused_beilinson_lichtenbaum_correctness():
+    so_path = "csrc/libfused_blackwell_beilinson_lichtenbaum.so"
+    assert os.path.exists(so_path), f"Missing shared object: {so_path}"
+
+    lib = ctypes.CDLL(so_path)
+    lib.run_beilinson_lichtenbaum_benchmark.argtypes = [ctypes.c_int]
+    lib.run_beilinson_lichtenbaum_benchmark.restype = ctypes.c_int
+
+    n_samples = 1024
+    valid_count = lib.run_beilinson_lichtenbaum_benchmark(n_samples)
+    assert valid_count == n_samples, f"Expected all {n_samples} samples to satisfy Beilinson-Lichtenbaum invariants, got {valid_count}"
+
+
 
 
 

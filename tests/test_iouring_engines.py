@@ -3096,6 +3096,51 @@ def test_iouring_galois_symbol_splice_stream_correctness():
     assert stats.ring_queue_depth == 64
     assert stats.symbol_splice_verified == 1
 
+def test_iouring_motivic_truncation_splice_ring_correctness():
+    so_path = "csrc/libfused_iouring_motivic_truncation_splice_ring.so"
+    assert os.path.exists(so_path), f"Missing shared object: {so_path}"
+
+    class MotivicTruncationConfig(ctypes.Structure):
+        _fields_ = [
+            ("ring_entries", ctypes.c_uint32),
+            ("complex_chunk_bytes", ctypes.c_uint32),
+            ("num_complexes", ctypes.c_uint32),
+            ("stream_passes", ctypes.c_uint32),
+        ]
+
+    class MotivicTruncationStats(ctypes.Structure):
+        _fields_ = [
+            ("total_bytes_streamed", ctypes.c_uint64),
+            ("complexes_processed", ctypes.c_uint32),
+            ("ring_queue_depth", ctypes.c_uint32),
+            ("truncation_splice_verified", ctypes.c_uint32),
+            ("engine_status", ctypes.c_uint32),
+        ]
+
+    lib = ctypes.CDLL(so_path)
+    lib.run_motivic_truncation_splice_ring_engine.argtypes = [
+        ctypes.POINTER(MotivicTruncationConfig),
+        ctypes.POINTER(MotivicTruncationStats)
+    ]
+    lib.run_motivic_truncation_splice_ring_engine.restype = ctypes.c_int
+
+    config = MotivicTruncationConfig(
+        ring_entries=64,
+        complex_chunk_bytes=4096,
+        num_complexes=16,
+        stream_passes=16,
+    )
+    stats = MotivicTruncationStats()
+
+    ret = lib.run_motivic_truncation_splice_ring_engine(ctypes.byref(config), ctypes.byref(stats))
+    assert ret == 0, f"run_motivic_truncation_splice_ring_engine failed with return code {ret}"
+    assert stats.engine_status == 1
+    assert stats.complexes_processed == 16 * 16
+    assert stats.total_bytes_streamed == 16 * 16 * 4096
+    assert stats.ring_queue_depth == 64
+    assert stats.truncation_splice_verified == 1
+
+
 
 
 

@@ -63,6 +63,7 @@ import Pilot.StandardConjecturesGrothendieck
 import Pilot.WeilIIMixedWeights
 import Pilot.VoevodskyMotivicCohomology
 import Pilot.NormResidueIsomorphism
+import Pilot.BeilinsonLichtenbaum
 
 
 
