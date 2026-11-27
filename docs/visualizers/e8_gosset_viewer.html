@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>The Sacred Sanctum: E8 Root Lattice & Gosset 4_21 Polytope 3D Projection Viewer</title>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #050811;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: #e6edf3;
+  }
+  #canvas-container {
+    width: 100vw;
+    height: 100vh;
+  }
+  #overlay {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: rgba(13, 17, 23, 0.85);
+    border: 1px solid #30363d;
+    border-radius: 8px;
+    padding: 16px 20px;
+    max-width: 360px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+  }
+  h1 {
+    font-size: 16px;
+    margin: 0 0 8px 0;
+    color: #58a6ff;
+  }
+  p {
+    font-size: 12px;
+    line-height: 1.5;
+    margin: 0 0 8px 0;
+    color: #8b949e;
+  }
+  .stat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 10px;
+    font-size: 11px;
+  }
+  .stat-card {
+    background: rgba(22, 27, 34, 0.7);
+    padding: 6px 10px;
+    border-radius: 4px;
+    border: 1px solid #21262d;
+  }
+  .stat-val {
+    font-weight: 700;
+    color: #f0f6fc;
+  }
+  #controls {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    background: rgba(13, 17, 23, 0.85);
+    border: 1px solid #30363d;
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-size: 11px;
+    color: #8b949e;
+  }
+</style>
+<!-- Three.js CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+</head>
+<body>
+
+<div id="canvas-container"></div>
+
+<div id="overlay">
+  <h1>Gosset 4₂₁ Polytope & E₈ Root Lattice</h1>
+  <p>Interactive 3D Coxeter-Dynkin orthographic projection of the 240 minimal root vectors of the exceptional Lie algebra 𝔢₈ (||x||² = 2).</p>
+  <div class="stat-grid">
+    <div class="stat-card">Integral Roots: <span class="stat-val">112 (±1, ±1, 0⁶)</span></div>
+    <div class="stat-card">Half-Integral: <span class="stat-val">128 (±½⁸)</span></div>
+    <div class="stat-card">Total Vertices: <span class="stat-val">240</span></div>
+    <div class="stat-card">Gosset Facets: <span class="stat-val">19,440</span></div>
+    <div class="stat-card">7-Simplices: <span class="stat-val">17,280</span></div>
+    <div class="stat-card">7-Orthoplexes: <span class="stat-val">2,160</span></div>
+    <div class="stat-card">Weyl Order |W|: <span class="stat-val">696,729,600</span></div>
+    <div class="stat-card">Sphere Density: <span class="stat-val">π⁴ / 384</span></div>
+  </div>
+</div>
+
+<div id="controls">
+  Click & Drag: Rotate | Scroll: Zoom | Right-Click: Pan
+</div>
+
+<script>
+  const container = document.getElementById('canvas-container');
+  const scene = new THREE.Scene();
+  scene.fog = new THREE.FogExp2(0x050811, 0.08);
+
+  const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+  camera.position.set(0, 0, 7.5);
+
+  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setPixelRatio(window.devicePixelRatio);
+  container.appendChild(renderer.domElement);
+
+  const controls = new THREE.OrbitControls(camera, renderer.domElement);
+  controls.enableDamping = true;
+  controls.dampingFactor = 0.05;
+
+  // Generate 240 E8 roots in 8D
+  const roots8D = [];
+
+  // 112 integral roots
+  for (let i = 0; i < 7; i++) {
+    for (let j = i + 1; j < 8; j++) {
+      for (const s1 of [-1, 1]) {
+        for (const s2 of [-1, 1]) {
+          const v = new Array(8).fill(0);
+          v[i] = s1;
+          v[j] = s2;
+          roots8D.push({ vec: v, type: 'integral' });
+        }
+      }
+    }
+  }
+
+  // 128 half-integral roots (even minus signs)
+  for (let mask = 0; mask < 256; mask++) {
+    let minusCount = 0;
+    const v = [];
+    for (let bit = 0; bit < 8; bit++) {
+      if ((mask >> bit) & 1) {
+        v.push(-0.5);
+        minusCount++;
+      } else {
+        v.push(0.5);
+      }
+    }
+    if (minusCount % 2 === 0) {
+      roots8D.push({ vec: v, type: 'half' });
+    }
+  }
+
+  // 8D to 3D projection matrix (Golden ratio / Coxeter-Dynkin orthonormal projection)
+  const phi = (1 + Math.sqrt(5)) / 2;
+  const P = [
+    [1, phi, 0, -1, phi, 0, 1, -phi],
+    [phi, 0, 1, phi, 0, -1, -phi, 1],
+    [0, 1, phi, 0, -1, phi, 1, 1]
+  ];
+
+  // Normalize projection rows
+  for (let r = 0; r < 3; r++) {
+    let norm = 0;
+    for (let c = 0; c < 8; c++) norm += P[r][c] * P[r][c];
+    norm = Math.sqrt(norm);
+    for (let c = 0; c < 8; c++) P[r][c] /= (norm * 0.75);
+  }
+
+  const projected3D = roots8D.map(r => {
+    let x = 0, y = 0, z = 0;
+    for (let i = 0; i < 8; i++) {
+      x += P[0][i] * r.vec[i];
+      y += P[1][i] * r.vec[i];
+      z += P[2][i] * r.vec[i];
+    }
+    return { pos: new THREE.Vector3(x, y, z), type: r.type };
+  });
+
+  // Render Vertices
+  const integralGeo = new THREE.BufferGeometry();
+  const halfGeo = new THREE.BufferGeometry();
+  const intPositions = [];
+  const halfPositions = [];
+
+  projected3D.forEach(p => {
+    if (p.type === 'integral') {
+      intPositions.push(p.pos.x, p.pos.y, p.pos.z);
+    } else {
+      halfPositions.push(p.pos.x, p.pos.y, p.pos.z);
+    }
+  });
+
+  integralGeo.setAttribute('position', new THREE.Float32BufferAttribute(intPositions, 3));
+  halfGeo.setAttribute('position', new THREE.Float32BufferAttribute(halfPositions, 3));
+
+  const intMat = new THREE.PointsMaterial({ color: 0x58a6ff, size: 0.12, transparent: true, opacity: 0.95 });
+  const halfMat = new THREE.PointsMaterial({ color: 0xff7b72, size: 0.10, transparent: true, opacity: 0.95 });
+
+  const rootGroup = new THREE.Group();
+  rootGroup.add(new THREE.Points(integralGeo, intMat));
+  rootGroup.add(new THREE.Points(halfGeo, halfMat));
+
+  // Render Gosset edges (Pairs of roots with inner product = 1, distance = \sqrt{2})
+  const edgePositions = [];
+  for (let i = 0; i < roots8D.length; i++) {
+    for (let j = i + 1; j < roots8D.length; j++) {
+      let dot = 0;
+      for (let k = 0; k < 8; k++) {
+        dot += roots8D[i].vec[k] * roots8D[j].vec[k];
+      }
+      if (Math.abs(dot - 1.0) < 1e-5) {
+        edgePositions.push(projected3D[i].pos.x, projected3D[i].pos.y, projected3D[i].pos.z);
+        edgePositions.push(projected3D[j].pos.x, projected3D[j].pos.y, projected3D[j].pos.z);
+      }
+    }
+  }
+
+  const edgeGeo = new THREE.BufferGeometry();
+  edgeGeo.setAttribute('position', new THREE.Float32BufferAttribute(edgePositions, 3));
+  const edgeMat = new THREE.LineBasicMaterial({ color: 0x30363d, transparent: true, opacity: 0.35 });
+  const edges = new THREE.LineSegments(edgeGeo, edgeMat);
+  rootGroup.add(edges);
+
+  scene.add(rootGroup);
+
+  // Animation Loop
+  function animate() {
+    requestAnimationFrame(animate);
+    rootGroup.rotation.y += 0.0015;
+    rootGroup.rotation.x += 0.0008;
+    controls.update();
+    renderer.render(scene, camera);
+  }
+  animate();
+
+  window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
+</script>
+</body>
+</html>

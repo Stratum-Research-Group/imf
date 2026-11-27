@@ -4650,6 +4650,35 @@ In **Volume III: Transfinite, Non-Archimedean, and Ultra-Dimensional Geometries*
 
 ---
 
+
+
+---
+
+# Appendix A: Comprehensive Mathematical & Systems Index (Volume II)
+
+### Index of Mathematical Symbols & Polytope Structures
+- **$\mathbb{O}$**: The 8-dimensional non-associative normed division algebra of octonions.
+- **$G_2$**: 14-dimensional exceptional Lie group; automorphism group of the octonions ($\operatorname{Aut}(\mathbb{O})$).
+- **$\operatorname{Spin}(7)$**: 21-dimensional exceptional spin group preserving the self-dual Cayley 4-form in $\mathbb{R}^8$.
+- **$\phi_0$**: Associative 3-form in $\mathbb{R}^7$ defining $G_2$ calibration geometry.
+- **$\psi_0$**: Coassociative 4-form in $\mathbb{R}^7$ ($\psi_0 = \star \phi_0$).
+- **$\Lambda(E_8)$**: The exceptional root lattice in $\mathbb{R}^8$; unique even unimodular lattice in dimension 8.
+- **$\Phi(E_8)$**: The 240 minimal root vectors of $E_8$ with $\|x\|^2 = 2$ (112 integral + 128 half-integral roots).
+- **Gosset $4_{21}$ Polytope**: Semi-regular 8-polytope whose 240 vertices are the roots of $E_8$. Possesses strictly **17,280 regular 7-simplices** ($lpha_7$) and **2,160 regular 7-orthoplexes** ($eta_7$), summing to **19,440 facets**.
+- **$W(E_8)$**: Weyl reflection group of $E_8$, order $2^{14} \cdot 3^5 \cdot 5^2 \cdot 7 = \mathbf{696,729,600}$.
+- **$\Delta_8$**: Optimal sphere packing density in $\mathbb{R}^8$: $\Delta_8 = \pi^4 / 384$ (Maryna Viazovska, 2016).
+- **$\Lambda_{24}$**: The 24-dimensional Leech lattice; unique even, unimodular, rootless lattice in $\mathbb{R}^{24}$.
+- **$	au_{24}$**: Kissing number of $\Lambda_{24}$, strictly **196,560** minimal vectors of squared norm 4 (or 32 unscaled).
+  - Orbit 1 (Cross): $1,104$ vectors of type $(\pm 4^2, 0^{22})$.
+  - Orbit 2 (Octad): $97,152$ vectors of type $(\pm 2^8, 0^{16})$ on Steiner octads.
+  - Orbit 3 (Odd): $98,304$ vectors of type $(\mp 3, \pm 1^{23})$ with Golay signs.
+- **$\mathcal{G}_{24}$**: Extended binary Golay code $[24, 12, 8]_2$ containing 4,096 codewords and 759 octads.
+- **$S(5, 8, 24)$**: Witt's Steiner system covering all 42,504 5-element subsets with zero overlap.
+- **$\operatorname{Co}_0$**: Conway sporadic group of order $2^{22} \cdot 3^9 \cdot 5^4 \cdot 7^2 \cdot 11 \cdot 13 \cdot 23 pprox 8.315 	imes 10^{18}$.
+- **$\operatorname{Co}_1$**: Sporadic simple quotient $\operatorname{Co}_0 / \{\pm I\}$ of order $pprox 4.158 	imes 10^{18}$.
+- **$\Delta_{24}$**: Optimal sphere packing density in $\mathbb{R}^{24}$: $\Delta_{24} = \pi^{12} / 12!$ (CKMRV, 2017).
+
+
 <div class="cover-page back-cover">
   <img src="The_Sacred_Sanctum-Foundations_of_Sovereign_Intelligence_v02 Backcover.jpg" alt="Volume II: The Sacred Sanctum of Higher-Dimensional Spaces (4 < d <= 24) Back Cover"/>
 </div>
