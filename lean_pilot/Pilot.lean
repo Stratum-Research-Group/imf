@@ -74,3 +74,4 @@ import Pilot.MilnorWittHomotopy
 import Pilot.MotivicAdamsNovikov
 import Pilot.MotivicTMF
 import Pilot.MotivicBP
+import Pilot.MotivicLubinTate
