@@ -1,0 +1,288 @@
+{
+  "total_kernels": 159,
+  "total_entry_points": 189,
+  "kernels": [
+    {
+      "kernel": "fused_blackwell_abelian_surface_modularity.cu",
+      "entry_points": [
+        "fused_blackwell_abelian_surface_kernel"
+      ],
+      "entry_count": 1,
+      "warp_shuffle": true,
+      "syncthreads": false
+    },
+    {
+      "kernel": "fused_blackwell_adelic_product_formula.cu",
+      "entry_points": [
+        "fused_adelic_product_formula_cuda_kernel"
+      ],
+      "entry_count": 1,
+      "warp_shuffle": true,
+      "syncthreads": false
+    },
+    {
+      "kernel": "fused_blackwell_algebraic_cobordism.cu",
+      "entry_points": [
+        "fused_blackwell_algebraic_cobordism_kernel"
+      ],
+      "entry_count": 1,
+      "warp_shuffle": false,
+      "syncthreads": false
+    },
+    {
+      "kernel": "fused_blackwell_arakelov_intersection.cu",
+      "entry_points": [
+        "arakelov_intersection_kernel"
+      ],
+      "entry_count": 1,
+      "warp_shuffle": false,
+      "syncthreads": false
+    },
+    {
+      "kernel": "fused_blackwell_bass_quillen.cu",
+      "entry_points": [
+        "fused_blackwell_bass_quillen_kernel"
+      ],
+      "entry_count": 1,
+      "warp_shuffle": false,
+      "syncthreads": false
+    },
+    {
+      "kernel": "fused_blackwell_beilinson_lichtenbaum.cu",
+      "entry_points": [
+        "fused_blackwell_beilinson_lichtenbaum_kernel"
+      ],
+      "entry_count": 1,
+      "warp_shuffle": true,
+      "syncthreads": false
+    },
+    {
+      "kernel": "fused_blackwell_beilinson_regulator.cu",
+      "entry_points": [
+        "fused_blackwell_beilinson_kernel"
+      ],
+      "entry_count": 1,
+      "warp_shuffle": true,
+      "syncthreads": false
+    },
+    {
+      "kernel": "fused_blackwell_bit_activations.cu",
+      "entry_points": [
+        "fused_blackwell_bit_activations_kernel"
+      ],
+      "entry_count": 1,
+      "warp_shuffle": false,
+      "syncthreads": false
+    },
+    {
+      "kernel": "fused_blackwell_bit_adjoint_neural_ode.cu",
+      "entry_points": [
+        "fused_blackwell_bit_adjoint_neural_ode_kernel",
+        "launch_fused_blackwell_bit_adjoint_neural_ode"
+      ],
+      "entry_count": 2,
+      "warp_shuffle": true,
+      "syncthreads": false
+    },
+    {
+      "kernel": "fused_blackwell_bit_associative_scan.cu",
+      "entry_points": [
+        "fused_blackwell_bit_associative_scan_kernel",
+        "launch_fused_blackwell_bit_associative_scan"
+      ],
+      "entry_count": 2,
+      "warp_shuffle": true,
+      "syncthreads": false
+    },
+    {
+      "kernel": "fused_blackwell_bit_attention.cu",
+      "entry_points": [
+        "fused_blackwell_bit_attention_kernel"
+      ],
+      "entry_count": 1,
+      "warp_shuffle": false,
+      "syncthreads": false
+    },
+    {
+      "kernel": "fused_blackwell_bit_berry_phase.cu",
+      "entry_points": [
+        "fused_blackwell_bit_berry_phase_kernel"
+      ],
+      "entry_count": 1,
+      "warp_shuffle": false,
+      "syncthreads": false
+    },
+    {
+      "kernel": "fused_blackwell_bit_caputo_sde.cu",
+      "entry_points": [
+        "fused_blackwell_bit_caputo_sde_kernel"
+      ],
+      "entry_count": 1,
+      "warp_shuffle": false,
+      "syncthreads": true
+    },
+    {
+      "kernel": "fused_blackwell_bit_causal_sdpa.cu",
+      "entry_points": [
+        "fused_blackwell_bit_causal_sdpa_kernel"
+      ],
+      "entry_count": 1,
+      "warp_shuffle": false,
+      "syncthreads": false
+    },
+    {
+      "kernel": "fused_blackwell_bit_cholesky_inv.cu",
+      "entry_points": [
+        "launch_fused_blackwell_bit_cholesky_inv",
+        "fused_blackwell_bit_cholesky_inv_kernel"
+      ],
+      "entry_count": 2,
+      "warp_shuffle": false,
+      "syncthreads": false
+    },
+    {
+      "kernel": "fused_blackwell_bit_chunked_sliding_attn.cu",
+      "entry_points": [
+        "launch_fused_blackwell_bit_chunked_sliding_attn",
+        "fused_blackwell_bit_chunked_sliding_attn_kernel"
+      ],
+      "entry_count": 2,
+      "warp_shuffle": false,
+      "syncthreads": false
+    },
+    {
+      "kernel": "fused_blackwell_bit_clifford_fft.cu",
+      "entry_points": [
+        "fused_blackwell_bit_clifford_fft_kernel"
+      ],
+      "entry_count": 1,
+      "warp_shuffle": false,
+      "syncthreads": true
+    },
+    {
+      "kernel": "fused_blackwell_bit_conv.cu",
+      "entry_points": [
+        "fused_blackwell_bit_conv_kernel"
+      ],
+      "entry_count": 1,
+      "warp_shuffle": false,
+      "syncthreads": false
+    },
+    {
+      "kernel": "fused_blackwell_bit_cross_attention.cu",
+      "entry_points": [
+        "fused_blackwell_bit_cross_attention_kernel"
+      ],
+      "entry_count": 1,
+      "warp_shuffle": true,
+      "syncthreads": true
+    },
+    {
+      "kernel": "fused_blackwell_bit_cross_attention_gate.cu",
+      "entry_points": [
+        "fused_blackwell_bit_cross_attention_gate_kernel",
+        "launch_fused_blackwell_bit_cross_attention_gate"
+      ],
+      "entry_count": 2,
+      "warp_shuffle": false,
+      "syncthreads": false
+    },
+    {
+      "kernel": "fused_blackwell_bit_cross_entropy.cu",
+      "entry_points": [
+        "launch_fused_blackwell_bit_cross_entropy",
+        "fused_blackwell_bit_cross_entropy_kernel"
+      ],
+      "entry_count": 2,
+      "warp_shuffle": true,
+      "syncthreads": false
+    },
+    {
+      "kernel": "fused_blackwell_bit_cross_layer_mixer.cu",
+      "entry_points": [
+        "launch_fused_blackwell_bit_cross_layer_mixer",
+        "fused_blackwell_bit_cross_layer_mixer_kernel"
+      ],
+      "entry_count": 2,
+      "warp_shuffle": false,
+      "syncthreads": false
+    },
+    {
+      "kernel": "fused_blackwell_bit_dequant_gemv.cu",
+      "entry_points": [
+        "fused_blackwell_bit_dequant_gemv_kernel"
+      ],
+      "entry_count": 1,
+      "warp_shuffle": false,
+      "syncthreads": false
+    },
+    {
+      "kernel": "fused_blackwell_bit_dynamic_rope.cu",
+      "entry_points": [
+        "launch_fused_blackwell_bit_dynamic_rope",
+        "fused_blackwell_bit_dynamic_rope_kernel"
+      ],
+      "entry_count": 2,
+      "warp_shuffle": false,
+      "syncthreads": false
+    },
+    {
+      "kernel": "fused_blackwell_bit_ffn.cu",
+      "entry_points": [
+        "fused_blackwell_bit_ffn_kernel"
+      ],
+      "entry_count": 1,
+      "warp_shuffle": false,
+      "syncthreads": true
+    },
+    {
+      "kernel": "fused_blackwell_bit_flash_decoding.cu",
+      "entry_points": [
+        "fused_blackwell_bit_flash_decoding_kernel",
+        "launch_fused_blackwell_bit_flash_decoding"
+      ],
+      "entry_count": 2,
+      "warp_shuffle": true,
+      "syncthreads": true
+    },
+    {
+      "kernel": "fused_blackwell_bit_flash_sigmoid_attn.cu",
+      "entry_points": [
+        "launch_fused_blackwell_bit_flash_sigmoid_attn",
+        "fused_blackwell_bit_flash_sigmoid_attn_kernel"
+      ],
+      "entry_count": 2,
+      "warp_shuffle": true,
+      "syncthreads": false
+    },
+    {
+      "kernel": "fused_blackwell_bit_gated_delta_net.cu",
+      "entry_points": [
+        "fused_blackwell_bit_gated_delta_net_kernel",
+        "launch_fused_blackwell_bit_gated_delta_net"
+      ],
+      "entry_count": 2,
+      "warp_shuffle": false,
+      "syncthreads": false
+    },
+    {
+      "kernel": "fused_blackwell_bit_gated_mha.cu",
+      "entry_points": [
+        "fused_blackwell_bit_gated_mha_kernel"
+      ],
+      "entry_count": 1,
+      "warp_shuffle": true,
+      "syncthreads": true
+    },
+    {
+      "kernel": "fused_blackwell_bit_gated_rmsnorm.cu",
+      "entry_points": [
+        "fused_blackwell_bit_gated_rmsnorm_kernel",
+        "launch_fused_blackwell_bit_gated_rmsnorm"
+      ],
+      "entry_count": 2,
+      "warp_shuffle": true,
+      "syncthreads": false
+    }
+  ]
+}

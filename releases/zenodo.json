@@ -1,0 +1,24 @@
+{
+  "title": "The Sacred Sanctum: Foundations of Sovereign Intelligence (Volumes I-III)",
+  "upload_type": "publication",
+  "publication_type": "book",
+  "description": "Comprehensive mathematical monograph formalizing non-Euclidean differential geometry, E8 Gosset polytopes, Leech lattice Lambda_24, and chromatic stable homotopy theory for autonomous sovereign compute.",
+  "creators": [
+    {
+      "name": "Mynhardt, Nicholas Charles",
+      "affiliation": "Stratum Research Group"
+    }
+  ],
+  "access_right": "open",
+  "license": "CC-BY-4.0",
+  "keywords": [
+    "Differential Geometry",
+    "E8 Root Lattice",
+    "Leech Lattice",
+    "Lean 4 Formal Verification",
+    "Lie Groups",
+    "Continuous-Time SSM"
+  ],
+  "version": "1.0.0",
+  "publication_date": "2026-11-27"
+}
