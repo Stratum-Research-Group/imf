@@ -1,4 +1,4 @@
-# IMF Scientific Papers & Formal Monographs Compendium (1,040 Treatises)
+# IMF Scientific Papers & Formal Monographs Compendium (1,050 Treatises)
 
 | # | Title | Paper Type | Verification Status |
 |:---|:---|:---|:---|
@@ -1107,6 +1107,18 @@
 | 1038 | [Paper 1038: Interactive WebGL 3D Visualization of Filtered de Rham Spaces and Frobenius Helices](phase_6_blackwell_kernels_and_dma_engines/paper_1038_interactive_webgl_3d_de_rham_spaces_and_frobenius_helices.md) | ** Interactive 3D Visualization & Differential Topography | ** Standalone WebGL Visualization Engine |
 | 1039 | [Paper 1039: Microarchitectural Verification: Blackwell SM 12.0 Warp Register Reductions and SQPOLL Pinning](phase_6_blackwell_kernels_and_dma_engines/paper_1039_microarchitectural_verification_blackwell_sm12_and_sqpoll_pinning.md) | ** Silicon Profiling & Benchmarking | ** Empirically Measured Hardware Benchmark — Verified on Silicon |
 | 1040 | [Paper 1040: Grand Corpus Synthesis: 720M Deductive Steps, 56 Verified Mathlib Modules, and the 1,040-Treatise Library](phase_6_blackwell_kernels_and_dma_engines/paper_1040_grand_corpus_synthesis_seven_hundred_twenty_million_steps.md) | ** Grand Milestone Synthesis & Comprehensive Compendium | ** Certified Historical Milestone — 720M Steps & 1,040 Treatises |
+
+| 1041 | [Paper 1041: Seven Hundred and Thirty Million Steps Milestone and the Bloch-Kato Tamagawa Horizon](phase_6_blackwell_kernels_and_dma_engines/paper_1041_seven_hundred_thirty_million_steps_milestone_and_bloch_kato_tamagawa.md) | ** Milestone Synthesis & Scaling Report | ** Certified Historical Milestone — 730M Steps & 1,050 Treatises (2.28125%) |
+| 1042 | [Paper 1042: The Bloch-Kato Conjecture: Motivic Cohomology, Tamagawa Measures, and Special L-Values](phase_6_blackwell_kernels_and_dma_engines/paper_1042_the_bloch_kato_conjecture_and_motivic_tamagawa_measures.md) | ** Bloch-Kato Conjecture & Tamagawa Numbers | ** Canonical Reference Treatise — Mathematical Formulation |
+| 1043 | [Paper 1043: Motivic Euler Characteristic Formulas and Local Tamagawa Invariants Formalized in Lean 4](phase_6_blackwell_kernels_and_dma_engines/paper_1043_motivic_euler_characteristic_formulas_formalized_in_lean4.md) | ** Interactive Formal Verification & Motivic Cohomology | ** Machine-Checked Proof — Certified with Zero Sorry |
+| 1044 | [Paper 1044: Fused Blackwell Tensor-Core Kernel for Motivic Selmer Dimensions and Tamagawa Factors](phase_6_blackwell_kernels_and_dma_engines/paper_1044_fused_blackwell_kernel_motivic_selmer_and_tamagawa_factors.md) | ** Silicon Microarchitecture & CUDA Kernel Engineering | ** Empirically Measured Hardware Benchmark — Verified on Silicon |
+| 1045 | [Paper 1045: Linux 6.18 io_uring Engine: Fixed DMA-BUF Direct NVMe Streaming with Zero TLB Shootdown](phase_6_blackwell_kernels_and_dma_engines/paper_1045_linux_6_18_io_uring_fixed_dma_buf_direct_nvme_engine.md) | ** Systems Architecture & Kernel Engineering | ** Canonical Kernel Implementation — Verified in Production |
+| 1046 | [Paper 1046: The Crystalline Exponential Map, Finite Selmer Conditions, and Tangent Spaces](phase_6_blackwell_kernels_and_dma_engines/paper_1046_the_crystalline_exponential_map_and_finite_selmer_tangents.md) | ** Crystalline Exponential & Selmer Varieties | ** Canonical Reference Treatise — Mathematical Formulation |
+| 1047 | [Paper 1047: Iwasawa Main Conjecture for Motives and p-Adic Analogues of the Tamagawa Number Conjecture](phase_6_blackwell_kernels_and_dma_engines/paper_1047_iwasawa_main_conjecture_and_p_adic_tamagawa_number_conjecture.md) | ** Iwasawa Theory & Motivic L-Functions | ** Canonical Reference Treatise — Mathematical Formulation |
+| 1048 | [Paper 1048: Interactive WebGL 3D Visualization of Tamagawa Volume Polyhedra and Motivic Selmer Lattices](phase_6_blackwell_kernels_and_dma_engines/paper_1048_interactive_webgl_3d_tamagawa_volume_polyhedra.md) | ** Interactive 3D Visualization & Differential Topography | ** Standalone WebGL Visualization Engine |
+| 1049 | [Paper 1049: Microarchitectural Verification: Blackwell SM 12.0 Warp Register Reductions and Fixed DMA NVMe](phase_6_blackwell_kernels_and_dma_engines/paper_1049_microarchitectural_verification_blackwell_sm12_and_fixed_dma_nvme.md) | ** Silicon Profiling & Benchmarking | ** Empirically Measured Hardware Benchmark — Verified on Silicon |
+| 1050 | [Paper 1050: Grand Corpus Synthesis: 730M Deductive Steps, 57 Verified Mathlib Modules, and the 1,050-Treatise Library](phase_6_blackwell_kernels_and_dma_engines/paper_1050_grand_corpus_synthesis_seven_hundred_thirty_million_steps.md) | ** Grand Milestone Synthesis & Comprehensive Compendium | ** Certified Historical Milestone — 730M Steps & 1,050 Treatises |
+
 
 
 

@@ -2151,6 +2151,21 @@ def test_fused_fontaine_mazur_rep_correctness():
     assert valid_count == n_samples, f"Expected all {n_samples} samples to be geometrically admissible, got {valid_count}"
 
 
+def test_fused_bloch_kato_tamagawa_correctness():
+    """Validates the fused Blackwell SM 12.0 kernel for Bloch-Kato Tamagawa numbers and motivic Selmer groups."""
+    so_path = "csrc/libfused_blackwell_bloch_kato_tamagawa.so"
+    assert os.path.exists(so_path), f"Missing shared object: {so_path}"
+
+    lib = ctypes.CDLL(so_path)
+    lib.run_bloch_kato_benchmark.argtypes = [ctypes.c_int]
+    lib.run_bloch_kato_benchmark.restype = ctypes.c_int
+
+    n_samples = 1024
+    valid_count = lib.run_bloch_kato_benchmark(n_samples)
+    assert valid_count == n_samples, f"Expected all {n_samples} samples to be Tamagawa admissible, got {valid_count}"
+
+
+
 
 
 

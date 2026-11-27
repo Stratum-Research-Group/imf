@@ -54,5 +54,7 @@ import Pilot.FaltingsHeightTheorem
 import Pilot.AbelianSurfaceModularity
 import Pilot.SatoTateEquidistribution
 import Pilot.FontaineMazurConjecture
+import Pilot.BlochKatoTamagawa
+
 
 

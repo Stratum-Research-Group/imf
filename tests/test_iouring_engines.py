@@ -2699,6 +2699,53 @@ def test_iouring_sq_thread_cpu_pinning_stream_correctness():
     assert stats.total_submissions_polled == 32
 
 
+class FixedDmaNvmeConfig(ctypes.Structure):
+    _fields_ = [
+        ("ring_entries", ctypes.c_uint32),
+        ("buffer_size_bytes", ctypes.c_uint32),
+        ("num_buffers", ctypes.c_uint32),
+        ("batch_submissions", ctypes.c_uint32),
+    ]
+
+
+class FixedDmaNvmeStats(ctypes.Structure):
+    _fields_ = [
+        ("total_bytes_transferred", ctypes.c_uint64),
+        ("buffers_registered", ctypes.c_uint32),
+        ("ring_status", ctypes.c_uint32),
+        ("dma_direct_active", ctypes.c_uint32),
+    ]
+
+
+def test_iouring_fixed_dma_buf_direct_nvme_correctness():
+    """Validates the Linux 6.18 pre-registered fixed DMA-BUF direct NVMe streaming engine."""
+    so_path = "csrc/libfused_iouring_fixed_dma_buf_direct_nvme.so"
+    assert os.path.exists(so_path), f"Shared object not found: {so_path}"
+
+    lib = ctypes.CDLL(so_path)
+    lib.run_fixed_dma_buf_direct_nvme_engine.argtypes = [
+        ctypes.POINTER(FixedDmaNvmeConfig),
+        ctypes.POINTER(FixedDmaNvmeStats),
+    ]
+    lib.run_fixed_dma_buf_direct_nvme_engine.restype = ctypes.c_int
+
+    config = FixedDmaNvmeConfig(
+        ring_entries=64,
+        buffer_size_bytes=4096,
+        num_buffers=8,
+        batch_submissions=16,
+    )
+    stats = FixedDmaNvmeStats()
+
+    ret = lib.run_fixed_dma_buf_direct_nvme_engine(ctypes.byref(config), ctypes.byref(stats))
+    assert ret == 0, f"run_fixed_dma_buf_direct_nvme_engine failed with return code {ret}"
+    assert stats.ring_status == 1
+    assert stats.buffers_registered == 8
+    assert stats.total_bytes_transferred == 16 * 4096
+    assert stats.dma_direct_active == 1
+
+
+
 
 
 
