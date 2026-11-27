@@ -27,8 +27,8 @@ VOLUMES = [
         "vol_num": "v01",
         "src_md": os.path.join(DOCS_THESIS, "The_Sacred_Sanctum-Foundations_of_Sovereign_Intelligence_v01.md"),
         "out_pdf": os.path.join(DOCS_THESIS, "The_Sacred_Sanctum-Foundations_of_Sovereign_Intelligence_v01.pdf"),
-        "front_cover": os.path.join(DOCS_THESIS, "The_Sacred_Sanctum-Foundations_of_Sovereign_Intelligence_v01 Frontcover.jpg"),
-        "back_cover": os.path.join(DOCS_THESIS, "The_Sacred_Sanctum-Foundations_of_Sovereign_Intelligence_v01 Backcover.jpg"),
+        "front_cover": os.path.join(DOCS_THESIS, "The_Sacred_Sanctum-Foundations_of_Sovereign_Intelligence_v01 Frontcover.png"),
+        "back_cover": os.path.join(DOCS_THESIS, "The_Sacred_Sanctum-Foundations_of_Sovereign_Intelligence_v01 Backcover.png"),
         "title": "THE SACRED SANCTUM: Volume I — Dimensional Spaces (d <= 4)",
     },
     {
@@ -36,8 +36,8 @@ VOLUMES = [
         "vol_num": "v02",
         "src_md": os.path.join(DOCS_THESIS, "The_Sacred_Sanctum-Foundations_of_Sovereign_Intelligence_v02.md"),
         "out_pdf": os.path.join(DOCS_THESIS, "The_Sacred_Sanctum-Foundations_of_Sovereign_Intelligence_v02.pdf"),
-        "front_cover": os.path.join(DOCS_THESIS, "The_Sacred_Sanctum-Foundations_of_Sovereign_Intelligence_v02 Frontcover.jpg"),
-        "back_cover": os.path.join(DOCS_THESIS, "The_Sacred_Sanctum-Foundations_of_Sovereign_Intelligence_v02 Backcover.jpg"),
+        "front_cover": os.path.join(DOCS_THESIS, "The_Sacred_Sanctum-Foundations_of_Sovereign_Intelligence_v02 Frontcover.png"),
+        "back_cover": os.path.join(DOCS_THESIS, "The_Sacred_Sanctum-Foundations_of_Sovereign_Intelligence_v02 Backcover.png"),
         "title": "THE SACRED SANCTUM: Volume II — Higher-Dimensional Spaces (4 < d <= 24)",
     },
     {
@@ -45,8 +45,8 @@ VOLUMES = [
         "vol_num": "v03",
         "src_md": os.path.join(DOCS_THESIS, "The_Sacred_Sanctum-Foundations_of_Sovereign_Intelligence_v03.md"),
         "out_pdf": os.path.join(DOCS_THESIS, "The_Sacred_Sanctum-Foundations_of_Sovereign_Intelligence_v03.pdf"),
-        "front_cover": os.path.join(DOCS_THESIS, "The_Sacred_Sanctum-Foundations_of_Sovereign_Intelligence_v03 Frontcover.jpg"),
-        "back_cover": os.path.join(DOCS_THESIS, "The_Sacred_Sanctum-Foundations_of_Sovereign_Intelligence_v03 Backcover.jpg"),
+        "front_cover": os.path.join(DOCS_THESIS, "The_Sacred_Sanctum-Foundations_of_Sovereign_Intelligence_v03 Frontcover.png"),
+        "back_cover": os.path.join(DOCS_THESIS, "The_Sacred_Sanctum-Foundations_of_Sovereign_Intelligence_v03 Backcover.png"),
         "title": "THE SACRED SANCTUM: Volume III — Transfinite and Ultra-Dimensional Spaces (d -> inf)",
     },
 ]
@@ -54,32 +54,61 @@ VOLUMES = [
 CSS_STYLES = """
 @page {
     size: 210mm 297mm;
-    margin: 25mm 20mm 25mm 20mm;
-    @bottom-center {
-        content: counter(page);
-        font-family: 'Liberation Sans', sans-serif;
-        font-size: 9pt;
-        color: #555;
-    }
-}
-
-@page :first {
     margin: 0;
 }
 
-body {
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 210mm;
+    background-color: #ffffff;
     font-family: 'Liberation Serif', 'DejaVu Serif', Georgia, serif;
     font-size: 11pt;
     line-height: 1.65;
     color: #1a1a1a;
-    background-color: #ffffff;
-    max-width: 100%;
+}
+
+/* Full-bleed front and back covers: strictly edge-to-edge (0 margins), no page numbers */
+.cover-page {
+    width: 210mm;
+    height: 297mm;
+    margin: 0;
+    padding: 0;
+    page-break-before: always;
+    page-break-after: always;
+    break-before: page;
+    break-after: page;
+    position: relative;
+    overflow: hidden;
+    background-color: #000000;
+}
+
+.cover-page.front-cover {
+    page-break-before: avoid;
+    break-before: avoid;
+}
+
+.cover-page img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 210mm;
+    height: 297mm;
+    object-fit: cover;
+    object-position: center center;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: high-quality;
+    display: block;
     margin: 0;
     padding: 0;
 }
 
+/* Interior monograph pages: standard 25mm 20mm book margins */
 .content-wrapper {
-    padding: 0 5mm;
+    box-sizing: border-box;
+    width: 210mm;
+    padding: 25mm 20mm;
+    margin: 0 auto;
 }
 
 h1, h2, h3, h4 {
@@ -209,38 +238,6 @@ hr {
     margin: 2.5em 0;
 }
 
-.cover-page {
-    width: 210mm;
-    height: 297mm;
-    margin: 0;
-    padding: 0;
-    page-break-before: always;
-    page-break-after: always;
-    break-before: page;
-    break-after: page;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    box-sizing: border-box;
-}
-
-.cover-page.front-cover {
-    page-break-before: avoid;
-    break-before: avoid;
-}
-
-.cover-page img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    image-rendering: -webkit-optimize-contrast;
-    image-rendering: high-quality;
-    display: block;
-    margin: 0;
-    padding: 0;
-}
-
 .katex {
     font-size: 1.08em;
 }
@@ -272,7 +269,7 @@ def render_volume_to_pdf(vol):
     with open(src_md, "r", encoding="utf-8") as f:
         md_text = f.read()
 
-    # Strip out the initial raw cover div from markdown so we can inject pixel-perfect full-bleed covers
+    # Strip out any raw cover divs embedded in markdown so we render pixel-perfect edge-to-edge covers
     md_clean = re.sub(r'<div class="cover-page front-cover">[\s\S]*?</div>', '', md_text)
     md_clean = re.sub(r'<div class="cover-page back-cover">[\s\S]*?</div>', '', md_clean)
 
@@ -290,7 +287,7 @@ def render_volume_to_pdf(vol):
     front_b64 = get_base64_img(front_cover)
     back_b64 = get_base64_img(back_cover)
 
-    # Construct the full HTML document with base64 lossless high-res cover embeddings
+    # Full HTML with edge-to-edge full bleed covers
     html_doc = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -313,7 +310,7 @@ def render_volume_to_pdf(vol):
 <body>
 
 <div class="cover-page front-cover">
-  <img src="data:image/jpeg;base64,{front_b64}" alt="{vol['id']} Front Cover"/>
+  <img src="data:image/png;base64,{front_b64}" alt="{vol['id']} Front Cover"/>
 </div>
 
 <div class="content-wrapper">
@@ -321,7 +318,7 @@ def render_volume_to_pdf(vol):
 </div>
 
 <div class="cover-page back-cover">
-  <img src="data:image/jpeg;base64,{back_b64}" alt="{vol['id']} Back Cover"/>
+  <img src="data:image/png;base64,{back_b64}" alt="{vol['id']} Back Cover"/>
 </div>
 
 </body>
