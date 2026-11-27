@@ -2426,5 +2426,18 @@ def test_fused_motivic_lubin_tate_correctness():
     assert valid_count == n_samples, f'Expected all {n_samples} samples to satisfy Motivic Lubin-Tate invariants, got {valid_count}'
 
 
+def test_fused_motivic_nilpotence_correctness():
+    so_path = os.path.join(os.path.dirname(__file__), '..', 'csrc', 'libfused_blackwell_motivic_nilpotence.so')
+    assert os.path.exists(so_path), f'Library {so_path} does not exist'
+
+    lib = ctypes.CDLL(so_path)
+    lib.run_motivic_nilpotence_benchmark.argtypes = [ctypes.c_int]
+    lib.run_motivic_nilpotence_benchmark.restype = ctypes.c_int
+
+    n_samples = 1024
+    valid_count = lib.run_motivic_nilpotence_benchmark(n_samples)
+    assert valid_count == n_samples, f'Expected all {n_samples} samples to satisfy Motivic Nilpotence invariants, got {valid_count}'
+
+
 
 
