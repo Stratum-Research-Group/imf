@@ -1,0 +1,25 @@
+{
+  "gpu": "NVIDIA GeForce RTX 5060 Ti",
+  "launch_latency": [
+    {
+      "batch": 1,
+      "heads": 1,
+      "head_dim": 32,
+      "us_per_launch": 51.53
+    },
+    {
+      "batch": 1,
+      "heads": 32,
+      "head_dim": 32,
+      "us_per_launch": 51.46
+    },
+    {
+      "batch": 8,
+      "heads": 32,
+      "head_dim": 32,
+      "us_per_launch": 180.55
+    }
+  ],
+  "frobenius_before": 31.06939697265625,
+  "frobenius_after_1000_steps": 31.067705154418945
+}

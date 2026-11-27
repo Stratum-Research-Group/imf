@@ -18,8 +18,8 @@ VOLUMES = [
         "id": "VOLUME I",
         "vol_num": "I",
         "dir": os.path.join(REPO_ROOT, "theses", "volume_1_dimensional_spaces"),
-        "out_root": os.path.join(REPO_ROOT, "THE_SACRED_SANCTUM_VOLUME_I.md"),
-        "out_docs": os.path.join(REPO_ROOT, "docs", "THE_SACRED_SANCTUM_VOLUME_I.md"),
+        "out_root": os.path.join(REPO_ROOT, "theses", "compiled", "THE_SACRED_SANCTUM_VOLUME_I.md"),
+        "out_docs": None,
         "main_title": "THE SACRED SANCTUM: FOUNDATIONS OF SOVEREIGN INTELLIGENCE",
         "volume_title": "Volume I: The Sacred Sanctum of Dimensional Spaces (d <= 4)",
         "subtitle": "Discrete Differential Geometry, Continuous Lie-Algebraic Memory, and the Physical Foundations of Machine Intelligence",
@@ -28,8 +28,8 @@ VOLUMES = [
         "id": "VOLUME II",
         "vol_num": "II",
         "dir": os.path.join(REPO_ROOT, "theses", "volume_2_higher_dimensional_spaces"),
-        "out_root": os.path.join(REPO_ROOT, "THE_SACRED_SANCTUM_VOLUME_II.md"),
-        "out_docs": os.path.join(REPO_ROOT, "docs", "THE_SACRED_SANCTUM_VOLUME_II.md"),
+        "out_root": os.path.join(REPO_ROOT, "theses", "compiled", "THE_SACRED_SANCTUM_VOLUME_II.md"),
+        "out_docs": None,
         "main_title": "THE SACRED SANCTUM: FOUNDATIONS OF SOVEREIGN INTELLIGENCE",
         "volume_title": "Volume II: The Sacred Sanctum of Higher-Dimensional Spaces (4 < d <= 24)",
         "subtitle": "Exceptional Holonomy, the Gosset E8 Polytope, the 24-Dimensional Leech Lattice Lambda_24, and Sub-Bit Polytope Quantization",
@@ -38,8 +38,8 @@ VOLUMES = [
         "id": "VOLUME III",
         "vol_num": "III",
         "dir": os.path.join(REPO_ROOT, "theses", "volume_3_transfinite_ultra_dimensional_spaces"),
-        "out_root": os.path.join(REPO_ROOT, "THE_SACRED_SANCTUM_VOLUME_III.md"),
-        "out_docs": os.path.join(REPO_ROOT, "docs", "THE_SACRED_SANCTUM_VOLUME_III.md"),
+        "out_root": os.path.join(REPO_ROOT, "theses", "compiled", "THE_SACRED_SANCTUM_VOLUME_III.md"),
+        "out_docs": None,
         "main_title": "THE SACRED SANCTUM: FOUNDATIONS OF SOVEREIGN INTELLIGENCE",
         "volume_title": "Volume III: The Sacred Sanctum of Transfinite and Infinite-Dimensional Spaces (d -> inf)",
         "subtitle": "Ultra-Dimensional Chromatic Topoi, Affine Kac-Moody Algebras, and Machine-Certified Deductive Epistemics",
@@ -91,8 +91,9 @@ def compile_volume(vol):
     # Write to root and docs
     with open(vol["out_root"], "w", encoding="utf-8") as f:
         f.write(full_text)
-    with open(vol["out_docs"], "w", encoding="utf-8") as f:
-        f.write(full_text)
+    if vol["out_docs"]:
+        with open(vol["out_docs"], "w", encoding="utf-8") as f:
+            f.write(full_text)
 
     pages_est = total_words / 250.0  # Standard manuscript ~250 words/page
     print(f"  [+] {vol['id']} compiled successfully: {total_lines} lines | {total_words} words | {total_chars} chars | ~{pages_est:.1f} book pages")

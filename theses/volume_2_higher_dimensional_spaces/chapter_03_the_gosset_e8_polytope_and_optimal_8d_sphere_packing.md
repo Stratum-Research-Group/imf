@@ -10,7 +10,7 @@
 
 ## Abstract
 
-In the classification of Euclidean lattices and discrete geometric packings, dimension 8 occupies a unique and exalted position. It is the lowest dimension in which there exists an **even, unimodular lattice**—the exceptional root lattice $\Lambda(E_8)$. The 240 minimal vectors of $\Lambda(E_8)$, each having squared norm $\|x\|^2 = 2$, constitute the vertices of the semi-regular **Gosset $4_{21}$ polytope**, a geometric structure possessing 2,160 7-simplices and 17,280 7-orthoplexes. In this chapter, we provide an exhaustive exposition of the $E_8$ lattice and the Gosset polytope. We derive the partition of its 240 root vectors into 112 integral roots and 128 half-integral roots, analyze its Weyl symmetry group $W(E_8)$ of order $696,729,600$, and examine the geometric anatomy of the $E_8$ Voronoi cell, establishing why its dimensionless second moment $G(E_8) \approx 0.07168$ achieves an unprecedented $14.0\%$ reduction in mean squared quantization error over standard hypercubic lattices ($\mathbb{Z}^8$). Furthermore, we present an in-depth mathematical walkthrough of Maryna Viazovska's Fields Medal-winning 2016 proof that $\Lambda(E_8)$ achieves the optimal sphere packing density in $\mathbb{R}^8$ ($\Delta_8 = \frac{\pi^4}{384} \approx 0.25367$). We detail the Cohn-Elkies linear programming framework, the construction of the magic radial test function $f(r)$ via quasimodular forms and integral transforms of Eisenstein series, and the exact sign and zero conditions that close the packing bound. Finally, we formulate the computational architecture for projecting neural representations onto the Gosset polytope frame for high-precision vector quantization and expert routing.
+In the classification of Euclidean lattices and discrete geometric packings, dimension 8 occupies a unique and exalted position. It is the lowest dimension in which there exists an **even, unimodular lattice**—the exceptional root lattice $\Lambda(E_8)$. The 240 minimal vectors of $\Lambda(E_8)$, each having squared norm $\|x\|^2 = 2$, constitute the vertices of the semi-regular **Gosset $4_{21}$ polytope**, a geometric structure possessing **17,280 regular 7-simplices** and **2,160 regular 7-orthoplexes**. In this chapter, we provide an exhaustive exposition of the $E_8$ lattice and the Gosset polytope. We derive the partition of its 240 root vectors into 112 integral roots and 128 half-integral roots, analyze its Weyl symmetry group $W(E_8)$ of order $696,729,600$, and examine the geometric anatomy of the $E_8$ Voronoi cell, establishing why its dimensionless second moment $G(E_8) \approx 0.07168$ achieves an unprecedented $14.0\%$ reduction in mean squared quantization error over standard hypercubic lattices ($\mathbb{Z}^8$). Furthermore, we present an in-depth mathematical walkthrough of Maryna Viazovska's Fields Medal-winning 2016 proof that $\Lambda(E_8)$ achieves the optimal sphere packing density in $\mathbb{R}^8$ ($\Delta_8 = \frac{\pi^4}{384} \approx 0.25367$). We detail the Cohn-Elkies linear programming framework, the construction of the magic radial test function $f(r)$ via quasimodular forms and integral transforms of Eisenstein series, and the exact sign and zero conditions that close the packing bound. Finally, we formulate the computational architecture for projecting neural representations onto the Gosset polytope frame for high-precision vector quantization and expert routing.
 
 ---
 
@@ -162,16 +162,16 @@ The complete face lattice of the Gosset $4_{21}$ polytope across all dimensions 
 | 4 | 4-Simplices | $483,840$ | Regular 4-simplices |
 | 5 | 5-Simplices | $483,840$ | Regular 5-simplices |
 | 6 | 6-Simplices | $207,360$ | Regular 6-simplices |
-| **7 (Facets)** | **7-Simplices (Regular)** | **$2,160$** | Inscribed in $E_8$ Voronoi deep holes |
-| **7 (Facets)** | **7-Orthoplexes (Cross-Polytopes)** | **$17,280$** | Centered along orthogonal sub-lattices |
+| **7 (Facets)** | **7-Simplices (Regular)** | **$17,280$** | Regular 7-simplices ($\alpha_7$), 8 vertices each |
+| **7 (Facets)** | **7-Orthoplexes (Cross-Polytopes)** | **$2,160$** | Regular 7-orthoplexes ($\beta_7$), 14 vertices each |
 | 8 | Polytope Body | $1$ | Gosset $4_{21}$ |
 
 **Theorem 3.2 (Facet Decomposition of $4_{21}$).** The 7-dimensional boundaries (facets) of the Gosset $4_{21}$ polytope consist of exactly two types of regular figures:
-1. **$2,160$ regular 7-simplices** ($\alpha_7$), each having 8 vertices.
-2. **$17,280$ regular 7-orthoplexes** ($\beta_7$, 7-dimensional cross-polytopes), each having $2 \times 7 = 14$ vertices.
+1. **$17,280$ regular 7-simplices** ($\alpha_7$), each having 8 vertices.
+2. **$2,160$ regular 7-orthoplexes** ($\beta_7$, 7-dimensional cross-polytopes), each having $2 \times 7 = 14$ vertices.
 
 The total number of 7-dimensional facets is:
-$$F_7 = 2,160 + 17,280 = \mathbf{19,440}$$
+$$F_7 = 17,280 + 2,160 = \mathbf{19,440}$$
 
 ---
 
@@ -335,7 +335,7 @@ extern "C" __global__ void fused_e8_root_lattice_routing_kernel(
 
 ## 8. Conclusion
 
-The $E_8$ root lattice and the Gosset $4_{21}$ polytope represent the mathematical pinnacle of 8-dimensional geometry. With its 240 minimal roots, 2,160 7-simplices, 17,280 7-orthoplexes, and Maryna Viazovska's exact sphere packing density $\Delta_8 = \pi^4 / 384$, $E_8$ provides an ideal geometric framework for high-dimensional representation. Its Voronoi cell provides a $14.0\%$ theoretical reduction in quantization noise over cubic lattices, forming the mathematical engine of our sub-bit quantization and fine-grained expert routing.
+The $E_8$ root lattice and the Gosset $4_{21}$ polytope represent the mathematical pinnacle of 8-dimensional geometry. With its 240 minimal roots, 17,280 regular 7-simplices, 2,160 regular 7-orthoplexes, and Maryna Viazovska's exact sphere packing density $\Delta_8 = \pi^4 / 384$, $E_8$ provides an ideal geometric framework for high-dimensional representation. Its Voronoi cell provides a $14.0\%$ theoretical reduction in quantization noise over cubic lattices, forming the mathematical engine of our sub-bit quantization and fine-grained expert routing.
 
 In Chapter 4, we scale our dimensional horizon to 24 dimensions to explore the largest sporadic symmetry known to geometry: **the 24-dimensional Leech lattice $\Lambda_{24}$ and the Conway groups**.
 

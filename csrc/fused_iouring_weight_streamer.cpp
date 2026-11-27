@@ -12,6 +12,8 @@
 #include <sys/mman.h>
 #include <sys/syscall.h>
 #include <linux/io_uring.h>
+#include <liburing.h>
+#include <time.h>
 
 /**
  * fused_iouring_weight_streamer.cpp
@@ -175,6 +177,131 @@ int run_iouring_council_shm_ring(
 
     free(shm_buf);
     close(ring_fd);
+    return 0;
+}
+
+// ---------------------------------------------------------------------------
+// REAL direct-I/O benchmark (added after audit: the engines above are stubs).
+// Writes a pattern file, drops it from the page cache, then reads it back through
+// io_uring with O_DIRECT, optional registered (fixed) buffers and optional SQPOLL.
+// Every block is verified against the pattern. Reports what was ACTUALLY enabled.
+// ---------------------------------------------------------------------------
+struct IOUringDirectBenchConfig {
+    const char* path;        // file to create/read (removed afterwards if remove_file != 0)
+    uint64_t block_size;     // bytes, multiple of 4096
+    uint32_t num_blocks;
+    uint32_t queue_depth;
+    uint32_t passes;
+    uint32_t want_direct;    // O_DIRECT
+    uint32_t want_fixed;     // IORING_REGISTER_BUFFERS
+    uint32_t want_sqpoll;    // IORING_SETUP_SQPOLL
+    uint32_t remove_file;
+};
+struct IOUringDirectBenchStats {
+    uint64_t bytes_read;
+    uint64_t elapsed_ns;
+    uint64_t blocks_verified;
+    uint64_t blocks_corrupt;
+    uint32_t direct_active;
+    uint32_t fixed_active;
+    uint32_t sqpoll_active;
+    uint32_t status;         // 1 = ok
+    int32_t  err;            // negative errno on failure
+};
+
+static inline uint8_t pat_byte(uint64_t blk, uint64_t i) {
+    // splitmix64 -> incompressible pseudo-random bytes (so filesystem compression cannot fake throughput)
+    uint64_t x = (blk << 32) ^ i; x += 0x9E3779B97F4A7C15ull;
+    x = (x ^ (x >> 30)) * 0xBF58476D1CE4E5B9ull; x = (x ^ (x >> 27)) * 0x94D049BB133111EBull;
+    return (uint8_t)((x ^ (x >> 31)) & 0xFF);
+}
+
+int run_iouring_direct_read_benchmark(const IOUringDirectBenchConfig* c, IOUringDirectBenchStats* st) {
+    if (!c || !st || !c->path || c->block_size == 0 || (c->block_size % 4096) || !c->num_blocks) return -EINVAL;
+    std::memset(st, 0, sizeof(*st));
+    const uint32_t qd = c->queue_depth ? c->queue_depth : 8;
+    const uint64_t bs = c->block_size;
+
+    // 1. create pattern file (buffered), fsync, evict from page cache
+    int wfd = open(c->path, O_CREAT | O_TRUNC | O_WRONLY, 0600);
+    if (wfd < 0) { st->err = -errno; return st->err; }
+    std::vector<uint8_t> wb(bs);
+    for (uint32_t b = 0; b < c->num_blocks; ++b) {
+        for (uint64_t i = 0; i < bs; ++i) wb[i] = pat_byte(b, i);
+        if (pwrite(wfd, wb.data(), bs, (off_t)b * bs) != (ssize_t)bs) { st->err = -errno; close(wfd); return st->err; }
+    }
+    fsync(wfd);
+    posix_fadvise(wfd, 0, 0, POSIX_FADV_DONTNEED);
+    close(wfd);
+
+    int flags = O_RDONLY;
+    if (c->want_direct) flags |= O_DIRECT;
+    int fd = open(c->path, flags);
+    if (fd < 0 && c->want_direct) { fd = open(c->path, O_RDONLY); }
+    else if (fd >= 0 && c->want_direct) st->direct_active = 1;
+    if (fd < 0) { st->err = -errno; return st->err; }
+
+    // 2. ring
+    struct io_uring ring;
+    struct io_uring_params p; std::memset(&p, 0, sizeof(p));
+    if (c->want_sqpoll) { p.flags |= IORING_SETUP_SQPOLL; p.sq_thread_idle = 2000; }
+    int rc = io_uring_queue_init_params(qd * 2, &ring, &p);
+    if (rc < 0 && c->want_sqpoll) { std::memset(&p, 0, sizeof(p)); rc = io_uring_queue_init_params(qd * 2, &ring, &p); }
+    else if (rc >= 0 && c->want_sqpoll) st->sqpoll_active = 1;
+    if (rc < 0) { st->err = rc; close(fd); return rc; }
+
+    // 3. buffers (4096-aligned), optionally registered
+    std::vector<void*> bufs(qd, nullptr);
+    std::vector<struct iovec> iov(qd);
+    for (uint32_t i = 0; i < qd; ++i) {
+        if (posix_memalign(&bufs[i], 4096, bs)) { st->err = -ENOMEM; return st->err; }
+        iov[i].iov_base = bufs[i]; iov[i].iov_len = bs;
+    }
+    bool fixed = false;
+    if (c->want_fixed && io_uring_register_buffers(&ring, iov.data(), qd) == 0) { fixed = true; st->fixed_active = 1; }
+
+    // 4. timed read loop with qd outstanding requests
+    struct timespec t0, t1; clock_gettime(CLOCK_MONOTONIC, &t0);
+    const uint64_t total = (uint64_t)c->num_blocks * (c->passes ? c->passes : 1);
+    uint64_t submitted = 0, completed = 0;
+    std::vector<uint32_t> free_slots; for (uint32_t i = 0; i < qd; ++i) free_slots.push_back(qd - 1 - i);
+    while (completed < total) {
+        while (submitted < total && !free_slots.empty()) {
+            uint32_t slot = free_slots.back();
+            uint64_t blk = submitted % c->num_blocks;
+            struct io_uring_sqe* sqe = io_uring_get_sqe(&ring);
+            if (!sqe) break;
+            free_slots.pop_back();
+            if (fixed) io_uring_prep_read_fixed(sqe, fd, bufs[slot], (unsigned)bs, blk * bs, (int)slot);
+            else       io_uring_prep_read(sqe, fd, bufs[slot], (unsigned)bs, blk * bs);
+            io_uring_sqe_set_data64(sqe, ((uint64_t)slot << 32) | (uint32_t)blk);
+            ++submitted;
+        }
+        io_uring_submit(&ring);
+        struct io_uring_cqe* cqe;
+        if (io_uring_wait_cqe(&ring, &cqe) < 0) break;
+        uint64_t ud = cqe->user_data; int res = cqe->res;
+        io_uring_cqe_seen(&ring, cqe);
+        uint32_t slot = (uint32_t)(ud >> 32); uint64_t blk = ud & 0xFFFFFFFFu;
+        free_slots.push_back(slot);
+        if (res == (int)bs) {
+            const uint8_t* b = static_cast<const uint8_t*>(bufs[slot]);
+            bool ok = true;
+            for (uint64_t i = 0; i < bs; i += 509) if (b[i] != pat_byte(blk, i)) { ok = false; break; }
+            if (ok) st->blocks_verified++; else st->blocks_corrupt++;
+            st->bytes_read += bs;
+        } else { st->blocks_corrupt++; }
+        ++completed;
+    }
+    clock_gettime(CLOCK_MONOTONIC, &t1);
+    st->elapsed_ns = (uint64_t)(t1.tv_sec - t0.tv_sec) * 1000000000ull + (t1.tv_nsec - t0.tv_nsec);
+    st->status = (completed == total && st->blocks_corrupt == 0) ? 1 : 0;
+
+    if (fixed) io_uring_unregister_buffers(&ring);
+    io_uring_queue_exit(&ring);
+    for (auto b : bufs) free(b);
+    close(fd);
+    if (c->remove_file) unlink(c->path);
     return 0;
 }
 
