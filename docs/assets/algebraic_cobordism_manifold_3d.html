@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>IMF Algebraic Cobordism MGL Manifold (3D)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            padding: 0;
+            background: #020617;
+            color: #f8fafc;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace;
+            overflow: hidden;
+        }
+        #canvas {
+            width: 100vw;
+            height: 100vh;
+            display: block;
+        }
+        #hud {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            background: rgba(15, 23, 42, 0.90);
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 18px 22px;
+            max-width: 480px;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+            pointer-events: auto;
+        }
+        h1 {
+            font-size: 1.15rem;
+            margin: 0 0 8px 0;
+            color: #38bdf8;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+        p {
+            font-size: 0.82rem;
+            line-height: 1.45;
+            color: #94a3b8;
+            margin: 4px 0 12px 0;
+        }
+        .metric-badge {
+            display: inline-block;
+            background: #1e293b;
+            border: 1px solid #475569;
+            border-radius: 4px;
+            padding: 3px 8px;
+            margin-right: 6px;
+            margin-bottom: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #38bdf8;
+        }
+        .controls {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #334155;
+            font-size: 0.75rem;
+            color: #64748b;
+        }
+    </style>
+    <!-- Three.js from unpkg -->
+    <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+    <script src="https://unpkg.com/three@0.160.0/examples/js/controls/OrbitControls.js"></script>
+</head>
+<body>
+    <div id="hud">
+        <h1>Motivic Cobordism $\mathbf{MGL}$ & Formal Group Laws</h1>
+        <p>Interactive 3D representation of the motivic Thom spectrum $\mathbf{MGL}$, formal group law coordinate curves $\mathbb{L} \simeq \pi_{2*, *}(\mathbf{MGL})$, Milnor hypersurfaces $H(i, j)$, and Conner-Floyd orientations.</p>
+        <div>
+            <span class="metric-badge">Formal Group: Lazard $\mathbb{L}$</span>
+            <span class="metric-badge">Cobordism: $\mathbf{MGL}^{*,*}$</span>
+            <span class="metric-badge">Oriented: Conner-Floyd</span>
+            <span class="metric-badge">Homotopy: $\mathcal{SH}(S)$</span>
+        </div>
+        <div class="controls">
+            Rotate: Left Click + Drag | Pan: Right Click + Drag | Zoom: Scroll Wheel
+        </div>
+    </div>
+    <div id="canvas"></div>
+
+    <script>
+        const container = document.getElementById('canvas');
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0x020617, 0.025);
+
+        const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.set(22, 16, 26);
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        container.appendChild(renderer.domElement);
+
+        const controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
+
+        // Ambient and directional lighting
+        const ambientLight = new THREE.AmbientLight(0x38bdf8, 0.8);
+        scene.add(ambientLight);
+
+        const dirLight1 = new THREE.DirectionalLight(0xa855f7, 2.0);
+        dirLight1.position.set(20, 30, 20);
+        scene.add(dirLight1);
+
+        const dirLight2 = new THREE.DirectionalLight(0x06b6d4, 1.5);
+        dirLight2.position.set(-20, -20, -20);
+        scene.add(dirLight2);
+
+        // 1. Motivic Thom Spectrum MGL: Nested tori representing Thom space suspensions
+        const mglGroup = new THREE.Group();
+        const toriCount = 5;
+        for (let i = 0; i < toriCount; i++) {
+            const radius = 4.0 + i * 2.2;
+            const tube = 0.25 + i * 0.08;
+            const geometry = new THREE.TorusGeometry(radius, tube, 16, 100);
+            const material = new THREE.MeshStandardMaterial({
+                color: (i % 2 === 0) ? 0x38bdf8 : 0xc084fc,
+                metalness: 0.85,
+                roughness: 0.2,
+                wireframe: true,
+                transparent: true,
+                opacity: 0.65 - i * 0.08
+            });
+            const mesh = new THREE.Mesh(geometry, material);
+            mesh.rotation.x = (i * Math.PI) / toriCount;
+            mesh.rotation.y = (i * Math.PI) / (toriCount * 2);
+            mglGroup.add(mesh);
+        }
+        scene.add(mglGroup);
+
+        // 2. Formal Group Law Coordinate Curves: Helical curves representing F(u, v)
+        const helixGroup = new THREE.Group();
+        const numCurves = 12;
+        for (let c = 0; c < numCurves; c++) {
+            const curvePoints = [];
+            const angleOffset = (c * 2 * Math.PI) / numCurves;
+            for (let t = -10; t <= 10; t += 0.2) {
+                const r = 8.5 + 2.0 * Math.sin(t * 0.8 + angleOffset);
+                const x = r * Math.cos(t * 0.5 + angleOffset);
+                const y = t * 1.5;
+                const z = r * Math.sin(t * 0.5 + angleOffset);
+                curvePoints.push(new THREE.Vector3(x, y, z));
+            }
+            const curve = new THREE.CatmullRomCurve3(curvePoints);
+            const tubeGeo = new THREE.TubeGeometry(curve, 100, 0.09, 8, false);
+            const tubeMat = new THREE.MeshStandardMaterial({
+                color: 0x34d399,
+                emissive: 0x059669,
+                emissiveIntensity: 0.3,
+                roughness: 0.3
+            });
+            helixGroup.add(new THREE.Mesh(tubeGeo, tubeMat));
+        }
+        scene.add(helixGroup);
+
+        // 3. Milnor Hypersurfaces: Point cloud fibers
+        const pointsGeo = new THREE.BufferGeometry();
+        const pCount = 3000;
+        const positions = new Float32Array(pCount * 3);
+        const colors = new Float32Array(pCount * 3);
+
+        const color1 = new THREE.Color(0x38bdf8);
+        const color2 = new THREE.Color(0xf43f5e);
+
+        for (let i = 0; i < pCount; i++) {
+            const u = Math.random() * Math.PI * 2;
+            const v = (Math.random() - 0.5) * Math.PI;
+            const rad = 14 + (Math.random() - 0.5) * 4.0;
+
+            const px = rad * Math.cos(v) * Math.cos(u);
+            const py = rad * Math.sin(v) * 0.8;
+            const pz = rad * Math.cos(v) * Math.sin(u);
+
+            positions[i * 3] = px;
+            positions[i * 3 + 1] = py;
+            positions[i * 3 + 2] = pz;
+
+            const lerpVal = Math.random();
+            const col = color1.clone().lerp(color2, lerpVal);
+            colors[i * 3] = col.r;
+            colors[i * 3 + 1] = col.g;
+            colors[i * 3 + 2] = col.b;
+        }
+
+        pointsGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        pointsGeo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+        const pointsMat = new THREE.PointsMaterial({
+            size: 0.18,
+            vertexColors: true,
+            transparent: true,
+            opacity: 0.75
+        });
+        const particles = new THREE.Points(pointsGeo, pointsMat);
+        scene.add(particles);
+
+        // Animation Loop
+        let clock = new THREE.Clock();
+        function animate() {
+            requestAnimationFrame(animate);
+            const delta = clock.getDelta();
+            const time = clock.getElapsedTime();
+
+            mglGroup.rotation.y += delta * 0.12;
+            mglGroup.rotation.x += delta * 0.08;
+
+            helixGroup.rotation.y -= delta * 0.15;
+            particles.rotation.y += delta * 0.04;
+
+            controls.update();
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>

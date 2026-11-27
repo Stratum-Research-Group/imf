@@ -2346,3 +2346,17 @@ def test_fused_rost_invariant_correctness():
     n_samples = 1024
     valid_count = lib.run_rost_invariant_benchmark(n_samples)
     assert valid_count == n_samples, f'Expected all {n_samples} samples to satisfy Rost invariant gates, got {valid_count}'
+
+
+def test_fused_algebraic_cobordism_correctness():
+    so_path = os.path.join(os.path.dirname(__file__), '..', 'csrc', 'libfused_blackwell_algebraic_cobordism.so')
+    assert os.path.exists(so_path), f'Library {so_path} does not exist'
+
+    lib = ctypes.CDLL(so_path)
+    lib.run_algebraic_cobordism_benchmark.argtypes = [ctypes.c_int]
+    lib.run_algebraic_cobordism_benchmark.restype = ctypes.c_int
+
+    n_samples = 1024
+    valid_count = lib.run_algebraic_cobordism_benchmark(n_samples)
+    assert valid_count == n_samples, f'Expected all {n_samples} samples to satisfy algebraic cobordism invariants, got {valid_count}'
+

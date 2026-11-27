@@ -3363,3 +3363,49 @@ def test_iouring_exceptional_galois_splice_stream_correctness():
     assert stats.total_bytes_streamed == 16 * 16 * 4096
     assert stats.ring_queue_depth == 64
     assert stats.exceptional_galois_verified == 1
+
+
+def test_iouring_motivic_cobordism_splice_stream_correctness():
+    so_path = "csrc/libfused_iouring_motivic_cobordism_splice_stream.so"
+    assert os.path.exists(so_path), f"Missing shared object: {so_path}"
+
+    class MotivicCobordismConfig(ctypes.Structure):
+        _fields_ = [
+            ("ring_entries", ctypes.c_uint32),
+            ("presheaf_size_bytes", ctypes.c_uint32),
+            ("num_presheaves", ctypes.c_uint32),
+            ("stream_passes", ctypes.c_uint32),
+        ]
+
+    class MotivicCobordismStats(ctypes.Structure):
+        _fields_ = [
+            ("total_bytes_streamed", ctypes.c_uint64),
+            ("presheaves_processed", ctypes.c_uint32),
+            ("ring_queue_depth", ctypes.c_uint32),
+            ("motivic_cobordism_verified", ctypes.c_uint32),
+            ("engine_status", ctypes.c_uint32),
+        ]
+
+    lib = ctypes.CDLL(so_path)
+    lib.run_motivic_cobordism_splice_stream_engine.argtypes = [
+        ctypes.POINTER(MotivicCobordismConfig),
+        ctypes.POINTER(MotivicCobordismStats)
+    ]
+    lib.run_motivic_cobordism_splice_stream_engine.restype = ctypes.c_int
+
+    config = MotivicCobordismConfig(
+        ring_entries=64,
+        presheaf_size_bytes=4096,
+        num_presheaves=16,
+        stream_passes=16,
+    )
+    stats = MotivicCobordismStats()
+
+    ret = lib.run_motivic_cobordism_splice_stream_engine(ctypes.byref(config), ctypes.byref(stats))
+    assert ret == 0, f"run_motivic_cobordism_splice_stream_engine failed with return code {ret}"
+    assert stats.engine_status == 1
+    assert stats.presheaves_processed == 16 * 16
+    assert stats.total_bytes_streamed == 16 * 16 * 4096
+    assert stats.ring_queue_depth == 64
+    assert stats.motivic_cobordism_verified == 1
+
