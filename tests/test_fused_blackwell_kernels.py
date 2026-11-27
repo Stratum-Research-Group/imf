@@ -2165,6 +2165,21 @@ def test_fused_bloch_kato_tamagawa_correctness():
     assert valid_count == n_samples, f"Expected all {n_samples} samples to be Tamagawa admissible, got {valid_count}"
 
 
+def test_fused_beilinson_regulator_correctness():
+    """Validates the fused Blackwell SM 12.0 kernel for the Beilinson conjectures and Deligne regulator volumes."""
+    so_path = "csrc/libfused_blackwell_beilinson_regulator.so"
+    assert os.path.exists(so_path), f"Missing shared object: {so_path}"
+
+    lib = ctypes.CDLL(so_path)
+    lib.run_beilinson_regulator_benchmark.argtypes = [ctypes.c_int]
+    lib.run_beilinson_regulator_benchmark.restype = ctypes.c_int
+
+    n_samples = 1024
+    valid_count = lib.run_beilinson_regulator_benchmark(n_samples)
+    assert valid_count == n_samples, f"Expected all {n_samples} samples to have non-zero regulator determinants, got {valid_count}"
+
+
+
 
 
 

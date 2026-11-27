@@ -2745,6 +2745,52 @@ def test_iouring_fixed_dma_buf_direct_nvme_correctness():
     assert stats.dma_direct_active == 1
 
 
+class DirectRingConfig(ctypes.Structure):
+    _fields_ = [
+        ("ring_entries", ctypes.c_uint32),
+        ("slot_size_bytes", ctypes.c_uint32),
+        ("num_slots", ctypes.c_uint32),
+        ("batch_count", ctypes.c_uint32),
+    ]
+
+
+class DirectRingStats(ctypes.Structure):
+    _fields_ = [
+        ("total_slots_submitted", ctypes.c_uint64),
+        ("active_slots_count", ctypes.c_uint32),
+        ("ring_status", ctypes.c_uint32),
+        ("zero_alloc_verified", ctypes.c_uint32),
+    ]
+
+
+def test_iouring_direct_ring_buffer_zero_alloc_correctness():
+    """Validates the Linux 6.18 direct ring-buffer zero-allocation slot engine."""
+    so_path = "csrc/libfused_iouring_direct_ring_buffer_zero_alloc.so"
+    assert os.path.exists(so_path), f"Shared object not found: {so_path}"
+
+    lib = ctypes.CDLL(so_path)
+    lib.run_direct_ring_buffer_zero_alloc_engine.argtypes = [
+        ctypes.POINTER(DirectRingConfig),
+        ctypes.POINTER(DirectRingStats),
+    ]
+    lib.run_direct_ring_buffer_zero_alloc_engine.restype = ctypes.c_int
+
+    config = DirectRingConfig(
+        ring_entries=64,
+        slot_size_bytes=512,
+        num_slots=16,
+        batch_count=32,
+    )
+    stats = DirectRingStats()
+
+    ret = lib.run_direct_ring_buffer_zero_alloc_engine(ctypes.byref(config), ctypes.byref(stats))
+    assert ret == 0, f"run_direct_ring_buffer_zero_alloc_engine failed with return code {ret}"
+    assert stats.ring_status == 1
+    assert stats.active_slots_count == 16
+    assert stats.zero_alloc_verified == 1
+
+
+
 
 
 
