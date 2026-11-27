@@ -3815,6 +3815,57 @@ def test_iouring_motivic_goerss_hopkins_splice_stream_correctness():
     assert stats.motivic_goerss_hopkins_verified == 1
 
 
+class IOUringWeightStreamerConfig(ctypes.Structure):
+    _fields_ = [
+        ("ring_entries", ctypes.c_uint32),
+        ("block_size", ctypes.c_uint32),
+        ("num_blocks", ctypes.c_uint32),
+        ("use_direct_io", ctypes.c_uint32),
+        ("stream_passes", ctypes.c_uint32),
+    ]
+
+
+class IOUringWeightStreamerStats(ctypes.Structure):
+    _fields_ = [
+        ("total_bytes_streamed", ctypes.c_uint64),
+        ("blocks_processed", ctypes.c_uint32),
+        ("dma_alignment_verified", ctypes.c_uint32),
+        ("direct_io_verified", ctypes.c_uint32),
+        ("ring_queue_depth", ctypes.c_uint32),
+        ("engine_status", ctypes.c_uint32),
+    ]
+
+
+def test_iouring_weight_streamer_direct_io():
+    so_path = "bin/libfused_iouring_weight_streamer.so"
+    assert os.path.exists(so_path), f"Library {so_path} does not exist"
+
+    lib = ctypes.CDLL(so_path)
+    lib.run_iouring_weight_streamer_engine.argtypes = [
+        ctypes.POINTER(IOUringWeightStreamerConfig),
+        ctypes.POINTER(IOUringWeightStreamerStats),
+    ]
+    lib.run_iouring_weight_streamer_engine.restype = ctypes.c_int
+
+    config = IOUringWeightStreamerConfig(
+        ring_entries=64,
+        block_size=4096,
+        num_blocks=32,
+        use_direct_io=1,
+        stream_passes=8,
+    )
+    stats = IOUringWeightStreamerStats()
+
+    ret = lib.run_iouring_weight_streamer_engine(ctypes.byref(config), ctypes.byref(stats))
+    assert ret == 0, f"Engine failed with error {ret}"
+    assert stats.engine_status == 1
+    assert stats.dma_alignment_verified == 1
+    assert stats.direct_io_verified == 1
+    assert stats.blocks_processed == 32 * 8
+    assert stats.total_bytes_streamed == 32 * 8 * 4096
+
+
+
 
 
 

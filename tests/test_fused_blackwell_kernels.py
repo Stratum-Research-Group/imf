@@ -2478,6 +2478,20 @@ def test_fused_motivic_goerss_hopkins_correctness():
     assert valid_count == n_samples, f'Expected all {n_samples} samples to satisfy Motivic Goerss-Hopkins invariants, got {valid_count}'
 
 
+def test_fused_blackwell_mope_sparse_correctness():
+    so_path = os.path.join(os.path.dirname(__file__), '..', 'csrc', 'libfused_blackwell_mope_sparse.so')
+    assert os.path.exists(so_path), f'Library {so_path} does not exist'
+
+    lib = ctypes.CDLL(so_path)
+    lib.run_blackwell_mope_sparse_benchmark.argtypes = [ctypes.c_int]
+    lib.run_blackwell_mope_sparse_benchmark.restype = ctypes.c_int
+
+    n_samples = 1024
+    valid_count = lib.run_blackwell_mope_sparse_benchmark(n_samples)
+    assert valid_count == n_samples, f'Expected all {n_samples} samples to satisfy 98.4% sparse MoPE invariants, got {valid_count}'
+
+
+
 
 
 

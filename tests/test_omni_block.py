@@ -9,7 +9,7 @@ Verifies:
 
 import pytest
 import torch
-from imf.omni_block import IMFOmniBlock
+from imf.omni_block import IMFOmniBlock, LieAlgebraicRollingKVCache
 
 
 def test_omni_block_autograd_and_shapes():
@@ -67,3 +67,37 @@ def test_omni_block_triton_cuda_inference():
 
     assert out.shape == (B, T, D)
     assert not torch.isnan(out).any()
+
+
+def test_omni_block_lie_algebraic_rolling_kv_cache():
+    torch.manual_seed(42)
+    B, D = 2, 64
+    num_heads = 4
+    head_dim = D // num_heads
+
+    block = IMFOmniBlock(
+        d_model=D,
+        num_heads=num_heads,
+        polytope_dim=4,
+        conv_rank=16,
+        conv_window=4,
+        use_triton_ssm=False,
+    )
+    block.eval()
+
+    cache = block.create_rolling_cache(batch_size=B)
+    mem_initial = cache.get_memory_bytes()
+    expected_mem = B * num_heads * (head_dim ** 2) * 4 # float32 = 4 bytes
+    assert mem_initial == expected_mem
+
+    # Step through 50 autoregressive steps
+    for step in range(50):
+        x_t = torch.randn(B, 1, D)
+        out_t = block.step_autoregressive(x_t, cache)
+        assert out_t.shape == (B, 1, D)
+        assert not torch.isnan(out_t).any()
+        # Verify strictly O(1) constant memory (bytes do not grow)
+        assert cache.get_memory_bytes() == mem_initial
+
+    assert cache.step_count == 50
+

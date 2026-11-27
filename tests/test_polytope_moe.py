@@ -1,6 +1,6 @@
 import pytest
 import torch
-from imf.polytope_moe import PolytopeMixtureOfExperts, PolytopeExpert
+from imf.polytope_moe import PolytopeMixtureOfExperts, PolytopeExpert, FineGrainedPolytopeMoPE
 
 
 def test_polytope_expert_forward():
@@ -78,3 +78,31 @@ def test_polytope_moe_cuda():
     loss = out.sum() + aux["load_balance_loss"]
     loss.backward()
     assert x.grad is not None
+
+
+def test_fine_grained_polytope_mope():
+    d_model = 64
+    num_micro_experts = 32
+    top_k = 2
+    mope = FineGrainedPolytopeMoPE(
+        d_model=d_model,
+        num_micro_experts=num_micro_experts,
+        top_k=top_k,
+        polytope_dim=8,
+        repulsive_weight=0.1,
+        balance_weight=0.01,
+    )
+    x = torch.randn(2, 8, d_model, requires_grad=True)
+    out, aux = mope(x)
+
+    assert out.shape == (2, 8, d_model)
+    expected_sparsity = (1.0 - (top_k / num_micro_experts)) * 100.0
+    assert abs(aux["activation_sparsity_percent"] - expected_sparsity) < 1e-3
+    assert aux["load_balance_loss"].item() > 0
+    assert aux["repulsive_loss"].item() >= 0
+    assert "total_aux_loss" in aux
+
+    loss = out.sum() + aux["total_aux_loss"]
+    loss.backward()
+    assert x.grad is not None
+    assert not torch.isnan(x.grad).any()

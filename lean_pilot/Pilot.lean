@@ -79,3 +79,5 @@ import Pilot.MotivicNilpotence
 import Pilot.MotivicSmashProduct
 import Pilot.MotivicGrossHopkins
 import Pilot.MotivicGoerssHopkins
+import Pilot.PolytopeSparsity
+

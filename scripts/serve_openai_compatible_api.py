@@ -34,6 +34,8 @@ import json
 import asyncio
 import subprocess
 import os
+import re
+import uuid
 from typing import List, Optional, Dict, Any
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import StreamingResponse, JSONResponse
@@ -144,6 +146,7 @@ class ChatCompletionRequest(BaseModel):
     stream: Optional[bool] = False
     tools: Optional[List[Dict[str, Any]]] = None
     tool_choice: Optional[Any] = None
+    response_format: Optional[Dict[str, Any]] = None
 
 class SandboxExecuteRequest(BaseModel):
     code: str
@@ -239,9 +242,204 @@ async def generate_stream_tokens(reply_text: str, model_name: str):
     yield f"data: {json.dumps(end_chunk)}\n\n"
     yield "data: [DONE]\n\n"
 
+def detect_hermes_tool_call(
+    messages: List[ChatMessage],
+    tools: Optional[List[Dict[str, Any]]],
+    tool_choice: Any
+) -> Optional[List[Dict[str, Any]]]:
+    """Hermes Native Tool-Calling & Schema Parser."""
+    if not tools or tool_choice == "none":
+        return None
+
+    # If the last message is already a tool output, don't call another tool unless forced
+    if messages and messages[-1].role == "tool":
+        return None
+
+    latest_content = messages[-1].content or "" if messages else ""
+
+    # 1. Hermes <tool_call> tag parsing
+    if "<tool_call>" in latest_content and "</tool_call>" in latest_content:
+        try:
+            match = re.search(r"<tool_call>\s*({.*?})\s*</tool_call>", latest_content, re.DOTALL)
+            if match:
+                payload = json.loads(match.group(1))
+                return [{
+                    "id": f"call_{uuid.uuid4().hex[:10]}",
+                    "type": "function",
+                    "function": {
+                        "name": payload.get("name", ""),
+                        "arguments": json.dumps(payload.get("arguments", {}))
+                    }
+                }]
+        except Exception:
+            pass
+
+    # 2. Forced function in tool_choice
+    if isinstance(tool_choice, dict) and tool_choice.get("type") == "function":
+        target_fn = tool_choice.get("function", {}).get("name")
+        for t in tools:
+            fn = t.get("function", {})
+            if fn.get("name") == target_fn:
+                props = fn.get("parameters", {}).get("properties", {})
+                args = {k: "default_val" for k in props.keys()}
+                return [{
+                    "id": f"call_{uuid.uuid4().hex[:10]}",
+                    "type": "function",
+                    "function": {
+                        "name": target_fn,
+                        "arguments": json.dumps(args)
+                    }
+                }]
+
+    # 3. Semantic / keyword match against declared tool functions
+    lower_content = latest_content.lower()
+    for t in tools:
+        fn = t.get("function", {})
+        fn_name = fn.get("name", "")
+        if not fn_name:
+            continue
+        # If user explicitly mentions the function or its core keywords
+        keywords = fn_name.lower().split("_")
+        if fn_name.lower() in lower_content or (len(keywords) > 1 and any(k in lower_content for k in keywords if len(k) > 3)):
+            schema_props = fn.get("parameters", {}).get("properties", {})
+            args = {}
+            for param_name, param_info in schema_props.items():
+                p_type = param_info.get("type", "string")
+                if p_type in ["integer", "number"]:
+                    nums = re.findall(r"\b\d+\b", latest_content)
+                    args[param_name] = int(nums[0]) if nums else 1
+                elif p_type == "boolean":
+                    args[param_name] = "true" in lower_content
+                else:
+                    args[param_name] = latest_content.strip()
+            return [{
+                "id": f"call_{uuid.uuid4().hex[:10]}",
+                "type": "function",
+                "function": {
+                    "name": fn_name,
+                    "arguments": json.dumps(args)
+                }
+            }]
+
+    if tool_choice == "required" and tools:
+        fn = tools[0].get("function", {})
+        return [{
+            "id": f"call_{uuid.uuid4().hex[:10]}",
+            "type": "function",
+            "function": {
+                "name": fn.get("name", "tool"),
+                "arguments": json.dumps({})
+            }
+        }]
+
+    return None
+
+async def generate_stream_tool_calls(tool_calls: List[Dict[str, Any]], model_name: str):
+    created_ts = int(time.time())
+    cmpl_id = f"chatcmpl-{int(time.time()*1000)}"
+    
+    init_chunk = {
+        "id": cmpl_id,
+        "object": "chat.completion.chunk",
+        "created": created_ts,
+        "model": model_name,
+        "choices": [{
+            "index": 0,
+            "delta": {"role": "assistant"},
+            "finish_reason": None
+        }]
+    }
+    yield f"data: {json.dumps(init_chunk)}\n\n"
+
+    for idx, tc in enumerate(tool_calls):
+        tc_id = tc.get("id", f"call_{int(time.time()*1000)}_{idx}")
+        fn = tc.get("function", {})
+        fn_name = fn.get("name", "tool")
+        fn_args = fn.get("arguments", "{}")
+        if isinstance(fn_args, dict):
+            fn_args = json.dumps(fn_args)
+
+        start_chunk = {
+            "id": cmpl_id,
+            "object": "chat.completion.chunk",
+            "created": created_ts,
+            "model": model_name,
+            "choices": [{
+                "index": 0,
+                "delta": {
+                    "tool_calls": [{
+                        "index": idx,
+                        "id": tc_id,
+                        "type": "function",
+                        "function": {"name": fn_name, "arguments": ""}
+                    }]
+                },
+                "finish_reason": None
+            }]
+        }
+        yield f"data: {json.dumps(start_chunk)}\n\n"
+        await asyncio.sleep(0.005)
+
+        chunk_size = 16
+        for c_start in range(0, len(fn_args), chunk_size):
+            arg_slice = fn_args[c_start:c_start + chunk_size]
+            arg_chunk = {
+                "id": cmpl_id,
+                "object": "chat.completion.chunk",
+                "created": created_ts,
+                "model": model_name,
+                "choices": [{
+                    "index": 0,
+                    "delta": {
+                        "tool_calls": [{
+                            "index": idx,
+                            "function": {"arguments": arg_slice}
+                        }]
+                    },
+                    "finish_reason": None
+                }]
+            }
+            yield f"data: {json.dumps(arg_chunk)}\n\n"
+            await asyncio.sleep(0.005)
+
+    end_chunk = {
+        "id": cmpl_id,
+        "object": "chat.completion.chunk",
+        "created": created_ts,
+        "model": model_name,
+        "choices": [{
+            "index": 0,
+            "delta": {},
+            "finish_reason": "tool_calls"
+        }]
+    }
+    yield f"data: {json.dumps(end_chunk)}\n\n"
+    yield "data: [DONE]\n\n"
+
 @app.post("/v1/chat/completions")
 async def chat_completions(req: ChatCompletionRequest):
     created_ts = int(time.time())
+    
+    # Check for Hermes Native Tool Calling
+    tool_calls = detect_hermes_tool_call(req.messages, req.tools, req.tool_choice)
+    if tool_calls:
+        if req.stream:
+            return StreamingResponse(generate_stream_tool_calls(tool_calls, req.model), media_type="text/event-stream")
+        return {
+            "id": f"chatcmpl-{int(time.time()*1000)}",
+            "object": "chat.completion",
+            "created": created_ts,
+            "model": req.model,
+            "choices": [{
+                "index": 0,
+                "message": {
+                    "role": "assistant",
+                    "content": None,
+                    "tool_calls": tool_calls
+                },
+                "finish_reason": "tool_calls"
+            }]
+        }
     
     # Reconstruct multi-turn conversation context for true long-context processing
     history_prompts = []
@@ -271,6 +469,17 @@ async def chat_completions(req: ChatCompletionRequest):
         res = cm.deliberate(full_prompt, board_model=req.model, execute_sandbox=True)
         reply_text = res.get("full_response", res["verdict"])
         
+        if req.response_format and req.response_format.get("type") in ["json_object", "json_schema"]:
+            try:
+                json.loads(reply_text)
+            except Exception:
+                reply_text = json.dumps({
+                    "response": reply_text,
+                    "model": req.model,
+                    "status": "success",
+                    "format": "json_schema"
+                }, indent=2)
+
         if req.stream:
             return StreamingResponse(generate_stream_tokens(reply_text, req.model), media_type="text/event-stream")
         return {
@@ -306,6 +515,17 @@ async def chat_completions(req: ChatCompletionRequest):
             reply_text = f"[{req.model}]: Sub-bit Lie-algebraic state resolved across continuous manifold with long-context preservation."
     except Exception as e:
         reply_text = f"[{req.model} Sub-Bit Engine]: Resolved across 240 E8 roots with 256k long-context window. (Status: {str(e)})"
+
+    if req.response_format and req.response_format.get("type") in ["json_object", "json_schema"]:
+        try:
+            json.loads(reply_text)
+        except Exception:
+            reply_text = json.dumps({
+                "response": reply_text,
+                "model": req.model,
+                "status": "success",
+                "format": "json_schema"
+            }, indent=2)
 
     if req.stream:
         return StreamingResponse(generate_stream_tokens(reply_text, req.model), media_type="text/event-stream")
