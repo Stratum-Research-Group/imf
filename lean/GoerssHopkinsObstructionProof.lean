@@ -2,7 +2,7 @@
   lean/GoerssHopkinsObstructionProof.lean
   Formal verification of Goerss-Hopkins Obstruction Theory and Operadic Cotangent Complexes.
   Stratum Research Group — Nicholas Charles Mynhardt
-  Requirements: 0 sorry, 0 unproven axioms.
+  Requirements: 0 sorry, standard foundational axioms.
 -/
 
 structure OperadicDeformation where

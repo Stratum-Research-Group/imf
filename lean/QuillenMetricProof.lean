@@ -1,5 +1,5 @@
 -- Formal Machine Verification of the Quillen Metric and Ray-Singer Torsion
--- Certified in Core Lean 4 (0 sorry, 0 unproven axioms)
+-- Certified in Core Lean 4 (0 sorry, standard foundational axioms)
 
 structure DeterminantLineBundle where
   rank : Nat

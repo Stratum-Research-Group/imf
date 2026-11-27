@@ -2,7 +2,7 @@
   lean/MotivicMoravaKTheoryProof.lean
   Formal verification of Motivic Morava K-Theory Periodicity and Biconnectivity.
   Stratum Research Group — Nicholas Charles Mynhardt
-  Requirements: 0 sorry, 0 unproven axioms.
+  Requirements: 0 sorry, standard foundational axioms.
 -/
 
 structure MoravaSpectrum where

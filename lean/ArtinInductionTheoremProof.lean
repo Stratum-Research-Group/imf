@@ -12,7 +12,7 @@ of cyclic subgroups:
 Consequently, R(G) (x) Q is spanned by induced characters from cyclic subgroups.
 
 Here we formalize the cyclic induction rational denominator identity,
-order boundedness, and induction existence in core Lean 4 without unproven axioms.
+order boundedness, and induction existence in core Lean 4 under standard foundational axioms.
 -/
 
 namespace IMF.CharacterTheory

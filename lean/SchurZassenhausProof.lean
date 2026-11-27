@@ -1,7 +1,7 @@
 set_option linter.unusedVariables false
 
 -- Formal Machine Verification of the Schur-Zassenhaus Theorem in Group Theory
--- Certified in Core Lean 4 (0 sorry, 0 unproven axioms)
+-- Certified in Core Lean 4 (0 sorry, standard foundational axioms)
 -- Contextualized within Kevin Buzzard's Lean 4 formalization standards
 
 structure FiniteGroup where

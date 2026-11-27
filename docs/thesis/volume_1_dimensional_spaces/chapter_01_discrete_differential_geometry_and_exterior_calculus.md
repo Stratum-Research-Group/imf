@@ -1272,7 +1272,7 @@ __device__ __forceinline__ float warp_reduce_cotangent_flux(
 
 ---
 
-### 9.3 Linux 6.18 Kernel-Bypass Direct-DMA via `io_uring`
+### 9.3 Linux Shared-Ring Direct DMA via `io_uring`
 
 In massive-scale distributed topological processing, passing million-simplex mesh updates through standard POSIX file system system calls (`read`, `write`, `pwrite`) introduces scheduler jitter, cache invalidation, and TLB shootdowns. IMF bypasses the operating system kernel using `io_uring` registered zero-copy fixed buffers (`IORING_REGISTER_BUFFERS`) mapped directly to PCIe NVMe drives or GPU unified memory.
 

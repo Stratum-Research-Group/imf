@@ -2,7 +2,7 @@
   lean/MotivicSteenrodAlgebraProof.lean
   Formal verification of the Motivic Steenrod Algebra Invariants and Milnor Basis Operations.
   Stratum Research Group — Nicholas Charles Mynhardt
-  Requirements: 0 sorry, 0 unproven axioms.
+  Requirements: 0 sorry, standard foundational axioms.
 -/
 
 structure SteenrodOperation where

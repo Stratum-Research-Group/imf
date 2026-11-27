@@ -2,7 +2,7 @@
   lean/BlochKatoConjectureProof.lean
   Formal verification of the Bloch-Kato Conjecture / Voevodsky Norm Residue Isomorphism Invariants.
   Stratum Research Group — Nicholas Charles Mynhardt
-  Requirements: 0 sorry, 0 unproven axioms.
+  Requirements: 0 sorry, standard foundational axioms.
 -/
 
 structure MotivicGaloisModule where

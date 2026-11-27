@@ -1,5 +1,5 @@
 -- Formal Machine Verification of Hitchin System Integrability
--- Certified in Core Lean 4 (0 sorry, 0 unproven axioms)
+-- Certified in Core Lean 4 (0 sorry, standard foundational axioms)
 
 structure RiemannSurface where
   genus : Nat

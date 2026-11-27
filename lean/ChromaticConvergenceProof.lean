@@ -2,7 +2,7 @@
   lean/ChromaticConvergenceProof.lean
   Formal verification of the Chromatic Convergence Theorem and Morava K-theory invariants.
   Stratum Research Group — Nicholas Charles Mynhardt
-  Requirements: 0 sorry, 0 unproven axioms.
+  Requirements: 0 sorry, standard foundational axioms.
 -/
 
 structure ChromaticTower where

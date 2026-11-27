@@ -16,7 +16,7 @@ Then:
 3. The chain length is strictly bounded: k <= n.
 
 Here we formalize the orbit-stabilizer product identity and chain boundedness
-in core Lean 4 without unproven axioms.
+in core Lean 4 under standard foundational axioms.
 -/
 
 namespace IMF.GroupTheory

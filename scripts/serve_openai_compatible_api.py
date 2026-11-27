@@ -68,6 +68,9 @@ NATIVE_MODELS = [
     {"id": "weft2-extended-rlvr", "name": "WEFT2 Extended RLVR Sub-Bit", "path": "/home/akarta/Projects/0.WiP/Weft/checkpoints/weft2_extended_50k_rlvr.weft", "type": "weft"},
     {"id": "weft2-tool-grpo", "name": "WEFT2 Tool GRPO Sub-Bit", "path": "/home/akarta/Projects/0.WiP/Weft/checkpoints/weft2_tool_grpo.weft", "type": "weft"},
     {"id": "weft2-sft-15k", "name": "WEFT2 SFT 15k Foundation Sub-Bit", "path": "/home/akarta/Projects/0.WiP/Weft/checkpoints/weft2_sft_15k.weft", "type": "weft"},
+    {"id": "weft5-extended-rlvr", "name": "WEFT5 Extended RLVR (AVX-512 BITALG Sub-Bit)", "path": "/home/akarta/Projects/0.WiP/Weft/checkpoints/weft5_bitalg/weft2_extended_50k_rlvr.weft5", "type": "weft5"},
+    {"id": "weft3-tool-grpo", "name": "WEFT3 Tool GRPO (AVX-512 VNNI Microkernel)", "path": "/home/akarta/Projects/0.WiP/Weft/checkpoints/weft3_vnni/weft2_tool_grpo.weft3", "type": "weft3"},
+    {"id": "weft4-foundation-5k", "name": "WEFT4 Foundation 5K (AVX-512 BF16 Microkernel)", "path": "/home/akarta/Projects/0.WiP/Weft/checkpoints/weft4_bf16/weft2_foundation_5k.weft4", "type": "weft4"},
     {"id": "llama-3.3-70b-core", "name": "LLaMA 3.3 70B Reasoning Core Sub-Bit", "path": "checkpoints/llama_3.3_70b_reasoning_core_full.imf", "type": "imf-subbit"},
     {"id": "qwen-2.5-72b-core", "name": "Qwen 2.5 72B Reasoning Core Sub-Bit", "path": "checkpoints/qwen_2.5_72b_reasoning_core_full.imf", "type": "imf-subbit"},
 ]

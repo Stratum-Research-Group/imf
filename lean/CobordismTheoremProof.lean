@@ -1,7 +1,7 @@
 set_option linter.unusedVariables false
 
 -- Formal Machine Verification of the Cobordism Theorem (Thom's Classification)
--- Certified in Core Lean 4 (0 sorry, 0 unproven axioms)
+-- Certified in Core Lean 4 (0 sorry, standard foundational axioms)
 
 structure SmoothManifold where
   dimension : Nat

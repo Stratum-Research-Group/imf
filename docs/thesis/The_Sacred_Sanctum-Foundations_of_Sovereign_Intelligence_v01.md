@@ -48,7 +48,7 @@ This volume establishes the low-dimensional mechanics upon which the higher-dime
 | **3** | [Chapter 3: Classical Lie Groups, Quaternions, and Rotors](#chapter-3-classical-lie-groups-quaternions-and-rotors) | Closed forms in SO(2), SO(3), SO(4), Clifford rotors Cl(3,0), Sp(1) unit quaternions, and SLERP geodesic interpolation. |
 | **4** | [Chapter 4: The Cayley Transform and Discrete Lyapunov Stability](#chapter-4-the-cayley-transform-and-discrete-lyapunov-stability) | Rational conformal Cayley transform, exact rank-2 Sherman-Morrison solver, and contractive discrete Lyapunov stability bounds. |
 | **5** | [Chapter 5: Warp-Level Blackwell SM 12.0 Lie Rolling KV Cache](#chapter-5-warp-level-blackwell-sm-120-lie-rolling-kv-cache) | Physical silicon kernel in csrc/, 32x32 state warp shuffle staging, dissipation parameter lambda, and 51.5 us decode benchmarks. |
-| **6** | [Chapter 6: Linux Kernel-Bypass `io_uring` Direct DMA](#chapter-6-linux-shared-ring-iouring-direct-dma) | Ring buffer SQPOLL architecture, host-pinned O_DIRECT fixed buffers, and 2.33 GB/s physical NVMe throughput telemetry. |
+| **6** | [Chapter 6: Linux Shared-Ring `io_uring` Direct DMA](#chapter-6-linux-shared-ring-iouring-direct-dma) | Ring buffer SQPOLL architecture, host-pinned O_DIRECT fixed buffers, and 2.33 GB/s physical NVMe throughput telemetry. |
 | **7** | [Chapter 7: Formal Deductive Verification in Lean 4: Module 83](#chapter-7-formal-deductive-verification-in-lean-4-module-83) | Formal Lean 4 Mathlib module specifying isometry, commutator nil-trace, and antisymmetry over real matrices. |
 | **8** | [Chapter 8: The Dimensional Ledger: Closing $d \le 4$ and Bridging to $d = 32$](#chapter-8-the-dimensional-ledger-closing-d--4-and-bridging-to-d--32) | Block-diagonal SO(4)^8 in SO(32), 8.0x arithmetic reduction, empirical capacity, low-precision drift, and open questions. |
 
@@ -1336,7 +1336,7 @@ __device__ __forceinline__ float warp_reduce_cotangent_flux(
 
 ---
 
-### 9.3 Linux Shared-Ring io_uring Direct-DMA Direct-DMA via `io_uring`
+### 9.3 Linux Shared-Ring Direct DMA via `io_uring`
 
 In massive-scale distributed topological processing, passing million-simplex mesh updates through standard POSIX file system system calls (`read`, `write`, `pwrite`) introduces scheduler jitter, cache invalidation, and TLB shootdowns. IMF bypasses the operating system kernel using `io_uring` registered zero-copy fixed buffers (`IORING_REGISTER_BUFFERS`) mapped directly to PCIe NVMe drives or GPU unified memory.
 

@@ -22,7 +22,7 @@ All milestone entries below have been standardized with verified ISO 8601 certif
 | **One Billion Landmark** | 1,000,000,000 | Blocks 751–1000 | 2026-11-27 | RTX 5060 Ti (Blackwell SM 12.0) | Chromatic stable homotopy tower, Morava $K$-theories, 1,301 papers consolidated |
 | **Quarter-Way Scaling** | 1,250,000,000 | Blocks 1001–1250 | 2026-11-27 | RTX 5060 Ti (SM 12.0 / 46.5°C) | 113 Development Streams synthesized; Goerss-Hopkins operads certified |
 | **Intermediate Epoch I** | 1,400,000,000 | Blocks 1251–1400 | 2026-11-27 | RTX 5060 Ti (SM 12.0 / 47.1°C) | Motivic Landweber exactness (MEFT) & Leech Golay $G_{24}$ frames formalized |
-| **Intermediate Epoch II** | 1,450,000,000 | Blocks 1401–1450 | 2026-11-27 | RTX 5060 Ti (SM 12.0 / 47.5°C) | Motivic Adams differentials ($E_r^{s,t,w}$) & Blackwell SM 12.0 Warp FWHT certified |
+| **Intermediate Epoch II** | 1,450,000,000 | Blocks 1401–1450 | 2026-11-27 | RTX 5060 Ti (SM 12.0 / 47.5°C) | Motivic Adams arithmetic scaffolding & Blackwell SM 12.0 Warp FWHT benchmarked |
 | **Intermediate Epoch III** | 1,500,000,000 | Blocks 1451–1500 | 2026-11-28 | RTX 5060 Ti (SM 12.0 / 47.9°C) | Motivic Bott periodicity ($\mathbb{S}_{mot}[\tau^{-1}] \simeq \mathbb{S}_{top}$) & Warp Cayley transform certified |
 | **Current Sealed State** | **1,550,000,000** | **Blocks 1501–1550** | **2026-11-28** | **RTX 5060 Ti (SM 12.0 / 48.2°C)** | **Motivic Hopf invariant one ($n \in \{1,2,4,8\}$) & Blackwell SM 12.0 $E_8$ Householder reflector certified** |
 

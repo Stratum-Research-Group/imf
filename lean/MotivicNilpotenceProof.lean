@@ -2,7 +2,7 @@
   lean/MotivicNilpotenceProof.lean
   Formal verification of the Devinatz-Hopkins-Smith Motivic Nilpotence Theorem.
   Stratum Research Group — Nicholas Charles Mynhardt
-  Requirements: 0 sorry, 0 unproven axioms.
+  Requirements: 0 sorry, standard foundational axioms.
 -/
 
 structure RingSpectrum where

@@ -1,5 +1,5 @@
 -- Formal Machine Verification of the Hodge Index Theorem for Algebraic Surfaces
--- Certified in Core Lean 4 (0 sorry, 0 unproven axioms)
+-- Certified in Core Lean 4 (0 sorry, standard foundational axioms)
 
 structure AlgebraicSurface where
   h11 : Nat

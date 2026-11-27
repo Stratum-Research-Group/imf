@@ -13,7 +13,7 @@ In particular:
 2. The simple components are mutually orthogonal two-sided ideals: I_i * I_j = 0 for i != j.
 
 Here we formalize the simple component dimension factorization, positivity,
-and canonical decomposition existence in core Lean 4 without unproven axioms.
+and canonical decomposition existence in core Lean 4 under standard foundational axioms.
 -/
 
 namespace IMF.RingTheory

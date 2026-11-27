@@ -13,7 +13,7 @@ Consequently, the group algebra K[G] is semisimple, and every representation com
 into direct sums of irreducible representations.
 
 Here we formalize the dimension splitting, projection invariant, and semisimplicity condition
-in core Lean 4 without unproven axioms.
+in core Lean 4 under standard foundational axioms.
 -/
 
 namespace IMF.RepresentationTheory

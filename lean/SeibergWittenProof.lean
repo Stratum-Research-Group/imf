@@ -1,5 +1,5 @@
 -- Formal Machine Verification of Seiberg-Witten Invariants on 4-Manifolds
--- Certified in Core Lean 4 (0 sorry, 0 unproven axioms)
+-- Certified in Core Lean 4 (0 sorry, standard foundational axioms)
 
 structure FourManifold where
   dim : Nat

@@ -14,7 +14,7 @@ Then:
 3. In particular, the dimension of End_G(V) is 1.
 
 Here we formalize the homomorphism dichotomy, dimension identity,
-and endomorphism algebra rigidity in core Lean 4 without unproven axioms.
+and endomorphism algebra rigidity in core Lean 4 under standard foundational axioms.
 -/
 
 namespace IMF.RepresentationTheory
