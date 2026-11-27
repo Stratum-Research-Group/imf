@@ -77,3 +77,4 @@ import Pilot.MotivicBP
 import Pilot.MotivicLubinTate
 import Pilot.MotivicNilpotence
 import Pilot.MotivicSmashProduct
+import Pilot.MotivicGrossHopkins

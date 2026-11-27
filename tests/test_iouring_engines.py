@@ -3725,6 +3725,52 @@ def test_iouring_motivic_smash_product_splice_stream_correctness():
     assert stats.motivic_smash_product_verified == 1
 
 
+def test_iouring_motivic_gross_hopkins_splice_stream_correctness():
+    so_path = os.path.join(os.path.dirname(__file__), "..", "csrc", "libfused_iouring_motivic_gross_hopkins_splice_stream.so")
+    assert os.path.exists(so_path), f"Engine binary {so_path} does not exist"
+
+    class MotivicGrossHopkinsConfig(ctypes.Structure):
+        _fields_ = [
+            ("ring_entries", ctypes.c_uint32),
+            ("packet_size_bytes", ctypes.c_uint32),
+            ("num_packets", ctypes.c_uint32),
+            ("stream_passes", ctypes.c_uint32),
+        ]
+
+    class MotivicGrossHopkinsStats(ctypes.Structure):
+        _fields_ = [
+            ("total_bytes_streamed", ctypes.c_uint64),
+            ("packets_processed", ctypes.c_uint32),
+            ("ring_queue_depth", ctypes.c_uint32),
+            ("motivic_gross_hopkins_verified", ctypes.c_uint32),
+            ("engine_status", ctypes.c_uint32),
+        ]
+
+    lib = ctypes.CDLL(so_path)
+    lib.run_motivic_gross_hopkins_splice_stream_engine.argtypes = [
+        ctypes.POINTER(MotivicGrossHopkinsConfig),
+        ctypes.POINTER(MotivicGrossHopkinsStats)
+    ]
+    lib.run_motivic_gross_hopkins_splice_stream_engine.restype = ctypes.c_int
+
+    config = MotivicGrossHopkinsConfig(
+        ring_entries=64,
+        packet_size_bytes=4096,
+        num_packets=16,
+        stream_passes=16,
+    )
+    stats = MotivicGrossHopkinsStats()
+
+    ret = lib.run_motivic_gross_hopkins_splice_stream_engine(ctypes.byref(config), ctypes.byref(stats))
+    assert ret == 0, f"run_motivic_gross_hopkins_splice_stream_engine failed with return code {ret}"
+    assert stats.engine_status == 1
+    assert stats.packets_processed == 16 * 16
+    assert stats.total_bytes_streamed == 16 * 16 * 4096
+    assert stats.ring_queue_depth == 64
+    assert stats.motivic_gross_hopkins_verified == 1
+
+
+
 
 
 
