@@ -92,18 +92,23 @@ def compile_volume(vol):
     full_text = "".join(content_parts)
     
     # Write to master output and aliases
-    with open(vol["out_root"], "w", encoding="utf-8") as f:
-        f.write(full_text)
-    if "alias_theses" in vol and vol["alias_theses"]:
-        with open(vol["alias_theses"], "w", encoding="utf-8") as f:
-            f.write(full_text)
-    if "alias_compiled" in vol and vol["alias_compiled"]:
-        with open(vol["alias_compiled"], "w", encoding="utf-8") as f:
-            f.write(full_text)
+    outputs = [
+        vol["out_root"],
+        vol.get("alias_theses"),
+        vol.get("alias_compiled"),
+        os.path.join(REPO_ROOT, "docs", "thesis", "compiled", os.path.basename(vol["out_root"])),
+        os.path.join(REPO_ROOT, "docs", "thesis", "compiled", os.path.basename(vol.get("alias_compiled", ""))),
+        os.path.join(REPO_ROOT, "docs", "thesis", os.path.basename(vol.get("alias_theses", ""))),
+    ]
+    for out_p in outputs:
+        if out_p:
+            os.makedirs(os.path.dirname(out_p), exist_ok=True)
+            with open(out_p, "w", encoding="utf-8") as f:
+                f.write(full_text)
 
     pages_est = total_words / 250.0  # Standard manuscript ~250 words/page
     print(f"  [+] {vol['id']} compiled successfully: {total_lines} lines | {total_words} words | {total_chars} chars | ~{pages_est:.1f} book pages")
-    print(f"      Saved to: {vol['out_root']}, {vol.get('alias_theses')}, and {vol.get('alias_compiled')}")
+    print(f"      Saved to: {vol['out_root']}, {vol.get('alias_theses')}, and docs/thesis outputs")
 
 def main():
     for vol in VOLUMES:

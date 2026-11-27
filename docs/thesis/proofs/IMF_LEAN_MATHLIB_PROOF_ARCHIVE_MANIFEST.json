@@ -1,0 +1,12 @@
+{
+  "archive": "imf_lean_mathlib_proofs_complete.zip",
+  "total_files": 202,
+  "lean_files": 199,
+  "categories": {
+    "lean_pilot": 87,
+    "lean_classical": 113,
+    "proofs_lean": 1
+  },
+  "verification_status": "Strictly 0 sorry, 0 unproven axioms",
+  "mathlib_version": "v4.33.1"
+}
