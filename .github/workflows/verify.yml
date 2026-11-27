@@ -71,6 +71,7 @@ jobs:
           g++ -O3 -shared -fPIC -std=c++17 csrc/fused_iouring_motivic_slice_shm_mmap.cpp -o csrc/libfused_iouring_motivic_slice_shm_mmap.so
           g++ -O3 -shared -fPIC -std=c++17 csrc/fused_iouring_galois_symbol_splice_stream.cpp -o csrc/libfused_iouring_galois_symbol_splice_stream.so
           g++ -O3 -shared -fPIC -std=c++17 csrc/fused_iouring_motivic_truncation_splice_ring.cpp -o csrc/libfused_iouring_motivic_truncation_splice_ring.so
+          g++ -O3 -shared -fPIC -std=c++17 csrc/fused_iouring_bott_periodicity_shm_ring.cpp -o csrc/libfused_iouring_bott_periodicity_shm_ring.so
 
       - name: Install uv and Python
         uses: astral-sh/setup-uv@v3
