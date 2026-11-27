@@ -238,6 +238,22 @@ hr {
     margin: 2.5em 0;
 }
 
+
+.content-wrapper img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 1.8em auto;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    page-break-inside: avoid;
+    break-inside: avoid;
+}
+
+.content-wrapper em {
+    color: #4b5563;
+}
+
 .katex {
     font-size: 1.08em;
 }
@@ -272,6 +288,32 @@ def render_volume_to_pdf(vol):
     # Strip out any raw cover divs embedded in markdown so we render pixel-perfect edge-to-edge covers
     md_clean = re.sub(r'<div class="cover-page front-cover">[\s\S]*?</div>', '', md_text)
     md_clean = re.sub(r'<div class="cover-page back-cover">[\s\S]*?</div>', '', md_clean)
+
+
+    # Convert relative markdown image links to high-res inline data URIs
+    def embed_local_images(match):
+        alt = match.group(1)
+        rel_path = match.group(2)
+        if rel_path.startswith(('http://', 'https://', 'data:')):
+            return match.group(0)
+        # resolve relative to src_md dir
+        src_dir = os.path.dirname(src_md)
+        img_path = os.path.normpath(os.path.join(src_dir, rel_path))
+        if os.path.exists(img_path):
+            with open(img_path, 'rb') as img_f:
+                b64 = base64.b64encode(img_f.read()).decode('utf-8')
+            if img_path.endswith('.svg'):
+                mime = 'image/svg+xml'
+            elif img_path.endswith('.png'):
+                mime = 'image/png'
+            elif img_path.endswith(('.jpg', '.jpeg')):
+                mime = 'image/jpeg'
+            else:
+                mime = 'application/octet-stream'
+            return f'<img src="data:{mime};base64,{b64}" alt="{alt}"/>'
+        return match.group(0)
+
+    md_clean = re.sub(r'!\[([^\]]*)\]\(([^\)]+)\)', embed_local_images, md_clean)
 
     # Convert Markdown to HTML
     html_body = markdown.markdown(
