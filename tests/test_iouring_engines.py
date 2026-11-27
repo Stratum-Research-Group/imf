@@ -3228,3 +3228,48 @@ def test_iouring_quillen_patching_dma_stream_correctness():
     assert stats.total_bytes_streamed == 16 * 16 * 4096
     assert stats.ring_queue_depth == 64
     assert stats.patching_stream_verified == 1
+
+
+def test_iouring_higher_chow_splice_stream_correctness():
+    so_path = "csrc/libfused_iouring_higher_chow_splice_stream.so"
+    assert os.path.exists(so_path), f"Missing shared object: {so_path}"
+
+    class HigherChowConfig(ctypes.Structure):
+        _fields_ = [
+            ("ring_entries", ctypes.c_uint32),
+            ("cycle_size_bytes", ctypes.c_uint32),
+            ("num_cycles", ctypes.c_uint32),
+            ("stream_passes", ctypes.c_uint32),
+        ]
+
+    class HigherChowStats(ctypes.Structure):
+        _fields_ = [
+            ("total_bytes_streamed", ctypes.c_uint64),
+            ("cycles_processed", ctypes.c_uint32),
+            ("ring_queue_depth", ctypes.c_uint32),
+            ("chow_splice_verified", ctypes.c_uint32),
+            ("engine_status", ctypes.c_uint32),
+        ]
+
+    lib = ctypes.CDLL(so_path)
+    lib.run_higher_chow_splice_stream_engine.argtypes = [
+        ctypes.POINTER(HigherChowConfig),
+        ctypes.POINTER(HigherChowStats)
+    ]
+    lib.run_higher_chow_splice_stream_engine.restype = ctypes.c_int
+
+    config = HigherChowConfig(
+        ring_entries=64,
+        cycle_size_bytes=4096,
+        num_cycles=16,
+        stream_passes=16,
+    )
+    stats = HigherChowStats()
+
+    ret = lib.run_higher_chow_splice_stream_engine(ctypes.byref(config), ctypes.byref(stats))
+    assert ret == 0, f"run_higher_chow_splice_stream_engine failed with return code {ret}"
+    assert stats.engine_status == 1
+    assert stats.cycles_processed == 16 * 16
+    assert stats.total_bytes_streamed == 16 * 16 * 4096
+    assert stats.ring_queue_depth == 64
+    assert stats.chow_splice_verified == 1

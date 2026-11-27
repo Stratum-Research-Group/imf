@@ -66,3 +66,4 @@ import Pilot.NormResidueIsomorphism
 import Pilot.BeilinsonLichtenbaum
 import Pilot.QuillenLichtenbaum
 import Pilot.BassQuillen
+import Pilot.BlochSuslin

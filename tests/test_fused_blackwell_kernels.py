@@ -2307,3 +2307,16 @@ def test_fused_bass_quillen_correctness():
     n_samples = 1024
     valid_count = lib.run_bass_quillen_benchmark(n_samples)
     assert valid_count == n_samples, f'Expected all {n_samples} samples to satisfy Bass-Quillen invariants, got {valid_count}'
+
+
+def test_fused_bloch_suslin_correctness():
+    so_path = os.path.join(os.path.dirname(__file__), '..', 'csrc', 'libfused_blackwell_bloch_suslin.so')
+    assert os.path.exists(so_path), f'Library {so_path} does not exist'
+
+    lib = ctypes.CDLL(so_path)
+    lib.run_bloch_suslin_benchmark.argtypes = [ctypes.c_int]
+    lib.run_bloch_suslin_benchmark.restype = ctypes.c_int
+
+    n_samples = 1024
+    valid_count = lib.run_bloch_suslin_benchmark(n_samples)
+    assert valid_count == n_samples, f'Expected all {n_samples} samples to satisfy Bloch-Suslin invariants, got {valid_count}'
