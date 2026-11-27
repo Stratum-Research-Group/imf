@@ -1,134 +1,323 @@
-# Machine-Verified Deductive Epistemology: Lean 4 Kernel Axiomatic Audit
+# Formal Deductive Epistemology: Lean 4 Lake Build & Proof Audit
 
-**Monograph:** The Sacred Sanctum: Foundations of Sovereign Intelligence (IMF Trilogy)  
-**Author:** Nicholas Charles Mynhardt & The Stratum Research Group Architecture Council  
-**Audit Timestamp:** 2026-11-27T14:27:46.229385+00:00  
-**Lean Version:** Lean 4.14.0-rc2 | Mathlib v4.14.0  
-**Kernel Architecture:** Calculus of Inductive Constructions (CIC) with Proof Irrelevance  
-**Audit Scope:** 83 Production Proof Modules across Volumes I, II, and III  
-
----
-
-## 1. Executive Summary & Zero-Axiom Certification
-
-Every mathematical theorem and physical state invariant asserted in *The Sacred Sanctum* trilogy has been verified by the Lean 4 proof assistant. In interactive theorem proving, mathematical validity is contingent on the strict absence of unproven escape clauses (`sorryAx` or `admit`).
+**Monograph:** The Sacred Sanctum: Foundations of Sovereign Intelligence  
+**Audit Timestamp:** 2026-11-27T17:12:12.955309+00:00  
+**Lake Build Status:** PASS (30 jobs compiled)  
+**Total Declarations:** 1631  
+**Audited Files:** 302  
 
 ```
 +----------------------------------------------------------------------------------------------------+
-| LEAN 4 KERNEL AXIOMATIC VERIFICATION MANIFEST SUMMARY                                              |
+| LEAN 4 VERIFICATION AUDIT SUMMARY                                                                  |
 +----------------------------------------------------------------------------------------------------+
-| Total Certified Modules Audited:              83 Modules (100% Complete)                           |
-| Total Deductive Theorems Formalized:          541  Theorems                              |
-| Unproven Placeholder Clauses (sorry):         0 STRICTLY DETECTED (0 sorry)                       |
-| Non-Standard Axiomatic Postulates:            0 (STRICTLY STANDARD)                                |
-| Foundational Axioms Invoked:                  propext, Quot.sound, Classical.choice                |
-| Kernel Elaboration Status:                    PASS (Calculus of Inductive Constructions Verified) |
+| Lake Build:                                   PASS (Zero Syntax/Compilation Errors)               |
+| Formal Proof Modules Audited:                 302  Modules                                        |
+| Total Theorems Formalized:                    1631 Theorems                                       |
+| Active Formal Stubs (sorry):                  42                                                  |
 +----------------------------------------------------------------------------------------------------+
 ```
 
----
-
-## 2. Certified Module Registry & Cryptographic Checksums
-
-| Module Name | Formal Declarations | Axioms Invoked | Sorry Count | SHA-256 Digest | Status |
-| :--- | :---: | :---: | :---: | :--- | :---: |
-| `CartanKillingSemisimplicity` | 3 | Standard | **0** | `dd4858e554b8...4544` | **VERIFIED** |
-| `CasimirInvariant` | 2 | Standard | **0** | `4c429e6e8705...a875` | **VERIFIED** |
-| `CayleyOrthogonal` | 3 | Standard | **0** | `6e639b46f5e2...9277` | **VERIFIED** |
-| `ExteriorDerivativeNilpotent` | 1 | Standard | **0** | `85bbbdbd4282...3375` | **VERIFIED** |
-| `GrassmannExterior` | 3 | Standard | **0** | `f2094daf662b...e7d6` | **VERIFIED** |
-| `HodgeIndexCore` | 2 | Standard | **0** | `d8a9f0374ccb...0cf2` | **VERIFIED** |
-| `HodgeStarDuality` | 3 | Standard | **0** | `bd8c2025c6a9...c3d6` | **VERIFIED** |
-| `KKSFormInvariance` | 4 | Standard | **0** | `bfb188cac93f...6ded` | **VERIFIED** |
-| `KillingForm` | 3 | Standard | **0** | `8f8e26a61730...6df1` | **VERIFIED** |
-| `LieAlgebraInvariants` | 2 | Standard | **0** | `915bb5eeb4f2...5fa0` | **VERIFIED** |
-| `LieDerivation` | 2 | Standard | **0** | `ce0310ef6c27...a987` | **VERIFIED** |
-| `LieJacobiBCH` | 3 | Standard | **0** | `23c6d1ba6a27...b16e` | **VERIFIED** |
-| `LieRollingCacheStability` | 8 | Standard | **0** | `ca7d9c3df06c...0e5e` | **VERIFIED** |
-| `MarsdenWeinsteinReduction` | 7 | Standard | **0** | `b7a66b56f1e5...c972` | **VERIFIED** |
-| `NoetherSymplecticConservation` | 4 | Standard | **0** | `3fdc37b141a0...6eb0` | **VERIFIED** |
-| `OrthogonalProjector` | 2 | Standard | **0** | `8e696f00df96...ffc6` | **VERIFIED** |
-| `PadeExponential` | 1 | Standard | **0** | `981c604d06d2...cd73` | **VERIFIED** |
-| `PoissonBracketJacobi` | 3 | Standard | **0** | `18950e0f58da...1229` | **VERIFIED** |
-| `SolvableLieGroup` | 1 | Standard | **0** | `cd67105a65fd...24b9` | **VERIFIED** |
-| `SpectralSymmetric` | 2 | Standard | **0** | `a8dbcbc9b7a2...8d63` | **VERIFIED** |
-| `SymplecticBilinear` | 3 | Standard | **0** | `f79b5fbb0fa5...865f` | **VERIFIED** |
-| `SymplecticGradientCommutation` | 3 | Standard | **0** | `13b7d3e0a35e...e508` | **VERIFIED** |
-| `SymplecticInvariance` | 2 | Standard | **0** | `0c8689cb4a54...b62c` | **VERIFIED** |
-| `TraceIdempotent` | 2 | Standard | **0** | `94e9fa022a1c...41e8` | **VERIFIED** |
-| `YangMillsCurvature` | 2 | Standard | **0** | `b1515cf3a7ce...8b2a` | **VERIFIED** |
-| `YoshidaSymplecticConservation` | 3 | Standard | **0** | `64e2e39500d5...389d` | **VERIFIED** |
-| `AdelicProductFormula` | 4 | Standard | **0** | `775decf339b2...7b95` | **VERIFIED** |
-| `BruhatTitsInvariance` | 4 | Standard | **0** | `782c85d57e37...343f` | **VERIFIED** |
-| `CoxeterReflectionInvariance` | 4 | Standard | **0** | `ea9ef1966d2a...273a` | **VERIFIED** |
-| `GroupInvariants` | 2 | Standard | **0** | `2bfb8879a25e...fae9` | **VERIFIED** |
-| `PolytopeSparsity` | 8 | Standard | **0** | `fbfc2b6bf68c...319a` | **VERIFIED** |
-| `SpinningManifoldConservation` | 5 | Standard | **0** | `e6d9d548ee44...ff5e` | **VERIFIED** |
-| `UltrametricStrongTriangle` | 4 | Standard | **0** | `98659778d97a...27a0` | **VERIFIED** |
-| `AbelianSurfaceModularity` | 12 | Standard | **0** | `bc76bcd57d33...5128` | **VERIFIED** |
-| `AlgebraicCobordism` | 8 | Standard | **0** | `dde198569796...950d` | **VERIFIED** |
-| `ArakelovIntersection` | 7 | Standard | **0** | `467b0a6177dd...9517` | **VERIFIED** |
-| `BassQuillen` | 8 | Standard | **0** | `f280a004a04d...5dde` | **VERIFIED** |
-| `BeilinsonLichtenbaum` | 10 | Standard | **0** | `78c270700fb1...f1b9` | **VERIFIED** |
-| `BeilinsonRegulatorConjecture` | 12 | Standard | **0** | `80419103e05c...9b18` | **VERIFIED** |
-| `BirchSwinnertonDyer` | 6 | Standard | **0** | `4758bb6226df...a5ac` | **VERIFIED** |
-| `BirchSwinnertonDyerConjecture` | 12 | Standard | **0** | `815ab3ddbc7e...ef8a` | **VERIFIED** |
-| `BlochKatoTamagawa` | 11 | Standard | **0** | `f38aa86999df...b38d` | **VERIFIED** |
-| `BlochSuslin` | 8 | Standard | **0** | `f43de72229f6...2ad0` | **VERIFIED** |
-| `ColemanIntegration` | 11 | Standard | **0** | `3c4120ae6694...ff19` | **VERIFIED** |
-| `FaltingsHeightTheorem` | 11 | Standard | **0** | `34d7dce7f83d...52ad` | **VERIFIED** |
-| `FontaineMazurConjecture` | 10 | Standard | **0** | `d973ba2b1393...8ead` | **VERIFIED** |
-| `FontaineMazurGeometric` | 6 | Standard | **0** | `67ce2b3680d5...6760` | **VERIFIED** |
-| `GaloisDeformationRing` | 6 | Standard | **0** | `bf1b155c4cb6...e520` | **VERIFIED** |
-| `GrossZagierFormula` | 12 | Standard | **0** | `f7747996088f...109e` | **VERIFIED** |
-| `GrothendieckRiemannRoch` | 5 | Standard | **0** | `8942b4f3585d...1c36` | **VERIFIED** |
-| `HardyLittlewoodCircleMethod` | 8 | Standard | **0** | `3f3712d54887...391f` | **VERIFIED** |
-| `HodgeConjectureCycles` | 11 | Standard | **0** | `097bfebc3f60...bb0e` | **VERIFIED** |
-| `IwasawaMainConjecture` | 6 | Standard | **0** | `e58312dc9282...15ab` | **VERIFIED** |
-| `KhareWintenbergerLifting` | 8 | Standard | **0** | `93f20b6887c6...622f` | **VERIFIED** |
-| `KodairaVanishing` | 8 | Standard | **0** | `4e80a2ef3cfc...3bb6` | **VERIFIED** |
-| `LanglandsTunnellBaseChange` | 8 | Standard | **0** | `acfe3ee48254...9f17` | **VERIFIED** |
-| `MazurTorsionTheorem` | 12 | Standard | **0** | `d717633ff0be...6cff` | **VERIFIED** |
-| `MilnorWittHomotopy` | 8 | Standard | **0** | `c79773bb3248...bc1a` | **VERIFIED** |
-| `ModularSymbolsManin` | 9 | Standard | **0** | `eb8aa3cbad97...23bd` | **VERIFIED** |
-| `MotivicAdamsNovikov` | 8 | Standard | **0** | `eed597393cd1...19bd` | **VERIFIED** |
-| `MotivicBP` | 8 | Standard | **0** | `f8b6aaba9007...192f` | **VERIFIED** |
-| `MotivicGoerssHopkins` | 8 | Standard | **0** | `5e13c3d60e13...a15a` | **VERIFIED** |
-| `MotivicGrossHopkins` | 8 | Standard | **0** | `127d203befdd...e1c0` | **VERIFIED** |
-| `MotivicLubinTate` | 8 | Standard | **0** | `4d453baa620f...ae67` | **VERIFIED** |
-| `MotivicNilpotence` | 8 | Standard | **0** | `9aad9e6e3599...f26c` | **VERIFIED** |
-| `MotivicSmashProduct` | 8 | Standard | **0** | `dc0821e2208f...4716` | **VERIFIED** |
-| `MotivicTMF` | 8 | Standard | **0** | `870c8f4ffa02...19f8` | **VERIFIED** |
-| `NormResidueIsomorphism` | 10 | Standard | **0** | `2187ef6f75fa...6f07` | **VERIFIED** |
-| `QuillenLichtenbaum` | 9 | Standard | **0** | `57283bfc6a92...5321` | **VERIFIED** |
-| `RostInvariant` | 8 | Standard | **0** | `977d18e03ad1...1ec7` | **VERIFIED** |
-| `SatoTateEquidistribution` | 10 | Standard | **0** | `1b8403dc7edc...6219` | **VERIFIED** |
-| `SelmerShafarevich` | 6 | Standard | **0** | `6be0288a909f...0bee` | **VERIFIED** |
-| `SerreDuality` | 6 | Standard | **0** | `7f7d8e2a203e...ffac` | **VERIFIED** |
-| `SerreModularityConjecture` | 6 | Standard | **0** | `5a8bec773c85...2033` | **VERIFIED** |
-| `StandardConjecturesGrothendieck` | 11 | Standard | **0** | `4a1b3700814c...eba0` | **VERIFIED** |
-| `SuslinHomology` | 8 | Standard | **0** | `44f321a86fe5...4ee2` | **VERIFIED** |
-| `TateBilinearPairing` | 7 | Standard | **0** | `f50aec781f53...eb41` | **VERIFIED** |
-| `TateConjectureEtale` | 11 | Standard | **0** | `02fd102f92fa...50ee` | **VERIFIED** |
-| `TateLocalDuality` | 6 | Standard | **0** | `93e5bc4eff43...09a8` | **VERIFIED** |
-| `TaylorWilesPatchingSystem` | 8 | Standard | **0** | `aecfc96c9d89...8533` | **VERIFIED** |
-| `VoevodskyMotivicCohomology` | 10 | Standard | **0** | `f6ba9eb6a883...8281` | **VERIFIED** |
-| `WeilIIMixedWeights` | 10 | Standard | **0** | `83e3436fc525...d5f3` | **VERIFIED** |
-| `WeilReciprocity` | 5 | Standard | **0** | `fffce804b704...a401` | **VERIFIED** |
-| `ChromaticTower` | 8 | Standard | **0** | `4fd2ae7fef4e...cd79` | **VERIFIED** |
-
----
-
-## 3. Axiomatic Dependency Profile
-
-When evaluated by the Lean 4 command `#print axioms <theorem_name>`, each theorem in the IMF corpus depends exclusively on the standard foundational axioms of Zermelo-Fraenkel set theory with Choice (ZFC) represented within Lean's dependent type theory:
-
-1. **`propext` (Propositional Extensionality):** Identifies equivalent propositions: $(P \leftrightarrow Q) 	o (P = Q)$.
-2. **`Quot.sound` (Quotient Soundness):** Enables exact identification of equivalence classes on quotient manifolds (Cartan gauge fibers, Leech lattice quotients $\mathbb{R}^{24}/\Lambda_{24}$, and motivic correspondence categories $\operatorname{Cor}(k)$).
-3. **`Classical.choice` (Axiom of Choice):** Guarantees the existence of cross-sections on principal bundles and infinite-dimensional Fréchet limits.
-
-**Crucially, `sorryAx` is strictly absent from the transitive dependency closure of all 83 modules.**
-
----
-
-*Report certified by Stratum Research Group Automated Kernel CI Pipeline.*
+| Module Name | Formal Declarations | SHA-256 Digest | Status |
+| :--- | :---: | :--- | :---: |
+| `CartanKillingSemisimplicity` | 3 | `dd4858e554b8...4544` | FORMAL_SPEC_OK |
+| `CasimirInvariant` | 2 | `4c429e6e8705...a875` | FORMAL_SPEC_OK |
+| `CayleyOrthogonal` | 3 | `6e639b46f5e2...9277` | FORMAL_SPEC_OK |
+| `ExteriorDerivativeNilpotent` | 1 | `85bbbdbd4282...3375` | FORMAL_SPEC_OK |
+| `GrassmannExterior` | 3 | `f2094daf662b...e7d6` | FORMAL_SPEC_OK |
+| `HodgeIndexCore` | 2 | `d8a9f0374ccb...0cf2` | FORMAL_SPEC_OK |
+| `HodgeStarDuality` | 3 | `bd8c2025c6a9...c3d6` | FORMAL_SPEC_OK |
+| `KKSFormInvariance` | 4 | `bfb188cac93f...6ded` | FORMAL_SPEC_OK |
+| `KillingForm` | 3 | `8f8e26a61730...6df1` | FORMAL_SPEC_OK |
+| `LieAlgebraInvariants` | 2 | `915bb5eeb4f2...5fa0` | FORMAL_SPEC_OK |
+| `LieDerivation` | 2 | `ce0310ef6c27...a987` | FORMAL_SPEC_OK |
+| `LieJacobiBCH` | 3 | `23c6d1ba6a27...b16e` | FORMAL_SPEC_OK |
+| `LieRollingCacheStability` | 8 | `ca7d9c3df06c...0e5e` | PENDING_AUDIT |
+| `MarsdenWeinsteinReduction` | 7 | `b7a66b56f1e5...c972` | FORMAL_SPEC_OK |
+| `NoetherSymplecticConservation` | 4 | `3fdc37b141a0...6eb0` | FORMAL_SPEC_OK |
+| `OrthogonalProjector` | 2 | `8e696f00df96...ffc6` | FORMAL_SPEC_OK |
+| `PadeExponential` | 1 | `981c604d06d2...cd73` | FORMAL_SPEC_OK |
+| `PoissonBracketJacobi` | 3 | `18950e0f58da...1229` | FORMAL_SPEC_OK |
+| `SolvableLieGroup` | 1 | `cd67105a65fd...24b9` | FORMAL_SPEC_OK |
+| `SpectralSymmetric` | 2 | `a8dbcbc9b7a2...8d63` | FORMAL_SPEC_OK |
+| `SymplecticBilinear` | 3 | `f79b5fbb0fa5...865f` | FORMAL_SPEC_OK |
+| `SymplecticGradientCommutation` | 3 | `13b7d3e0a35e...e508` | FORMAL_SPEC_OK |
+| `SymplecticInvariance` | 2 | `0c8689cb4a54...b62c` | FORMAL_SPEC_OK |
+| `TraceIdempotent` | 2 | `94e9fa022a1c...41e8` | FORMAL_SPEC_OK |
+| `YangMillsCurvature` | 2 | `b1515cf3a7ce...8b2a` | FORMAL_SPEC_OK |
+| `YoshidaSymplecticConservation` | 3 | `64e2e39500d5...389d` | FORMAL_SPEC_OK |
+| `AdelicProductFormula` | 4 | `775decf339b2...7b95` | FORMAL_SPEC_OK |
+| `BruhatTitsInvariance` | 4 | `782c85d57e37...343f` | FORMAL_SPEC_OK |
+| `CoxeterReflectionInvariance` | 4 | `ea9ef1966d2a...273a` | FORMAL_SPEC_OK |
+| `GroupInvariants` | 2 | `2bfb8879a25e...fae9` | FORMAL_SPEC_OK |
+| `PolytopeSparsity` | 8 | `fbfc2b6bf68c...319a` | PENDING_AUDIT |
+| `SpinningManifoldConservation` | 5 | `e6d9d548ee44...ff5e` | FORMAL_SPEC_OK |
+| `UltrametricStrongTriangle` | 4 | `98659778d97a...27a0` | FORMAL_SPEC_OK |
+| `AbelianSurfaceModularity` | 12 | `bc76bcd57d33...5128` | PENDING_AUDIT |
+| `AlgebraicCobordism` | 8 | `dde198569796...950d` | PENDING_AUDIT |
+| `ArakelovIntersection` | 7 | `467b0a6177dd...9517` | FORMAL_SPEC_OK |
+| `BassQuillen` | 8 | `f280a004a04d...5dde` | PENDING_AUDIT |
+| `BeilinsonLichtenbaum` | 10 | `78c270700fb1...f1b9` | PENDING_AUDIT |
+| `BeilinsonRegulatorConjecture` | 12 | `80419103e05c...9b18` | PENDING_AUDIT |
+| `BirchSwinnertonDyer` | 6 | `4758bb6226df...a5ac` | FORMAL_SPEC_OK |
+| `BirchSwinnertonDyerConjecture` | 12 | `815ab3ddbc7e...ef8a` | PENDING_AUDIT |
+| `BlochKatoTamagawa` | 11 | `f38aa86999df...b38d` | PENDING_AUDIT |
+| `BlochSuslin` | 8 | `f43de72229f6...2ad0` | PENDING_AUDIT |
+| `ColemanIntegration` | 11 | `3c4120ae6694...ff19` | FORMAL_SPEC_OK |
+| `FaltingsHeightTheorem` | 11 | `34d7dce7f83d...52ad` | PENDING_AUDIT |
+| `FontaineMazurConjecture` | 10 | `d973ba2b1393...8ead` | PENDING_AUDIT |
+| `FontaineMazurGeometric` | 6 | `67ce2b3680d5...6760` | FORMAL_SPEC_OK |
+| `GaloisDeformationRing` | 6 | `bf1b155c4cb6...e520` | FORMAL_SPEC_OK |
+| `GrossZagierFormula` | 12 | `f7747996088f...109e` | FORMAL_SPEC_OK |
+| `GrothendieckRiemannRoch` | 5 | `8942b4f3585d...1c36` | FORMAL_SPEC_OK |
+| `HardyLittlewoodCircleMethod` | 8 | `3f3712d54887...391f` | FORMAL_SPEC_OK |
+| `HodgeConjectureCycles` | 11 | `097bfebc3f60...bb0e` | PENDING_AUDIT |
+| `IwasawaMainConjecture` | 6 | `e58312dc9282...15ab` | FORMAL_SPEC_OK |
+| `KhareWintenbergerLifting` | 8 | `93f20b6887c6...622f` | FORMAL_SPEC_OK |
+| `KodairaVanishing` | 8 | `4e80a2ef3cfc...3bb6` | FORMAL_SPEC_OK |
+| `LanglandsTunnellBaseChange` | 8 | `acfe3ee48254...9f17` | FORMAL_SPEC_OK |
+| `MazurTorsionTheorem` | 12 | `d717633ff0be...6cff` | PENDING_AUDIT |
+| `MilnorWittHomotopy` | 8 | `c79773bb3248...bc1a` | PENDING_AUDIT |
+| `ModularSymbolsManin` | 9 | `eb8aa3cbad97...23bd` | FORMAL_SPEC_OK |
+| `MotivicAdamsNovikov` | 8 | `eed597393cd1...19bd` | PENDING_AUDIT |
+| `MotivicBP` | 8 | `f8b6aaba9007...192f` | PENDING_AUDIT |
+| `MotivicGoerssHopkins` | 8 | `5e13c3d60e13...a15a` | FORMAL_SPEC_OK |
+| `MotivicGrossHopkins` | 8 | `127d203befdd...e1c0` | FORMAL_SPEC_OK |
+| `MotivicLubinTate` | 8 | `4d453baa620f...ae67` | FORMAL_SPEC_OK |
+| `MotivicNilpotence` | 8 | `9aad9e6e3599...f26c` | FORMAL_SPEC_OK |
+| `MotivicSmashProduct` | 8 | `dc0821e2208f...4716` | FORMAL_SPEC_OK |
+| `MotivicTMF` | 8 | `870c8f4ffa02...19f8` | PENDING_AUDIT |
+| `NormResidueIsomorphism` | 10 | `2187ef6f75fa...6f07` | PENDING_AUDIT |
+| `QuillenLichtenbaum` | 9 | `57283bfc6a92...5321` | PENDING_AUDIT |
+| `RostInvariant` | 8 | `977d18e03ad1...1ec7` | PENDING_AUDIT |
+| `SatoTateEquidistribution` | 10 | `1b8403dc7edc...6219` | PENDING_AUDIT |
+| `SelmerShafarevich` | 6 | `6be0288a909f...0bee` | FORMAL_SPEC_OK |
+| `SerreDuality` | 6 | `7f7d8e2a203e...ffac` | FORMAL_SPEC_OK |
+| `SerreModularityConjecture` | 6 | `5a8bec773c85...2033` | FORMAL_SPEC_OK |
+| `StandardConjecturesGrothendieck` | 11 | `4a1b3700814c...eba0` | PENDING_AUDIT |
+| `SuslinHomology` | 8 | `44f321a86fe5...4ee2` | PENDING_AUDIT |
+| `TateBilinearPairing` | 7 | `f50aec781f53...eb41` | FORMAL_SPEC_OK |
+| `TateConjectureEtale` | 11 | `02fd102f92fa...50ee` | PENDING_AUDIT |
+| `TateLocalDuality` | 6 | `93e5bc4eff43...09a8` | FORMAL_SPEC_OK |
+| `TaylorWilesPatchingSystem` | 8 | `aecfc96c9d89...8533` | FORMAL_SPEC_OK |
+| `VoevodskyMotivicCohomology` | 10 | `f6ba9eb6a883...8281` | PENDING_AUDIT |
+| `WeilIIMixedWeights` | 10 | `83e3436fc525...d5f3` | PENDING_AUDIT |
+| `WeilReciprocity` | 5 | `fffce804b704...a401` | FORMAL_SPEC_OK |
+| `AdamsSpectralSequenceProof` | 4 | `c412ea12f147...fced` | FORMAL_SPEC_OK |
+| `AdamsSpectralSequenceProof` | 4 | `c412ea12f147...fced` | FORMAL_SPEC_OK |
+| `ArtinInductionTheoremProof` | 3 | `42bd80514ad4...ce47` | FORMAL_SPEC_OK |
+| `ArtinInductionTheoremProof` | 3 | `42bd80514ad4...ce47` | FORMAL_SPEC_OK |
+| `ArtinReesLemmaProof` | 3 | `f374f91d0271...eb02` | FORMAL_SPEC_OK |
+| `ArtinReesLemmaProof` | 3 | `f374f91d0271...eb02` | FORMAL_SPEC_OK |
+| `AtiyahSingerProof` | 4 | `e12a7e28f2ad...658e` | FORMAL_SPEC_OK |
+| `AtiyahSingerProof` | 4 | `e12a7e28f2ad...658e` | FORMAL_SPEC_OK |
+| `BlochKatoConjectureProof` | 4 | `4e26fbc16cc5...e391` | PENDING_AUDIT |
+| `BlochKatoConjectureProof` | 4 | `4e26fbc16cc5...e391` | PENDING_AUDIT |
+| `BochnerWeitzenbockProof` | 3 | `8c1b160ed599...8077` | FORMAL_SPEC_OK |
+| `BochnerWeitzenbockProof` | 3 | `8c1b160ed599...8077` | FORMAL_SPEC_OK |
+| `BottPeriodicityProof` | 4 | `36e04f14677f...2ca3` | FORMAL_SPEC_OK |
+| `BottPeriodicityProof` | 4 | `36e04f14677f...2ca3` | FORMAL_SPEC_OK |
+| `BrauerInductionTheoremProof` | 2 | `88118940b5fc...31f6` | FORMAL_SPEC_OK |
+| `BrauerInductionTheoremProof` | 2 | `88118940b5fc...31f6` | FORMAL_SPEC_OK |
+| `BurnsidePaQbProof` | 3 | `3506a0ef67c7...10be` | FORMAL_SPEC_OK |
+| `BurnsidePaQbProof` | 3 | `3506a0ef67c7...10be` | FORMAL_SPEC_OK |
+| `CasimirInvariantProof` | 4 | `1ffb6e51b21c...e40d` | FORMAL_SPEC_OK |
+| `CasimirInvariantProof` | 4 | `1ffb6e51b21c...e40d` | FORMAL_SPEC_OK |
+| `CayleyUnitarityProof` | 3 | `94423228c102...4f3b` | FORMAL_SPEC_OK |
+| `CayleyUnitarityProof` | 3 | `94423228c102...4f3b` | FORMAL_SPEC_OK |
+| `ChernWeilInvarianceProof` | 4 | `d53d1eeb0231...c5b3` | FORMAL_SPEC_OK |
+| `ChernWeilInvarianceProof` | 4 | `d53d1eeb0231...c5b3` | FORMAL_SPEC_OK |
+| `ChevalleyWarningTheoremProof` | 1 | `eb25d609641a...bbe1` | FORMAL_SPEC_OK |
+| `ChevalleyWarningTheoremProof` | 1 | `eb25d609641a...bbe1` | FORMAL_SPEC_OK |
+| `ChromaticConvergenceProof` | 4 | `973a9285d22d...a47a` | PENDING_AUDIT |
+| `ChromaticConvergenceProof` | 4 | `973a9285d22d...a47a` | PENDING_AUDIT |
+| `CliffordRepresentationTheoremProof` | 3 | `40a1a77315d3...699b` | FORMAL_SPEC_OK |
+| `CliffordRepresentationTheoremProof` | 3 | `40a1a77315d3...699b` | FORMAL_SPEC_OK |
+| `CobordismTheoremProof` | 4 | `88f024e2b4e0...ae37` | FORMAL_SPEC_OK |
+| `CobordismTheoremProof` | 4 | `88f024e2b4e0...ae37` | FORMAL_SPEC_OK |
+| `ComplexBottPeriodicityProof` | 4 | `bf6785b6f282...21ee` | FORMAL_SPEC_OK |
+| `ComplexBottPeriodicityProof` | 4 | `bf6785b6f282...21ee` | FORMAL_SPEC_OK |
+| `ContinuousCrossingBounds` | 38 | `ecf74e0256d6...afca` | FORMAL_SPEC_OK |
+| `ContinuousCrossingBounds` | 38 | `ecf74e0256d6...afca` | FORMAL_SPEC_OK |
+| `DeRhamCohomologyProof` | 5 | `d2063ef9f0a3...57f7` | FORMAL_SPEC_OK |
+| `DeRhamCohomologyProof` | 5 | `d2063ef9f0a3...57f7` | FORMAL_SPEC_OK |
+| `DiracIndexTheoremProof` | 4 | `f7fdc1ad6999...084b` | FORMAL_SPEC_OK |
+| `DiracIndexTheoremProof` | 4 | `f7fdc1ad6999...084b` | FORMAL_SPEC_OK |
+| `DiscreteToContinuousBridge` | 16 | `dff23b3d51cd...050a` | FORMAL_SPEC_OK |
+| `DiscreteToContinuousBridge` | 16 | `dff23b3d51cd...050a` | FORMAL_SPEC_OK |
+| `DonaldsonThomasProof` | 3 | `62eeb22c2993...c2e3` | FORMAL_SPEC_OK |
+| `DonaldsonThomasProof` | 3 | `62eeb22c2993...c2e3` | FORMAL_SPEC_OK |
+| `DualQuaternionLieBracketProof` | 5 | `9b08336e56e7...9e0c` | FORMAL_SPEC_OK |
+| `DualQuaternionLieBracketProof` | 5 | `9b08336e56e7...9e0c` | FORMAL_SPEC_OK |
+| `DualQuaternionMomentumProof` | 3 | `8ef208ce9f71...5419` | FORMAL_SPEC_OK |
+| `DualQuaternionMomentumProof` | 3 | `8ef208ce9f71...5419` | FORMAL_SPEC_OK |
+| `FittingNilpotentTheoremProof` | 3 | `c77bdfcc4074...61e8` | FORMAL_SPEC_OK |
+| `FittingNilpotentTheoremProof` | 3 | `c77bdfcc4074...61e8` | FORMAL_SPEC_OK |
+| `FrobeniusKernelTheoremProof` | 5 | `13dda1d76136...401c` | FORMAL_SPEC_OK |
+| `FrobeniusKernelTheoremProof` | 5 | `13dda1d76136...401c` | FORMAL_SPEC_OK |
+| `GaussBonnetChernProof` | 3 | `537465bd344d...700d` | FORMAL_SPEC_OK |
+| `GaussBonnetChernProof` | 3 | `537465bd344d...700d` | FORMAL_SPEC_OK |
+| `GeodesicCompletenessProof` | 3 | `db0d43dd4185...ea5c` | FORMAL_SPEC_OK |
+| `GeodesicCompletenessProof` | 3 | `db0d43dd4185...ea5c` | FORMAL_SPEC_OK |
+| `GeodesicEnergyProof` | 2 | `4c85ff769e0a...59d6` | FORMAL_SPEC_OK |
+| `GeodesicEnergyProof` | 2 | `4c85ff769e0a...59d6` | FORMAL_SPEC_OK |
+| `GoerssHopkinsObstructionProof` | 4 | `c85b1a98bb1f...6ca3` | PENDING_AUDIT |
+| `GoerssHopkinsObstructionProof` | 4 | `c85b1a98bb1f...6ca3` | PENDING_AUDIT |
+| `GromovWittenAxiomsProof` | 4 | `f51b442400e8...942e` | FORMAL_SPEC_OK |
+| `GromovWittenAxiomsProof` | 4 | `f51b442400e8...942e` | FORMAL_SPEC_OK |
+| `GrossHopkinsDualityProof` | 4 | `73c4065901ae...bba1` | PENDING_AUDIT |
+| `GrossHopkinsDualityProof` | 4 | `73c4065901ae...bba1` | PENDING_AUDIT |
+| `GrothendieckEtaleDualityProof` | 2 | `fee2fc6c6b07...6b76` | FORMAL_SPEC_OK |
+| `GrothendieckEtaleDualityProof` | 2 | `fee2fc6c6b07...6b76` | FORMAL_SPEC_OK |
+| `GrothendieckRiemannRochProof` | 3 | `6a07bfaa32bb...0b6b` | FORMAL_SPEC_OK |
+| `GrothendieckRiemannRochProof` | 3 | `6a07bfaa32bb...0b6b` | FORMAL_SPEC_OK |
+| `GrushkoTheoremProof` | 3 | `1dff13572912...68fb` | FORMAL_SPEC_OK |
+| `GrushkoTheoremProof` | 3 | `1dff13572912...68fb` | FORMAL_SPEC_OK |
+| `GyroassociativeBracketProof` | 4 | `0cfada01f569...f3b8` | FORMAL_SPEC_OK |
+| `GyroassociativeBracketProof` | 4 | `0cfada01f569...f3b8` | FORMAL_SPEC_OK |
+| `GyrovectorCurvatureProof` | 3 | `4cbb2a35fac0...6826` | FORMAL_SPEC_OK |
+| `GyrovectorCurvatureProof` | 3 | `4cbb2a35fac0...6826` | FORMAL_SPEC_OK |
+| `GyrovectorHolonomyProof` | 3 | `4c150cd8d2d6...1150` | FORMAL_SPEC_OK |
+| `GyrovectorHolonomyProof` | 3 | `4c150cd8d2d6...1150` | FORMAL_SPEC_OK |
+| `HadamardCurvatureBoundProof` | 2 | `c83d5e464098...2a4e` | FORMAL_SPEC_OK |
+| `HadamardCurvatureBoundProof` | 2 | `c83d5e464098...2a4e` | FORMAL_SPEC_OK |
+| `HallSolvableSubgroupsProof` | 5 | `a784abebc6b5...f956` | FORMAL_SPEC_OK |
+| `HallSolvableSubgroupsProof` | 5 | `a784abebc6b5...f956` | FORMAL_SPEC_OK |
+| `HardLefschetzProof` | 5 | `0943fb292b45...3d3d` | FORMAL_SPEC_OK |
+| `HardLefschetzProof` | 5 | `0943fb292b45...3d3d` | FORMAL_SPEC_OK |
+| `HilbertNullstellensatzProof` | 3 | `74a902a4c7c4...9c3b` | FORMAL_SPEC_OK |
+| `HilbertNullstellensatzProof` | 3 | `74a902a4c7c4...9c3b` | FORMAL_SPEC_OK |
+| `HirschPlotkinRadicalProof` | 3 | `0c87b2815157...9254` | FORMAL_SPEC_OK |
+| `HirschPlotkinRadicalProof` | 3 | `0c87b2815157...9254` | FORMAL_SPEC_OK |
+| `HirzebruchRiemannRochProof` | 3 | `97e364159cfa...0b5d` | FORMAL_SPEC_OK |
+| `HirzebruchRiemannRochProof` | 3 | `97e364159cfa...0b5d` | FORMAL_SPEC_OK |
+| `HitchinIntegrableProof` | 3 | `d8f0d22ab53f...2550` | FORMAL_SPEC_OK |
+| `HitchinIntegrableProof` | 3 | `d8f0d22ab53f...2550` | FORMAL_SPEC_OK |
+| `HodgeDecompositionProof` | 4 | `6ea11ca0dc00...3153` | FORMAL_SPEC_OK |
+| `HodgeDecompositionProof` | 4 | `6ea11ca0dc00...3153` | FORMAL_SPEC_OK |
+| `HodgeIndexProof` | 5 | `410f692c62aa...7679` | FORMAL_SPEC_OK |
+| `HodgeIndexProof` | 5 | `410f692c62aa...7679` | FORMAL_SPEC_OK |
+| `HodgeIndexTheoremProof` | 2 | `27c6d6fc9a42...72fa` | FORMAL_SPEC_OK |
+| `HodgeIndexTheoremProof` | 2 | `27c6d6fc9a42...72fa` | FORMAL_SPEC_OK |
+| `HurewiczTheoremProof` | 5 | `e7515eefc927...5887` | FORMAL_SPEC_OK |
+| `HurewiczTheoremProof` | 5 | `e7515eefc927...5887` | FORMAL_SPEC_OK |
+| `ArchitecturalInvariants` | 5 | `2d1f8bc4fa06...a8d0` | FORMAL_SPEC_OK |
+| `Architecture70BSpec` | 19 | `b2b7666780f2...7d90` | FORMAL_SPEC_OK |
+| `AsymptoticPolytopeBounds` | 6 | `1588d902970d...ba13` | FORMAL_SPEC_OK |
+| `CognitiveFlowSpec` | 7 | `a55bbb1e8a1e...3ad7` | FORMAL_SPEC_OK |
+| `CutRSIAdamW` | 4 | `bbeeb50a3a1c...e8f0` | FORMAL_SPEC_OK |
+| `ETHUncrossingParallelNormSpec` | 5 | `6a8daf973598...2794` | FORMAL_SPEC_OK |
+| `ETHUncrossingSpec` | 10 | `1385fed3ce35...9f5e` | FORMAL_SPEC_OK |
+| `EpistemicSoundnessSpec` | 8 | `9ccacd310bd8...c068` | FORMAL_SPEC_OK |
+| `FixedPointQuantizationSpec` | 9 | `809dc22ed00e...188a` | FORMAL_SPEC_OK |
+| `GossetAndHoneycombSpec` | 10 | `77560957664f...c2a5` | FORMAL_SPEC_OK |
+| `HardwareFusedDequantSpec` | 6 | `400ef1748656...4117` | FORMAL_SPEC_OK |
+| `IMFFileFormatSpec` | 6 | `4151dbb5ee81...9bdb` | FORMAL_SPEC_OK |
+| `LeechLatticeSpec` | 9 | `c5e3c91414ec...251c` | FORMAL_SPEC_OK |
+| `NestedAutonomousEvolution` | 20 | `68f63e329adf...c22e` | FORMAL_SPEC_OK |
+| `NestedHypercubeCell` | 5 | `e9709c7f4628...9a10` | FORMAL_SPEC_OK |
+| `Polydecakon14DSpec` | 9 | `b1746f747901...eb50` | FORMAL_SPEC_OK |
+| `PolydokonSpec` | 12 | `6f688ade8b3f...3b65` | FORMAL_SPEC_OK |
+| `RiemannianAdamW` | 4 | `4ca9fd796ab0...a2e9` | FORMAL_SPEC_OK |
+| `RussianDollCrossPolytopeSpec` | 11 | `79548f3053c2...07cd` | FORMAL_SPEC_OK |
+| `SpeculativeAcceptanceSpec` | 5 | `b1f6ffc67006...b012` | PENDING_AUDIT |
+| `UnifiedIntegerPrecisionETH` | 12 | `c83d604878ec...588f` | FORMAL_SPEC_OK |
+| `JordanHolderTheoremProof` | 3 | `7eba39709943...758f` | FORMAL_SPEC_OK |
+| `JordanHolderTheoremProof` | 3 | `7eba39709943...758f` | FORMAL_SPEC_OK |
+| `KodairaSpencerProof` | 4 | `8a9b6ae5ef7d...7896` | FORMAL_SPEC_OK |
+| `KodairaSpencerProof` | 4 | `8a9b6ae5ef7d...7896` | FORMAL_SPEC_OK |
+| `KodairaVanishingProof` | 6 | `adaa3976dba5...fa11` | FORMAL_SPEC_OK |
+| `KodairaVanishingProof` | 6 | `adaa3976dba5...fa11` | FORMAL_SPEC_OK |
+| `KrullSchmidtTheoremProof` | 4 | `b0184ddb1512...b3d9` | FORMAL_SPEC_OK |
+| `KrullSchmidtTheoremProof` | 4 | `b0184ddb1512...b3d9` | FORMAL_SPEC_OK |
+| `KrullsIntersectionTheoremProof` | 3 | `6e0a576ce038...a71b` | FORMAL_SPEC_OK |
+| `KrullsIntersectionTheoremProof` | 3 | `6e0a576ce038...a71b` | FORMAL_SPEC_OK |
+| `KunnethFormulaProof` | 6 | `1313d358f0c3...3459` | FORMAL_SPEC_OK |
+| `KunnethFormulaProof` | 6 | `1313d358f0c3...3459` | FORMAL_SPEC_OK |
+| `KuroshSubgroupTheoremProof` | 3 | `8b1af36664df...e7f4` | FORMAL_SPEC_OK |
+| `KuroshSubgroupTheoremProof` | 3 | `8b1af36664df...e7f4` | FORMAL_SPEC_OK |
+| `LeechSpherePackingProof` | 3 | `f7d1dbef6680...49f8` | FORMAL_SPEC_OK |
+| `LeechSpherePackingProof` | 3 | `f7d1dbef6680...49f8` | FORMAL_SPEC_OK |
+| `LefschetzHyperplaneProof` | 5 | `62c384b5e2a8...dbff` | FORMAL_SPEC_OK |
+| `LefschetzHyperplaneProof` | 5 | `62c384b5e2a8...dbff` | FORMAL_SPEC_OK |
+| `MalcevSolvableTheoremProof` | 3 | `849ae60e111d...ccdd` | FORMAL_SPEC_OK |
+| `MalcevSolvableTheoremProof` | 3 | `849ae60e111d...ccdd` | FORMAL_SPEC_OK |
+| `MaschkeSemisimplicityProof` | 4 | `9c23f515b5c8...d3cf` | FORMAL_SPEC_OK |
+| `MaschkeSemisimplicityProof` | 4 | `9c23f515b5c8...d3cf` | FORMAL_SPEC_OK |
+| `MatryoshkaPolytopeProof` | 3 | `6d6ade3c068e...e5c7` | FORMAL_SPEC_OK |
+| `MatryoshkaPolytopeProof` | 3 | `6d6ade3c068e...e5c7` | FORMAL_SPEC_OK |
+| `MaurerCartanEquationProof` | 4 | `ff8214d7eae3...ff95` | FORMAL_SPEC_OK |
+| `MaurerCartanEquationProof` | 4 | `ff8214d7eae3...ff95` | FORMAL_SPEC_OK |
+| `MetricCompatibilityProof` | 5 | `cd95aa591213...e755` | FORMAL_SPEC_OK |
+| `MetricCompatibilityProof` | 5 | `cd95aa591213...e755` | FORMAL_SPEC_OK |
+| `MorseIndexTheoremProof` | 3 | `5814bd4b4aea...5849` | FORMAL_SPEC_OK |
+| `MorseIndexTheoremProof` | 3 | `5814bd4b4aea...5849` | FORMAL_SPEC_OK |
+| `MotivicAdamsNovikovProof` | 4 | `2a69efaa6c2a...8e15` | PENDING_AUDIT |
+| `MotivicAdamsNovikovProof` | 4 | `2a69efaa6c2a...8e15` | PENDING_AUDIT |
+| `MotivicMoravaKTheoryProof` | 4 | `1929dc28637a...3ed9` | PENDING_AUDIT |
+| `MotivicMoravaKTheoryProof` | 4 | `1929dc28637a...3ed9` | PENDING_AUDIT |
+| `MotivicSteenrodAlgebraProof` | 7 | `1d6135fa26c0...0b1b` | PENDING_AUDIT |
+| `MotivicSteenrodAlgebraProof` | 7 | `1d6135fa26c0...0b1b` | PENDING_AUDIT |
+| `NakayamasLemmaProof` | 5 | `a05e3d57183b...b837` | FORMAL_SPEC_OK |
+| `NakayamasLemmaProof` | 5 | `a05e3d57183b...b837` | FORMAL_SPEC_OK |
+| `NarasimhanSeshadriProof` | 4 | `470f5cbad55f...7306` | FORMAL_SPEC_OK |
+| `NarasimhanSeshadriProof` | 4 | `470f5cbad55f...7306` | FORMAL_SPEC_OK |
+| `NielsenSchreierTheoremProof` | 3 | `ded78867c7e2...9efb` | FORMAL_SPEC_OK |
+| `NielsenSchreierTheoremProof` | 3 | `ded78867c7e2...9efb` | FORMAL_SPEC_OK |
+| `NoetherCoadjointOrbitProof` | 4 | `70f2e1ff52d8...f6cc` | FORMAL_SPEC_OK |
+| `NoetherCoadjointOrbitProof` | 4 | `70f2e1ff52d8...f6cc` | FORMAL_SPEC_OK |
+| `NovikovAdditivityProof` | 3 | `5468d2a025fa...c6a6` | FORMAL_SPEC_OK |
+| `NovikovAdditivityProof` | 3 | `5468d2a025fa...c6a6` | FORMAL_SPEC_OK |
+| `OrthoplexVolumeConservationProof` | 3 | `b31946fc387a...ce81` | FORMAL_SPEC_OK |
+| `OrthoplexVolumeConservationProof` | 3 | `b31946fc387a...ce81` | FORMAL_SPEC_OK |
+| `PoincareDualityProof` | 4 | `4e5e2d45965b...f896` | FORMAL_SPEC_OK |
+| `PoincareDualityProof` | 4 | `4e5e2d45965b...f896` | FORMAL_SPEC_OK |
+| `PolytopeBarycentric` | 32 | `a0fb4bc549bf...5d6f` | FORMAL_SPEC_OK |
+| `PolytopeBarycentric` | 32 | `a0fb4bc549bf...5d6f` | FORMAL_SPEC_OK |
+| `PontryaginGeodesicControlProof` | 3 | `1e067622b1e0...fb05` | FORMAL_SPEC_OK |
+| `PontryaginGeodesicControlProof` | 3 | `1e067622b1e0...fb05` | FORMAL_SPEC_OK |
+| `QuillenMetricProof` | 3 | `78da8a2f900f...9961` | FORMAL_SPEC_OK |
+| `QuillenMetricProof` | 3 | `78da8a2f900f...9961` | FORMAL_SPEC_OK |
+| `RecursiveSelfImprovementETH` | 31 | `5433b35fc9e8...03e4` | FORMAL_SPEC_OK |
+| `RecursiveSelfImprovementETH` | 31 | `5433b35fc9e8...03e4` | FORMAL_SPEC_OK |
+| `RiemannianLieGroup` | 3 | `107b3405ab78...0f47` | FORMAL_SPEC_OK |
+| `RiemannianLieGroup` | 3 | `107b3405ab78...0f47` | FORMAL_SPEC_OK |
+| `SchreierSimsAlgorithmProof` | 3 | `e722352313e3...6ba0` | FORMAL_SPEC_OK |
+| `SchreierSimsAlgorithmProof` | 3 | `e722352313e3...6ba0` | FORMAL_SPEC_OK |
+| `SchurZassenhausProof` | 3 | `20224a661d13...0453` | FORMAL_SPEC_OK |
+| `SchurZassenhausProof` | 3 | `20224a661d13...0453` | FORMAL_SPEC_OK |
+| `SchurZassenhausTheoremProof` | 5 | `bdf81c5433ae...7ba1` | FORMAL_SPEC_OK |
+| `SchurZassenhausTheoremProof` | 5 | `bdf81c5433ae...7ba1` | FORMAL_SPEC_OK |
+| `SchursLemmaProof` | 3 | `64d864decd61...58ba` | FORMAL_SPEC_OK |
+| `SchursLemmaProof` | 3 | `64d864decd61...58ba` | FORMAL_SPEC_OK |
+| `SeibergWittenProof` | 3 | `093760a81bdb...b648` | FORMAL_SPEC_OK |
+| `SeibergWittenProof` | 3 | `093760a81bdb...b648` | FORMAL_SPEC_OK |
+| `SerreDualityProof` | 7 | `bf474f0b47db...221c` | FORMAL_SPEC_OK |
+| `SerreDualityProof` | 7 | `bf474f0b47db...221c` | FORMAL_SPEC_OK |
+| `SerreSpectralSequenceProof` | 5 | `c2cf7f5b64d2...9124` | FORMAL_SPEC_OK |
+| `SerreSpectralSequenceProof` | 5 | `c2cf7f5b64d2...9124` | FORMAL_SPEC_OK |
+| `SerresCriterionNormalityProof` | 3 | `f06353e3f22f...a4d6` | FORMAL_SPEC_OK |
+| `SerresCriterionNormalityProof` | 3 | `f06353e3f22f...a4d6` | FORMAL_SPEC_OK |
+| `SymplecticFixedPointProof` | 3 | `a9ba1d666fc5...92a2` | FORMAL_SPEC_OK |
+| `SymplecticFixedPointProof` | 3 | `a9ba1d666fc5...92a2` | FORMAL_SPEC_OK |
+| `SymplecticGeodesicProof` | 2 | `5c7567015b73...cccb` | FORMAL_SPEC_OK |
+| `SymplecticGeodesicProof` | 2 | `5c7567015b73...cccb` | FORMAL_SPEC_OK |
+| `SymplecticPhaseVolumeProof` | 3 | `7b618b757ef2...41a6` | FORMAL_SPEC_OK |
+| `SymplecticPhaseVolumeProof` | 3 | `7b618b757ef2...41a6` | FORMAL_SPEC_OK |
+| `ThomIsomorphismProof` | 4 | `79e06b4eae35...a232` | FORMAL_SPEC_OK |
+| `ThomIsomorphismProof` | 4 | `79e06b4eae35...a232` | FORMAL_SPEC_OK |
+| `TitsAlternativeProof` | 3 | `c3f5f30b1d31...430b` | FORMAL_SPEC_OK |
+| `TitsAlternativeProof` | 3 | `c3f5f30b1d31...430b` | FORMAL_SPEC_OK |
+| `TrialityInvarianceProof` | 3 | `196eb192531f...5d70` | FORMAL_SPEC_OK |
+| `TrialityInvarianceProof` | 3 | `196eb192531f...5d70` | FORMAL_SPEC_OK |
+| `UhlenbeckCompactnessProof` | 3 | `00be535246d7...6daa` | FORMAL_SPEC_OK |
+| `UhlenbeckCompactnessProof` | 3 | `00be535246d7...6daa` | FORMAL_SPEC_OK |
+| `UnbiasedQuantizationProof` | 3 | `5a15bd93c981...9305` | FORMAL_SPEC_OK |
+| `UnbiasedQuantizationProof` | 3 | `5a15bd93c981...9305` | FORMAL_SPEC_OK |
+| `VerlindeFormulaProof` | 4 | `8b11024fc5a0...bfe3` | FORMAL_SPEC_OK |
+| `VerlindeFormulaProof` | 4 | `8b11024fc5a0...bfe3` | FORMAL_SPEC_OK |
+| `WedderburnArtinTheoremProof` | 2 | `269574f6252a...dfa2` | FORMAL_SPEC_OK |
+| `WedderburnArtinTheoremProof` | 2 | `269574f6252a...dfa2` | FORMAL_SPEC_OK |
+| `WhiteheadTheoremProof` | 5 | `9fb036cd345b...7a1d` | FORMAL_SPEC_OK |
+| `WhiteheadTheoremProof` | 5 | `9fb036cd345b...7a1d` | FORMAL_SPEC_OK |
+| `ZariskiMainTheoremProof` | 2 | `dfca9d03bf81...faed` | FORMAL_SPEC_OK |
+| `ZariskiMainTheoremProof` | 2 | `dfca9d03bf81...faed` | FORMAL_SPEC_OK |

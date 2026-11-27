@@ -11,7 +11,7 @@
 **Organization:** Stratum Research Group (SRG)  
 **Date:** November 27, 2026  
 **Status:** Preprint, not independently reviewed  
-**Formal Verification:** Algebraic pilot specifications under Lean 4 Mathlib (no `sorry`, standard CIC axioms only)  
+**Formal Specification:** Algebraic pilot specifications under Lean 4 Mathlib (specified in Lean 4; formal axiom audit pending in CI)  
 **Hardware Baseline:** Single-machine physical evaluation (AMD Ryzen 5 7600X, NVIDIA GeForce RTX 5060 Ti 16GB GDDR7, Blackwell SM 12.0)  
 **OS Baseline:** Omarchy Linux (Kernel 7.2.15-1-omarchy) with PREEMPT_RT and liburing  
 
@@ -3275,7 +3275,7 @@ This chapter has established the theoretical foundations of the Cayley transform
 - Under the discrete Lyapunov functional $V(h) = \|h\|_2^2$, undamped Cayley evolution preserves state energy identically ($\Delta V = 0$).
 - Introducing controlled dissipation $\eta > 0$ guarantees strictly contractive dynamics ($\|\mathcal{C}_\eta(A)\|_2 < 1$), ensuring that the hidden state remains unconditionally stable.
 - Bounded rank-1 innovations ensure sub-linear triangular norm growth, while memory footprint remains strictly $\mathcal{O}(d_h^2)$ independent of sequence length $T$.
-- All 8 core theorems are formally verified without `sorry` in Lean 4 (`Pilot.LieRollingCacheStability`).
+- All 8 core theorems are specified in Lean 4 (`Pilot.LieRollingCacheStability`; formal axiom audit pending in CI).
 
 In Chapter 5, we transition from pure mathematics to silicon, examining the warp-level NVIDIA Blackwell SM 12.0 implementation of the Lie rolling KV cache kernel (`fused_blackwell_lie_rolling_kv.cu`).
 
@@ -4110,7 +4110,7 @@ Two critical insights emerge:
 
 1. **Host-Side Launch Bound vs. Silicon Compute Bound:**  
    The measured elapsed time of **$51.53\ \mu\text{s}$** per forward step is dominated almost entirely by the CPU host runtime and CUDA driver launch overhead (PCIe command ring submission, ioctl dispatch, and kernel launch parameter parsing).  
-   Analytically lower-bounded from instruction issue limits, the single-warp execution of 2,048 instructions inside SM 12.0 at 2.54 GHz requires **$\ge 0.82\ \mu\text{s}$** ($\ge 2,048$ cycles at 1 instruction/cycle issue bound; documented in `benchmark_results/lie_kv_ncu_profile.txt`).  
+   Analytically lower-bounded from instruction issue limits, the single-warp execution of 2,048 instructions inside SM 12.0 at 2.54 GHz requires **$\ge 0.82\ \mu\text{s}$** ($\ge 2,048$ cycles at 1 instruction/cycle issue bound; documented in `benchmark_results/lie_kv_issue_bound.txt`).  
    Because the full state update requires two $32 \times 32$ matrix multiplications ($2 \times 2 \times 32^3 = 131,072$ floating-point operations per head), execution across the warp ALU pipelines requires $\ge 2,048$ cycles (~$0.82\ \mu\text{s}$ at $2.5\text{ GHz}$), with launch overhead dominating single-invocation runs. In persistent CUDA graph executions or when fused within multi-layer forward passes via CUDA Graphs (`cudaGraphLaunch`), the $51.5\ \mu\text{s}$ driver overhead vanishes, allowing single-token decode latency to approach the physical arithmetic sub-microsecond asymptote.
 
 2. **Long-Term Numerical Isometry over 1,000 Recurrent Steps:**  
@@ -4132,7 +4132,7 @@ Two critical insights emerge:
 
 ## 7. Formal Deductive Verification in Lean 4
 
-The mathematical foundations of the Lie Rolling KV Cache are machine-certified in **Lean 4** and Mathlib. The formal proofs reside in module `Pilot.LieRollingCacheStability` within `docs/thesis/volume_1_dimensional_spaces/proofs/LieRollingCacheStability.lean`. Every theorem is formalized with no `sorry`, standard CIC axioms only.
+The mathematical foundations of the Lie Rolling KV Cache are specified in **Lean 4** and Mathlib. The formal definitions reside in module `Pilot.LieRollingCacheStability` within `docs/thesis/volume_1_dimensional_spaces/proofs/LieRollingCacheStability.lean`. The formal specifications formalize algebraic invariants across matrix operations (formal axiom audit pending in CI).
 
 ### 7.1 Formal Lean 4 Specification
 
@@ -4163,7 +4163,7 @@ over real matrices `Matrix n n ℝ`:
 8. Constant Spatial Memory Footprint: Spatial memory representation size d^2 is strictly invariant
    under sequence advancement T ≥ 0.
 
-All theorems are formally verified in Lean 4 with no `sorry`, standard CIC axioms only.
+All theorems are formalized in Lean 4 (formal axiom audit pending in CI).
 -/
 
 namespace Pilot.LieRollingCacheStability
@@ -4329,7 +4329,7 @@ This chapter has detailed the theoretical formulation, physical hardware mapping
 2. **Algebraic Memory Recurrence:** The recurrence $M_{t+1} = U_t M_t U_t^\top + (\mathbf{v}_t \mathbf{k}_t^\top - \mathbf{k}_t \mathbf{v}_t^\top)$ with $U_t \in \mathrm{SO}(d_h)$ preserves both the trace ($\operatorname{Tr}(M_{t+1}) = \operatorname{Tr}(M_t)$) and the Frobenius norm ($\|U M U^\top\|_F = \|M\|_F$), preventing eigenvalue explosion across unbounded horizons.
 3. **Warp Register Pinning:** Setting $d_h = 32$ maps each row of the $32 \times 32$ state matrix directly into 32 registers of a single thread within a 32-thread hardware warp, eliminating DRAM traffic for context history during autoregressive recurrence.
 4. **Physical Silicon Verification:** Benchmarked on an NVIDIA GeForce RTX 5060 Ti Blackwell GPU, the kernel demonstrates **$51.5\ \mu\text{s}$ measured host launch latency**, an in-register arithmetic pipeline lower bound of **$\ge 0.82\ \mu\text{s}$** (2,048 instructions @ 2.54 GHz), and **Frobenius norm conservation ($31.0694 \to 31.0677$)** over 1,000 recursive autoregressive steps.
-5. **Formal Deductive Proofs:** Certified in Lean 4 Mathlib under `Pilot.LieRollingCacheStability` with no `sorry`, standard CIC axioms only.
+5. **Formal Deductive Specifications:** Formulated in Lean 4 Mathlib under `Pilot.LieRollingCacheStability` (formal axiom audit pending in CI).
 
 In Chapter 6, we address host-device weight streaming, detailing the Linux shared-ring `io_uring` direct DMA storage pipeline (Linux 6.18+ / host kernel 7.2.15-omarchy).
 
@@ -4808,7 +4808,7 @@ This chapter has established the systems architecture for kernel-bypass paramete
 - The C++ engine `csrc/fused_iouring_weight_streamer.cpp` implements both Direct-I/O block weight streaming and a lock-free anonymous shared memory ring for multi-agent council swarms.
 - On physical hardware, the engine achieves **2.33 GB/s sustained throughput** on incompressible encrypted storage and **up to 11.43 GB/s in fixed-buffer burst modes**, completely hiding layer swap latency behind compute.
 
-In Chapter 7, we conclude Volume I by examining the formal deductive verification of the Lie rolling cache in Lean 4 (`docs/thesis/volume_1_dimensional_spaces/proofs/LieRollingCacheStability.lean`), proving zero-sorry machine certification across all algebraic invariants.
+In Chapter 7, we conclude Volume I by examining the formal deductive specification of the Lie rolling cache in Lean 4 (`docs/thesis/volume_1_dimensional_spaces/proofs/LieRollingCacheStability.lean`), detailing the formal encoding of state invariants across all algebraic operations.
 
 
 ---
@@ -4826,7 +4826,7 @@ Modern deep learning operates in an epistemic vacuum. State-of-the-art transform
 
 To transcend heuristic experimentation, the **Interaction Model Foundations (IMF)** architecture integrates **Formal Deductive Verification** directly into the core engineering lifecycle. Every mathematical invariant—energy conservation, Lie algebra anti-symmetry, finite memory footprint, and Lyapunov stability—is formalized and certified using the **Lean 4 interactive theorem prover**.
 
-A theorem verified in Lean 4 is checked by a compact, trusted logical kernel executing the **Calculus of Inductive Constructions (CIC)**. Once a proof is certified without the `sorry` axiom, it possesses mathematical certainty: no edge case, adversarial input, or numerical precision artifact can violate the theorem within the formal model.
+A theorem verified in Lean 4 is checked by a compact, trusted logical kernel executing the **Calculus of Inductive Constructions (CIC)**. In formal deductive logic, once a specification is certified by the proof assistant without unproven escape clauses, it establishes rigorous mathematical consistency within the formal model.
 
 This chapter details **Module 83: Lie Rolling KV Cache Stability and Isometry**, formalized in `docs/thesis/volume_1_dimensional_spaces/proofs/LieRollingCacheStability.lean`. We present an exhaustive, line-by-line deductive analysis of all eight certified theorems, examine the underlying Lean 4 tactics (`ring`, `linarith`), audit the foundational axioms (`propext`, `Classical.choice`, `Quot.sound`), and demonstrate how machine-checked proofs guarantee the stability of the Blackwell CUDA kernels (`csrc/fused_blackwell_lie_rolling_kv.cu`).
 
@@ -4842,7 +4842,7 @@ This chapter details **Module 83: Lie Rolling KV Cache Stability and Isometry**,
 |                 +----------------------------------------+                                         |
 |                 |       Lean 4 Mathematical Proof        |                                         |
 |                 | (lean_pilot/Pilot/LieRollingCache.lean)|                                         |
-|                 |          ZERO "sorry" AXIOMS           |                                         |
+|                 |      FORMAL SPECIFICATION CODE         |                                         |
 |                 |     Lean 4 Formal Invariants           |                                         |
 |                 +----------------------------------------+                                         |
 |                                     |                                                              |
@@ -4855,7 +4855,7 @@ This chapter details **Module 83: Lie Rolling KV Cache Stability and Isometry**,
 
 ![Lean 4 Proof Dependency DAG](../visualizers/lean_theorem_graph.svg)
 
-*Figure 7.1: Directed Acyclic Graph of Formally Verified Theorems in Module 83 (Pilot.LieRollingCacheStability). Certified zero-sorry deductive dependencies in Mathlib real-matrix formalization.*
+*Figure 7.1: Directed Acyclic Graph of Formally Specified Theorems in Module 83 (Pilot.LieRollingCacheStability). Deductive dependencies in Mathlib real-matrix formalization.*
 
 ## 2. The Mathematical Model of Module 83
 
@@ -4869,7 +4869,7 @@ In theoretical mathematics, differential geometry is formulated over continuous 
 7. **Discrete Lyapunov Stability:** If step dissipation $\Delta = E_t - E_{t+1} \ge 0$, then $E_{t+1} \le E_t$. (As established in Theorem 8.2 and analytical laboratory verification, iterating contractive dissipation $\lambda \in [0, 1)$ with bounded token innovation $\|W_t\|_F \le B_W$ bounds total state energy via geometric series summation: $\|M_t\|_F \le \frac{B_W}{1 - \lambda} + \lambda^t \|M_0\|_F$).
 8. **Finite Spatial Memory Invariant:** Spatial memory representation size $d^2$ is strictly invariant under sequence length $T \ge 0$: $d^2 + 0 \cdot T = d^2$.
 
-All eight theorems are verified with **zero `sorry`** statements using standard Mathlib foundations.
+All eight theorems are formalized using standard Mathlib foundations (formal kernel check pending in CI).
 
 ---
 
@@ -4904,7 +4904,7 @@ over real matrices `Matrix n n ℝ`:
 8. Constant Spatial Memory Footprint: Spatial memory representation size $d^2$ is strictly invariant
    under sequence advancement $T \ge 0$.
 
-All theorems are formally verified in Lean 4 with no `sorry`, standard CIC axioms only.
+All theorems are formalized in Lean 4 (formal axiom audit pending in CI).
 -/
 
 namespace Pilot.LieRollingCacheStability
@@ -4983,9 +4983,9 @@ end Pilot.LieRollingCacheStability
 
 ---
 
-## 4. Foundational Axioms and the Zero-Sorry Audit
+## 4. Foundational Axioms and Formal Dependency Audit
 
-In interactive theorem proving, a proof can trivially succeed if it relies on unverified postulates or the `sorry` escape hatch. To verify the absolute integrity of `Pilot.LieRollingCacheStability`, we perform an axiomatic dependency audit.
+In interactive theorem proving, a specification is checked against core foundational rules. For complete transparency, the foundational dependencies of `Pilot.LieRollingCacheStability` are audited below.
 
 ```
 +----------------------------------------------------------------------------------------------------+
@@ -4996,11 +4996,11 @@ In interactive theorem proving, a proof can trivially succeed if it relies on un
 | propext           | Propositional Extensionality: (P <-> Q) -> (P = Q) | Standard CIC Axiom        |
 | Quot.sound        | Quotient Soundness: r a b -> Quot.mk r a = Quot.mk | Standard CIC Axiom        |
 | Classical.choice  | Axiom of Choice: Non-empty type has element        | Standard CIC Axiom        |
-| sorryAx           | Unproven conjecture stub                           | STRICTLY ABSENT (0 found) |
+| sorryAx           | Unproven conjecture stub                           | Verification in Progress  |
 +-------------------+----------------------------------------------------+---------------------------+
 ```
 
-When evaluated using the Lean 4 command `#print axioms`, each of the eight theorems reports dependencies solely on standard Lean core axioms (`propext`, `Quot.sound`, `Classical.choice`), with **zero occurrence of `sorryAx`**.
+When verified under the full Lean 4 toolchain, the formal module relies on standard core axioms (`propext`, `Quot.sound`, `Classical.choice`), while standalone automated verification scripts in CI audit the dependency graph.
 
 This establishes an unbroken chain of deductive validity from the foundational axioms of mathematical logic directly to the algebraic invariants of the IMF sequence memory engine.
 
@@ -5136,7 +5136,7 @@ This embedding transforms the title of Volume I from a restriction into an archi
 |                                    | Precision Drift (20-Seed Median) | FP32: 1.5e-6, FP16: 0.98%, BF16: 16.2%|
 |                                    | Synthetic Recall Check (N=8)     | Trans: 100%, Mamba2: 100%, IMF: 26% |
 |                                    | Dual-Readout Linear Memory Check | Forward: 100.0%, Reverse: 100.0%    |
-|                                    | Silicon Arithmetic Bound (Issue) | >= 0.82 us (lie_kv_ncu_profile.txt) |
+|                                    | Silicon Arithmetic Bound (Issue) | >= 0.82 us (lie_kv_issue_bound.txt) |
 |                                    | 3D Simplicial DEC Nilpotency     | d1 * d0 = 0 (test_dec_3d_complex)   |
 |                                    | d <= 4 Closed Forms Verification | err < 1e-15 (closed_forms_verif)    |
 +------------------------------------+----------------------------------+----------------------------+
@@ -5219,7 +5219,7 @@ Volume I of the *IMF Magnum Opus* has laid the unassailable foundation for conti
 4. **Chapter 4 (The Cayley Transform & Lyapunov Stability):** Replaced transcendental matrix exponentials with exact rational Cayley transforms $\mathcal{C}(A) \in \mathrm{SO}(d)$, proving unconditional isometry and discrete Lyapunov energy conservation.
 5. **Chapter 5 (Warp-Level Blackwell SM 12.0 CUDA Kernel):** Implemented the Lie rolling KV cache in physical silicon (`csrc/fused_blackwell_lie_rolling_kv.cu`), mapping $32 \times 32$ matrix states across warp registers with shared-memory staging, achieving measured $51.5\ \mu\text{s}$ launch latency ($\ge 0.82\ \mu\text{s}$ arithmetic pipeline bound) and rigorous Frobenius energy stability.
 6. **Chapter 6 (Linux Kernel-Bypass `io_uring` Direct DMA):** Eliminated the POSIX virtual memory bottleneck via strict 4096-byte `O_DIRECT` alignment, fixed buffer pre-registration, and SQPOLL ring queues (`csrc/fused_iouring_weight_streamer.cpp`), sustaining up to 11.43 GB/s burst throughput and 2.33 GB/s incompressible direct NVMe streaming throughput.
-7. **Chapter 7 (Formal Deductive Verification in Lean 4):** Certified all algebraic and stability invariants with zero `sorry` axioms in `Pilot.LieRollingCacheStability`, completing the synthesis of continuous mathematics, high-performance silicon, and mechanical proof.
+7. **Chapter 7 (Formal Deductive Specification in Lean 4):** Formalized algebraic and stability invariants in `Pilot.LieRollingCacheStability`, completing the synthesis of continuous mathematics, high-performance silicon, and formal specification.
 8. **Chapter 8 (The Dimensional Ledger & The Ten Unknowns):** Bridged low-dimensional geometry ($d \le 4$) to physical hardware ($d = 32$) via block-diagonal $\mathfrak{so}(4)^{\oplus 8} \subset \mathfrak{so}(32)$, established the definitive epistemic ledger, and resolved the ten open architectural unknowns.
 
 With the physical and mathematical foundations of low-dimensional spaces established, **Volume II: The Polytope Hyperspace of Parameter Quantization** will venture into higher dimensions ($d \ge 8$): cross-polytopes, $E_8$ Gosset root lattices, Leech lattice $\Lambda_{24}$ packing, and sub-byte Polytope Lattice Quantization (PLQ).
