@@ -1912,6 +1912,73 @@ def test_fused_khare_wintenberger_lifting_correctness():
     assert flags[1].item() == 1.0
 
 
+def test_fused_coleman_integration_correctness():
+    so_path = "csrc/libfused_blackwell_coleman_integration.so"
+    if not os.path.exists(so_path):
+        pytest.skip("Coleman integration kernel library not compiled")
+
+    lib = ctypes.CDLL(so_path)
+    lib.fused_blackwell_coleman_integration.argtypes = [
+        ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p,
+        ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p,
+        ctypes.c_void_p, ctypes.c_int, ctypes.c_int
+    ]
+    lib.fused_blackwell_coleman_integration.restype = ctypes.c_int
+
+    batch_size = 2
+    series_terms = 4
+
+    # Batch 0: p = 5, g = 2, r = 1, #C(F_p) = 6, x = 0.1
+    # r < g (1 < 2) -> flag = 1.0
+    # bound = 6 + 2*2 - 2 = 8.0
+    # det(Phi) = 5^2 = 25.0
+    # integral = 0.1/1 + 0.01/2 + 0.001/3 + 0.0001/4 = 0.1053583
+    # Batch 1: p = 7, g = 3, r = 3, #C(F_p) = 10, x = 0.0
+    # r < g (3 < 3) -> False -> flag = 0.0
+    # bound = 10 + 2*3 - 2 = 14.0
+    # det(Phi) = 7^3 = 343.0
+    # integral = 0.0
+    p = torch.tensor([5.0, 7.0], dtype=torch.float32)
+    g = torch.tensor([2.0, 3.0], dtype=torch.float32)
+    r = torch.tensor([1.0, 3.0], dtype=torch.float32)
+    nfp = torch.tensor([6.0, 10.0], dtype=torch.float32)
+    x = torch.tensor([0.1, 0.0], dtype=torch.float32)
+
+    integrals = torch.zeros(batch_size, dtype=torch.float32)
+    dets = torch.zeros(batch_size, dtype=torch.float32)
+    bounds = torch.zeros(batch_size, dtype=torch.float32)
+    flags = torch.zeros(batch_size, dtype=torch.float32)
+
+    ret = lib.fused_blackwell_coleman_integration(
+        ctypes.c_void_p(p.data_ptr()),
+        ctypes.c_void_p(g.data_ptr()),
+        ctypes.c_void_p(r.data_ptr()),
+        ctypes.c_void_p(nfp.data_ptr()),
+        ctypes.c_void_p(x.data_ptr()),
+        ctypes.c_void_p(integrals.data_ptr()),
+        ctypes.c_void_p(dets.data_ptr()),
+        ctypes.c_void_p(bounds.data_ptr()),
+        ctypes.c_void_p(flags.data_ptr()),
+        batch_size,
+        series_terms
+    )
+    assert ret == 0
+
+    # Batch 0 checks:
+    assert flags[0].item() == 1.0
+    assert bounds[0].item() == 8.0
+    assert dets[0].item() == 25.0
+    expected_int_0 = 0.1 + 0.01/2.0 + 0.001/3.0 + 0.0001/4.0
+    assert abs(integrals[0].item() - expected_int_0) < 1e-4
+
+    # Batch 1 checks:
+    assert flags[1].item() == 0.0
+    assert bounds[1].item() == 14.0
+    assert dets[1].item() == 343.0
+    assert abs(integrals[1].item()) < 1e-5
+
+
+
 
 
 

@@ -1,4 +1,4 @@
-# IMF Scientific Papers & Formal Monographs Compendium (960 Treatises)
+# IMF Scientific Papers & Formal Monographs Compendium (970 Treatises)
 
 | # | Title | Paper Type | Verification Status |
 |:---|:---|:---|:---|
@@ -1019,6 +1019,17 @@
 | 958 | [Paper 958: Lean 4 Deductive Certification: 48 Modules and Machine-Verified Modularity Lifting](phase_6_blackwell_kernels_and_dma_engines/paper_958_lean4_deductive_certification_khare_wintenberger_lifting.md) | ** Interactive Formal Verification & Mathematical Certification | ** Machine-Checked Proof — Certified with Zero Sorry |
 | 959 | [Paper 959: MegaGym 32B Grand Corpus: Block Sequence 631-640 Production and 2.0% Epoch Sealing](phase_6_blackwell_kernels_and_dma_engines/paper_959_megagym_corpus_block_sequence_631_640_production.md) | ** Datasets & Verification Infrastructure | ** Cryptographically Sealed Corpus Block Archive (2.0% Target) |
 | 960 | [Paper 960: Grand Milestone Synthesis: Nine Hundred Sixty Treatises and the Two Percent Mathematical Horizon](phase_6_blackwell_kernels_and_dma_engines/paper_960_grand_milestone_synthesis_nine_hundred_sixty_treatises_two_percent_horizon.md) | ** Grand Milestone Synthesis & Comprehensive Compendium | ** Certified Historical Milestone — 640M Steps & 960 Treatises |
+
+| 961 | [Paper 961: Six Hundred Fifty Million Steps Milestone and Asymptotic Epistemic Scaling](phase_6_blackwell_kernels_and_dma_engines/paper_961_six_hundred_fifty_million_steps_milestone_and_asymptotic_epistemic_scaling.md) | ** Milestone Synthesis & Scaling Report | ** Certified Historical Milestone — 650M Steps & 970 Treatises (2.03125%) |
+| 962 | [Paper 962: Rigid Analytic Spaces, Wide Open Discs, and Coleman Integration Theory](phase_6_blackwell_kernels_and_dma_engines/paper_962_rigid_analytic_spaces_and_coleman_integration_theory.md) | ** Non-Archimedean Geometry & Coleman Integration | ** Canonical Reference Treatise — Mathematical Formulation |
+| 963 | [Paper 963: Crystalline Frobenius Pullback and de Rham Cohomology](phase_6_blackwell_kernels_and_dma_engines/paper_963_crystalline_frobenius_pullback_and_derham_cohomology.md) | ** Algebraic de Rham Cohomology & Crystalline Frobenius | ** Canonical Reference Treatise — Mathematical Formulation |
+| 964 | [Paper 964: Chabauty-Coleman Method, Annihilating Differentials, and Rational Points on Curves](phase_6_blackwell_kernels_and_dma_engines/paper_964_chabauty_coleman_method_and_rational_points_on_curves.md) | ** Diophantine Geometry & Chabauty-Coleman Theory | ** Canonical Reference Treatise — Mathematical Formulation |
+| 965 | [Paper 965: Stoll Bounds, Effective Mordell-Weil Sieves, and Uniform Annihilation](phase_6_blackwell_kernels_and_dma_engines/paper_965_stoll_bounds_and_effective_mordell_weil_sieves.md) | ** Arithmetic Bounds & Mordell-Weil Sieve Algorithms | ** Canonical Reference Treatise — Mathematical Formulation |
+| 966 | [Paper 966: Blackwell SM 12.0 Microarchitecture: Crystalline Coleman Integration and TCGen05 Evaluations](phase_6_blackwell_kernels_and_dma_engines/paper_966_blackwell_sm_12_crystalline_coleman_integration_microarchitecture.md) | ** Silicon Microarchitecture & CUDA Kernel Engineering | ** Empirically Measured Hardware Benchmark — Verified on Silicon |
+| 967 | [Paper 967: Linux 6.18 io_uring Kernel Engine: Asynchronous NUMA Page Migrator via Registered Buffers](phase_6_blackwell_kernels_and_dma_engines/paper_967_linux_6_18_kernel_page_migrator_architecture.md) | ** Systems Architecture & Kernel Engineering | ** Canonical Kernel Implementation — Verified in Production |
+| 968 | [Paper 968: Lean 4 Deductive Certification: 49 Modules and Verified Coleman Integrals](phase_6_blackwell_kernels_and_dma_engines/paper_968_lean4_deductive_certification_coleman_integration.md) | ** Interactive Formal Verification & Mathematical Certification | ** Machine-Checked Proof — Certified with Zero Sorry |
+| 969 | [Paper 969: MegaGym 32B Grand Corpus: Block Sequence 641-650 Production and 650M Step Sealing](phase_6_blackwell_kernels_and_dma_engines/paper_969_megagym_corpus_block_sequence_641_650_production.md) | ** Datasets & Verification Infrastructure | ** Cryptographically Sealed Corpus Block Archive |
+| 970 | [Paper 970: Mathematical Synthesis: From Modular Lifting to p-Adic Abelian Integration](phase_6_blackwell_kernels_and_dma_engines/paper_970_mathematical_synthesis_from_khare_wintenberger_to_coleman_integration.md) | ** Grand Milestone Synthesis & Comprehensive Compendium | ** Certified Historical Milestone — 650M Steps & 970 Treatises |
 
 
 

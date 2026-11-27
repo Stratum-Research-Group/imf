@@ -46,3 +46,4 @@ import Pilot.SerreModularityConjecture
 import Pilot.LanglandsTunnellBaseChange
 import Pilot.TaylorWilesPatchingSystem
 import Pilot.KhareWintenbergerLifting
+import Pilot.ColemanIntegration

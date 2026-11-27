@@ -2270,6 +2270,75 @@ def test_iouring_zc_tx_burst_correctness():
         lib.iouring_zc_tx_burst_destroy(burst)
 
 
+def test_iouring_kernel_page_migrator_correctness():
+    so_path = "csrc/libfused_iouring_kernel_page_migrator.so"
+    if not os.path.exists(so_path):
+        pytest.skip("Kernel page migrator engine not compiled")
+
+    lib = ctypes.CDLL(so_path)
+    lib.iouring_kernel_page_migrator_init.argtypes = [ctypes.c_uint32, ctypes.c_uint32, ctypes.c_uint32]
+    lib.iouring_kernel_page_migrator_init.restype = ctypes.c_void_p
+
+    lib.iouring_kernel_page_migrator_queue_migration.argtypes = [
+        ctypes.c_void_p, ctypes.c_uint32, ctypes.c_uint32, ctypes.c_uint32
+    ]
+    lib.iouring_kernel_page_migrator_queue_migration.restype = ctypes.c_int
+
+    lib.iouring_kernel_page_migrator_dispatch_batch.argtypes = [ctypes.c_void_p, ctypes.c_uint32]
+    lib.iouring_kernel_page_migrator_dispatch_batch.restype = ctypes.c_int
+
+    lib.iouring_kernel_page_migrator_get_stats.argtypes = [
+        ctypes.c_void_p, ctypes.POINTER(ctypes.c_uint64), ctypes.POINTER(ctypes.c_uint64), ctypes.POINTER(ctypes.c_int)
+    ]
+    lib.iouring_kernel_page_migrator_get_stats.restype = ctypes.c_int
+
+    lib.iouring_kernel_page_migrator_free.argtypes = [ctypes.c_void_p]
+    lib.iouring_kernel_page_migrator_free.restype = None
+
+    max_pages = 64
+    page_size = 4096
+    num_nodes = 4
+
+    migrator = lib.iouring_kernel_page_migrator_init(max_pages, page_size, num_nodes)
+    assert migrator is not None
+
+    try:
+        # Queue 8 migrations: pages 0-7 from node 0 to node 1
+        for p in range(8):
+            ret = lib.iouring_kernel_page_migrator_queue_migration(migrator, p, 0, 1)
+            assert ret == 0
+
+        # Dispatch batch of 5
+        dispatched = lib.iouring_kernel_page_migrator_dispatch_batch(migrator, 5)
+        assert dispatched == 5
+
+        # Check stats
+        tot_migrated = ctypes.c_uint64(0)
+        tot_bytes = ctypes.c_uint64(0)
+        is_reg = ctypes.c_int(0)
+        ret = lib.iouring_kernel_page_migrator_get_stats(
+            migrator, ctypes.byref(tot_migrated), ctypes.byref(tot_bytes), ctypes.byref(is_reg)
+        )
+        assert ret == 0
+        assert tot_migrated.value == 5
+        assert tot_bytes.value == 5 * 4096
+        assert is_reg.value == 1
+
+        # Dispatch remaining 3
+        dispatched_rem = lib.iouring_kernel_page_migrator_dispatch_batch(migrator, 10)
+        assert dispatched_rem == 3
+
+        ret = lib.iouring_kernel_page_migrator_get_stats(
+            migrator, ctypes.byref(tot_migrated), ctypes.byref(tot_bytes), ctypes.byref(is_reg)
+        )
+        assert ret == 0
+        assert tot_migrated.value == 8
+        assert tot_bytes.value == 8 * 4096
+    finally:
+        lib.iouring_kernel_page_migrator_free(migrator)
+
+
+
 
 
 
