@@ -71,3 +71,4 @@ import Pilot.SuslinHomology
 import Pilot.RostInvariant
 import Pilot.AlgebraicCobordism
 import Pilot.MilnorWittHomotopy
+import Pilot.MotivicAdamsNovikov

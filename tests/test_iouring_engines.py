@@ -3455,3 +3455,49 @@ def test_iouring_milnor_witt_splice_stream_correctness():
     assert stats.milnor_witt_verified == 1
 
 
+def test_iouring_adams_novikov_splice_stream_correctness():
+    so_path = "csrc/libfused_iouring_adams_novikov_splice_stream.so"
+    assert os.path.exists(so_path), f"Missing shared object: {so_path}"
+
+    class AdamsNovikovConfig(ctypes.Structure):
+        _fields_ = [
+            ("ring_entries", ctypes.c_uint32),
+            ("sheet_size_bytes", ctypes.c_uint32),
+            ("num_sheets", ctypes.c_uint32),
+            ("stream_passes", ctypes.c_uint32),
+        ]
+
+    class AdamsNovikovStats(ctypes.Structure):
+        _fields_ = [
+            ("total_bytes_streamed", ctypes.c_uint64),
+            ("sheets_processed", ctypes.c_uint32),
+            ("ring_queue_depth", ctypes.c_uint32),
+            ("adams_novikov_verified", ctypes.c_uint32),
+            ("engine_status", ctypes.c_uint32),
+        ]
+
+    lib = ctypes.CDLL(so_path)
+    lib.run_adams_novikov_splice_stream_engine.argtypes = [
+        ctypes.POINTER(AdamsNovikovConfig),
+        ctypes.POINTER(AdamsNovikovStats)
+    ]
+    lib.run_adams_novikov_splice_stream_engine.restype = ctypes.c_int
+
+    config = AdamsNovikovConfig(
+        ring_entries=64,
+        sheet_size_bytes=4096,
+        num_sheets=16,
+        stream_passes=16,
+    )
+    stats = AdamsNovikovStats()
+
+    ret = lib.run_adams_novikov_splice_stream_engine(ctypes.byref(config), ctypes.byref(stats))
+    assert ret == 0, f"run_adams_novikov_splice_stream_engine failed with return code {ret}"
+    assert stats.engine_status == 1
+    assert stats.sheets_processed == 16 * 16
+    assert stats.total_bytes_streamed == 16 * 16 * 4096
+    assert stats.ring_queue_depth == 64
+    assert stats.adams_novikov_verified == 1
+
+
+
