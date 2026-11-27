@@ -41,8 +41,11 @@ def compile_compendiums():
     
     print(f"[*] Found {len(streams)} development streams. Compiling top representative compendiums...")
     
-    selected = [
-        ("Phase I", [s for s in streams if "phase_1" in s][0]),
+    import sys
+    limit = int(sys.argv[1]) if len(sys.argv) > 1 else 10
+    selected = [(f"Stream {i+1}", s) for i, s in enumerate(streams[:limit])]
+    if False:
+      old_selected = [
         ("Phase II", [s for s in streams if "phase_2" in s][0]),
         ("Phase III", [s for s in streams if "phase_3" in s][0]),
         ("Phase IV", [s for s in streams if "phase_4" in s][0]),
