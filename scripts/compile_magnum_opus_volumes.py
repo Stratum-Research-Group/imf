@@ -58,7 +58,15 @@ def compile_volume(vol):
     print(f"[*] Compiling {vol['id']}: found {len(chapter_files)} chapters...")
     content_parts = []
     
-    header = f"""# {vol['main_title']}
+    vol_code = f"v0{vol['vol_num']}" if vol['vol_num'] in ["1", "2", "3"] else f"v0{['I', 'II', 'III'].index(vol['vol_num']) + 1}"
+    frontcover_filename = f"The_Sacred_Sanctum-Foundations_of_Sovereign_Intelligence_{vol_code} Frontcover.jpg"
+    backcover_filename = f"The_Sacred_Sanctum-Foundations_of_Sovereign_Intelligence_{vol_code} Backcover.jpg"
+
+    header = f"""<p align="center">
+  <img src="{frontcover_filename}" alt="{vol['volume_title']} Front Cover" width="90%"/>
+</p>
+
+# {vol['main_title']}
 ## {vol['volume_title']}
 ### {vol['subtitle']}
 **Series:** The Sacred Sanctum: Foundations of Sovereign Intelligence (IMF Magnum Opus Trilogy)  
@@ -88,6 +96,16 @@ def compile_volume(vol):
         total_words += words
         total_chars += chars
         content_parts.append(f"\n\n---\n\n{text}")
+
+    footer = f"""
+
+---
+
+<p align="center">
+  <img src="{backcover_filename}" alt="{vol['volume_title']} Back Cover" width="90%"/>
+</p>
+"""
+    content_parts.append(footer)
 
     full_text = "".join(content_parts)
     

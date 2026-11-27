@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="The_Sacred_Sanctum-Foundations_of_Sovereign_Intelligence_v02 Frontcover.jpg" alt="Volume II: The Sacred Sanctum of Higher-Dimensional Spaces (4 < d <= 24) Front Cover" width="90%"/>
+</p>
+
 # THE SACRED SANCTUM: FOUNDATIONS OF SOVEREIGN INTELLIGENCE
 ## Volume II: The Sacred Sanctum of Higher-Dimensional Spaces (4 < d <= 24)
 ### Exceptional Holonomy, the Gosset E8 Polytope, the 24-Dimensional Leech Lattice Lambda_24, and Sub-Bit Polytope Quantization
@@ -3224,3 +3228,10 @@ In **Volume III: Transfinite, Non-Archimedean, and Ultra-Dimensional Geometries*
 4. Avigad, J. (2023). *Theorem Proving in Lean 4*. Lean Community Documentation.
 5. Stratum Research Group. (2026). *Pilot Formalization: High-Dimensional Polytope Sparsity & Hyperspherical Non-Collapse*, `lean_pilot/Pilot/PolytopeSparsity.lean`.
 6. Stratum Research Group. (2026). *IMF Machine-Certified Grand Corpus Manifest*, `dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`.
+
+
+---
+
+<p align="center">
+  <img src="The_Sacred_Sanctum-Foundations_of_Sovereign_Intelligence_v02 Backcover.jpg" alt="Volume II: The Sacred Sanctum of Higher-Dimensional Spaces (4 < d <= 24) Back Cover" width="90%"/>
+</p>

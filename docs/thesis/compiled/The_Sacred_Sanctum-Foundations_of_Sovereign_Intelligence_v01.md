@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="The_Sacred_Sanctum-Foundations_of_Sovereign_Intelligence_v01 Frontcover.jpg" alt="Volume I: The Sacred Sanctum of Dimensional Spaces (d <= 4) Front Cover" width="90%"/>
+</p>
+
 # THE SACRED SANCTUM: FOUNDATIONS OF SOVEREIGN INTELLIGENCE
 ## Volume I: The Sacred Sanctum of Dimensional Spaces (d <= 4)
 ### Discrete Differential Geometry, Continuous Lie-Algebraic Memory, and the Physical Foundations of Machine Intelligence
@@ -3177,3 +3181,10 @@ Volume I of the *IMF Magnum Opus* has laid the unassailable foundation for conti
 7. **Chapter 7 (Formal Deductive Verification in Lean 4):** Certified all algebraic and stability invariants with zero `sorry` axioms in `Pilot.LieRollingCacheStability`, completing the synthesis of continuous mathematics, high-performance silicon, and mechanical proof.
 
 With the physical and mathematical foundations of low-dimensional spaces established, **Volume II: The Polytope Hyperspace of Parameter Quantization** will venture into higher dimensions ($d \ge 8$): cross-polytopes, $E_8$ Gosset root lattices, Leech lattice $\Lambda_{24}$ packing, and sub-byte Polytope Lattice Quantization (PLQ).
+
+
+---
+
+<p align="center">
+  <img src="The_Sacred_Sanctum-Foundations_of_Sovereign_Intelligence_v01 Backcover.jpg" alt="Volume I: The Sacred Sanctum of Dimensional Spaces (d <= 4) Back Cover" width="90%"/>
+</p>

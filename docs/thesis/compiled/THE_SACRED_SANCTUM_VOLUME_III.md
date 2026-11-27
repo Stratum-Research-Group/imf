@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="The_Sacred_Sanctum-Foundations_of_Sovereign_Intelligence_v03 Frontcover.jpg" alt="Volume III: The Sacred Sanctum of Transfinite and Infinite-Dimensional Spaces (d -> inf) Front Cover" width="90%"/>
+</p>
+
 # THE SACRED SANCTUM: FOUNDATIONS OF SOVEREIGN INTELLIGENCE
 ## Volume III: The Sacred Sanctum of Transfinite and Infinite-Dimensional Spaces (d -> inf)
 ### Ultra-Dimensional Chromatic Topoi, Affine Kac-Moody Algebras, and Machine-Certified Deductive Epistemics
@@ -3079,3 +3083,10 @@ By grounding reasoning in the immutable foundations of higher topos theory, affi
 4. Scholze, P. (2012). *Perfectoid spaces*. Publications Mathématiques de l'IHÉS, 116(1), 245-313.
 5. Kontsevich, M. (1995). *Homological algebra of mirror symmetry*. Proceedings of the International Congress of Mathematicians, Zürich, 1994, Birkhäuser, 120-139.
 6. Mynhardt, N. C. (2026). *Epistemic Sovereignty and Transfinite Machine Intelligence*. Stratum Research Group Technical Monograph.
+
+
+---
+
+<p align="center">
+  <img src="The_Sacred_Sanctum-Foundations_of_Sovereign_Intelligence_v03 Backcover.jpg" alt="Volume III: The Sacred Sanctum of Transfinite and Infinite-Dimensional Spaces (d -> inf) Back Cover" width="90%"/>
+</p>
