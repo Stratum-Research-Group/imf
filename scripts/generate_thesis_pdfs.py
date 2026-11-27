@@ -27,8 +27,8 @@ VOLUMES = [
         "vol_num": "v01",
         "src_md": os.path.join(DOCS_THESIS, "The_Sacred_Sanctum-Foundations_of_Sovereign_Intelligence_v01.md"),
         "out_pdf": os.path.join(DOCS_THESIS, "The_Sacred_Sanctum-Foundations_of_Sovereign_Intelligence_v01.pdf"),
-        "front_cover": os.path.join(DOCS_THESIS, "The_Sacred_Sanctum-Foundations_of_Sovereign_Intelligence_v01 Frontcover.png"),
-        "back_cover": os.path.join(DOCS_THESIS, "The_Sacred_Sanctum-Foundations_of_Sovereign_Intelligence_v01 Backcover.png"),
+        "front_cover": os.path.join(DOCS_THESIS, "The_Sacred_Sanctum-Foundations_of_Sovereign_Intelligence_v01 Frontcover.jpg"),
+        "back_cover": os.path.join(DOCS_THESIS, "The_Sacred_Sanctum-Foundations_of_Sovereign_Intelligence_v01 Backcover.jpg"),
         "title": "THE SACRED SANCTUM: Volume I — Dimensional Spaces (d <= 4)",
     },
     {
@@ -36,8 +36,8 @@ VOLUMES = [
         "vol_num": "v02",
         "src_md": os.path.join(DOCS_THESIS, "The_Sacred_Sanctum-Foundations_of_Sovereign_Intelligence_v02.md"),
         "out_pdf": os.path.join(DOCS_THESIS, "The_Sacred_Sanctum-Foundations_of_Sovereign_Intelligence_v02.pdf"),
-        "front_cover": os.path.join(DOCS_THESIS, "The_Sacred_Sanctum-Foundations_of_Sovereign_Intelligence_v02 Frontcover.png"),
-        "back_cover": os.path.join(DOCS_THESIS, "The_Sacred_Sanctum-Foundations_of_Sovereign_Intelligence_v02 Backcover.png"),
+        "front_cover": os.path.join(DOCS_THESIS, "The_Sacred_Sanctum-Foundations_of_Sovereign_Intelligence_v02 Frontcover.jpg"),
+        "back_cover": os.path.join(DOCS_THESIS, "The_Sacred_Sanctum-Foundations_of_Sovereign_Intelligence_v02 Backcover.jpg"),
         "title": "THE SACRED SANCTUM: Volume II — Higher-Dimensional Spaces (4 < d <= 24)",
     },
     {
@@ -45,8 +45,8 @@ VOLUMES = [
         "vol_num": "v03",
         "src_md": os.path.join(DOCS_THESIS, "The_Sacred_Sanctum-Foundations_of_Sovereign_Intelligence_v03.md"),
         "out_pdf": os.path.join(DOCS_THESIS, "The_Sacred_Sanctum-Foundations_of_Sovereign_Intelligence_v03.pdf"),
-        "front_cover": os.path.join(DOCS_THESIS, "The_Sacred_Sanctum-Foundations_of_Sovereign_Intelligence_v03 Frontcover.png"),
-        "back_cover": os.path.join(DOCS_THESIS, "The_Sacred_Sanctum-Foundations_of_Sovereign_Intelligence_v03 Backcover.png"),
+        "front_cover": os.path.join(DOCS_THESIS, "The_Sacred_Sanctum-Foundations_of_Sovereign_Intelligence_v03 Frontcover.jpg"),
+        "back_cover": os.path.join(DOCS_THESIS, "The_Sacred_Sanctum-Foundations_of_Sovereign_Intelligence_v03 Backcover.jpg"),
         "title": "THE SACRED SANCTUM: Volume III — Transfinite and Ultra-Dimensional Spaces (d -> inf)",
     },
 ]
@@ -310,7 +310,7 @@ def render_volume_to_pdf(vol):
 <body>
 
 <div class="cover-page front-cover">
-  <img src="data:image/png;base64,{front_b64}" alt="{vol['id']} Front Cover"/>
+  <img src="data:image/jpeg;base64,{front_b64}" alt="{vol['id']} Front Cover"/>
 </div>
 
 <div class="content-wrapper">
@@ -318,7 +318,7 @@ def render_volume_to_pdf(vol):
 </div>
 
 <div class="cover-page back-cover">
-  <img src="data:image/png;base64,{back_b64}" alt="{vol['id']} Back Cover"/>
+  <img src="data:image/jpeg;base64,{back_b64}" alt="{vol['id']} Back Cover"/>
 </div>
 
 </body>
