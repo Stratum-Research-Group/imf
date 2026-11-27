@@ -4682,3 +4682,12 @@ In **Volume III: Transfinite, Non-Archimedean, and Ultra-Dimensional Geometries*
 <div class="cover-page back-cover">
   <img src="The_Sacred_Sanctum-Foundations_of_Sovereign_Intelligence_v02 Backcover.jpg" alt="Volume II: The Sacred Sanctum of Higher-Dimensional Spaces (4 < d <= 24) Back Cover"/>
 </div>
+
+
+## Appendix S: Consolidated Development Stream Lineage (Phase 3 & Phase 4)
+This volume's theoretical foundations and empirical systems are directly grounded in the IMF Development Stream Corpus:
+- **Master Stream Catalog:** [`docs/MASTER_DEVELOPMENT_STREAMS_CATALOG.md`](../MASTER_DEVELOPMENT_STREAMS_CATALOG.md)
+- **Primary Lineage Streams:**
+  - [`STREAM_0131_0140_PAPER_131_SYMPLECTIC_PHASE_SPACE_VOLUME_CONSERVATI`](../../papers/phase_3_poincare_hyperbolic_kernels/streams/STREAM_0131_0140_PAPER_131_SYMPLECTIC_PHASE_SPACE_VOLUME_CONSERVATI.md)
+  - [`STREAM_0151_0160_PAPER_151_FUSED_POINCAR_KEY_VALUE_CACHE_DECODING_A`](../../papers/phase_3_poincare_hyperbolic_kernels/streams/STREAM_0151_0160_PAPER_151_FUSED_POINCAR_KEY_VALUE_CACHE_DECODING_A.md)
+  - [`STREAM_0201_0210_PAPER_201_FUSED_POINCAR_SAWADA_KOTERA_5TH_ORDER_SO`](../../papers/phase_4_soliton_hierarchies/streams/STREAM_0201_0210_PAPER_201_FUSED_POINCAR_SAWADA_KOTERA_5TH_ORDER_SO.md)

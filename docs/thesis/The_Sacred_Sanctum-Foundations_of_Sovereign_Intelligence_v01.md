@@ -5227,3 +5227,12 @@ To ensure scientific transparency, Volume I concludes with a comprehensive expos
 <div class="cover-page back-cover">
   <img src="The_Sacred_Sanctum-Foundations_of_Sovereign_Intelligence_v01 Backcover.jpg" alt="Volume I: The Sacred Sanctum of Dimensional Spaces (d <= 4) Back Cover"/>
 </div>
+
+
+## Appendix S: Consolidated Development Stream Lineage (Phase 1 & Phase 2)
+This volume's theoretical foundations and empirical systems are directly grounded in the IMF Development Stream Corpus:
+- **Master Stream Catalog:** [`docs/MASTER_DEVELOPMENT_STREAMS_CATALOG.md`](../MASTER_DEVELOPMENT_STREAMS_CATALOG.md)
+- **Primary Lineage Streams:**
+  - [`STREAM_0001_0010_PAPER_1_LIE_ALGEBRAIC_MEMORY_SPLITTING_SYMMETRIC_A`](../../papers/phase_1_core_architecture/streams/STREAM_0001_0010_PAPER_1_LIE_ALGEBRAIC_MEMORY_SPLITTING_SYMMETRIC_A.md)
+  - [`STREAM_0011_0020_PAPER_11_UNIVERSAL_100_DOMAIN_POLYTOPE_MANIFOLDS_T`](../../papers/phase_1_core_architecture/streams/STREAM_0011_0020_PAPER_11_UNIVERSAL_100_DOMAIN_POLYTOPE_MANIFOLDS_T.md)
+  - [`STREAM_0081_0090_PAPER_81_AUTOMATED_EPISTEMIC_VERIFICATION_ACROSS_T`](../../papers/phase_2_formal_verification_and_math_physics/streams/STREAM_0081_0090_PAPER_81_AUTOMATED_EPISTEMIC_VERIFICATION_ACROSS_T.md)

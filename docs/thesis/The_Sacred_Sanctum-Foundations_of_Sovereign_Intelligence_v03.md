@@ -4325,7 +4325,8 @@ By grounding reasoning in the immutable foundations of higher topos theory, affi
 - **$BP$**: Brown-Peterson spectrum at prime $p$ with coefficient ring $\mathbb{Z}_{(p)}[v_1, v_2, \dots]$.
 - **$K(n)$**: Morava $K$-theory of chromatic height $n$ with coefficients $\mathbb{F}_p[v_n, v_n^{-1}]$.
 - **$E_n$**: Lubin-Tate deformation spectrum associated to formal group of height $n$.
-- **$\mathbb{S}_n$**: Morava stabilizer group $\operatorname{Aut}(H_n) times \operatorname{Gal}(\mathbb{F}_{p^n}/\mathbb{F}_p)$.
+- **$\mathbb{S}_n$**: Morava stabilizer group $\operatorname{Aut}(H_n) 
+times \operatorname{Gal}(\mathbb{F}_{p^n}/\mathbb{F}_p)$.
 - **$\operatorname{ANSS}$**: Adams-Novikov Spectral Sequence based on complex cobordism / $BP$.
 - **$lpha, eta, \gamma$**: Greek letter periodic families in the stable homotopy groups of spheres.
 - **$L_n X$**: Bousfield localization with respect to Johnson-Wilson spectrum $E(n)$.
@@ -4336,3 +4337,12 @@ By grounding reasoning in the immutable foundations of higher topos theory, affi
 <div class="cover-page back-cover">
   <img src="The_Sacred_Sanctum-Foundations_of_Sovereign_Intelligence_v03 Backcover.jpg" alt="Volume III: The Sacred Sanctum of Transfinite and Infinite-Dimensional Spaces (d -> inf) Back Cover"/>
 </div>
+
+
+## Appendix S: Consolidated Development Stream Lineage (Phase 5 & Phase 6)
+This volume's theoretical foundations and empirical systems are directly grounded in the IMF Development Stream Corpus:
+- **Master Stream Catalog:** [`docs/MASTER_DEVELOPMENT_STREAMS_CATALOG.md`](../MASTER_DEVELOPMENT_STREAMS_CATALOG.md)
+- **Primary Lineage Streams:**
+  - [`STREAM_0286_0290_PAPER_286_POINCAR_DISCRETE_BOITI_LEON_PEMPINELLI_B`](../../papers/phase_5_certified_scaling_lie_geometry_io/streams/STREAM_0286_0290_PAPER_286_POINCAR_DISCRETE_BOITI_LEON_PEMPINELLI_B.md)
+  - [`STREAM_1291_1300_PAPER_1291_NINE_HUNDRED_SEVENTY_MILLION_STEPS_MOTIVIC_GOERSS`](../../papers/phase_6_blackwell_kernels_and_dma_engines/streams/STREAM_1291_1300_PAPER_1291_NINE_HUNDRED_SEVENTY_MILLION_STEPS_MOTIVIC_GOERSS.md)
+  - [`STREAM_1281_1290_PAPER_1281_NINE_HUNDRED_SIXTY_MILLION_STEPS_THE_MOTIVIC_GROS`](../../papers/phase_6_blackwell_kernels_and_dma_engines/streams/STREAM_1281_1290_PAPER_1281_NINE_HUNDRED_SIXTY_MILLION_STEPS_THE_MOTIVIC_GROS.md)
