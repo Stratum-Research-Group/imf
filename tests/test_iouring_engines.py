@@ -1635,6 +1635,76 @@ def test_iouring_workstealing_multiring_correctness():
         lib.iouring_workstealing_destroy(eng)
 
 
+def test_iouring_direct_nvme_streaming_correctness():
+    so_path = "csrc/libfused_iouring_direct_nvme_streaming.so"
+    if not os.path.exists(so_path):
+        pytest.skip(f"{so_path} not found")
+
+    lib = ctypes.CDLL(so_path)
+    lib.iouring_nvme_streaming_init.argtypes = [ctypes.c_uint32, ctypes.c_uint32]
+    lib.iouring_nvme_streaming_init.restype = ctypes.c_void_p
+
+    lib.iouring_nvme_streaming_register_block.argtypes = [
+        ctypes.c_void_p, ctypes.c_uint32, ctypes.c_void_p, ctypes.c_uint64
+    ]
+    lib.iouring_nvme_streaming_register_block.restype = ctypes.c_int
+
+    lib.iouring_nvme_streaming_submit_io.argtypes = [
+        ctypes.c_void_p, ctypes.c_uint32, ctypes.c_uint64, ctypes.c_uint32, ctypes.c_int
+    ]
+    lib.iouring_nvme_streaming_submit_io.restype = ctypes.c_int
+
+    lib.iouring_nvme_streaming_reap_completions.argtypes = [
+        ctypes.c_void_p, ctypes.c_uint32, ctypes.POINTER(ctypes.c_uint32)
+    ]
+    lib.iouring_nvme_streaming_reap_completions.restype = ctypes.c_int
+
+    lib.iouring_nvme_streaming_get_telemetry.argtypes = [
+        ctypes.c_void_p,
+        ctypes.POINTER(ctypes.c_uint64),
+        ctypes.POINTER(ctypes.c_uint64),
+        ctypes.POINTER(ctypes.c_uint64)
+    ]
+    lib.iouring_nvme_streaming_get_telemetry.restype = ctypes.c_int
+
+    lib.iouring_nvme_streaming_destroy.argtypes = [ctypes.c_void_p]
+    lib.iouring_nvme_streaming_destroy.restype = None
+
+    q_depth = 16
+    sector_sz = 4096
+    eng = lib.iouring_nvme_streaming_init(q_depth, sector_sz)
+    assert eng is not None
+
+    try:
+        dummy_buf = (ctypes.c_char * 8192)()
+        r_ret = lib.iouring_nvme_streaming_register_block(eng, 0, ctypes.byref(dummy_buf), 8192)
+        assert r_ret == 0
+
+        # Submit read of 2 sectors (8192 bytes)
+        sub_ret = lib.iouring_nvme_streaming_submit_io(eng, 0, 1024, 2, 0)
+        assert sub_ret == 0
+
+        # Reap completions
+        reaped = ctypes.c_uint32(0)
+        reap_ret = lib.iouring_nvme_streaming_reap_completions(eng, 10, ctypes.byref(reaped))
+        assert reap_ret == 0
+        assert reaped.value == 1
+
+        # Check telemetry
+        total_ops = ctypes.c_uint64(0)
+        total_bytes = ctypes.c_uint64(0)
+        overflows = ctypes.c_uint64(0)
+        t_ret = lib.iouring_nvme_streaming_get_telemetry(
+            eng, ctypes.byref(total_ops), ctypes.byref(total_bytes), ctypes.byref(overflows)
+        )
+        assert t_ret == 0
+        assert total_ops.value == 1
+        assert total_bytes.value == 8192
+        assert overflows.value == 0
+    finally:
+        lib.iouring_nvme_streaming_destroy(eng)
+
+
 
 
 

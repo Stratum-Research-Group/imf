@@ -1413,6 +1413,69 @@ def test_fused_selmer_group_exact_sequence_correctness():
     assert sha_energy[1].item() > 0.0
 
 
+def test_fused_iwasawa_polynomial_quotient_correctness():
+    so_path = "csrc/libfused_blackwell_iwasawa_polynomial_quotient.so"
+    if not os.path.exists(so_path):
+        pytest.skip(f"{so_path} not found")
+
+    lib = ctypes.CDLL(so_path)
+    lib.fused_blackwell_iwasawa_polynomial_quotient.argtypes = [
+        ctypes.c_void_p,
+        ctypes.c_void_p,
+        ctypes.c_int,
+        ctypes.c_int,
+        ctypes.c_float,
+        ctypes.c_void_p,
+        ctypes.c_void_p,
+        ctypes.c_void_p,
+        ctypes.c_void_p,
+        ctypes.c_int
+    ]
+    lib.fused_blackwell_iwasawa_polynomial_quotient.restype = ctypes.c_int
+
+    B = 2
+    degree = 3
+    div_degree = 1
+    # P(T) = T^3 - 1 = (T - 1)(T^2 + T + 1)
+    # Divisor: D(T) = T - 1 -> coeffs [-1.0, 1.0]
+    # Poly: P(T) = -1 + 0*T + 0*T^2 + 1*T^3 -> coeffs [-1.0, 0.0, 0.0, 1.0]
+    # Expected quotient: Q(T) = 1 + T + T^2 -> coeffs [1.0, 1.0, 1.0]
+    poly = torch.tensor([
+        [-1.0, 0.0, 0.0, 1.0],
+        [-1.0, 0.0, 0.0, 1.0]
+    ], dtype=torch.float32)
+
+    div = torch.tensor([
+        [-1.0, 1.0],
+        [-1.0, 1.0]
+    ], dtype=torch.float32)
+
+    q_len = degree - div_degree + 1
+    q_out = torch.zeros(B, q_len, dtype=torch.float32)
+    rem_out = torch.zeros(B, dtype=torch.float32)
+    mu_out = torch.zeros(B, dtype=torch.int32)
+    lambda_out = torch.zeros(B, dtype=torch.int32)
+
+    ret = lib.fused_blackwell_iwasawa_polynomial_quotient(
+        ctypes.c_void_p(poly.data_ptr()),
+        ctypes.c_void_p(div.data_ptr()),
+        degree, div_degree, 3.0,
+        ctypes.c_void_p(q_out.data_ptr()),
+        ctypes.c_void_p(rem_out.data_ptr()),
+        ctypes.c_void_p(mu_out.data_ptr()),
+        ctypes.c_void_p(lambda_out.data_ptr()),
+        B
+    )
+    assert ret == 0
+
+    # Remainder norm should be 0.0 (exact division)
+    assert rem_out[0].item() < 1e-4
+    # Quotient coefficients: [1.0, 1.0, 1.0]
+    assert torch.allclose(q_out[0], torch.tensor([1.0, 1.0, 1.0]), atol=1e-4)
+    # Lambda invariant equals degree of quotient = 2
+    assert lambda_out[0].item() == 2
+
+
 
 
 
