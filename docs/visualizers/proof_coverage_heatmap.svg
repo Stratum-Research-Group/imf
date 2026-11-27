@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 480" width="100%" height="100%" style="background:#030712; font-family:monospace;">
+<text x="30" y="45" fill="#38bdf8" font-size="20" font-weight="bold">Lean 4 Mathematical Proof Coverage Heatmap</text>
+<text x="30" y="75" fill="#9ca3af" font-size="13">497 Formal Theorems | 84 Modules | 0 sorryAx | 6 Development States</text>
+<text x="30" y="136" fill="#e5e7eb" font-size="12">State I: Lie SSMs & Polytopes</text>
+<rect x="360" y="110" width="520" height="42" rx="6" fill="#111827" stroke="#1f2937"/>
+<rect x="360" y="110" width="235.73333333333332" height="42" rx="6" fill="#1e3a8a"/>
+<text x="605.7333333333333" y="136" fill="#fbbf24" font-size="12" font-weight="bold">68 thms (13.7%)</text>
+<text x="30" y="192" fill="#e5e7eb" font-size="12">State II: Math Physics & Verification</text>
+<rect x="360" y="166" width="520" height="42" rx="6" fill="#111827" stroke="#1f2937"/>
+<rect x="360" y="166" width="187.2" height="42" rx="6" fill="#064e3b"/>
+<text x="557.2" y="192" fill="#fbbf24" font-size="12" font-weight="bold">54 thms (10.9%)</text>
+<text x="30" y="248" fill="#e5e7eb" font-size="12">State III: Poincaré Geodesics</text>
+<rect x="360" y="222" width="520" height="42" rx="6" fill="#111827" stroke="#1f2937"/>
+<rect x="360" y="222" width="214.93333333333334" height="42" rx="6" fill="#312e81"/>
+<text x="584.9333333333334" y="248" fill="#fbbf24" font-size="12" font-weight="bold">62 thms (12.5%)</text>
+<text x="30" y="304" fill="#e5e7eb" font-size="12">State IV: Soliton Hierarchies</text>
+<rect x="360" y="278" width="520" height="42" rx="6" fill="#111827" stroke="#1f2937"/>
+<rect x="360" y="278" width="246.13333333333333" height="42" rx="6" fill="#701a75"/>
+<text x="616.1333333333333" y="304" fill="#fbbf24" font-size="12" font-weight="bold">71 thms (14.3%)</text>
+<text x="30" y="360" fill="#e5e7eb" font-size="12">State V: Certified Scaling & DMA</text>
+<rect x="360" y="334" width="520" height="42" rx="6" fill="#111827" stroke="#1f2937"/>
+<rect x="360" y="334" width="388.2666666666667" height="42" rx="6" fill="#831843"/>
+<text x="758.2666666666667" y="360" fill="#fbbf24" font-size="12" font-weight="bold">112 thms (22.5%)</text>
+<text x="30" y="416" fill="#e5e7eb" font-size="12">State VI: Blackwell Kernels & Chromatic</text>
+<rect x="360" y="390" width="520" height="42" rx="6" fill="#111827" stroke="#1f2937"/>
+<rect x="360" y="390" width="450.6666666666667" height="42" rx="6" fill="#7c2d12"/>
+<text x="820.6666666666667" y="416" fill="#fbbf24" font-size="12" font-weight="bold">130 thms (26.2%)</text>
+</svg>

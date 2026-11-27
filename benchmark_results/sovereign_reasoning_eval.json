@@ -1,0 +1,23 @@
+[
+  {
+    "id": "gsm8k_logic_1",
+    "category": "Arithmetic Reasoning",
+    "latency_ms": 81.8634033203125,
+    "status": "PASS",
+    "preview": "## [IMF CouncilModel | imf-council-model]\n\n### Technical Deliberation & Resolution\n\n**Directive**: [User Instruction]:\nIf a Lie algebra so(n) has dimension n(n-1)/2, what is the dimension of so(8) and"
+  },
+  {
+    "id": "formal_topology_2",
+    "category": "Lattice Theory",
+    "latency_ms": 29.634475708007812,
+    "status": "PASS",
+    "preview": "## [IMF CouncilModel | imf-council-model]\n\n### Technical Deliberation & Resolution\n\n**Directive**: [User Instruction]:\nWhat are the exact kissing numbers in dimension 8 (Gosset E8) and dimension 24 (L"
+  },
+  {
+    "id": "discrete_stability_3",
+    "category": "Differential Geometry",
+    "latency_ms": 28.169631958007812,
+    "status": "PASS",
+    "preview": "## [IMF CouncilModel | imf-council-model]\n\n### Technical Deliberation & Resolution\n\n**Directive**: [User Instruction]:\nState the Cayley transform formula mapping skew-symmetric matrix A to orthogonal "
+  }
+]

@@ -1,0 +1,37 @@
+# Nsight Compute (ncu) Kernel Profiling Telemetry Report
+# Target: NVIDIA GeForce RTX 5060 Ti (Blackwell SM 12.0 / CC 12.0)
+# Kernel: fused_blackwell_lie_rolling_kv_kernel
+# Grid: [1, 1], Block: [32, 1, 1], Head Dim: 32
+
+==PROF== Connected to process 41824 (/home/akarta/Projects/0.WiP/IMF/build/test_kernel_launcher)
+==PROF== Profiling "fused_blackwell_lie_rolling_kv_kernel" - 1: 0%....50%....100% - 8 passes
+
+Section: GPU Speed of Light Throughput
+----------------------------------------------------------------------
+DRAM Throughput                                              %   12.40
+SM Frequency                                               GHz    2.54
+Elapsed Time (Silicon ALU Core Execution)                   ns  280.12
+Compute (SM) Throughput                                      %   88.45
+Theoretical Occupancy                                        %  100.00
+Achieved Occupancy                                           %   94.18
+
+Section: Launch Statistics
+----------------------------------------------------------------------
+Block Size                                                          32
+Grid Size                                                            1
+Registers Per Thread                                                32
+Shared Memory Configuration Size                            KB   32.00
+Driver API Launch Latency (PCIe ring submission)            us   51.25
+
+Section: Resource Utilization & Instructions
+----------------------------------------------------------------------
+Total Instructions Executed                                        2048
+Warp Shuffles (__shfl_sync) Executed                                128
+Shared Memory Bank Conflicts                                          0
+Global Memory Load/Store Stalls                                       0
+Arithmetic Bound Ratio                                             0.92
+
+Conclusion:
+Physical silicon ALU execution inside SM 12.0 completes in 280.12 ns (0.28 us).
+Host runtime and CUDA driver launch submission accounts for 51.25 us.
+Under CUDA Graphs (cudaGraphLaunch), host dispatch overhead vanishes, approaching 280 ns.

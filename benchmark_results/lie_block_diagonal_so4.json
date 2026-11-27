@@ -1,0 +1,12 @@
+{
+  "so4_blocks": 8,
+  "parameters_full_so32": 496,
+  "parameters_block_diagonal": 48,
+  "compression_ratio": 10.333333333333334,
+  "flops_full_so32": 131072,
+  "flops_block_diagonal": 4096,
+  "theoretical_arithmetic_speedup": 32.0,
+  "norm_drift_1000_steps_diag": 2.4328860747485106e-14,
+  "norm_drift_1000_steps_full": 1.2558952439917988e-13,
+  "status": "VERIFIED_ISOMETRIC"
+}

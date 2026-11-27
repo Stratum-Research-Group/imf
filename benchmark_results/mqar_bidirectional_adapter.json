@@ -1,0 +1,9 @@
+{
+  "num_pairs": 8,
+  "num_trials": 100,
+  "forward_recall_accuracy": 1.0,
+  "retrograde_reverse_recall_accuracy": 1.0,
+  "bidirectional_joint_accuracy": 1.0,
+  "architecture": "SAVG Dual-Sector Readout (0.5 * (M_S +- M_A))",
+  "resolution_of_reversal_curse": "CONFIRMED_VIA_DUAL_READOUT"
+}

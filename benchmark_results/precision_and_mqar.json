@@ -1,0 +1,26 @@
+{
+  "precision_drift_1000_steps": {
+    "float32": {
+      "norm_initial": 22.55296724862886,
+      "norm_final": 22.553031370518212,
+      "relative_drift": 2.8431686458422627e-06
+    },
+    "float16": {
+      "norm_initial": 22.855089617102692,
+      "norm_final": 22.960951507327618,
+      "relative_drift": 0.004631873775095953
+    },
+    "bfloat16": {
+      "norm_initial": 22.933351719143918,
+      "norm_final": 21.98552928111577,
+      "relative_drift": 0.041329433640392835
+    }
+  },
+  "param_matched_mqar": {
+    "num_trials": 100,
+    "num_pairs": 8,
+    "transformer_dense_accuracy": 1.0,
+    "mamba2_linear_accuracy": 1.0,
+    "imf_lie_accuracy": 0.26
+  }
+}

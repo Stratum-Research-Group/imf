@@ -10,9 +10,9 @@
 **Author:** Nicholas Charles Mynhardt  
 **Organization:** Stratum Research Group (SRG)  
 **Date:** November 27, 2026  
-**Status:** Research Monograph (Preprint / Internal Research Distribution)  
-**Formally Verified Modules:** Lean 4 Mathlib Pilots (Standard CIC Foundations, 0 `sorry`)  
-**Hardware Baseline:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti 16GB GDDR7 (Blackwell SM 12.0)  
+**Status:** Preprint, not independently reviewed  
+**Formal Verification:** Algebraic pilot specifications under Lean 4 Mathlib (no `sorry`, standard CIC axioms only)  
+**Hardware Baseline:** Single-machine physical evaluation (AMD Ryzen 5 7600X, NVIDIA GeForce RTX 5060 Ti 16GB GDDR7, Blackwell SM 12.0)  
 **OS Baseline:** Omarchy Linux (Kernel 7.2.15-1-omarchy) with PREEMPT_RT and liburing  
 
 ---
@@ -26,7 +26,7 @@ For over half a century, the paradigm of artificial intelligence has remained sh
 
 **Volume I: The Sacred Sanctum of Dimensional Spaces ($d \le 4$)** lays the immutable foundation for sovereign machine intelligence by reunifying sequence modeling with **Discrete Differential Geometry (DDG)** and **Continuous Lie Group Symmetries**. By translating Cartan moving frames, exterior calculus, and symplectic mechanics into discrete computational operators, the *Interaction Model Foundations (IMF)* architecture establishes:
 
-1. **Exact Nilpotent Boundary Dynamics:** Topological cochain complexes where discrete boundary and exterior derivative operators satisfy $\partial^2 = 0$ and $\mathbf{d}^2 = 0$ identically at machine precision.
+1. **Exact Nilpotent Boundary Dynamics:** Topological cochain complexes where discrete boundary and exterior derivative operators satisfy $\partial^2 = 0$ and $\mathbf{d}^2 = 0$ identically and strictly over $\mathbb{Z}$ (exact combinatorial identity, not subject to machine precision rounding).
 2. **Infinite Horizon $O(1)$ State Retention:** The complete elimination of quadratic attention memory via the **Lie-Algebraic Rolling KV Cache**, which maintains a strictly bounded persistent $32 \times 32$ matrix state $M_t \in \mathfrak{so}(d)$ governed by unitary similarity transforms and skew-symmetric outer-product innovations.
 3. **Discrete Lyapunov Energy Stability:** Unconditional proof that under the Cayley transform with non-negative dissipation, the internal recursive state energy sequence is monotonically non-increasing ($\Delta E \le 0$), guaranteeing total immunity to exploding or chaotic gradients.
 4. **Silicon Co-Design on NVIDIA Blackwell SM 12.0:** Cooperative warp mapping of the $32 \times 32$ state matrix using warp shuffle butterfly intrinsics (`__shfl_sync`) and shared-memory tile staging (`__shared__ s_temp[32][32]`), achieving deterministic sub-microsecond core ALU state updates.
@@ -41,16 +41,16 @@ This volume serves as the conceptual and physical portal into the Sacred Sanctum
 
 ## Table of Contents
 
-| Chapter | Title | Focus & Core Foundations |
+| Chapter | Title | Focus & Technical Deliverables |
 |---|---|---|
-| **1** | [Chapter 1: Discrete Differential Geometry and Discrete Exterior Calculus (DEC)](#chapter-1-discrete-differential-geometry-and-discrete-exterior-calculus-dec) | Geometry is the art of correct reasoning on incorrect figures. |
-| **2** | [Chapter 2: Cartan Moving Frames and Affine Gauge Connections](#chapter-2-cartan-moving-frames-and-affine-gauge-connections) | The method of moving frames consists in attaching to each point of a space under s... |
-| **3** | [Chapter 3: Classical Lie Groups, Quaternions, and Rotors](#chapter-3-classical-lie-groups-quaternions-and-rotors) | The product of two directed lines in space... has led me to a Calculus of Quaterni... |
-| **4** | [Chapter 4: The Cayley Transform and Discrete Lyapunov Stability](#chapter-4-the-cayley-transform-and-discrete-lyapunov-stability) | Mathematics is the tool specially suited for dealing with abstract concepts of any... |
-| **5** | [Chapter 5: Warp-Level Blackwell SM 12.0 Lie Rolling KV Cache](#chapter-5-warp-level-blackwell-sm-120-lie-rolling-kv-cache) | In high-performance computing, the difference between elegance and failure is meas... |
-| **6** | [Chapter 6: Linux Kernel-Bypass `io_uring` Direct DMA](#chapter-6-linux-kernel-bypass-iouring-direct-dma) | Operating system abstractions are conveniences for general-purpose applications; f... |
-| **7** | [Chapter 7: Formal Deductive Verification in Lean 4: Module 83](#chapter-7-formal-deductive-verification-in-lean-4-module-83) | A mathematical proof is not a matter of persuasion or consensus; it is an irrevoca... |
-| **8** | [Chapter 8: The Dimensional Ledger: Closing $d \le 4$ and Bridging to $d = 32$](#chapter-8-the-dimensional-ledger-closing-d--4-and-bridging-to-d--32) | The lower dimensions are not toys; they are the irreducible atomic seeds from which... |
+| **1** | [Chapter 1: Discrete Differential Geometry and Discrete Exterior Calculus (DEC)](#chapter-1-discrete-differential-geometry-and-discrete-exterior-calculus-dec) | Simplicial complexes, combinatorial d^2 = 0 over Z, circumcentric Hodge star, and Hodge-Helmholtz orthogonal decomposition. |
+| **2** | [Chapter 2: Cartan Moving Frames and Affine Gauge Connections](#chapter-2-cartan-moving-frames-and-affine-gauge-connections) | Orthonormal moving frames e_a, connection 1-forms in so(d), Frobenius-norm curvature penalties, and Wilson loop holonomy. |
+| **3** | [Chapter 3: Classical Lie Groups, Quaternions, and Rotors](#chapter-3-classical-lie-groups-quaternions-and-rotors) | Closed forms in SO(2), SO(3), SO(4), Clifford rotors Cl(3,0), Sp(1) unit quaternions, and SLERP geodesic interpolation. |
+| **4** | [Chapter 4: The Cayley Transform and Discrete Lyapunov Stability](#chapter-4-the-cayley-transform-and-discrete-lyapunov-stability) | Rational conformal Cayley transform, exact rank-2 Sherman-Morrison solver, and contractive discrete Lyapunov stability bounds. |
+| **5** | [Chapter 5: Warp-Level Blackwell SM 12.0 Lie Rolling KV Cache](#chapter-5-warp-level-blackwell-sm-120-lie-rolling-kv-cache) | Physical silicon kernel in csrc/, 32x32 state warp shuffle staging, dissipation parameter lambda, and 51.5 us decode benchmarks. |
+| **6** | [Chapter 6: Linux Kernel-Bypass `io_uring` Direct DMA](#chapter-6-linux-kernel-bypass-iouring-direct-dma) | Ring buffer SQPOLL architecture, host-pinned O_DIRECT fixed buffers, and 2.33 GB/s physical NVMe throughput telemetry. |
+| **7** | [Chapter 7: Formal Deductive Verification in Lean 4: Module 83](#chapter-7-formal-deductive-verification-in-lean-4-module-83) | Machine-certified Lean 4 Mathlib module verifying isometry, commutator nil-trace, and antisymmetry over real matrices. |
+| **8** | [Chapter 8: The Dimensional Ledger: Closing $d \le 4$ and Bridging to $d = 32$](#chapter-8-the-dimensional-ledger-closing-d--4-and-bridging-to-d--32) | Block-diagonal SO(4)^8 in SO(32), 32x arithmetic speedup, empirical capacity, low-precision drift, and open questions. |
 
 ---
 
@@ -4146,7 +4146,7 @@ over real matrices `Matrix n n ℝ`:
 8. Constant Spatial Memory Footprint: Spatial memory representation size d^2 is strictly invariant
    under sequence advancement T ≥ 0.
 
-All theorems are formally verified in Lean 4 with 0 `sorry` and 0 unproven axioms.
+All theorems are formally verified in Lean 4 with no `sorry`, standard CIC axioms only.
 -/
 
 namespace Pilot.LieRollingCacheStability
@@ -4312,7 +4312,7 @@ This chapter has detailed the theoretical formulation, physical hardware mapping
 2. **Algebraic Memory Recurrence:** The recurrence $M_{t+1} = U_t M_t U_t^\top + (\mathbf{v}_t \mathbf{k}_t^\top - \mathbf{k}_t \mathbf{v}_t^\top)$ with $U_t \in \mathrm{SO}(d_h)$ preserves both the trace ($\operatorname{Tr}(M_{t+1}) = \operatorname{Tr}(M_t)$) and the Frobenius norm ($\|U M U^\top\|_F = \|M\|_F$), preventing eigenvalue explosion across unbounded horizons.
 3. **Warp Register Pinning:** Setting $d_h = 32$ maps each row of the $32 \times 32$ state matrix directly into 32 registers of a single thread within a 32-thread hardware warp, enabling $100\%$ theoretical occupancy with zero DRAM round-trips.
 4. **Physical Silicon Verification:** Benchmarked on an NVIDIA GeForce RTX 5060 Ti Blackwell GPU, the kernel demonstrates **$51.5\ \mu\text{s}$ measured host launch latency**, **sub-$0.28\ \mu\text{s}$ raw in-register arithmetic compute time**, and **Frobenius norm conservation ($31.0694 \to 31.0677$)** over 1,000 recursive autoregressive steps.
-5. **Formal Deductive Proofs:** Certified in Lean 4 Mathlib under `Pilot.LieRollingCacheStability` with 0 `sorry` and 0 unproven axioms.
+5. **Formal Deductive Proofs:** Certified in Lean 4 Mathlib under `Pilot.LieRollingCacheStability` with no `sorry`, standard CIC axioms only.
 
 In Chapter 6, we address host-device weight streaming, detailing the Linux 6.18 kernel-bypass `io_uring` direct DMA subsystem.
 
@@ -4883,7 +4883,7 @@ over real matrices `Matrix n n ℝ`:
 8. Constant Spatial Memory Footprint: Spatial memory representation size $d^2$ is strictly invariant
    under sequence advancement $T \ge 0$.
 
-All theorems are formally verified in Lean 4 with 0 `sorry` and 0 unproven axioms.
+All theorems are formally verified in Lean 4 with no `sorry`, standard CIC axioms only.
 -/
 
 namespace Pilot.LieRollingCacheStability
@@ -5120,17 +5120,24 @@ This embedding transforms the title of Volume I from a restriction into an archi
 |                                    | Exact Combinatorial d^2 = 0      | Simplicial Chain Complex   |
 |                                    | Gauge Invariance of Wilson Loops | Lie Algebra Trace Proof    |
 |                                    | Rank-2 Sherman-Morrison Cayley   | Exact Linear Algebra       |
+|                                    | Block-Diagonal SO(4)^8 Isometry  | Commuting Subalgebras      |
 +------------------------------------+----------------------------------+----------------------------+
 | EMPIRICALLY MEASURED               | Host Launch Latency (51.5 us)    | Physical RTX 5060 Ti       |
 |                                    | 1,000-Step Norm Drift (5.4e-5)   | SM 12.0 Physical Silicon   |
+|                                    | Block-Diagonal Speedup (32.0x)   | bench_block_diagonal_so4   |
 |                                    | NVMe Direct I/O (2.33 GB/s)      | Linux io_uring SQPOLL      |
 |                                    | Zero Corrupt Blocks (0 / 4,096)  | Direct DMA Verification    |
 |                                    | Directional Recall Asymmetry     | Paper 1 Retrieval Tests    |
+|                                    | Associative Capacity (d=32)      | N=2: 78.5%, N=4: 54.5%, N=8: 29.6% |
+|                                    | Precision Drift (1,000 steps)    | FP32: 2.8e-6, FP16: 0.46%, BF16: 4.1% |
+|                                    | Param-Matched MQAR (N=8)         | Trans: 100%, Mamba2: 100%, IMF: 26% |
+|                                    | Bidirectional SAVG MQAR (N=8)    | Forward: 100.0%, Reverse: 100.0%    |
+|                                    | Silicon ALU Time (ncu)           | 280.1 ns (lie_kv_ncu_profile.txt)   |
+|                                    | 3D Simplicial DEC Nilpotency     | d1 * d0 = 0 (test_dec_3d_complex)   |
 +------------------------------------+----------------------------------+----------------------------+
-| EMPIRICALLY MEASURED               | Associative Capacity (d=32)      | N=2: 78.5%, N=4: 54.5%, N=8: 29.6% |
-| OPEN RESEARCH QUESTIONS            | U1: Associative Capacity Bound   | bench_lie_capacity.json (N=2..128) |
-|                                    | U2: Token-Conditioned Connections| Backprop through Cayley    |
-|                                    | U3: Lower-Precision Drift        | FP16 / BF16 / FP8 Isometry |
+| OPEN RESEARCH QUESTIONS            | U1: Learned Bidirectional Adapter| Readout from skew state    |
+|                                    | U2: Token-Conditioned Connection | Backprop through Cayley    |
+|                                    | U3: FP8 / Microscaling Formats   | Sub-byte rotation stability|
 |                                    | U4: DEC on Real Attention Maps   | Delaunay mesh validation   |
 |                                    | U5: Cross-Head Wilson Coupling   | Multi-head Holonomy        |
 +------------------------------------+----------------------------------+----------------------------+
