@@ -1,0 +1,19 @@
+{
+  "device": "cuda",
+  "shapes": {
+    "M": 2048,
+    "K": 2048,
+    "N": 4096
+  },
+  "theoretical_ops": 34359738368,
+  "benchmarks": {
+    "bf16_gemm": {
+      "latency_ms": 9.48054313659668,
+      "tflops": 3.6242373324968007
+    },
+    "plq_voronoi": {
+      "latency_ms": 0.6236171722412109,
+      "bandwidth_gb_s": 26.903069297634232
+    }
+  }
+}

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Wolfram Causal Multiway State-Graph Visualizer</title>
+  <style>
+    body { margin: 0; background: #030712; color: #f3f4f6; font-family: monospace; overflow: hidden; }
+    #overlay { position: absolute; top: 20px; left: 20px; z-index: 10; background: rgba(17,24,39,0.85); backdrop-filter: blur(8px); padding: 16px 20px; border-radius: 8px; border: 1px solid #1f2937; max-width: 380px; }
+    h1 { font-size: 1.15rem; color: #38bdf8; margin: 0 0 6px 0; }
+    p { font-size: 0.8rem; color: #9ca3af; line-height: 1.4; margin: 0; }
+    svg { width: 100vw; height: 100vh; }
+  </style>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+  <div id="overlay">
+    <h1>Wolfram Causal Multiway State-Graph</h1>
+    <p>Discrete multiway substitution system evolution modeling neural weight trajectories under causal invariance.</p>
+  </div>
+  <svg id="graph-svg"></svg>
+
+  <script>
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+
+    const nodes = [
+      { id: "S(0,0)", depth: 0 },
+      { id: "S(1,0)", depth: 1 }, { id: "S(0,1)", depth: 1 },
+      { id: "S(2,0)", depth: 2 }, { id: "S(1,1)", depth: 2 }, { id: "S(0,2)", depth: 2 },
+      { id: "S(3,0)", depth: 3 }, { id: "S(2,1)", depth: 3 }, { id: "S(1,2)", depth: 3 }, { id: "S(0,3)", depth: 3 },
+      { id: "S(4,0)", depth: 4 }, { id: "S(3,1)", depth: 4 }, { id: "S(2,2)", depth: 4 }, { id: "S(1,3)", depth: 4 }, { id: "S(0,4)", depth: 4 }
+    ];
+
+    const links = [
+      { source: "S(0,0)", target: "S(1,0)" }, { source: "S(0,0)", target: "S(0,1)" },
+      { source: "S(1,0)", target: "S(2,0)" }, { source: "S(1,0)", target: "S(1,1)" },
+      { source: "S(0,1)", target: "S(1,1)" }, { source: "S(0,1)", target: "S(0,2)" },
+      { source: "S(2,0)", target: "S(3,0)" }, { source: "S(2,0)", target: "S(2,1)" },
+      { source: "S(1,1)", target: "S(2,1)" }, { source: "S(1,1)", target: "S(1,2)" },
+      { source: "S(0,2)", target: "S(1,2)" }, { source: "S(0,2)", target: "S(0,3)" },
+      { source: "S(3,0)", target: "S(4,0)" }, { source: "S(3,0)", target: "S(3,1)" },
+      { source: "S(2,1)", target: "S(3,1)" }, { source: "S(2,1)", target: "S(2,2)" },
+      { source: "S(1,2)", target: "S(2,2)" }, { source: "S(1,2)", target: "S(1,3)" },
+      { source: "S(0,3)", target: "S(1,3)" }, { source: "S(0,3)", target: "S(0,4)" }
+    ];
+
+    const svg = d3.select("#graph-svg");
+    const simulation = d3.forceSimulation(nodes)
+      .force("link", d3.forceLink(links).id(d => d.id).distance(85))
+      .force("charge", d3.forceManyBody().strength(-280))
+      .force("center", d3.forceCenter(width / 2, height / 2));
+
+    const link = svg.append("g")
+      .attr("stroke", "#38bdf8")
+      .attr("stroke-opacity", 0.4)
+      .attr("stroke-width", 1.8)
+      .selectAll("line")
+      .data(links)
+      .join("line");
+
+    const node = svg.append("g")
+      .selectAll("g")
+      .data(nodes)
+      .join("g")
+      .call(d3.drag()
+        .on("start", (event, d) => { if (!event.active) simulation.alphaTarget(0.3).restart(); d.fx = d.x; d.fy = d.y; })
+        .on("drag", (event, d) => { d.fx = event.x; d.fy = event.y; })
+        .on("end", (event, d) => { if (!event.active) simulation.alphaTarget(0); d.fx = null; d.fy = null; }));
+
+    node.append("circle")
+      .attr("r", 14)
+      .attr("fill", d => d.depth === 0 ? "#fbbf24" : "#0284c7")
+      .attr("stroke", "#e0f2fe")
+      .attr("stroke-width", 2);
+
+    node.append("text")
+      .text(d => d.id)
+      .attr("x", 18)
+      .attr("y", 5)
+      .attr("fill", "#e5e7eb")
+      .attr("font-size", "11px");
+
+    simulation.on("tick", () => {
+      link
+        .attr("x1", d => d.source.x)
+        .attr("y1", d => d.source.y)
+        .attr("x2", d => d.target.x)
+        .attr("y2", d => d.target.y);
+      node.attr("transform", d => `translate(${d.x},${d.y})`);
+    });
+  </script>
+</body>
+</html>

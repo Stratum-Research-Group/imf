@@ -1,0 +1,22 @@
+services:
+  sovereign-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: sovereign_sanctum_engine
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - PORT=8000
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    volumes:
+      - ./benchmark_results:/workspace/benchmark_results
+      - ./docs:/workspace/docs
