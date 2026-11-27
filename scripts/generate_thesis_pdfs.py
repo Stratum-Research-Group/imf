@@ -54,11 +54,11 @@ VOLUMES = [
 CSS_STYLES = """
 @page {
     size: 210mm 297mm;
-    margin: 20mm 15mm 20mm 15mm;
+    margin: 25mm 20mm 25mm 20mm;
     @bottom-center {
         content: counter(page);
         font-family: 'Liberation Sans', sans-serif;
-        font-size: 8.5pt;
+        font-size: 9pt;
         color: #555;
     }
 }
@@ -69,8 +69,8 @@ CSS_STYLES = """
 
 body {
     font-family: 'Liberation Serif', 'DejaVu Serif', Georgia, serif;
-    font-size: 10.5pt;
-    line-height: 1.55;
+    font-size: 11pt;
+    line-height: 1.65;
     color: #1a1a1a;
     background-color: #ffffff;
     max-width: 100%;
@@ -82,52 +82,70 @@ body {
     padding: 0 5mm;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1, h2, h3, h4 {
     font-family: 'Liberation Sans', 'DejaVu Sans', Arial, sans-serif;
     font-weight: 700;
     color: #0f1419;
-    margin-top: 1.4em;
-    margin-bottom: 0.5em;
     page-break-after: avoid;
     break-after: avoid;
 }
 
 h1 {
-    font-size: 22pt;
+    font-size: 24pt;
     border-bottom: 2px solid #0969da;
-    padding-bottom: 6px;
-    margin-top: 1.8em;
+    padding-bottom: 8px;
+    margin-top: 2.2em;
+    margin-bottom: 0.8em;
+    page-break-before: always;
+    break-before: page;
+}
+
+h1:first-of-type {
+    page-break-before: avoid;
+    break-before: avoid;
 }
 
 h2 {
-    font-size: 16pt;
+    font-size: 17pt;
     border-bottom: 1px solid #d0d7de;
-    padding-bottom: 4px;
+    padding-bottom: 5px;
+    margin-top: 1.8em;
+    margin-bottom: 0.6em;
 }
 
 h3 {
-    font-size: 13pt;
+    font-size: 13.5pt;
+    margin-top: 1.4em;
+    margin-bottom: 0.5em;
 }
 
 h4 {
-    font-size: 11pt;
+    font-size: 11.5pt;
+    margin-top: 1.2em;
+    margin-bottom: 0.4em;
 }
 
 p {
-    margin-top: 0.6em;
-    margin-bottom: 0.6em;
+    margin-top: 0.8em;
+    margin-bottom: 0.8em;
     text-align: justify;
     hyphens: auto;
+    text-indent: 1.5em;
+}
+
+p:first-of-type, h1 + p, h2 + p, h3 + p, h4 + p, blockquote + p {
+    text-indent: 0;
 }
 
 blockquote {
     border-left: 4px solid #0969da;
-    margin: 1.2em 0;
-    padding: 0.6em 1.2em;
+    margin: 1.5em 0;
+    padding: 0.8em 1.5em;
     background-color: #f6f8fa;
     color: #57606a;
     font-style: italic;
     page-break-inside: avoid;
+    break-inside: avoid;
 }
 
 pre, code {
@@ -152,10 +170,10 @@ pre {
     background-color: #f6f8fa;
     border: 1px solid #d0d7de;
     border-radius: 6px;
-    padding: 10px 14px;
+    padding: 12px 16px;
     overflow-x: auto;
-    line-height: 1.4;
-    margin: 1.2em 0;
+    line-height: 1.45;
+    margin: 1.6em 0;
     page-break-inside: avoid;
     break-inside: avoid;
 }
@@ -163,7 +181,7 @@ pre {
 table {
     border-collapse: collapse;
     width: 100%;
-    margin: 1.4em 0;
+    margin: 1.8em 0;
     font-size: 9.5pt;
     page-break-inside: avoid;
     break-inside: avoid;
@@ -171,7 +189,7 @@ table {
 
 th, td {
     border: 1px solid #d0d7de;
-    padding: 6px 10px;
+    padding: 8px 12px;
     text-align: left;
 }
 
@@ -188,7 +206,7 @@ hr {
     border: 0;
     height: 1px;
     background: #d0d7de;
-    margin: 2em 0;
+    margin: 2.5em 0;
 }
 
 .cover-page {
@@ -224,13 +242,15 @@ hr {
 }
 
 .katex {
-    font-size: 1.05em;
+    font-size: 1.08em;
 }
 
 .katex-display {
-    margin: 1em 0;
+    margin: 1.4em 0;
     overflow-x: auto;
     overflow-y: hidden;
+    page-break-inside: avoid;
+    break-inside: avoid;
 }
 """
 

@@ -5,41 +5,76 @@
 
 ---
 
-## 1. Introduction: Transcendental Exponentials vs. Rational Lie Approximations
-
-In continuous-time geometric modeling, continuous rotations and gauge transformations are governed by the matrix exponential map:
-
-$$\exp : \mathfrak{so}(d) \to \mathrm{SO}(d), \quad \exp(A) = \sum_{k=0}^\infty \frac{A^k}{k!}$$
-
-While mathematically elegant, the matrix exponential is computationally problematic in high-throughput discrete neural hardware. On digital floating-point hardware (such as NVIDIA Blackwell SM 12.0 Tensor Cores), computing $\exp(A)$ requires either high-order Taylor series truncations, scaling-and-squaring algorithms, or expensive Padé approximants with multiple general matrix multiplications (GEMMs). Crucially, finite-precision truncation of $\exp(A)$ breaks the strict orthogonality condition:
-
-$$(\exp_{\text{truncated}}(A))^\top (\exp_{\text{truncated}}(A)) \ne \mathbf{I}$$
-
-Over thousands of recurrent sequence steps, this microscopic deviation accumulates exponentially, causing numerical eigenvalues to drift outside the unit circle ($|\lambda| > 1$), triggering catastrophic explosion, or inside the unit circle ($|\lambda| < 1$), inducing rapid exponential amnesia.
-
-To achieve exact, machine-level isometry without transcendental function evaluation, the **Interaction Model Foundations (IMF)** architecture adopts the **rational Cayley transform**:
-
-$$\mathcal{C}(A) = \left( \mathbf{I} - \frac{1}{2} A \right)^{-1} \left( \mathbf{I} + \frac{1}{2} A \right)$$
-
-The Cayley transform maps the skew-symmetric Lie algebra $\mathfrak{so}(d)$ into the Lie group $\mathrm{SO}(d)$ via purely rational matrix operations (addition, multiplication, and linear system inversion). Most importantly, **orthogonality holds identically for any skew-symmetric matrix $A$**, even at coarse numerical tolerances.
-
-This chapter presents the complete mathematical theory of the Cayley transform, proves its unconditional isometry, establishes discrete Lyapunov stability, and maps its formalization to the certified Lean 4 theorems in `lean_pilot/Pilot/LieRollingCacheStability.lean`.
-
-```
-        Lie Algebra so(d)  (A^T = -A, purely imaginary spectrum i*lambda)
-                 |
-                 |  Cayley Transform C(A) = (I - 1/2 A)^{-1} (I + 1/2 A)
-                 |  Rational, No Taylor Truncation Error
-                 v
-        Lie Group SO(d)    (U^T U = I, spectrum on unit circle |z| = 1)
-                 |
-                 +--> Discrete Lyapunov Energy Functional V(h) = ||h||^2
-                 |    Exact Conservation: V(U h) = V(h) identically
-                 |
-                 +--> Controlled Dissipation: V(h_{t+1}) <= V(h_t)
-```
+## Abstract
+This chapter establishes the theoretical and computational apparatus of the Cayley transform as a structure-preserving conformal mapping between skew-symmetric Lie algebras and orthogonal Lie groups, providing an unconditional guarantee of discrete Lyapunov stability for continuous-depth neural recurrent models. Traditional numerical integrators (e.g., explicit Runge-Kutta, Euler) applied to orthogonal differential equations violate group constraints due to truncation errors, causing cumulative norm drift and destabilization over long horizons. By leveraging the Cayley operator $\operatorname{Cay}(A) = (I - A)(I + A)^{-1}$, we map the linear space of skew-symmetric generators $\mathfrak{so}(n)$ bijectively onto the Lie group $\mathrm{SO}(n)$ without calculating transcendental matrix exponentials. We prove via Lyapunov direct methods that the resulting discrete transition matrices possess eigenvalues strictly bounded on the unit circle $|\lambda_i| = 1$, guaranteeing asymptotic stability and bounded energy for arbitrary sequence lengths. The formal Lean 4 verification of the Cayley isometry and spectral radius bounds is presented with zero unproven axioms.
 
 ---
+
+## 1. Introduction & Pedagogical Motivation: Taming the Continuous into the Discrete
+
+In physical engineering and numerical simulation, there is a recurring nightmare known as **numerical explosion**. You design a physical system—say, a satellite orbiting a planet, or an undamped pendulum swinging back and forth. On paper, the laws of physics guarantee that energy is conserved. The system should oscillate gracefully forever.
+Yet, when you write a computer program to simulate this system using standard time-stepping (such as the Euler method), the simulated satellite spirals wildly out of orbit and flies off into infinity, or the pendulum swings higher and higher until the computer crashes.
+
+Why does this happen? And more importantly, how does this exact same disaster quietly sabotage deep neural networks?
+
+### 1.1 The Discrete Time-Stepping Trap
+Computers cannot run continuous time. A computer must step forward in discrete jumps: $t_0, t_1, t_2, \dots, t_N$.
+Suppose we have a continuous differential equation describing how a hidden state rotates over time:
+$$\frac{d}{dt} x(t) = A x(t)$$
+where $A$ is a **skew-symmetric matrix** ($A^T = -A$). In physics, this represents pure rotational velocity with zero friction and zero expansion. The true continuous solution is given by the matrix exponential:
+$$x(t) = \exp(t A) x(0)$$
+Since $\exp(t A)$ is an orthogonal matrix, the Euclidean norm of $x(t)$ is strictly conserved for all time: $\|x(t)\|_2 = \|x(0)\|_2$.
+
+However, calculating the true matrix exponential $\exp(t A)$ requires an infinite Taylor series:
+$$\exp(t A) = I + t A + \frac{(t A)^2}{2!} + \frac{(t A)^3}{3!} + \dots$$
+If an engineer approximates this by truncating the series after the first step (the standard forward Euler approximation):
+$$x_{k+1} = (I + \Delta t \cdot A) x_k$$
+a catastrophe immediately occurs. Let us inspect the norm of the new state:
+$$\|x_{k+1}\|^2 = x_k^T (I + \Delta t A)^T (I + \Delta t A) x_k = x_k^T (I - \Delta t A + \Delta t A - \Delta t^2 A^2) x_k = \|x_k\|^2 + \Delta t^2 \|A x_k\|^2 > \|x_k\|^2$$
+
+Every single step artificially injects phantom energy $\Delta t^2 \|A x_k\|^2$ into the system! After 10,000 steps, this quadratic growth compounds exponentially into numerical obliteration.
+
+```
++----------------------------------------------------------------------------------------------------+
+| EULER STEPPING VS. MATRIX EXPONENTIAL VS. CAYLEY TRANSFORM                                         |
++----------------------------------------------------------------------------------------------------+
+| 1. Forward Euler Step (Truncated Approximation):                                                   |
+|    M_{k+1} = (I + \Delta t A) M_k                                                                  |
+|    -> Norm grows: ||x_{k+1}|| > ||x_k||. Phantom energy accumulates.                               |
+|    -> Catastrophic instability and overflow over long contexts.                                    |
+|                                                                                                    |
+| 2. Matrix Exponential (Transcendental Exact Solution):                                             |
+|    M_{k+1} = exp(\Delta t A) M_k                                                                   |
+|    -> Perfect isometry, but requires infinite Taylor summation or Pade approximation.              |
+|    -> Computationally prohibitive for high-speed hardware register loops.                          |
+|                                                                                                    |
+| 3. The Cayley Transform (Algebraic Conformal Map):                                                 |
+|    Cay(A) = (I - A)(I + A)^{-1}                                                                    |
+|    -> Strictly Orthogonal: Cay(A)^T Cay(A) = I identically!                                        |
+|    -> Exact Isometry without computing transcendental exponentials.                                |
+|    -> Discrete Lyapunov Stable: All eigenvalues lie exactly on the complex unit circle |\lambda|=1. |
++----------------------------------------------------------------------------------------------------+
+```
+
+### 1.2 The Miracle of Arthur Cayley's Transform
+In 1846, the British mathematician Arthur Cayley discovered a breathtaking algebraic shortcut that bridges the gap between the curved world of rotations and the flat world of algebra.
+Instead of computing infinite Taylor series, Cayley considered the rational fractional transformation:
+$$\operatorname{Cay}(A) = (I - A)(I + A)^{-1}$$
+Notice what this formula does:
+1. It uses only **elementary matrix addition, subtraction, and inversion**—no transcendental functions, no trigonometric sines or cosines, and no infinite series.
+2. If $A$ is skew-symmetric ($A^T = -A$), then the resulting matrix $U = \operatorname{Cay}(A)$ is **strictly, identically orthogonal**:
+   $$U^T U = I$$
+3. It maps the flat, unconstrained linear vector space of skew-symmetric matrices $\mathfrak{so}(n)$ bijectively onto the curved manifold of rotations $\mathrm{SO}(n)$ (excluding only matrices with eigenvalue $-1$).
+
+### 1.3 Lyapunov Stability: The Mathematical Guarantee of Peace of Mind
+In control theory, **Lyapunov stability** answers the ultimate question: *If I perturb this system, will it return to equilibrium, stay bounded, or explode?*
+A discrete-time linear dynamical system $x_{k+1} = M x_k$ is stable in the sense of Lyapunov if and only if all eigenvalues $\lambda_i$ of $M$ satisfy $|\lambda_i| \le 1$, and any eigenvalue on the unit boundary $|\lambda_i| = 1$ has equal algebraic and geometric multiplicity.
+
+When transition matrices are parameterized via the Cayley transform:
+$$\lambda(U) = \frac{1 - i \mu_j}{1 + i \mu_j} \implies |\lambda(U)| = \sqrt{\frac{1 + \mu_j^2}{1 + \mu_j^2}} = 1.000000\dots$$
+Every eigenvalue is permanently locked onto the complex unit circle. Energy cannot grow; energy cannot dissipate. The state can evolve over billions of steps without a single microvolt of numerical drift.
+
+In this chapter, we unpack the geometry of the Cayley transform, demonstrate its implementation in high-speed hardware pipelines, and present the complete formal Lean 4 verification of discrete Lyapunov stability.
 
 ## 2. The Skew-Symmetric Lie Algebra $\mathfrak{so}(d)$
 
