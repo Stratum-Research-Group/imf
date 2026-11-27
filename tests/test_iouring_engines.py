@@ -2564,6 +2564,51 @@ def test_iouring_mseal_protected_stream_correctness():
     assert stats.completions_processed == 8
 
 
+class FutexStreamConfig(ctypes.Structure):
+    _fields_ = [
+        ("ring_entries", ctypes.c_uint32),
+        ("buffer_size_bytes", ctypes.c_uint32),
+        ("num_futexes", ctypes.c_uint32),
+        ("wake_batch_size", ctypes.c_uint32),
+    ]
+
+
+class FutexStreamStats(ctypes.Structure):
+    _fields_ = [
+        ("total_wakes", ctypes.c_uint64),
+        ("futexes_monitored", ctypes.c_uint32),
+        ("ring_status", ctypes.c_uint32),
+        ("fallback_used", ctypes.c_uint32),
+    ]
+
+
+def test_iouring_futex2_wake_stream_correctness():
+    """Validates the Linux 6.18 futex_waitv & batch wake io_uring engine."""
+    so_path = "csrc/libfused_iouring_futex2_wake_stream.so"
+    assert os.path.exists(so_path), f"Shared object not found: {so_path}"
+
+    lib = ctypes.CDLL(so_path)
+    lib.run_futex2_wake_stream_engine.argtypes = [
+        ctypes.POINTER(FutexStreamConfig),
+        ctypes.POINTER(FutexStreamStats),
+    ]
+    lib.run_futex2_wake_stream_engine.restype = ctypes.c_int
+
+    config = FutexStreamConfig(
+        ring_entries=64,
+        buffer_size_bytes=4096,
+        num_futexes=32,
+        wake_batch_size=8,
+    )
+    stats = FutexStreamStats()
+
+    ret = lib.run_futex2_wake_stream_engine(ctypes.byref(config), ctypes.byref(stats))
+    assert ret == 0, f"run_futex2_wake_stream_engine failed with return code {ret}"
+    assert stats.futexes_monitored == 32
+    assert stats.total_wakes == 32
+
+
+
 
 
 

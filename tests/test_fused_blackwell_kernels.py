@@ -2109,6 +2109,21 @@ def test_fused_faltings_height_bound_correctness():
     assert finite_count == n_curves, f"Expected all {n_curves} curves of genus >= 2 to have finite rational locus, got {finite_count}"
 
 
+def test_fused_abelian_surface_modularity_correctness():
+    """Validates the fused Blackwell SM 12.0 kernel for abelian surface modularity and paramodular Siegel eigenspaces."""
+    so_path = "csrc/libfused_blackwell_abelian_surface_modularity.so"
+    assert os.path.exists(so_path), f"Missing shared object: {so_path}"
+
+    lib = ctypes.CDLL(so_path)
+    lib.run_abelian_surface_benchmark.argtypes = [ctypes.c_int]
+    lib.run_abelian_surface_benchmark.restype = ctypes.c_int
+
+    n_surfaces = 1024
+    matched_count = lib.run_abelian_surface_benchmark(n_surfaces)
+    assert matched_count == n_surfaces, f"Expected all {n_surfaces} surfaces to match paramodular Deligne-Weil bounds, got {matched_count}"
+
+
+
 
 
 
