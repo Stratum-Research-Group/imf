@@ -4123,7 +4123,7 @@ Two critical insights emerge:
 
 ## 7. Formal Deductive Verification in Lean 4
 
-The mathematical foundations of the Lie Rolling KV Cache are machine-certified in **Lean 4** and Mathlib. The formal proofs reside in module `Pilot.LieRollingCacheStability` within `proofs/archives/imf_lean_mathlib_proofs_complete.zip`. Every theorem is formalized with strictly zero unproven axioms and zero `sorry`.
+The mathematical foundations of the Lie Rolling KV Cache are machine-certified in **Lean 4** and Mathlib. The formal proofs reside in module `Pilot.LieRollingCacheStability` within `docs/thesis/volume_1_dimensional_spaces/proofs/LieRollingCacheStability.lean`. Every theorem is formalized with strictly zero unproven axioms and zero `sorry`.
 
 ### 7.1 Formal Lean 4 Specification
 
@@ -4268,7 +4268,7 @@ To contextualize the performance and mathematical properties of the Lie Rolling 
 | Katharopoulos LinAtt | O(d_h^2)           | O(d_h^2)           | Trace Divergence   | Partial            | Degenerate   |
 | RetNet (Retentive)   | O(d_h^2)           | O(d_h^2)           | Scalar Damped      | Partial            | Degenerate   |
 | Mamba-2 (1-D SSM)    | O(d_state)         | O(d_state)         | Diagonal Contraction| Yes (Per Lane)   | Non-Commut   |
-| IMF Lie Rolling KV   | O(d_h^2) [Const]   | O(1) [0.82 us ALU] | Strict Isometry    | 100% Warp Regs     | Inverted     |
+| IMF Lie Rolling KV   | O(d_h^2) [Const]   | O(1) [0.82 us ALU] | Strict Isometry    | Chunk Regs + Shmem | Inverted     |
 +----------------------+--------------------+--------------------+--------------------+--------------------+--------------+
 ```
 
@@ -4286,7 +4286,7 @@ $$\mathcal{S}_{\text{fwd}} = \mathbf{u}^\top M_t \mathbf{v} \approx \mathbf{u}^\
 
 When queried in reverse, the inner product $\mathbf{v}^\top M_t \mathbf{u}$ conflates the directional order because standard linear attention matrices lack an alternating differential form.
 
-In the current silicon decode baseline, the orthogonal transformation $U$ is held fixed per attention head (providing a static rotary transport across sequence tokens), while the innovation tensor $W_t$ is chosen to be strictly antisymmetric:
+In the physical silicon decode baseline (`csrc/fused_blackwell_lie_rolling_kv.cu`), the orthogonal transformation $U$ is loaded from host/constant memory once per attention head and held in registers and a $32 \times 32$ shared memory staging tile across chunk tokens. It functions as a static parallel transport operator with optional dissipative contraction $\lambda \in (0.95, 0.99)$, while the innovation tensor $W_t$ is chosen to be strictly antisymmetric:
 
 $$W_t = \mathbf{v}_t \mathbf{k}_t^\top - \mathbf{k}_t \mathbf{v}_t^\top \in \mathfrak{so}(d_h)$$
 
@@ -4304,7 +4304,7 @@ The reverse retrieval score evaluates to the exact **negative phase inversion** 
 
 For systems architects implementing Lie rolling caches on Blackwell silicon:
 
-1. **Warp-Dimension Invariance:** Maintain $d_h = 32$. Mapping $d_h = 32$ ensures that thread lane $\text{lane} \in [0, 31]$ directly matches row $\text{lane}$ of the matrix state, allowing complete elimination of shared memory synchronization during tensor rotations.
+1. **Warp-Dimension Invariance:** Maintain $d_h = 32$. Mapping $d_h = 32$ ensures that thread lane $\text{lane} \in [0, 31]$ directly matches row $\text{lane}$ of the matrix state, allowing in-register recurrence with shared memory tile staging for chunk-level matrix-matrix multiplications.
 2. **Strict Register Budgeting:** Maintain structured register allocation with `__launch_bounds__(32, 16)` during compilation. This guarantees high warp occupancy, enabling the hardware thread scheduler to hide memory latency during initial token vector loading.
 3. **Register Shuffle Butterfly Reduction:** Replace shared memory inner products with `__shfl_xor_sync` butterfly trees, reducing reduction latency from ~26 clock cycles to 5 clock cycles.
 4. **TMA Global Memory Staging:** When streaming large batches of query, key, and value vectors, use the Tensor Memory Accelerator (`cp.async.bulk.tensor`) to bypass arithmetic registers, preventing register spilling.
@@ -5121,17 +5121,22 @@ This embedding transforms the title of Volume I from a restriction into an archi
 |                                    | Zero Corrupt Blocks (0 / 4,096)  | Direct DMA Verification    |
 |                                    | Directional Recall Asymmetry     | Paper 1 Retrieval Tests    |
 |                                    | Associative Capacity (Unrotated) | N<=4: 100%, N=8: 99.9%, N=32: 93.1%|
-|                                    | Precision Drift (1,000 steps)    | FP32: 2.8e-6, FP16: 0.46%, BF16: 4.1% |
-|                                    | Param-Matched MQAR (N=8)         | Trans: 100%, Mamba2: 100%, IMF: 26% |
-|                                    | Bidirectional SAVG MQAR (N=8)    | Forward: 100.0%, Reverse: 100.0%    |
+|                                    | Precision Drift (20-Seed Median) | FP32: 6.6e-7, FP16: 0.60%, BF16: 5.2% |
+|                                    | Synthetic Recall Check (N=8)     | Trans: 100%, Mamba2: 100%, IMF: 26% |
+|                                    | Dual-Readout Linear Memory Check | Forward: 100.0%, Reverse: 100.0%    |
 |                                    | Silicon Arithmetic Bound (ncu)   | >= 0.82 us (lie_kv_ncu_profile.txt) |
 |                                    | 3D Simplicial DEC Nilpotency     | d1 * d0 = 0 (test_dec_3d_complex)   |
 +------------------------------------+----------------------------------+----------------------------+
-| OPEN RESEARCH QUESTIONS            | U1: Learned Bidirectional Adapter| Readout from skew state    |
-|                                    | U2: Token-Conditioned Connection | Backprop through Cayley    |
-|                                    | U3: FP8 / Microscaling Formats   | Sub-byte rotation stability|
-|                                    | U4: DEC on Real Attention Maps   | Delaunay mesh validation   |
-|                                    | U5: Cross-Head Wilson Coupling   | Multi-head Holonomy        |
+| OPEN RESEARCH QUESTIONS            | U1: Associative Storage Capacity | Position un-rotation bound |
+| (Analyzed in Section 4 & Paper 1302)| U2: Recurrent Norm Growth        | Contractive dissipation    |
+|                                    | U3: Token-Conditioned Connection | Backprop through Cayley    |
+|                                    | U4: Reduced-Precision Drift      | Multi-seed FP16/BF16 sweep |
+|                                    | U5: Topological Mesh Filtering   | DEC on real attention maps |
+|                                    | U6: Curvature Modulation Metric  | Path-integral Wilson loops |
+|                                    | U7: Multi-Head Holonomy Coupling | Cross-head Lie bracket     |
+|                                    | U8: Portability Beyond Blackwell | sm_90 / AVX-512 backend    |
+|                                    | U9: True Model-Trained MQAR      | Learned non-synthetic eval |
+|                                    | U10: Proof-to-Kernel Integration | End-to-end formal binder   |
 +------------------------------------+----------------------------------+----------------------------+
 ```
 
@@ -5155,12 +5160,12 @@ To ensure scientific transparency, Volume I concludes with a comprehensive expos
 - **Analysis:** Backpropagating through the exact rank-2 Sherman-Morrison Cayley transform (Algorithm 4.1) is well-conditioned because the $2 \times 2$ Gram matrix $G = I_2 - \frac{1}{2} V^\top U$ has determinant $\det(G) = 1 + \frac{1}{4}(\|v\|^2 \|k\|^2 - (v^\top k)^2) \ge 1$, guaranteeing singularity-free gradients without vanishing or exploding backprop dynamics.
 
 ### U4. Reduced-Precision Isometry Drift (FP16 / BF16 / FP8)
-- **Question:** While single-precision FP32 demonstrates negligible norm drift over 1,000 steps ($5.44 \times 10^{-5}$ in silicon, $2.84 \times 10^{-6}$ in simulated double-check), how does the isometry behave under reduced-precision formats?
-- **Empirical Test:** Benchmarked in `scripts/bench_precision_drift_and_baselines.py` across 1,000 continuous autoregressive matrix rotations.
-- **Finding:** Measured relative Frobenius drift:
-  - **Float32:** $2.84 \times 10^{-6}$ (strictly stable).
-  - **Float16:** $0.46\%$ relative drift (moderate).
-  - **Bfloat16:** $4.13\%$ relative drift (severe due to the 8-bit mantissa).
+- **Question:** While single-precision FP32 demonstrates negligible norm drift over 1,000 steps ($5.44 \times 10^{-5}$ in silicon, $6.59 \times 10^{-7}$ 20-seed median), how does the isometry behave under reduced-precision formats across varying initialization seeds?
+- **Empirical Test:** Executed in `scripts/bench_precision_drift_and_baselines.py` across 20 distinct pseudo-random seeds (consolidated in `benchmark_results/precision_drift_multiseed.json`). Tracked relative Frobenius norm deviation across 1,000 recursive steps in Float32, Float16, and BFloat16.
+- **Finding (20-Seed Median and Range):**
+  - **Float32:** Median $6.59 \times 10^{-7}$ (range: $5.08 \times 10^{-8}$ to $2.06 \times 10^{-6}$) — strictly stable across all runs.
+  - **Float16:** Median $0.60\%$ (range: $0.01\%$ to $1.83\%$) — acceptable for short sequence lengths.
+  - **BFloat16:** Median $5.25\%$ (range: $1.42\%$ to $17.02\%$) — significant seed-dependent drift due to reduced 7-bit mantissa precision.
   *Architectural Rule:* Reduced-precision Lie caches require periodic Cayley re-normalization or Gram-Schmidt projection every 256 tokens to prevent cumulative geometric distortion.
 
 ### U5. Topological Filtering on Attention Manifolds
@@ -5181,8 +5186,8 @@ To ensure scientific transparency, Volume I concludes with a comprehensive expos
 
 ### U9. Matched Baseline Comparisons on Multi-Query Associative Recall
 - **Question:** In multi-query associative recall (MQAR), pure linear state-space models and recurrent outer products have historically lagged behind dense attention. How does the Lie rolling cache compare at equal parameter budgets?
-- **Empirical Test:** Evaluated in `scripts/bench_precision_drift_and_baselines.py` and `scripts/bench_mqar_bidirectional_adapter.py`.
-- **Finding:** Pure antisymmetric Lie state projection evaluates to $26.0\%$ accuracy on $N=8$ key-value pairs (due to $q^\top M q \equiv 0$). However, when paired with the symmetric outer product sector in the **SAVG Dual-Readout Adapter** ($M_{    ext{fwd}} = \frac{1}{2}(M_S + M_A)$ and $M_{    ext{rev}} = \frac{1}{2}(M_S - M_A)$), recall reaches **$100.0\%$ forward** and **$100.0\%$ reverse**, matching dense Softmax attention ($100.0\%$) and Mamba-2 ($100.0\%$).
+- **Empirical Test:** Evaluated in `scripts/bench_precision_drift_and_baselines.py` and `scripts/bench_mqar_bidirectional_adapter.py` on $N=8$ key-value pairs in dimension $d=32$. (Note: these baseline queries represent synthetic unit-norm vector lookups without distractors rather than fully trained parameter-matched checkpoints; full trained MQAR ablations in earlier checkpoints exhibit ~99% for dense Transformers and 29-31% for pure unadapted Lie recurrent states).
+- **Finding:** Pure raw antisymmetric Lie state projection evaluates to $26.0\%$ accuracy on $N=8$ key-value pairs (attributable to the un-rotated readout bug identified in U1). In contrast, a dual-readout linear memory check with separated symmetric and antisymmetric sectors ($M_{\text{fwd}} = \frac{1}{2}(M_S + M_A)$ and $M_{\text{rev}} = \frac{1}{2}(M_S - M_A)$) evaluates to **$100.0\%$ forward** and **$100.0\%$ reverse**, confirming that linear associative memories can be decomposed into symmetric storage and antisymmetric directional transport sectors.
 
 ### U10. Formal Proof-to-Silicon Verification Link
 - **Question:** What verifiable mechanism guarantees that the physical CUDA execution in `csrc/` obeys the deductive theorems certified in Lean 4?
