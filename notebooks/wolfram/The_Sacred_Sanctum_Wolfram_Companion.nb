@@ -1,0 +1,171 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+Notebook[{
+Cell[CellGroupData[{
+Cell["The Sacred Sanctum: Foundations of Sovereign Intelligence", "Title"],
+Cell["Interactive Wolfram Companion: Exceptional Lie Groups, E8 Gosset Polytope, and Leech Lattice", "Subtitle"],
+
+Cell[CellGroupData[{
+Cell["1. E8 Gosset Polytope 2D Coxeter Plane Projection", "Section"],
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"rootsType1", "=", 
+   RowBox[{"Flatten", "[", 
+    RowBox[{
+     RowBox[{"Table", "[", 
+      RowBox[{
+       RowBox[{"ReplacePart", "[", 
+        RowBox[{
+         RowBox[{"ConstantArray", "[", 
+          RowBox[{"0", ",", "8"}], "]"}], ",", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"i", "->", "s1"}], ",", 
+           RowBox[{"j", "->", "s2"}]}], "}"}]}], "]"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"i", ",", "1", ",", "7"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"j", ",", 
+         RowBox[{"i", "+", "1"}], ",", "8"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"s1", ",", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"-", "1"}], ",", "1"}], "}"}]}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"s2", ",", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"-", "1"}], ",", "1"}], "}"}]}], "}"}]}], "]"}], ",", 
+     "3"}], "]"}]}], ";"}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"allHalfSigns", "=", 
+   RowBox[{"Tuples", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"-", "1/2"}], ",", "1/2"}], "}"}], ",", "8"}], "]"}]}], 
+  ";"}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"rootsType2", "=", 
+   RowBox[{"Select", "[", 
+    RowBox[{"allHalfSigns", ",", 
+     RowBox[{
+      RowBox[{"EvenQ", "[", 
+       RowBox[{"Count", "[", 
+        RowBox[{"#", ",", 
+         RowBox[{"-", "1/2"}]}], "]"}], "]"}], "&"}]}], "]"}]}], 
+  ";"}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"e8Roots", "=", 
+   RowBox[{"Join", "[", 
+    RowBox[{"rootsType1", ",", "rootsType2"}], "]"}]}], ";"}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{"Manipulate", "[", 
+  RowBox[{
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"u", ",", "v", ",", "proj2D"}], "}"}], ",", 
+     RowBox[{
+      RowBox[{"u", "=", 
+       RowBox[{"Table", "[", 
+        RowBox[{
+         RowBox[{"Cos", "[", 
+          RowBox[{"2", "*", "Pi", "*", "k", "*", 
+           RowBox[{"h", "/", "30"}]}], "]"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"k", ",", "1", ",", "8"}], "}"}]}], "]"}]}], ";", 
+      RowBox[{"v", "=", 
+       RowBox[{"Table", "[", 
+        RowBox[{
+         RowBox[{"Sin", "[", 
+          RowBox[{"2", "*", "Pi", "*", "k", "*", 
+           RowBox[{"h", "/", "30"}]}], "]"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"k", ",", "1", ",", "8"}], "}"}]}], "]"}]}], ";", 
+      RowBox[{"u", "=", 
+       RowBox[{"Normalize", "[", "u", "]"}]}], ";", 
+      RowBox[{"v", "=", 
+       RowBox[{"Normalize", "[", "v", "]"}]}], ";", 
+      RowBox[{"proj2D", "=", 
+       RowBox[{"Map", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"#", ".", "u"}], ",", 
+            RowBox[{"#", ".", "v"}]}], "}"}], "&"}], ",", "e8Roots"}], 
+        "]"}]}], ";", 
+      RowBox[{"Graphics", "[", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"PointSize", "[", "0.015", "]"}], ",", 
+          RowBox[{"RGBColor", "[", 
+           RowBox[{"0.2", ",", "0.6", ",", "1.0"}], "]"}], ",", 
+          RowBox[{"Point", "[", "proj2D", "]"}]}], "}"}], ",", 
+        RowBox[{"PlotRange", "->", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"-", "2.5"}], ",", "2.5"}], "}"}], ",", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"-", "2.5"}], ",", "2.5"}], "}"}]}], "}"}]}], ",", 
+        RowBox[{"Frame", "->", "True"}], ",", 
+        RowBox[{"Background", "->", 
+         RowBox[{"RGBColor", "[", 
+          RowBox[{"0.05", ",", "0.05", ",", "0.08"}], "]"}]}], ",", 
+        RowBox[{"PlotLabel", "->", 
+         RowBox[{"Style", "[", 
+          RowBox[{
+           RowBox[{"StringTemplate", "[", 
+            RowBox[{"\"E8 Root System Projection (240 Roots, Parameter h = ``)\"", 
+             RowBox[{"h"}]}], "]"}], ",", "14", ",", "White"}], 
+          "]"}]}]}], "]"}]}]}], "]"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"h", ",", "1", ",", "\"Coxeter Phase\""}], "}"}], ",", "1", 
+     ",", "15", ",", "1"}], "}"}]}], "]"}]], "Input"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell["2. Leech Lattice Lambda_24 Shell Verification", "Section"],
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"octadShell", "=", 
+   RowBox[{"128", "*", "759"}]}], ";", 
+  RowBox[{"shape31Shell", "=", 
+   RowBox[{"24", "*", "4096"}]}], ";", 
+  RowBox[{"shape20Shell", "=", 
+   RowBox[{"16", "*", 
+    RowBox[{"Binomial", "[", 
+     RowBox[{"24", ",", "2"}], "]"}]}]}], ";"}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"totalKissingLeech", "=", 
+   RowBox[{"octadShell", "+", "shape31Shell", "+", "shape20Shell"}]}], 
+  ";"}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{"Print", "[", 
+  RowBox[{"\"Leech Lattice Minimal Kissing Number tau_24 = \"", ",", 
+   "totalKissingLeech"}], "]"}]], "Input"]
+}, Open  ]]
+}, Open  ]]
+}
+]
