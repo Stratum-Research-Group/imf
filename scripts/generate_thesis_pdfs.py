@@ -109,12 +109,12 @@ html, body {
     padding: 0;
 }
 
-/* Interior monograph pages: 24mm top/bottom, 22mm left/right */
+/* Interior monograph pages: 27mm top, 24mm bottom, 22mm left/right */
 .content-wrapper {
     box-sizing: border-box;
     width: 210mm;
     max-width: 210mm;
-    padding: 24mm 22mm;
+    padding: 27mm 22mm 24mm 22mm;
     margin: 0 auto;
     word-wrap: break-word;
     overflow-wrap: break-word;
