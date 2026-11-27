@@ -2095,6 +2095,21 @@ def test_fused_mazur_torsion_bound_correctness():
     assert valid_count == n_curves, f"Expected all {n_curves} to satisfy Mazur torsion classification, got {valid_count}"
 
 
+def test_fused_faltings_height_bound_correctness():
+    """Validates the fused Blackwell SM 12.0 kernel for Faltings' height and Mordell finiteness."""
+    so_path = "csrc/libfused_blackwell_faltings_height_bound.so"
+    assert os.path.exists(so_path), f"Missing shared object: {so_path}"
+
+    lib = ctypes.CDLL(so_path)
+    lib.run_faltings_height_benchmark.argtypes = [ctypes.c_int]
+    lib.run_faltings_height_benchmark.restype = ctypes.c_int
+
+    n_curves = 1024
+    finite_count = lib.run_faltings_height_benchmark(n_curves)
+    assert finite_count == n_curves, f"Expected all {n_curves} curves of genus >= 2 to have finite rational locus, got {finite_count}"
+
+
+
 
 
 

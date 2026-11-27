@@ -2520,6 +2520,51 @@ def test_iouring_memfd_secret_stream_correctness():
     assert stats.completions_processed == 8
 
 
+class MsealStreamConfig(ctypes.Structure):
+    _fields_ = [
+        ("ring_entries", ctypes.c_uint32),
+        ("buffer_size_bytes", ctypes.c_uint32),
+        ("num_buffers", ctypes.c_uint32),
+        ("apply_mseal", ctypes.c_uint32),
+    ]
+
+
+class MsealStreamStats(ctypes.Structure):
+    _fields_ = [
+        ("bytes_transferred", ctypes.c_uint64),
+        ("completions_processed", ctypes.c_uint32),
+        ("is_msealed", ctypes.c_uint32),
+        ("status_flags", ctypes.c_uint32),
+    ]
+
+
+def test_iouring_mseal_protected_stream_correctness():
+    """Validates the Linux 6.18 mseal and io_uring zero-copy protected stream engine."""
+    so_path = "csrc/libfused_iouring_mseal_protected_stream.so"
+    assert os.path.exists(so_path), f"Shared object not found: {so_path}"
+
+    lib = ctypes.CDLL(so_path)
+    lib.run_mseal_protected_stream_engine.argtypes = [
+        ctypes.POINTER(MsealStreamConfig),
+        ctypes.POINTER(MsealStreamStats),
+    ]
+    lib.run_mseal_protected_stream_engine.restype = ctypes.c_int
+
+    config = MsealStreamConfig(
+        ring_entries=64,
+        buffer_size_bytes=4096,
+        num_buffers=8,
+        apply_mseal=1,
+    )
+    stats = MsealStreamStats()
+
+    ret = lib.run_mseal_protected_stream_engine(ctypes.byref(config), ctypes.byref(stats))
+    assert ret == 0, f"run_mseal_protected_stream_engine failed with return code {ret}"
+    assert stats.bytes_transferred == 8 * 4096
+    assert stats.completions_processed == 8
+
+
+
 
 
 

@@ -50,3 +50,4 @@ import Pilot.ColemanIntegration
 import Pilot.GrossZagierFormula
 import Pilot.ModularSymbolsManin
 import Pilot.MazurTorsionTheorem
+import Pilot.FaltingsHeightTheorem
