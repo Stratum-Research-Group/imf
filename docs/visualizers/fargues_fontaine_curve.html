@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prismatic Cohomology & Fargues-Fontaine Curve X_{FF}</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #040409;
+            color: #d8d8e5;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace;
+        }
+        #canvas-container {
+            width: 100vw;
+            height: 100vh;
+        }
+        #hud {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(8, 8, 14, 0.88);
+            border: 1px solid #ff0077;
+            border-radius: 8px;
+            padding: 18px;
+            max-width: 440px;
+            box-shadow: 0 0 25px rgba(255, 0, 119, 0.25);
+            pointer-events: none;
+        }
+        h1 {
+            font-size: 1.15rem;
+            margin: 0 0 8px 0;
+            color: #ff0077;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        p {
+            font-size: 0.82rem;
+            line-height: 1.45;
+            margin: 4px 0;
+            color: #9da3b4;
+        }
+        .stat-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px 12px;
+            margin-top: 10px;
+            font-size: 0.78rem;
+        }
+        .stat-label {
+            color: #65697a;
+        }
+        .stat-val {
+            color: #00f0ff;
+            font-weight: bold;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+</head>
+<body>
+    <div id="canvas-container"></div>
+    <div id="hud">
+        <h1>Fargues-Fontaine Curve X_{FF} & Prisms</h1>
+        <p>Adic curve $X_{FF} = \mathrm{Spa}(A_{\mathrm{inf}} \setminus \{V(p[\varpi])\}) / \varphi^{\mathbb{Z}}$ and the prismatic divisor $\xi = [\varpi^\flat] + p$.</p>
+        <div class="stat-grid">
+            <span class="stat-label">Frobenius Action:</span>
+            <span class="stat-val">$\varphi : A_{\mathrm{inf}} \to A_{\mathrm{inf}}$</span>
+            <span class="stat-label">Hodge-Tate Point:</span>
+            <span class="stat-val">$\infty \in X_{FF}$ ($C$-valued)</span>
+            <span class="stat-label">Vector Bundles:</span>
+            <span class="stat-val">$\bigoplus \mathcal{O}(\lambda)$ Harder-Narasimhan</span>
+            <span class="stat-label">Picard Group:</span>
+            <span class="stat-val">$\mathrm{Pic}(X_{FF}) \cong \mathbb{Z}$</span>
+        </div>
+    </div>
+
+    <script>
+        const container = document.getElementById('canvas-container');
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0x040409, 0.035);
+
+        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.set(0, 5, 11);
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        container.appendChild(renderer.domElement);
+
+        const controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
+
+        const ambientLight = new THREE.AmbientLight(0x222233, 1.5);
+        scene.add(ambientLight);
+        const dirLight = new THREE.DirectionalLight(0xff0077, 2.0);
+        dirLight.position.set(6, 12, 8);
+        scene.add(dirLight);
+        const dirLight2 = new THREE.DirectionalLight(0x00f0ff, 1.8);
+        dirLight2.position.set(-6, -12, -8);
+        scene.add(dirLight2);
+
+        // Model Fargues-Fontaine Curve as a Riemannian cylinder/toroid foliation under Frobenius quotient
+        const curveGroup = new THREE.Group();
+
+        // 1. Concentric logarithmic circles representing Frobenius orbits on the punctured open disk
+        const n_orbits = 14;
+        for (let i = 0; i < n_orbits; i++) {
+            const rad = 0.8 * Math.pow(1.22, i);
+            const geom = new THREE.BufferGeometry();
+            const points = [];
+            const segs = 64;
+            const y_offset = (i - n_orbits/2) * 0.35;
+            for (let j = 0; j <= segs; j++) {
+                const theta = (j / segs) * Math.PI * 2;
+                points.push(new THREE.Vector3(Math.cos(theta) * rad, y_offset, Math.sin(theta) * rad));
+            }
+            geom.setFromPoints(points);
+            const mat = new THREE.LineBasicMaterial({
+                color: (i % 2 === 0) ? 0xff0077 : 0x00f0ff,
+                transparent: true,
+                opacity: 0.75 - (i / n_orbits) * 0.4
+            });
+            curveGroup.add(new THREE.Line(geom, mat));
+        }
+
+        // 2. Harder-Narasimhan slope trajectories (geodesics wrapping across Frobenius orbits)
+        const n_slopes = 8;
+        for (let s = 0; s < n_slopes; s++) {
+            const geom = new THREE.BufferGeometry();
+            const pts = [];
+            const steps = 120;
+            const slope_val = (s - n_slopes / 2) * 0.4;
+            for (let k = 0; k <= steps; k++) {
+                const t = k / steps;
+                const r = 0.8 * Math.pow(1.22, t * (n_orbits - 1));
+                const theta = t * Math.PI * 4 + s * (Math.PI * 2 / n_slopes);
+                const y = (t * (n_orbits - 1) - n_orbits / 2) * 0.35;
+                pts.push(new THREE.Vector3(Math.cos(theta) * r, y, Math.sin(theta) * r));
+            }
+            geom.setFromPoints(pts);
+            const slopeMat = new THREE.LineBasicMaterial({
+                color: 0x39ff14,
+                transparent: true,
+                opacity: 0.85
+            });
+            curveGroup.add(new THREE.Line(geom, slopeMat));
+        }
+
+        // 3. Hodge-Tate point \infty (marked divisor)
+        const htGeom = new THREE.SphereGeometry(0.22, 24, 24);
+        const htMat = new THREE.MeshStandardMaterial({
+            color: 0xffea00,
+            emissive: 0xaa8800,
+            roughness: 0.1,
+            metalness: 0.9
+        });
+        const htMesh = new THREE.Mesh(htGeom, htMat);
+        htMesh.position.set(0, (n_orbits/2 - 0.5) * 0.35, 0.8 * Math.pow(1.22, n_orbits - 2));
+        curveGroup.add(htMesh);
+
+        scene.add(curveGroup);
+
+        function animate() {
+            requestAnimationFrame(animate);
+            curveGroup.rotation.y += 0.004;
+            controls.update();
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>
