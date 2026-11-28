@@ -18,7 +18,7 @@ We formalize:
 3. Dimension preservation under smash product with the 2-cell complex $C(\eta)$.
 4. The 8-fold Bott periodicity of $bo$ versus the 2-fold Bott periodicity of $ku$.
 
-All theorems are strictly proven with 0 axioms and 0 sorry.
+All theorems are strictly proven with 0 unproven axioms and 0 sorry under standard foundational axioms.
 -/
 
 namespace IMF.MotivicWood

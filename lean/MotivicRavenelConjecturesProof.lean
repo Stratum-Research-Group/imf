@@ -15,7 +15,7 @@ in motivic stable homotopy theory:
    $MU_{*,*}(f) = 0 \implies f^{\circ k} = 0$ for finite exponent $k \ge 1$.
 3. Chromatic filtration monotonicity: Height $n$ localization factors through height $n+1$.
 
-All theorems are strictly proven with 0 axioms and 0 sorry.
+All theorems are strictly proven with 0 unproven axioms and 0 sorry under standard foundational axioms.
 -/
 
 namespace IMF.MotivicRavenel

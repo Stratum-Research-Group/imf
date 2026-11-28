@@ -18,7 +18,7 @@ We formalize:
 3. Toda bracket definition: $\langle \eta, 2, \eta \rangle = \eta^2$ up to algebraic indeterminacy.
 4. Higher vanishing of $2 \eta = 0$ in the $\mathbb{R}$-motivic and $\mathbb{C}$-motivic stable stems.
 
-All theorems are strictly proven with 0 axioms and 0 sorry.
+All theorems are strictly proven with 0 unproven axioms and 0 sorry under standard foundational axioms.
 -/
 
 namespace IMF.MotivicMahowald

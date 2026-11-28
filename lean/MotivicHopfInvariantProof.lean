@@ -19,7 +19,7 @@ We formalize:
 2. The weight-to-stem relation $s = 2w - 1$ for motivic Hopf elements.
 3. Octonionic dimension ceiling: for $n > 8$, the Steenrod $Sq^{2^k}$ obstruction forces $h = 0$.
 
-All theorems are strictly proven with 0 axioms and 0 sorry.
+All theorems are strictly proven with 0 unproven axioms and 0 sorry under standard foundational axioms.
 -/
 
 namespace IMF.MotivicHopfInvariant

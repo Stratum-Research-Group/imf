@@ -23,7 +23,7 @@ We formalize:
 2. The mod 2 vanishing of $\langle 2, \eta, 2 \rangle$.
 3. Indeterminacy containment in the presence of differential boundaries.
 
-All theorems are strictly proven with 0 axioms and 0 sorry.
+All theorems are strictly proven with 0 unproven axioms and 0 sorry under standard foundational axioms.
 -/
 
 namespace IMF.MotivicToda

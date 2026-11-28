@@ -17,7 +17,7 @@ We formalize:
 2. The order-3 cyclic triality permutation $\sigma \in S_3$ satisfying $\sigma^3 = \mathrm{id}$.
 3. Invariant quadratic forms and dimension preservation under triality permutations.
 
-All theorems are strictly proven with 0 axioms and 0 sorry.
+All theorems are strictly proven with 0 unproven axioms and 0 sorry under standard foundational axioms.
 -/
 
 namespace IMF.MotivicTriality

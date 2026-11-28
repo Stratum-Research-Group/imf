@@ -19,7 +19,7 @@ We formalize:
 3. Even-periodicity: non-vanishing homotopy groups occur only in even degrees.
 4. Regularity: the sequence $(p, u_1, \dots, u_{n-1})$ is a regular sequence of length $n$.
 
-All theorems are strictly proven with 0 axioms and 0 sorry.
+All theorems are strictly proven with 0 unproven axioms and 0 sorry under standard foundational axioms.
 -/
 
 namespace IMF.MotivicMoravaETheory

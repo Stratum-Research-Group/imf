@@ -32,8 +32,8 @@ All milestone entries below have been standardized with verified ISO 8601 certif
 | **Intermediate Epoch VIII** | 1,800,000,000 | Blocks 1751–1800 | 2026-11-28 | RTX 5060 Ti (SM 12.0 / 49.9°C) | Motivic Wood's theorem ($bo \wedge C(\eta) \simeq ku$) & Blackwell SM 12.0 Warp Bit-Reversal certified |
 | **Intermediate Epoch IX** | 1,850,000,000 | Blocks 1801–1850 | 2026-11-28 | RTX 5060 Ti (SM 12.0 / 50.2°C) | Motivic Mahowald uncertainty ($\Phi_{0,0}$ secondary operation) & Warp Cyclic Conv certified |
 | **Intermediate Epoch X** | 1,900,000,000 | Blocks 1851–1900 | 2026-11-28 | RTX 5060 Ti (SM 12.0 / 50.5°C) | Motivic Toda brackets ($\langle 2, \eta, 2 \rangle = 0$) & Blackwell SM 12.0 Radix-4 NTT certified |
-| **Intermediate Epoch XI** | 1,950,000,000 | Blocks 1901–1950 | 2026-11-28 | RTX 5060 Ti (SM 12.0 / 50.8°C) | Motivic Novikov Conjecture ($L$-theory surgery assembly) & Blackwell SM 12.0 Radix-8 NTT certified |
-| **Two Billion Landmark** | **2,000,000,000** | **Blocks 1951–2000** | **2026-11-28** | **RTX 5060 Ti (SM 12.0 / 51.1°C)** | **Motivic Baum-Connes assembly conjecture & Blackwell SM 12.0 Radix-16 NTT & Leech Lambda_24 decoder certified** |
+| **Intermediate Epoch XI** | 1,950,000,000 | Blocks 1901–1950 | 2026-11-28 | RTX 5060 Ti (SM 12.0 / 50.8°C) | Motivic Novikov arithmetic scaffolding ($L$-theory surgery assembly) & Blackwell SM 12.0 Radix-8 NTT benchmarked |
+| **Two Billion Landmark** | **2,000,000,000** | **Blocks 1951–2000** | **2026-11-28** | **RTX 5060 Ti (SM 12.0 / 51.1°C)** | **Motivic Baum-Connes arithmetic scaffolding & Blackwell SM 12.0 Radix-16 NTT & Leech Lambda_24 decoder benchmarked** |
 
 ---
 

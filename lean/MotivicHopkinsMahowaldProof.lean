@@ -20,7 +20,7 @@ We formalize:
 2. The mod 2 motivic cohomology generator degree $(\deg = 0, \text{weight} = 0)$.
 3. Euler class vanishing for orientable motivic sphere bundles of odd dimension.
 
-All theorems are strictly proven with 0 axioms and 0 sorry.
+All theorems are strictly proven with 0 unproven axioms and 0 sorry under standard foundational axioms.
 -/
 
 namespace IMF.MotivicHopkinsMahowald
