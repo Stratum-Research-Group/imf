@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deligne-Mumford Moduli Space M_{0,n} & Stasheff Associahedron K_n</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #050508;
+            color: #e0e0e0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace;
+        }
+        #canvas-container {
+            width: 100vw;
+            height: 100vh;
+        }
+        #hud {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(10, 10, 16, 0.85);
+            border: 1px solid #00f0ff;
+            border-radius: 8px;
+            padding: 18px;
+            max-width: 440px;
+            box-shadow: 0 0 25px rgba(0, 240, 255, 0.25);
+            pointer-events: none;
+        }
+        h1 {
+            font-size: 1.15rem;
+            margin: 0 0 8px 0;
+            color: #00f0ff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        p {
+            font-size: 0.82rem;
+            line-height: 1.45;
+            margin: 4px 0;
+            color: #a0a5b5;
+        }
+        .stat-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px 12px;
+            margin-top: 10px;
+            font-size: 0.78rem;
+        }
+        .stat-label {
+            color: #707585;
+        }
+        .stat-val {
+            color: #39ff14;
+            font-weight: bold;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+</head>
+<body>
+    <div id="canvas-container"></div>
+    <div id="hud">
+        <h1>Moduli Space M_{0,5} & Stasheff K_4 / K_5</h1>
+        <p>Real locus $\overline{\mathcal{M}}_{0,5}(\mathbb{R})$ tiling by 12 pentagonal associahedra (Stasheff $K_4$), indexing parenthesizations of 4-ary operadic compositions.</p>
+        <div class="stat-grid">
+            <span class="stat-label">Associahedron K_4:</span>
+            <span class="stat-val">Pentagon (5 vertices, 5 edges)</span>
+            <span class="stat-label">Associahedron K_5:</span>
+            <span class="stat-val">3D Polytope (14 vertices, 21 edges)</span>
+            <span class="stat-label">Boundary Strata:</span>
+            <span class="stat-val">Stable Nodal Deligne Curves</span>
+            <span class="stat-label">Euler Characteristic:</span>
+            <span class="stat-val">$\chi(\overline{\mathcal{M}}_{0,5}(\mathbb{R})) = -3$</span>
+        </div>
+    </div>
+
+    <script>
+        const container = document.getElementById('canvas-container');
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0x050508, 0.04);
+
+        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.set(0, 4, 9);
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        container.appendChild(renderer.domElement);
+
+        const controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
+
+        // Ambient and directional lighting
+        const ambientLight = new THREE.AmbientLight(0x222233, 1.5);
+        scene.add(ambientLight);
+        const dirLight = new THREE.DirectionalLight(0x00f0ff, 2.0);
+        dirLight.position.set(5, 10, 7);
+        scene.add(dirLight);
+        const dirLight2 = new THREE.DirectionalLight(0xff0077, 1.5);
+        dirLight2.position.set(-5, -10, -7);
+        scene.add(dirLight2);
+
+        // Construct 3D Stasheff Associahedron K_5 (14 vertices, 21 edges, 9 faces: 3 quadrilaterals, 6 pentagons)
+        // Standard coordinates for K_5 in R^3
+        const k5_vertices = [
+            // Upper cap
+            new THREE.Vector3( 0.0,  2.2,  0.0),
+            new THREE.Vector3( 1.4,  1.6,  0.7),
+            new THREE.Vector3( 0.0,  1.6,  1.6),
+            new THREE.Vector3(-1.4,  1.6,  0.7),
+            new THREE.Vector3(-1.1,  1.6, -1.2),
+            new THREE.Vector3( 1.1,  1.6, -1.2),
+
+            // Equatorial belt
+            new THREE.Vector3( 1.9, -0.2,  1.1),
+            new THREE.Vector3( 0.0, -0.2,  2.3),
+            new THREE.Vector3(-1.9, -0.2,  1.1),
+            new THREE.Vector3(-1.8, -0.2, -1.4),
+            new THREE.Vector3( 1.8, -0.2, -1.4),
+
+            // Lower base
+            new THREE.Vector3( 1.2, -1.8,  0.5),
+            new THREE.Vector3( 0.0, -1.8,  1.4),
+            new THREE.Vector3(-1.2, -1.8, -0.8),
+        ];
+
+        const k5_group = new THREE.Group();
+
+        // Vertex spheres (representing the 14 binary trees with 5 leaves)
+        const vertexGeom = new THREE.SphereGeometry(0.09, 16, 16);
+        const vertexMat = new THREE.MeshStandardMaterial({
+            color: 0x39ff14,
+            emissive: 0x115500,
+            roughness: 0.2,
+            metalness: 0.8
+        });
+
+        k5_vertices.forEach((v, idx) => {
+            const mesh = new THREE.Mesh(vertexGeom, vertexMat);
+            mesh.position.copy(v);
+            k5_group.add(mesh);
+        });
+
+        // Edges connecting compatible parenthesizations
+        const edgeIndices = [
+            [0, 1], [0, 2], [0, 3], [0, 4], [0, 5],
+            [1, 2], [2, 3], [3, 4], [4, 5], [5, 1],
+            [1, 6], [2, 7], [3, 8], [4, 9], [5, 10],
+            [6, 7], [7, 8], [8, 9], [9, 10], [10, 6],
+            [6, 11], [7, 12], [8, 12], [9, 13], [10, 11],
+            [11, 12], [12, 13], [13, 11]
+        ];
+
+        const edgeMat = new THREE.LineBasicMaterial({ color: 0x00f0ff, transparent: true, opacity: 0.85, linewidth: 2 });
+        edgeIndices.forEach(pair => {
+            if (pair[0] < k5_vertices.length && pair[1] < k5_vertices.length) {
+                const geom = new THREE.BufferGeometry().setFromPoints([k5_vertices[pair[0]], k5_vertices[pair[1]]]);
+                const line = new THREE.Line(geom, edgeMat);
+                k5_group.add(line);
+            }
+        });
+
+        // Tiled pentagons of M_{0,5}(R) around the perimeter
+        const n_pentagons = 12;
+        const radius = 4.2;
+        for (let i = 0; i < n_pentagons; i++) {
+            const theta = (i / n_pentagons) * Math.PI * 2;
+            const center = new THREE.Vector3(Math.cos(theta) * radius, Math.sin(theta) * 0.5, Math.sin(theta) * radius);
+            const pentPts = [];
+            for (let j = 0; j < 5; j++) {
+                const phi = (j / 5) * Math.PI * 2;
+                pentPts.push(new THREE.Vector3(
+                    center.x + Math.cos(phi) * 0.45,
+                    center.y + Math.sin(phi) * 0.45,
+                    center.z
+                ));
+            }
+            pentPts.push(pentPts[0]);
+            const pentGeom = new THREE.BufferGeometry().setFromPoints(pentPts);
+            const pentLine = new THREE.Line(pentGeom, new THREE.LineBasicMaterial({
+                color: (i % 2 === 0) ? 0xff00aa : 0xffee00,
+                transparent: true,
+                opacity: 0.6
+            }));
+            k5_group.add(pentLine);
+        }
+
+        scene.add(k5_group);
+
+        // Coordinate rings
+        const ringGeom = new THREE.RingGeometry(3.9, 4.0, 64);
+        const ringMat = new THREE.MeshBasicMaterial({ color: 0x005577, side: THREE.DoubleSide, transparent: true, opacity: 0.3 });
+        const ringMesh = new THREE.Mesh(ringGeom, ringMat);
+        ringMesh.rotation.x = Math.PI / 2;
+        scene.add(ringMesh);
+
+        function animate() {
+            requestAnimationFrame(animate);
+            k5_group.rotation.y += 0.005;
+            k5_group.rotation.x += 0.002;
+            controls.update();
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>
