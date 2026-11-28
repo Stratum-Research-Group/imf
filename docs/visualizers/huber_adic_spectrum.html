@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Huber Adic Spectrum Spa(A, A+)</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #030409;
+            color: #d8d8e5;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace;
+        }
+        #canvas-container {
+            width: 100vw;
+            height: 100vh;
+        }
+        #hud {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(5, 7, 14, 0.92);
+            border: 1px solid #00f0ff;
+            border-radius: 8px;
+            padding: 18px;
+            max-width: 460px;
+            box-shadow: 0 0 25px rgba(0, 240, 255, 0.3);
+            pointer-events: none;
+        }
+        h1 {
+            font-size: 1.15rem;
+            margin: 0 0 8px 0;
+            color: #00f0ff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        p {
+            font-size: 0.82rem;
+            line-height: 1.45;
+            margin: 4px 0;
+            color: #9da3b4;
+        }
+        .stat-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px 12px;
+            margin-top: 10px;
+            font-size: 0.78rem;
+        }
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 4px 6px;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 4px;
+        }
+        .stat-label {
+            color: #6c7284;
+        }
+        .stat-value {
+            color: #ff0077;
+            font-weight: bold;
+        }
+        #controls {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(5, 7, 14, 0.85);
+            border: 1px solid #282a36;
+            border-radius: 6px;
+            padding: 12px 18px;
+            font-size: 0.78rem;
+            color: #6272a4;
+        }
+    </style>
+    <!-- Three.js from cdnjs -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+</head>
+<body>
+    <div id="hud">
+        <h1>Huber Adic Spectrum Spa(A, A+)</h1>
+        <p>3D visualization of Roland Huber's adic space of continuous valuations, depicting rational open domains, higher-rank specializations, and horizontal/vertical boundary foliations.</p>
+        <div class="stat-grid">
+            <div class="stat-item"><span class="stat-label">Space:</span><span class="stat-value">Spa(K⟨T⟩, K°⟨T⟩)</span></div>
+            <div class="stat-item"><span class="stat-label">Topology:</span><span class="stat-value">Spectral & Sober</span></div>
+            <div class="stat-item"><span class="stat-label">Valuation Ranks:</span><span class="stat-value">Rank 1 & Rank 2</span></div>
+            <div class="stat-item"><span class="stat-label">Rational Open:</span><span class="stat-value">U(T/s) = {v(t) ≤ v(s) ≠ 0}</span></div>
+            <div class="stat-item"><span class="stat-label">Structure Sheaf:</span><span class="stat-value">O_X Sheaf (Tate)</span></div>
+            <div class="stat-item"><span class="stat-label">Specialization:</span><span class="stat-value">Horizontal & Vertical</span></div>
+            <div class="stat-item"><span class="stat-label">Closed Points:</span><span class="stat-value">Maximal Valuations</span></div>
+            <div class="stat-item"><span class="stat-label">Boundary:</span><span class="stat-value">Rank-2 Rim Stratum</span></div>
+        </div>
+    </div>
+    <div id="controls">Orbit Controls: Left Drag: Rotate | Right Drag: Pan | Scroll: Zoom</div>
+    <div id="canvas-container"></div>
+
+    <script>
+        const container = document.getElementById('canvas-container');
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0x030409, 0.02);
+
+        const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.set(16, 12, 16);
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        container.appendChild(renderer.domElement);
+
+        const controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
+
+        // Lighting
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+        scene.add(ambientLight);
+        const light1 = new THREE.PointLight(0x00f0ff, 2, 50);
+        light1.position.set(10, 20, 10);
+        scene.add(light1);
+        const light2 = new THREE.PointLight(0xff0077, 1.5, 50);
+        light2.position.set(-10, -10, -10);
+        scene.add(light2);
+
+        // Ground reference grid
+        const grid = new THREE.GridHelper(24, 24, 0x00f0ff, 0x141829);
+        grid.position.y = -6;
+        scene.add(grid);
+
+        const adicGroup = new THREE.Group();
+        scene.add(adicGroup);
+
+        // Core unit disc representation: Rank-1 interior valuation disc
+        const discGeo = new THREE.CylinderGeometry(6, 6, 0.4, 64);
+        const discMat = new THREE.MeshStandardMaterial({
+            color: 0x1a237e,
+            emissive: 0x0d47a1,
+            emissiveIntensity: 0.3,
+            roughness: 0.3,
+            transparent: true,
+            opacity: 0.75
+        });
+        const discMesh = new THREE.Mesh(discGeo, discMat);
+        discMesh.position.y = 0;
+        adicGroup.add(discMesh);
+
+        // Outer rim: Rank-2 valuation boundary collar
+        const rimGeo = new THREE.TorusGeometry(6.2, 0.25, 16, 100);
+        const rimMat = new THREE.MeshStandardMaterial({
+            color: 0xff0077,
+            emissive: 0xff0077,
+            emissiveIntensity: 0.8,
+            roughness: 0.2
+        });
+        const rimMesh = new THREE.Mesh(rimGeo, rimMat);
+        rimMesh.rotation.x = Math.PI / 2;
+        adicGroup.add(rimMesh);
+
+        // Rational open domains U(T/s): Nested concentric sub-domains
+        const subRadii = [4.5, 3.2, 1.8];
+        const subColors = [0x00f0ff, 0x7928ca, 0x50fa7b];
+
+        subRadii.forEach((r, idx) => {
+            const circleGeo = new THREE.RingGeometry(r - 0.05, r + 0.05, 64);
+            const circleMat = new THREE.MeshBasicMaterial({
+                color: subColors[idx],
+                side: THREE.DoubleSide
+            });
+            const circle = new THREE.Mesh(circleGeo, circleMat);
+            circle.rotation.x = Math.PI / 2;
+            circle.position.y = 0.22 + idx * 0.02;
+            adicGroup.add(circle);
+        });
+
+        // Vertical specialization lines (connecting rank-1 points to rank-2 boundary fibers)
+        const numRays = 32;
+        for (let i = 0; i < numRays; i++) {
+            const theta = (i / numRays) * Math.PI * 2;
+            const p1 = new THREE.Vector3(Math.cos(theta) * 5.8, 0.2, Math.sin(theta) * 5.8);
+            const p2 = new THREE.Vector3(Math.cos(theta) * 6.2, 2.5, Math.sin(theta) * 6.2);
+
+            const lineGeo = new THREE.BufferGeometry().setFromPoints([p1, p2]);
+            const lineMat = new THREE.LineBasicMaterial({
+                color: 0xff0077,
+                transparent: true,
+                opacity: 0.5
+            });
+            adicGroup.add(new THREE.Line(lineGeo, lineMat));
+
+            // Fiber point
+            const ptGeo = new THREE.SphereGeometry(0.12, 12, 12);
+            const ptMat = new THREE.MeshBasicMaterial({ color: 0x00f0ff });
+            const pt = new THREE.Mesh(ptGeo, ptMat);
+            pt.position.copy(p2);
+            adicGroup.add(pt);
+        }
+
+        // Particle field representing continuous valuation evaluations
+        const particleCount = 1200;
+        const particleGeo = new THREE.BufferGeometry();
+        const positions = new Float32Array(particleCount * 3);
+        const colors = new Float32Array(particleCount * 3);
+
+        for (let i = 0; i < particleCount; i++) {
+            const rad = Math.random() * 5.8;
+            const ang = Math.random() * Math.PI * 2;
+            positions[i * 3] = Math.cos(ang) * rad;
+            positions[i * 3 + 1] = (Math.random() - 0.5) * 3;
+            positions[i * 3 + 2] = Math.sin(ang) * rad;
+
+            colors[i * 3] = 0.0;
+            colors[i * 3 + 1] = 0.8 + Math.random() * 0.2;
+            colors[i * 3 + 2] = 1.0;
+        }
+
+        particleGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        particleGeo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+        const particleMat = new THREE.PointsMaterial({
+            size: 0.14,
+            vertexColors: true,
+            transparent: true,
+            opacity: 0.7
+        });
+        const particles = new THREE.Points(particleGeo, particleMat);
+        adicGroup.add(particles);
+
+        // Animation Loop
+        let clock = new THREE.Clock();
+        function animate() {
+            requestAnimationFrame(animate);
+            const t = clock.getElapsedTime();
+
+            adicGroup.rotation.y = t * 0.1;
+            particles.rotation.y = -t * 0.05;
+
+            controls.update();
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>
