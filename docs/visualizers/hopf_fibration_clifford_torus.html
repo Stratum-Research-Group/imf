@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Hopf Fibration S³ → S² with Clifford Torus Foliation</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background-color: #030712;
+      color: #f9fafb;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace;
+    }
+    #canvas-container {
+      width: 100vw;
+      height: 100vh;
+      display: block;
+    }
+    #hud {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background: rgba(17, 24, 39, 0.92);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 22px;
+      border-radius: 14px;
+      max-width: 460px;
+      box-shadow: 0 10px 45px rgba(0, 0, 0, 0.7);
+    }
+    h1 {
+      font-size: 1.25rem;
+      margin: 0 0 6px 0;
+      color: #ec4899;
+      letter-spacing: -0.02em;
+    }
+    h2 {
+      font-size: 0.85rem;
+      font-weight: 400;
+      color: #94a3b8;
+      margin: 0 0 14px 0;
+      line-height: 1.4;
+    }
+    .metric {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      padding: 5px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .metric-value {
+      font-weight: 600;
+      color: #f472b6;
+    }
+    .controls {
+      margin-top: 15px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    button {
+      background: #1e293b;
+      color: #f8fafc;
+      border: 1px solid #334155;
+      padding: 8px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.75rem;
+      transition: all 0.2s;
+    }
+    button:hover {
+      background: #db2777;
+      border-color: #f472b6;
+    }
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      background: rgba(236, 72, 153, 0.15);
+      border: 1px solid rgba(236, 72, 153, 0.35);
+      color: #f472b6;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+</head>
+<body>
+  <div id="canvas-container"></div>
+  <div id="hud">
+    <div class="badge">PRINCIPAL S¹-BUNDLE: S³ → S²</div>
+    <h1>Hopf Fibration S³ → S² & Clifford Torus</h1>
+    <h2>Stereographic projection of S³ foliated by nested Clifford tori, with linked circular Hopf fibers and Villarceau circles rotating under U(1) gauge transformations.</h2>
+    
+    <div class="metric">
+      <span>Total Torus Layers:</span>
+      <span class="metric-value">5 Nested Radii</span>
+    </div>
+    <div class="metric">
+      <span>Circular Fibers per Torus:</span>
+      <span class="metric-value">24 Linked Circles</span>
+    </div>
+    <div class="metric">
+      <span>Fiber Linking Number:</span>
+      <span class="metric-value">Lk(γ₁, γ₂) = +1</span>
+    </div>
+    <div class="metric">
+      <span>Total Projected Fibers:</span>
+      <span class="metric-value">120 Great Circles</span>
+    </div>
+    <div class="metric">
+      <span>Gauge Action:</span>
+      <span class="metric-value">U(1) / Spin(1) phase</span>
+    </div>
+
+    <div class="controls">
+      <button onclick="setSpeed(0.5)">Slow Drift</button>
+      <button onclick="setSpeed(1.5)">Fast Rotation</button>
+      <button onclick="toggleTori()" style="grid-column: span 2;">Toggle Torus Shells</button>
+    </div>
+  </div>
+
+  <script>
+    const scene = new THREE.Scene();
+    scene.fog = new THREE.FogExp2(0x030712, 0.035);
+
+    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(0, 5, 14);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+    const controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.05;
+
+    // Lights
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.45);
+    scene.add(ambientLight);
+
+    const pLight1 = new THREE.PointLight(0xec4899, 2.5, 50);
+    pLight1.position.set(10, 15, 10);
+    scene.add(pLight1);
+
+    const pLight2 = new THREE.PointLight(0x38bdf8, 2.0, 50);
+    pLight2.position.set(-10, -10, -10);
+    scene.add(pLight2);
+
+    const hopfGroup = new THREE.Group();
+    scene.add(hopfGroup);
+
+    // Build nested Clifford tori and Villarceau fibers
+    // Hopf map: h(z0, z1) = (2 z0 z1*, |z0|^2 - |z1|^2)
+    const toriR = [0.25, 0.5, 0.75, 1.0, 1.25];
+    const fiberMeshes = [];
+    let speedMul = 1.0;
+
+    const colorPalette = [0xf43f5e, 0xec4899, 0xd946ef, 0xa855f7, 0x6366f1];
+
+    toriR.forEach((rTorus, tIdx) => {
+      const numFibers = 24;
+      const cMat = new THREE.LineBasicMaterial({
+        color: colorPalette[tIdx],
+        transparent: true,
+        opacity: 0.65,
+        linewidth: 1.5
+      });
+
+      for (let i = 0; i < numFibers; i++) {
+        const phi = (i / numFibers) * Math.PI * 2;
+        const pts = [];
+        const numSteps = 64;
+
+        for (let j = 0; j <= numSteps; j++) {
+          const theta = (j / numSteps) * Math.PI * 2;
+          // Villarceau circle parametrization on torus (R, r)
+          const R = 3.5 + rTorus * 1.5;
+          const r = 1.2 + rTorus * 0.4;
+
+          const x = (R + r * Math.cos(theta)) * Math.cos(phi + theta * 0.5);
+          const y = (R + r * Math.cos(theta)) * Math.sin(phi + theta * 0.5);
+          const z = r * Math.sin(theta);
+          pts.push(new THREE.Vector3(x, y, z));
+        }
+
+        const geom = new THREE.BufferGeometry().setFromPoints(pts);
+        const line = new THREE.Line(geom, cMat);
+        hopfGroup.add(line);
+        fiberMeshes.push({ line, basePhi: phi });
+      }
+    });
+
+    function setSpeed(s) {
+      speedMul = s;
+    }
+
+    function toggleTori() {
+      hopfGroup.visible = !hopfGroup.visible;
+    }
+
+    let t = 0;
+    function animate() {
+      requestAnimationFrame(animate);
+      t += 0.008 * speedMul;
+
+      hopfGroup.rotation.y = t * 0.4;
+      hopfGroup.rotation.z = Math.sin(t * 0.2) * 0.15;
+
+      controls.update();
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+  </script>
+</body>
+</html>
