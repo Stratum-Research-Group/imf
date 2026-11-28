@@ -386,6 +386,16 @@ def render_volume_to_pdf(vol):
 
     md_clean = re.sub(r'!\[([^\]]*)\]\(([^\)]+)\)', embed_local_images, md_clean)
 
+    # Protect LaTeX math blocks from markdown emphasis corruption (e.g. _ subscripts becoming <em>)
+    math_placeholders = []
+    def stash_math(m):
+        math_placeholders.append(m.group(0))
+        return f"MATHPLACEHOLDER{len(math_placeholders)-1}Z"
+
+    # Protect display math $$ ... $$ first, then inline math $ ... $
+    md_clean = re.sub(r'\$\$[\s\S]*?\$\$', stash_math, md_clean)
+    md_clean = re.sub(r'(?<!\\)\$([^\$\n]+?)(?<!\\)\$', stash_math, md_clean)
+
     # Convert Markdown to HTML
     html_body = markdown.markdown(
         md_clean,
@@ -396,6 +406,10 @@ def render_volume_to_pdf(vol):
             'sane_lists',
         ]
     )
+
+    # Restore math blocks untouched
+    for i, b in enumerate(math_placeholders):
+        html_body = html_body.replace(f"MATHPLACEHOLDER{i}Z", b)
 
     front_b64 = get_base64_img(front_cover)
     back_b64 = get_base64_img(back_cover)
