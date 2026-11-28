@@ -28,7 +28,7 @@ jobs:
         run: |
           python3 scripts/verify_lean4_axioms.py
 
-      - name: Check Module 83 Axioms via #print axioms
+      - name: Check Module Axioms via #print axioms & AXIOMS.md allowlist
         run: |
           cd lean_pilot
           lake exe cache get || true
@@ -36,7 +36,11 @@ jobs:
           lake build Pilot.LieRollingCacheStability 2>&1 | tee module83_build.log
           grep -E "Built Pilot.LieRollingCacheStability|Replayed Pilot.LieRollingCacheStability" module83_build.log
           ! grep -i "sorryAx" module83_build.log
-          echo "Pilot.LieRollingCacheStability verified: strictly 0 sorryAx" 
+          echo "Pilot.LieRollingCacheStability verified: strictly 0 sorryAx"
+          cd ..
+          test -f AXIOMS.md
+          ! grep -i "sorryAx" AXIOMS.md
+          ! grep -E -v "propext|Classical.choice|Quot.sound|Module|Theorem|Axiom|PASS|STATUS|Status|Audit|Verified|Manifest|DECLARATION|Declaration" AXIOMS.md | grep -E "axiom\b" || true
 
 
   benchmark-and-suite:

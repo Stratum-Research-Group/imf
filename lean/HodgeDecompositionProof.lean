@@ -1,3 +1,11 @@
+/-!
+NOTE ON SCOPE. This file formalizes a targeted mathematical model inspired by the
+associated conjecture, theorem, or construction. It does not state or prove the
+open conjecture itself in full generality. The theorems below are kernel-checked
+with no sorry and no custom axioms, and they establish deductive properties of
+this specific formal model only.
+-/
+
 -- Formal Machine Verification of the Hodge Decomposition Theorem
 -- Certified in Core Lean 4 (0 sorry, standard foundational axioms)
 

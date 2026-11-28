@@ -82,3 +82,4 @@ import Pilot.MotivicGoerssHopkins
 import Pilot.PolytopeSparsity
 import Pilot.LieRollingCacheStability
 
+import Pilot.ChromaticTower

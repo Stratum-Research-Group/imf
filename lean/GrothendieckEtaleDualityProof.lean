@@ -8,6 +8,15 @@ import Init.Data.Nat.Basic
 import Init.Data.List.Basic
 
 /-!
+NOTE ON SCOPE. This file formalizes a targeted mathematical model inspired by the
+associated conjecture, theorem, or construction. It does not state or prove the
+open conjecture itself in full generality. The theorems below are kernel-checked
+with no sorry and no custom axioms, and they establish deductive properties of
+this specific formal model only.
+-/
+
+
+/-!
 # Formal Machine-Certified Proof of Alexander Grothendieck's Étale Poincaré Duality
 
 ## Mathematical Overview

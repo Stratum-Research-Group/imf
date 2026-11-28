@@ -2,7 +2,10 @@
 """
 scripts/verify_lean4_axioms.py
 Automated Lean 4 Lake Build and Axiomatic Syntax Verifier.
-Audits all formal proof modules in `lean/` and `docs/thesis/volume_*/proofs/`.
+Audits all formal proof modules across the entire repository:
+- `lean/`
+- `lean_pilot/Pilot/`
+- `docs/thesis/volume_*/proofs/`
 """
 import os
 import sys
@@ -15,6 +18,7 @@ from datetime import datetime, timezone
 DOCS_THESIS = "docs/thesis"
 PROOFS_DIR = os.path.join(DOCS_THESIS, "proofs")
 REPORT_PATH = os.path.join(PROOFS_DIR, "LEAN4_KERNEL_AXIOM_VERIFICATION_REPORT.md")
+AXIOMS_PATH = "AXIOMS.md"
 os.makedirs(PROOFS_DIR, exist_ok=True)
 
 print("[*] Phase 1: Running Lean 4 Lake Build...")
@@ -23,31 +27,56 @@ if build_res.returncode != 0:
     print(f"[-] lake build failed with exit code {build_res.returncode}:\n{build_res.stderr}")
     sys.exit(1)
 
-# Extract actual jobs compiled from lake output
 lake_output = build_res.stdout.strip()
 print(f"[+] Lake build result: {lake_output}")
 
-lean_files = sorted(glob.glob("lean/*.lean") + glob.glob("lean/**/*.lean", recursive=True) + glob.glob("docs/thesis/volume_*/proofs/*.lean"))
-print(f"[*] Phase 2: Scanning {len(lean_files)} proof modules across repo and thesis...")
+# Comprehensive scan covering 100% of proof files
+lean_files = sorted(set(
+    glob.glob("lean/*.lean") + 
+    glob.glob("lean/**/*.lean", recursive=True) + 
+    glob.glob("lean_pilot/Pilot/**/*.lean", recursive=True) +
+    glob.glob("lean_pilot/Pilot/*.lean") +
+    glob.glob("docs/thesis/volume_*/proofs/*.lean")
+))
+
+print(f"[*] Phase 2: Scanning {len(lean_files)} proof modules across repo, pilot, and thesis...")
+
+def remove_comments_nested(code: str) -> str:
+    """Removes single-line -- comments and nested /- ... -/ block comments in Lean 4."""
+    out = []
+    i = 0
+    n = len(code)
+    while i < n:
+        if code[i:i+2] == '--':
+            nl = code.find('\n', i)
+            if nl == -1:
+                break
+            else:
+                out.append('\n')
+                i = nl + 1
+            continue
+        if code[i:i+2] == '/-':
+            depth = 1
+            i += 2
+            while i < n and depth > 0:
+                if code[i:i+2] == '/-':
+                    depth += 1
+                    i += 2
+                elif code[i:i+2] == '-/':
+                    depth -= 1
+                    i += 2
+                else:
+                    if code[i] == '\n':
+                        out.append('\n')
+                    i += 1
+            continue
+        out.append(code[i])
+        i += 1
+    return "".join(out)
 
 audited_modules = []
 total_theorems = 0
 sorry_detected = 0
-
-def check_has_sorry(text: str) -> bool:
-    """Accurately checks for unproven 'sorry' outside comments."""
-    # Strip multiline block comments /- ... -/
-    text_clean = re.sub(r'/-(?:[^-]|-(?!/))*-/', '', text, flags=re.DOTALL)
-    for line in text_clean.splitlines():
-        line_clean = line.strip()
-        if line_clean.startswith('--'):
-            continue
-        # Strip inline comment
-        if '--' in line_clean:
-            line_clean = line_clean.split('--')[0]
-        if re.search(r'\bsorry\b', line_clean):
-            return True
-    return False
 
 for lf in lean_files:
     with open(lf, "rb") as f:
@@ -57,7 +86,8 @@ for lf in lean_files:
     thms = re.findall(r"^(?:theorem|def|lemma)\s+([a-zA-Z0-9_\']+)", text, re.M)
     total_theorems += len(thms)
     
-    has_sorry = check_has_sorry(text)
+    clean_code = remove_comments_nested(text)
+    has_sorry = bool(re.search(r'\bsorry\b', clean_code) or re.search(r'\badmit\b', clean_code))
     if has_sorry:
         sorry_detected += 1
 
@@ -101,4 +131,8 @@ for m in audited_modules:
 with open(REPORT_PATH, "w", encoding="utf-8") as f:
     f.write(report)
 
-print(f"[+] Lean 4 audit manifest written to {REPORT_PATH}")
+print(f"[+] Lean 4 audit manifest written to {REPORT_PATH} ({len(audited_modules)} files audited)")
+
+if sorry_detected > 0:
+    print(f"[-] Audit failed: {sorry_detected} active formal stubs detected!")
+    sys.exit(1)

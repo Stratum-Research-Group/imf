@@ -1,6 +1,15 @@
 import Mathlib
 
 /-!
+NOTE ON SCOPE. This file formalizes a targeted mathematical model inspired by the
+associated conjecture, theorem, or construction. It does not state or prove the
+open conjecture itself in full generality. The theorems below are kernel-checked
+with no sorry and no custom axioms, and they establish deductive properties of
+this specific formal model only.
+-/
+
+
+/-!
 # Pilot Formalization: Riemannian 4-Manifold Hodge Star Duality & Self-Dual Orthogonality
 
 On an oriented Riemannian 4-manifold, the Hodge star operator on 2-forms satisfies:

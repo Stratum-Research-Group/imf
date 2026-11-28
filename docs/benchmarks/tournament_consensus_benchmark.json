@@ -1,5 +1,5 @@
 {
-  "arbiter": "Lean 4.33.1 Kernel (Zero Axioms)",
+  "arbiter": "Lean 4.33.1 Kernel (Zero Custom Axioms)",
   "total_problems": 10,
   "problems": [
     {
