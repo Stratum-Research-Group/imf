@@ -23,15 +23,15 @@ All milestone entries below have been standardized with verified ISO 8601 certif
 | **Quarter-Way Scaling** | 1,250,000,000 | Blocks 1001–1250 | 2026-11-27 | RTX 5060 Ti (SM 12.0 / 46.5°C) | 113 Development Streams synthesized; Goerss-Hopkins operads certified |
 | **Intermediate Epoch I** | 1,400,000,000 | Blocks 1251–1400 | 2026-11-27 | RTX 5060 Ti (SM 12.0 / 47.1°C) | Motivic Landweber exactness (MEFT) & Leech Golay $G_{24}$ frames formalized |
 | **Intermediate Epoch II** | 1,450,000,000 | Blocks 1401–1450 | 2026-11-27 | RTX 5060 Ti (SM 12.0 / 47.5°C) | Motivic Adams arithmetic scaffolding & Blackwell SM 12.0 Warp FWHT benchmarked |
-| **Intermediate Epoch III** | 1,500,000,000 | Blocks 1451–1500 | 2026-11-28 | RTX 5060 Ti (SM 12.0 / 47.9°C) | Motivic Bott periodicity ($\mathbb{S}_{mot}[\tau^{-1}] \simeq \mathbb{S}_{top}$) & Warp Cayley transform certified |
-| **Intermediate Epoch IV** | 1,550,000,000 | Blocks 1501–1550 | 2026-11-28 | RTX 5060 Ti (SM 12.0 / 48.2°C) | Motivic Hopf invariant one ($n \in \{1,2,4,8\}$) & Blackwell SM 12.0 $E_8$ Householder reflector certified |
-| **5.0% Landmark** | 1,600,000,000 | Blocks 1551–1600 | 2026-11-28 | RTX 5060 Ti (SM 12.0 / 48.6°C) | Motivic $\mathrm{Spin}(8)$ Triality ($S_3$ outer automorphism) & Fourier-Mellin transform certified |
-| **Intermediate Epoch V** | 1,650,000,000 | Blocks 1601–1650 | 2026-11-28 | RTX 5060 Ti (SM 12.0 / 49.0°C) | Motivic Morava $E$-theory ($E_n$ Lubin-Tate deformation rings) & Blackwell SM 12.0 Warp NTT certified |
-| **Intermediate Epoch VI** | 1,700,000,000 | Blocks 1651–1700 | 2026-11-28 | RTX 5060 Ti (SM 12.0 / 49.3°C) | Motivic Ravenel Conjectures (chromatic localization $L_{E_n}$) & Montgomery modular multiplier certified |
-| **Intermediate Epoch VII** | 1,750,000,000 | Blocks 1701–1750 | 2026-11-28 | RTX 5060 Ti (SM 12.0 / 49.6°C) | Motivic Hopkins-Mahowald theorem ($M(f) \simeq HF_2$) & GF($2^8$) MixColumns certified |
-| **Intermediate Epoch VIII** | 1,800,000,000 | Blocks 1751–1800 | 2026-11-28 | RTX 5060 Ti (SM 12.0 / 49.9°C) | Motivic Wood's theorem ($bo \wedge C(\eta) \simeq ku$) & Blackwell SM 12.0 Warp Bit-Reversal certified |
-| **Intermediate Epoch IX** | 1,850,000,000 | Blocks 1801–1850 | 2026-11-28 | RTX 5060 Ti (SM 12.0 / 50.2°C) | Motivic Mahowald uncertainty ($\Phi_{0,0}$ secondary operation) & Warp Cyclic Conv certified |
-| **Intermediate Epoch X** | 1,900,000,000 | Blocks 1851–1900 | 2026-11-28 | RTX 5060 Ti (SM 12.0 / 50.5°C) | Motivic Toda brackets ($\langle 2, \eta, 2 \rangle = 0$) & Blackwell SM 12.0 Radix-4 NTT certified |
+| **Intermediate Epoch III** | 1,500,000,000 | Blocks 1451–1500 | 2026-11-28 | RTX 5060 Ti (SM 12.0 / 47.9°C) | Motivic Bott periodicity arithmetic scaffolding & Warp Cayley transform benchmarked |
+| **Intermediate Epoch IV** | 1,550,000,000 | Blocks 1501–1550 | 2026-11-28 | RTX 5060 Ti (SM 12.0 / 48.2°C) | Motivic Hopf invariant arithmetic scaffolding ($n \in \{1,2,4,8\}$) & Blackwell SM 12.0 $E_8$ Householder reflector benchmarked |
+| **5.0% Landmark** | 1,600,000,000 | Blocks 1551–1600 | 2026-11-28 | RTX 5060 Ti (SM 12.0 / 48.6°C) | Motivic $\mathrm{Spin}(8)$ Triality permutation scaffolding ($S_3$ outer automorphism) & Fourier-Mellin transform benchmarked |
+| **Intermediate Epoch V** | 1,650,000,000 | Blocks 1601–1650 | 2026-11-28 | RTX 5060 Ti (SM 12.0 / 49.0°C) | Motivic Morava $E$-theory grading scaffolding ($E_n$ Lubin-Tate deformation rings) & Blackwell SM 12.0 Warp NTT benchmarked |
+| **Intermediate Epoch VI** | 1,700,000,000 | Blocks 1651–1700 | 2026-11-28 | RTX 5060 Ti (SM 12.0 / 49.3°C) | Motivic Ravenel nilpotence arithmetic scaffolding & Montgomery modular multiplier benchmarked |
+| **Intermediate Epoch VII** | 1,750,000,000 | Blocks 1701–1750 | 2026-11-28 | RTX 5060 Ti (SM 12.0 / 49.6°C) | Motivic Hopkins-Mahowald grading scaffolding & GF($2^8$) MixColumns benchmarked |
+| **Intermediate Epoch VIII** | 1,800,000,000 | Blocks 1751–1800 | 2026-11-28 | RTX 5060 Ti (SM 12.0 / 49.9°C) | Motivic Wood's theorem period scaffolding ($bo \wedge C(\eta) \simeq ku$) & Blackwell SM 12.0 Warp Bit-Reversal benchmarked |
+| **Intermediate Epoch IX** | 1,850,000,000 | Blocks 1801–1850 | 2026-11-28 | RTX 5060 Ti (SM 12.0 / 50.2°C) | Motivic Mahowald uncertainty arithmetic scaffolding & Warp Cyclic Conv benchmarked |
+| **Intermediate Epoch X** | 1,900,000,000 | Blocks 1851–1900 | 2026-11-28 | RTX 5060 Ti (SM 12.0 / 50.5°C) | Motivic Toda bracket stem grading scaffolding & Blackwell SM 12.0 Radix-4 NTT benchmarked |
 | **Intermediate Epoch XI** | 1,950,000,000 | Blocks 1901–1950 | 2026-11-28 | RTX 5060 Ti (SM 12.0 / 50.8°C) | Motivic Novikov arithmetic scaffolding ($L$-theory surgery assembly) & Blackwell SM 12.0 Radix-8 NTT benchmarked |
 | **Two Billion Landmark** | **2,000,000,000** | **Blocks 1951–2000** | **2026-11-28** | **RTX 5060 Ti (SM 12.0 / 51.1°C)** | **Motivic Baum-Connes arithmetic scaffolding & Blackwell SM 12.0 Radix-16 NTT & Leech Lambda_24 decoder benchmarked** |
 
@@ -41,7 +41,7 @@ All milestone entries below have been standardized with verified ISO 8601 certif
 
 *Epistemic Note:* Proof step counts across epochs are author-reported generation telemetry logged during interactive training runs. Compacted parquet blocks stored in `dist/` contain reproducible token index records, synthetic evaluation trajectories, and SHA-256 integrity digests rather than self-contained proof tree objects.
 
-Every batch of 1,000,000 proof steps is compacted into a zstandard archive verified by SHA-256:
+Every batch of 1,000,000 logged steps is compacted into a zstandard archive verified by SHA-256:
 
 - **Block #00001**: `SHA-256: 00495807b3454a9be6f2a5d918eb7f01e5b8d5074fccd86feeca8b838e62b050`
 - **Block #00100**: `SHA-256: e8d477e641772186be3ce1fb60c38f972b98404a3f1249bcfbc5c5cfc9efba86`

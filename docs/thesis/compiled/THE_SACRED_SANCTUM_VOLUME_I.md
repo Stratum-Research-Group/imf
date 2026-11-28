@@ -51,7 +51,7 @@ This volume establishes the low-dimensional mechanics upon which the higher-dime
 | **6** | [Chapter 6: Linux Shared-Ring `io_uring` Direct DMA](#chapter-6-linux-shared-ring-iouring-direct-dma) | Ring buffer SQPOLL architecture, host-pinned O_DIRECT fixed buffers, and 2.33 GB/s physical NVMe throughput telemetry. |
 | **7** | [Chapter 7: Formal Deductive Verification in Lean 4: Module 83](#chapter-7-formal-deductive-verification-in-lean-4-module-83) | Formal Lean 4 Mathlib module specifying isometry, commutator nil-trace, and antisymmetry over real matrices. |
 | **8** | [Chapter 8: The Dimensional Ledger: Closing $d \le 4$ and Bridging to $d = 32$](#chapter-8-the-dimensional-ledger-closing-d--4-and-bridging-to-d--32) | Block-diagonal SO(4)^8 in SO(32), 8.0x arithmetic reduction, empirical capacity, low-precision drift, and open questions. |
-| **Pack** | [Volume I Numerical Worked Examples Pack](WORKED_EXAMPLES_VOL1.md) | 21 concrete worked examples with step-by-step arithmetic and float64 residuals across Chapters 1–7. |
+| **Pack** | [Volume I Numerical Worked Examples Pack](WORKED_EXAMPLES_VOL1.md) | 19 concrete worked examples with step-by-step arithmetic and float64 residuals across Chapters 1–7. |
 
 ---
 
@@ -5226,7 +5226,7 @@ Volume I of the *IMF Magnum Opus* has laid the unassailable foundation for conti
 6. **Chapter 6 (Linux Shared-Ring `io_uring` Direct DMA):** Eliminated the POSIX virtual memory bottleneck via strict 4096-byte `O_DIRECT` alignment, fixed buffer pre-registration, and SQPOLL ring queues (`csrc/fused_iouring_weight_streamer.cpp`), sustaining up to 11.43 GB/s burst throughput and 2.33 GB/s incompressible direct NVMe streaming throughput.
 7. **Chapter 7 (Formal Deductive Specification in Lean 4):** Formalized algebraic and stability invariants in `Pilot.LieRollingCacheStability`, completing the synthesis of continuous mathematics, high-performance silicon, and formal specification.
 8. **Chapter 8 (The Dimensional Ledger & The Ten Unknowns):** Bridged low-dimensional geometry ($d \le 4$) to physical hardware ($d = 32$) via block-diagonal $\mathfrak{so}(4)^{\oplus 8} \subset \mathfrak{so}(32)$, established the definitive epistemic ledger, and resolved the ten open architectural unknowns.
-9. **Companion Pack ([Volume I Numerical Worked Examples](WORKED_EXAMPLES_VOL1.md)):** 21 step-by-step worked arithmetic examples with exact numerical residuals verifying every theorem across Chapters 1 through 7, audited and verified via `scripts/verify_vol1_worked_examples.py`.
+9. **Companion Pack ([Volume I Numerical Worked Examples](WORKED_EXAMPLES_VOL1.md)):** 19 step-by-step worked arithmetic examples with exact numerical residuals verifying every theorem across Chapters 1 through 7, audited and verified via `scripts/verify_vol1_worked_examples.py`.
 
 With the physical and mathematical foundations of low-dimensional spaces established, **Volume II: The Polytope Hyperspace of Parameter Quantization** will venture into higher dimensions ($d \ge 8$): cross-polytopes, $E_8$ Gosset root lattices, Leech lattice $\Lambda_{24}$ packing, and sub-byte Polytope Lattice Quantization (PLQ).
 
