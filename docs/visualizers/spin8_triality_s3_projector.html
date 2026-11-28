@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Triality S₃ Permutation of Spin(8) & Octonions</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background-color: #030712;
+      color: #f9fafb;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace;
+    }
+    #canvas-container {
+      width: 100vw;
+      height: 100vh;
+      display: block;
+    }
+    #hud {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background: rgba(17, 24, 39, 0.92);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 22px;
+      border-radius: 14px;
+      max-width: 440px;
+      box-shadow: 0 10px 45px rgba(0, 0, 0, 0.7);
+    }
+    h1 {
+      font-size: 1.25rem;
+      margin: 0 0 6px 0;
+      color: #e11d48;
+      font-weight: 700;
+    }
+    p {
+      font-size: 0.83rem;
+      line-height: 1.45;
+      color: #9ca3af;
+      margin: 0 0 14px 0;
+    }
+    .badge {
+      display: inline-block;
+      padding: 2px 10px;
+      background: rgba(225, 29, 72, 0.18);
+      color: #fb7185;
+      border: 1px solid rgba(225, 29, 72, 0.35);
+      border-radius: 6px;
+      font-size: 0.75rem;
+      margin-bottom: 12px;
+    }
+    .control-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 0.82rem;
+    }
+    input[type=range] {
+      width: 150px;
+    }
+    .metrics {
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 12px;
+      margin-top: 12px;
+      font-size: 0.77rem;
+      color: #cbd5e1;
+    }
+    .metric-val {
+      font-weight: bold;
+      color: #38bdf8;
+    }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+  <div id="canvas-container"></div>
+  <div id="hud">
+    <h1>Spin(8) Triality S₃ Permutation</h1>
+    <span class="badge">Dynkin Diagram D₄ Outer Automorphism | Order 6</span>
+    <p>
+      Interactive 3D visualization of the 3-fold cyclic rotation and reflection of the
+      vector representation V₈ and two half-spin representations S₈⁺, S₈⁻ forming the D₄ Dynkin star.
+    </p>
+    <div class="control-row">
+      <span>Triality Phase (θ):</span>
+      <input type="range" id="param-theta" min="0" max="6.283" step="0.05" value="0.0">
+    </div>
+    <div class="control-row">
+      <span>Dynkin Arm Extension:</span>
+      <input type="range" id="param-arm" min="0.5" max="3.0" step="0.1" value="1.5">
+    </div>
+    <div class="control-row">
+      <span>S₃ Orbital Spin:</span>
+      <input type="range" id="param-spin" min="0.1" max="2.0" step="0.05" value="0.9">
+    </div>
+    <div class="metrics">
+      <div>Central Node: <span class="metric-val">Adjoint Representation 28D</span></div>
+      <div>Three Leaves: <span class="metric-val">V₈ (Vector) ⊕ S₈⁺ (Spin⁺) ⊕ S₈⁻ (Spin⁻)</span></div>
+      <div>Outer Automorphism: <span class="metric-val">Out(Spin(8)) ≅ S₃</span></div>
+    </div>
+  </div>
+
+  <script>
+    const container = document.getElementById('canvas-container');
+    const scene = new THREE.Scene();
+    scene.fog = new THREE.FogExp2(0x030712, 0.04);
+
+    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(0, 0, 16);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    container.appendChild(renderer.domElement);
+
+    const d4Group = new THREE.Group();
+    scene.add(d4Group);
+
+    // Central D4 Dynkin node (Adjoint)
+    const centerGeom = new THREE.SphereGeometry(0.55, 32, 32);
+    const centerMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
+    const centerMesh = new THREE.Mesh(centerGeom, centerMat);
+    d4Group.add(centerMesh);
+
+    // 3 Outer Nodes: V8, S8+, S8-
+    const outerGeom = new THREE.SphereGeometry(0.45, 24, 24);
+    const colors = [0x38bdf8, 0x10b981, 0xf43f5e];
+    const outerNodes = [];
+
+    for (let i = 0; i < 3; i++) {
+      const mat = new THREE.MeshBasicMaterial({ color: colors[i] });
+      const mesh = new THREE.Mesh(outerGeom, mat);
+      d4Group.add(mesh);
+      outerNodes.push(mesh);
+    }
+
+    // Arm Lines connecting center to 3 leaves
+    const lineMat = new THREE.LineBasicMaterial({ color: 0x94a3b8, transparent: true, opacity: 0.6 });
+    const lineGeom = new THREE.BufferGeometry();
+    const linePos = new Float32Array(6 * 3);
+    lineGeom.setAttribute('position', new THREE.BufferAttribute(linePos, 3));
+    const linesMesh = new THREE.LineSegments(lineGeom, lineMat);
+    d4Group.add(linesMesh);
+
+    // Connecting perimeter triangle
+    const triMat = new THREE.LineBasicMaterial({ color: 0xe11d48, transparent: true, opacity: 0.45 });
+    const triGeom = new THREE.BufferGeometry();
+    const triPos = new Float32Array(4 * 3);
+    triGeom.setAttribute('position', new THREE.BufferAttribute(triPos, 3));
+    const triMesh = new THREE.Line(triGeom, triMat);
+    d4Group.add(triMesh);
+
+    let t = 0;
+    function animate() {
+      requestAnimationFrame(animate);
+
+      const theta = parseFloat(document.getElementById('param-theta').value);
+      const arm = parseFloat(document.getElementById('param-arm').value);
+      const spin = parseFloat(document.getElementById('param-spin').value);
+
+      t += 0.008 * spin;
+
+      const armRadius = 5.5 * (arm / 1.5);
+      const lp = lineGeom.attributes.position.array;
+      const tp = triGeom.attributes.position.array;
+
+      for (let i = 0; i < 3; i++) {
+        const angle = (i * Math.PI * 2) / 3 + t + theta;
+        const x = armRadius * Math.cos(angle);
+        const y = armRadius * Math.sin(angle);
+        const z = Math.sin(t * 2 + i * 2) * 1.2;
+
+        outerNodes[i].position.set(x, y, z);
+
+        // Center-to-leaf line
+        lp[i * 6] = 0;
+        lp[i * 6 + 1] = 0;
+        lp[i * 6 + 2] = 0;
+        lp[i * 6 + 3] = x;
+        lp[i * 6 + 4] = y;
+        lp[i * 6 + 5] = z;
+
+        // Perimeter triangle
+        tp[i * 3] = x;
+        tp[i * 3 + 1] = y;
+        tp[i * 3 + 2] = z;
+      }
+
+      // Close triangle
+      tp[9] = tp[0];
+      tp[10] = tp[1];
+      tp[11] = tp[2];
+
+      lineGeom.attributes.position.needsUpdate = true;
+      triGeom.attributes.position.needsUpdate = true;
+
+      d4Group.rotation.y = t * 0.2;
+      d4Group.rotation.x = t * 0.1;
+
+      renderer.render(scene, camera);
+    }
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    animate();
+  </script>
+</body>
+</html>
