@@ -81,3 +81,9 @@ jobs:
             echo "Auditing $f..."
             test -s "$f" || exit 1
           done
+
+      - name: Verify Cryptographic Checksums (SHA-256 & SHA-512)
+        run: |
+          cd docs/thesis
+          sha256sum -c CHECKSUMS.sha256
+          sha512sum -c CHECKSUMS.sha512
