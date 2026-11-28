@@ -369,6 +369,8 @@ By grounding our high-dimensional neural architectures in verified mathematical 
 
 ---
 
+<div class="conclusion-references-block" style="page-break-inside: avoid; break-inside: avoid;">
+
 ## 6. Conclusion of Volume II
 
 With this chapter, the ninth and concluding treatise of **Volume II: The Sacred Sanctum of Higher-Dimensional Spaces**, our journey across the higher-dimensional landscape reaches its synthesis. From the exceptional holonomy groups $G_2$ and $\operatorname{Spin}(7)$ born of the non-associative octonions $\mathbb{O}$ (Chapter 1), to the counter-intuitive measure concentration and hyperspherical orthogonality of high dimensions (Chapter 2); from Maryna Viazovska's breakthrough in 8-dimensional $E_8$ sphere packing (Chapter 3) to the 24-dimensional Leech lattice $\Lambda_{24}$ and the Conway groups (Chapter 4); from sub-bit Polytope Lattice Quantization compressing models to $0.58\text{--}1.58$ bits (Chapter 5) to the Fine-Grained Polytope MoPE achieving $98.4375\%$ activation sparsity (Chapter 6); and from the stabilizing forces of the Shared Foundation Trunk and Hyperspherical Repulsion (Chapter 7) and Dynamic Shannon Entropy Annealing (Chapter 8) to this formal verification in Lean 4 (Chapter 9)—Volume II establishes that the higher-dimensional geometry $4 < d \le 24$ is the true architectural sanctum of foundational intelligence.
@@ -384,4 +386,6 @@ In **Volume III: Transfinite, Non-Archimedean, and Ultra-Dimensional Geometries*
 3. Carneiro, M. (2019). "The type system of Lean." *Master's thesis*, Carnegie Mellon University.
 4. Avigad, J. (2023). *Theorem Proving in Lean 4*. Lean Community Documentation.
 5. Stratum Research Group. (2026). *Pilot Formalization: High-Dimensional Polytope Sparsity & Hyperspherical Non-Collapse*, `lean_pilot/Pilot/PolytopeSparsity.lean`.
-6. Stratum Research Group. (2026). *IMF Machine-Certified Grand Corpus Manifest*, `dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`.
+6. Stratum Research Group. (2026). *IMF Formally Verified Grand Corpus Manifest*, `dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`.
+
+</div>

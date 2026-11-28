@@ -325,6 +325,10 @@ The minimal vectors have $\sum x_i^2 = 32$ ($\|u\|^2 = 4$). They partition into 
 **Total Kissing Number:**
 $$N_{\text{total}} = N_1 + N_2 + N_3 = 1,104 + 97,152 + 98,304 = \mathbf{196,560} \quad \blacksquare$$
 
+![Wolfram 24D Leech Lattice Lambda_24 Kissing Census & Conway Orbit Foliation](../visualizers/wolfram_leech_kissing_graph.svg)
+*Figure 4.1: Wolfram algebraic census and Conway orbit foliation of the 24-dimensional Leech lattice $\Lambda_{24}$. The 196,560 minimal kissing vectors partition strictly into 1,104 cross vectors, 97,152 octad vectors over $S(5,8,24)$, and 98,304 odd vectors under the automorphism group $\operatorname{Co}_0$.*
+
+
 ---
 
 ## 5. Conway Sporadic Simple Groups: $\operatorname{Co}_0, \operatorname{Co}_1, \operatorname{Co}_2, \operatorname{Co}_3$
@@ -788,6 +792,10 @@ We benchmarked the Megascale Leech MoPE routing engine on NVIDIA RTX 5060 Ti (Bl
 | 32,768 | 1,104 | $91.12\text{ ms}$ | $4.980\text{ ms}$ | **$18.3\times$** | $0.996$ | $0.0016$ |
 
 Leech Polytope MoPE eliminates routing collapse completely: normalized routing entropy maintains $H/H_{\max} \ge 0.996$ across all tokens, while reducing gating latency by up to $18.3\times$ compared to standard dense linear projections.
+
+![Leech Fast Golay Decoding Latency Benchmark](../visualizers/chart_leech_mope_latency.svg)
+*Figure 4.2: Execution latency scaling comparison between Dense Router Baseline and Bounded-Distance Leech Lattice MoPE across batch sizes on NVIDIA Blackwell SM120.*
+
 
 ---
 

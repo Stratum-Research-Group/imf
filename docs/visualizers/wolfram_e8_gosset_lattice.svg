@@ -1,0 +1,120 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 460" width="100%" height="auto">
+  <defs>
+    <linearGradient id="e8bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a0f1d"/>
+      <stop offset="50%" stop-color="#050814"/>
+      <stop offset="100%" stop-color="#02040a"/>
+    </linearGradient>
+    <filter id="e8Glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3.5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <rect width="900" height="460" fill="url(#e8bgGrad)" rx="8" stroke="#1e293b" stroke-width="1.5"/>
+  
+  <!-- Header -->
+  <text x="40" y="38" fill="#f8fafc" font-family="'Liberation Sans', sans-serif" font-size="15" font-weight="bold">Wolfram E₈ Gosset 4₂₁ Root Polytope &amp; Petrie Orthogonal Coxeter Projection</text>
+  <text x="40" y="58" fill="#94a3b8" font-family="'Liberation Sans', sans-serif" font-size="11">D₈ ⊕ (D₈ + ½1) root kissing configuration: 112 integral (±1,±1,0⁶) + 128 half-integral (±½⁸) roots, ||r||² = 2</text>
+
+  <!-- Concentric Rings & Coxeter Axes -->
+  <g stroke="#334155" stroke-width="0.8" opacity="0.4" stroke-dasharray="3,3">
+    <circle cx="450" cy="250" r="40"/>
+    <circle cx="450" cy="250" r="90"/>
+    <circle cx="450" cy="250" r="140"/>
+    <circle cx="450" cy="250" r="185"/>
+    <line x1="240" y1="250" x2="660" y2="250"/>
+    <line x1="450" y1="40" x2="450" y2="460"/>
+    <line x1="300" y1="100" x2="600" y2="400"/>
+    <line x1="300" y1="400" x2="600" y2="100"/>
+  </g>
+
+  <!-- Outer Petrie Polygon / Coxeter Projection Lines -->
+  <g stroke="#38bdf8" stroke-width="0.7" opacity="0.45">
+    <!-- Outer 30-gon / 8-fold symmetric triangulation -->
+    <polygon points="450,65 525,80 588,118 626,175 635,250 626,325 588,382 525,420 450,435 375,420 312,382 274,325 265,250 274,175 312,118 375,80" fill="none" stroke="#60a5fa" stroke-width="1.2"/>
+    <polygon points="450,110 505,122 550,152 578,198 590,250 578,302 550,348 505,378 450,390 395,378 350,348 322,302 310,250 322,198 350,152 395,122" fill="none" stroke="#818cf8" stroke-width="1"/>
+    
+    <!-- Cross Chords across Coxeter Plane -->
+    <line x1="450" y1="65" x2="450" y2="435" stroke="#38bdf8" opacity="0.3"/>
+    <line x1="265" y1="250" x2="635" y2="250" stroke="#38bdf8" opacity="0.3"/>
+    <line x1="312" y1="118" x2="588" y2="382" stroke="#a78bfa" opacity="0.3"/>
+    <line x1="312" y1="382" x2="588" y2="118" stroke="#a78bfa" opacity="0.3"/>
+    <line x1="375" y1="80" x2="525" y2="420" stroke="#38bdf8" opacity="0.25"/>
+    <line x1="525" y1="80" x2="375" y2="420" stroke="#38bdf8" opacity="0.25"/>
+    <line x1="274" y1="175" x2="626" y2="325" stroke="#a78bfa" opacity="0.25"/>
+    <line x1="274" y1="325" x2="626" y2="175" stroke="#a78bfa" opacity="0.25"/>
+  </g>
+
+  <!-- 112 Integral Roots Layer (Sky Blue / Cyan Nodes) -->
+  <g fill="#0284c7" stroke="#bae6fd" stroke-width="1.2">
+    <circle cx="450" cy="65" r="5" filter="url(#e8Glow)"/>
+    <circle cx="525" cy="80" r="4.5"/>
+    <circle cx="588" cy="118" r="4.5"/>
+    <circle cx="626" cy="175" r="4.5"/>
+    <circle cx="635" cy="250" r="5" filter="url(#e8Glow)"/>
+    <circle cx="626" cy="325" r="4.5"/>
+    <circle cx="588" cy="382" r="4.5"/>
+    <circle cx="525" cy="420" r="4.5"/>
+    <circle cx="450" cy="435" r="5" filter="url(#e8Glow)"/>
+    <circle cx="375" cy="420" r="4.5"/>
+    <circle cx="312" cy="382" r="4.5"/>
+    <circle cx="274" cy="325" r="4.5"/>
+    <circle cx="265" cy="250" r="5" filter="url(#e8Glow)"/>
+    <circle cx="274" cy="175" r="4.5"/>
+    <circle cx="312" cy="118" r="4.5"/>
+    <circle cx="375" cy="80" r="4.5"/>
+
+    <circle cx="450" cy="110" r="4"/>
+    <circle cx="550" cy="152" r="4"/>
+    <circle cx="590" cy="250" r="4"/>
+    <circle cx="550" cy="348" r="4"/>
+    <circle cx="450" cy="390" r="4"/>
+    <circle cx="350" cy="348" r="4"/>
+    <circle cx="310" cy="250" r="4"/>
+    <circle cx="350" cy="152" r="4"/>
+  </g>
+
+  <!-- 128 Half-Integral Roots Layer (Purple / Magenta Nodes) -->
+  <g fill="#9333ea" stroke="#f3e8ff" stroke-width="1.2">
+    <circle cx="490" cy="160" r="4" filter="url(#e8Glow)"/>
+    <circle cx="530" cy="210" r="4"/>
+    <circle cx="530" cy="290" r="4"/>
+    <circle cx="490" cy="340" r="4"/>
+    <circle cx="410" cy="340" r="4"/>
+    <circle cx="370" cy="290" r="4"/>
+    <circle cx="370" cy="210" r="4"/>
+    <circle cx="410" cy="160" r="4"/>
+
+    <circle cx="475" cy="190" r="3.5"/>
+    <circle cx="510" cy="235" r="3.5"/>
+    <circle cx="505" cy="275" r="3.5"/>
+    <circle cx="465" cy="305" r="3.5"/>
+    <circle cx="435" cy="305" r="3.5"/>
+    <circle cx="395" cy="275" r="3.5"/>
+    <circle cx="390" cy="235" r="3.5"/>
+    <circle cx="425" cy="190" r="3.5"/>
+    
+    <!-- Central Origin Marker (Zero Non-Root) -->
+    <circle cx="450" cy="250" r="3" fill="#64748b" stroke="#cbd5e1" stroke-width="1"/>
+  </g>
+
+  <!-- Structural Metric Badges / Legend -->
+  <g font-family="-apple-system, sans-serif" font-size="11">
+    <!-- Left Box: Combinatorics -->
+    <rect x="35" y="325" width="220" height="110" fill="rgba(15,23,42,0.85)" rx="6" stroke="#334155" stroke-width="1"/>
+    <text x="47" y="347" fill="#f8fafc" font-weight="bold">Gosset 4₂₁ Invariant Census:</text>
+    <circle cx="55" cy="367" r="4" fill="#0284c7" stroke="#bae6fd" stroke-width="1"/>
+    <text x="67" y="371" fill="#94a3b8">112 Integral Roots (±1, ±1, 0⁶)</text>
+    <circle cx="55" cy="390" r="4" fill="#9333ea" stroke="#f3e8ff" stroke-width="1"/>
+    <text x="67" y="394" fill="#94a3b8">128 Half-Integral Roots (±½⁸, even -)</text>
+    <text x="47" y="418" fill="#38bdf8" font-weight="600">Kissing Number τ₈ = 240, ||r||² = 2</text>
+
+    <!-- Right Box: Facet Decomposition & Symmetries -->
+    <rect x="645" y="325" width="220" height="110" fill="rgba(15,23,42,0.85)" rx="6" stroke="#334155" stroke-width="1"/>
+    <text x="657" y="347" fill="#f8fafc" font-weight="bold">Geometric Facet Topology:</text>
+    <text x="657" y="371" fill="#94a3b8">17,280 Regular 7-Simplices (α₇)</text>
+    <text x="657" y="390" fill="#94a3b8">2,160 Regular 7-Orthoplexes (β₇)</text>
+    <text x="657" y="418" fill="#a855f7" font-weight="600">|W(E₈)| = 4! 6! 8! = 696,729,600</text>
+  </g>
+</svg>

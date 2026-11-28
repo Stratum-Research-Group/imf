@@ -165,6 +165,10 @@ $$w_1 = \frac{p_{i_1}}{p_{i_1} + p_{i_2}}, \qquad w_2 = \frac{p_{i_2}}{p_{i_1} +
 The sparse output is the barycentric combination:
 $$\operatorname{Sparse}(x) = w_1 \cdot e_{i_1}(x) + w_2 \cdot e_{i_2}(x)$$
 
+![Barycentric Simplex Gating & 98.4375% Micro-Expert Polytope Projection](../visualizers/chart_mope_barycentric_simplex.svg)
+*Figure 6.1: Barycentric 2-simplex gating and top-2 micro-expert polytope projection. Out of 128 micro-experts, activating exactly $k=2$ yields an exact $98.4375\%$ activation sparsity while maintaining uniform load balance across the hypersphere.*
+
+
 ---
 
 ## 5. Dual-Stream Asynchronous CUDA Execution Engine

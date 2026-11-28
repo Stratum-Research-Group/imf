@@ -294,6 +294,10 @@ $$N_{\text{half-integral}} = 2^{8 - 1} = 2^7 = \mathbf{128}$$
 #### Total Root Census:
 $$|\Phi(E_8)| = N_{\text{integral}} + N_{\text{half-integral}} = 112 + 128 = \mathbf{240}$$
 
+![Wolfram E8 Gosset Root Lattice & Coxeter Projection](../visualizers/wolfram_e8_gosset_lattice.svg)
+*Figure 3.1: Wolfram Coxeter-Petrie projection of the 240 $E_8$ Gosset root vertices. The 112 integral roots $(\pm 1, \pm 1, 0^6)$ and 128 half-integral roots $(\pm 1/2^8)$ form the vertices of the semi-regular Gosset $4_{21}$ polytope, realizing kissing number $\tau_8 = 240$ and 19,440 bounding facets ($17,280$ simplices $\alpha_7$ and $2,160$ orthoplexes $\beta_7$).*
+
+
 ### 3.2 Pairwise Inner Products and Angular Distribution
 
 Let $u, v \in \Phi(E_8)$ be two distinct roots. Because $\Lambda(E_8)$ is an even integral lattice, their inner product $\langle u, v \rangle$ must be an integer:

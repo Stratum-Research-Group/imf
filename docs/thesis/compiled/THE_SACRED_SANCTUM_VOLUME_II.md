@@ -1313,6 +1313,10 @@ $$N_{\text{half-integral}} = 2^{8 - 1} = 2^7 = \mathbf{128}$$
 #### Total Root Census:
 $$|\Phi(E_8)| = N_{\text{integral}} + N_{\text{half-integral}} = 112 + 128 = \mathbf{240}$$
 
+![Wolfram E8 Gosset Root Lattice & Coxeter Projection](../visualizers/wolfram_e8_gosset_lattice.svg)
+*Figure 3.1: Wolfram Coxeter-Petrie projection of the 240 $E_8$ Gosset root vertices. The 112 integral roots $(\pm 1, \pm 1, 0^6)$ and 128 half-integral roots $(\pm 1/2^8)$ form the vertices of the semi-regular Gosset $4_{21}$ polytope, realizing kissing number $\tau_8 = 240$ and 19,440 bounding facets ($17,280$ simplices $\alpha_7$ and $2,160$ orthoplexes $\beta_7$).*
+
+
 ### 3.2 Pairwise Inner Products and Angular Distribution
 
 Let $u, v \in \Phi(E_8)$ be two distinct roots. Because $\Lambda(E_8)$ is an even integral lattice, their inner product $\langle u, v \rangle$ must be an integer:
@@ -2567,6 +2571,10 @@ The minimal vectors have $\sum x_i^2 = 32$ ($\|u\|^2 = 4$). They partition into 
 **Total Kissing Number:**
 $$N_{\text{total}} = N_1 + N_2 + N_3 = 1,104 + 97,152 + 98,304 = \mathbf{196,560} \quad \blacksquare$$
 
+![Wolfram 24D Leech Lattice Lambda_24 Kissing Census & Conway Orbit Foliation](../visualizers/wolfram_leech_kissing_graph.svg)
+*Figure 4.1: Wolfram algebraic census and Conway orbit foliation of the 24-dimensional Leech lattice $\Lambda_{24}$. The 196,560 minimal kissing vectors partition strictly into 1,104 cross vectors, 97,152 octad vectors over $S(5,8,24)$, and 98,304 odd vectors under the automorphism group $\operatorname{Co}_0$.*
+
+
 ---
 
 ## 5. Conway Sporadic Simple Groups: $\operatorname{Co}_0, \operatorname{Co}_1, \operatorname{Co}_2, \operatorname{Co}_3$
@@ -3030,6 +3038,10 @@ We benchmarked the Megascale Leech MoPE routing engine on NVIDIA RTX 5060 Ti (Bl
 | 32,768 | 1,104 | $91.12\text{ ms}$ | $4.980\text{ ms}$ | **$18.3\times$** | $0.996$ | $0.0016$ |
 
 Leech Polytope MoPE eliminates routing collapse completely: normalized routing entropy maintains $H/H_{\max} \ge 0.996$ across all tokens, while reducing gating latency by up to $18.3\times$ compared to standard dense linear projections.
+
+![Leech Fast Golay Decoding Latency Benchmark](../visualizers/chart_leech_mope_latency.svg)
+*Figure 4.2: Execution latency scaling comparison between Dense Router Baseline and Bounded-Distance Leech Lattice MoPE across batch sizes on NVIDIA Blackwell SM120.*
+
 
 ---
 
@@ -3530,6 +3542,10 @@ Let $\{i_1, i_2\} = \operatorname{arg\,top\,2}(p(x))$ denote the indices of the 
 $$w_1 = \frac{p_{i_1}}{p_{i_1} + p_{i_2}}, \qquad w_2 = \frac{p_{i_2}}{p_{i_1} + p_{i_2}}$$
 The sparse output is the barycentric combination:
 $$\operatorname{Sparse}(x) = w_1 \cdot e_{i_1}(x) + w_2 \cdot e_{i_2}(x)$$
+
+![Barycentric Simplex Gating & 98.4375% Micro-Expert Polytope Projection](../visualizers/chart_mope_barycentric_simplex.svg)
+*Figure 6.1: Barycentric 2-simplex gating and top-2 micro-expert polytope projection. Out of 128 micro-experts, activating exactly $k=2$ yields an exact $98.4375\%$ activation sparsity while maintaining uniform load balance across the hypersphere.*
+
 
 ---
 
@@ -4630,6 +4646,8 @@ By grounding our high-dimensional neural architectures in verified mathematical 
 
 ---
 
+<div class="conclusion-references-block" style="page-break-inside: avoid; break-inside: avoid;">
+
 ## 6. Conclusion of Volume II
 
 With this chapter, the ninth and concluding treatise of **Volume II: The Sacred Sanctum of Higher-Dimensional Spaces**, our journey across the higher-dimensional landscape reaches its synthesis. From the exceptional holonomy groups $G_2$ and $\operatorname{Spin}(7)$ born of the non-associative octonions $\mathbb{O}$ (Chapter 1), to the counter-intuitive measure concentration and hyperspherical orthogonality of high dimensions (Chapter 2); from Maryna Viazovska's breakthrough in 8-dimensional $E_8$ sphere packing (Chapter 3) to the 24-dimensional Leech lattice $\Lambda_{24}$ and the Conway groups (Chapter 4); from sub-bit Polytope Lattice Quantization compressing models to $0.58\text{--}1.58$ bits (Chapter 5) to the Fine-Grained Polytope MoPE achieving $98.4375\%$ activation sparsity (Chapter 6); and from the stabilizing forces of the Shared Foundation Trunk and Hyperspherical Repulsion (Chapter 7) and Dynamic Shannon Entropy Annealing (Chapter 8) to this formal verification in Lean 4 (Chapter 9)—Volume II establishes that the higher-dimensional geometry $4 < d \le 24$ is the true architectural sanctum of foundational intelligence.
@@ -4647,8 +4665,7 @@ In **Volume III: Transfinite, Non-Archimedean, and Ultra-Dimensional Geometries*
 5. Stratum Research Group. (2026). *Pilot Formalization: High-Dimensional Polytope Sparsity & Hyperspherical Non-Collapse*, `lean_pilot/Pilot/PolytopeSparsity.lean`.
 6. Stratum Research Group. (2026). *IMF Formally Verified Grand Corpus Manifest*, `dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`.
 
-
----
+</div>
 
 <div class="cover-page back-cover">
   <img src="The_Sacred_Sanctum-Foundations_of_Sovereign_Intelligence_v02 Backcover.jpg" alt="Volume II: The Sacred Sanctum of Higher-Dimensional Spaces (4 < d <= 24) Back Cover"/>
