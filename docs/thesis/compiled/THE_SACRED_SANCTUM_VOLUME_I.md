@@ -3274,7 +3274,7 @@ This chapter has established the theoretical foundations of the Cayley transform
 - The rational Cayley transform $\mathcal{C}(A) = (\mathbf{I} - \frac{1}{2}A)^{-1}(\mathbf{I} + \frac{1}{2}A)$ replaces transcendental exponentials with exact rational arithmetic, producing strictly orthogonal matrices $\mathcal{C}(A) \in \mathrm{SO}(d)$ without truncation error.
 - Under the discrete Lyapunov functional $V(h) = \|h\|_2^2$, undamped Cayley evolution preserves state energy identically ($\Delta V = 0$).
 - Introducing controlled dissipation $\eta > 0$ guarantees strictly contractive dynamics ($\|\mathcal{C}_\eta(A)\|_2 < 1$), ensuring that the hidden state remains unconditionally stable.
-- Bounded rank-1 innovations ensure sub-linear triangular norm growth, while memory footprint remains strictly $\mathcal{O}(d_h^2)$ independent of sequence length $T$.
+- Bounded rank-1 innovations satisfy a worst-case linear triangular norm bound $\|M_T\|_F \le \|M_0\|_F + T B_v B_k$ (realizing empirical $\sim \sqrt{T}$ diffusion under uncorrelated innovations), while non-zero dissipation $\eta > 0$ establishes an unconditional asymptotic ceiling $\mathcal{O}(B_v B_k / \eta)$, with persistent memory footprint strictly $\mathcal{O}(d_h^2)$ independent of sequence length $T$.
 - All 8 core theorems are specified in Lean 4 (`Pilot.LieRollingCacheStability`; formal axiom audit pending in CI).
 
 In Chapter 5, we transition from pure mathematics to silicon, examining the warp-level NVIDIA Blackwell SM 12.0 implementation of the Lie rolling KV cache kernel (`fused_blackwell_lie_rolling_kv.cu`).
