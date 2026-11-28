@@ -39,6 +39,8 @@ All milestone entries below have been standardized with verified ISO 8601 certif
 
 ## 2. Cryptographic Block Integrity Ledger
 
+*Epistemic Note:* Proof step counts across epochs are author-reported generation telemetry logged during interactive training runs. Compacted parquet blocks stored in `dist/` contain reproducible token index records, synthetic evaluation trajectories, and SHA-256 integrity digests rather than self-contained proof tree objects.
+
 Every batch of 1,000,000 proof steps is compacted into a zstandard archive verified by SHA-256:
 
 - **Block #00001**: `SHA-256: 00495807b3454a9be6f2a5d918eb7f01e5b8d5074fccd86feeca8b838e62b050`

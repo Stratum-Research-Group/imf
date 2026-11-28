@@ -3222,7 +3222,7 @@ $$\|M_{t+1}\|_F \le \|M_t\|_F + \|\mathbf{v}_t\|_2 \|\mathbf{k}_t\|_2$$
 
 $\blacksquare$
 
-Formalized in Lean 4 (`docs/thesis/volume_1_dimensional_spaces/proofs/LieRollingCacheStability.lean`, Theorems 5, 6, and 8):
+Formalized in Lean 4 (`docs/thesis/volume_1_dimensional_spaces/proofs/LieRollingCacheStability.lean`, Theorems 5, 6, and 8; verified as discrete scalar algebraic scaffolding alongside numerical float64 matrix property tests in `tests/test_algebraic_invariants.py` and `WORKED_EXAMPLES_VOL1.md`):
 
 ```lean
 /-- Theorem 5: Finite memory invariant: Sequence evolution preserves constant spatial dimension d^2. -/
