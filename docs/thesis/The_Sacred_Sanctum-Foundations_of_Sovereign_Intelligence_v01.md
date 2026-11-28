@@ -1462,7 +1462,7 @@ private:
 
 ### 9.4 Machine-Verified Deductive Proofs in Lean 4
 
-The fundamental properties of Discrete Exterior Calculus are certified using the **Lean 4 Interactive Theorem Prover** and Mathlib. The formal proofs below confirm:
+The fundamental properties of Discrete Exterior Calculus are specified and verified using the **Lean 4 Interactive Theorem Prover** and Mathlib. The formal proofs below confirm:
 1. Exact nilpotency of boundary and coboundary operators $\partial^2 = 0$ and $\mathbf{d}^2 = 0$.
 2. Hodge star involutive sign duality in 4-dimensional Riemannian manifolds: $\star \circ \star = \operatorname{id}$.
 3. Orthogonality of the discrete Hodge-Helmholtz direct sum decomposition.
@@ -1470,7 +1470,7 @@ The fundamental properties of Discrete Exterior Calculus are certified using the
 ```lean
 -- ============================================================================
 -- IMF Formal Pilot Repository: Discrete Exterior Calculus Foundations
--- Certified under Lean 4 Core and Mathlib
+-- Formally verified under Lean 4 Core and Mathlib
 -- Module: IMF.Geometry.DiscreteExteriorCalculus
 -- ============================================================================
 
@@ -1655,12 +1655,12 @@ We model directed token-to-token affinities as a **discrete 1-form** $A \in C^1(
 +------------------------------------+----------------------------+----------------------------------+
 | Invariant Claim                    | Formal Status              | Verification System              |
 +------------------------------------+----------------------------+----------------------------------+
-| Boundary Nilpotency (partial^2 = 0)| Certified Deductive Truth  | Lean 4 Core Mathlib (0 axioms)   |
+| Boundary Nilpotency (partial^2 = 0)| Formally Verified Theorem  | Lean 4 Core Mathlib (0 axioms)   |
 | Coboundary Nilpotency (d^2 = 0)    | Exact Machine Identity     | C++20 CSR Sparse Matrix Test     |
 | Discrete Stokes' Equality          | Algebraic Tautology        | Analytic Proof (Theorem 1.3)     |
-| Hodge Star Involution (4D)         | Certified Deductive Truth  | Lean 4 (`hodge_sign_four_two`)   |
-| Hodge Orthogonal Tri-Split         | Certified Deductive Truth  | Lean 4 (`exact_coexact_ortho`)   |
-| Cotangent Positive Semi-Definite   | Certified Matrix Theorem   | Spectral Proof (Theorem 1.6)     |
+| Hodge Star Involution (4D)         | Formally Verified Theorem  | Lean 4 (`hodge_sign_four_two`)   |
+| Hodge Orthogonal Tri-Split         | Formally Verified Theorem  | Lean 4 (`exact_coexact_ortho`)   |
+| Cotangent Positive Semi-Definite   | Verified Matrix Theorem    | Spectral Proof (Theorem 1.6)     |
 | Shared-Ring Direct DMA           | Operational Subsystem      | Linux 6.18 `io_uring` Zero-Copy  |
 | Hardware Warp Intrinsics           | SM 12.0 Blackwell Verified | CUDA 12.8 Warp Cooperative Asm   |
 +------------------------------------+----------------------------+----------------------------------+
@@ -3410,7 +3410,7 @@ On modern architectures such as the NVIDIA Blackwell architecture where the arit
 
 *Figure 5.1: Autoregressive Decoding Memory Traffic vs Context Length (128k Tokens). Conventional Multi-Head Attention O(T) Unbounded Growth vs. IMF Lie Rolling Cache O(1) Silicon Invariance.*
 
-The **Interaction Model Foundations (IMF)** architecture breaks this barrier fundamentally through the **Lie Rolling KV Cache**. Instead of appending newly arriving key and value vectors to an ever-expanding cache buffer, IMF maintains a compact, fixed-size matrix state $M_t \in \mathbb{R}^{d_h \times d_h}$ for each attention head. The memory footprint is strictly $\mathcal{O}(d_h^2)$ and completely independent of sequence length $T$, as certified in Theorem `rolling_cache_constant_memory` of the Lean 4 formalization.
+The **Interaction Model Foundations (IMF)** architecture breaks this barrier fundamentally through the **Lie Rolling KV Cache**. Instead of appending newly arriving key and value vectors to an ever-expanding cache buffer, IMF maintains a compact, fixed-size matrix state $M_t \in \mathbb{R}^{d_h \times d_h}$ for each attention head. The memory footprint is strictly $\mathcal{O}(d_h^2)$ and completely independent of sequence length $T$, as formalized in Theorem `rolling_cache_constant_memory` of the Lean 4 specification.
 
 To execute this state recurrence at the physical limits of silicon, IMF implements a hardware-fused CUDA kernel tailored specifically for the **NVIDIA Blackwell SM 12.0** architecture. By choosing head dimension $d_h = 32$, the entire state matrix $M_t$ is pinned directly across the 32 threads of a single hardware warp. All matrix rotations, commutator innovations, and query projections execute on-chip in warp registers and shared memory staging tiles without context history DRAM traffic, achieving an in-register arithmetic pipeline bound of $\ge 0.82\ \mu\text{s}$ (2,048 cycles @ 2.54 GHz) for single-token decode.
 
@@ -4829,9 +4829,9 @@ In Chapter 7, we conclude Volume I by examining the formal deductive specificati
 
 Modern deep learning operates in an epistemic vacuum. State-of-the-art transformer models and state-space architectures are evaluated almost exclusively through empirical loss curves, heuristic validation sets, and statistical benchmarks. While empirical metrics indicate average-case capability, they cannot provide structural guarantees. In mission-critical systems, empirical evaluation leaves catastrophic blind spots: numerical divergence, gradient explosion, unbounded memory leak, and subtle dimensional corruption during long-context autoregressive rollouts.
 
-To transcend heuristic experimentation, the **Interaction Model Foundations (IMF)** architecture integrates **Formal Deductive Verification** directly into the core engineering lifecycle. Every mathematical invariant—energy conservation, Lie algebra anti-symmetry, finite memory footprint, and Lyapunov stability—is formalized and certified using the **Lean 4 interactive theorem prover**.
+To transcend heuristic experimentation, the **Interaction Model Foundations (IMF)** architecture integrates **Formal Deductive Verification** directly into the core engineering lifecycle. Every mathematical invariant—energy conservation, Lie algebra anti-symmetry, finite memory footprint, and Lyapunov stability—is formalized and checked using the **Lean 4 interactive theorem prover**.
 
-A theorem verified in Lean 4 is checked by a compact, trusted logical kernel executing the **Calculus of Inductive Constructions (CIC)**. In formal deductive logic, once a specification is certified by the proof assistant without unproven escape clauses, it establishes rigorous mathematical consistency within the formal model.
+A theorem verified in Lean 4 is checked by a compact, trusted logical kernel executing the **Calculus of Inductive Constructions (CIC)**. In formal deductive logic, once a specification is checked by the proof assistant without unproven escape clauses, it establishes rigorous mathematical consistency within the formal model.
 
 This chapter details **Module 83: Lie Rolling KV Cache Stability and Isometry**, formalized in `docs/thesis/volume_1_dimensional_spaces/proofs/LieRollingCacheStability.lean`. We present an exhaustive, line-by-line deductive analysis of all eight formally specified theorems, examine the underlying Lean 4 tactics (`ring`, `linarith`), audit the foundational axioms (`propext`, `Classical.choice`, `Quot.sound`), and demonstrate how formal Lean 4 proofs guarantee the stability of the Blackwell CUDA kernels (`csrc/fused_blackwell_lie_rolling_kv.cu`).
 
@@ -5017,7 +5017,7 @@ The formal verification in Lean 4 provides direct safety guarantees for the phys
 
 ```
 +------------------------------------+---------------------------------------------------------------+
-| Lean 4 Certified Theorem          | Concrete Guarantee in Blackwell SM 12.0 CUDA Kernel          |
+| Lean 4 Formalized Theorem         | Concrete Guarantee in Blackwell SM 12.0 CUDA Kernel          |
 +------------------------------------+---------------------------------------------------------------+
 | lie_bracket_trace_cancellation     | W_ij = v_i k_j - k_i v_j has zero diagonal: W_ii = 0.         |
 |                                    | Prevents trace explosion during in-register accumulation.     |
@@ -5209,7 +5209,7 @@ To ensure scientific transparency, Volume I concludes with a comprehensive expos
 - **Finding:** Pure raw antisymmetric Lie state projection evaluates to $26.0\%$ accuracy on $N=8$ key-value pairs (attributable to the un-rotated readout bug identified in U1). In contrast, a dual-readout linear memory check with separated symmetric and antisymmetric sectors ($M_{\text{fwd}} = \frac{1}{2}(M_S + M_A)$ and $M_{\text{rev}} = \frac{1}{2}(M_S - M_A)$) evaluates to **$100.0\%$ forward** and **$100.0\%$ reverse**, confirming that linear associative memories can be decomposed into symmetric storage and antisymmetric directional transport sectors.
 
 ### U10. Formal Proof-to-Silicon Verification Link
-- **Question:** What verifiable mechanism guarantees that the physical CUDA execution in `csrc/` obeys the deductive theorems certified in Lean 4?
+- **Question:** What verifiable mechanism guarantees that the physical CUDA execution in `csrc/` obeys the deductive theorems formalized in Lean 4?
 - **Resolution:** Implemented in `tests/test_algebraic_invariants.py`. An automated property-testing harness asserts that compiled matrix operations identically satisfy Lean Theorem 1 (nil-trace commutator), Theorem 2 (antisymmetry), Theorem 3 (Frobenius norm conservation), and contractive Lyapunov dissipation within floating-point tolerance ($< 10^{-12}$).
 
 ---
