@@ -943,7 +943,7 @@ import math
 
 def benchmark_high_dimensional_concentration(num_samples: int = 100_000):
     dimensions = [2, 4, 8, 16, 24, 64, 128, 256]
-    print(f"{'Dim':>5} | {'Theory Std':>10} | {'Empirical Std':>13} | {'Max Cosine':>10} | {'P(|cos| > 0.2)':>14} | {'Orthants 2^d':>15}")
+    print(f"{'Dim':>5} | {'Theory Std':>10} | {'Empirical Std':>13} | {'Max Cosine':>10} | {'P(|cos| >= 0.3)':>16} | {'Orthants 2^d':>15}")
     print("-" * 80)
 
     for d in dimensions:
@@ -988,7 +988,7 @@ if __name__ == "__main__":
 The empirical results perfectly corroborate the theoretical bounds and match the Worked Example 2.1 test suite (`scripts/verify_vol2_worked_examples.py`):
 - In dimension $d = 8$, the empirical standard deviation ($0.3535$) matches $1/\sqrt{8} \approx 0.3536$ within $0.03\%$, with $P(|\cos\theta| \ge 0.3) = 43.29\%$.
 - In dimension $d = 24$, $P(|\cos\theta| \ge 0.3) = 14.58\%$, matching the theoretical beta distribution integral $0.1448$, and the orthant space provides over $16.7$ million discrete chambers.
-- In dimension $d \ge 128$, the probability drops to $6.05 \times 10^{-4}$, and at $d = 256$, not a single random pair out of 200,000 samples exceeded $|\cos\theta| = 0.30$.
+- In dimension $d \ge 128$, the probability drops to $6.05 \times 10^{-4}$, and at $d = 256$, not a single random pair out of 100,000 samples exceeded $|\cos\theta| = 0.30$.
 
 ---
 
