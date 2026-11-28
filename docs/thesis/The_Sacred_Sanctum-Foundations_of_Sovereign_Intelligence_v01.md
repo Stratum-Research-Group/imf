@@ -3232,15 +3232,16 @@ To visualize the transition from linear norm accumulation under unconstrained ra
 +---------------------+-------------------+---------------------+------------------+-----------------+
 | Step Horizon T      | Undamped (eta=0)  | Weak (eta = 0.01)   | Nominal (eta=0.05)| Strong (eta=0.10)|
 +---------------------+-------------------+---------------------+------------------+-----------------+
-| Asymptotic Ceiling  | Unbounded (O(T))  | Ceiling: 100.0      | Ceiling: 20.0    | Ceiling: 10.0   |
+| Asymptotic Ceiling  | Growth ~sqrt(T)*  | Ceiling: 100.0      | Ceiling: 20.0    | Ceiling: 10.0   |
 | T = 0 (Init)        | 4.40              | 4.40                | 4.40             | 4.40            |
-| T = 100             | 14.28             | 14.12               | 13.51            | 9.87            |
-| T = 1,000           | 44.15             | 41.83               | 19.98            | 10.00           |
-| T = 10,000          | 139.02            | 99.45               | 20.00            | 10.00           |
-| T = 100,000         | 437.21            | 99.99               | 20.00            | 10.00           |
+| T = 100             | 11.21             | 6.91                | 3.33             | 2.29            |
+| T = 1,000           | 31.17             | 7.22                | 3.15             | 2.27            |
+| T = 10,000          | 97.57             | 6.93                | 3.21             | 2.27            |
+| T = 100,000         | 312.14            | 6.97                | 3.26             | 2.22            |
 +---------------------+-------------------+---------------------+------------------+-----------------+
 ```
-*Empirical note:* In undamped recursive accumulation ($\eta = 0$), orthogonal similarity rotations preserve existing energy while outer-product innovations $\mathbf{v}_t \mathbf{k}_t^\top$ induce random-walk norm growth (empirically scaling as $\sim \sqrt{T}$, evolving from $\|M_0\|_F = 4.40$ to $437.21$ at $T = 100,000$). Enabling contractive dissipation $\eta > 0$ strictly confines the recurrent state to the compact metric sphere $\|M_\infty\|_F \le B_v B_k / \eta$, ensuring activation variances remain strictly bounded for unbounded autoregressive rollouts.
+*Protocol and Reproducibility Note:* Generated via `scripts/bench_damping_ceiling_evolution.py` (seed 42, $d=32$, unit-norm random inputs $B_v = B_k = 1.0$, committed log: `benchmark_results/damping_ceiling_evolution.json`).
+*Growth Distinction:* In undamped recursive accumulation ($\eta = 0$), orthogonal rotations preserve energy while uncorrelated innovations $\mathbf{v}_t \mathbf{k}_t^\top$ induce diffusive random-walk norm growth scaling empirically as $\sim \sqrt{T}$ ($4.40 \to 312.14$ at $T = 100,000$). In contrast, Theorem 4.5 bounds worst-case adversarial coherent accumulation linearly as $\|M_T\|_F \le \|M_0\|_F + T B_v B_k$. Enabling contractive dissipation $\eta > 0$ enforces the strict asymptotic ceiling $\|M_\infty\|_F \le B_v B_k / \eta$ (e.g. $\|M_{100k}\|_F = 6.97 \le 100.0$ for $\eta = 0.01$, and $3.26 \le 20.0$ for $\eta = 0.05$), ensuring recurrent state stability for infinite context lengths.
 
 Formalized in Lean 4 (`docs/thesis/volume_1_dimensional_spaces/proofs/LieRollingCacheStability.lean`, Theorems 5, 6, and 8; verified as discrete scalar algebraic scaffolding alongside numerical float64 matrix property tests in `tests/test_algebraic_invariants.py` and `WORKED_EXAMPLES_VOL1.md`):
 
@@ -4903,26 +4904,27 @@ All eight theorems are formalized using standard Mathlib foundations, invoking o
 To provide complete epistemic transparency for sceptics and formal methods auditors, Table 7.1 inventories the formal modules underpinning the mathematical theorems of Volume I, cross-referencing theorem statements, verified axioms, and committed module paths:
 
 ```
-+------------------------------------------------------------------------------------------------------------------------+
-| TABLE 7.1: Formal Lean 4 Module Roster for Volume I Mathematical Theorems                                              |
-+------------+--------------------------------------------+-----------------------------+--------------------------------+
-| Chapter    | Theorem Statement Proved                   | Axiom Set Used              | Committed Module Path          |
-+------------+--------------------------------------------+-----------------------------+--------------------------------+
-| Ch 1 (DEC) | Discrete d^2 = 0 Nilpotency                | propext, Classical, Quot    | proofs/ExteriorDerivativeNil...|
-| Ch 1 (DEC) | Hodge Star Orthogonal Duality              | propext, Classical, Quot    | proofs/HodgeStarDuality.lean   |
-| Ch 2 (Gge) | Yang-Mills Curvature Bianchi Identity      | propext, Classical, Quot    | proofs/YangMillsCurvature.lean |
-| Ch 2 (Gge) | Cartan-Killing Semisimplicity              | propext, Classical, Quot    | proofs/CartanKillingSemisim... |
-| Ch 3 (Lie) | Lie Jacobi Identity & BCH Commutator       | propext, Classical, Quot    | proofs/LieJacobiBCH.lean       |
-| Ch 3 (Lie) | Poisson Bracket & Symplectic Invariance    | propext, Classical, Quot    | proofs/PoissonBracketJacobi... |
-| Ch 4 (Stb) | Orthogonal Frobenius Norm Preservation     | propext, Classical, Quot    | proofs/LieRollingCacheStabi... |
-| Ch 4 (Stb) | Monotonic Dissipation (E - eta <= E)       | propext, Classical, Quot    | proofs/LieRollingCacheStabi... |
-| Ch 4 (Stb) | Discrete Lyapunov Energy Stability         | propext, Classical, Quot    | proofs/LieRollingCacheStabi... |
-| Ch 5 (Krn) | Nil-Trace Commutator Tr([A,B]) = 0         | propext, Classical, Quot    | proofs/LieRollingCacheStabi... |
-| Ch 5 (Krn) | Skew-Symmetric Lie Generator Omega^T=-Omega| propext, Classical, Quot    | proofs/LieRollingCacheStabi... |
-| Ch 6 (DMA) | Invariant Finite Memory Spatial Dimension  | Computational (ring, [])    | proofs/LieRollingCacheStabi... |
-| Ch 8 (Brg) | Block-Diagonal Commuting Subalgebras       | propext, Classical, Quot    | proofs/CayleyOrthogonal.lean   |
-+------------+--------------------------------------------+-----------------------------+--------------------------------+
++---------------------------------------------------------------------------------------------------------------------------------------------------+
+| TABLE 7.1: Formal Lean 4 Module Roster for Volume I Mathematical Theorems (Audited against AXIOMS.md)                                            |
++------------+--------------------------------------------+-----------------------------+-----------------------------------------------------------+
+| Chapter    | Statement Proved                           | Axiom Set Used              | Full Committed Module Path                                |
++------------+--------------------------------------------+-----------------------------+-----------------------------------------------------------+
+| Ch 1 (DEC) | Discrete d^2 = 0 Nilpotency                | propext, Classical, Quot    | docs/thesis/volume_1_dimensional_spaces/proofs/Exterior...|
+| Ch 1 (DEC) | Hodge Star Orthogonal Duality              | propext, Classical, Quot    | docs/thesis/volume_1_dimensional_spaces/proofs/HodgeSta...|
+| Ch 2 (Gge) | Yang-Mills Curvature Bianchi Identity      | propext, Classical, Quot    | docs/thesis/volume_1_dimensional_spaces/proofs/YangMil...|
+| Ch 2 (Gge) | Cartan-Killing Semisimplicity              | propext, Classical, Quot    | docs/thesis/volume_1_dimensional_spaces/proofs/CartanK...|
+| Ch 3 (Lie) | Lie Jacobi Identity & BCH Commutator       | propext, Classical, Quot    | docs/thesis/volume_1_dimensional_spaces/proofs/LieJaco...|
+| Ch 3 (Lie) | Poisson Bracket & Symplectic Invariance    | propext, Classical, Quot    | docs/thesis/volume_1_dimensional_spaces/proofs/Poisson...|
+| Ch 4 (Stb) | Orthogonal Frobenius Norm Preservation     | propext, Classical, Quot    | docs/thesis/volume_1_dimensional_spaces/proofs/LieRoll...|
+| Ch 4 (Stb) | Monotonic Dissipation (E - eta <= E)       | propext, Classical, Quot    | docs/thesis/volume_1_dimensional_spaces/proofs/LieRoll...|
+| Ch 4 (Stb) | Discrete Lyapunov Energy Stability         | propext, Classical, Quot    | docs/thesis/volume_1_dimensional_spaces/proofs/LieRoll...|
+| Ch 5 (Krn) | Nil-Trace Commutator Tr([A,B]) = 0         | propext, Classical, Quot    | docs/thesis/volume_1_dimensional_spaces/proofs/LieRoll...|
+| Ch 5 (Krn) | Skew-Symmetric Lie Generator Omega^T=-Omega| propext, Classical, Quot    | docs/thesis/volume_1_dimensional_spaces/proofs/LieRoll...|
+| Ch 6 (DMA) | Invariant Finite Memory Dimension (Arith.) | Computational (ring, [])    | docs/thesis/volume_1_dimensional_spaces/proofs/LieRoll...|
+| Ch 8 (Brg) | Block-Diagonal Commuting Subalgebras       | propext, Classical, Quot    | docs/thesis/volume_1_dimensional_spaces/proofs/CayleyO...|
++------------+--------------------------------------------+-----------------------------+-----------------------------------------------------------+
 ```
+*Axiomatic Audit Verification:* All axioms above are audited mechanically via `#print axioms` and checked in [AXIOMS.md](file:///home/akarta/Projects/0.WiP/IMF/AXIOMS.md) (476 declarations verified with standard Mathlib CIC axioms `propext`, `Classical.choice`, `Quot.sound`). Note that the Chapter 6 entry `rolling_cache_constant_memory` ($d^2 + 0 \cdot T = d^2$) is an arithmetic identity evaluated by `ring`, not a physical hardware theorem.
 
 ---
 
@@ -5193,7 +5195,8 @@ This embedding transforms the title of Volume I from a restriction into an archi
 |                                    | 3D Simplicial DEC Nilpotency     | d1 * d0 = 0 (test_dec_3d_complex)   |
 |                                    | d <= 4 Closed Forms Verification | err < 1e-15 (closed_forms_verif)    |
 +------------------------------------+----------------------------------+----------------------------+
-| OPEN RESEARCH QUESTIONS            | U1: Associative Storage Capacity | Position un-rotation bound |
+| OPEN RESEARCH QUESTIONS (4 of 10   | U1: Associative Storage Capacity | Position un-rotation bound |
+| backed by lab data, 6 open)        | U2: Recurrent Norm Growth        | Contractive bound (untested)|
 | (Analyzed in Section 4 & Paper 1302)| U2: Recurrent Norm Growth        | Contractive bound (untested)|
 |                                    | U3: Token-Conditioned Connection | Backprop Cayley (analysis) |
 |                                    | U4: Reduced-Precision Drift      | Multi-seed FP16/BF16 sweep |
