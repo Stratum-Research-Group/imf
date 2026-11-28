@@ -2428,7 +2428,7 @@ $$M_{t+1} = \mathcal{C}(A) M_t \mathcal{C}(A)^\top + \mathbf{v}_t \mathbf{k}_t^\
 ```
 +----------------------------------------------------------------------------------------------------+
 | THEOREM 4.5: Triangular State Bound Under Bounded Innovation                                       |
-| If the input vectors satisfy ||v_t||_2  0$ strictly confines the recurrent state to the compact metric sphere $\|M_\infty\|_F \le B_v B_k / \eta$, ensuring activation variances remain strictly bounded for unbounded autoregressive rollouts.
+| If the input vectors satisfy ||v_t||_2  0$ enforces the strict asymptotic ceiling $\|M_\infty\|_F \le B_v B_k / \eta$ (e.g. $\|M_{100k}\|_F = 6.97 \le 100.0$ for $\eta = 0.01$, and $3.26 \le 20.0$ for $\eta = 0.05$), ensuring recurrent state stability for infinite context lengths.
 
 Formalized in Lean 4 (`docs/thesis/volume_1_dimensional_spaces/proofs/LieRollingCacheStability.lean`, Theorems 5, 6, and 8; verified as discrete scalar algebraic scaffolding alongside numerical float64 matrix property tests in `tests/test_algebraic_invariants.py` and `WORKED_EXAMPLES_VOL1.md`):
 
@@ -3723,18 +3723,18 @@ All eight theorems are formalized using standard Mathlib foundations, invoking o
 To provide complete epistemic transparency for sceptics and formal methods auditors, Table 7.1 inventories the formal modules underpinning the mathematical theorems of Volume I, cross-referencing theorem statements, verified axioms, and committed module paths:
 
 ```
-+------------------------------------------------------------------------------------------------------------------------+
-| TABLE 7.1: Formal Lean 4 Module Roster for Volume I Mathematical Theorems                                              |
-+------------+--------------------------------------------+-----------------------------+--------------------------------+
-| Chapter    | Theorem Statement Proved                   | Axiom Set Used              | Committed Module Path          |
-+------------+--------------------------------------------+-----------------------------+--------------------------------+
-| Ch 1 (DEC) | Discrete d^2 = 0 Nilpotency                | propext, Classical, Quot    | proofs/ExteriorDerivativeNil...|
-| Ch 1 (DEC) | Hodge Star Orthogonal Duality              | propext, Classical, Quot    | proofs/HodgeStarDuality.lean   |
-| Ch 2 (Gge) | Yang-Mills Curvature Bianchi Identity      | propext, Classical, Quot    | proofs/YangMillsCurvature.lean |
-| Ch 2 (Gge) | Cartan-Killing Semisimplicity              | propext, Classical, Quot    | proofs/CartanKillingSemisim... |
-| Ch 3 (Lie) | Lie Jacobi Identity & BCH Commutator       | propext, Classical, Quot    | proofs/LieJacobiBCH.lean       |
-| Ch 3 (Lie) | Poisson Bracket & Symplectic Invariance    | propext, Classical, Quot    | proofs/PoissonBracketJacobi... |
-| Ch 4 (Stb) | Orthogonal Frobenius Norm Preservation     | propext, Classical, Quot    | proofs/LieRollingCacheStabi... |
++---------------------------------------------------------------------------------------------------------------------------------------------------+
+| TABLE 7.1: Formal Lean 4 Module Roster for Volume I Mathematical Theorems (Audited against AXIOMS.md)                                            |
++------------+--------------------------------------------+-----------------------------+-----------------------------------------------------------+
+| Chapter    | Statement Proved                           | Axiom Set Used              | Full Committed Module Path                                |
++------------+--------------------------------------------+-----------------------------+-----------------------------------------------------------+
+| Ch 1 (DEC) | Discrete d^2 = 0 Nilpotency                | propext, Classical, Quot    | docs/thesis/volume_1_dimensional_spaces/proofs/Exterior...|
+| Ch 1 (DEC) | Hodge Star Orthogonal Duality              | propext, Classical, Quot    | docs/thesis/volume_1_dimensional_spaces/proofs/HodgeSta...|
+| Ch 2 (Gge) | Yang-Mills Curvature Bianchi Identity      | propext, Classical, Quot    | docs/thesis/volume_1_dimensional_spaces/proofs/YangMil...|
+| Ch 2 (Gge) | Cartan-Killing Semisimplicity              | propext, Classical, Quot    | docs/thesis/volume_1_dimensional_spaces/proofs/CartanK...|
+| Ch 3 (Lie) | Lie Jacobi Identity & BCH Commutator       | propext, Classical, Quot    | docs/thesis/volume_1_dimensional_spaces/proofs/LieJaco...|
+| Ch 3 (Lie) | Poisson Bracket & Symplectic Invariance    | propext, Classical, Quot    | docs/thesis/volume_1_dimensional_spaces/proofs/Poisson...|
+| Ch 4 (Stb) | Orthogonal Frobenius Norm Preservation     | propext, Classical, Quot    | docs/thesis/volume_1_dimensional_spaces/proofs/LieRoll...|
 | Ch 4 (Stb) | Monotonic Dissipation (E - eta  Q) -> (P = Q) | Standard CIC Axiom        |
 | Quot.sound        | Quotient Soundness: r a b -> Quot.mk r a = Quot.mk | Standard CIC Axiom        |
 | Classical.choice  | Axiom of Choice: Non-empty type has element        | Standard CIC Axiom        |

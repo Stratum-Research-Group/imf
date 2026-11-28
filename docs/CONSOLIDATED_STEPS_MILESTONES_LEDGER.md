@@ -2,9 +2,9 @@
 
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Orchestration System:** IMF MegaScale Deductive Prover Fleet  
-**Verification Bedrock:** Lean 4 Theorem Prover (`0 sorry`, `0 unproven axioms`)  
-**Standardized Target Profile:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell SM 12.0 / 16GB GDDR7) | Linux 6.18+ io_uring Direct-DMA  
-**Current Logged Milestone:** 2,600,000,000 Logged Deductive Steps (author-reported telemetry, 2.60 Billion Steps)  
+**Verification Bedrock:** Lean 4 Theorem Prover (`0 sorry`, `0 unproven axioms`; standard Mathlib CIC axioms `propext`, `Classical.choice`, `Quot.sound` per `AXIOMS.md`)  
+**Standardized Target Profile:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell SM 12.0 / 16GB GDDR7) | Linux 7.2+ io_uring Direct-DMA  
+**Current Logged Milestone:** 2,600,000,000 Logged Deductive Steps (11M steps fully measured with raw archives; remainder: author-reported scaffold telemetry)  
 
 ---
 
