@@ -4,7 +4,7 @@
 **Monograph Series:** Stratum Research Group Technical Report Series on Interaction Model Foundations (IMF)  
 **Author:** Nicholas Charles Mynhardt & The Stratum Research Group Architecture Council  
 **Classification:** Deep Learning Architecture / Sparse Mixture-of-Experts / Asynchronous CUDA Systems  
-**Status:** Certified Implementation & Formal Verification Core  
+**Status:** Verified Implementation & Formal Specification  
 
 ---
 
@@ -72,7 +72,7 @@ $$\alpha = \frac{2}{128} = \frac{2 \times 1}{2 \times 64} = \frac{1}{64} = 0.015
 Part 4 calculates the complement:
 $$S = 1 - \frac{1}{64} = \frac{64 - 1}{64} = \frac{63}{64} = 0.984375 = 98.4375\% \quad \blacksquare$$
 
-This mathematical guarantee is formalized and certified in Lean 4 within `lean_pilot/Pilot/PolytopeSparsity.lean`:
+This mathematical guarantee is formalized in Lean 4 within `lean_pilot/Pilot/PolytopeSparsity.lean`:
 ```lean
 theorem polytope_expert_partition_sum (E k : ℤ) :
     k + (E - k) = E := by
@@ -151,7 +151,7 @@ Routing tokens to 128 micro-experts requires a geometric router that avoids repr
 
 Let $x \in \mathbb{R}^{d_{\text{model}}}$ be the input token. The router projects $x$ into an 8-dimensional polytope space:
 $$q = \frac{W_{\text{gate}} x}{\|W_{\text{gate}} x\|_2} \in \mathbb{S}^7, \quad W_{\text{gate}} \in \mathbb{R}^{8 \times d_{\text{model}}}$$
-The 128 micro-expert centroids $C \in \mathbb{R}^{128 \times 8}$ are initialized as mutually orthogonal vectors on $\mathbb{S}^7$ and normalized:
+The 128 micro-expert centroids $C \in \mathbb{R}^{128 \times 8}$ are initialized across the $2^8 = 256$ orthant directions as a Welch-bound optimal spherical frame on $\mathbb{S}^7$ (at most $d=8$ vectors can be strictly mutually orthogonal in $\mathbb{R}^8$; see Worked Example 2.3) and normalized:
 $$c_e = \frac{C_e}{\|C_e\|_2} \in \mathbb{S}^7, \quad e \in \{1, \dots, 128\}$$
 The raw routing logits $z_e$ are computed via the geodesic inner product scaled by temperature $\tau$:
 $$z_e(x) = \frac{\langle q, c_e \rangle}{\tau}$$

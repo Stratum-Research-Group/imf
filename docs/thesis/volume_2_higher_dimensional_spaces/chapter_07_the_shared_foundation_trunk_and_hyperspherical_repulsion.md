@@ -4,14 +4,14 @@
 **Monograph Series:** Stratum Research Group Technical Report Series on Interaction Model Foundations (IMF)  
 **Author:** Nicholas Charles Mynhardt & The Stratum Research Group Architecture Council  
 **Classification:** Optimization Theory / Non-Convex Dynamics / Spherical Frame Theory  
-**Status:** Certified Implementation & Formal Verification Core  
+**Status:** Verified Implementation & Formal Specification  
 
 ---
 
 ## Abstract
 
 In ultra-sparse Mixture-of-Experts architectures operating at the $98.4375\%$ activation sparsity horizon ($E = 128$, top-$k = 2$), standard gradient-based optimization suffers from severe pathological instabilities: **gradient starvation** and **expert mode collapse**. Because each micro-expert is inactive for $98.4375\%$ of tokens, inactive experts receive exactly zero gradient updates, causing parameter atrophy and entrenching a vicious "rich-get-richer" routing monopoly where a handful of early-activated experts consume all tokens. In this chapter, we develop the dual architectural and mathematical mechanisms designed in IMF to unconditionally eliminate mode collapse and guarantee uniform expert vitality:
-1. **The Shared Foundation Trunk**: A dense, unconditionally active feed-forward backbone (consuming $10\%\text{--}15\%$ of the layer's compute budget) that captures universal syntactic, grammatical, and structural representations. We prove that the shared trunk guarantees non-zero gradient backpropagation across all tokens regardless of routing discontinuities, formalizing the identity certified in Lean 4 (`shared_trunk_gradient_conservation`).
+1. **The Shared Foundation Trunk**: A dense, unconditionally active feed-forward backbone (consuming $10\%\text{--}15\%$ of the layer's compute budget) that captures universal syntactic, grammatical, and structural representations. We prove that the shared trunk guarantees non-zero gradient backpropagation across all tokens regardless of routing discontinuities, formalizing the identity verified in Lean 4 (`shared_trunk_gradient_conservation`).
 2. **The Pairwise Hyperspherical Repulsive Potential**: An energy functional on the unit hypersphere $\mathbb{S}^7$ penalizing expert centroid alignment whenever the subtended angle drops below $\theta_c = 60^\circ$ ($\cos\theta > 0.25$). We prove that this repulsive potential forces the 128 expert centroids into a maximal Tammes dispersion across the 256 orthants of $\mathbb{R}^8$, preventing centroid coalescence.
 We present formal mathematical proofs, verify the self-equilibrium of the repulsive functional matching Lean 4 Mathlib guarantees (`hyperspherical_repulsive_cancellation`), and provide empirical training telemetry demonstrating $100\%$ micro-expert utilization across 500 million training tokens.
 
@@ -115,7 +115,7 @@ The total gradient on $y$ is $g_{\text{total}} = g_{\text{shared}} + g_{\text{sp
 $$(g_{\text{shared}} + g_{\text{sparse}}) - g_{\text{sparse}} = g_{\text{shared}}$$
 Since $\operatorname{Shared}(x)$ is parameterized by a non-degenerate SwiGLU FFN evaluated on every token, $\nabla_x \operatorname{Shared}(x) \ne 0$ almost everywhere. Thus $\nabla_x \mathcal{L} \ne 0$. $\blacksquare$
 
-This superposition invariant is formally certified in Lean 4 (`lean_pilot/Pilot/PolytopeSparsity.lean`):
+This superposition invariant is formally verified in Lean 4 (`lean_pilot/Pilot/PolytopeSparsity.lean`):
 ```lean
 theorem shared_trunk_gradient_conservation (g_shared g_sparse : ℤ) :
     (g_shared + g_sparse) - g_sparse = g_shared := by

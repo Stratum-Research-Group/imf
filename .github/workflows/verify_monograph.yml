@@ -64,6 +64,10 @@ jobs:
         run: |
           python3 scripts/verify_vol1_worked_examples.py
 
+      - name: Verify Volume 2 Worked Examples (All 16 Concrete Numerical Proofs)
+        run: |
+          python3 scripts/verify_vol2_worked_examples.py
+
   wolfram-syntax-audit:
     name: Wolfram Language (.wls) Audit
     runs-on: ubuntu-latest

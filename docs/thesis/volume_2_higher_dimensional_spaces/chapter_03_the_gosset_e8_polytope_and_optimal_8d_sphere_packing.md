@@ -4,7 +4,7 @@
 **Monograph Series:** Stratum Research Group Technical Report Series on Interaction Model Foundations (IMF)  
 **Author:** Nicholas Charles Mynhardt & The Stratum Research Group Architecture Council  
 **Classification:** Discrete Geometry / Modular Forms / Polytope Theory / Lattice Quantization / Systems Architecture  
-**Status:** Certified Implementation & Formal Verification Core  
+**Status:** Verified Implementation & Formal Specification  
 
 ---
 
@@ -442,7 +442,7 @@ $$F_7 = N(\alpha_7) + N(\beta_7) = 17,280 + 2,160 = \mathbf{19,440}$$
 
 ### 4.3 The Complete $f$-Vector of the Gosset $4_{21}$ Polytope
 
-The complete face count $F_k$ of the $4_{21}$ polytope for all dimensions $k \in \{0, 1, \dots, 8\}$ is summarized in the certified table below:
+The complete face count $F_k$ of the $4_{21}$ polytope for all dimensions $k \in \{0, 1, \dots, 8\}$ is summarized in the verified table below:
 
 | Dimension $k$ | Face Symbol | Geometric Structure | Count $F_k$ | Vertex Figure / Inscribed Symmetry |
 |:---:|:---:|:---:|:---:|:---:|

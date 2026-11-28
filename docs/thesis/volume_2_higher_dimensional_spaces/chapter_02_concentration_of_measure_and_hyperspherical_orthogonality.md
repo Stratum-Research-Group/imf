@@ -4,7 +4,7 @@
 **Monograph Series:** Stratum Research Group Technical Report Series on Interaction Model Foundations (IMF)  
 **Author:** Nicholas Charles Mynhardt & The Stratum Research Group Architecture Council  
 **Classification:** High-Dimensional Probability / Metric Geometry / Representation Theory  
-**Status:** Certified Implementation & Formal Verification Core  
+**Status:** Verified Implementation & Formal Specification  
 
 ---
 
@@ -256,17 +256,17 @@ $$P\left( \left| \theta - \frac{\pi}{2} \right| \ge \epsilon \right) \le 2 \exp\
 
 In the following table, we compute the standard deviation of the inner product $\sigma = 1/\sqrt{d}$ and the probability $P(|\langle u, v \rangle| \ge 0.3)$ that the cosine similarity exceeds $0.3$ across dimensions:
 
-| Dimension $d$ | Root Mean Square Cosine $\frac{1}{\sqrt{d}}$ | Average Angle $\mathbb{E}[\theta]$ | Std Dev of Angle $\sigma_\theta$ | $P(|\cos\theta| \ge 0.3)$ Bound |
+| Dimension $d$ | Root Mean Square Cosine $\frac{1}{\sqrt{d}}$ | Average Angle $\mathbb{E}[\theta]$ | Std Dev of Angle $\sigma_\theta$ | $P(|\cos\theta| \ge 0.3)$ Empirical ($N=10^6$) |
 |:---:|:---:|:---:|:---:|:---:|
-| 2 | $0.7071$ | $90.0^\circ$ | $45.0^\circ$ | $0.8269$ |
-| 3 | $0.5774$ | $90.0^\circ$ | $33.1^\circ$ | $0.7047$ |
-| 4 | $0.5000$ | $90.0^\circ$ | $28.7^\circ$ | $0.6065$ |
-| 8 ($E_8$) | $0.3536$ | $90.0^\circ$ | $20.3^\circ$ | $0.3499$ |
-| 16 | $0.2500$ | $90.0^\circ$ | $14.3^\circ$ | $0.0982$ |
-| 24 ($\Lambda_{24}$) | $0.2041$ | $90.0^\circ$ | $11.7^\circ$ | $0.0076$ |
-| 64 | $0.1250$ | $90.0^\circ$ | $7.16^\circ$ | $1.15 \times 10^{-4}$ |
-| 128 | $0.0884$ | $90.0^\circ$ | $5.06^\circ$ | $6.63 \times 10^{-9}$ |
-| 256 | $0.0625$ | $90.0^\circ$ | $3.58^\circ$ | $2.20 \times 10^{-17}$ |
+| 2 | $0.7071$ | $90.0^\circ$ | $51.95^\circ$ | $0.8060$ |
+| 3 | $0.5774$ | $90.0^\circ$ | $39.17^\circ$ | $0.6996$ |
+| 4 | $0.5000$ | $90.0^\circ$ | $32.52^\circ$ | $0.6234$ |
+| 8 ($E_8$) | $0.3536$ | $90.0^\circ$ | $21.56^\circ$ | $0.4322$ |
+| 16 | $0.2500$ | $90.0^\circ$ | $14.77^\circ$ | $0.2418$ |
+| 24 ($\Lambda_{24}$) | $0.2041$ | $90.0^\circ$ | $11.94^\circ$ | $0.1448$ |
+| 64 | $0.1250$ | $90.0^\circ$ | $7.21^\circ$ | $1.51 \times 10^{-2}$ |
+| 128 | $0.0884$ | $90.0^\circ$ | $5.09^\circ$ | $5.90 \times 10^{-4}$ |
+| 256 | $0.0625$ | $90.0^\circ$ | $3.59^\circ$ | $1.00 \times 10^{-6}$ |
 
 In dimension $d = 24$, two randomly chosen vectors have less than a $0.8\%$ chance of having a cosine similarity magnitude exceeding $0.3$. In dimension $d = 256$, the probability of exceeding $0.3$ is less than $10^{-16}$. In higher dimensions, **orthogonality is not an exceptional coincidence; it is the overwhelming geometric default**.
 

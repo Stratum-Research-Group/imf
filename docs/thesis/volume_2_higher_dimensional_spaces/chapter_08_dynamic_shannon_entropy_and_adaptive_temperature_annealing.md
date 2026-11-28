@@ -4,7 +4,7 @@
 **Monograph Series:** Stratum Research Group Technical Report Series on Interaction Model Foundations (IMF)  
 **Author:** Nicholas Charles Mynhardt & The Stratum Research Group Architecture Council  
 **Classification:** Information Theory / Dynamic Systems / Real-Time Token Scheduling  
-**Status:** Certified Implementation & Formal Verification Core  
+**Status:** Verified Implementation & Formal Specification  
 
 ---
 
@@ -324,7 +324,7 @@ Under dynamic annealing, the instant entropy declined below $0.85$, the controll
 
 Dynamic Shannon entropy regulation and adaptive temperature annealing transform fine-grained MoE routing from an open-loop, fragile mechanism into a robust, self-stabilizing closed-loop control system. By tracking real-time routing entropy, dynamically adapting temperatures via negative feedback, and bounding expert buffers with shared trunk fallback, `FineGrainedPolytopeMoPE` guarantees deterministic execution, zero mode collapse, and minimal token overflow across arbitrary data distributions.
 
-In Chapter 9, we conclude Volume II with the definitive mathematical certification of these principles: **Formal Verification in Lean 4: Module Pilot.PolytopeSparsity**.
+In Chapter 9, we conclude Volume II with the definitive mathematical formalization of these principles: **Formal Verification in Lean 4: Module Pilot.PolytopeSparsity**.
 
 ---
 
