@@ -10,7 +10,7 @@
 
 ## 1. Authoritative Milestone Progression (Standardized Verification Ledger)
 
-All milestone entries below have been standardized with verified ISO 8601 certification dates, authoritative hardware acceleration profiles, and cryptographic proof-block bounds.
+All milestone entries below have been standardized with recorded ISO 8601 logged dates, authoritative hardware acceleration profiles, and SHA-256 integrity digests.
 
 | Milestone Epoch | Cumulative Steps | Blocks Sealed | Date Logged (ISO) | Standardized Hardware Profile | Primary Breakthrough / Invariant Formalized |
 | :--- | :--- | :--- | :--- | :--- | :--- |
