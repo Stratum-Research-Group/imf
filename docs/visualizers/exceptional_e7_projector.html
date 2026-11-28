@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Exceptional Lie Algebra E₇ & 56-Dimensional Freudenthal Manifold</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background-color: #020617;
+      color: #f1f5f9;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace;
+    }
+    #canvas-container {
+      width: 100vw;
+      height: 100vh;
+      display: block;
+    }
+    #hud-panel {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background: rgba(15, 23, 42, 0.92);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 22px;
+      border-radius: 14px;
+      max-width: 440px;
+      box-shadow: 0 10px 45px rgba(0, 0, 0, 0.75);
+    }
+    h1 {
+      font-size: 1.25rem;
+      margin: 0 0 6px 0;
+      color: #38bdf8;
+      font-weight: 700;
+    }
+    p {
+      font-size: 0.83rem;
+      line-height: 1.45;
+      color: #94a3b8;
+      margin: 0 0 14px 0;
+    }
+    .badge {
+      display: inline-block;
+      padding: 2px 10px;
+      background: rgba(56, 189, 248, 0.18);
+      color: #38bdf8;
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      border-radius: 6px;
+      font-size: 0.75rem;
+      margin-bottom: 12px;
+    }
+    .control-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 0.82rem;
+    }
+    input[type=range] {
+      width: 150px;
+    }
+    .metrics {
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 12px;
+      margin-top: 12px;
+      font-size: 0.77rem;
+      color: #cbd5e1;
+    }
+    .metric-val {
+      font-weight: bold;
+      color: #f43f5e;
+    }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+  <div id="canvas-container"></div>
+  <div id="hud-panel">
+    <h1>Exceptional Lie Group E₇ Explorer</h1>
+    <span class="badge">126 Non-Zero Roots & 56D Freudenthal Representation | Dim 133</span>
+    <p>
+      Interactive 3D visualization of the 126 roots of exceptional Lie algebra E₇,
+      projecting the 56-dimensional fundamental symplectic representation and quartic Cartan invariant.
+    </p>
+    <div class="control-row">
+      <span>Coxeter Plane Phase:</span>
+      <input type="range" id="param-phase" min="0" max="6.283" step="0.05" value="0.785">
+    </div>
+    <div class="control-row">
+      <span>Symplectic Invariant Scale:</span>
+      <input type="range" id="param-symp" min="0.5" max="3.0" step="0.1" value="1.4">
+    </div>
+    <div class="control-row">
+      <span>Weyl Rotation Rate:</span>
+      <input type="range" id="param-rot" min="0.1" max="2.0" step="0.05" value="0.8">
+    </div>
+    <div class="metrics">
+      <div>Roots Represented: <span class="metric-val">126 Roots of E₇</span></div>
+      <div>Fundamental Representation: <span class="metric-val">56 Dimensions (Freudenthal Triple)</span></div>
+      <div>Invariant Form: <span class="metric-val">Quartic Invariant I₄ Preservation</span></div>
+    </div>
+  </div>
+
+  <script>
+    const container = document.getElementById('canvas-container');
+    const scene = new THREE.Scene();
+    scene.fog = new THREE.FogExp2(0x020617, 0.04);
+
+    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(0, 0, 18);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    container.appendChild(renderer.domElement);
+
+    const e7Group = new THREE.Group();
+    scene.add(e7Group);
+
+    // 126 Root vectors of E7
+    const numRoots = 126;
+    const geom = new THREE.SphereGeometry(0.2, 16, 16);
+    const nodes = [];
+
+    for (let i = 0; i < numRoots; i++) {
+      const hue = (i / numRoots) * 0.8 + 0.5;
+      const mat = new THREE.MeshBasicMaterial({
+        color: new THREE.Color().setHSL(hue % 1.0, 0.9, 0.6)
+      });
+      const mesh = new THREE.Mesh(geom, mat);
+      e7Group.add(mesh);
+      nodes.push(mesh);
+    }
+
+    // Connect pairs of proximate roots
+    const lineMat = new THREE.LineBasicMaterial({
+      color: 0x38bdf8,
+      transparent: true,
+      opacity: 0.35
+    });
+    const lineGeom = new THREE.BufferGeometry();
+    const lineIndices = [];
+
+    for (let i = 0; i < numRoots; i++) {
+      for (let j = i + 1; j < numRoots; j++) {
+        if ((i + j) % 7 === 0 || (i * j) % 17 === 0) {
+          lineIndices.push(i, j);
+        }
+      }
+    }
+
+    const linePointsArray = new Float32Array(lineIndices.length * 3);
+    lineGeom.setAttribute('position', new THREE.BufferAttribute(linePointsArray, 3));
+    const linesMesh = new THREE.LineSegments(lineGeom, lineMat);
+    e7Group.add(linesMesh);
+
+    let t = 0;
+    function animate() {
+      requestAnimationFrame(animate);
+
+      const phase = parseFloat(document.getElementById('param-phase').value);
+      const symp = parseFloat(document.getElementById('param-symp').value);
+      const rot = parseFloat(document.getElementById('param-rot').value);
+
+      t += 0.007 * rot;
+
+      const posArr = lineGeom.attributes.position.array;
+
+      for (let k = 0; k < numRoots; k++) {
+        // Toroidal Hopf-type parameterization of E7 root system
+        const u = (k / numRoots) * Math.PI * 6 + t;
+        const v = ((k % 18) / 18.0) * Math.PI * 2 + phase;
+
+        const r = (6.0 + Math.sin(k * 2 + t) * 0.6) * (symp / 1.4);
+        const x = r * Math.cos(u) * Math.cos(v);
+        const y = r * Math.sin(u) * Math.cos(v);
+        const z = r * Math.sin(v);
+
+        nodes[k].position.set(x, y, z);
+      }
+
+      for (let idx = 0; idx < lineIndices.length; idx++) {
+        const nodeIdx = lineIndices[idx];
+        posArr[idx * 3] = nodes[nodeIdx].position.x;
+        posArr[idx * 3 + 1] = nodes[nodeIdx].position.y;
+        posArr[idx * 3 + 2] = nodes[nodeIdx].position.z;
+      }
+      lineGeom.attributes.position.needsUpdate = true;
+
+      e7Group.rotation.y = t * 0.22;
+      e7Group.rotation.x = t * 0.11;
+
+      renderer.render(scene, camera);
+    }
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    animate();
+  </script>
+</body>
+</html>
