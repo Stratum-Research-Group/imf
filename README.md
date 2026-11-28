@@ -568,25 +568,48 @@ The theoretical, geometric, physical, and neuro-anatomical foundations are exhau
 
 ## 7. Quickstart & Operational Runbook
 
-### 1. Launch the Sovereign Daemon Server
+### 1. Launch the Sovereign Daemon Server (10 Sub-Bit Models)
 ```bash
-# Serves all 10 native sub-bit models, cognitive loop, swarms, and prover APIs on port 8092
+# Serves all 10 native sub-bit models, cognitive loop, council debate, and prover telemetry on port 8092
 uv run python scripts/serve_openai_compatible_api.py
 ```
+- Exposes all 10 models (IMF Foundation, 70B PLQ, 100B Leech MoPE, WEFT models) under `/v1/models`.
+- Live GPU/prover telemetry accessible at `http://127.0.0.1:8092/v1/megagym/routine`.
 
 ### 2. Launch Continuous MegaGym Prover Daemon
 ```bash
-# Seal continuous 1M blocks up to target block N
-uv run python scripts/continuous_megagym_daemon.py 55
+# Runs the autonomous background proving loop advancing towards the 32B certified step horizon
+uv run python scripts/daemonize_megagym_continuous.py &
+```
+- Operates with lockfile safety (`/tmp/megagym_prover.lock`).
+- Periodically solves, validates, and seals blocks directly into `dist/parquet_lake/*.parquet`.
+
+### 3. Monitor Live Fleet Status
+```bash
+# Terminal supervisory dashboard
+python3 bin/imf-megagym-status
+
+# Or full terminal UI (TUI) monitor
+python3 scripts/sovereign_monitor_tui.py
 ```
 
-### 3. Run the Paged VRAM Swapper Silicon Benchmark
+### 4. Execute the Canonical End-to-End Pipeline
+```bash
+# Executes all verification, benchmark, and certification stages in strict order:
+# 1. Hardware -> 2. Parquet Lake -> 3. Manifest -> 4. Worked Examples -> 5. PyTest -> 6. GPU Benchmarks -> 7. Lean 4 -> 8. Checksums
+python3 scripts/run_megagym_pipeline.py
+
+# Fast regression mode
+python3 scripts/run_megagym_pipeline.py --fast
+```
+
+### 5. Run the Paged VRAM Swapper Silicon Benchmark
 ```bash
 # Verifies zero-copy Direct-DMA swap latencies and strict <= 8GB ceiling on RTX 5060 Ti
 uv run python scripts/benchmark_vram_swapper_latency.py
 ```
 
-### 4. Launch Interaction Primitive Families MSS Void
+### 6. Launch Interaction Primitive Families MSS Void
 ```bash
 cd tools/metis-vscode
 ./.build/electron/imf-mss-void .

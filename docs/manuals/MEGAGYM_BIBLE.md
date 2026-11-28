@@ -59,9 +59,11 @@
    - 7.3 Milestone Milestones Ledger (`CONSOLIDATED_STEPS_MILESTONES_LEDGER.md`)
 8. [Operator Runbook & CLI Recipes](#8-operator-runbook--cli-recipes)
    - 8.1 Inspecting the Parquet Lake
-   - 8.2 Sealing Subsequent Batches
-   - 8.3 Verifying Checksums and Invariants
-   - 8.4 Disaster Recovery & Lake Reconstruction
+   - 8.2 Starting the Core Fleets
+   - 8.3 Executing the Canonical End-to-End Pipeline
+   - 8.4 Sealing Subsequent Batches Manually
+   - 8.5 Verifying Checksums and Invariants
+   - 8.6 Disaster Recovery & Lake Reconstruction
 
 ---
 
@@ -414,15 +416,69 @@ print(df.tail(5)[['block_id', 'step_count', 'thematic_focus', 'status']])
 "
 ```
 
-### 8.2 Sealing Subsequent Batches
-To advance the MegaGym and seal the next batch of proof steps:
+### 8.2 Starting the Core Fleets
+
+The system features two interconnected operational fleets: the **10-Model Sub-Bit Fleet** (inference & multi-agent council) and the **Autonomous MegaGym Prover Fleet** (continuous theorem proving & block sealing).
+
+#### 1. Starting the 10-Model Sub-Bit Fleet (`serve_openai_compatible_api.py`)
+To launch the sovereign inference and deliberation server on `http://127.0.0.1:8092/v1`:
+
+```bash
+# Foreground execution
+uv run python scripts/serve_openai_compatible_api.py
+
+# Or background daemon execution
+uv run python scripts/serve_openai_compatible_api.py > dist/server.log 2>&1 &
+```
+- **Silicon Target**: Allocates Tensor Core registers on the NVIDIA RTX 5060 Ti (Blackwell SM 12.0) and checks VRAM.
+- **Hosted Models**: Exposes the 10 native sub-bit models (including `imf-council-model`, `imf-foundation-1.14b`, `imf-70b-plq`, `imf-foundation-7b-gosset`, `imf-100b-leech-mope`, and WEFT models) under `/v1/models`.
+- **Live Telemetry**: Hooks live MegaGym metrics and lake status under `/v1/megagym/routine`.
+
+#### 2. Starting the Autonomous MegaGym Prover Fleet (`daemonize_megagym_continuous.py`)
+To launch the continuous background proving loop advancing towards 32B steps:
+
+```bash
+# Start autonomous background prover daemon
+uv run python scripts/daemonize_megagym_continuous.py &
+```
+- **Lockfile Safety**: Creates `/tmp/megagym_prover.lock` to prevent concurrency collisions during sealing.
+- **Continuous Cadence**: Wakes every 30 seconds to execute batches of proof steps, sealing records directly into `dist/parquet_lake/*.parquet` using the uniform 5-column schema.
+- **Telemetry Log**: Appends operational logs to `dist/megagym_daemon.log`.
+
+#### 3. Monitoring Fleet Telemetry in Real-Time
+To inspect the live status of the running fleet from the terminal:
+
+```bash
+# Terminal supervisory dashboard
+python3 bin/imf-megagym-status
+
+# Full Terminal UI (TUI) monitor
+python3 scripts/sovereign_monitor_tui.py
+```
+
+### 8.3 Executing the Canonical End-to-End Pipeline
+To run the complete verification, benchmark, and certification suite in strict sequential order:
+
+```bash
+# Canonical full pipeline run
+python3 scripts/run_megagym_pipeline.py
+
+# Fast regression mode
+python3 scripts/run_megagym_pipeline.py --fast
+
+# Fast mode skipping Lean 4 rebuild or GPU benchmarks (CPU environments)
+python3 scripts/run_megagym_pipeline.py --fast --skip-lean --skip-gpu
+```
+
+### 8.4 Sealing Subsequent Batches Manually
+To manually advance the MegaGym by sealing the next batch of proof steps:
 
 ```bash
 # Execute the automated sealing script
 python3 scripts/seal_megagym_next_batch.py
 ```
 
-### 8.3 Verifying Checksums and Invariants
+### 8.5 Verifying Checksums and Invariants
 To ensure that all thesis monographs, PDFs, and archives match their official cryptographic digests:
 
 ```bash
@@ -431,7 +487,7 @@ sha256sum -c CHECKSUMS.sha256
 sha512sum -c CHECKSUMS.sha512
 ```
 
-### 8.4 Disaster Recovery & Lake Reconstruction
+### 8.6 Disaster Recovery & Lake Reconstruction
 If a Parquet partition in `dist/parquet_lake/` is corrupted or requires schema re-standardization:
 
 ```python
