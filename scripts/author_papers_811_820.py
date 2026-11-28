@@ -103,7 +103,7 @@ Evaluated on NVIDIA GeForce RTX 5060 Ti (Blackwell SM 12.0, 16GB GDDR7, CUDA 12.
 5. `arakelov_pairing_nsmul_left`: $(n \bullet D_1, D_2)_{\mathrm{Ar}} = n \bullet (D_1, D_2)_{\mathrm{Ar}}$
 6. `arakelov_quadratic_expansion`: $(D_1 + D_2, D_1 + D_2)_{\mathrm{Ar}} = (D_1, D_1)_{\mathrm{Ar}} + 2 \bullet (D_1, D_2)_{\mathrm{Ar}} + (D_2, D_2)_{\mathrm{Ar}}$ (Faltings quadratic formula)
 
-All theorems compile in the Lean 4 kernel with 0 sorry and 0 unproven axioms."""
+All theorems compile in the Lean 4 kernel with 0 sorry and standard Mathlib axioms per AXIOMS.md."""
     ),
     (
         "paper_815_interactive_webgl_3d_archimedean_fiber_raytracing_and_kahler_geodesics.md",

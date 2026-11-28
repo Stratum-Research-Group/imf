@@ -4,7 +4,7 @@
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Phase Context:** Phase I: Core Architecture — Lie SSMs & Polytope Lattices  
 **Consolidated Range:** Papers 51 through 60 (10 treatises)  
-**Formal Verification:** Lean 4 Mathlib (`0 sorry`, `0 unproven axioms`)  
+**Formal Verification:** Lean 4 Mathlib (`0 sorry`, standard Mathlib axioms per `AXIOMS.md`)  
 **Hardware Target:** NVIDIA Blackwell SM 12.0 / Linux 6.18 Direct-DMA  
 
 ---

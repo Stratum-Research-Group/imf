@@ -4,7 +4,7 @@
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Phase Context:** Phase II: Formal Verification & Non-Euclidean Metrics  
 **Consolidated Range:** Papers 91 through 100 (11 treatises)  
-**Formal Verification:** Lean 4 Mathlib (`0 sorry`, `0 unproven axioms`)  
+**Formal Verification:** Lean 4 Mathlib (`0 sorry`, standard Mathlib axioms per `AXIOMS.md`)  
 **Hardware Target:** NVIDIA Blackwell SM 12.0 / Linux 6.18 Direct-DMA  
 
 ---

@@ -95,7 +95,7 @@ Evaluated on NVIDIA GeForce RTX 5060 Ti (Blackwell SM 12.0, 16GB GDDR7, CUDA 12.
 5. `serre_pairing_nsmul_left`: $\langle n \bullet \alpha, \beta \rangle = n \bullet \langle \alpha, \beta \rangle$
 6. `serre_pairing_nsmul_right`: $\langle \alpha, n \bullet \beta \rangle = n \bullet \langle \alpha, \beta \rangle$
 
-All theorems compile in the Lean 4 kernel with 0 sorry and 0 unproven axioms."""
+All theorems compile in the Lean 4 kernel with 0 sorry and standard Mathlib axioms per AXIOMS.md."""
     ),
     (
         "paper_835_interactive_webgl_3d_serre_dualizing_sheaves_and_canonical_line_raytracing.md",

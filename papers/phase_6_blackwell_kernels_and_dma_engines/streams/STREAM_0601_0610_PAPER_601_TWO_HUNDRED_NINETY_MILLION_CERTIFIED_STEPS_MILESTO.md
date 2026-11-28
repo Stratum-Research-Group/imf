@@ -4,7 +4,7 @@
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Document Type:** Unified Pairwise Consolidated Development Stream  
 **Consolidated Range:** Papers 601 through 610 (10 treatised units)  
-**Verification Standard:** Lean 4 Core & Mathlib (`0 sorry`, `0 unproven axioms`)  
+**Verification Standard:** Lean 4 Core & Mathlib (`0 sorry`, standard Mathlib axioms per `AXIOMS.md`)  
 **Execution Profile:** NVIDIA Blackwell SM 12.0 (RTX 5060 Ti) + Linux 6.18 io_uring DMA  
 
 ---
@@ -32,7 +32,7 @@ The scaling of autonomous machine epistemology demands uncompromised grounding i
 In this treatise, we establish the mathematical and microarchitectural formulations governing continuous deductive scaling. Hardware execution harnesses `csrc/` CUDA and C++ kernels, while formal invariants are verified via `lean_pilot/` in Lean 4 with Mathlib.
 
 ### 3. Verification and Empirical Findings
-All reported metrics reflect either verified Mathlib proofs (0 sorry, 0 unproven axioms) or recorded telemetry on physical workstation hardware (RTX 5060 Ti, Linux 6.18 NVMe Direct DMA).
+All reported metrics reflect either verified Mathlib proofs (0 sorry, standard Mathlib axioms per AXIOMS.md) or recorded telemetry on physical workstation hardware (RTX 5060 Ti, Linux 6.18 NVMe Direct DMA).
 
 ### 4. Conclusion
 This monograph establishes the foundational integrity of Treatise 601 within the broader Infinite Mathematical Foundations (IMF) architecture.
@@ -121,7 +121,7 @@ The scaling of autonomous machine epistemology demands uncompromised grounding i
 In this treatise, we establish the mathematical and microarchitectural formulations governing continuous deductive scaling. Hardware execution harnesses `csrc/` CUDA and C++ kernels, while formal invariants are verified via `lean_pilot/` in Lean 4 with Mathlib.
 
 ### 3. Verification and Empirical Findings
-All reported metrics reflect either verified Mathlib proofs (0 sorry, 0 unproven axioms) or recorded telemetry on physical workstation hardware (RTX 5060 Ti, Linux 6.18 NVMe Direct DMA).
+All reported metrics reflect either verified Mathlib proofs (0 sorry, standard Mathlib axioms per AXIOMS.md) or recorded telemetry on physical workstation hardware (RTX 5060 Ti, Linux 6.18 NVMe Direct DMA).
 
 ### 4. Conclusion
 This monograph establishes the foundational integrity of Treatise 603 within the broader Infinite Mathematical Foundations (IMF) architecture.
@@ -201,7 +201,7 @@ The scaling of autonomous machine epistemology demands uncompromised grounding i
 In this treatise, we establish the mathematical and microarchitectural formulations governing continuous deductive scaling. Hardware execution harnesses `csrc/` CUDA and C++ kernels, while formal invariants are verified via `lean_pilot/` in Lean 4 with Mathlib.
 
 ### 3. Verification and Empirical Findings
-All reported metrics reflect either verified Mathlib proofs (0 sorry, 0 unproven axioms) or recorded telemetry on physical workstation hardware (RTX 5060 Ti, Linux 6.18 NVMe Direct DMA).
+All reported metrics reflect either verified Mathlib proofs (0 sorry, standard Mathlib axioms per AXIOMS.md) or recorded telemetry on physical workstation hardware (RTX 5060 Ti, Linux 6.18 NVMe Direct DMA).
 
 ### 4. Conclusion
 This monograph establishes the foundational integrity of Treatise 605 within the broader Infinite Mathematical Foundations (IMF) architecture.
@@ -234,7 +234,7 @@ The scaling of autonomous machine epistemology demands uncompromised grounding i
 In this treatise, we establish the mathematical and microarchitectural formulations governing continuous deductive scaling. Hardware execution harnesses `csrc/` CUDA and C++ kernels, while formal invariants are verified via `lean_pilot/` in Lean 4 with Mathlib.
 
 ### 3. Verification and Empirical Findings
-All reported metrics reflect either verified Mathlib proofs (0 sorry, 0 unproven axioms) or recorded telemetry on physical workstation hardware (RTX 5060 Ti, Linux 6.18 NVMe Direct DMA).
+All reported metrics reflect either verified Mathlib proofs (0 sorry, standard Mathlib axioms per AXIOMS.md) or recorded telemetry on physical workstation hardware (RTX 5060 Ti, Linux 6.18 NVMe Direct DMA).
 
 ### 4. Conclusion
 This monograph establishes the foundational integrity of Treatise 606 within the broader Infinite Mathematical Foundations (IMF) architecture.
@@ -267,7 +267,7 @@ The scaling of autonomous machine epistemology demands uncompromised grounding i
 In this treatise, we establish the mathematical and microarchitectural formulations governing continuous deductive scaling. Hardware execution harnesses `csrc/` CUDA and C++ kernels, while formal invariants are verified via `lean_pilot/` in Lean 4 with Mathlib.
 
 ### 3. Verification and Empirical Findings
-All reported metrics reflect either verified Mathlib proofs (0 sorry, 0 unproven axioms) or recorded telemetry on physical workstation hardware (RTX 5060 Ti, Linux 6.18 NVMe Direct DMA).
+All reported metrics reflect either verified Mathlib proofs (0 sorry, standard Mathlib axioms per AXIOMS.md) or recorded telemetry on physical workstation hardware (RTX 5060 Ti, Linux 6.18 NVMe Direct DMA).
 
 ### 4. Conclusion
 This monograph establishes the foundational integrity of Treatise 607 within the broader Infinite Mathematical Foundations (IMF) architecture.
@@ -300,7 +300,7 @@ The scaling of autonomous machine epistemology demands uncompromised grounding i
 In this treatise, we establish the mathematical and microarchitectural formulations governing continuous deductive scaling. Hardware execution harnesses `csrc/` CUDA and C++ kernels, while formal invariants are verified via `lean_pilot/` in Lean 4 with Mathlib.
 
 ### 3. Verification and Empirical Findings
-All reported metrics reflect either verified Mathlib proofs (0 sorry, 0 unproven axioms) or recorded telemetry on physical workstation hardware (RTX 5060 Ti, Linux 6.18 NVMe Direct DMA).
+All reported metrics reflect either verified Mathlib proofs (0 sorry, standard Mathlib axioms per AXIOMS.md) or recorded telemetry on physical workstation hardware (RTX 5060 Ti, Linux 6.18 NVMe Direct DMA).
 
 ### 4. Conclusion
 This monograph establishes the foundational integrity of Treatise 608 within the broader Infinite Mathematical Foundations (IMF) architecture.
@@ -333,7 +333,7 @@ The scaling of autonomous machine epistemology demands uncompromised grounding i
 In this treatise, we establish the mathematical and microarchitectural formulations governing continuous deductive scaling. Hardware execution harnesses `csrc/` CUDA and C++ kernels, while formal invariants are verified via `lean_pilot/` in Lean 4 with Mathlib.
 
 ### 3. Verification and Empirical Findings
-All reported metrics reflect either verified Mathlib proofs (0 sorry, 0 unproven axioms) or recorded telemetry on physical workstation hardware (RTX 5060 Ti, Linux 6.18 NVMe Direct DMA).
+All reported metrics reflect either verified Mathlib proofs (0 sorry, standard Mathlib axioms per AXIOMS.md) or recorded telemetry on physical workstation hardware (RTX 5060 Ti, Linux 6.18 NVMe Direct DMA).
 
 ### 4. Conclusion
 This monograph establishes the foundational integrity of Treatise 609 within the broader Infinite Mathematical Foundations (IMF) architecture.
@@ -366,7 +366,7 @@ The scaling of autonomous machine epistemology demands uncompromised grounding i
 In this treatise, we establish the mathematical and microarchitectural formulations governing continuous deductive scaling. Hardware execution harnesses `csrc/` CUDA and C++ kernels, while formal invariants are verified via `lean_pilot/` in Lean 4 with Mathlib.
 
 ### 3. Verification and Empirical Findings
-All reported metrics reflect either verified Mathlib proofs (0 sorry, 0 unproven axioms) or recorded telemetry on physical workstation hardware (RTX 5060 Ti, Linux 6.18 NVMe Direct DMA).
+All reported metrics reflect either verified Mathlib proofs (0 sorry, standard Mathlib axioms per AXIOMS.md) or recorded telemetry on physical workstation hardware (RTX 5060 Ti, Linux 6.18 NVMe Direct DMA).
 
 ### 4. Conclusion
 This monograph establishes the foundational integrity of Treatise 610 within the broader Infinite Mathematical Foundations (IMF) architecture.

@@ -1,3 +1,11 @@
+/-!
+NOTE ON IMPLEMENTATION STATUS: SCAFFOLD MODEL
+This module formalizes an algebraic and structural scaffold modeling the key interfaces,
+properties, and computational indicators of the theory. It records core relational signatures
+and indicators rather than claiming a comprehensive, deep-kernel formalization of the complete
+underlying mathematical theory.
+-/
+
 /-
 Copyright (c) 2026 Stratum Research Group. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.

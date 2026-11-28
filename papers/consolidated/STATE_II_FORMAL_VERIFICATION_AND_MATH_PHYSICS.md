@@ -3,7 +3,7 @@
 **Stratum Research Group — Consolidated Master Architecture Treatise**  
 **Development State:** State 2 of VI  
 **Consolidated Treatises:** 53 total papers (49 theoretical foundations + 4 milestone compendiums)  
-**Formal Verification Bedrock:** Lean 4 Mathlib & Core (0 sorry, 0 unproven axioms)  
+**Formal Verification Bedrock:** Lean 4 Mathlib & Core (0 sorry, standard Mathlib axioms per AXIOMS.md)  
 **Hardware Execution Target:** NVIDIA Blackwell SM 12.0 / Linux 6.18+ io_uring Direct-DMA  
 
 ---

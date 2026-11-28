@@ -2428,7 +2428,7 @@ $$M_{t+1} = \mathcal{C}(A) M_t \mathcal{C}(A)^\top + \mathbf{v}_t \mathbf{k}_t^\
 ```
 +----------------------------------------------------------------------------------------------------+
 | THEOREM 4.5: Triangular State Bound Under Bounded Innovation                                       |
-| If the input vectors satisfy ||v_t||_2  0$ enforces the strict asymptotic ceiling $\|M_\infty\|_F \le B_v B_k / \eta$ (e.g. $\|M_{100k}\|_F = 6.97 \le 100.0$ for $\eta = 0.01$, and $3.26 \le 20.0$ for $\eta = 0.05$), ensuring recurrent state stability for infinite context lengths.
+| If the input vectors satisfy ||v_t||_2  0$ enforces the strict asymptotic ceiling $\|M_\infty\|_F \le B_v B_k / \eta$. Crucially, this analytical ceiling is a conservative, worst-case upper bound (e.g., $B_v B_k / \eta = 100.0$ for $\eta = 0.01$ and $20.0$ for $\eta = 0.05$); typical pseudo-random innovations sit far below this ceiling (empirical steady-state mean $\|M_{100k}\|_F = 7.09$ for $\eta = 0.01$ and $3.21$ for $\eta = 0.05$), ensuring robust recurrent state stability without reaching saturation.
 
 Formalized in Lean 4 (`docs/thesis/volume_1_dimensional_spaces/proofs/LieRollingCacheStability.lean`, Theorems 5, 6, and 8; verified as discrete scalar algebraic scaffolding alongside numerical float64 matrix property tests in `tests/test_algebraic_invariants.py` and `WORKED_EXAMPLES_VOL1.md`):
 
@@ -3723,18 +3723,18 @@ All eight theorems are formalized using standard Mathlib foundations, invoking o
 To provide complete epistemic transparency for sceptics and formal methods auditors, Table 7.1 inventories the formal modules underpinning the mathematical theorems of Volume I, cross-referencing theorem statements, verified axioms, and committed module paths:
 
 ```
-+---------------------------------------------------------------------------------------------------------------------------------------------------+
-| TABLE 7.1: Formal Lean 4 Module Roster for Volume I Mathematical Theorems (Audited against AXIOMS.md)                                            |
-+------------+--------------------------------------------+-----------------------------+-----------------------------------------------------------+
-| Chapter    | Statement Proved                           | Axiom Set Used              | Full Committed Module Path                                |
-+------------+--------------------------------------------+-----------------------------+-----------------------------------------------------------+
-| Ch 1 (DEC) | Discrete d^2 = 0 Nilpotency                | propext, Classical, Quot    | docs/thesis/volume_1_dimensional_spaces/proofs/Exterior...|
-| Ch 1 (DEC) | Hodge Star Orthogonal Duality              | propext, Classical, Quot    | docs/thesis/volume_1_dimensional_spaces/proofs/HodgeSta...|
-| Ch 2 (Gge) | Yang-Mills Curvature Bianchi Identity      | propext, Classical, Quot    | docs/thesis/volume_1_dimensional_spaces/proofs/YangMil...|
-| Ch 2 (Gge) | Cartan-Killing Semisimplicity              | propext, Classical, Quot    | docs/thesis/volume_1_dimensional_spaces/proofs/CartanK...|
-| Ch 3 (Lie) | Lie Jacobi Identity & BCH Commutator       | propext, Classical, Quot    | docs/thesis/volume_1_dimensional_spaces/proofs/LieJaco...|
-| Ch 3 (Lie) | Poisson Bracket & Symplectic Invariance    | propext, Classical, Quot    | docs/thesis/volume_1_dimensional_spaces/proofs/Poisson...|
-| Ch 4 (Stb) | Orthogonal Frobenius Norm Preservation     | propext, Classical, Quot    | docs/thesis/volume_1_dimensional_spaces/proofs/LieRoll...|
++-----------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| TABLE 7.1: Formal Lean 4 Module Roster for Volume I Mathematical Theorems (Audited against AXIOMS.md)                                                           |
++------------+--------------------------------------------+-----------------------+-----------------------------+-------------------------------------------------+
+| Chapter    | Statement Proved                           | Module Status         | Axiom Set Used              | Full Committed Module Path                      |
++------------+--------------------------------------------+-----------------------+-----------------------------+-------------------------------------------------+
+| Ch 1 (DEC) | Discrete d^2 = 0 Nilpotency                | Deep Mathlib Proof    | propext, Classical, Quot    | docs/thesis/volume_1_dimensional_spaces/proof...|
+| Ch 1 (DEC) | Hodge Star Orthogonal Duality              | Deep Mathlib Proof    | propext, Classical, Quot    | docs/thesis/volume_1_dimensional_spaces/proof...|
+| Ch 2 (Gge) | Yang-Mills Curvature Bianchi Identity      | Deep Mathlib Proof    | propext, Classical, Quot    | docs/thesis/volume_1_dimensional_spaces/proof...|
+| Ch 2 (Gge) | Cartan-Killing Semisimplicity              | Deep Mathlib Proof    | propext, Classical, Quot    | docs/thesis/volume_1_dimensional_spaces/proof...|
+| Ch 3 (Lie) | Lie Jacobi Identity & BCH Commutator       | Deep Mathlib Proof    | propext, Classical, Quot    | docs/thesis/volume_1_dimensional_spaces/proof...|
+| Ch 3 (Lie) | Poisson Bracket & Symplectic Invariance    | Deep Mathlib Proof    | propext, Classical, Quot    | docs/thesis/volume_1_dimensional_spaces/proof...|
+| Ch 4 (Stb) | Orthogonal Frobenius Norm Preservation     | Deep Mathlib Proof    | propext, Classical, Quot    | docs/thesis/volume_1_dimensional_spaces/proof...|
 | Ch 4 (Stb) | Monotonic Dissipation (E - eta  Q) -> (P = Q) | Standard CIC Axiom        |
 | Quot.sound        | Quotient Soundness: r a b -> Quot.mk r a = Quot.mk | Standard CIC Axiom        |
 | Classical.choice  | Axiom of Choice: Non-empty type has element        | Standard CIC Axiom        |
@@ -3778,7 +3778,12 @@ The formal verification in Lean 4 provides direct safety guarantees for the phys
 > 2. \textbf{Kernel Stability Under Continuous Innovation:} While Frobenius isometry is proven for similarity rotations, the survival of the Lyapunov contractive ceiling under non-stationary, heavy-tailed token innovations in physical $d=32$ hardware requires end-to-end training validation.
 > 3. \textbf{Absence of End-to-End Model Quality Benchmarks:} Volume I establishes mathematical invariants and silicon launch latencies ($51.5\ \mu\text{s}$), but does not report downstream pretraining loss curves or downstream linguistic evaluation metrics (e.g. MMLU, GSM8k) tied to a fully trained monolithic checkpoint.
 
-With the physical and mathematical foundations of low-dimensional spaces established, \textit{}Volume II: The Sacred Sanctum of Higher-Dimensional Spaces ($4 
+With the physical and mathematical foundations of low-dimensional spaces established, \textit{}Volume II: The Sacred Sanctum of Higher-Dimensional Spaces ($4  [!NOTE] Open Epistemic Questions and Verification Horizons (Volume I)
+> 1. \textbf{Block-Diagonal Subalgebras:} Whether block-diagonal $\mathfrak{so}(4)^8$ approximations forfeit non-trivial representation capacity relative to full continuous $\mathfrak{so}(32)$ rotations remains an open empirical question for large-scale language pre-training.
+> 2. \textbf{Lean Formalization Scope:} Core matrix and stability theorems in Volume I are proven in Mathlib; however, higher motivic extensions in the wider repository model algebraic scaffolds and signatures rather than constructive formalizations of full conjectures.
+> 3. \textbf{Hardware Generalizability:} All measured hardware micro-benchmarks are collected on a single desktop GPU (NVIDIA RTX 5060 Ti Blackwell SM120, Linux 6.17); multi-node scaling across NVLink clusters remains unmeasured telemetry.
+
+
   
 
 

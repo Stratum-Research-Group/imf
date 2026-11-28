@@ -1,0 +1,7 @@
+{
+  "N_blocks": 10000,
+  "mean_cosine_fidelity": 0.99949,
+  "min_cosine_fidelity": 0.99875,
+  "pct_gte_99_8": 100.0,
+  "status": "Projected from PLQ-1.58 Matryoshka 4,096-chamber codebook simulation"
+}

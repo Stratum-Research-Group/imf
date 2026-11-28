@@ -31,7 +31,7 @@ When mathematical dimensionality ascends beyond $d = 4$, human spatial intuition
 2. **Maryna Viazovska's $E_8$ Sphere Packing & Gosset $4_{21}$ Geometry:** Deploying the 240 minimal root vectors of the exceptional $E_8$ lattice—the vertices of the semi-regular Gosset $4_{21}$ polytope with its **17,280 regular 7-simplices** and **2,160 regular 7-orthoplexes**—to construct optimal 8-dimensional vector quantization codebooks achieving a $14.0\%$ reduction in quantization error over hypercubic grids.
 3. **Sub-Bit Polytope Lattice Quantization (PLQ):** Compressing multi-billion parameter foundations down to $0.58\text{--}1.58$ bits per parameter through concentric Matryoshka cross-polytopes and $E_8$ Voronoi cell projections.
 4. **The 24-Dimensional Leech Lattice $\Lambda_{24}$ & Conway Symmetry:** Scaling dense routing to the kissing number 196,560 of $\Lambda_{24}$, deriving deep discrete expert codebooks protected by Conway sporadic group symmetries.
-5. **Fine-Grained 98.4375% Polytope Mixture-of-Experts (MoPE):** Partitioning model capacity into 128 micro-experts with top-2 barycentric routing, achieving exact $1 - 2/128 = 63/64 = 98.4375\%$ activation sparsity without perplexity degradation.
+5. **Fine-Grained 98.4375% Polytope Mixture-of-Experts (MoPE):** Partitioning model capacity into 128 micro-experts with top-2 barycentric routing, achieving exact $1 - 2/128 = 63/64 = 98.4375\%$ activation sparsity (exact FLOP-fraction activation sparsity; quality effect on full-scale trained models untested).
 6. **Shared Foundation Trunk & Hyperspherical Repulsion:** Eliminating micro-expert mode collapse through an invariant dense backbone and hyperspherical repulsive potential fields.
 7. **Formally Verified Polytope Deductive Invariants:** Formal proof in Lean 4 (`Pilot.PolytopeSparsity`), formalizing the rational sparsity ratios, metric space non-negativity, and gradient conservation in Mathlib.
 
@@ -995,19 +995,19 @@ The empirical results perfectly corroborate the theoretical bounds and match the
 To explicitly test the tail bounds predicted by Lévy's Lemma against empirical sampling, Table 2.2 contrasts the analytical Lévy tail upper bound $P(|\langle u, v \rangle| \ge \epsilon) \le 2\exp(-d \epsilon^2 / 2)$ at $\epsilon = 0.25$ against empirical maximum inner products measured across $N = 100,000$ independent hyperspherical pairs in dimensions $d \in \{8, 24, 128, 1024\}$:
 
 ```
-+----------------------------------------------------------------------------------------------------+
-| TABLE 2.2: Hyperspherical Inner Product Concentration vs. Analytical Lévy Upper Bound (eps = 0.25) |
-+-----------+----------------------+--------------------+--------------------+-----------------------+
-| Dimension | Analytical Std 1/sqrt(d)| Measured Max |<u,v>|| Empirical P(|cos|>=0.25)| Lévy Bound: 2*exp(-d*eps^2/2)|
-+-----------+----------------------+--------------------+--------------------+-----------------------+
-| d = 8     | 0.3536               | 0.9653             | 0.5173             | 1.5576 (Vacuous)      |
-| d = 24    | 0.2041               | 0.7462             | 0.2261             | 0.9447                |
-| d = 128   | 0.0884               | 0.3841             | 0.0044             | 0.0366                |
-| d = 1024  | 0.0312               | 0.1489             | 0.0000 (< 1e-5)    | 2.5328e-14            |
-+-----------+----------------------+--------------------+--------------------+-----------------------+
++----------------------------------------------------------------------------------------------------------------------------------+
+| TABLE 2.2: Hyperspherical Inner Product Concentration vs. Exact Beta Tail and Lévy Upper Bound (eps = 0.25)                      |
++-----------+-------------------------+----------------------+--------------------------+--------------------+---------------------+
+| Dimension | Analytical Std 1/sqrt(d)| Measured Max |<u,v>| | Empirical P(|cos|>=0.25) | Exact Beta Tail*   | Lévy Upper Bound    |
++-----------+-------------------------+----------------------+--------------------------+--------------------+---------------------+
+| d = 8     | 0.3536                  | 0.9709               | 0.5109                   | 0.5165             | 1.5576 (Vacuous)    |
+| d = 24    | 0.2041                  | 0.7732               | 0.2285                   | 0.2281             | 0.9447 (Loose)      |
+| d = 128   | 0.0884                  | 0.3761               | 0.0046                   | 0.0043             | 0.0366              |
+| d = 1024  | 0.0312                  | 0.1389               | 0.0000 (< 1e-5)          | 4.44e-16           | 2.5328e-14          |
++-----------+-------------------------+----------------------+--------------------------+--------------------+---------------------+
 ```
-*Protocol and Reproducibility Note:* Generated via `scripts/bench_levy_concentration.py` (seed 42, $N=100,000$ independent uniform hyperspherical pairs sampled via normalized Gaussian vectors, committed log: `benchmark_results/levy_concentration.json`).
-*Analytical Takeaway:* In low dimensions ($d \le 8$), random vectors align frequently with high cosine similarity ($P(|\cos\theta| \ge 0.25) = 51.73\%$). By $d = 128$, empirical exceedance drops to $0.44\%$, and at $d = 1024$, all random vector pairs are strictly quasi-orthogonal ($|\langle u, v \rangle| \le 0.1489$), with the analytical Lévy tail probability strictly bounded by $2.5328 \times 10^{-14}$. This rigorous concentration guarantees that independent micro-experts experience vanishing mutual interference in high dimensions.
+*Protocol and Reproducibility Note:* Generated via `scripts/bench_levy_concentration.py` (seed 42, $N=100,000$ independent uniform hyperspherical pairs sampled via normalized Gaussian vectors with memory-bounded chunking, committed log: `benchmark_results/levy_concentration.json`). Exact spherical cap tail computed via regularized incomplete beta function $1 - I_{\epsilon^2}(1/2, (d-1)/2) = I_{1-\epsilon^2}((d-1)/2, 1/2)$.
+*Analytical Takeaway and Bound Tightness:* In low dimensions ($d \le 8$), random vectors align frequently with high cosine similarity (empirical exceedance $51.09\%$, matching the exact geometric beta tail of $51.65\%$). Here the classic exponential Lévy bound $2\exp(-d\epsilon^2/2) = 1.5576$ is vacuous ($>1.0$), and at $d=24$ ($0.9447$) it remains exceptionally loose compared to the true geometric probability of $22.81\%$. By $d = 128$, true exceedance drops to $0.43\%$, and at $d = 1024$, random pairs are strictly quasi-orthogonal ($|\langle u, v \rangle| \le 0.1389$, true tail $4.44 \times 10^{-16}$, bounded by $2.5328 \times 10^{-14}$). The exact beta tail resolves this looseness across all dimensions, confirming that independent micro-experts experience exponential decoupling as dimension grows.
 
 ---
 
@@ -3224,7 +3224,7 @@ $$\mathbf{w} = [0.852, -0.412, 0.915, -0.054, -0.781, 0.320, 0.655, -0.210]^\top
    $$\widehat{\mathbf{w}} = s \cdot r_{195} = [0.5249, -0.5249, 0.5249, -0.5249, -0.5249, 0.5249, 0.5249, -0.5249]^\top$$
    $$\mathbf{e} = \mathbf{w} - \widehat{\mathbf{w}} = [0.3271, 0.1129, 0.3901, 0.4709, -0.2561, -0.2049, 0.1301, 0.3149]^\top$$
    $$\|\mathbf{e}\|_2^2 = \sum_{i=1}^8 e_i^2 = 0.7173, \quad \text{Cosine Fidelity} = \frac{\langle \mathbf{w}, \widehat{\mathbf{w}} \rangle}{\|\mathbf{w}\|_2 \|\widehat{\mathbf{w}}\|_2} = \frac{2.0995}{1.7092 \times 1.4846} = 0.8686$$
-5. **Contrast with Scalar $\mathbb{Z}^8$ Rounding (Obligation 2 Check):** Standard scalar rounding rounds each $w_i$ independently to the nearest integer grid $[1, 0, 1, 0, -1, 0, 1, 0]^\top$. In high-rate quantization, the Voronoi second moment ratio $G(E_8)/G(\mathbb{Z}^8) = 0.071682 / 0.083333$ proves a theoretical **$13.98\%$ lower quantization noise power** across random spherical distributions (Chapter 3 Theorem 6.1). In full PLQ-1.58 (Section 3), adding 4-bit radial Matryoshka shell scaling drives cosine fidelity to $> 99.8\%$, demonstrating how an 8-bit index ($c=195$) captures directional energy in a single byte.
+5. **Contrast with Scalar $\mathbb{Z}^8$ Rounding (Obligation 2 Check):** Standard scalar rounding rounds each $w_i$ independently to the nearest integer grid $[1, 0, 1, 0, -1, 0, 1, 0]^\top$. In high-rate quantization, the Voronoi second moment ratio $G(E_8)/G(\mathbb{Z}^8) = 0.071682 / 0.083333$ proves a theoretical **$13.98\%$ lower quantization noise power** across random spherical distributions (Chapter 3 Theorem 6.1). In full PLQ-1.58 (Section 3), adding 4-bit radial Matryoshka shell scaling drives cosine fidelity to $> 99.8\%$ (empirically verified across 10,000 blocks via `scripts/bench_matryoshka_4bit_scaling.py`, achieving mean cosine fidelity $0.99949$ with minimum $0.99875$; committed log: `benchmark_results/matryoshka_4bit_scaling.json`), demonstrating how an 8-bit index ($c=195$) captures directional energy in a single byte.
 
 ---
 
@@ -3448,7 +3448,7 @@ In Chapter 6, we examine how these high-dimensional polytope frames are integrat
 
 ## Abstract
 
-Sparse Mixture-of-Experts (MoE) architectures are the primary paradigm for scaling parameter counts in modern foundation models without incurring proportional compute costs during inference. However, conventional MoE models rely on coarse partitions—typically 8 or 16 large experts with top-2 routing—which achieves only $75.0\%$ to $87.5\%$ activation sparsity, leaving massive computational redundancies intact. In this chapter, we develop the architecture and mathematical theory of the **Fine-Grained Polytope Mixture-of-Experts (FineGrainedPolytopeMoPE)**, implemented in `imf/polytope_moe.py`. By decomposing the feed-forward layer into $E = 128$ compact micro-experts and routing tokens via top-$k = 2$ dynamic barycentric gating on an 8-dimensional polytope frame, FineGrainedPolytopeMoPE establishes an exact activation sparsity of **$98.4375\%$** ($\frac{63}{64}$). We provide a formal deductive proof of this sparsity horizon, formalizing its integer partition guarantees matching Lean 4 verification in `Pilot.PolytopeSparsity`. Furthermore, we formulate the **Dual-Stream Asynchronous CUDA Execution Engine**, which overlaps the computation of the Shared Foundation Trunk on the primary GPU stream with concurrent micro-expert execution on an independent secondary CUDA stream. Finally, we provide empirical latency and FLOP benchmarks executed on an NVIDIA GeForce RTX 5060 Ti (Blackwell SM120) demonstrating a $3.41\times$ wall-clock speedup and a $14.2\times$ reduction in active parameters per token over dense baselines.
+Sparse Mixture-of-Experts (MoE) architectures are the primary paradigm for scaling parameter counts in modern foundation models without incurring proportional compute costs during inference. However, conventional MoE models rely on coarse partitions—typically 8 or 16 large experts with top-2 routing—which achieves only $75.0\%$ to $87.5\%$ activation sparsity, leaving massive computational redundancies intact. In this chapter, we develop the architecture and mathematical theory of the **Fine-Grained Polytope Mixture-of-Experts (FineGrainedPolytopeMoPE)**, implemented in `imf/polytope_moe.py`. By decomposing the feed-forward layer into $E = 128$ compact micro-experts and routing tokens via top-$k = 2$ dynamic barycentric gating on an 8-dimensional polytope frame, FineGrainedPolytopeMoPE establishes an exact activation sparsity of **$98.4375\%$** ($\frac{63}{64}$). We provide a formal deductive proof of this sparsity horizon, formalizing its integer partition guarantees matching Lean 4 verification in `Pilot.PolytopeSparsity`. Furthermore, we formulate the **Dual-Stream Asynchronous CUDA Execution Engine**, which overlaps the computation of the Shared Foundation Trunk on the primary GPU stream with concurrent micro-expert execution on an independent secondary CUDA stream. Finally, we provide empirical latency and FLOP benchmarks executed on an NVIDIA GeForce RTX 5060 Ti (Blackwell SM120) demonstrating a $3.41\times$ kernel speedup and a $14.2\times$ reduction in active parameters per token over dense baselines (projected from isolated micro-benchmarks on RTX 5060 Ti SM120; end-to-end model quality effect untested).
 
 ---
 
@@ -4751,6 +4751,11 @@ In **Volume III: Transfinite, Non-Archimedean, and Ultra-Dimensional Geometries*
 6. Stratum Research Group. (2026). *IMF Author-Reported Gym Manifest & Telemetry Scaffold*, `dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`.
 
 </div>
+
+> [!NOTE] Open Epistemic Questions and Verification Horizons (Volume II)
+> 1. **End-to-End Model Quality:** No end-to-end trained IMF-8B foundation checkpoint currently exists; fine-grained MoPE latency speedups ($3.41\times$) and PLQ compression ratios are projected from isolated kernel benchmarks and simulation scaffolds.
+> 2. **Sporadic Group Lean Modules:** Motivic modules touching sporadic groups, Moonshine, and transfinite fibrations represent relational signature scaffolds, not deep formalizations of the underlying group-theoretic classification.
+> 3. **Gym Telemetry vs. Silicon Measurements:** In the MegaGym scaling run, 11M steps are directly measured on physical silicon; the remainder reflects logged synthetic telemetry recorded across partition blocks.
 
 <div class="cover-page back-cover">
   <img src="The_Sacred_Sanctum-Foundations_of_Sovereign_Intelligence_v02 Backcover.jpg" alt="Volume II: The Sacred Sanctum of Higher-Dimensional Spaces (4 < d <= 24) Back Cover"/>

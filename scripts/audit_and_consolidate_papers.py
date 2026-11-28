@@ -624,7 +624,7 @@ def generate_consolidation_audit_report(batches: List[Dict[str, Any]], papers: L
         "",
         "**Milestone Horizon**: 1,000,000,000 Certified Deductive Proof Steps (One Billion Steps)  ",
         "**Corpus Volume**: 1,301 Comprehensive Scientific Treatises  ",
-        "**Formal Verification Bedrock**: 82 Lean 4 Mathlib Modules (`0 sorry`, `0 unproven axioms`)  ",
+        "**Formal Verification Bedrock**: 82 Lean 4 Mathlib Modules (`0 sorry`, `standard Mathlib axioms per AXIOMS.md`)  ",
         "**Silicon Targets**: NVIDIA Blackwell SM 12.0 (RTX 5060 Ti) + Linux 6.18 io_uring DMA Engine  ",
         "**Active Sparsity Status**: 98.4375% Activation Sparsity (Fine-Grained 128-Micro-Expert Polytope MoPE)  ",
         "",

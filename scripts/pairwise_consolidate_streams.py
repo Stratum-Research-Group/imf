@@ -55,7 +55,7 @@ def consolidate_streams():
             "**Author:** Nicholas Charles Mynhardt (Stratum Research Group)  ",
             "**Document Type:** Unified Research Stream Master Treatise  ",
             f"**Stream Scope:** Consolidating Papers {min(stream['paper_ids'])}–{max(stream['paper_ids'])}  ",
-            "**Verification Gate:** Lean 4 Core & Mathlib (`0 sorry`, `0 unproven axioms`)  ",
+            "**Verification Gate:** Lean 4 Core & Mathlib (`0 sorry`, `standard Mathlib axioms per AXIOMS.md`)  ",
             "**Hardware Execution Target:** NVIDIA Blackwell SM 12.0 (RTX 5060 Ti) + Linux 6.18 io_uring DMA  ",
             "",
             "---",

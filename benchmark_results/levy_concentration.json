@@ -2,29 +2,33 @@
   {
     "dimension": 8,
     "std_theory": 0.35355,
-    "max_dot": 0.9653,
-    "prob_exceed": 0.5173,
+    "max_dot": 0.9709,
+    "prob_exceed": 0.5109,
+    "exact_beta_tail": 0.5165,
     "levy_bound": 1.5576015661428098
   },
   {
     "dimension": 24,
     "std_theory": 0.20412,
-    "max_dot": 0.7462,
-    "prob_exceed": 0.2261,
+    "max_dot": 0.7732,
+    "prob_exceed": 0.2285,
+    "exact_beta_tail": 0.2281,
     "levy_bound": 0.9447331054820294
   },
   {
     "dimension": 128,
     "std_theory": 0.08839,
-    "max_dot": 0.3841,
-    "prob_exceed": 0.0044,
+    "max_dot": 0.3761,
+    "prob_exceed": 0.0046,
+    "exact_beta_tail": 0.0043,
     "levy_bound": 0.03663127777746836
   },
   {
     "dimension": 1024,
     "std_theory": 0.03125,
-    "max_dot": 0.1489,
+    "max_dot": 0.1389,
     "prob_exceed": 0.0,
+    "exact_beta_tail": 0.0,
     "levy_bound": 2.532833109818835e-14
   }
 ]

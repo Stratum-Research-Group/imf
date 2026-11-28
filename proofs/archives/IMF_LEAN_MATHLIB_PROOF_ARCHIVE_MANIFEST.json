@@ -7,6 +7,6 @@
     "lean_classical": 113,
     "proofs_lean": 1
   },
-  "verification_status": "Strictly 0 sorry, 0 unproven axioms",
+  "verification_status": "0 sorry, standard Mathlib CIC axioms (see AXIOMS.md); 11M steps measured",
   "mathlib_version": "v4.33.1"
 }

@@ -4,7 +4,7 @@
 **Author:** Nicholas Charles Mynhardt (Stratum Research Group)  
 **Document Type:** Unified Pairwise Consolidated Development Stream  
 **Consolidated Range:** Papers 751 through 760 (10 treatised units)  
-**Verification Standard:** Lean 4 Core & Mathlib (`0 sorry`, `0 unproven axioms`)  
+**Verification Standard:** Lean 4 Core & Mathlib (`0 sorry`, standard Mathlib axioms per `AXIOMS.md`)  
 **Execution Profile:** NVIDIA Blackwell SM 12.0 (RTX 5060 Ti) + Linux 6.18 io_uring DMA  
 
 ---
