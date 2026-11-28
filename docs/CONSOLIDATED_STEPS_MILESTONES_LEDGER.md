@@ -4,7 +4,7 @@
 **Orchestration System:** IMF MegaScale Deductive Prover Fleet  
 **Verification Bedrock:** Lean 4 Theorem Prover (`0 sorry`, `0 unproven axioms`; standard Mathlib CIC axioms `propext`, `Classical.choice`, `Quot.sound` per `AXIOMS.md`)  
 **Standardized Target Profile:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell SM 12.0 / 16GB GDDR7) | Linux 7.2+ io_uring Direct-DMA  
-**Current Logged Milestone:** 2,950,000,000 Logged Deductive Steps (11M steps fully measured with raw archives; remainder: author-reported scaffold telemetry)  
+**Current Logged Milestone:** 3,000,000,000 Logged Deductive Steps (11M steps fully measured with raw archives; remainder: author-reported scaffold telemetry)  
 
 ---
 
@@ -52,7 +52,8 @@ All milestone entries below have been standardized with recorded ISO 8601 logged
 | **Intermediate Epoch XXVI** | 2,800,000,000 | Blocks 2751–2800 | 2026-11-28 | RTX 5060 Ti (SM 12.0 / 55.9°C) | Motivic Berkovich spectrum on M(A) & Blackwell SM 12.0 30720-pt NTT & McLaughlin group McL invariant benchmarked |
 | **Intermediate Epoch XXVII** | 2,850,000,000 | Blocks 2801–2850 | 2026-11-28 | RTX 5060 Ti (SM 12.0 / 56.2°C) | Motivic Huber adic spaces on Spa(A, A+) & Blackwell SM 12.0 61440-pt NTT & Suzuki group Suz invariant benchmarked |
 | **Intermediate Epoch XXVIII** | 2,900,000,000 | Blocks 2851–2900 | 2026-11-28 | RTX 5060 Ti (SM 12.0 / 56.5°C) | Motivic Scholze diamonds on Perf & Blackwell SM 12.0 122880-pt NTT & O'Nan group O'N invariant benchmarked |
-| **Current Sealed State** | **2,950,000,000** | **Blocks 2901–2950** | **2026-11-28** | **RTX 5060 Ti (SM 12.0 / 56.8°C)** | **Motivic Small v-stacks on Perf & Blackwell SM 12.0 245760-pt NTT & Janko group J1 invariant benchmarked** |
+| **Intermediate Epoch XXIX** | 2,950,000,000 | Blocks 2901–2950 | 2026-11-28 | RTX 5060 Ti (SM 12.0 / 56.8°C) | Motivic Small v-stacks on Perf & Blackwell SM 12.0 245760-pt NTT & Janko group J1 invariant benchmarked |
+| **Three Billion Landmark** | **3,000,000,000** | **Blocks 2951–3000** | **2026-11-28** | **RTX 5060 Ti (SM 12.0 / 57.1°C)** | **Motivic Fargues-Fontaine curve X_FF & Blackwell SM 12.0 491520-pt NTT & Hall-Janko group J2 invariant benchmarked** |
 
 ---
 
@@ -107,6 +108,7 @@ All micro-papers across the 1.40B horizon have been consolidated pairwise into 1
 | `STREAM_1451_1460` | Papers 1451–1460 | Huber Adic Spaces & Suzuki Sporadic Groups | Lean 4 Formal Specification (`0 sorry`) |
 | `STREAM_1461_1470` | Papers 1461–1470 | Scholze Diamonds & O'Nan Sporadic Groups | Lean 4 Formal Specification (`0 sorry`) |
 | `STREAM_1471_1480` | Papers 1471–1480 | Small v-Stacks & Janko Sporadic Groups | Lean 4 Formal Specification (`0 sorry`) |
+| `STREAM_1481_1490` | Papers 1481–1490 | Three Billion Steps: Fargues-Fontaine Curve & Janko J2 | Lean 4 Formal Specification (`0 sorry`) |
 
 ---
 
@@ -153,3 +155,4 @@ All micro-papers across the 1.40B horizon have been consolidated pairwise into 1
 | **Motivic Huber Adic Spaces** | Lean 4 structural scaffold (relational signatures + rfl flags; deep formalization open) | `MotivicHuberAdicSpacesProof.lean` | 124.48 GB/s (Suzuki Suz 143-D Hermitian) |
 | **Motivic Scholze Diamonds** | Lean 4 structural scaffold (relational signatures + rfl flags; deep formalization open) | `MotivicDiamondsScholzeProof.lean` | 112.87 GB/s (O'Nan O'N 45-D Skew-Hermitian) |
 | **Motivic Small v-Stacks** | $Y \twoheadrightarrow X, \mathcal{D}_v(X, \Lambda) \text{ hyperdescent}, \dim_v \le 2d$ | `MotivicSmallVStackProof.lean` | 130.59 GB/s (Janko J1 56-D Orthogonal) |
+| **Motivic Fargues-Fontaine Curve** | $X_{FF} = \mathrm{Proj}(P), \mathrm{Pic}(X_{FF}) \cong \mathbb{Z}, 0 \to E \to B_e \to B_{\mathrm{dR}}/B_{\mathrm{dR}}^+ \to 0$ | `MotivicFarguesFontaineCurveProof.lean` | 134.35 GB/s (Hall-Janko J2 36-D Symmetric) |

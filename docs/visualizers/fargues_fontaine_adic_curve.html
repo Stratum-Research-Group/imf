@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adic Fargues-Fontaine Curve X_{FF} = Y / φ^Z</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #03040a;
+            color: #d8d8e5;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace;
+        }
+        #canvas-container {
+            width: 100vw;
+            height: 100vh;
+        }
+        #hud {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(5, 7, 16, 0.92);
+            border: 1px solid #00f0ff;
+            border-radius: 8px;
+            padding: 18px;
+            max-width: 460px;
+            box-shadow: 0 0 25px rgba(0, 240, 255, 0.3);
+            pointer-events: none;
+        }
+        h1 {
+            font-size: 1.15rem;
+            margin: 0 0 8px 0;
+            color: #00f0ff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        p {
+            font-size: 0.82rem;
+            line-height: 1.45;
+            margin: 4px 0;
+            color: #9da3b4;
+        }
+        .stat-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px 12px;
+            margin-top: 10px;
+            font-size: 0.78rem;
+        }
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 4px 6px;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 4px;
+        }
+        .stat-label {
+            color: #6c7284;
+        }
+        .stat-value {
+            color: #ff0077;
+            font-weight: bold;
+        }
+        #controls {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(5, 7, 16, 0.85);
+            border: 1px solid #282a36;
+            border-radius: 6px;
+            padding: 12px 18px;
+            font-size: 0.78rem;
+            color: #6272a4;
+        }
+    </style>
+    <!-- Three.js from cdnjs -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+</head>
+<body>
+    <div id="hud">
+        <h1>Adic Fargues-Fontaine Curve X_{FF}</h1>
+        <p>3D visualization of Laurent Fargues and Jean-Marc Fontaine's fundamental curve X_{FF} = Y / φ^Z, depicting Frobenius fundamental domains, the divisor of untilts, and p-adic period rings.</p>
+        <div class="stat-grid">
+            <div class="stat-item"><span class="stat-label">Curve:</span><span class="stat-value">X_FF = Proj(P) ≅ Y / φ^Z</span></div>
+            <div class="stat-item"><span class="stat-label">Dimension:</span><span class="stat-value">Pure 1 (Dedekind Scheme)</span></div>
+            <div class="stat-item"><span class="stat-label">Frobenius Action:</span><span class="stat-value">φ(v) = v^q Periodic</span></div>
+            <div class="stat-item"><span class="stat-label">Divisor of Untilt:</span><span class="stat-value">∞ = V(ξ) Codim 1</span></div>
+            <div class="stat-item"><span class="stat-label">Picard Group:</span><span class="stat-value">Pic(X_FF) ≅ Z</span></div>
+            <div class="stat-item"><span class="stat-label">Hodge Exactness:</span><span class="stat-value">0 → E → B_e → B_dR/B_dR^+ → 0</span></div>
+            <div class="stat-item"><span class="stat-label">Residue Field:</span><span class="stat-value">C = F^♯ Complete Field</span></div>
+            <div class="stat-item"><span class="stat-label">Moduli Space:</span><span class="stat-value">Bun_G ≅ B(G)</span></div>
+        </div>
+    </div>
+    <div id="controls">Orbit Controls: Left Drag: Rotate | Right Drag: Pan | Scroll: Zoom</div>
+    <div id="canvas-container"></div>
+
+    <script>
+        const container = document.getElementById('canvas-container');
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0x03040a, 0.02);
+
+        const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.set(16, 12, 18);
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        container.appendChild(renderer.domElement);
+
+        const controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
+
+        // Lighting
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+        scene.add(ambientLight);
+        const light1 = new THREE.PointLight(0x00f0ff, 2, 50);
+        light1.position.set(10, 20, 10);
+        scene.add(light1);
+        const light2 = new THREE.PointLight(0xff0077, 1.5, 50);
+        light2.position.set(-10, -10, -10);
+        scene.add(light2);
+
+        // Ground grid
+        const grid = new THREE.GridHelper(24, 24, 0x00f0ff, 0x141829);
+        grid.position.y = -6;
+        scene.add(grid);
+
+        const curveGroup = new THREE.Group();
+        scene.add(curveGroup);
+
+        // The Adic Curve as a helical torus representing Frobenius quotient Y / φ^Z
+        const curveRadius = 6.0;
+        const tubeRadius = 1.6;
+        const torusGeo = new THREE.TorusGeometry(curveRadius, tubeRadius, 32, 100);
+        const torusMat = new THREE.MeshStandardMaterial({
+            color: 0x1a237e,
+            emissive: 0x0d47a1,
+            emissiveIntensity: 0.35,
+            wireframe: true,
+            transparent: true,
+            opacity: 0.6
+        });
+        const torusMesh = new THREE.Mesh(torusGeo, torusMat);
+        torusMesh.rotation.x = Math.PI / 2;
+        curveGroup.add(torusMesh);
+
+        // Divisor of Hodge-Tate points ∞ = V(ξ) (glowing red nodal ring)
+        const divisorGeo = new THREE.TorusGeometry(curveRadius, 0.18, 16, 80);
+        const divisorMat = new THREE.MeshStandardMaterial({
+            color: 0xff0077,
+            emissive: 0xff0077,
+            emissiveIntensity: 0.9,
+            roughness: 0.2
+        });
+        const divisorMesh = new THREE.Mesh(divisorGeo, divisorMat);
+        divisorMesh.rotation.x = Math.PI / 2;
+        curveGroup.add(divisorMesh);
+
+        // Frobenius fundamental domain spirals (flowing helical geodesics)
+        const numSpirals = 6;
+        for (let s = 0; s < numSpirals; s++) {
+            const points = [];
+            const turns = 4;
+            const steps = 200;
+            const phase = (s / numSpirals) * Math.PI * 2;
+
+            for (let i = 0; i <= steps; i++) {
+                const u = (i / steps) * Math.PI * 2 * turns;
+                const r = curveRadius + Math.cos(u * 2 + phase) * tubeRadius;
+                const y = Math.sin(u * 2 + phase) * tubeRadius;
+                const theta = (i / steps) * Math.PI * 2;
+                const x = Math.cos(theta) * r;
+                const z = Math.sin(theta) * r;
+                points.push(new THREE.Vector3(x, y, z));
+            }
+
+            const spiralGeo = new THREE.BufferGeometry().setFromPoints(points);
+            const spiralMat = new THREE.LineBasicMaterial({
+                color: s % 2 === 0 ? 0x00f0ff : 0x7928ca,
+                transparent: true,
+                opacity: 0.7
+            });
+            curveGroup.add(new THREE.Line(spiralGeo, spiralMat));
+        }
+
+        // Particle field representing B_dR / B_e untilt points
+        const particleCount = 1200;
+        const particleGeo = new THREE.BufferGeometry();
+        const positions = new Float32Array(particleCount * 3);
+        const colors = new Float32Array(particleCount * 3);
+
+        for (let i = 0; i < particleCount; i++) {
+            const theta = Math.random() * Math.PI * 2;
+            const phi = Math.random() * Math.PI * 2;
+            const r = curveRadius + Math.cos(phi) * (tubeRadius + 0.5);
+            positions[i * 3] = Math.cos(theta) * r;
+            positions[i * 3 + 1] = Math.sin(phi) * tubeRadius;
+            positions[i * 3 + 2] = Math.sin(theta) * r;
+
+            colors[i * 3] = Math.random() > 0.5 ? 0.0 : 1.0;
+            colors[i * 3 + 1] = Math.random() * 0.9;
+            colors[i * 3 + 2] = 1.0;
+        }
+
+        particleGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        particleGeo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+        const particleMat = new THREE.PointsMaterial({
+            size: 0.14,
+            vertexColors: true,
+            transparent: true,
+            opacity: 0.75
+        });
+        const particles = new THREE.Points(particleGeo, particleMat);
+        curveGroup.add(particles);
+
+        // Animation Loop
+        let clock = new THREE.Clock();
+        function animate() {
+            requestAnimationFrame(animate);
+            const t = clock.getElapsedTime();
+
+            curveGroup.rotation.y = t * 0.12;
+            particles.rotation.y = -t * 0.04;
+
+            controls.update();
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>
