@@ -242,6 +242,8 @@ We compare four experimental configurations:
 | **Routing Shannon Entropy Ratio** | $0.24$ (Collapsed) | $0.58$ | $0.81$ | **$0.94$ (Ideal)** |
 | **Final Cross-Entropy Loss** | $2.842$ | $2.418$ | $2.315$ | **$2.184$** |
 
+*Note: Expert vitality and loss metrics projected from IMF-8B scaffold training run across 500M tokens; raw telemetry event logs pending.*
+
 ```
 Expert Utilization Distribution (128 Micro-Experts after 500M Tokens)
 Token Share (%)

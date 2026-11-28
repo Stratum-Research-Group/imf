@@ -300,25 +300,21 @@ def run_all():
     # -------------------------------------------------------------------------
     banner("EX 8.1  Ch8 (Thm 8.1): Dynamic temperature annealing negative-feedback stability")
     H_target = 0.85
-    tau0 = 1.0
     tau = 1.0
     E_experts = 128
     rng_c8 = np.random.default_rng(888)
     logits = rng_c8.standard_normal(E_experts) * 2.5
-    entropies = []
+    lr_tau = 0.05
     for step in range(10_000):
         # Softmax probabilities at temperature tau
         exp_z = np.exp((logits - np.max(logits)) / tau)
         p = exp_z / np.sum(exp_z)
         H_norm = -np.sum(p * np.log(p + 1e-15)) / np.log(E_experts)
-        gap = max(0.0, H_target - H_norm)
-        # Annealing update law: tau_eff = tau0 * exp(0.5 * gap)
-        tau = tau0 * np.exp(0.5 * gap)
-        if step % 2000 == 0:
-            entropies.append(H_norm)
-    # The feedback loop stabilizes H_norm deterministically
-    assert abs(entropies[-1] - entropies[-2]) < 1e-4
-    print(f"EX 8.1: PASSED (Annealing simulation converged over 10,000 steps to H_norm = {entropies[-1]:.4f})")
+        # Two-sided negative-feedback restoration law: cools when H > target, heats when H < target
+        tau = tau * np.exp(lr_tau * (H_target - H_norm))
+    # Assert entropy converges within 0.02 of target 0.85
+    assert abs(H_norm - H_target) < 0.02, f"Expected H_norm near {H_target}, got {H_norm}"
+    print(f"EX 8.1: PASSED (Two-sided annealing converged over 10,000 steps to H_norm = {H_norm:.4f} [target {H_target}], tau = {tau:.4f})")
 
     banner("EX 8.2  Ch8 (Thm 8.2): Load-balancing loss minimum at uniform dispatch")
     E_exp = 128

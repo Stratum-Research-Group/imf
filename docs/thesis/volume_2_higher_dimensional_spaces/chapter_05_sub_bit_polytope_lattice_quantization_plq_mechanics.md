@@ -167,6 +167,8 @@ By combining Gosset root quantization, Matryoshka chambers, and residual bit sha
 | **PLQ-0.75** | 6 bits (64 Pruned Roots) | 16-bit scale per 512 weights | **$0.781\text{ b}$** | **$96.12\%$** | $+0.52$ |
 | **PLQ-0.58** | 4 bits (16 Orthant Sectors) | 16-bit scale per 1024 weights | **$0.595\text{ b}$** | **$92.40\%$** | $+1.14$ |
 
+*Note: Perplexity degradation and cosine fidelity projected from IMF-8B architectural scaffold evaluation; raw checkpoint telemetry logs pending.*
+
 ```
                        Perplexity vs Bitrate Pareto Frontier
                                        

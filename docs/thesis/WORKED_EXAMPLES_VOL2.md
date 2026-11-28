@@ -6,7 +6,7 @@ Repo:    https://github.com/Stratum-Research-Group/imf
 File:    docs/thesis/compiled/THE_SACRED_SANCTUM_VOLUME_II.md
 Commit:  e59be5d6 (remote HEAD, 28 Nov 2026)
 Method:  every number below was computed, not written by hand. The full script
-         is in scripts/verify_vol2_worked_examples.py (numpy 2.5.5, float64;
+         is in scripts/verify_vol2_worked_examples.py (numpy >= 2.0.0, float64;
          no GPU, no Lean toolchain, no torch in this verification suite).
          Re-run:
              uv run python scripts/verify_vol2_worked_examples.py
@@ -124,7 +124,7 @@ Over $95\%$ of the ball's volume resides within an infinitesimal shell of depth 
 
 
 +------------------------------------------------------------------------------+
-| WORKED EXAMPLE 2.3 (Chapter 2 Sec 6 & Chapter 6, line 275 & 3520)            |
+| WORKED EXAMPLE 2.3 (Chapter 2 Sec 6 & Chapter 6, line 275 & 3534)            |
 | Orthant Capacity & The Welch Bound Orthogonality Ceiling                     |
 +------------------------------------------------------------------------------+
 1. Orthant Centroid Cosine:
@@ -154,7 +154,7 @@ CHAPTER 3 - THE GOSSET 4_21 POLYTOPE, E8, AND 8D SPHERE PACKING
 ################################################################################
 
 +------------------------------------------------------------------------------+
-| WORKED EXAMPLE 3.1 (Chapter 3, Theorem 4.1, line 1400)                       |
+| WORKED EXAMPLE 3.1 (Chapter 3, Theorem 4.1, line 1430)                       |
 | Explicit Construction of the 240 $E_8$ Roots                                 |
 +------------------------------------------------------------------------------+
 The 240 root vectors of $E_8$ partition into two canonical subsets:
@@ -178,7 +178,7 @@ Exact Properties Verified:
 
 
 +------------------------------------------------------------------------------+
-| WORKED EXAMPLE 3.2 (Chapter 3, Theorem 5.1, line 1501)                       |
+| WORKED EXAMPLE 3.2 (Chapter 3, Theorem 5.1, line 1505)                       |
 | Order of the $E_8$ Weyl Group $W(E_8)$                                       |
 +------------------------------------------------------------------------------+
 The Weyl group of $E_8$ has order given by the factorial factorization:
@@ -191,7 +191,7 @@ Factored into primes:
 
 
 +------------------------------------------------------------------------------+
-| WORKED EXAMPLE 3.3 (Chapter 3, Theorem 6.1, line 1626)                       |
+| WORKED EXAMPLE 3.3 (Chapter 3, Theorem 6.1, line 1630)                       |
 | $E_8$ Lattice Quantization Gain vs $\mathbb{Z}^8$ Scalar Rounding            |
 +------------------------------------------------------------------------------+
 The normalized second moment of a lattice measures its mean squared quantization
@@ -217,7 +217,7 @@ CHAPTER 4 - THE LEECH LATTICE LAMBDA_24 AND CONWAY SYMMETRY
 ################################################################################
 
 +------------------------------------------------------------------------------+
-| WORKED EXAMPLE 4.1 (Chapter 4, Theorem 4.3, line 2508)                       |
+| WORKED EXAMPLE 4.1 (Chapter 4, Theorem 4.3, line 2512)                       |
 | The Leech Lattice Kissing Number $\tau_{24} = 196,560$ and Minimal Norms     |
 +------------------------------------------------------------------------------+
 In the Leech lattice $\Lambda_{24}$, there are no root vectors of norm 2.
@@ -245,7 +245,7 @@ Total Kissing Number:
 
 
 +------------------------------------------------------------------------------+
-| WORKED EXAMPLE 4.2 (Chapter 4, Theorem 4.4, line 2576)                       |
+| WORKED EXAMPLE 4.2 (Chapter 4, Theorem 4.4, line 2584)                       |
 | Order of the Conway Automorphism Group $\operatorname{Co}_0$                 |
 +------------------------------------------------------------------------------+
 The automorphism group of the Leech lattice is Conway's group $\operatorname{Co}_0$.
@@ -264,7 +264,7 @@ CHAPTER 5 - SUB-BIT PLQ MECHANICS
 ################################################################################
 
 +------------------------------------------------------------------------------+
-| WORKED EXAMPLE 5.1 (Chapter 5, Section 5, line 3225)                         |
+| WORKED EXAMPLE 5.1 (Chapter 5, Section 5, line 3233)                         |
 | Effective Bits/Weight Arithmetic Across PLQ Regimes                          |
 +------------------------------------------------------------------------------+
 Effective bits per weight combines codebook index bits amortized over block
@@ -287,7 +287,7 @@ CHAPTER 6 - FINE-GRAINED POLYTOPE MOPE AND 98.4% SPARSITY
 ################################################################################
 
 +------------------------------------------------------------------------------+
-| WORKED EXAMPLE 6.1 (Chapter 6, Theorem 6.1, line 3423)                       |
+| WORKED EXAMPLE 6.1 (Chapter 6, Theorem 6.1, line 3437)                       |
 | The 98.4375% Inactive Sparsity Horizon & Partition Identity                  |
 +------------------------------------------------------------------------------+
 For $E = 128$ micro-experts and top-$k = 2$ active dispatch:
@@ -299,7 +299,7 @@ For $E = 128$ micro-experts and top-$k = 2$ active dispatch:
 
 
 +------------------------------------------------------------------------------+
-| WORKED EXAMPLE 6.2 (Chapter 6, Section 3, line 3480)                         |
+| WORKED EXAMPLE 6.2 (Chapter 6, Section 3, line 3526)                         |
 | Barycentric Gating Simplex Projection                                        |
 +------------------------------------------------------------------------------+
 Given three micro-expert centroids $c_1 = (1,0,0), c_2 = (0,1,0), c_3 = (0,0,1)$
@@ -318,7 +318,7 @@ CHAPTER 7 - THE SHARED FOUNDATION TRUNK & HYPERSPHERICAL REPULSION
 ################################################################################
 
 +------------------------------------------------------------------------------+
-| WORKED EXAMPLE 7.1 (Chapter 7, Theorem 7.1, line 3737)                       |
+| WORKED EXAMPLE 7.1 (Chapter 7, Theorem 7.1, line 3755)                       |
 | Shared Trunk Gradient Conservation Under Sparse Vanishing                    |
 +------------------------------------------------------------------------------+
 The total forward model is $f(x) = f_{\text{shared}}(x) + f_{\text{sparse}}(x)$,
@@ -338,7 +338,7 @@ CHAPTER 8 - DYNAMIC SHANNON ENTROPY & ADAPTIVE TEMPERATURE ANNEALING
 ################################################################################
 
 +------------------------------------------------------------------------------+
-| WORKED EXAMPLE 8.1 (Chapter 8, Theorem 8.1, line 4031)                       |
+| WORKED EXAMPLE 8.1 (Chapter 8, Theorem 8.1, line 4051)                       |
 | Negative Feedback Loop Stability in Dynamic Temperature Annealing            |
 +------------------------------------------------------------------------------+
 The adaptive temperature update law:
@@ -354,7 +354,7 @@ entropy stabilizes deterministically to within $< 10^{-4}$ fluctuation.
 
 
 +------------------------------------------------------------------------------+
-| WORKED EXAMPLE 8.2 (Chapter 8, Theorem 8.2, line 4119)                       |
+| WORKED EXAMPLE 8.2 (Chapter 8, Theorem 8.2, line 4139)                       |
 | Global Minimum of Load Balancing Loss at Uniform Dispatch                    |
 +------------------------------------------------------------------------------+
 The load balancing loss over $E = 128$ experts is:
@@ -375,7 +375,7 @@ CHAPTER 9 - FORMAL VERIFICATION LEAN 4 MODULE PILOT.POLYTOPESPARSITY
 ################################################################################
 
 +------------------------------------------------------------------------------+
-| WORKED EXAMPLE 9.1 (Chapter 9, Section 2, lines 4348-4383)                   |
+| WORKED EXAMPLE 9.1 (Chapter 9, Section 2, lines 4419-4560)                   |
 | NumPy Arithmetic Mirroring of the Eight Lean 4 Formally Verified Theorems    |
 +------------------------------------------------------------------------------+
 The 8 deductive theorems of `Pilot.PolytopeSparsity.lean` are mirrored as exact

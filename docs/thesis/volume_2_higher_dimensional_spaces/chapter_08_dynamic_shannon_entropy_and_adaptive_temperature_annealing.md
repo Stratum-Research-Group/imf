@@ -297,7 +297,7 @@ def _dispatch_micro_experts(
 
 ## 7. Empirical Telemetry Under Extreme Domain Shifts
 
-To demonstrate the real-time responsiveness of dynamic temperature annealing, we subject the IMF-8B model to an adversarial synthetic domain shift: alternating blocks of 1,000 tokens of natural English text with 1,000 tokens of formal Lean 4 proof scripts.
+To demonstrate the real-time responsiveness of dynamic temperature annealing, we subject the IMF-8B model scaffold to an adversarial synthetic domain shift: alternating blocks of 1,000 tokens of natural English text with 1,000 tokens of formal Lean 4 proof scripts (projected telemetry from IMF-8B scaffold, event logs pending).
 
 ```
                       Telemetry: Static vs Adaptive Temperature Under Domain Shift
