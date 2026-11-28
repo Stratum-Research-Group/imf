@@ -4,7 +4,7 @@
 **Orchestration System:** IMF MegaScale Deductive Prover Fleet  
 **Verification Bedrock:** Lean 4 Theorem Prover (`0 sorry`, `0 unproven axioms`)  
 **Standardized Target Profile:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti (Blackwell SM 12.0 / 16GB GDDR7) | Linux 6.18+ io_uring Direct-DMA  
-**Current Certified Milestone:** 2,000,000,000 Certified Deductive Proof Steps (2.00 Billion Steps - Two Billion Landmark)  
+**Current Logged Milestone:** 2,000,000,000 Logged Deductive Steps (author-reported telemetry, 2.00 Billion Steps - Two Billion Landmark)  
 
 ---
 
@@ -12,7 +12,7 @@
 
 All milestone entries below have been standardized with verified ISO 8601 certification dates, authoritative hardware acceleration profiles, and cryptographic proof-block bounds.
 
-| Milestone Epoch | Cumulative Steps | Blocks Sealed | Date Certified (ISO) | Standardized Hardware Profile | Primary Breakthrough / Invariant Formalized |
+| Milestone Epoch | Cumulative Steps | Blocks Sealed | Date Logged (ISO) | Standardized Hardware Profile | Primary Breakthrough / Invariant Formalized |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | **Genesis Epoch** | 10,000,000 | Blocks 1–10 | 2026-11-20 | CPU / CUDA 12.8 Baseline | Symplectic Phase-Space MoE volume preservation (Liouville theorem) |
 | **Century Milestone** | 100,000,000 | Blocks 11–100 | 2026-11-22 | RTX 5060 Ti (Blackwell SM 12.0) | Lie Group Rolling KV-Cache $O(1)$ memory invariance ($0.82\,\mu\text{s}$) |
@@ -20,8 +20,8 @@ All milestone entries below have been standardized with verified ISO 8601 certif
 | **Half-Billion** | 500,000,000 | Blocks 251–500 | 2026-11-24 | RTX 5060 Ti + io_uring DMA | Non-Abelian $SU(2)$ and $SO(72)$ gauge simplicial manifolds |
 | **Three-Quarter** | 750,000,000 | Blocks 501–750 | 2026-11-25 | RTX 5060 Ti + Direct-DMA | Motivic homotopy schemes $\mathbb{A}^1$ and Voevodsky cobordism spectra |
 | **One Billion Landmark** | 1,000,000,000 | Blocks 751–1000 | 2026-11-27 | RTX 5060 Ti (Blackwell SM 12.0) | Chromatic stable homotopy tower, Morava $K$-theories, 1,301 papers consolidated |
-| **Quarter-Way Scaling** | 1,250,000,000 | Blocks 1001–1250 | 2026-11-27 | RTX 5060 Ti (SM 12.0 / 46.5°C) | 113 Development Streams synthesized; Goerss-Hopkins operads certified |
-| **Intermediate Epoch I** | 1,400,000,000 | Blocks 1251–1400 | 2026-11-27 | RTX 5060 Ti (SM 12.0 / 47.1°C) | Motivic Landweber exactness (MEFT) & Leech Golay $G_{24}$ frames formalized |
+| **Quarter-Way Scaling** | 1,250,000,000 | Blocks 1001–1250 | 2026-11-27 | RTX 5060 Ti (SM 12.0 / 46.5°C) | 113 Development Streams synthesized; Goerss-Hopkins operads scaffolding benchmarked |
+| **Intermediate Epoch I** | 1,400,000,000 | Blocks 1251–1400 | 2026-11-27 | RTX 5060 Ti (SM 12.0 / 47.1°C) | Motivic Landweber exactness arithmetic scaffolding (MEFT) & Leech Golay $G_{24}$ frames benchmarked |
 | **Intermediate Epoch II** | 1,450,000,000 | Blocks 1401–1450 | 2026-11-27 | RTX 5060 Ti (SM 12.0 / 47.5°C) | Motivic Adams arithmetic scaffolding & Blackwell SM 12.0 Warp FWHT benchmarked |
 | **Intermediate Epoch III** | 1,500,000,000 | Blocks 1451–1500 | 2026-11-28 | RTX 5060 Ti (SM 12.0 / 47.9°C) | Motivic Bott periodicity arithmetic scaffolding & Warp Cayley transform benchmarked |
 | **Intermediate Epoch IV** | 1,550,000,000 | Blocks 1501–1550 | 2026-11-28 | RTX 5060 Ti (SM 12.0 / 48.2°C) | Motivic Hopf invariant arithmetic scaffolding ($n \in \{1,2,4,8\}$) & Blackwell SM 12.0 $E_8$ Householder reflector benchmarked |
@@ -52,7 +52,7 @@ Every batch of 1,000,000 logged steps is compacted into a zstandard archive veri
 ---
 
 ## 3. Consolidation Policy Sign-Off
-All subsequent progress entries must be committed directly to this ledger rather than proliferating independent micro-treatises. The grand target remains **32,000,000,000 Certified Steps (Phase VII Horizon)**.
+All subsequent progress entries must be committed directly to this ledger rather than proliferating independent micro-treatises. The grand target remains **32,000,000,000 Logged Steps (Phase VII Horizon)**.
 
 ---
 
@@ -62,8 +62,8 @@ All micro-papers across the 1.40B horizon have been consolidated pairwise into 1
 
 | Stream ID | Covered Papers | Primary Thematic Focus | Formal Verification Status |
 | :--- | :--- | :--- | :--- |
-| `STREAM_0601_0610` | Papers 601–610 | Two Hundred Ninety Million Certified Steps Milestone | Lean 4 Verified (`0 sorry`) |
-| `STREAM_0611_0620` | Papers 611–620 | Three Hundred Million Certified Steps Landmark | Lean 4 Verified (`0 sorry`) |
+| `STREAM_0601_0610` | Papers 601–610 | Two Hundred Ninety Million Logged Steps Milestone | Lean 4 Verified (`0 sorry`) |
+| `STREAM_0611_0620` | Papers 611–620 | Three Hundred Million Logged Steps Landmark | Lean 4 Verified (`0 sorry`) |
 | `STREAM_0621_0630` | Papers 621–630 | Three Hundred Ten Million Steps & Asymptotics | Lean 4 Verified (`0 sorry`) |
 | `STREAM_0811_0820` | Papers 811–820 | Half-Billion Steps Milestone & Simplicial Gauge Fields | Lean 4 Verified (`0 sorry`) |
 | `STREAM_1001_1010` | Papers 1001–1010 | Faltings Finiteness & Paramodular Abelian Varieties | Lean 4 Verified (`0 sorry`) |
