@@ -1,9 +1,40 @@
 {
   "N_blocks": 10000,
-  "mean_cosine_fidelity": 0.98452,
-  "min_cosine_fidelity": 0.97331,
-  "p1_cosine_fidelity": 0.97618,
-  "pct_gte_99_8": 0.04,
-  "mean_relative_norm_error": 0.17922,
-  "status": "measured, synthetic Gaussian blocks with Conway-Sloane E8 lattice quantizer"
+  "seed": 42,
+  "status": "measured, synthetic Gaussian blocks with Conway-Sloane E8 lattice quantizer across 4 PLQ regimes",
+  "regimes": {
+    "PLQ-1.58": {
+      "mean_cosine_fidelity": 0.98457,
+      "min_cosine_fidelity": 0.97334,
+      "p1_cosine_fidelity": 0.97621,
+      "pct_gte_99_8": 0.1,
+      "mean_relative_norm_error": 0.17887
+    },
+    "PLQ-1.00": {
+      "mean_cosine_fidelity": 0.8496,
+      "min_cosine_fidelity": 0.74732,
+      "p1_cosine_fidelity": 0.78134,
+      "pct_gte_99_8": 0.0,
+      "mean_relative_norm_error": 0.54432
+    },
+    "PLQ-0.75": {
+      "mean_cosine_fidelity": 0.74481,
+      "min_cosine_fidelity": 0.40722,
+      "p1_cosine_fidelity": 0.5369,
+      "pct_gte_99_8": 0.0,
+      "mean_relative_norm_error": 0.70332
+    },
+    "PLQ-0.58": {
+      "mean_cosine_fidelity": 0.61357,
+      "min_cosine_fidelity": 0.17028,
+      "p1_cosine_fidelity": 0.30958,
+      "pct_gte_99_8": 0.0,
+      "mean_relative_norm_error": 0.86526
+    }
+  },
+  "mean_cosine_fidelity": 0.98457,
+  "min_cosine_fidelity": 0.97334,
+  "p1_cosine_fidelity": 0.97621,
+  "pct_gte_99_8": 0.1,
+  "mean_relative_norm_error": 0.17887
 }

@@ -30,7 +30,8 @@ The foundational results established by Scholze state:
 4. **Pro-étale Fundamental Groups**:
    For connected geometric diamonds $(Y, y)$, finite étale coverings are classified by continuous representations of the profinite group $\pi_1^{\mathrm{pro\acute{e}t}}(Y, y)$.
 
-### Verified Invariants in `lean/MotivicDiamondsScholzeProof.lean`
+### Scaffold Signatures & Indicators in `lean/MotivicDiamondsScholzeProof.lean`
+*(Lean 4 structural scaffold: relational signatures and rfl indicator flags; deep kernel formalization open)*
 
 - `diamond_is_pro_etale`: Verification that diamond sheaves are pro-étale sheaves on $\mathrm{Perf}$.
 - `diamond_respects_tilting`: Categorical tilting isomorphism $(X^\flat)^\diamondsuit \cong X^\diamondsuit$.

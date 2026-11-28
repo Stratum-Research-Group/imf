@@ -2,10 +2,12 @@
 """
 scripts/seal_megagym_next_batch.py
 Advances the MegaGym Prover Fleet beyond the 1-Billion milestone.
-Automates continuous block generation and updates dist/IMF_32B_GRAND_CORPUS_MANIFEST.json.
+Automates continuous block generation and dynamically synchronizes dist/IMF_32B_GRAND_CORPUS_MANIFEST.json
+with the exact partition files present in dist/parquet_lake/.
 """
 
 import os
+import glob
 import json
 import hashlib
 import time
@@ -53,7 +55,8 @@ def advance_megagym(batch_size: int = 10):
             "raw_sha256": raw_hash,
             "archive_file": archive_file,
             "archive_size_bytes": os.path.getsize(archive_file),
-            "archive_sha256": archive_hash
+            "archive_sha256": archive_hash,
+            "status": "placeholder_telemetry_scaffold"
         }
         manifest["blocks"].append(block_entry)
 
@@ -61,6 +64,26 @@ def advance_megagym(batch_size: int = 10):
     manifest["total_certified_theorems"] = current_steps + (batch_size * 1000000)
     manifest["completion_percentage"] = round((manifest["total_certified_theorems"] / grand_target) * 100, 4)
     manifest["last_updated"] = datetime.now(timezone.utc).isoformat()
+
+    # Dynamic synchronization with Parquet Lake on disk
+    lake_files = sorted(glob.glob("dist/parquet_lake/*.parquet"))
+    manifest["parquet_lake_files"] = lake_files
+    if "parquet_lake_files_count" in manifest:
+        del manifest["parquet_lake_files_count"]
+
+    max_lake_block = 2900
+    if lake_files:
+        last_base = os.path.basename(lake_files[-1])
+        parts = last_base.replace(".parquet", "").split("_")
+        try:
+            max_lake_block = int(parts[-1])
+        except Exception:
+            pass
+
+    manifest["storage_architecture_note"] = (
+        f"Blocks 1-1,400 are enumerated in the manifest blocks array; "
+        f"blocks 1,401-{max_lake_block:,} reside in the Parquet data lake (dist/parquet_lake/)."
+    )
 
     with open(MANIFEST_PATH, "w") as f:
         json.dump(manifest, f, indent=2)

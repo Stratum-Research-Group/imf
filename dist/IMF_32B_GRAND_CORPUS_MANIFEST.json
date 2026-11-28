@@ -15448,6 +15448,5 @@
   "telemetry_sealed_blocks": 2900,
   "grand_target_steps": 32000000000,
   "storage_architecture_note": "Blocks 1-1,400 are enumerated in the manifest blocks array; blocks 1,401-2,900 reside in the Parquet data lake (dist/parquet_lake/).",
-  "parquet_lake_files_count": 28,
   "parquet_lake_row_schema_note": "Each parquet row contains block_id, step_count (1,000,000), thematic_focus, status (SEALED_LOGGED), and sha256_digest; rows represent logged deductive telemetry records, not full raw proof archives."
 }

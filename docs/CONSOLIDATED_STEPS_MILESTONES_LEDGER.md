@@ -147,6 +147,6 @@ All micro-papers across the 1.40B horizon have been consolidated pairwise into 1
 | **Motivic Liquid Spaces** | $\mathrm{Liq}_p(\mathbb{R})\ \text{Abelian}, h^{0,1}(X) = g$ | `MotivicLiquidVectorSpacesProof.lean` | 107.47 GB/s (Mixed-Radix 3840-pt NTT) |
 | **Motivic v-Cohomology** | $H^{>0}(X_{\mathrm{aff}}, \mathcal{O}_X) = 0, \mathcal{D}_v(X) \text{ 6-functor}$ | `MotivicVCohomologyProof.lean` | 70.71 GB/s (Mixed-Radix 7680-pt NTT) |
 | **Motivic Harder-Narasimhan** | $\mathrm{Bun}(X_{FF}) \cong \bigsqcup \{ \lambda_1 \ge \cdots \ge \lambda_k \}, \mathcal{E}^\vee$ | `MotivicHarderNarasimhanFFProof.lean` | 187.12 GB/s (Rudvalis Ru Exterior 2-Form) |
-| **Motivic Berkovich Spectrum** | $\mathcal{M}(A) \text{ compact}, \rho(f) = \lim \|f^n\|^{1/n}, \mathbb{R}\text{-tree}$ | `MotivicBerkovichSpectrumProof.lean` | 201.15 GB/s (McLaughlin McL Hyperplane) |
-| **Motivic Huber Adic Spaces** | $\mathrm{Spa}(A, A^+), U(T/s), \mathcal{O}_X \text{ Sheaf (Tate)}$ | `MotivicHuberAdicSpacesProof.lean` | 124.48 GB/s (Suzuki Suz 143-D Hermitian) |
-| **Motivic Scholze Diamonds** | $Y = X/R \text{ on Perf}, (X^\flat)^\diamondsuit \cong X^\diamondsuit, \mathcal{D}_{\acute{e}t}$ | `MotivicDiamondsScholzeProof.lean` | 112.87 GB/s (O'Nan O'N 45-D Skew-Hermitian) |
+| **Motivic Berkovich Spectrum** | Lean 4 structural scaffold (relational signatures + rfl flags; deep formalization open) | `MotivicBerkovichSpectrumProof.lean` | 201.15 GB/s (McLaughlin McL Hyperplane) |
+| **Motivic Huber Adic Spaces** | Lean 4 structural scaffold (relational signatures + rfl flags; deep formalization open) | `MotivicHuberAdicSpacesProof.lean` | 124.48 GB/s (Suzuki Suz 143-D Hermitian) |
+| **Motivic Scholze Diamonds** | Lean 4 structural scaffold (relational signatures + rfl flags; deep formalization open) | `MotivicDiamondsScholzeProof.lean` | 112.87 GB/s (O'Nan O'N 45-D Skew-Hermitian) |

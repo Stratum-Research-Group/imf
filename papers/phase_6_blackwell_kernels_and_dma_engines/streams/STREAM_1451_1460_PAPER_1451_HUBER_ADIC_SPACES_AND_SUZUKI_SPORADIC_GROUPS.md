@@ -30,7 +30,8 @@ The fundamental theorems established by Huber state:
 4. **Higher-Rank Specializations**:
    The closure of a point $v \in \mathrm{Spa}(A, A^+)$ consists of valuations horizontal or vertical to $v$, capturing boundaries of rigid analytic varieties as boundary valuation fibers.
 
-### Verified Invariants in `lean/MotivicHuberAdicSpacesProof.lean`
+### Scaffold Signatures & Indicators in `lean/MotivicHuberAdicSpacesProof.lean`
+*(Lean 4 structural scaffold: relational signatures and rfl indicator flags; deep kernel formalization open)*
 
 - `huber_pair_is_f_adic`: Identification of $A$ as an f-adic topological ring.
 - `huber_pair_a_plus_closed`: Integral closedness of $A^+ \subseteq A^\circ$.

@@ -160,14 +160,15 @@ This algorithm executes in strictly 8 rounding operations, 1 sum, and 1 argmaxâ€
 
 By combining Gosset root quantization, Matryoshka chambers, and residual bit sharing, PLQ provides four distinct precision regimes:
 
-| PLQ Regime | Codebook Index Bits | Group Scale & Offset | Effective Bits/Weight | Cosine Fidelity vs FP16 | Perplexity Degradation (IMF-8B) |
-|:---:|:---:|:---:|:---:|:---:|:---:|
-| **PLQ-1.58** | 12 bits (4096 Chambers) | 16-bit scale per 128 weights | **$1.625\text{ b}$** | **$99.82\%$** | $+0.04$ |
-| **PLQ-1.00** | 8 bits (240 Gosset Roots) | 16-bit scale per 256 weights | **$1.062\text{ b}$** | **$98.65\%$** | $+0.18$ |
-| **PLQ-0.75** | 6 bits (64 Pruned Roots) | 16-bit scale per 512 weights | **$0.781\text{ b}$** | **$96.12\%$** | $+0.52$ |
-| **PLQ-0.58** | 4 bits (16 Orthant Sectors) | 16-bit scale per 1024 weights | **$0.595\text{ b}$** | **$92.40\%$** | $+1.14$ |
+| PLQ Regime | Codebook Index Bits | Group Scale & Offset | Effective Bits/Weight | Measured Cosine Fidelity (Gaussian)* | Status | Projected PPL Delta (IMF-8B)** |
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| **PLQ-1.58** | 12 bits (4096 Chambers) | 16-bit scale per 128 weights | **$1.625\text{ b}$** | **$98.46\%$** (min $97.33\%$) | **M** | $+0.04$ (Projected) |
+| **PLQ-1.00** | 8 bits (240 Gosset Roots) | 16-bit scale per 256 weights | **$1.062\text{ b}$** | **$84.96\%$** (min $74.73\%$) | **M** | $+0.18$ (Projected) |
+| **PLQ-0.75** | 6 bits (64 Pruned Roots) | 16-bit scale per 512 weights | **$0.781\text{ b}$** | **$74.48\%$** (min $40.72\%$) | **M** | $+0.52$ (Projected) |
+| **PLQ-0.58** | 4 bits (16 Orthant Sectors) | 16-bit scale per 1024 weights | **$0.595\text{ b}$** | **$61.36\%$** (min $17.03\%$) | **M** | $+1.14$ (Projected) |
 
-*Note: Perplexity degradation and cosine fidelity projected from IMF-8B architectural scaffold evaluation; raw checkpoint telemetry logs pending.*
+*Protocol and Reproducibility Note:* Cosine fidelities measured over 10,000 synthetic Gaussian 8D blocks with Conway-Sloane $E_8$ lattice decoding and Gosset root codebooks via `scripts/bench_matryoshka_4bit_scaling.py` (committed log: `benchmark_results/matryoshka_4bit_scaling.json`). Status **M** indicates reproducible synthetic empirical benchmark; **P** indicates projection.
+**End-to-end trained model perplexity degradation and actual weight tensor effects remain untested pending full IMF-8B checkpoint pre-training.
 
 ```
                        Perplexity vs Bitrate Pareto Frontier

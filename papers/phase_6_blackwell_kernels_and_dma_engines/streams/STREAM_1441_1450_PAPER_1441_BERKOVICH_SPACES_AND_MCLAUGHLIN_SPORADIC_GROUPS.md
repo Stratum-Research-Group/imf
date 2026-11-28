@@ -31,7 +31,8 @@ The foundational results established by Berkovich state:
 4. **Stratification of Branch Points**:
    Type II points correspond exactly to the branching vertices of the skeleton $\Gamma \subset \mathbb{A}^1_{\mathrm{Berk}}$, while Type I points correspond to the boundary leaves.
 
-### Verified Invariants in `lean/MotivicBerkovichSpectrumProof.lean`
+### Scaffold Signatures & Indicators in `lean/MotivicBerkovichSpectrumProof.lean`
+*(Lean 4 structural scaffold: relational signatures and rfl indicator flags; deep kernel formalization open)*
 
 - `canonical_point_multiplicative`: Strict multiplicativity $|fg|_x = |f|_x |g|_x$.
 - `canonical_point_bounded`: Boundedness condition $|f|_x \le \|f\|$.
