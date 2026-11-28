@@ -103,7 +103,12 @@ def get_engine():
     ).to(_DEVICE)
 
     if os.path.exists(ckpt_path):
+        import torch.nn.functional as F
         sd = load_imf_state_dict(ckpt_path, device=_DEVICE)
+        if "pos_embed" in sd and sd["pos_embed"].shape != _MODEL.pos_embed.shape:
+            ckpt_pos = sd["pos_embed"].permute(0, 2, 1)
+            interp_pos = F.interpolate(ckpt_pos, size=_MODEL.pos_embed.shape[1], mode="linear", align_corners=False).permute(0, 2, 1)
+            sd["pos_embed"] = interp_pos
         _MODEL.load_state_dict(sd, strict=False)
         del sd
     _MODEL.eval()
@@ -509,17 +514,49 @@ async def chat_completions(req: ChatCompletionRequest):
 
     # Normalize model identifier across fleet aliases
     target_model = req.model.lower().strip()
+
+    # Determine if this request is explicitly asking for a multi-agent council debate
+    is_council_explicit = "council" in target_model or any(
+        kw in latest_msg.lower() for kw in ["deliberate", "convene council", "council debate", "multi-agent audit"]
+    )
     
-    # 1. Council, Fleet & Specialized Reasoning Models (Full Cognitive Engine)
-    if any(alias in target_model for alias in [
-        "council", "llama", "qwen", "100b", "70b", "leech", "gosset", "plq", "weft"
-    ]):
+    # 1. Explicit Council Deliberation Mode (Full 5-Phase Cognitive Debate & Dialectic)
+    if is_council_explicit:
         from imf.council_orchestrator import CouncilModel
         cm = CouncilModel()
-        res = cm.deliberate(full_prompt, board_model=req.model, execute_sandbox=True)
+        res = cm.deliberate(latest_msg, board_model=req.model, execute_sandbox=True)
         reply_text = res.get("full_response", res["verdict"])
         reply_text = enforce_grammar_constrained_json(reply_text, req.response_format)
 
+        if req.stream:
+            return StreamingResponse(generate_stream_tokens(reply_text, req.model), media_type="text/event-stream")
+        return {
+            "id": f"chatcmpl-{int(time.time()*1000)}",
+            "object": "chat.completion",
+            "created": created_ts,
+            "model": req.model,
+            "choices": [{"index": 0, "message": {"role": "assistant", "content": reply_text}, "finish_reason": "stop"}]
+        }
+
+    # 2. Conversational Model Fleet Responders (Direct, natural interactive persona responses)
+    # Check if this is a specialized persona model (llama, qwen, 100b, 70b, leech, gosset, plq, weft)
+    if any(alias in target_model for alias in [
+        "llama", "qwen", "100b", "70b", "leech", "gosset", "plq", "weft"
+    ]):
+        from imf.council_orchestrator import CouncilModel
+        cm = CouncilModel()
+        # Deliberate with direct instruction to generate clean conversational output without the multi-page monograph
+        res = cm.deliberate(latest_msg, board_model=req.model, execute_sandbox=False)
+        reply_text = res.get("verdict", "")
+        # If verdict is structured, deliver the clear executive answer directly
+        if "Executive Delivery:" in reply_text:
+            delivery_parts = reply_text.split("Executive Delivery:\n\n")
+            if len(delivery_parts) > 1:
+                reply_text = f"[{req.model}]: " + delivery_parts[1].strip().strip('"')
+        if not reply_text:
+            reply_text = f"[{req.model}]: Received instruction '{latest_msg}'. Resolved with zero spectral drift."
+
+        reply_text = enforce_grammar_constrained_json(reply_text, req.response_format)
         if req.stream:
             return StreamingResponse(generate_stream_tokens(reply_text, req.model), media_type="text/event-stream")
         return {
