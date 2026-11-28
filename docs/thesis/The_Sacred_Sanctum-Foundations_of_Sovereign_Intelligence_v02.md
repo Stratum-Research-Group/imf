@@ -11,7 +11,7 @@
 **Organization:** Stratum Research Group (SRG)  
 **Date:** November 27, 2026  
 **Edition:** First Edition (Formally Verified Sovereign Monograph)  
-**Logged Proof Steps:** 1,000,000,000 Steps (author-reported telemetry) (1,000 Blocks / 3.125% of 32B Grand MegaGym)  
+**MegaGym Verification State:** See `docs/CONSOLIDATED_STEPS_MILESTONES_LEDGER.md` (Fully measured with raw archives: 11M steps; Remainder: author-reported scaffold telemetry).  
 **Formally Verified Lean 4 Modules:** 83 Modules (Strictly 0 `sorry`, 0 Unproven Axioms)  
 **Scientific Treatises in Corpus:** 1,302 Treatises (Phases I through VI)  
 **Hardware Baseline:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti 16GB GDDR7 (Blackwell SM 12.0)  
@@ -3452,6 +3452,9 @@ $$\alpha = \frac{2}{128} = \frac{2 \times 1}{2 \times 64} = \frac{1}{64} = 0.015
 Part 4 calculates the complement:
 $$S = 1 - \frac{1}{64} = \frac{64 - 1}{64} = \frac{63}{64} = 0.984375 = 98.4375\% \quad \blacksquare$$
 
+> [!NOTE] Architectural Identity: Sparsity as Combinatorial Arithmetic
+> The figure **$98.4375\%$** is an exact combinatorial and algebraic property of selecting $k = 2$ active micro-experts out of $E = 128$ total partitions ($1 - 2/128 = 126/128 = 63/64$), rather than an empirical measurement or statistical sample mean. The empirical questions concern whether routing entropy $H(p) / H_{\max} \ge 0.996$ remains uniformly distributed and whether downstream task accuracy is preserved under this extreme sparsity.
+
 This mathematical guarantee is formalized in Lean 4 within `lean_pilot/Pilot/PolytopeSparsity.lean`:
 ```lean
 theorem polytope_expert_partition_sum (E k : ℤ) :
@@ -4667,7 +4670,7 @@ In **Volume III: Transfinite, Non-Archimedean, and Ultra-Dimensional Geometries*
 3. Carneiro, M. (2019). "The type system of Lean." *Master's thesis*, Carnegie Mellon University.
 4. Avigad, J. (2023). *Theorem Proving in Lean 4*. Lean Community Documentation.
 5. Stratum Research Group. (2026). *Pilot Formalization: High-Dimensional Polytope Sparsity & Hyperspherical Non-Collapse*, `lean_pilot/Pilot/PolytopeSparsity.lean`.
-6. Stratum Research Group. (2026). *IMF Formally Verified Grand Corpus Manifest*, `dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`.
+6. Stratum Research Group. (2026). *IMF Author-Reported Gym Manifest & Telemetry Scaffold*, `dist/IMF_32B_GRAND_CORPUS_MANIFEST.json`.
 
 </div>
 
