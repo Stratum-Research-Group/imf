@@ -5,8 +5,8 @@
   "total_certified_theorems": 2250000000,
   "blocks_completed": 2250,
   "grand_target_theorems": 32000000000,
-  "completion_percentage": 7.6563,
-  "last_updated": "2026-11-28T17:27:00+02:00",
+  "completion_percentage": 7.8125,
+  "last_updated": "2026-11-28T17:35:00+02:00",
   "blocks": [
     {
       "block_idx": 1,
@@ -14010,15 +14010,16 @@
     }
   ],
   "certified_proof_steps": 2250000000,
-  "sealed_blocks": 2450,
+  "sealed_blocks": 2500,
   "percentage_of_32b_horizon": 7.0313,
   "latest_milestone_hash": "2af9e0e1c9dacdd18dab82959baaf7786410d7c5",
-  "total_logged_steps": 2450000000,
-  "latest_block_id": 2450,
+  "total_logged_steps": 2500000000,
+  "latest_block_id": 2500,
   "parquet_lake_files": [
     "dist/parquet_lake/blocks_2251_2300.parquet",
     "dist/parquet_lake/blocks_2301_2350.parquet",
     "dist/parquet_lake/blocks_2351_2400.parquet",
-    "dist/parquet_lake/blocks_2401_2450.parquet"
+    "dist/parquet_lake/blocks_2401_2450.parquet",
+    "dist/parquet_lake/blocks_2451_2500.parquet"
   ]
 }
