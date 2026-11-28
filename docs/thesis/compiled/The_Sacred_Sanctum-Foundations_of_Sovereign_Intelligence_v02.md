@@ -9,10 +9,10 @@
 **Series:** The Sacred Sanctum: Foundations of Sovereign Intelligence (IMF Magnum Opus Trilogy)  
 **Author:** Nicholas Charles Mynhardt  
 **Organization:** Stratum Research Group (SRG)  
-**Date:** November 27, 2026  
+**Date:** November 28, 2026  
 **Edition:** First Edition (Formally Verified Sovereign Monograph)  
 **MegaGym Verification State:** See `docs/CONSOLIDATED_STEPS_MILESTONES_LEDGER.md` (Fully measured with raw archives: 11M steps; Remainder: author-reported scaffold telemetry).  
-**Formally Verified Lean 4 Modules:** 83 Modules (Strictly 0 `sorry`, 0 Unproven Axioms)  
+**Formally Verified Lean 4 Modules:** 83 modules, standard Mathlib axioms per AXIOMS.md; motivic and sporadic-group modules are structural scaffolds  
 **Scientific Treatises in Corpus:** 1,302 Treatises (Phases I through VI)  
 **Hardware Baseline:** AMD Ryzen 5 7600X (6C/12T) | NVIDIA GeForce RTX 5060 Ti 16GB GDDR7 (Blackwell SM 12.0)  
 
@@ -3224,7 +3224,7 @@ $$\mathbf{w} = [0.852, -0.412, 0.915, -0.054, -0.781, 0.320, 0.655, -0.210]^\top
    $$\widehat{\mathbf{w}} = s \cdot r_{195} = [0.5249, -0.5249, 0.5249, -0.5249, -0.5249, 0.5249, 0.5249, -0.5249]^\top$$
    $$\mathbf{e} = \mathbf{w} - \widehat{\mathbf{w}} = [0.3271, 0.1129, 0.3901, 0.4709, -0.2561, -0.2049, 0.1301, 0.3149]^\top$$
    $$\|\mathbf{e}\|_2^2 = \sum_{i=1}^8 e_i^2 = 0.7173, \quad \text{Cosine Fidelity} = \frac{\langle \mathbf{w}, \widehat{\mathbf{w}} \rangle}{\|\mathbf{w}\|_2 \|\widehat{\mathbf{w}}\|_2} = \frac{2.0995}{1.7092 \times 1.4846} = 0.8686$$
-5. **Contrast with Scalar $\mathbb{Z}^8$ Rounding (Obligation 2 Check):** Standard scalar rounding rounds each $w_i$ independently to the nearest integer grid $[1, 0, 1, 0, -1, 0, 1, 0]^\top$. In high-rate quantization, the Voronoi second moment ratio $G(E_8)/G(\mathbb{Z}^8) = 0.071682 / 0.083333$ proves a theoretical **$13.98\%$ lower quantization noise power** across random spherical distributions (Chapter 3 Theorem 6.1). In full PLQ-1.58 (Section 3), adding 4-bit radial Matryoshka shell scaling drives cosine fidelity to $> 99.8\%$ (empirically verified across 10,000 blocks via `scripts/bench_matryoshka_4bit_scaling.py`, achieving mean cosine fidelity $0.99949$ with minimum $0.99875$; committed log: `benchmark_results/matryoshka_4bit_scaling.json`), demonstrating how an 8-bit index ($c=195$) captures directional energy in a single byte.
+5. **Contrast with Scalar $\mathbb{Z}^8$ Rounding (Obligation 2 Check):** Standard scalar rounding rounds each $w_i$ independently to the nearest integer grid $[1, 0, 1, 0, -1, 0, 1, 0]^\top$. In high-rate quantization, the Voronoi second moment ratio $G(E_8)/G(\mathbb{Z}^8) = 0.071682 / 0.083333$ proves a theoretical **$13.98\%$ lower quantization noise power** across random spherical distributions (Chapter 3 Theorem 6.1). In full PLQ-1.58 (Section 3), adding 4-bit radial Matryoshka shell scaling targets high cosine fidelity (design target $> 99.8\%$; measured across 10,000 synthetic Gaussian blocks via Conway-Sloane $E_8$ lattice decoding in `scripts/bench_matryoshka_4bit_scaling.py` yielding mean cosine fidelity $0.98452$, minimum $0.97331$, and $1$st percentile $0.97618$; committed log: `benchmark_results/matryoshka_4bit_scaling.json`), demonstrating how discrete lattice quantization and 4-bit radial energy shells capture parameter orientation.
 
 ---
 

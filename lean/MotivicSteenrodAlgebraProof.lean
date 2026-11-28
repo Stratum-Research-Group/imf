@@ -1,11 +1,11 @@
 /-!
 NOTE ON IMPLEMENTATION STATUS: SCAFFOLD MODEL
+Structural scaffold: fields are labels, theorems are rfl.
 This module formalizes an algebraic and structural scaffold modeling the key interfaces,
 properties, and computational indicators of the theory. It records core relational signatures
 and indicators rather than claiming a comprehensive, deep-kernel formalization of the complete
 underlying mathematical theory.
 -/
-
 /-
   lean/MotivicSteenrodAlgebraProof.lean
   Formal verification of the Motivic Steenrod Algebra Invariants and Milnor Basis Operations.

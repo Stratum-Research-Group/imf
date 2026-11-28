@@ -1,7 +1,9 @@
 {
   "N_blocks": 10000,
-  "mean_cosine_fidelity": 0.99949,
-  "min_cosine_fidelity": 0.99875,
-  "pct_gte_99_8": 100.0,
-  "status": "Projected from PLQ-1.58 Matryoshka 4,096-chamber codebook simulation"
+  "mean_cosine_fidelity": 0.98452,
+  "min_cosine_fidelity": 0.97331,
+  "p1_cosine_fidelity": 0.97618,
+  "pct_gte_99_8": 0.04,
+  "mean_relative_norm_error": 0.17922,
+  "status": "measured, synthetic Gaussian blocks with Conway-Sloane E8 lattice quantizer"
 }
