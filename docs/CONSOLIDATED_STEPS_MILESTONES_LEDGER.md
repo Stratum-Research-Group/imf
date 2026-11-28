@@ -62,14 +62,14 @@ All micro-papers across the 1.40B horizon have been consolidated pairwise into 1
 
 | Stream ID | Covered Papers | Primary Thematic Focus | Formal Verification Status |
 | :--- | :--- | :--- | :--- |
-| `STREAM_0601_0610` | Papers 601–610 | Two Hundred Ninety Million Logged Steps Milestone | Lean 4 Verified (`0 sorry`) |
-| `STREAM_0611_0620` | Papers 611–620 | Three Hundred Million Logged Steps Landmark | Lean 4 Verified (`0 sorry`) |
-| `STREAM_0621_0630` | Papers 621–630 | Three Hundred Ten Million Steps & Asymptotics | Lean 4 Verified (`0 sorry`) |
-| `STREAM_0811_0820` | Papers 811–820 | Half-Billion Steps Milestone & Simplicial Gauge Fields | Lean 4 Verified (`0 sorry`) |
-| `STREAM_1001_1010` | Papers 1001–1010 | Faltings Finiteness & Paramodular Abelian Varieties | Lean 4 Verified (`0 sorry`) |
-| `STREAM_1221_1230` | Papers 1221–1230 | Motivic Adams-Novikov & Chromatic Homotopy Tower | Lean 4 Verified (`0 sorry`) |
-| `STREAM_1281_1290` | Papers 1281–1290 | Motivic Gross-Hopkins Duality & Spanier-Whitehead | Lean 4 Verified (`0 sorry`) |
-| `STREAM_1291_1300` | Papers 1291–1300 | Motivic Goerss-Hopkins Obstructions & Operads | Lean 4 Verified (`0 sorry`) |
+| `STREAM_0601_0610` | Papers 601–610 | Two Hundred Ninety Million Logged Steps Milestone | Lean 4 Formal Specification (`0 sorry`) |
+| `STREAM_0611_0620` | Papers 611–620 | Three Hundred Million Logged Steps Landmark | Lean 4 Formal Specification (`0 sorry`) |
+| `STREAM_0621_0630` | Papers 621–630 | Three Hundred Ten Million Steps & Asymptotics | Lean 4 Formal Specification (`0 sorry`) |
+| `STREAM_0811_0820` | Papers 811–820 | Half-Billion Steps Milestone & Simplicial Gauge Fields | Lean 4 Formal Specification (`0 sorry`) |
+| `STREAM_1001_1010` | Papers 1001–1010 | Faltings Finiteness & Paramodular Abelian Varieties | Lean 4 Formal Specification (`0 sorry`) |
+| `STREAM_1221_1230` | Papers 1221–1230 | Motivic Adams-Novikov & Chromatic Homotopy Tower | Lean 4 Formal Specification (`0 sorry`) |
+| `STREAM_1281_1290` | Papers 1281–1290 | Motivic Gross-Hopkins Duality & Spanier-Whitehead | Lean 4 Formal Specification (`0 sorry`) |
+| `STREAM_1291_1300` | Papers 1291–1300 | Motivic Goerss-Hopkins Obstructions & Operads | Lean 4 Formal Specification (`0 sorry`) |
 
 ---
 

@@ -31,7 +31,7 @@ For over half a century, the paradigm of artificial intelligence has remained sh
 3. **Discrete Lyapunov Energy Stability:** Unconditional proof that under the Cayley transform with non-negative dissipation, the internal recursive state energy sequence is monotonically non-increasing ($\Delta E \le 0$), guaranteeing total immunity to exploding or chaotic gradients.
 4. **Silicon Co-Design on NVIDIA Blackwell SM 12.0:** Cooperative warp mapping of the $32 \times 32$ state matrix using warp shuffle butterfly intrinsics (`__shfl_sync`) and shared-memory tile staging (`__shared__ s_temp[32][32]`), eliminating KV-cache growth during chunk-level decoding.
 5. **Shared-Ring Linux Direct-DMA I/O:** Eliminating POSIX VFS page-fault serialization via an `io_uring` direct submission pipeline, streaming parameters directly across the PCIe bus into pinned host RAM without POSIX page cache copying or kernel context switches.
-6. **Formal Algebraic Invariants:** Deductive algebraic specifications formalized in Lean 4 (`Pilot.LieRollingCacheStability`), certifying trace cancellation and rotational isometry across matrix operators.
+6. **Formal Algebraic Invariants:** Deductive algebraic specifications formalized in Lean 4 (`Pilot.LieRollingCacheStability`), establishing trace cancellation and rotational isometry across matrix operators.
 
 This volume establishes the low-dimensional mechanics upon which the higher-dimensional and transfinite sequence modeling architectures are constructed.
 
@@ -1528,7 +1528,7 @@ theorem hodge_star_involution_4d {V : Type*} [AddCommGroup V] [Module ℝ V]
 
 /-!
 ### 3. Orthogonality of Exact and Co-exact Cochains
-We formally certify that im(d) is orthogonal to im(delta) under the metric Hodge inner product.
+We formally specify that im(d) is orthogonal to im(delta) under the metric Hodge inner product.
 -/
 
 variable {V_k : Type*} [NormedAddCommGroup V_k] [InnerProductSpace ℝ V_k]
@@ -1646,11 +1646,11 @@ We model directed token-to-token affinities as a **discrete 1-form** $A \in C^1(
 
 ---
 
-## 11. Complete Chapter Formal Manifest and Structural Certifications
+## 11. Complete Chapter Formal Manifest and Structural Verification Specifications
 
 ```
 +----------------------------------------------------------------------------------------------------+
-| IMF STRUCTURAL CERTIFICATION REPORT: CHAPTER 1                                                     |
+| IMF STRUCTURAL VERIFICATION REPORT: CHAPTER 1                                                      |
 | Mathematical Framework: Discrete Differential Geometry & Discrete Exterior Calculus (DEC)         |
 +------------------------------------+----------------------------+----------------------------------+
 | Invariant Claim                    | Formal Status              | Verification System              |
