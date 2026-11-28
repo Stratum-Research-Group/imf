@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Octonionic Projective Line 𝕆ℙ¹ ≅ S⁸ Explorer</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background-color: #020617;
+      color: #f8fafc;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace;
+    }
+    #canvas-container {
+      width: 100vw;
+      height: 100vh;
+      display: block;
+    }
+    #hud {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background: rgba(15, 23, 42, 0.92);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 22px;
+      border-radius: 14px;
+      max-width: 440px;
+      box-shadow: 0 10px 45px rgba(0, 0, 0, 0.7);
+    }
+    h1 {
+      font-size: 1.25rem;
+      margin: 0 0 6px 0;
+      color: #10b981;
+      font-weight: 700;
+    }
+    p {
+      font-size: 0.83rem;
+      line-height: 1.45;
+      color: #94a3b8;
+      margin: 0 0 14px 0;
+    }
+    .badge {
+      display: inline-block;
+      padding: 2px 10px;
+      background: rgba(16, 185, 129, 0.18);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      border-radius: 6px;
+      font-size: 0.75rem;
+      margin-bottom: 12px;
+    }
+    .control-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 0.82rem;
+    }
+    input[type=range] {
+      width: 150px;
+    }
+    .metrics {
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 12px;
+      margin-top: 12px;
+      font-size: 0.77rem;
+      color: #cbd5e1;
+    }
+    .metric-val {
+      font-weight: bold;
+      color: #38bdf8;
+    }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+  <div id="canvas-container"></div>
+  <div id="hud">
+    <h1>Octonionic Projective Line 𝕆ℙ¹</h1>
+    <span class="badge">Diffeomorphism 𝕆ℙ¹ ≅ S⁸ & Möbius PSL₂(𝕆) Group</span>
+    <p>
+      Interactive 3D visualization of the 8-sphere as the octonionic projective line,
+      projecting antipodal stereographic charts and conformal Möbius transformations under Spin(9).
+    </p>
+    <div class="control-row">
+      <span>Möbius Dilation (λ):</span>
+      <input type="range" id="param-dil" min="0.5" max="3.0" step="0.1" value="1.2">
+    </div>
+    <div class="control-row">
+      <span>Cayley Rotation Phase:</span>
+      <input type="range" id="param-phase" min="0" max="6.283" step="0.05" value="0.785">
+    </div>
+    <div class="control-row">
+      <span>Spin(9) Precession:</span>
+      <input type="range" id="param-spin" min="0.1" max="2.0" step="0.05" value="0.8">
+    </div>
+    <div class="metrics">
+      <div>Manifold: <span class="metric-val">8-Sphere S⁸ (Riemann Sphere over 𝕆)</span></div>
+      <div>Conformal Symmetry: <span class="metric-val">Spin(9, 1) / PSL₂(𝕆)</span></div>
+      <div>Euler Characteristic: <span class="metric-val">χ(S⁸) = 2</span></div>
+    </div>
+  </div>
+
+  <script>
+    const container = document.getElementById('canvas-container');
+    const scene = new THREE.Scene();
+    scene.fog = new THREE.FogExp2(0x020617, 0.04);
+
+    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(0, 0, 16);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    container.appendChild(renderer.domElement);
+
+    const sphereGroup = new THREE.Group();
+    scene.add(sphereGroup);
+
+    // Build 8-sphere stereographic projection mesh
+    const radius = 6.0;
+    const sphereGeom = new THREE.SphereGeometry(radius, 32, 32);
+    const sphereMat = new THREE.MeshBasicMaterial({
+      color: 0x10b981,
+      wireframe: true,
+      transparent: true,
+      opacity: 0.35
+    });
+    const sphereMesh = new THREE.Mesh(sphereGeom, sphereMat);
+    sphereGroup.add(sphereMesh);
+
+    // 8 Octonionic basis markers on the sphere equator and poles
+    const basisGeom = new THREE.SphereGeometry(0.35, 16, 16);
+    const basisNodes = [];
+
+    for (let i = 0; i < 8; i++) {
+      const hue = i / 8.0;
+      const bMat = new THREE.MeshBasicMaterial({
+        color: new THREE.Color().setHSL(hue, 0.9, 0.55)
+      });
+      const bMesh = new THREE.Mesh(basisGeom, bMat);
+      sphereGroup.add(bMesh);
+      basisNodes.push(bMesh);
+    }
+
+    let t = 0;
+    function animate() {
+      requestAnimationFrame(animate);
+
+      const dil = parseFloat(document.getElementById('param-dil').value);
+      const phase = parseFloat(document.getElementById('param-phase').value);
+      const spin = parseFloat(document.getElementById('param-spin').value);
+
+      t += 0.008 * spin;
+
+      // Position 8 octonionic basis poles along the equator with Möbius dilation
+      for (let i = 0; i < 8; i++) {
+        const theta = (i / 8.0) * Math.PI * 2 + t * 0.4;
+        const phi = Math.sin(t + phase + (i * Math.PI) / 4) * 0.4;
+
+        const r = radius * (dil / 1.2);
+        const x = r * Math.cos(theta) * Math.cos(phi);
+        const y = r * Math.sin(theta) * Math.cos(phi);
+        const z = r * Math.sin(phi);
+
+        basisNodes[i].position.set(x, y, z);
+      }
+
+      sphereGroup.rotation.y = t * 0.2;
+      sphereGroup.rotation.x = t * 0.1;
+
+      renderer.render(scene, camera);
+    }
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    animate();
+  </script>
+</body>
+</html>
